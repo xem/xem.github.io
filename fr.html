@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <link rel=stylesheet href=style.css>
+  <title>Maxime Euzière</title>
+</head>
+<body>
+  <div class=menu>
+    <div class=header>
+      <h1>Maxime Euzière</h1>
+      Veille et expériences front-end
+      <br>
+      HTML / CSS / JS
+      <br>
+      <br>
+      <button data-html=accueil>Accueil</button>
+      <button data-html=articles>Articles</button>
+      <button data-html=veille>Veille techno</button>
+      <button data-html=projets>Projets / expériences</button>
+      <button data-html=presentations>Présentations</button>
+      <button data-html=golfing>JS Code golfing</button>
+    </div>
+    <div class=footer>© 2013 - <a href="cv/cv-fr.html" target=_blank>CV</a> - <a href=rss-fr.xml>Flux RSS</a> - <a href=index.html><img src=english.png alt="English version" title="English version" class=pulse></a></div>
+  </div>
+  <div class=body></div>
+  <script src=//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js></script>
+  <script src=jquery.history.js></script>
+  <script>
+  language = "fr";
+  $(".menu button").on("click",function(){
+    $("html,body").scrollTop(0);
+    page = $(this).attr("data-html");
+    $(".menu button.active").removeClass("active");
+    $(this).addClass("active");
+    document.body.className = page;
+    if(page == "accueil"){
+      window.location = ".";
+      return;
+    }
+    $(".body").load(page + "/" + language + ".html?time=" + new Date().getTime());
+    History.pushState({}, "Maxime Euzière", "?" + page);
+  });
+  $(".menu h1").on("click",function(){
+    $("button[data-html=accueil]").click();
+  });
+  page = window.location.search.replace("?", "");
+  if(page){
+    $("button[data-html='" + page + "']").click();
+  }
+  else {
+    $(".body").load("accueil/" + language + ".html?time=" + new Date().getTime());
+    $("button[data-html='accueil']").addClass("active");
+  }
+  $("html,body").scrollTop(0);
+  </script>
+</body>
+</html>

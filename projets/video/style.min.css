@@ -1,0 +1,24 @@
+html,body,video,div,input,a{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
+html{width:100%;height:100%}
+body{text-align:center;padding:20px;font-family:Arial;background:#fed}
+video{width:640px;height:264px;text-align:center;line-height:264px;background:#000;color:#fff;display:block;margin:0 auto}
+video.fullscreen{position:absolute;top:0;left:0;width:100%;height:100%}
+.hidden{display:none!important}
+#controls{width:640px;height:30px;background:#000;border:1px solid #fff;margin:auto;position:relative;bottom:0px;color:#fff;font:normal 14px Arial}
+#controls.fullscreen{position:absolute;bottom:0;left:50%;margin-left:-320px}
+.button{width:40px;height:30px;border-right:1px solid #fff;float:left;text-decoration:none;display:block;color:#fff;cursor:pointer}
+.button:hover{background-color:#222!important}
+.button.play{background:url(icons.png) no-repeat  0 0}
+.button.pause{background:url(icons.png) no-repeat 0 -30px}
+.button.replay{background:url(icons.png) no-repeat 0 -60px}
+#sound{width:145px;height:30px;border-right:1px solid #fff;float:left;padding-right:10px}
+.button.mute{border-right:none;background:url(icons.png) no-repeat 0 -90px}
+.button.unmute{border-right:none;background:url(icons.png) no-repeat 0 -120px}
+#volume{width:100px;float:right;height:10px;border:1px solid #fff;margin:8px 0}
+#volumelevel{width:0;height:10px;background:#08f}
+#timeline{height:30px;float:left;padding:0 10px}
+#time{line-height:30px;float:left;width:80px;text-align:left}
+#position{position:relative;width:300px;float:right;height:10px;border:1px solid #fff;margin:8px 0}
+#preload{width:0;height:10px;background:#555}
+#currentposition{width:0;position:absolute;top:0;height:10px;background:#08f}
+.button.fullscreen{border:none;border-left:1px solid #fff;float:right;background:url(icons.png) no-repeat 0 -150px}

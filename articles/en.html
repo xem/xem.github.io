@@ -1,0 +1,587 @@
+<div class=section>
+	<h2>Implicit getElementById's</h2>
+	<h3>october 2013</h3>
+	<div id=getelementbyid style="xdisplay: none">
+		<p>What is the most useful JavaScript function, but also the most annoying to write? <b>document.getElementById()</b>, of course! It is so useful, and so long, that every decent JS library contains an alias for to call it easily (generally <b>$()</b>).</p>
+    <p>But did you know that we often don't even need to call it? Indeed, all the browsers in use today (including IE6+) allow to access to an HTML element by using directly its <b>id</b> as a global var! It's a non-standard feature, yet it works very well everywhere.</p>
+    <pre>&lt;div id="myId">&lt;/div>
+&lt;script>
+  alert(myId);                            // --> [object HTMLDivElement]
+  alert(myId.id);                         // --> "myId"
+  alert(window.myId.id);                  // --> "myId"
+  alert(this.myId.id);                    // --> "myId"
+  alert(self.myId.id);                    // --> "myId"
+  alert('myId' in window);                // --> true
+  alert(window.hasOwnProperty("myId"));   // --> true
+&lt;/script></pre>
+    <p>So "myId" is a property of window, but it's not "enumerable", so we can't see it by ny making a loop or a console.dir() on the window object:</p>
+    <pre>
+// Display the content of window:
+console.dir(window);                      // myId is not présent.
+
+// Loop through the properties of window:
+var present = false;
+for(var i in window){
+  if(i == 'myId'){
+    present = true;
+  }
+}
+alert(present);                           // --> false
+    </pre>
+    <p>I experimented with this "feature" and found some funny things:</p>
+    <p><b>An implicit id can't have the same name as a protected JS keyword:</b></p>
+    <pre>&lt;div id=function>&lt;/div>
+&lt;script>alert(function) // SyntaxError: Unexpected token )&lt;/script></pre>
+		<br>
+    <p><b>An implicit getElementById can't overload a native global var, such as window.screen:</b></p>
+    <pre>&lt;div id=screen><&lt;/div>
+
+&lt;script>
+  screen.innerHTML = "screen";          // --> nothing happens
+  alert(screen);                        // --> [object Screen]
+&lt;/script></pre>
+		<br>
+    <p><b>Also, it can't redefine a global var defined earlier</b></p>
+    <pre>&lt;script>
+  global0 = 1;
+&lt;/script>
+
+&lt;div id=global0><&lt;/div>
+
+&lt;script>
+  global0.innerHTML = "global0";        // --> nothing happens
+  alert(global0);                       // --> 1
+&lt;/script></pre>
+		<br>
+    <p><b>A global var defined with the "window." prefix can overload an implicit getElementById</b></p>
+    <pre>&lt;div id=global1>&lt;/div>
+
+&lt;script>
+  global1.innerHTML = "global1";        // --> the div contains the text "global1" 
+  console.log(global1);                 // --> [object HTMLDivElement]
+  window.global1 = 1;                   // Try to overload global1
+  console.log(global1);                 // --> 1
+&lt;/script></pre>
+    <br>
+    <p><b>If we try to overloas an implicit getElementById with a global var defined without any prefix, this is what happens:</b></p>
+    <pre>&lt;div id=global2>&lt;/div>
+
+&lt;script>
+  global2.innerHTML = "global2";        // --> the div contains the text "global2" 
+  try{global2 = 1}                      // Try to overload global2
+  catch(e){alert(e)}                    // --> TypeError on IE < 9 / no error on other browsers
+  console.log(global2);                 // --> [object HTMLDivElement] on IE < 9 / 1 on other browsers
+&lt;/script></pre>
+    <br>
+    <p><b>Finally, if we try to overload an implicit getElementById with a global var defined with a "var", this is what happens:</b></p>
+    <pre>&lt;div id=global3>&lt;/div>
+
+&lt;script>
+  global3.innerHTML = "global3";        // --> Uncaught TypeError: Cannot set property 'innerHTML' of undefined
+  console.log(global3);                 // --> undefined
+  var global3 = 1;                      // --> Try to overload global3
+  console.log(global3);                 // --> 1
+&lt;/script></pre>
+    <br>
+    <p>In this case, the keyword "var" on line 3 changes the order in which the JS code is parsed, and it breaks the lines 1 and 2.</p>
+    <hr>
+    <p>To conclude, this technique is useful in some particular cases where we don't want to use a heavy library nor call the long function <b>document.getElementById()</b>, especially in code golfing contests. But in real life, it's safer to use the good old native methods because the implicit <b>document.getElementById</b> comes with several traps, and can lead to hours of debugging...</p>
+		<br>
+		Cheers!
+		<br>
+		<b>@MaximeEuziere</b>
+	</div>
+	<!--button onclick="document.getElementById('getelementbyid').style.display='block';this.style.display='none'">See more</button-->
+</div>
+
+<div class=section>
+	<h2>The joys of text-shadow... on IE.</h2>
+	<h3>septembre 2013</h3>
+	<div id=text-shadow style="display: none">
+		<p>We don't present <b>text-shadow</b> anymore, this CSS property allowing to set a shadow to a text.<br>(see: <a href="http://www.w3.org/TR/css3-text/#text-shadow" target=_blank>the specs</a>, <a href="https://developer.mozilla.org/fr/docs/CSS/text-shadow" target=-blank>the MDN page</a>)</p>
+		<p>Many browsers have some small implementation problems, but the worst are, of course, the old IE. More precisely, IE &lt; 10.</p>
+		<p>However, those browsers have access to proprietary "filters", created by Microsoft, and allowing to achieve a similar effect.<br>Sometimes, we have no other choice than using them. This article explains how.</p>
+		<p>Two filters allow to simulate shadows: Shadow and Glow.</p>
+		<p><b>Here is the "Shadow" version:</b></p>
+		<p>CSS:</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 2px 2px 3px #ff0000; /* IE10+, Firefox 3.5+, Opera 9.5+, Chrome, Safari, and mobile browsers */
+<br>
+&nbsp; filter:progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=135, Strength=3); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Shadowed title&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>h1.ombre1 { text-shadow: 2px 2px 3px #ff0000; filter:progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=135, Strength=3); zoom: 1; }</style>
+		<div class=demo>
+			<h1 class=ombre1>Shadowed title</h1>
+		</div>
+		<p>If you look at this wonderful demo on an old IE (or on IE10 in legacy mode) you will see a shadow. But you will also notice that the text became all pixellized, and unfortunately, there is no solution for that.</p>
+		<p>Please note that "Direction" is set in degrees (for example, 0 = up, 90 = right, 180 = bottom, 270 = left) and "Strength" vaguely corresponds to the shadow's spread. (in reality, it looks more like a perspective effect...)</p>
+		<p><b>And here is the "Glow" version</b></p>
+		<p>CSS:</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 0px 0px 1px #ff0000; /* Good browsers */
+<br>
+&nbsp; filter: glow(color=#ff0000,strength=3); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Glowing title&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>.ombre2 { text-shadow: 0px 0px 3px #ff0000; filter: glow(color=#ff0000,strength=1); zoom: 1; }</style>
+		<div class=demo>
+			<h1 class=ombre2>Glowing title</h1>
+		</div>
+		<p>The Glow filter mainly creates a halo around the text. But it's still quite ugly on IE. (you can have something less ugly if you don't exaggerate this much on the colours)</p>
+		<hr>
+		<p>Note that the filters can be combined, like the CSS3 text-shadows. It's useful, especially when we want a "text-stroke" effect.</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 1px 1px 1px #ff0000, 1px -1px 1px #00ff00, -1px -1px 1px #0000ff, 1px 1px 1px #f0000f; /* Good browsers */
+<br>
+&nbsp; filter: progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=0, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#00ff00', Direction=90, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#0000ff', Direction=180, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#f0000f', Direction=270, Strength=1); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Titre with many shadows&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>.ombre3 { text-shadow: 1px 1px 1px #ff0000, 1px -1px 1px #00ff00, -1px -1px 1px #0000ff, 1px 1px 1px #f0000f; filter: progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=0, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#00ff00', Direction=90, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#0000ff', Direction=180, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#f0000f', Direction=270, Strength=1); zoom: 1;}</style>
+		<div class=demo>
+			<h1 class=ombre3>Titre with many shadows</h1>
+		</div>
+		<p>Keep in mind that it's very verbose, and very ugly on IE, when it's not used correctly.</p>
+		<hr>
+		<p>Besides, I have an exclusive bug to show you:</p>
+		<p>These browsers only work on block elements, not on inline elements.</p>
+    <p>So if you need shadows on a &lt;span>, you'll have to write some nonsense like... <b>span { display: block }</b>.</p>
+		<br>
+		<br>
+		Cheers!
+		<br>
+		<b>@MaximeEuziere</b>
+	</div>
+	<button onclick="document.getElementById('text-shadow').style.display='block';this.style.display='none'">See more</button>
+</div>
+	
+	
+<div class=section>
+	<h2>Ordered and unordered lists</h2>
+	<h3>august 2013</h3>
+	<div id=listes style="display: none">
+		<p>HTML lists... we all know them by heart: they exist since the first versions of HTML and XHTML, and they almost didn't change since then. They also work on all browsers.</p>
+		<p>Let's study their HTML.<br><b>&lt;ul></b> means "unordered list", <b>&lt;ol></b> means "ordered list", et <b>&lt;li></b> means "list item".<br>Here is their simplest form (note that the &lt;/li> are optionals)</p>
+		<p><b>Demo:</b></p>
+		<pre>&lt;ul>
+  &lt;li>Element 1
+  &lt;li>Element 2
+  &lt;li>Element 3
+&lt;/ul>
+
+&lt;ol>
+  &lt;li>Element 1
+  &lt;li>Element 2
+  &lt;li>Element 3
+&lt;/ol></pre>
+		Result:
+		<div class=demo>
+			<ul>
+				<li>Element 1
+				<li>Element 2
+				<li>Element 3
+			</ul>
+			<br>
+			<ol>
+				<li>Element 1
+				<li>Element 2
+				<li>Element 3
+			<ol>
+		</div>
+		<p>The <b>li</b> can also contain <b>ul</b> or <b>ol</b> sub-lists. (but we'll talk about that later)</p>
+		<p>The lists also have specific attributes:</p>
+		<ul>
+			<li><b>&lt;ul></b> (and its <b>&lt;li></b>s) can have a "type" attribute, with the value "circle", "square" or "disc". This allows to change their ticks ("circle" by default).</li>
+			<li><b>&lt;ol></b> (and its <b>&lt;li></b>s) can also have a "type" attribute, with values like "A", "a", "I", "i", "1". This allows to set their number notation ("1" by default).</li>
+			<li>You should avoid the type attribute, and use CSS instead (we'll come to this later)</li>
+			<li><b>&lt;ol></b> can have a "start" attribute telling where the numbering should begin, and its <b>&lt;li></b>s can have a "value" attribute to change their default number, and the following ones. (This works on IE6+)</li>
+		</ul>
+		<p><b>Démo:</b></p>
+		<pre>&lt;ol start="10">
+  &lt;li>Element 10
+  &lt;li>Element 11
+  &lt;li>Element 12
+  &lt;li value="20">Element 20
+  &lt;li>Element 21
+  &lt;li>Element 22
+  &lt;li value="5">Element 5
+  &lt;li>Element 6
+  &lt;li>Element 7
+&lt;/ol></pre>
+		Ce qui donne:
+		<div class=demo>
+			<ol start="10">
+				<li>Element 10
+				<li>Element 11
+				<li>Element 12
+				<li value="20">Element 20
+				<li>Element 21
+				<li>Element 22
+				<li value="5">Element 5
+				<li>Element 6
+				<li>Element 7
+			</ol>
+		</div>
+		<ul>
+			<li>And finally,  <b>&lt;ol></b> can have a "reversed" attribute (appeared with HTML5) allowing to count the elements from bottom up. But since it doesn't work on IE &lt; 11, you should rather set a decreasing "value" to each <b>&lt;li></b> to get the same effect.</li>
+		</ul>
+		<hr>
+		<p>Now let's see their default CSS code, and their dedicated CSS properties:</p>
+		<p><b>&lt;ul></b> and <b>&lt;ol></b> are normal blocks (display: block). They have a default padding-left that depends on the browser (around 40px). The ticks are included in this padding and they can't be selected as normal text with the mouse.</p>
+		<p><b>&lt;ul></b> has disc-shaped bullets (list-style: disc outside none).</p>
+		<p><b>&lt;ol></b> has numbers in front of each element (list-style: decimal outside none).</p>
+		<p><b>&lt;li></b> have a special display (display: list-item), almost identical to display: block. They also have a list-style (inherited), but they can overload it individually.</p>
+		<p>
+		The <b>list-style</b> property is a shorthand notation allowing to set three parameters:<br>
+		<ul>
+			<li><b>list-style-type</b> (that can have <a href="https://developer.mozilla.org/fr/docs/CSS/list-style-type" target=_blank>many many values</a>),</li>
+			<li><b>list-style-position</b> (that can have the value "inside", "outside" or "inherit". Inside allows them to contain their own ticks, instead of letting them stay in their parent's padding.)</li>
+			<li><b>list-style-image</b>, which is "none" by default, but it can also be the url of an image. If the URL is invalid (or if the image isn't fount), there is a fallback on the default list-style-type (disc, decimal, ...).</li>
+		</ul>
+		</p>
+		<hr>
+		<p>Now let's see the different problems that lists can cause us:</p>
+		<p>&nbsp;&bull;
+			If you apply a <a href="http://meyerweb.com/eric/tools/css/reset/" target=_blank>CSS reset</a> to your page, it will delete the paddings on <b>ul</b> and <b>ol</b> elements, and their ticks will be hidden.
+			<br>
+			<b>Solution 1</b>: put the ticks inside the <b>li</b> with this rule:
+			<pre>ul, ol { list-style-position: inside }</pre>
+			The ticks reappear, but we still lose the indentation of nested lists.
+			<br>
+			<pre>&lt;ul>
+  &lt;li>list
+  &lt;li>list
+    &lt;ol>
+      &lt;li>sub-list
+      &lt;li>sub-list
+    &lt;/ol>
+&lt;/ul></pre>
+			<div class=demo>
+				<ul style="list-style-position: inside; margin: 0; padding: 0;">
+				<li style="margin: 0; padding: 0;">list
+				<li style="margin: 0; padding: 0;">list
+					<ol style="list-style-position: inside; margin: 0; padding: 0; display: block">
+						<li style="margin: 0; padding: 0;">sub-list
+						<li style="margin: 0; padding: 0;">sub-list
+					</ol>
+				</ul>
+			</div>
+
+			<b>Solution 2 (the good one)</b>: don't change the ticks position, but re-set a padding-left to the lists, like this:
+			<br>
+			<pre>ul, ol { padding-left: 2em }</pre>
+			Result:
+			<div class=demo>
+				<ul>
+				<li>list
+				<li>list
+					<ol style="display:block">
+						<li>sub-list</li>
+						<li>sub-list</li>
+					</ol>
+				</ul>
+			</div>
+			Indeed, the padding-left are cumulative, and so the nested lists are correctly indented. 
+		</p>
+		<p>
+		&nbsp;&bull; If we nest ordered lists, their numbers will stay the same (decimal notation). A good typographic practice is to do this:
+			<pre>ol { list-style-type: decimal }
+ol ol { list-style: upper-alpha }
+ol ol ol { list-style:  lower-roman }
+ol ol ol ol { list-style: lower-alpha }</pre>
+			<br>
+			Which allows nested lists as pretty as this, with up to four levels:
+			<div class=demo>
+			<ol>
+				<li>level 1</li>
+				<li>item</li>
+				<li>item</li>
+				<li><ol>
+						<li>level 2</li>
+						<li>item</li>
+						<li>item</li>
+						<li><ol>
+								<li>level 3</li>
+								<li>item</li>
+								<li>item</li>
+								<li><ol>
+										<li>level 4</li>
+										<li>item</li>
+										<li>item</li>
+									</ol>
+							</ol>
+					</ol>
+			</ol>
+			</div>
+		</p>
+		<p>
+		&nbsp;&bull;
+				The CSS resets generally set a vertical-align: baseline and a line-height: 1.5em to all the elements of the page, and this causes a problem on IE &lt; 8 when we have nested lists.
+				<br>
+				Indeed, if you watch the following list on IE &lt; 8, you will see the numbers "fall" at the bottom of the sub-lists, and the ticks will be misaligned with the text ahead.
+				<br>
+				<div class=demo>
+				<ol>
+					<li>level 1</li>
+					<li>item</li>
+					<li>item</li>
+					<li style="vertical-align: baseline"><ol>
+							<li>level 2</li>
+							<li>item</li>
+							<li>item</li>
+							<li style="vertical-align: baseline"><ol>
+									<li>level 3</li>
+									<li>item</li>
+									<li>item</li>
+									<li style="vertical-align: baseline"><ol>
+											<li>level 4</li>
+											<li>item</li>
+											<li>item</li>
+										</ol>
+								</ol>
+						</ol>
+				</ol>
+			</div>
+			<p>To fix the "falling" ticks, use this CSS dode:</p>
+			<pre>ol, ul, li { vertical-align: top }</pre>
+			<p>To fix the alignment between the ticks and the text, there is no miracle solution, but five possible approaches:</p>
+			<ul>
+				<li>Consider that an offset of a few pixels is not a big deal on IE &lt; 8, and do nothing.</li>
+				<li>Put a "1em" line-height on all the page.</li>
+				<li>Let the default line-height to "1.5em", but set the &lt;li>'s line-height to "1em" and their padding to "0.25em 0", which will do the job, unless the text of the &lt,li> spreads on two lines or more, because these lines would be very close.</li>
+				<li>Replace the default tick with an image that looks like a tick, but with a few pixels of vertical offset.</li>
+				<li>
+					Or... (and this is the solution I recommend) put an element (like a &lt;span>) in each &lt;li>, and apply this style:
+					<pre>li span { *position: relative; *top: -0.5em }</pre>
+					Result:
+					<div class=demo>
+						<ul>
+							<li><span style="*position: relative; *top: -0.5em">Item 1</span></li>
+							<li><span style="*position: relative; *top: -0.5em">Item 2</span></li>
+							<li><span style="*position: relative; *top: -0.5em">Item 3</span></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<p>However, there is a bug on all the NEWER versions of IE (except IE6 and 7!), which you can see here:</p>
+			<div class=demo>
+			<ol>
+				<li>level 1</li>
+				<li>item</li>
+				<li>item</li>
+				<li><ol style="display: block">
+						<li>level 2</li>
+						<li>item</li>
+						<li>item</li>
+						<li><ol style="display: block">
+								<li>level 3</li>
+								<li>item</li>
+								<li>item</li>
+								<li><ol style="display: block">
+										<li>level 4</li>
+										<li>item</li>
+										<li>item</li>
+									</ol>
+							</ol>
+					</ol>
+			</ol>
+			</div>
+			<p>Each sub-list has a huge gap on top. It's not a margin or a padding, it's an IE bug. To get rid of it, you can set float: left to the lists (but it could lead to flow issues), or put them in display: inline-block (that's what I recommend):</p>
+			<pre>li ul, li ol { display: inline-block }</pre>
+			<p>So, everything is correct now.</p>
+			<p>Other list-related bugs and their solutions are described <a href="http://stylisticweb.com/design-tutorials/15-ie6-bugs-and-simple-solutions" target=_blank>here</a>, but I won't talk about them because they are too much specific.</p>
+			<hr>
+			<p>Instead, let's talk about the original things that we can do with HTML lists:</p>
+			<ul>
+				<li>
+					A &lt;li> can live without a &lt;ol> or a &lt;ul> around it. In this case, it will have a circle-shaped tick (on all the browsers).
+				</li>
+				<li>
+					A &lt;ul> / &lt;ol> can contain elements that are not &lt;li>. (or even some text). These elements won't have a tick or a number.
+				</li>
+				<li>
+					There are several easy ways to display a list on many columns.<br><a href="http://alistapart.com/article/multicolumnlists" target=_blank>This article</a> is exhaustive on this subject.
+				</li>
+				<li>
+					A list can look like a file tree with a simple 1px image and some ingenious CSS code: <a href="http://css-tricks.com/style-a-list-with-one-pixel/" target=_blank>take a look at this</a>.
+				</li>
+				<li>
+					The &lt;li> elements can use one (or many) unicode character(s) as their ticks, thanks to CSS3 (and it works on IE8+):
+					<pre>li { list-style: none }
+li:before { content: ">>"; margin:0 1em 0 -3em;  }</pre>
+          Result:
+					<style style="display: none">
+					.custombullet li { list-style: none }
+					.custombullet li:before { content: ">>"; margin: 0 1em 0 -3em; }
+					</style>
+					<div class=demo>
+						<ul class=custombullet>
+							<li>Item 1</li>
+							<li>Item 2</li>
+							<li>Item 3</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<p>I'll stop here, and I invite you to look at <a href="//xem.github.io/Blog" target="_blank">my last project, Basis</a>: a basic "boilerplate" for HTML/CSS/JS pages, with a custom CSS reset that contains all these best practices, and many others.</p>
+			<br>
+			<br>
+			Cheers!
+			<br>
+			<b>@MaximeEuziere</b>
+	</div>
+	<button onclick="document.getElementById('listes').style.display='block';this.style.display='none'">See more</button>
+</div>
+
+<div class=section>
+	<h2>The HTML contenteditable attribute</h2>
+	<h3>july 2013</h3>
+	<div id=contenteditable style="display: none">
+		<p>The <b>contenteditable</b> attribute makes any HTML element editable with the mouse and/or the keyboard.</p>
+		<p>
+		This attribute is one of the <a href="http://dev.w3.org/html5/markup/global-attributes.html">HTML5 global attributes</a>, so it can be applied to all HTML5 elements.
+		<br>
+		It's also one of those features that existed in browsers for a long time before W3C standardization.
+		<br>
+		Indeed, <a href="http://caniuse.com/contenteditable">we can use this attribute</a> on browser as old as IE 5 and Firefox 3! Microsoft created it, by the way.
+		</p>
+		<p>
+		It's easy to use: like <b>id</b> or <b>class</b>, you can use <b>contenteditable="true"</b> on any element, or simply <b>contenteditable</b>.
+		<br>
+		Note that this attribute is inherited by default. So the value <b>contenteditable="inherit"</b> is completely useless (but it exists).
+		<br>
+		However, if you want to make an element editable, but not its children, these children must have <b>contenteditable="false"</b>.
+		</p>
+		<p contenteditable><b>Example:</b> click on this paragraph to edit the text inside.</p>
+		<hr>
+		<p>Here's the list of crazy facts about <b>contenteditable</b>:</p>
+		<ul>
+			<li>
+				Like we saw earlier, we can make an element non-editable if its parent is editable. The non-editable element can still be selected, moved and deleted.
+				<p contenteditable><b>Example:</b> In this editable paragraph, <b contenteditable="false">this text in bold</b> can't be edited, but you can move and delete it with the mouse.</p>
+				On Firefox, we can't move text from an editable container to another editable container... that's a bug.
+			</li>
+			<li>
+				Firefox allows to resize images that have or inherit the <b>contenteditable</b> behavior.<br><br>
+				<b>Example:</b><br>
+				<p contenteditable> Click on this image <img src="http://placehold.it/200x50" style="vertical-align: middle"> to resize it.</p>
+			</li>
+			<li>
+				Any HTML code can be inserted in an editable element
+				<div contenteditable><b>Example:</b> You can copy-paste here<br><br>- The content of another Webpage:<br><br><br><br>- The content of a Word / Excel document:<br><br><br><br></div>
+			</li>
+			<li>
+				Thanks to this attribute, we can make complete WYSIWYG editors, like <a href="http://ckeditor.com/demo#full">CKEditor</a>.
+			</li>
+			<li>
+				You can also access to a quick notepad by typing <b>data:text/html, &lt;html contenteditable></b> in the address bar of your browser (or by clicking <a href="data:text/html, <html contenteditable>" target="_blank">here</a>).
+				This trick comes from <a href="https://coderwall.com/p/lhsrcq">Jose Jesus Perez Aguinaga</a>.
+				You can find many variations of this notepad <a href="https://news.ycombinator.com/item?id=5135194" target="_blank">here</a>. 
+			</li>
+			<li>If you make a <b>style</b> element visible and editable, this can make a crazy auto-recursive editor, in which you can edit in real time the style of the block you're writing into.<br>Try it:<br>
+				<style spellcheck="false" contenteditable>style[contenteditable] {
+	display: block;          /* make <style> blocks visible */
+	white-space: pre;        /* presentation */
+	font-family: monospace;  /* typography */
+	background: #ddeeff;     /* background color */
+	color: #112233;          /* text color */
+}</style>
+			</li>
+			<li>
+				<b>script</b> elements can also be visible and editable (here's an exemple). However, the JavaScript code isn't executed when you edit it. It's a simple text block.<br>
+				<script contenteditable>console.log("Log unique");</script>
+				<br>
+				(open your F12 console to see this message)
+				<br>
+				But JavaScript itself allows to detect changes happening in a <b>script</b> element and exécuter its content.<br>
+				Warning: don't do this at home (XSS attacks can occur). This example is only a proof of concept.<br> 
+				<script id="js" contenteditable>// This block has the id "js".
+var js = document.getElementById("js");
+js.onkeyup = function(){
+	eval(js.innerText);
+}
+console.log("Log at each edition");</script>
+				<br>
+				This works fine on Chrome and IE 10. Sadly, Firefox and IE9 can't listen to keystrokes events on <b>script</b> elements... But you can replace them with textareas, which are natively editable.
+			</li>
+		</ul>
+		<br>
+		<br>
+		Cheers!
+		<br>
+		<b>@MaximeEuziere</b>
+	</div>
+	<button onclick="document.getElementById('contenteditable').style.display='block';this.style.display='none'">See more</button>
+</div>
+
+
+<div class=section>
+	<h2>Le doctype HTML5</h2>
+	<h3>juin 2013</h3>
+	<div id=doctype style="display: none">
+		<p>Le doctype n'est pas un élément HTML comme les autres, c'est un préambule qui sert à dire au navigateur comment il doit afficher le reste de la page.</p>
+		<p>Ce préambule existe depuis HTML2 et XHTML1. Toutefois, jusqu'à l'apparition d'HTML5, les doctypes étaient de très longues chaînes impossibles à mémoriser par coeur, et pour peu qu'on fasse une faute de frappe, les navigateurs pouvaient mal le prendre, en particulier IE qui applique des règles d'affichage ancestrales (qu'on appelle aussi "mode quirks") en cas de doctype absent ou invalide.</p>
+		<p>Bref: ce qu'il faut retenir, c'est que maintenant, le doctype s'écrit comme ceci: <b>&lt;!doctype html></b>, et qu'il doit être placé tout au début du document HTML. Il est suivi de l'élément racine, à savoir <b>&lt;html></b>.</p>
+		</p>Oui mais comment on fait du XHTML5 alors? La réponse est simple: ça n'existe pas. Il n'y a qu'un HTML5, et il n'est ni "X" ni "strict" ni "transitional". et ça ne l'empêche pas de bien marcher, même sur les IE préhistoriques.</p>
+		<hr>
+		<p>Voici maintenant la liste tant attendue des trucs de ouf concernant <b>le doctype HTML5</b>:</p>
+		<ul>
+			<li>Le <b>doctype</b> est insensible à la casse et peut contenir plusieurs espaces avant et après le mot "html". Vous pouvez donc l'écrire <b>&lt;!DoCtYpE &nbsp; &nbsp; HtMl &nbsp; ></b> si ça vous chante.</li>
+			<li>Le <b>doctype</b> HTML5 peut contenir <a href="http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-doctype" target="_blank">d'autres informations</a>, mais aucune n'est utile quand on écrit son HTML à la main ou avec un IDE moderne.
+			<li>
+				Le <b>doctype</b> et l'élément <b>title</b> sont les deux seuls éléments obligatoires dans un document HTML5 valide.
+				<br>
+				Voici le plus petit valide document HTML5:
+				<pre>&lt;!doctype html>
+&lt;title>&lt;/title></pre>
+			</li>
+			<li>
+				Le doctype ne peut pas être lu, ni modifié en JavaScript, mais on peut tout de même savoir si le navigateur est en mode quirks ou en mode compatibilité comme ceci:
+				<pre>if(document.compatMode === 'CSS1Compat'){
+	// On est pas en mode quirks!
+}
+if(document.compatMode === 'BackCompat'){
+	// On est en mode compatibilité!
+}</pre>
+				<button onclick="alert(document.compatMode!=='CSS1Compat')">Est-on en mode quirks?</button>
+				<button onclick="alert(document.compatMode!=='BackCompat')">Est-on en mode compatibilité?</button> (si les deux sont "false", tout va bien)
+			</li>
+			<li>A propos du "mode compatibilité", qui pousse IE7, IE8, IE9 et IE10 à afficher les pages Web avec le moteur de rendu de leur prédécésseur (E6, IE7, IE8 et IE9, respectivement), de nombreuses raisons font que ce mode s'active sur IE, mais le plus souvent, c'est dû au fait qu'on visionne une page HTML qui se trouve sur son PC, ou sur un réseau local. Pour éviter ce désagrément, ouvrez IE, faites "alt" pour que le menu du haut apparaisse, allez sur "outils > paramètres d'affichage de compatibilité" et décochez "Afficher les sites intranet dans Affichage de compatibilité". Faites "OK" et redémarrez IE. C'est réglé!</li>
+			<li>
+				Sur IE < 9, le <b>doctype</b>, du fait qu'il commence par un <b>!</b>, est considéré comme un <b>commentaire HTML</b>. En voici la preuve:
+				<pre>// Récupérons le nom du premier élément HTML de cette page dans le DOM
+var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
+				<button onclick="alert(document.getElementsByTagName('*')[0].tagName)">Quel est le nom du premier élément du DOM?</button> ("!" sur IE < 9, "HTML" ailleurs)
+				<br>
+				<br>
+				(Les IE < 9 sont d'ailleurs les seuls navigateurs à inclure les commentaires (sauf les commentaires conditionnels) dans <b>document.getElementsByTagName("*")</b>, comme décrit <a href="http://lea.verou.me/2009/02/20things-you-should-know-when-not-using-a-js-library/" target="_blank">ici</a>)
+			</li>
+			<li>
+				Le <b>doctype</b> HTML5 fait apparaitre de vilaines scrollbars autour des <b>iframes</b> sur IE6, pour <a href="http://inmyexperience.com/2003/01/iframe-and-doctype-follies.html" target="_blank">d'obscures raisons</a>, alors que les doctypes d'avant HTML4 ne le faisaient pas. Le seul moyen de les faire disparaître est d'utiliser l'attribut (hélas non standard) <b>scrolling=no</b> sur vos iframes... si vous voulez supporter IE6, bien sûr, ce que je ne vous conseille pas de faire.</li>
+				Démo: iframe normale<br>
+				<iframe style="width: 200px; height: 40px; border: 1px solid black;"></iframe>
+				<br><br>iframe sans scrollbars sur IE6<br>
+				<iframe style="width: 200px; height: 40px; border: 1px solid black;" scrolling=no></iframe>
+			</li>
+			<li>Il y a un autre bug sur IE, y compris IE10 (et peut-être IE11, à confirmer): si votre page est en mode quirks, et qu'elle contient des <b>iframe</b> qui ont un doctype valide, ces <b>iframe</b> s'afficheront tout de même en mode quirks!
+		</ul>
+		<br>
+			<br>
+		A bientôt!
+		<br>
+		<b>@MaximeEuziere</b>
+	</div>
+	<button onclick="document.getElementById('doctype').style.display='block';this.style.display='none'">See more</button>
+</div>

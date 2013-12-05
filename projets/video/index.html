@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Video Player</title>
+    <link rel="stylesheet" href="style.min.css">
+    <script>document.createElement("video");</script>
+  </head>
+  <body>
+    <video id="video" preload>
+      <source src="oceans-clip.mp4"/>
+      <source type="video/ogg; codecs=theora,vorbis" src="oceans-clip.ogg"/>
+      <!-- insert Flash fallback here ... or not! -->
+      Please update your browser!
+    </video>
+    <div id="controls">
+      <div id="play" class="button pause"></div>
+      <div id="sound">
+        <div id="mute" class="button unmute"></div>
+        <div id="volume">
+          <div id="volumelevel"></div>
+        </div>
+      </div>
+      <div id="timeline">
+        <div id="time">0:00 / 0:00</div>
+        <div id="position">
+          <div id="preload"></div>
+          <div id="currentposition"></div>
+        </div>
+      </div>
+      <div id="fullscreen" class="button fullscreen"></div>
+    </div>
+    <br>
+    <br>
+    <div style="width: 615px; border: 1px solid #000; padding: 20px; margin: auto; text-align: left; font-size: 14px; background: #fff">
+      <b>Remarques cross-browser / cross-device:</b>
+      <br>
+      - La vidéo ne doit pas avoir d'attribut poster, pour être lisible sur iOS 3.
+      <br>
+      - La vidéo peut avoir un attribut autoplay mais il sera ignoré par iOS and Android 2.2. Si les contrôles sont cachés, ceux-ci nécessitent un appel à la fonction play() pour lancer la vidéo. De plus, sur iOS, la vidéo ne sera pas lue tant que le play() n'est pas lié à un évènement tactile (click, touchstart, touchmove...).
+      <br>
+      - La première source de la vidéo doit être un fichier MP4 sinon elle ne fonctionnera pas sur iOS 3. Elle ne doit pas avoir d'attribut "type" pour fonctionner sur Android 2.2. Le format MP4 est le seul à fonctionner sur iOS 3+ et IE9+. Il est également supporté par Safari 3+, Chrome 5+ et Android 2.2+.
+      <br>
+      - La deuxième source doit avoir un attribut type. Le format conseillé est Ogg car il est supporté par Firefox 3.5+ et Opera 10.5+. WebM fonctionne aussi avec ces navigateurs, mais sur des versions plus récentes que pour Ogg.
+      <br>
+      - Un fallback flash peut être mis en place pour IE &lt; 9, Android &lt; 2, iOS &lt; 3...
+      <br>
+      - Un fallback texte (ou HTML) doit ête présent pour les vieux navigateurs ou ceux n'ayant pas une version récente de Flash.
+      <br>
+      - Firefox n'est pas capable de basculer automatiquement sur le fallback flash ou HTML s'il n'y a qu'une source au format MP4. Le seul moyen de contourner ce problème est de détecter firefox (en détectant le non-support du MP4) et de générer un code HTML spécifique (celui du player flash, au lieu de la balise video).
+      <br>
+      - Les iPhone ne peuvent pas lire de vidéos embeddées. A la lecture, elles passent forcément en plein écran, et on ne peut pas afficher  de HTMLpar-dessus (contrôles custom, sous titres...).
+      <br>
+      <br>
+      <b>Liste des méthodes, propriétés et événements de l'élément video:</b>
+      <br>
+      <a href="http://www.w3schools.com/tags/ref_av_dom.asp">http://www.w3schools.com/tags/ref_av_dom.asp</a>
+    </div>
+    <script src="script.min.js"></script>
+  </body>
+</html>

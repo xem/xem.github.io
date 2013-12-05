@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <generator>RSS Builder by B!Soft</generator>
+    <title>Maxime Euzière - Blog</title>
+    <link>http://xem.github.io/Blog</link>
+    <description>Veille et expérimentations front-end</description>
+    <language>en-gb</language>
+    <managingEditor>xem@github.com</managingEditor>
+    <webMaster>xem@github.com</webMaster>
+    <copyright>public domain</copyright>
+    <item>
+      <title>November 2013</title>
+      <pubDate>Sun, 1 Dec 2013 00:00:00 +0100</pubDate>
+      <description><![CDATA[Update:
+<p>New domain name: <a href="http://xem.github.io">http://xem.github.io</a> </p>
+<p>Enhancements in my last articles and projects!</p>
+<p>New code golfing experiment (to execute a lot of JavaScript in a tweet)!</p>
+<p>And one month of tech watch!</p>]]></description>
+    </item>
+    <item>
+      <title>Octobre 2013</title>
+      <pubDate>Fri, 1 Nov 2013 00:00:00 +0100</pubDate>
+      <description><![CDATA[New projects! New articles! More talks! More code golfing! More tech watch!]]></description>
+    </item>
+    <item>
+      <title>September 2013</title>
+      <pubDate>Tue, 1 Oct 2013 00:00:00 +0200</pubDate>
+      <description><![CDATA[New projects! New articles! More tech watch!]]></description>
+    </item>
+    <item>
+      <title>Augustt 2013</title>
+      <pubDate>Tue, 27 Aug 2013 10:57:41 +0200</pubDate>
+      <description><![CDATA[New projects! New articles! More tech watch!]]></description>
+    </item>
+    <item>
+      <title>July 2013</title>
+      <pubDate>Thu, 1 Aug 2013 13:52:27 +0200</pubDate>
+      <description><![CDATA[New projects! New articles! More tech watch!]]></description>
+    </item>
+    <item>
+      <title>Opening</title>
+      <pubDate>Fri, 26 Jul 2013 13:57:34 +0200</pubDate>
+      <description><![CDATA[]]></description>
+    </item>
+  </channel>
+</rss>
