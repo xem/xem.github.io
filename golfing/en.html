@@ -6,6 +6,65 @@
 </div>
 
 <div class=section>
+	<h2>MiniCodeEditor</h2>
+	<h3>march to december 2013</h3>
+	<p>A HTML/CSS/JS sandbox (comme codepen ou jsfiddle) in just 161+ characters.</p>
+	<b>Website:</b> <a href=//xem.github.io/miniCodeEditor target=_blank>http://xem.github.io/miniCodeEditor</a>
+</div>
+
+<div class=section>
+	<h2>MiniMinifier</h2>
+	<h3>march to december 2013</h3>
+	<p>HTML, CSS and JS minifiers in just 128+ characters</p>
+  <b>Website:</b> <a href=//xem.github.io/miniMinifier target=_blank>http://xem.github.io/miniMinifier</a>
+</div>
+
+<div class=section>
+	<h2>Keys pressed</h2>
+	<h3>september to december 2013</h3>
+	<p>A way to know at any moment if a key is being pressed, in just 60 bytes.</p>
+	<pre>k={};onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5]}</pre>
+	<p>
+    To use it, all you have to do is choosing "n" - a keycode - and test k[n]. This is true when the corresponding key is pressed, and false when it's not pressed anymore.
+    <br>
+    (If it has never been pressed, k[n] will be undefined, which is considered false in a test.)
+    <br>
+    <button onclick="source_touches_enfoncees.style.display='block';this.style.display='none'">See the source code</button>
+  <br>
+  <pre id=source_touches_enfoncees style="display:none">// Initialize the global k (the array representing the keys currently pressed).
+// Also works with k = [].
+k = {};
+
+// Add two event handlers to the window object:
+// window.onkeydown and window.onkeyup.
+// They don't need the window prefix (it's implicit)
+// And they both get the same callback function
+onkeydown = onkeyup = function(e){
+
+  // On keydown, e.type == "keydown", and e.type[5] == "w" (truthy)
+  // On keyup, e.type == "keyup", and e.type[5] == undefined (falsy)
+  // !! converts e.type[5] to a boolean. It can be removed but it's a little dirtier.
+  k[e.keyCode] = !!e.type[5];
+
+}</pre>
+  <br>
+  <b>Demo:</b> Here is the state of k in real time. Press any key to make it change.
+    <script>
+      k=[];onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5];demo_touches_enfoncees.innerHTML="k = ["+k+"]"}
+    </script>
+    <div class=demo><pre id=demo_touches_enfoncees>k = [ ]</pre></div>
+  </p>
+</div>
+
+<div class=section>
+	<h2>MiniSweeper</h2>
+	<h3>december 2013</h3>
+  <p>A minesweeper game in less than 512 bytes</p>
+  <pre>&lt;table border id=t>&lt;script>b=[v=[]];f=[l=g=0];n=[];function r(d){for(M=!l;M;l=g)for(a=M=H="";s>++a;)for(j=s,H+="&lt;tr>";~--j;H+="&lt;th onclick=b[i="+I+"]?g--:v[i]=1;r() oncontextmenu=for(f["+I+"]^=g=1,a=0;a&lt;s*s;)g&=b[a]^!f[a++];return!!r() "+(v[I]|g||"bgcolor=tan")+">"+(f[I]?"?":b[I]&g?"??":v[I]|g&&n[I]||"  "))for(I=a*s+j,T=d?b[I]=.1>Math.random():0,x=2;~x--;)for(y=2;~y--;~B&&B&lt;s?(n[C]=~~n[C]+T)||v[I]|b[I]|!v[C]?0:v[I]=M=1:0)B=j+y,C=(a+x)*s+B;t.innerHTML=H}r(s=9)&lt;/script></pre>
+  Website: <a href=//xem.github.io/MiniSweeper target=_blank>http://xem.github.io/MiniSweeper</a>
+</div>
+
+<div class=section>
 	<h2>How many JavaScript code can we fit in 140 characters?</h2>
 	<h3>november 2013</h3>
   <p>The answer is: 190 characters!</p>
@@ -176,49 +235,6 @@ s = function(n,a,d,x,y,c,i){
 </div>
 
 <div class=section>
-	<h2>Keys pressed</h2>
-	<h3>september 2013</h3>
-	<p>A way to know at any moment if a key is being pressed, in just 58 bytes.</p>
-	<pre>k={};onkeydown=onkeyup=function(e){k[e=e.keyCode]=!k[e]}</pre>
-	<p>
-    To use it, all you have to do is choosing "n" - a keycode (<a href=//whatthekeycode.com target=_blank>for example here</a>) and test k[n]. This is true when the corresponding key is pressed, and false when it's not pressed anymore.
-    <br>
-    (If it has never been pressed, k[n] will be undefined, which is considered false in a test.)
-    <br>
-    <button onclick="source_touches_enfoncees.style.display='block';this.style.display='none'">See the source code</button>
-  <br>
-  <pre id=source_touches_enfoncees style="display:none">// Initialize the global k (the array representing the keys currently pressed).
-// Also works with k = [].
-k = {};
-
-// Add two event handlers to the window object:
-// window.onkeydown and window.onkeyup.
-// They don't need the window prefix (it's implicit)
-// And they both get the same callback function
-onkeydown = onkeyup = function(e){
-
-  // The two following lines are merged in the minified code:
-
-  // e is the event handler. let's replace it with the e.keyCode attribute
-  e = e.keyCode;
-  
-  // Invert the value of k[e]:
-  // undefined => true
-  // true => false
-  // false => true
-  k[e] = ! k[e];
-
-}</pre>
-  <br>
-  <b>Demo:</b> Here is the state of k in real time. Press any key to make it change.
-    <script>
-      k=[];onkeydown=onkeyup=function(e){k[e=e.keyCode]=!k[e];demo_touches_enfoncees.innerHTML="k = ["+k+"]"}
-    </script>
-    <div class=demo><pre id=demo_touches_enfoncees>k = [ ]</pre></div>
-  </p>
-</div>
-
-<div class=section>
 	<h2>MiniGameOfLife</h2>
 	<h3>september 2013</h3>
 	<p>A Game of Life simulator in just 130 bytes.</p>
@@ -246,48 +262,7 @@ g = function(s, d, n, k, m, i, j){
   return(n)                           // return the next state
 }</pre>
   <br>
-	<b>Demo:</b> <a href=//xem.github.io/miniGameOfLife target=_blank>http://xem.github.io/miniGameOfLife</a>
-</div>
-
-<div class=section>
-	<h2>MiniMinifier</h2>
-	<h3>march to september 2013</h3>
-	<p>A CSS code minifier in just 73 bytes. (removes all the comments and unnecessary spaces)</p>
-  <pre>c.replace(/^\s|\s$|\/\*[^]*?\*\/|\s*;*([^\:\w.#'"\s*-])\s*|(:) /g,'$1$2')</pre>
-  <p>There's also a more complete version, in 348 bytes (removes the useless zeros, the useless units, compresses RGB and hexadécimal colors, and handles old IE)</p>
-  <pre>c.replace(/(\/\*[^]*?\*\/|\s)+/g,' ').replace(/([^#\d\w\(._'"-])((0)[a-z%]+|0(\.))|^ | $|[ ;]*([^\:\w.#)'" *-]) *| (\))|(:) */gi,'$1$3$4$5$6$7').replace(/rgb\((\d+),(\d+),(\d+)\)|#[a-f0-9]{6}/gi,function(h,a,b,c,i,p){if(c){h='#';p=[a,b,c];for(i in p)h+=('0'+parseInt(p[i]).toString(16)).slice(-2)}p=h[2]+h[4]+h[6];return p==h[1]+h[3]+h[5]?'#'+p:h})</pre>
-	<br>
-  <b>Demo:</b> <a href=//xem.github.io/miniMinifier target=_blank>http://xem.github.io/miniMinifier</a>
-</div>
-
-<div class=section>
-	<h2>MiniCodeEditor</h2>
-	<h3>march 2013</h3>
-	<p>A HTML/CSS/JS sandbox engine (like codepen or jsfiddle) in just 130 caractères.<br>It updates an iframe with HTML, CSS and JS code passed in parameter.</p>
-  <pre>function u(h,c,j,r){r.src="";r=r.contentWindow.document;r.write(h.value+"&lt;script>"+j.value+"&lt;\/script>&lt;style>"+c.value);r.close()}</pre>
-  <button onclick="source_miniCodeEditor.style.display='block';this.style.display='none'">See the source code</button>
-  <br>
-  <pre id=source_miniCodeEditor style="display:none">// @param h: HTML code
-// @param c: css code
-// @param j: JS code
-// @param r: rendering iframe
-function u(h,c,j,r){
-  
-  // Reset the iframe
-  r.src = "";
-  
-  // Access to the document of the iframe
-  r = r.contentWindow.document;
-  
-  // Write in the iframe's body: the HTML, the JS in a &lt;script> tag, and the CSS in a &lt;style> tag (which is automatically closed)
-  r.write(h.value + "&lt;script>" + j.value+"&lt;\/script>&lt;style>" + c.value);
-  
-  // Stop writing in the iframe (this stops the iframe's loading).
-  r.close();
-}</pre>
-	<b>GitHub page:</b> <a href=//github.com/xem/miniCodeEditor target=_blank>http://github.com/xem/miniCodeEditor</a>
-  <br>
-	<b>Demo:</b> <a href=//xem.github.io/miniCodeEditor target=_blank>http://xem.github.io/miniCodeEditor</a>
+	<b>Website:</b> <a href=//xem.github.io/miniGameOfLife target=_blank>http://xem.github.io/miniGameOfLife</a>
 </div>
 
 <div class=section>
