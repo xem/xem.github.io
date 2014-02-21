@@ -1,8 +1,85 @@
-<div class=intro>
+<!doctype html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <link rel=stylesheet href="../style.css">
+  <title>Maxime Euzière</title>
+</head>
+<body>
+  <div class=menu>
+    <div class=header>
+      <h1>Maxime Euzière</h1>
+      Front-end experiments
+      <br>
+      HTML / CSS / JS
+      <br>
+      <br>
+      <a href="../fr.html">Home</a>
+      <a href="../articles/fr.html">Articles</a>
+      <a href="../techwatch/fr.html">Tech watch</a>
+      <a href="../projects/fr.html">Projects / experiments</a>
+      <a href="../talks/fr.html">Talks</a>
+      <a href="../golfing/fr.html" class=active>JS Code golfing</a>
+    </div>
+    <div class=footer>© 2014 - <a href="../cv/cv-fr.html" target=_blank>CV</a> - <a href=en.html><img src="../english.png" alt="English version" title="English version" class=pulse></a></div>
+  </div>
+  <div class=body>
+  <div class=intro>
   <p>Le <b>code golfing</b> est une activité consistant à implémenter un algorithme avec un code source le plus court possible.</p>
   <p>De nombreux <a href=//golf.shinh.org/ target=_blank>concours</a> proposent de créer des démos JavaScript en moins de <a href=//140byt.es target=_blank>140 caractères</a>, <a href=//js1k.com target=_blank>1ko</a>, <a href=//js13kgames.com/ target=_blank>13ko</a>, <a href="http://www.pouet.net/prodlist.php?type%5B%5D=32b&type%5B%5D=64b&type%5B%5D=128b&type%5B%5D=256b&type%5B%5D=512b&type%5B%5D=1k&type%5B%5D=4k&type%5B%5D=8k&type%5B%5D=16k&type%5B%5D=32k&type%5B%5D=40k&type%5B%5D=64k&type%5B%5D=80k&type%5B%5D=96k&type%5B%5D=100k&type%5B%5D=128k&type%5B%5D=256k&type%5B%5D=artpack&type%5B%5D=bbstro&type%5B%5D=cracktro&type%5B%5D=demo&type%5B%5D=demopack&type%5B%5D=demotool&type%5B%5D=dentro&type%5B%5D=diskmag&type%5B%5D=fastdemo&type%5B%5D=game&type%5B%5D=intro&type%5B%5D=invitation&type%5B%5D=liveact&type%5B%5D=musicdisk&type%5B%5D=procedural+graphics&type%5B%5D=report&type%5B%5D=slideshow&type%5B%5D=votedisk&type%5B%5D=wild&platform%5B%5D=JavaScript&page=1" target=_blank>etc.</a></p>
   <p>Plusieurs développeurs ont des sites dédiés au code golfing JS: <a href=//aem1k.com/ target=_blank>aem1k</a>, <a href=://www.p01.org/releases/ target=_blank>p01</a>, etc.</p>
   <p>Cette page rassemble mes premières réalisations.</p>
+</div>
+
+<div class=section>
+	<h2>Hello World en ASCII-art</h2>
+	<h3>février 2014</h3>
+	<p>Challenge proposé sur stackexchange. Meilleure solution JS: 117 octets (à exécuter dans une console JS):</p>
+  <pre>for(i=s="";l=[43117609029,64070269789,46349920852,46890400349][i++];)for(j=0,s+="\n";c=l.toString(2)[j++];)s+=" #"[c]</pre>
+  <p>Meilleure solution ES6 (fonctionne sur Firefox): 108 octets:</p>
+  <pre>[,0xa0a028045,0xeeae2bb5d,0xacaabaa54,0xaeae2ba5d].map(a=>a.toString(2).replace(/./g,b=>' #'[b])).join('\n')</pre>
+	<a href=//codegolf.stackexchange.com/questions/20209/ascii-art-hello-world/20568#20568 target=_blank>lien</a>
+</div>
+
+<div class=section>
+	<h2>Hex</h2>
+	<h3>janvier 2014</h3>
+	<p>Un visualiseur / éditeur hexadécimal en 256b / 1kb.</p>
+	<b>Site:</b> <a href=//xem.github.io/hex target=_blank>http://xem.github.io/hex</a>
+</div>
+
+<div class=section>
+	<h2>Une fonction JS qui dit laquelle/lesquelles de ses lignes ont été supprimées</h2>
+	<h3>décembre 2013</h3>
+	<p>Challenge proposé sur stackexchange</p>
+  <p>Meilleure solution JS détectant si 0 ou 1 ligne a été supprimée: 78 octets</p>
+  <pre>(function(n){
+a=n-=1
+n-=2
++3
++4;if(this.a)return 5
+return n;var a
+})()</pre>
+	<a href=//codegolf.stackexchange.com/questions/16349/write-a-function-that-tells-you-which-of-its-lines-has-been-removed/16424#16424 target=_blank>lien</a>
+  <p>Meilleure solution JS détectant si 0 ou 1 ou 2 lignes ont été supprimées: 213 octets</p>
+  <pre>(function(r){
+r.shift();
+r.splice(r.indexOf(2),1)
+r.splice(r.indexOf(3),1);a=b=1;if(this.a&&this.b)return r
+var a;r.splice(r.indexOf(4),1);b=1;if(this.b)return r
+var b;r.pop();return r[0]?r:0
+})([1,2,3,4,5])</pre>
+	<a href=//codegolf.stackexchange.com/questions/16810/write-a-function-that-tells-you-which-two-of-its-lines-has-been-removed/16823#16823 target=_blank>lien</a>
+</div>
+
+<div class=section>
+	<h2>Paste</h2>
+	<h3>décembre 2013</h3>
+	<p>Un service de copier-coller (comme pastebin) en 140 caractères.</p>
+	<p>Il suffit d'écrire ou de copier-coller n'importe quoi dans la page, et de partager l'URL.</p>
+	<b>Site:</b> <a href=//xem.github.io/paste target=_blank>http://xem.github.io/paste</a>
+  <br>
+	<b>Github:</b> <a href=//github.com/xem/paste target=_blank>https://github.com/xem/paste</a>
 </div>
 
 <div class=section>
@@ -62,6 +139,15 @@ onkeydown = onkeyup = function(e){
   <p>Un jeu de démineur en moins de 512 octets</p>
   <pre>&lt;table border id=t>&lt;script>b=[v=[]];f=[l=g=0];n=[];function r(d){for(M=!l;M;l=g)for(a=M=H="";s>++a;)for(j=s,H+="&lt;tr>";~--j;H+="&lt;th onclick=b[i="+I+"]?g--:v[i]=1;r() oncontextmenu=for(f["+I+"]^=g=1,a=0;a&lt;s*s;)g&=b[a]^!f[a++];return!!r() "+(v[I]|g||"bgcolor=tan")+">"+(f[I]?"⚑":b[I]&g?"💣":v[I]|g&&n[I]||"  "))for(I=a*s+j,T=d?b[I]=.1>Math.random():0,x=2;~x--;)for(y=2;~y--;~B&&B&lt;s?(n[C]=~~n[C]+T)||v[I]|b[I]|!v[C]?0:v[I]=M=1:0)B=j+y,C=(a+x)*s+B;t.innerHTML=H}r(s=9)&lt;/script></pre>
   Site Web: <a href=//xem.github.io/MiniSweeper target=_blank>http://xem.github.io/MiniSweeper</a>
+</div>
+
+<div class=section>
+	<h2>Un programme JS qui affiche tous les caractères ASCII qu'il ne contient pas</h2>
+  <p>Challenge posté sur stackexchange. Meilleure solution JS: 88 caractères.</p>
+	<h3>novembre 2013</h3>
+  <pre>alert("BCDFGHIJKMNPQUVXYZ".toLowerCase())// !#$%&'*+,-0123456789:;<=>?@[\]^_`{|}~AERTOWS</pre>
+  <p>(Affiche "bcdfghijkmnpquvxyz")</p>
+  Post: <a href=//codegolf.stackexchange.com/questions/12368/print-every-character-your-program-doesnt-have/15497#15497 target=_blank>lien</a>
 </div>
 
 <div class=section>
@@ -143,11 +229,11 @@ eval(unescaped); // Tries to execute the decoded string.
   <textarea rows=3 id=compress>alert("Ce script mesure cent quatre-vingt-dix caractères et ne rentre hélas pas dans un tweet... Mais si on le compresse en quatre-vingt-quinze caractères unicode, cela devient possible !");</textarea>
   <br>
   <script>longueur_js = 0;</script>
-  <button onclick="alert(compress.innerHTML.length + ' caractères')">1: Compter (ASCII)</button> &nbsp; > &nbsp; 
-  <button onclick="eval(compress.innerHTML)">2: Exécuter</button> &nbsp; > &nbsp; 
-  <button onclick="longueur_js=compress.innerHTML.length;compress.innerHTML='eval(unescape(escape(\''+compressAscii190(compress.innerHTML)+'\').replace(/uD./g,\'\')))'">3: Compresser</button> &nbsp; > &nbsp; 
+  <button onclick="alert(compress.value.length + ' caractères')">1: Compter (ASCII)</button> &nbsp; > &nbsp; 
+  <button onclick="eval(compress.value)">2: Exécuter</button> &nbsp; > &nbsp; 
+  <button onclick="longueur_js=compress.value.length;compress.value='eval(unescape(escape(\''+compressAscii190(compress.value)+'\').replace(/uD./g,\'\')))'">3: Compresser</button> &nbsp; > &nbsp; 
   <button onclick="alert((Math.ceil(longueur_js/2)+45) + ' caractères')">4: Compter (UTF-16)</button> &nbsp; > &nbsp; 
-  <button onclick="eval(compress.innerHTML)">5: Exécuter</button>
+  <button onclick="eval(compress.value)">5: Exécuter</button>
 </div>
 
 <div class=section>
@@ -298,3 +384,6 @@ function b(a,b,c){
 }</pre>
 	</p>
 </div>
+  </div>
+</body>
+</html>
