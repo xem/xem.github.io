@@ -24,10 +24,287 @@
     <div class=footer>© 2014 - <a href="../cv/cv-en.html" target=_blank>CV</a> - <a href=fr.html><img src="../francais.png" alt="Version française" title="Version française" class=pulse></a></div>
   </div>
   <div class=body>
+<div class=section id=floppydragon>
+	<h2>JS1k 2014 - Floppy Dragon</h2>
+	<h3>febuary 2014</h3>
+  <p>Welcome to the making-of of <a href=//js1k.com/2014-dragons/demo/1704 target=_blank>Floppy Dragon</a>, my individual entry for <a href=//js1k.com target=_blank>JS1k</a> 2014.
+  <p>In febuary 2014, all the Internet was talking about the game Flappy Bird, so I decided (for fun) to make a mini-game inspired by that, but featuring a dragon instead of a bird, and stalactites in a cave instead of pipes. I also wanted to introduce many cool details such as responsive display, nice animated graphics, random maps, increasing speed and difficulty, textual interface, etc. And, of course, it had to fit in 1k of JavaScript.
+  <hr>
+  <p><h3>Source code</h3>
+  <p><b>Commented</b>
+  <br>
+  <button onclick=commentedfp.style.display='block'>Show</button>
+  <pre id=commentedfp class=code style=display:none>// Variables
+// a: the canvas
+// b: the body
+// c: the canvas's 2d context
+// d: (reused) game has started (0/1)
+// e: game has ended (0/1)
+// f: score
+// g: the random map
+// h: dragon's vertical speed
+// i, j: dragon's coordinates x, y
+// k: steps already passed (1 step = 20px)
+// l: the game's framerate
+// n: the game's loop function
+// o: loop var
+// p: dragon's drawing path
+// v, w, y, z: temp vars
+
+// Initialization
+// Scale the scene as if it was 1000px high
+c.scale(a.height/1E3,a.height/1E3);
+
+// Reset
+d=e=f=h=0;
+g=[];
+for(o=0;o<1E3;o++)
+  g[o]=g[o+1E3]=8*Math.random()|1-1;
+i=j=300;
+k=20;
+l=50;
+g[20]=0;
+g[40]=1;
+g[60]=2;
+g[80]=3;
+g[100]=4;
+g[110]=5;
+g[120]=6;
+g[140]=7;
+
+// Controls (click / tap / press any key)
+ontouchstart=onmousedown=onkeydown=function(){
+  
+  // If game is over, reset
+  if(e){
+    d=e=f=h=0;
+    g=[];
+    for(o=0;o<1E3;o++)
+      g[o]=g[o+1E3]=8*Math.random()|1-1;
+    i=j=300;
+    k=20;
+    l=50;
+  }
+  
+  // If game is not over, start the game if it's not started, and jump
+  else{
+    h=45;
+    d=1;
+  }
+};
+
+// Game loop
+(n=function(){
+
+  // Background
+  c.fillStyle="#E50";
+  c.fillRect(0,0,4E4,4E4);
+  
+  // Walls
+  c.fillStyle="#920";
+  
+  // Roof
+  c.beginPath();
+  c.moveTo(-k,0);
+  for(o=2E3;o--;)
+    o%20
+    ?
+    c.lineTo(40*o-k,20+4*g[o])
+    :
+    (c.lineTo(40*o-k,100*g[o]),c.lineTo(40*o-k-4,100*g[o]));
+  c.lineTo(40*o-k,0);
+  c.fill();
+  
+  // Ceiling
+  c.beginPath();
+  c.moveTo(-k,2E3);
+  for(o=2E3;o--;)
+    o%20
+    ?
+    c.lineTo(40*o-k,980-4*g[o])
+    :
+    (c.lineTo(40*o-k,100*(g[o]+3)),c.lineTo(40*o-k-4,100*(g[o]+3)));
+  c.lineTo(40*o-k,1E3);
+  c.fill();
+  
+  // Dragon
+  p="fEFf&{{~_=,;=vviJ.jfVi/.OoyizyhkhEwf74)\n$fwwuvtU`"+(10<h?"iZ[*)yj:*im**y|Ktdww54#5Dy\iz[Kzi[Jiijk[e@1!":"zl]LfU{\lKtBUh{zzU66iigig5\n&iiyz{vfwwiyDfwiiE");
+  c.fillStyle="#000";
+  c.beginPath();
+  c.moveTo(v=i-e,w=(j-=h)-e);
+  for(o in p){
+    y=8-2*(p.charCodeAt(o)>>4);
+    z=16-2*(p.charCodeAt(o)&15);
+    c.lineTo(v+=(e?y:z),w+=(e?-z:y));
+  }
+  c.fill();
+  
+  // Apply gravity if the game has started
+  d&&(h-=6);
+  
+  // Loop on the map if we are far enough
+  d&&!e&&(k+=20,4E4<k&&(k-=4E4));
+  
+  // Increase score and game speed after each obstacle
+  !d||e||(k+280)%800||(f++,20<l&&l--);
+  
+  // Game over
+  if(50>j||950<j||!((k+300)%800)&&(j<100*g[20*~~(k/800)+20]+50||j>100*g[20*~~(k/800)+20]+250))
+    e=40;
+  
+  // Text
+  c.fillStyle="#fff";
+  c.font="6em Arial";
+  d&&c.fillText(f,a.width/(a.height/1E3)/2-30*1,500);
+  d||c.fillText("#FloppyDragon",a.width/(a.height/1E3)/2-30*11,500);
+  e&&c.fillText("score",a.width/(a.height/1E3)/2-30*4,400);
+  c.fillText(e?"restart":!d?"start":"",a.width/(a.height/1E3)/2-30*5,600);
+  
+  // Loop
+  setTimeout(n,l)
+})()</pre>
+  <p><b>Minified</b>
+  <pre class=code>c.scale(a.height/1E3,a.height/1E3);d=e=f=h=0;g=[];for(o=0;1E3>o;o++)g[o]=g[o+1E3]=8*Math.random()|0;i=j=300;k=20;l=50;ontouchstart=onmousedown=onkeydown=function(){if(e){d=e=f=h=0;g=[];for(o=0;1E3>o;o++)g[o]=g[o+1E3]=8*Math.random()|0;i=j=300;k=20;l=50}else h=45,d=1};(n=function(){c.fillStyle="#E50";c.fillRect(0,0,4E4,4E4);c.fillStyle="#920";c.beginPath();c.moveTo(-k,0);for(o=2E3;o--;)o%20?c.lineTo(40*o-k,20+4*g[o]):(c.lineTo(40*o-k,100*g[o]),c.lineTo(40*o-k-4,100*g[o]));c.lineTo(40*o-k,0);c.fill();c.beginPath();c.moveTo(-k,2E3);for(o=2E3;o--;)o%20?c.lineTo(40*o-k,980-4*g[o]):(c.lineTo(40*o-k,100*(g[o]+3)),c.lineTo(40*o-k-4,100*(g[o]+3)));c.lineTo(40*o-k,1E3);c.fill();p="fEFf&{{~_=,;=vviJ.jfVi/.OoyizyhkhEwf74)\n$fwwuvtU`"+(10<h?"iZ[*)yj:*im**y|Ktdww54#5Dy\iz[Kzi[Jiijk[e@1!":"zl]LfU{\lKtBUh{zzU66iigig5\n&iiyz{vfwwiyDfwiiE");c.fillStyle="#000";c.beginPath();c.moveTo(v=i-e,w=(j-=h)-e);for(o in p)y=8-2*(p.charCodeAt(o)>>4),z=16-2*(p.charCodeAt(o)&15),c.lineTo(v+=e?y:z,w+=e?-z:y);c.fill();d&&(h-=6);d&&!e&&(k+=20,4E4<k&&(k-=4E4));!d||e||(k+280)%800||(f++,20<l&&l--);if(50>j||950<j||!((k+300)%800)&&(j<100*g[20*~~(k/800)+20]+50||j>100*g[20*~~(k/800)+20]+250))e=40;c.fillStyle="#fff";c.font="6em Arial";d&&c.fillText(f,a.width/(a.height/1E3)/2-30,500);d||c.fillText("#FloppyDragon",a.width/(a.height/1E3)/2-330,500);e&&c.fillText("score",a.width/(a.height/1E3)/2-120,400);c.fillText(e?"restart":d?"":"start",a.width/(a.height/1E3)/2-150,600);setTimeout(n,l)})()</pre>
+  <hr>
+  <p><h3>Responsive display</h3>
+  <img src=images/fd1.png width=700>
+  <p>In JS1k entries, <b>a</b> represents a fullscreen canvas, and <b>c</b> represents the 2D context of this canvas. On load, the canvas' width and height are automatically set to the innerWidth and innerHeight of the window. There are many ways to draw into this canvas, but I chose the following approach:<br>
+  First, I scale the canvas' context with this ratio:
+  <pre class=code>c.scale(a.height/1E3,a.height/1E3);</pre>
+  Then, the game just has to draw on the canvas' context as if it was 1000px high and infinitely long, and the drawing will spread on all the screen.
+  <p>For the orange background, I simply draw a huge rectangle on the canvas when I start rendering each frame:
+  <pre class=code>// Background
+c.fillStyle="#E50";
+c.fillRect(0,0,4E4,4E4);</pre>
+  <hr>
+  <p><h3>Random map</h3>
+  <img src=images/fd2.png width=700>
+  <p>In the source code of Floppy Dragon, there's a little piece of code that initializes the game. This code is executed on load, but also when the player loses and decides to try again. In this snippet, I generate an array <b>g</b> with 1000 random integers between 0 and 7, stored from index 0 and index 1000:
+  <pre class=code>g=[];
+for(o=0;o<1E3;o++)
+  g[o]=g[o+1E3]=8*Math.random()|1-1;</pre>
+  <p>In the game loop, this array is used as a heightmap to draw the upper and lower walls of the cave, and the obstacles:<br>
+  A new "step" is drawn every 40px to make the walls look less flat, and an obstacle is drawn every 20 steps. All these points depend on the heightmap values. The obstacles use these values x 100.
+  <p>To sum up, the walls are just two big polygons that are drawn with a very similar code, the only difference is that they are mirrored and show the obstacles in a complementary way (a 300px gap is kept between each pair of stalactites)
+  In the following code, k represents the horizontal offset of the scene. This rendering is performed at each frame.
+  <pre class=code>// Draw the walls
+c.fillStyle="#920";
+
+// Roof
+c.beginPath();
+c.moveTo(-k,0);
+for(o=2E3;o--;)
+  o%20
+  ?
+  // Wall
+  c.lineTo(40*o-k,20+4*g[o])
+  :
+  // Obstacle
+  (c.lineTo(40*o-k,100*g[o]),c.lineTo(40*o-k-4,100*g[o]));
+c.lineTo(40*o-k,0);
+c.fill();
+
+// Ceiling
+c.beginPath();
+c.moveTo(-k,2E3);
+for(o=2E3;o--;)
+  o%20
+  ?
+  // Wall 
+  c.lineTo(40*o-k,980-4*g[o])
+  :
+  // Obstacle
+  (c.lineTo(40*o-k,100*(g[o]+3)),c.lineTo(40*o-k-4,100*(g[o]+3)));
+c.lineTo(40*o-k,1E3);
+c.fill();</pre>
+  <p>The maps repeats itself every 1000 steps, thanks to this code that goes 4000px back as soon as the game scrolls more than 4000px:
+  <pre>// Loop on the map if we are far enough
+  d&&!e&&(k+=20,4E4&lt;k&&(k-=4E4));</pre>
+  <hr>
+  <p><h3>User interface</h3>
+  <p>The user interface is made of different texts showing the game name, the score, and a start / restart message. These texts are centered and scaled. In the following code, <b>d</b> is set if the game is started, <b>f</b> is the score, and <b>e</b> is set if the game is over.
+  <pre class=code>// Text
+  c.fillStyle="#fff";
+  c.font="6em Arial";
+  d&&c.fillText(f,a.width/(a.height/1E3)/2-30*1,500);
+  d||c.fillText("#FloppyDragon",a.width/(a.height/1E3)/2-30*11,500);
+  e&&c.fillText("score",a.width/(a.height/1E3)/2-30*4,400);
+  c.fillText(e?"restart":!d?"start":"",a.width/(a.height/1E3)/2-30*5,600);</pre>
+  <p>User interface also means controls, and the controls are simple: press any key or click or tap to start, flap, or restart. When those events are fired, the "reset sequence" is executed (if the game is over), or the dragon flaps (if the game is running, or starting). <b>h</b> represents the vertical speed of the dragon, <b>i</b> and <b>j</b> represent its coordinates, and <b>l</b> is the game's speed.
+  <pre>// Controls
+ontouchstart=onmousedown=onkeydown=function(){
+  
+  // If game is over, reset
+  if(e){
+    d=e=f=h=0;
+    g=[];
+    for(o=0;o<1E3;o++)
+      g[o]=g[o+1E3]=8*Math.random()|1-1;
+    i=j=300;
+    k=20;
+    l=50;
+  }
+  
+  // If game is not over, start the game if it's not started, and jump
+  else{
+    h=45;
+    d=1;
+  }
+};</pre>
+  <p>Talking about framerate, as I explained earlier, the game's speed is increasing. A variable (<b>l</b>) holds the number of milliseconds between each frame. It starts at 50 and is decremented after each obstacle passed, with a lower limit of 20. The rendering function is called recursively with the corresponding timeout:
+  <pre class=code>// Game loop
+(n=function(){
+
+  // ... snip ...
+  
+  // Increase score and game speed after each obstacle
+  !d||e||(k+280)%800||(f++,20&lt;l&&l--);
+  
+  // ... snip ...
+  
+  // Loop
+  setTimeout(n,l)
+})()</pre>
+  <p>At each frame, we also apply gravity (i.e. increment the vertical coordinate of the dragon)
+  <pre class=code>// Apply gravity if the game has started
+d&&(h-=6);</pre>
+  <p>Finally, we have to detect when the game is lost (when the dragon's head hits the floor or the ceiling or an obstacle. Here's how it is done:
+  <pre class=code>// Game over
+if(50>j||950<j||!((k+300)%800)&&(j<100*g[20*~~(k/800)+20]+50||j>100*g[20*~~(k/800)+20]+250))
+  e=1;</pre>
+  <hr>
+  <p><h3>Draw the dragon</h3>
+  <p>Last but not least, when all the game mechanics are ready, and the code is minified and packed, I have only 360 bytes left to draw the hero of the game: the dragon.
+  I thought I could simply use a unicode character such as <a href=//www.fileformat.info/info/unicode/char/1f409/index.htm target=_blank>U+1F409</a> or <a href=//www.fileformat.info/info/unicode/char/1f432/index.htm target=_blank>U+1F432</a>. But these models are not very good-looking, and they aren't displayed correctly on all browsers.
+  <p>I could also use pixel art (<a href=//js1k.com/2014-dragons/demo/1659 target=_blank>like this</a>) or bezier curves (<a href=//js1k.com/2014-dragons/demo/1648 target=_blank>like that</a>) but this would have used too many characters to draw what I had in mind.
+  <p>So I decided to draw a shape made of tiny lines, and compress it with a home-made technique:
+  <img src=images/fd3.png>
+  <p>The shape starts at the neck of the dragon. Each point of the shape has coordinates very close to the previous point. My goal was to store the X and Y coordinates of each point in an unique ASCII character. So I stored the X offset in the first 3 bits of each character (range: -4 to +4), and the Y offset in the last 4 bits (range: -8 to +8).
+  <p>As a result, I was able to represent the dragon's body plus the two different wings shapes in just 196 characters (most of these are invisible).
+  <pre class=code>p="fEFf&{{~_=,;=vviJ.jfVi/.OoyizyhkhEwf74)\n$fwwuvtU`"+(10&lt;h?"iZ[*)yj:*im**y|Ktdww54#5Dy\iz[Kzi[Jiijk[e@1!":"zl]LfU{\lKtBUh{zzU66iigig5\n&iiyz{vfwwiyDfwiiE");</pre>
+  <p>And here is the code that draws the full shape at the good coordinates. Note that the coordinates are inverted when the dragon dies, in order to draw the falling animation.
+  <pre class=code>
+  c.fillStyle="#000";
+  c.beginPath();
+  c.moveTo(v=i,w=(j-=h));
+  for(o in p){
+    y=8-2*(p.charCodeAt(o)>>4);
+    z=16-2*(p.charCodeAt(o)&15);
+    c.lineTo(v+=(e?y:z),w+=(e?-z:y));
+  }
+  c.fill();</pre>
+  <br>
+  <hr>
+  <p>To finish, a few final optimizations and JScrush helped me fit this game in 1024 bytes, and I submitted it two weeks after the beginning of the contest. It had the honor to be mentioned <a href=//twitter.com/js1k/status/433406361087401984 target=_blank>here</a> and <a href=//qfox.nl/weblog/312 target=_blank>here</a> by Peter van der Zee, who organizes JS1k every year.
+  <p>Cheers,<br>
+  Maxime
+  <br>
+  <br>
+</div>
 <div class=section>
 	<h2>Implicit getElementById's</h2>
 	<h3>october 2013</h3>
-	<div id=getelementbyid style="xdisplay: none">
+	<div id=getelementbyid style="display: none">
 		<p>What is the most useful JavaScript function, but also the most annoying to write? <b>document.getElementById()</b>, of course! It is so useful, and so long, that every decent JS library contains an alias for to call it easily (generally <b>$()</b>).</p>
     <p>But did you know that we often don't even need to call it? Indeed, all the browsers in use today (including IE6+) allow to access to an HTML element by using directly its <b>id</b> as a global var! It's a non-standard feature, yet it works very well everywhere.</p>
     <pre>&lt;div id="myId">&lt;/div>
@@ -117,7 +394,7 @@ alert(present);                           // --> false
 		<br>
 		<b>@MaximeEuziere</b>
 	</div>
-	<!--button onclick="document.getElementById('getelementbyid').style.display='block';this.style.display='none'">See more</button-->
+	<button onclick="document.getElementById('getelementbyid').style.display='block';this.style.display='none'">See more</button>
 </div>
 
 <div class=section>
