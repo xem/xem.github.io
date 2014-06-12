@@ -1,0 +1,691 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <link rel=stylesheet href="../style.css">
+  <title>Maxime Euzière</title>
+</head>
+<body>
+  <div class=menu>
+    <div class=header>
+      <h1>Maxime Euzière</h1>
+      Front-end experiments
+      <br>
+      HTML / CSS / JS
+      <br>
+      <br>
+      <a href=index.html>Home</a>
+      <a href="../articles">Articles</a>
+      <a href="../techwatch">Tech watch</a>
+      <a href="../projects">Projects / experiments</a>
+      <a href="../talks">Talks</a>
+      <a href="../golfing" class=active>JS Code golfing</a>
+    </div>
+    <div class=footer>© 2014 - <a href="cv/cv-en.html" target=_blank>CV</a></div>
+  </div>
+  <div class=body>
+
+<div class=intro id=intro_en>
+  <p><b>code golfing</b> is a programming game in which we have to implement an algorithm with the shortest possible code.</p>
+  <p>Many <a href=//golf.shinh.org/ target=_blank>competitions</a> exist to create JavaScript demos in less than <a href=//140byt.es target=_blank>140 characters</a>, <a href=//js1k.com target=_blank>1kb</a>, <a href=//js13kgames.com/ target=_blank>13kb</a>, <a href="http://www.pouet.net/prodlist.php?type%5B%5D=32b&type%5B%5D=64b&type%5B%5D=128b&type%5B%5D=256b&type%5B%5D=512b&type%5B%5D=1k&type%5B%5D=4k&type%5B%5D=8k&type%5B%5D=16k&type%5B%5D=32k&type%5B%5D=40k&type%5B%5D=64k&type%5B%5D=80k&type%5B%5D=96k&type%5B%5D=100k&type%5B%5D=128k&type%5B%5D=256k&type%5B%5D=artpack&type%5B%5D=bbstro&type%5B%5D=cracktro&type%5B%5D=demo&type%5B%5D=demopack&type%5B%5D=demotool&type%5B%5D=dentro&type%5B%5D=diskmag&type%5B%5D=fastdemo&type%5B%5D=game&type%5B%5D=intro&type%5B%5D=invitation&type%5B%5D=liveact&type%5B%5D=musicdisk&type%5B%5D=procedural+graphics&type%5B%5D=report&type%5B%5D=slideshow&type%5B%5D=votedisk&type%5B%5D=wild&platform%5B%5D=JavaScript&page=1" target=_blank>etc.</a></p>
+  <p>Many developers have websites dedicated to JS code golfing: <a href=//aem1k.com/ target=_blank>aem1k</a>, <a href=://www.p01.org/releases/ target=_blank>p01</a>, etc.</p>
+  <p>This page gathers my first experiments.</p>
+</div>
+
+<div class=intro id=intro_fr style=display:none>
+  <p>Le <b>code golfing</b> est une activité consistant à implémenter un algorithme avec un code source le plus court possible.</p>
+  <p>De nombreux <a href=//golf.shinh.org/ target=_blank>concours</a> proposent de créer des démos JavaScript en moins de <a href=//140byt.es target=_blank>140 caractères</a>, <a href=//js1k.com target=_blank>1ko</a>, <a href=//js13kgames.com/ target=_blank>13ko</a>, <a href="http://www.pouet.net/prodlist.php?type%5B%5D=32b&type%5B%5D=64b&type%5B%5D=128b&type%5B%5D=256b&type%5B%5D=512b&type%5B%5D=1k&type%5B%5D=4k&type%5B%5D=8k&type%5B%5D=16k&type%5B%5D=32k&type%5B%5D=40k&type%5B%5D=64k&type%5B%5D=80k&type%5B%5D=96k&type%5B%5D=100k&type%5B%5D=128k&type%5B%5D=256k&type%5B%5D=artpack&type%5B%5D=bbstro&type%5B%5D=cracktro&type%5B%5D=demo&type%5B%5D=demopack&type%5B%5D=demotool&type%5B%5D=dentro&type%5B%5D=diskmag&type%5B%5D=fastdemo&type%5B%5D=game&type%5B%5D=intro&type%5B%5D=invitation&type%5B%5D=liveact&type%5B%5D=musicdisk&type%5B%5D=procedural+graphics&type%5B%5D=report&type%5B%5D=slideshow&type%5B%5D=votedisk&type%5B%5D=wild&platform%5B%5D=JavaScript&page=1" target=_blank>etc.</a></p>
+  <p>Plusieurs développeurs ont des sites dédiés au code golfing JS: <a href=//aem1k.com/ target=_blank>aem1k</a>, <a href=://www.p01.org/releases/ target=_blank>p01</a>, etc.</p>
+  <p>Cette page rassemble mes premières réalisations.</p>
+</div>
+
+<div class=section id=minigameoflife_en>
+	<h2>MiniGameOfLife</h2>
+	<h3>september 2013, june 2014</h3>
+	<p>First, it was a <a href=//gist.github.com/xem/6465061>Game of Life engine</a> in just 126 bytes</a>.</p>
+  <p>Now, it's a complete implementation (HTML + JS) in 238b! (thanks to @subzey and @aemkei for their help)</p>
+  <pre class=code>&lt;body onkeyup="a=b;b=[h='&lt;pre>'];for(i=40;i--;h+='\n')for(j=80;j--;){k=80*i+j;d=0;for(z in e=[1,79,80,81])d+=a[k+e[z]]+a[k-e[z]];h+='&lt;a onclick=innerHTML=q[b['+k+']^=1]>'+q[b[k]=3==d|a[k]&2==d]}innerHTML=h"onload=f.onkeyup(b=q=".@") id=f></pre>
+	<b>Website:</b> <a href=//xem.github.io/miniGameOfLife target=_blank>http://xem.github.io/miniGameOfLife</a>
+</div>
+
+<div class=section id=minigameoflife_fr style=display:none>
+	<h2>MiniGameOfLife</h2>
+	<h3>septembre 2013, juin 2014</h3>
+	<p>Il s'agissait au départ d'un <a href=//gist.github.com/xem/6465061>moteur de Jeu de la Vie</a> en 126 bytes</a>.</p>
+  <p>C'est maintenant une implémentation complète (HTML + JS) en 238b! (merci à @subzey et @aemkei pour leur aide)</p>
+  <pre class=code>&lt;body onkeyup="a=b;b=[h='&lt;pre>'];for(i=40;i--;h+='\n')for(j=80;j--;){k=80*i+j;d=0;for(z in e=[1,79,80,81])d+=a[k+e[z]]+a[k-e[z]];h+='&lt;a onclick=innerHTML=q[b['+k+']^=1]>'+q[b[k]=3==d|a[k]&2==d]}innerHTML=h"onload=f.onkeyup(b=q=".@") id=f></pre>
+	<b>Site Web:</b> <a href=//xem.github.io/miniGameOfLife target=_blank>http://xem.github.io/miniGameOfLife</a>
+</div>
+
+<div class=section id=helloworld_en>
+	<h2>Hello World in ASCII-art</h2>
+	<h3>febuary 2014</h3>
+	<p>A stackexchange challenge. Best JS solution: 117 bytes (to execute in a JS console):</p>
+  <pre>for(i=s="";l=[43117609029,64070269789,46349920852,46890400349][i++];)for(j=0,s+="\n";c=l.toString(2)[j++];)s+=" #"[c]</pre>
+  <p>Best ES6 solution (works on Firefox): 108 bytes:</p>
+  <pre>[,0xa0a028045,0xeeae2bb5d,0xacaabaa54,0xaeae2ba5d].map(a=>a.toString(2).replace(/./g,b=>' #'[b])).join('\n')</pre>
+	<a href=//codegolf.stackexchange.com/questions/20209/ascii-art-hello-world/20568#20568 target=_blank>link</a>
+</div>
+
+<div class=section id=helloworld_fr style=display:none>
+	<h2>Hello World en ASCII-art</h2>
+	<h3>février 2014</h3>
+	<p>Challenge proposé sur stackexchange. Meilleure solution JS: 117 octets (à exécuter dans une console JS):</p>
+  <pre>for(i=s="";l=[43117609029,64070269789,46349920852,46890400349][i++];)for(j=0,s+="\n";c=l.toString(2)[j++];)s+=" #"[c]</pre>
+  <p>Meilleure solution ES6 (fonctionne sur Firefox): 108 octets:</p>
+  <pre>[,0xa0a028045,0xeeae2bb5d,0xacaabaa54,0xaeae2ba5d].map(a=>a.toString(2).replace(/./g,b=>' #'[b])).join('\n')</pre>
+	<a href=//codegolf.stackexchange.com/questions/20209/ascii-art-hello-world/20568#20568 target=_blank>lien</a>
+</div>
+
+<div class=section id=hex_en>
+	<h2>Hex</h2>
+	<h3>january 2014</h3>
+	<p>A hexadecimal file viewer / editor in 256b / 1kb.</p>
+	<b>Website:</b> <a href=//xem.github.io/hex target=_blank>http://xem.github.io/hex</a>
+</div>
+
+<div class=section id=hex_fr style=display:none>
+	<h2>Hex</h2>
+	<h3>janvier 2014</h3>
+	<p>Un visualiseur / éditeur hexadécimal en 256b / 1kb.</p>
+	<b>Site:</b> <a href=//xem.github.io/hex target=_blank>http://xem.github.io/hex</a>
+</div>
+
+<div class=section id=deletedlines_en>
+	<h2>A JavaScript function that tells which of its line(s) have been deleted</h2>
+	<h3>december 2013</h3>
+	<p>A stackexchange challenge</p>
+  <p>Best JS solution for 0 or 1 deleted line: 78 bytes</p>
+  <pre>(function(n){
+a=n-=1
+n-=2
++3
++4;if(this.a)return 5
+return n;var a
+})(10)</pre>
+	<a href=//codegolf.stackexchange.com/questions/16349/write-a-function-that-tells-you-which-of-its-lines-has-been-removed/16424#16424 target=_blank>link</a>
+  <p>Best JS solution for 0 / 1 / 2 deleted lines: 213 bytes</p>
+  <pre>(function(r){
+r.shift();
+r.splice(r.indexOf(2),1)
+r.splice(r.indexOf(3),1);a=b=1;if(this.a&&this.b)return r
+var a;r.splice(r.indexOf(4),1);b=1;if(this.b)return r
+var b;r.pop();return r[0]?r:0
+})([1,2,3,4,5])</pre>
+	<a href=//codegolf.stackexchange.com/questions/16810/write-a-function-that-tells-you-which-two-of-its-lines-has-been-removed/16823#16823 target=_blank>link</a>
+</div>
+
+<div class=section id=deletedlines_fr style=display:none>
+	<h2>Une fonction JS qui dit laquelle/lesquelles de ses lignes ont été supprimées</h2>
+	<h3>décembre 2013</h3>
+	<p>Challenge proposé sur stackexchange</p>
+  <p>Meilleure solution JS détectant si 0 ou 1 ligne a été supprimée: 78 octets</p>
+  <pre>(function(n){
+a=n-=1
+n-=2
++3
++4;if(this.a)return 5
+return n;var a
+})()</pre>
+	<a href=//codegolf.stackexchange.com/questions/16349/write-a-function-that-tells-you-which-of-its-lines-has-been-removed/16424#16424 target=_blank>lien</a>
+  <p>Meilleure solution JS détectant si 0 ou 1 ou 2 lignes ont été supprimées: 213 octets</p>
+  <pre>(function(r){
+r.shift();
+r.splice(r.indexOf(2),1)
+r.splice(r.indexOf(3),1);a=b=1;if(this.a&&this.b)return r
+var a;r.splice(r.indexOf(4),1);b=1;if(this.b)return r
+var b;r.pop();return r[0]?r:0
+})([1,2,3,4,5])</pre>
+	<a href=//codegolf.stackexchange.com/questions/16810/write-a-function-that-tells-you-which-two-of-its-lines-has-been-removed/16823#16823 target=_blank>lien</a>
+</div>
+
+<div class=section id=paste_en>
+	<h2>Paste</h2>
+	<h3>december 2013</h3>
+	<p>A paste service (like pastebin) in 140 characters.</p>
+	<p>Just write or copy-paste anything in the page and share the URL.</p>
+	<b>Website:</b> <a href=//xem.github.io/paste target=_blank>http://xem.github.io/paste</a>
+  <br>
+	<b>Github:</b> <a href=//github.com/xem/paste target=_blank>https://github.com/xem/paste</a>
+</div>
+
+<div class=section id=paste_fr style=display:none>
+	<h2>Paste</h2>
+	<h3>décembre 2013</h3>
+	<p>Un service de copier-coller (comme pastebin) en 140 caractères.</p>
+	<p>Il suffit d'écrire ou de copier-coller n'importe quoi dans la page, et de partager l'URL.</p>
+	<b>Site:</b> <a href=//xem.github.io/paste target=_blank>http://xem.github.io/paste</a>
+  <br>
+	<b>Github:</b> <a href=//github.com/xem/paste target=_blank>https://github.com/xem/paste</a>
+</div>
+
+<div class=section id=minicodeeditor_en>
+	<h2>MiniCodeEditor</h2>
+	<h3>march to december 2013</h3>
+	<p>A HTML/CSS/JS sandbox (like codepen or jsfiddle) in just 161+ characters.</p>
+	<b>Website:</b> <a href=//xem.github.io/miniCodeEditor target=_blank>http://xem.github.io/miniCodeEditor</a>
+</div>
+
+<div class=section id=minicodeeditor_fr style=display:none>
+	<h2>MiniCodeEditor</h2>
+	<h3>mars à décembre 2013</h3>
+	<p>Un bac-à-sable HTML/CSS/JS (comme codepen ou jsfiddle) en seulement 161+ caractères.</p>
+	<b>Site Web:</b> <a href=//xem.github.io/miniCodeEditor target=_blank>http://xem.github.io/miniCodeEditor</a>
+</div>
+
+<div class=section id=miniminifier_en>
+	<h2>MiniMinifier</h2>
+	<h3>march to december 2013</h3>
+	<p>HTML, CSS and JS minifiers in just 128+ characters</p>
+  <b>Website:</b> <a href=//xem.github.io/miniMinifier target=_blank>http://xem.github.io/miniMinifier</a>
+</div>
+
+<div class=section id=miniminifier_fr style=display:none>
+	<h2>MiniMinifier</h2>
+	<h3>mars à décembre 2013</h3>
+	<p>Des minifieurs de code HTML, CSS, JS en seulement 128+ caractères</p>
+  <b>Site Web:</b> <a href=//xem.github.io/miniMinifier target=_blank>http://xem.github.io/miniMinifier</a>
+</div>
+
+<div class=section id=keypressed_en>
+	<h2>Keys pressed</h2>
+	<h3>september to december 2013</h3>
+	<p>A way to know at any moment if a key is being pressed, in just 60 bytes.</p>
+	<pre>k={};onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5]}</pre>
+	<p>
+    To use it, all you have to do is choosing "n" - a keycode - and test k[n]. This is true when the corresponding key is pressed, and false when it's not pressed anymore.
+    <br>
+    (If it has never been pressed, k[n] will be undefined, which is considered false in a test.)
+    <br>
+    <button onclick="source_touches_enfoncees_en.style.display='block';this.style.display='none'">See the source code</button>
+  <br>
+  <pre id=source_touches_enfoncees_en style="display:none">// Initialize the global k (the array representing the keys currently pressed).
+// Also works with k = [].
+k = {};
+
+// Add two event handlers to the window object:
+// window.onkeydown and window.onkeyup.
+// They don't need the window prefix (it's implicit)
+// And they both get the same callback function
+onkeydown = onkeyup = function(e){
+
+  // On keydown, e.type == "keydown", and e.type[5] == "w" (truthy)
+  // On keyup, e.type == "keyup", and e.type[5] == undefined (falsy)
+  // !! converts e.type[5] to a boolean. It can be removed but it's a little dirtier.
+  k[e.keyCode] = !!e.type[5];
+
+}</pre>
+  <br>
+  <b>Demo:</b> Here is the state of k in real time. Press any key to make it change.
+    <script>
+      k=[];onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5];demo_touches_enfoncees_en.innerHTML="k = ["+k+"]"}
+    </script>
+    <div class=demo><pre id=demo_touches_enfoncees_en>k = [ ]</pre></div>
+  </p>
+</div>
+
+<div class=section id=keypressed_fr style=display:none>
+	<h2>Touches enfoncées</h2>
+	<h3>septembre à décembre 2013</h3>
+	<p>Un moyen de savoir à tout moment si une touche du clavier est en train d'être enfoncée, en seulement 60 caractères.</p>
+	<pre>k={};onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5]}</pre>
+	<p>
+    Pour l'utiliser, il suffit de choisir "n" - le keyCode d'une touche de clavier - et de tester k[n]. Celui-ci est vrai quand la touche en question est pressée, et faux quand elle ne l'est plus.
+    <br>
+    (Si elle n'a jamais été pressée, k[n] sera undefined, ce qui est considéré comme "false" dans un test.)
+    <br>
+    <button onclick="source_touches_enfoncees_fr.style.display='block';this.style.display='none'">Voir le code source</button>
+  <br>
+  <pre id=source_touches_enfoncees_fr style="display:none">// Initialize the global k (the array representing the keys currently pressed).
+// Also works with k = [].
+k = {};
+
+// Add two event handlers to the window object:
+// window.onkeydown and window.onkeyup.
+// They don't need the window prefix (it's implicit)
+// And they both get the same callback function
+onkeydown = onkeyup = function(e){
+
+  // On keydown, e.type == "keydown", and e.type[5] == "w" (truthy)
+  // On keyup, e.type == "keyup", and e.type[5] == undefined (falsy)
+  // !! converts e.type[5] to a boolean. It can be removed but it's a little dirtier.
+  k[e.keyCode] = !!e.type[5];
+
+}</pre>
+  <br>
+  <b>Démo:</b> Voici l'état de k en temps réel. Enfoncez des touches du clavier pour le faire évoluer.
+    <script>
+      k=[];onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5];demo_touches_enfoncees_fr.innerHTML="k = ["+k+"]"}
+    </script>
+    <div class=demo><pre id=demo_touches_enfoncees_fr>k = [ ]</pre></div>
+  </p>
+</div>
+
+<div class=section style=minisweeper_en>
+	<h2>MiniSweeper</h2>
+	<h3>december 2013</h3>
+  <p>A minesweeper game in less than 512 bytes</p>
+  <pre>&lt;table border id=t>&lt;script>b=[v=[]];f=[l=g=0];n=[];function r(d){for(M=!l;M;l=g)for(a=M=H="";s>++a;)for(j=s,H+="&lt;tr>";~--j;H+="&lt;th onclick=b[i="+I+"]?g--:v[i]=1;r() oncontextmenu=for(f["+I+"]^=g=1,a=0;a&lt;s*s;)g&=b[a]^!f[a++];return!!r() "+(v[I]|g||"bgcolor=tan")+">"+(f[I]?"?":b[I]&g?"??":v[I]|g&&n[I]||"  "))for(I=a*s+j,T=d?b[I]=.1>Math.random():0,x=2;~x--;)for(y=2;~y--;~B&&B&lt;s?(n[C]=~~n[C]+T)||v[I]|b[I]|!v[C]?0:v[I]=M=1:0)B=j+y,C=(a+x)*s+B;t.innerHTML=H}r(s=9)&lt;/script></pre>
+  Website: <a href=//xem.github.io/MiniSweeper target=_blank>http://xem.github.io/MiniSweeper</a>
+</div>
+
+<div class=section id=minisweeper_fr style=display:none>
+	<h2>MiniDemineur</h2>
+	<h3>décembre 2013</h3>
+  <p>Un jeu de démineur en moins de 512 octets</p>
+  <pre>&lt;table border id=t>&lt;script>b=[v=[]];f=[l=g=0];n=[];function r(d){for(M=!l;M;l=g)for(a=M=H="";s>++a;)for(j=s,H+="&lt;tr>";~--j;H+="&lt;th onclick=b[i="+I+"]?g--:v[i]=1;r() oncontextmenu=for(f["+I+"]^=g=1,a=0;a&lt;s*s;)g&=b[a]^!f[a++];return!!r() "+(v[I]|g||"bgcolor=tan")+">"+(f[I]?"⚑":b[I]&g?"💣":v[I]|g&&n[I]||"  "))for(I=a*s+j,T=d?b[I]=.1>Math.random():0,x=2;~x--;)for(y=2;~y--;~B&&B&lt;s?(n[C]=~~n[C]+T)||v[I]|b[I]|!v[C]?0:v[I]=M=1:0)B=j+y,C=(a+x)*s+B;t.innerHTML=H}r(s=9)&lt;/script></pre>
+  Site Web: <a href=//xem.github.io/MiniSweeper target=_blank>http://xem.github.io/MiniSweeper</a>
+</div>
+
+<div class=section id=asciinotused_en>
+	<h2>A JS program that displays all the characters it doesn't contain</h2>
+  <p>A stackexchange challenge. Best JS solution: 88 characters.</p>
+	<h3>november 2013</h3>
+  <pre>alert("BCDFGHIJKMNPQUVXYZ".toLowerCase())// !#$%&'*+,-0123456789:;<=>?@[\]^_`{|}~AERTOWS</pre>
+  <p>(prints "bcdfghijkmnpquvxyz")</p>
+  <a href=//codegolf.stackexchange.com/questions/12368/print-every-character-your-program-doesnt-have/15497#15497 target=_blank>link</a>
+</div>
+
+<div class=section id=asciinotused_fr style=display:none>
+	<h2>Un programme JS qui affiche tous les caractères ASCII qu'il ne contient pas</h2>
+  <p>Challenge posté sur stackexchange. Meilleure solution JS: 88 caractères.</p>
+	<h3>novembre 2013</h3>
+  <pre>alert("BCDFGHIJKMNPQUVXYZ".toLowerCase())// !#$%&'*+,-0123456789:;<=>?@[\]^_`{|}~AERTOWS</pre>
+  <p>(Affiche "bcdfghijkmnpquvxyz")</p>
+  Post: <a href=//codegolf.stackexchange.com/questions/12368/print-every-character-your-program-doesnt-have/15497#15497 target=_blank>lien</a>
+</div>
+
+<div class=section id=jstweet_en>
+	<h2>How many JavaScript code can we fit in 140 characters?</h2>
+	<h3>november 2013</h3>
+  <p>The answer is: 190 characters!</p>
+  <p>On <a href=//140byt.es target=_blank>140byt.es</a>, the goal is to write JavaScript functions that fit in a tweet, i.e. in 140 characters.</p>
+  <p>Until now, these functions were always written in "clear" ASCII characters. But a tweet can contain 140 Unicode characters, including the "astral" ones, encoded on 4 bytes.</p>
+  <p>So I had the idea to use this encoding (UTF-16) to compress a long JavaScript code, and insert this encoded string in a JavaScript expression able to decode and execute it, while respecting the 140 chars limitation.</p>
+  <p>Here's the binary representation of an astral UTF-16 character. It is composed of two 16-bit halves (or "surrogates"), in which the first 6 bits are fixed. The last 10 bits (shown as "x" here) can take any value.</p>
+  <pre>110110xx xxxxxxxx  110111xx xxxxxxxx</pre>
+  <br>
+  <p>Here's the binary representation of the string "ABCD" (in ASCII). Each character is encoded in 1 byte.<br>(In reality, 7 bits are enough to encode an ASCII character, but in modern charsets, the 8th bit is let at 0).</p>
+  <pre>01000001 01000010 01000011 01000100</pre>
+  <br>
+  <p>So the idea is to use only astral UTF-16 characters and store an ASCII character at the end of each surrogate.<br>Here's the string "ABCD" stored in 2 UTF-16 characters (2 chars in one: that's a compression ratio of 50%!):</p>
+  <pre>11011000 01000001 11011100 01000010  11011000 01000011 11011100 01000100 ==> 𠑂𠱄
+         |--A---|          |--B---|           |--C---|          |--D---|    (ABCD encoded)</pre>
+  <br>
+  <p>Here's an encoder (129 bytes long) that makes this compression:</p>
+  <pre>z=function(b,c,a,f,e){c="";f=String.fromCharCode;for(a=0;190>a;a+=2)c+=f(55296+b[e="charCodeAt"](a))+f(56320+b[e](a+1));return c}</pre>
+  <button onclick="source_encoder190_en.style.display='block';this.style.display='none'">See source code</button>
+  <pre id=source_encoder190_en style="display: none">/**
+* @param b: the input string (in ASCII)
+* @param c, a, f: placeholders
+*/
+z = function(b, c, a, f){
+    
+  // Return string
+  c="";
+  
+  // Shortcut for "String.fromCherCode"
+  f = String.fromCharCode;
+  
+  // Loop on all the ASCII characters
+  for(a = 0; 190 > a; a += 2)
+  
+    // Append an UTF-16 (two surrogates) to the return string
+    c += f(0xD800 + b.charCodeAt(a)) + f(0xDC00 + b.charCodeAt(a + 1));
+  
+  // Return
+  return c
+}</pre>
+  <script>compressAscii190=function(b,c,a){c="";if(b.length%2)b+=" ";f=String.fromCharCode;for(a=0;b.length>a;a+=2)c+=f(55296+b[e="charCodeAt"](a))+f(56320+b[e](a+1));return c}</script>
+  <br>
+  <p>And here is the expression decoding and executing the original JavaScript code (thanks to <a href=//twitter.com/subzey target=_blank>@subzey</a> for his help):</p>
+  <pre>// replace "𠑂𠱄" with your encoded string
+eval(unescape(escape("𠑂𠱄").replace(/uD./g,'')))</pre>
+  <button onclick="source_decoder190_en.style.display='block';this.style.display='none'">See the source code</button>
+  <pre id=source_decoder190_en style="display: none">// First, we need to know how JavaScript handles escaped characters:
+// ASCII characters are escaped as: %XX (XX is an hexadecimal value)
+// UTF-16 surrogates are escaped as: %uYYXX (YYXX is an hexadecimal value, XX is the last byte)
+// The escape() function does this, unescape() does the opposite.
+
+// Encoded string
+var encoded = "𠑂𠱄";
+
+// Escape it
+var escaped = escape(encoded); // --> "%uD841%uDC42%uD843%uDC44"
+
+// Remove the 3 characters after each "%" ("uYY")
+var replaced = escaped.replace(/uD./g,''); // --> "%41%42%43%44"
+
+// Unescape it
+var unescaped = unescape(replaced); // --> "ABCD" (the decoded string)
+
+// Eval
+eval(unescaped); // Tries to execute the decoded string.
+  </pre>
+  <br>
+  <p>This decoder-executer is only 45 bytes long. So we can execute <b>190</b> ((140 - 45) x 2) JS characters in a single tweet.</p>
+  <br>
+  <hr>
+  <br>
+  <p><b>Demo:</b></p>
+  Now there's an app for that: <a href=//xem.github.io/obfuscatweet>Obfusc-a-tweet</a> !
+  <br>
+</div>
+
+<div class=section id=jstweet_fr style=display:none>
+	<h2>Quelle quantité de code JavaScript peut-on exécuter en 140 caractères?</h2>
+	<h3>novembre 2013</h3>
+  <p>La réponse est: 190 caractères!</p>
+  <p>Sur <a href=//140byt.es target=_blank>140byt.es</a>, le but est d'écrire des fonctions JavaScript qui tiennent dans un tweet, autrement dit dans 140 caractères.</p>
+  <p>Jusqu'à maintenant, ces fonctions ont toujours été écrites "en clair", en caractères ASCII. Mais un tweet peut contenir 140 caractères Unicode, y compris des caractères "astraux", utilisant 4 octets.</p>
+  <p>J'ai donc eu l'idée d'exploiter cet encodage (UTF-16) pour compresser du code JavaScript "trop long", et insérer ce code compressé dans une expression JavaScript capable de le décompresser et de l'exécuter, tout en respectant la limite de 140 caractères.</p>
+  <p>Voici la représentation binaire d'un caractère UTF-16 "astral". Il est composé de deux moitiés ("surrogates") de 16 bits, dont les 6 premiers bits sont fixés. Les 10 derniers bits (représentés par des "x") peuvent prendre n'importe quelle valeur.</p>
+  <pre>110110xx xxxxxxxx  110111xx xxxxxxxx</pre>
+  <br>
+  <p>Voici la représentation binaire de la chaîne "ABCD" (en ASCII). Chaque caractère est encodé sur 1 octet.<br>(En fait, 7 bits suffisent pour encoder un caractère ASCII, mais dans les encodages modernes, le 8ème bit est laissé à 0).</p>
+  <pre>01000001 01000010 01000011 01000100</pre>
+  <br>
+  <p>L'idée est donc de n'utiliser que des caractères UTF-16 astraux, en stockant un caractère ASCII à la fin de chaque surrogate.<br>Voici la chaîne "ABCD" encodée dans 2 caractères UTF-16 (avec 2 caractères en un, on a donc une compression de 50% !):</p>
+  <pre>11011000 01000001 11011100 01000010  11011000 01000011 11011100 01000100 ==> 𠑂𠱄
+         |--A---|          |--B---|           |--C---|          |--D---|    (ABCD encodé)</pre>
+  <br>
+  <p>Voici un encodeur (de 129 caractères) permettant de faire cette compression:</p>
+  <pre>z=function(b,c,a,f,e){c="";f=String.fromCharCode;for(a=0;190>a;a+=2)c+=f(55296+b[e="charCodeAt"](a))+f(56320+b[e](a+1));return c}</pre>
+  <button onclick="source_encoder190_fr.style.display='block';this.style.display='none'">Voir le code source</button>
+  <pre id=source_encoder190_fr style="display: none">/**
+* @param b: the input string (in ASCII)
+* @param c, a, f: placeholders
+*/
+z = function(b, c, a, f){
+    
+  // Return string
+  c="";
+  
+  // Shortcut for "String.fromCherCode"
+  f = String.fromCharCode;
+  
+  // Loop on all the ASCII characters
+  for(a = 0; 190 > a; a += 2)
+  
+    // Append an UTF-16 (two surrogates) to the return string
+    c += f(0xD800 + b.charCodeAt(a)) + f(0xDC00 + b.charCodeAt(a + 1));
+  
+  // Return
+  return c
+}</pre>
+  <script>compressAscii190=function(b,c,a){c="";if(b.length%2)b+=" ";f=String.fromCharCode;for(a=0;b.length>a;a+=2)c+=f(55296+b[e="charCodeAt"](a))+f(56320+b[e](a+1));return c}</script>
+  <br>
+  <p>Et voici le code permettant de décompresser et exécuter le code JavaScript original (merci à <a href=//twitter.com/subzey target=_blank>@subzey</a> pour son aide):</p>
+  <pre>// remplacer "𠑂𠱄" par votre chaîne encodée
+eval(unescape(escape("𠑂𠱄").replace(/uD./g,'')))</pre>
+  <button onclick="source_decoder190_fr.style.display='block';this.style.display='none'">Voir le code source</button>
+  <pre id=source_decoder190_fr style="display: none">// First, we need to know how JavaScript handles escaped characters:
+// ASCII characters are escaped as: %XX (XX is an hexadecimal value)
+// UTF-16 surrogates are escaped as: %uYYXX (YYXX is an hexadecimal value, XX is the last byte)
+// The escape() function does this, unescape() does the opposite.
+
+// Encoded string
+var encoded = "𠑂𠱄";
+
+// Escape it
+var escaped = escape(encoded); // --> "%uD841%uDC42%uD843%uDC44"
+
+// Remove the 3 characters after each "%" ("uYY")
+var replaced = escaped.replace(/uD./g,''); // --> "%41%42%43%44"
+
+// Unescape it
+var unescaped = unescape(replaced); // --> "ABCD" (the decoded string)
+
+// Eval
+eval(unescaped); // Tries to execute the decoded string.
+  </pre>
+  <br>
+  <p>Ce décompresseur-exécuteur mesure seulement 45 caractères. On peut donc exécuter <b>190</b> ((140 - 45) x 2) caractères JS dans un seul tweet.</p>
+  <br>
+  <hr>
+  <br>
+  <p><b>Démo:</b></p>
+  Il y a maintenant une app pour ça: <a href=//xem.github.io/obfuscatweet>Obfusc-a-tweet</a>!
+  <br>
+</div>
+
+<div class=section id=snail_en>
+	<h2>Snail</h2>
+	<h3>october 2013</h3>
+	<p>A snail matrix generator in 133 bytes</p>
+	<pre>s=function(e,c,d,b,f,h,g){c=[[]];d=1;b=h=0;for(f=-1;e;e--){for(g=1;g<2*e;g++)g>e?b+=d:f+=d,c[b]||(c[b]=[]),c[b][f]=++h;d=-d}return c}</pre>
+  <button onclick="source_escargot_en.style.display='block';this.style.display='none'">See the source code</button>
+  <br>
+  <pre id=source_escargot_en style="display:none">/**
+* Snail
+* @param n: the size of the matrix (n*n)
+* @return: a 2D array with integers
+*/
+
+s = function(n,a,d,x,y,c,i){
+
+  // a is the result matrix
+  a = [[]];
+  
+  // d is the direction: right, bottom = 1; left, top = -1
+  d = 1;
+  
+  // c is the counter value.
+  c = 0;
+  
+  // x and y are the coordinates of the number in the matrix
+  x = 0;
+  y = -1;
+
+  // Loop while n decrements
+  for(; n; n--){
+
+    // The two following loops are merged in the minified code:
+    
+    // fill n columns
+    for(i = 0; i < n; i++){
+      
+      y += d;
+      a[x][y] = ++c;
+    }
+    
+    // fill n-1 lines 
+    for(i = 0; i < n - 1; i++){
+      
+      x += d;
+      if(!a[x]){
+        a[x] = [];
+      }
+      a[x][y] = ++c;
+    }
+
+    // change direction
+    d = -d;
+  }
+  
+  return a;
+}</pre>
+  <br>
+  <b>Demo</b>:
+  <br>
+  Size: <input id=taille_escargot_en value=8 size=2> <button id=button_escargot_en>Generate</button>
+  <script>
+    snail=function(e,c,d,b,f,h,g){c=[[]];d=1;b=h=0;for(f=-1;e;e--){for(g=1;g<2*e;g++)g>e?b+=d:f+=d,c[b]||(c[b]=[]),c[b][f]=++h;d=-d}return c}
+    button_escargot_en.onclick = function(){
+      var size = parseInt(taille_escargot_en.value);
+      if(size > 0){
+        demo_escargot.style.display = "block";
+        var matrix = snail(size);
+        var html = "<table style='width:auto;table-layout:fixed;background:#fff' border=rules>";
+        var i, j;
+        for(i = 0; i < size; i++){
+          html += "<tr>";
+          for(j = 0; j < size; j++){
+            html += "<td style='padding:5px;text-align:center'>" + matrix[i][j] + "</td>";
+          }
+          html += "</tr>";
+        }
+        html += "</table>";
+        demo_escargot_en.innerHTML = html;
+      }
+    }
+  </script>
+  <div class=demo id=demo_escargot_en style="display:none"></div>
+</div>
+
+<div class=section id=snail_fr style=display:none>
+	<h2>Escargot</h2>
+	<h3>octobre 2013</h3>
+	<p>Une fonction générant une matrice "en escargot", en 133 caractères</p>
+	<pre>s=function(e,c,d,b,f,h,g){c=[[]];d=1;b=h=0;for(f=-1;e;e--){for(g=1;g<2*e;g++)g>e?b+=d:f+=d,c[b]||(c[b]=[]),c[b][f]=++h;d=-d}return c}</pre>
+  <button onclick="source_escargot_fr.style.display='block';this.style.display='none'">Voir le code source</button>
+  <br>
+  <pre id=source_escargot_fr style="display:none">/**
+* Snail
+* @param n: the size of the matrix (n*n)
+* @return: a 2D array with integers
+*/
+
+s = function(n,a,d,x,y,c,i){
+  
+  // a is the result matrix
+  a = [[]];
+  
+  // d is the direction: right, bottom = 1; left, top = -1
+  d = 1;
+  
+  // c is the counter value.
+  c = 0;
+  
+  // x and y are the coordinates of the number in the matrix
+  x = 0;
+  y = -1;
+
+  // Loop while n decrements
+  for(; n; n--){
+
+    // The two following loops are merged in the minified code:
+    
+    // fill n columns
+    for(i = 0; i < n; i++){
+      
+      y += d;
+      a[x][y] = ++c;
+    }
+    
+    // fill n-1 lines 
+    for(i = 0; i < n - 1; i++){
+      
+      x += d;
+      if(!a[x]){
+        a[x] = [];
+      }
+      a[x][y] = ++c;
+    }
+
+    // change direction
+    d = -d;
+  }
+  
+  return a;
+}</pre>
+  <br>
+  <b>Démo</b>:
+  <br>
+  Taille: <input id=taille_escargot_fr value=8 size=2> <button id=button_escargot_fr>Générer</button>
+  <script>
+    snail=function(e,c,d,b,f,h,g){c=[[]];d=1;b=h=0;for(f=-1;e;e--){for(g=1;g<2*e;g++)g>e?b+=d:f+=d,c[b]||(c[b]=[]),c[b][f]=++h;d=-d}return c}
+    button_escargot_fr.onclick = function(){
+      var size = parseInt(taille_escargot_fr.value);
+      if(size > 0){
+        demo_escargot_fr.style.display = "block";
+        var matrix = snail(size);
+        var html = "<table style='width:auto;table-layout:fixed;background:#fff' border=rules>";
+        var i, j;
+        for(i = 0; i < size; i++){
+          html += "<tr>";
+          for(j = 0; j < size; j++){
+            html += "<td style='padding:5px;text-align:center'>" + matrix[i][j] + "</td>";
+          }
+          html += "</tr>";
+        }
+        html += "</table>";
+        demo_escargot_fr.innerHTML = html;
+      }
+    }
+  </script>
+  <div class=demo id=demo_escargot_fr style="display:none"></div>
+</div>
+
+<div class=section id=binaryoperations_en>
+	<h2>Binary operations</h2>
+	<h3>september 2012</h3>
+	<p>
+		Binary operations in JavaScript are a trap. I wrote a wtfjs post about this. (<a href="http://wtfjs.com/2012/09/19/Hexadecimal-weirdness" target=_blank>link</a>)
+		<br>
+    So I wrote a 137 bytes lib allowing to do "left shifts", "right shifts", and extracting some bits from a number, safely.
+    <pre>M=Math;function l(a,b){return a*M.pow(2,b)}function r(a,b){return M.floor(a/M.pow(2,b))}function b(a,b,c){return r(a,b)&M.pow(2,c-b+1)-1}</pre>
+    <button onclick="source_binaire_en.style.display='block';this.style.display='none'">See the source code</button>
+  <br>
+  <pre id=source_binaire_en style="display:none">// M is a shortcut for Math
+M = Math;
+
+// Left shift
+// a << b is equivalent to a * (2 ^ b)
+function l(a,b){
+  return a * M.pow(2, b);
+}
+
+// Right shift
+// a >> b is equivalent to a / (2 ^ b)
+function r(a,b){
+  return M.floor(a / M.pow(2, b));
+}
+
+// Bit extraction
+// returns a's bits from b to c
+// i.e. the last (c - b + 1) bits of (a >> b)
+function b(a,b,c){
+  return r(a,b) & M.pow(2, c - b + 1) - 1;
+}</pre>
+	</p>
+</div>
+
+<div class=section id=binaryoperations_fr style=display:none>
+	<h2>Manipulations binaires</h2>
+	<h3>septembre 2012</h3>
+	<p>
+		Les opérations binaires en JavaScript sont des pièges. J'ai d'ailleurs écrit un post wtfjs à ce sujet. (<a href="http://wtfjs.com/2012/09/19/Hexadecimal-weirdness" target=_blank>lien</a>)
+		<br>
+    C'est pourquoi j'ai écrit une mini lib de 137 caractères qui permet de faire correctement des "left shift", "right shift", et d'extraire quelques bits d'un nombre.
+    <pre>M=Math;function l(a,b){return a*M.pow(2,b)}function r(a,b){return M.floor(a/M.pow(2,b))}function b(a,b,c){return r(a,b)&M.pow(2,c-b+1)-1}</pre>
+    <button onclick="source_binaire_fr.style.display='block';this.style.display='none'">Voir le code source</button>
+  <br>
+  <pre id=source_binaire_fr style="display:none">// M is a shortcut for Math
+M = Math;
+
+// Left shift
+// a << b is equivalent to a * (2 ^ b)
+function l(a,b){
+  return a * M.pow(2, b);
+}
+
+// Right shift
+// a >> b is equivalent to a / (2 ^ b)
+function r(a,b){
+  return M.floor(a / M.pow(2, b));
+}
+
+// Bit extraction
+// returns a's bits from b to c
+// i.e. the last (c - b + 1) bits of (a >> b)
+function b(a,b,c){
+  return r(a,b) & M.pow(2, c - b + 1) - 1;
+}</pre>
+	</p>
+</div>
+
+
+  </div>
+</body>
+</html>

@@ -37,4 +37,5 @@ div[contenteditable], pre[contenteditable], style[contenteditable], script[conte
 @-webkit-keyframes pulse { 50% { -webkit-transform: scale(1.2); transform: scale(1.2); }}
 @keyframes pulse { 50% { -webkit-transform: scale(1.2); -ms-transform: scale(1.2); transform: scale(1.2); }}
 .pulse { -webkit-animation: pulse 1s 10; -moz-animation: pulse 1s 10; -o-animation: pulse 1s 10; animation: pulse 1s 10; border: 1px solid #000; }
-#twitter-widget-0 { height: 750px; }
+#twitter-widget-0, #twitter-widget-1 { height: 750px; }
+.lang { float: right; cursor: pointer; }

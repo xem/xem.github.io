@@ -1,1 +1,1 @@
-Please visit: http://xem.github.io
+http://xem.github.io
