@@ -14,18 +14,33 @@
       HTML / CSS / JS
       <br>
       <br>
-      <a href=index.html>Home</a>
+      <a href="../index.html">Home</a>
       <a href="../articles">Articles</a>
       <a href="../techwatch">Tech watch</a>
       <a href="../projects" class=active>Projects / experiments</a>
       <a href="../talks">Talks</a>
       <a href="../golfing">JS Code golfing</a>
     </div>
-    <div class=footer>© 2014 - <a href="cv/cv-en.html" target=_blank>CV</a></div>
+    <div class=footer>© 2014 - <a href="//github.com/xem" target=_blank>Github</a> - <a href="cv/cv-en.html" target=_blank>CV</a></div>
   </div>
   <div class=body>
   
+<div class=section id=escape>
+	<h2>EscApe</h2>
+	<h3>may, june 2014</h3>
+	<p>EscApe (&#9243;&#128018;) is a project dedicated to character encodings and string formats for the Web. It is regularly updated with new encoders and decoders.</p>
+  Website: <a href=//xem.github.io/escape target=_blank>http://xem.github.io/escape</a>
+</div>
+
+<div class=section id=charsets>
+	<h2>Charsets</h2>
+	<h3>may2014</h3>
+	<p>A few experiments based on Unicode and character encodings on the Web</p>
+  Website: <a href=//xem.github.io/charsets target=_blank>http://xem.github.io/charsets</a>
+</div>
+
 <div class=section id=ellipsis_en>
+  <img src=../english.png class=lang onclick="ellipsis_en.style.display='none';ellipsis_fr.style.display='block'">
 	<h2>Multiline ellipsis</h2>
 	<h3>febuary 2014</h3>
 	<p>CSS ellipsis are handy but they only work with one line of text. Multiline ellipsis can be achieved with <a href=//www.mobify.com/blog/multiline-ellipsis-in-pure-css/ target=_blank>this CSS hack</a>, but it's hard to set up and it doesn't work very well on old IE versions. Here's an alternative written in just 10 lines of JS code, plus a bit of CSS.</p>
@@ -51,6 +66,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=ellipsis_fr style=display:none>
+  <img src=../francais.png class=lang onclick="ellipsis_fr.style.display='none';ellipsis_en.style.display='block'">
 	<h2>Ellipses multiligne</h2>
 	<h3>février 2014</h3>
 	<p>Les ellipses CSS sont pratiques, mais ne fonctionnent que sur une ligne de texte. Les ellipses multilignes peuvent être obtenues grâce à <a href=//www.mobify.com/blog/multiline-ellipsis-in-pure-css/ target=_blank>ce hack CSS</a>, mais c'est compliqué et ne marche pas sur toutes les versions d'IE. Voici mon alternative, fonctionnant avec 10 lignes de JS et un peu de CSS.</p>
@@ -76,13 +92,31 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=braille_art_en>
+  <img src=../english.png class=lang onclick="braille_art_en.style.display='none';braille_art_fr.style.display='block'">
 	<h2>Tweet braille art generator</h2>
 	<h3>january 2014</h3>
 	<p>A little app where you can draw something and tweet it using braille characters</p>
 	Website: <a href=//github.com/xem/braille-art target=_blank>https://github.com/xem/braille-art</a>
 </div>
 
+<div class=section id=arrayduce>
+	<h2>DrawCircles</h2>
+	<h3>january 2014</h3>
+	<p>An app made to compress JS arrays for code-golfers.
+	Website: <a href=//github.com/xem/arrayduce target=_blank>http://xem.github.io/arrayduce</a>
+</div>
+
+<div class=section id=drawcircles>
+	<h2>DrawCircles</h2>
+	<h3>january 2014</h3>
+	<p>An app made to easily draw with CSS circles.
+	Website: <a href=//github.com/xem/drawcircles target=_blank>https://github.com/xem/drawcircles</a>
+  <br>
+  Inspired by @afragon, and his CSS art to which I contributed a little (<a href=//xem.github.io/drawcircles/cssart.min.html>compression</a>, <a href=//xem.github.io/drawcircles/cssart.html>responsiveness, zoom</a>).
+</div>
+
 <div class=section id=braille_art_fr style=display:none>
+  <img src=../francais.png class=lang onclick="braille_art_fr.style.display='none';braille_art_en.style.display='block'">
 	<h2>Tweet braille art generator</h2>
 	<h3>janvier 2014</h3>
 	<p>Une petite application servant à dessiner un motif puis à le tweeter en utilisant des caractères braille</p>
@@ -90,6 +124,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=chip8_en>
+  <img src=../english.png class=lang onclick="chip8_en.style.display='none';chip8_fr.style.display='block'">
 	<h2>Chip8</h2>
 	<h3>january 2014</h3>
 	<p>A chip8 emulator in about 1kb, and many public domain games to try</p>
@@ -97,6 +132,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=chip8_fr style=display:none>
+  <img src=../francais.png class=lang onclick="chip8_fr.style.display='none';chip8_en.style.display='block'">
 	<h2>Chip8</h2>
 	<h3>janvier 2014</h3>
 	<p>Un émulateur chip8 codé en 1ko, accompagné de mini-jeux.</p>
@@ -104,6 +140,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=events_en>
+  <img src=../english.png class=lang onclick="events_en.style.display='none';events_fr.style.display='block'">
 	<h2>Monitoring of JavaScript events</h2>
 	<h3>august / december 2013</h3>
 	<p>A visual representation of all the DOM events that can occur in the browser.</p>
@@ -113,6 +150,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=events_fr style=display:none>
+  <img src=../francais.png class=lang onclick="events_fr.style.display='none';events_en.style.display='block'">
 	<h2>Monitoring d'évènements JavaScript</h2>
 	<h3>août / décembre 2013</h3>
 	<p>Une représentation graphique de tous les évènements DOM pouvant survenir dans le navigateur.</p>
@@ -122,6 +160,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=swipe_en>
+  <img src=../english.png class=lang onclick="swipe_en.style.display='none';swipe_fr.style.display='block'">
 	<h2>Swipe</h2>
 	<h3>july 2013</h3>
 	<p>A tiny touchable slider made with jQuery (2ko)</p>
@@ -131,6 +170,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=swipe_fr style=display:none>
+  <img src=../francais.png class=lang onclick="swipe_fr.style.display='none';swipe_en.style.display='block'">
 	<h2>Swipe</h2>
 	<h3>juillet 2013</h3>
 	<p>Un mini slider tactile utilisant jQuery (2ko)</p>
@@ -140,6 +180,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=basis_en>
+  <img src=../english.png class=lang onclick="basis_en.style.display='none';basis_fr.style.display='block'">
 	<h2>Basis</h2>
 	<h3>july 2013</h3>
 	<p>A minimalist and cross-browser HTML5/CSS/JS "boilerplate" (0.9ko)</p>
@@ -149,6 +190,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=basis_fr style=display:none>
+  <img src=../francais.png class=lang onclick="basis_fr.style.display='none';basis_en.style.display='block'">
 	<h2>Basis</h2>
 	<h3>juillet 2013</h3>
 	<p>Un "boilerplate" HTML5/CSS/JS minimaliste et compatible tous navigateurs (0.9ko)</p>
@@ -158,6 +200,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=text_alignment_en>
+  <img src=../english.png class=lang onclick="text_alignment_en.style.display='none';text_alignment_fr.style.display='block'">
 	<h2>Text alignment</h2>
 	<h3>june/july 2013</h3>
 	<p>I developed a pure CSS solution that allows to have some text centered inside a container when it's short (less than one line), and aligns it to the left when it's long (2+ lines). It works on all browsers, including IE6.</p>
@@ -262,6 +305,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=text_alignment_fr style=display:none>
+  <img src=../francais.png class=lang onclick="text_alignment_fr.style.display='none';text_alignment_en.style.display='block'">
 	<h2>Alignement de texte</h2>
 	<h3>juin/juillet 2013</h3>
 	<p>Développement d'une solution en pur CSS pour permettre à du texte d'être centré lorsqu'il y en a peu, et le faire s'aligner à gauche quand il y en a beaucoup. (IE6+)</p>
@@ -367,6 +411,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=heylisten_en>
+  <img src=../english.png class=lang onclick="heylisten_en.style.display='none';heylisten_fr.style.display='block'">
 	<h2>HeyListen</h2>
 	<h3>may 2013</h3>
 	<p>A MVC micro-librairy in JavaScript, basen on custom events (158 bytes)</p>
@@ -374,6 +419,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=heylisten_fr style=display:none>
+  <img src=../francais.png class=lang onclick="heylisten_fr.style.display='none';heylisten_en.style.display='block'">
 	<h2>HeyListen</h2>
 	<h3>mai 2013</h3>
 	<p>Une micro-librairie MVC en JavaScript, basée sur des échanges d'événements custom (158 octets)</p>
@@ -381,6 +427,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=lightml_en>
+  <img src=../english.png class=lang onclick="lightml_en.style.display='none';lightml_fr.style.display='block'">
 	<h2>Lightml</h2>
 	<h3>march 2013</h3>
 	<p>HTML pages contain a lot of redundancy. This experiment aims to compress HTML server-side (in PHP), and uncompress it client-side (in JavaScript). Results show that we can save up to 46% bandwith (without Gzip), and up to 10% with Gzip enabled.</p>
@@ -388,6 +435,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=lightml_fr style=display:none>
+  <img src=../francais.png class=lang onclick="lightml_fr.style.display='none';lightml_en.style.display='block'">
 	<h2>Lightml</h2>
 	<h3>mars 2013</h3>
 	<p>Les pages HTML contiennent beaucoup de redondance. Cette expérience vise à compresser le HTML côté serveur (en PHP), et à le décompresser côté client (en JavaScript). Les résultats montrent qu'on peut économiser jusqu'à 46% de bande passante (sans Gzip), et 10% avec Gzip activé.</p>
@@ -395,6 +443,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=video_en>
+  <img src=../english.png class=lang onclick="video_en.style.display='none';video_fr.style.display='block'">
 	<h2>HTML5 video, custom controls and browsers bugs</h2>
 	<h3>january 2013</h3>
 	<p>A HTML5 video with custom controls in HTML/CSS/JS.<br>It works on all the modern browsers (IE > 9) and all the devices.</p>
@@ -404,6 +453,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=video_fr style=display:none>
+  <img src=../francais.png class=lang onclick="video_fr.style.display='none';video_en.style.display='block'">
 	<h2>Vidéo HTML5, contrôles personnalisés et bugs de navigateurs</h2>
 	<h3>janvier 2013</h3>
 	<p>Une vidéo HTML5 avec des contrôles en HTML/CSS/JS.<br>Elle fonctionne sur tous les navigateurs "HTML5" (IE > 9) et tous les devices.</p>
@@ -413,6 +463,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=lazy_en>
+  <img src=../english.png class=lang onclick="lazy_en.style.display='none';lazy_fr.style.display='block'">
 	<h2>Lazy.js</h2>
 	<h3>october 2012</h3>
 	<p>A micro-librairy (0.7k) that contains the most useful jQuery functions and other polyfills, and works on all browsers.</a>
@@ -420,6 +471,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=lazy_fr style=display:none>
+  <img src=../francais.png class=lang onclick="lazy_fr.style.display='none';lazy_en.style.display='block'">
 	<h2>Lazy.js</h2>
 	<h3>octobre 2012</h3>
 	<p>Une micro-librairie (0.7k) qui reprend les fonctions les plus utiles de jQuery et qui fonctionne sur tous les navigateurs.</a>
@@ -441,8 +493,9 @@ function toggleEllipsis(p){
 </div-->
 
 <div class=section id=gba_en>
+  <img src=../english.png class=lang onclick="gba_en.style.display='none';gba_fr.style.display='block'">
 	<h2>GBA.js (work in progres)</h2>
-	<h3>septembre 2012</h3>
+	<h3>september 2012</h3>
 	<p>A Gameboy Advance emulator in HTML5</p>
 	Project: <a href=//github.com/xem/GBA.js/ target=_blank>http://github.com/xem/GBA.js</a>
 	<br>
@@ -452,6 +505,7 @@ function toggleEllipsis(p){
 </div>
 
 <div class=section id=gba_fr style=display:none>
+  <img src=../francais.png class=lang onclick="gba_fr.style.display='none';gba_en.style.display='block'">
 	<h2>GBA.js (projet en cours)</h2>
 	<h3>septembre 2012</h3>
 	<p>Un émulateur Gameboy Advance en HTML5</p>
@@ -461,6 +515,25 @@ function toggleEllipsis(p){
 	<br>
 	Version débug: <a href=//xem.github.io/GBA.js/debug.html target=_blank>http://xem.github.io/GBA.js/debug.html</a>
 </div>
+  </div>
+  <div class=aside>
+    <h2>Summary</h2>
+    <ul>
+      <li><a href='#escape'>EscApe, Unicode converter
+      <li><a href='#escape'>Charsets experiments
+      <li><a href='#ellipsis_en'>Simple multiline ellipsis
+      <li><a href='#braille_art_en'>Braille Art generator
+      <li><a href='#chip8_en'>Chip8 emulator
+      <li><a href='#events_en'>JS Events monitoring
+      <li><a href='#swipe_en'>Swipe, touchable slider
+      <li><a href='#basis_en'>Basis, HTML5 boilerplate
+      <li><a href='#text_alignment_en'>Text alignments with CSS
+      <li><a href='#heylisten_en'>HeyListen!, MVC framework
+      <li><a href='#lightml_en'>LigHTML, page compressor
+      <li><a href='#video_en'>HTML5 video experiments
+      <li><a href='#lazy_en'>Lazy, JS library
+      <li><a href='#gba_en'>GBA emulator
+    </ul>
   </div>
 </body>
 </html>

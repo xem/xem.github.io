@@ -1,6 +1,6 @@
 * { margin: 0; padding: 0; }
 html { background: #fff; height: 100%; overflow: auto; }
-body { width: 1050px; min-height: 100%; overflow: visible; margin: 0 auto; font: normal 12px/18px Arial; background: #eee; background: linear-gradient(90deg, #fff 195px, #eee 205px, #eee 990px, #fff 1000px); }
+body { width: 1150px; min-height: 100%; overflow: visible; margin: 0 auto; font: normal 12px/18px Arial; background: #eee; background: linear-gradient(90deg, #fff 195px, #eee 205px, #eee 990px, #fff 1000px); }
 h1, h2, h3, h4 { margin: 10px 0; }
 ol, ul { padding-left: 20px; }
 table { width: 100%; border-collapse: collapse; }
@@ -10,7 +10,7 @@ td { vertical-align: top; }
 button, .header a { margin: 10px 0; cursor: pointer; padding: 5px; background: #eee; border-radius: 5px; border: 1px solid #888; box-shadow: 2px 2px 2px #888; }
 button:hover, .header a:hover { border: 1px solid #888; box-shadow: none; position: relative; top: 2px; left: 2px; }
 button.active, .header a.active { background: #888; color: #fff; border: 1px solid #666; box-shadow: none; position: relative; top: 2px; left: 2px; }
-.menu, .body, .language { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
+.menu, .body, .language, .aside { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
 .menu { width: 190px; text-align: center; padding-right: 10px; }
 .menu h1 { font-size: 22px; margin-bottom: 5px; }
 .section button { padding: 1px 3px; }
@@ -37,5 +37,6 @@ div[contenteditable], pre[contenteditable], style[contenteditable], script[conte
 @-webkit-keyframes pulse { 50% { -webkit-transform: scale(1.2); transform: scale(1.2); }}
 @keyframes pulse { 50% { -webkit-transform: scale(1.2); -ms-transform: scale(1.2); transform: scale(1.2); }}
 .pulse { -webkit-animation: pulse 1s 10; -moz-animation: pulse 1s 10; -o-animation: pulse 1s 10; animation: pulse 1s 10; border: 1px solid #000; }
-#twitter-widget-0, #twitter-widget-1 { height: 750px; }
+#twitter-widget-0, #twitter-widget-1 { height: 750px; width: 360px!important; }
 .lang { float: right; cursor: pointer; }
+.aside { width: 300px; padding-left: 30px; position: fixed; }
