@@ -31,7 +31,7 @@
   <p>This article will cover a few oddities I found by writing bizarre HTML and inspecting the DOM. I'll update it when I find new things:
   <p><b>Head</b>
   <p>&bull; The HEAD element is hidden by default on all Web pages. It can contain elements such as META, TITLE, LINK, STYLE, SCRIPT and BASE. But what happens when you force them to be visible, and editable? Here's the answer: <a href=//xem.github.io/show>Show</a> !
-  <iframe src="//xem.github.io/show" width=700 height=900></iframe>
+  <iframe src="//xem.github.io/show" width=700 height=700></iframe>
   <p>As you can see, all those elements can behave like regular DIVs. Even the META, LINK and BASE can become containers, even if they are generally used as self-contained elements (without children nor closing tag). Some browsers even allow to edit the TITLE block and update the browser's titlebar accordingly. Also, the LINK element is shown as an A (anchor).
   <p><b>Paragraphs</b>
   <p>&bull; A paragraph can't contain another paragraph. If you try to do something like &lt;p>&lt;p>&lt;/p>&lt;/p>, not two but three neighbours Ps are added in the DOM: the outer one, the inner one, and an empty one caused by the final &lt;/p>. Anyway, they won't be nested:
