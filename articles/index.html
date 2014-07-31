@@ -29,16 +29,45 @@
 	<h2>DOM oddities</h2>
 	<h3>july 2014</h3>
   <p>This article will cover a few oddities I found by writing bizarre HTML and inspecting the DOM. I'll update it when I find new things:
+  <hr>
   <p><b>Head</b>
-  <p>&bull; The HEAD element is hidden by default on all Web pages. It can contain elements such as META, TITLE, LINK, STYLE, SCRIPT and BASE. But what happens when you force them to be visible, and editable? Here's the answer: <a href=//xem.github.io/show>Show</a> !
+  <p>The HEAD element is hidden by default on all Web pages.
+  <br>
+  It can contain elements such as META, TITLE, LINK, STYLE, SCRIPT and BASE.
+  <br>
+  But what happens when you force them to be visible, and editable? Here's the answer: <a href=//xem.github.io/show>Show</a> !
+  <br>
+  <br>
   <iframe src="//xem.github.io/show" width=700 height=700></iframe>
-  <p>As you can see, all those elements can behave like regular DIVs. Even the META, LINK and BASE can become containers, even if they are generally used as self-contained elements (without children nor closing tag). Some browsers even allow to edit the TITLE block and update the browser's titlebar accordingly. Also, the LINK element is shown as an A (anchor).
+  <p>As you can see, all those elements can behave like regular DIVs. Even the META, LINK and BASE can become containers, even if they are generally used as self-contained elements (without children nor closing tag). Some browsers even allow to edit the TITLE block and update the browser's titlebar accordingly. Also, the LINK element is shown as an Anchor even though it's not really clickable.
+  <hr>
   <p><b>Paragraphs</b>
-  <p>&bull; A paragraph can't contain another paragraph. If you try to do something like &lt;p>&lt;p>&lt;/p>&lt;/p>, not two but three neighbours Ps are added in the DOM: the outer one, the inner one, and an empty one caused by the final &lt;/p>. Anyway, they won't be nested:
-  <iframe src=//xem.github.io/miniCodeEditor/1.1/#//Inspect%20the%20DOM%20%3A%29%7F%7F%3Cp%3EOuter%3Cp%3Einner%3C/p%3E%3C/p%3E1 width=700 height=200></iframe>
-  <p>Same thing if you change their display to "inline", they can't be nested:
-  <iframe src=//xem.github.io/miniCodeEditor/1.1/#//Inspect%20the%20DOM%20%3A%29%7Fp{display%3Ainline}%7F%3Cp%3EOuter%20%3Cp%3Einner%3C/p%3E%3C/p%3E1 width=700 height=200></iframe>
-  <p><b>To be continued...</b>
+  <p>&bull; A paragraph can't contain another paragraph. If you try to do something like &lt;p>&lt;p>&lt;/p>&lt;/p>, not two but three neighbours &lt;P>s are added in the DOM: the outer one, the inner one, and an empty one caused by the final &lt;/p>. Anyway, they won't be nested:
+  <br>
+  <br>
+  <iframe src="http://xem.github.io/miniCodeEditor/1.1/#%7Fp%20{%20background%3A%20%23def%3B%20padding%3A%2010px%20}%7F%3Cp%3EOuter%3Cp%3Einner%3C/p%3E%3C/p%3E1" width=700 height=400></iframe>
+  <p>Same thing if you change their display to "inline", they can't be nested at all:
+  <br>
+  <br>
+  <iframe src="http://xem.github.io/miniCodeEditor/1.1/#%7Fp%20{%0A%20%20display%20%3A%20inline%3B%20%0A%20%20background%3A%20%23def%3B%0A%20%20padding%3A%2010px%3B%0A%20%20margin%3A%2010px%0A}%7F%3Cp%3EOuter%20%3Cp%3Einner%3C/p%3E%3C/p%3E1" width=700 height=500></iframe>
+  <hr>
+  <p><b>Anchors</b>
+  <br>
+  Anchors (&lt;A>) behave like paragraphs in the sense that they can't be nested:
+  <br>
+  <br>
+  <iframe src="http://xem.github.io/miniCodeEditor/1.1/#%7Fa%20{%20background%3A%20%23def%3B%20margin%3A%2010px%3B%20padding%3A%2010px%20}%7F%3Ca%3ELink%201%0A%3Ca%3Elink%202%0A1" width=700 height=500></iframe>
+  <br>
+  But something strange happens when you try to nest an anchor in a paragraph in an anchor:
+  <br>
+  <br>
+  <iframe src="http://xem.github.io/miniCodeEditor/1.1/#%7Fa%20{%20float%3A%20left%3B%20padding%3A%2010px%3B%20margin%3A%2010px%3B%20background%3A%20%23def%20}%7F%3Ca%3ELink%201%0A%3Cp%3E%0A%3Ca%3ELink%2021" width=700 height=500></iframe>
+  <br>
+  That's right, a third empty A is added into the DOM! Go figure...
+  <br>
+  <hr>
+  <br>
+  <b>To be continued...</b>
 </div>
 
 
@@ -2092,6 +2121,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#dom'>DOM oddities
       <li><a href='#js1k_2pgames'>JS1k'14: 2P Games
       <li><a href='#js1k_floppydragon'>JS1k'14: Floppy Dragon
       <li><a href='#implicitgetelementbyid_en'>getElementById
