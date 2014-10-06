@@ -35,7 +35,7 @@
   <p>I made <b>AlcheMixer</b> by myself, you can try it <a href=//js13kgames.com/entries/alchemixer>here</a></p>
   <p>I also made <b>Quintessence</b> with @subzey and @nderscore, you can try it <a href=//js13kgames.com/entries/quintessence>here</a> and read @subzey's great notes <a href=//gist.github.com/subzey/b18c482922cd17693d65>here</a>!</p>
   <p>Sadly, we didn't have time, and didn't even need, to golf the source code of those games, as they were way under the 13kb mark at the end of the month... But it was fun anyway!</p>
-  <p>Hope you like them and stay tuned for the results!</p>
+  <p>Hope you like them! For the record, AlcheMixer was ranked 72th in the desktop games category and Quintessence 8th in the mobile games category.</p>
   <p>Cheers, @MaximeEuziere</p>
 </div>
 
@@ -63,23 +63,45 @@
   <p>Same thing if you change their display to "inline", they can't be nested at all:
   <br>
   <br>
-  <iframe src="https://xem.github.io/miniCodeEditor/1.1/#%7Fp%20{%0A%20%20display%20%3A%20inline%3B%20%0A%20%20background%3A%20%23def%3B%0A%20%20padding%3A%2010px%3B%0A%20%20margin%3A%2010px%0A}%7F%3Cp%3EOuter%20%3Cp%3Einner%3C/p%3E%3C/p%3E1" width=700 height=500></iframe>
+  <iframe src="https://xem.github.io/miniCodeEditor/1.1/#%7Fp%20{%0A%20%20display%20%3A%20inline%3B%20%0A%20%20background%3A%20%23def%3B%0A%20%20padding%3A%2010px%3B%0A%20%20margin%3A%2010px%0A}%7F%3Cp%3EOuter%20%3Cp%3Einner%3C/p%3E%3C/p%3E1" width=700 height=400></iframe>
+  <br>
+  ... Unless you write the inner paragraph with JS:
+  <br><br>
+  <iframe src="http://xem.github.io/miniCodeEditor/1.1/#p.innerHTML%20%3D%20%22%3Cp%3EYo%22p%20%7B%20background%3A%20%23def%3B%20border%3A%201px%20dotted%20red%20%7D%3Cp%20id%3Dp%3E1" width=700 height=400></iframe>
+  <br>
   <hr>
   <p><b>Anchors</b>
   <br>
   Anchors (&lt;A>) behave like paragraphs in the sense that they can't be nested:
   <br>
   <br>
-  <iframe src="https://xem.github.io/miniCodeEditor/1.1/#%7Fa%20{%20background%3A%20%23def%3B%20margin%3A%2010px%3B%20padding%3A%2010px%20}%7F%3Ca%3ELink%201%0A%3Ca%3Elink%202%0A1" width=700 height=500></iframe>
+  <iframe src="https://xem.github.io/miniCodeEditor/1.1/#%7Fa%20{%20background%3A%20%23def%3B%20margin%3A%2010px%3B%20padding%3A%2010px%20}%7F%3Ca%3ELink%201%0A%3Ca%3Elink%202%0A1" width=700 height=400></iframe>
   <br>
   But something strange happens when you try to nest an anchor in a paragraph in an anchor:
   <br>
   <br>
-  <iframe src="https://xem.github.io/miniCodeEditor/1.1/#%7Fa%20{%20float%3A%20left%3B%20padding%3A%2010px%3B%20margin%3A%2010px%3B%20background%3A%20%23def%20}%7F%3Ca%3ELink%201%0A%3Cp%3E%0A%3Ca%3ELink%2021" width=700 height=500></iframe>
+  <iframe src="https://xem.github.io/miniCodeEditor/1.1/#%7Fa%20{%20float%3A%20left%3B%20padding%3A%2010px%3B%20margin%3A%2010px%3B%20background%3A%20%23def%20}%7F%3Ca%3ELink%201%0A%3Cp%3E%0A%3Ca%3ELink%2021" width=700 height=400></iframe>
   <br>
   That's right, a third empty A is added into the DOM! Go figure...
   <br>
   <hr>
+  <br>
+  <p><b>HTML, HEAD and BODY</b>
+  <br>
+  <p>The HTML, HEAD and BODY tags are optional in the HTML source, but are automatically added in the DOM by the browsers. Did you know they can be removed too?</p>
+  <iframe src="http://xem.github.io/miniCodeEditor/1.1/#%3Chtml%20id%3Dhtml%3E%0A%3Chead%20id%3Dhead%3E%0A%20%20%3Cstyle%3Ebody%20%7Bbackground%3A%20%23def%20%7D%3C/style%3E%0A%3C/head%3E%0A%3Cbody%20id%3Dbody%3E%0A%20%20%3Cbutton%20onclick%3Dhtml.remove%28%29%3ERemove%20HTML%3C/button%3E%0A%20%20%3Cbutton%20onclick%3Dhead.remove%28%29%3ERemove%20HEAD%3C/button%3E%0A%20%20%3Cbutton%20onclick%3Dbody.remove%28%29%3ERemove%20BODY%3C/button%3E%0A%3C/body%3E%0A%3C/html%3E1" width=700 height=400></iframe>
+  <br>
+  <p>There's another thing that browsers do automatically: they place some HTML tags in the HEAD and other tags in the BODY, as long as they are in the right order: </p>
+  <iframe src="http://xem.github.io/miniCodeEditor/1.1/#%7F%7F%3Ctitle%3Etitle%3C/title%3E%0A%3Cmeta%20charset%3Dutf-8%3E%0A%3Clink%20rel%3Dstylesheet%20href%3Dstyle.css%3E%0A%3Cp%3Eparagraph%3C/p%3E%0A%3Cbr%3E%0A%3Cbutton%20onclick%3Dalert%28document.documentElement.innerHTML%29%3ESee%20the%20DOM%3C/button%3E1" width=700 height=400></iframe>
+  <br>
+  <br>
+  <p>But if your HTML source contains HEAD-related elements after BODY-related elements, they'll be in the body (but they'll stay hidden, of course):</p>
+  <iframe src="http://xem.github.io/miniCodeEditor/1.1/#%7F%7FHi%0A%3Ctitle%3Etitle%3C/title%3E%0A%3Cmeta%20charset%3Dutf-8%3E%0A%3Clink%20rel%3Dstylesheet%20href%3Dstyle.css%3E%0A%3Cbr%3E%0A%3Cbutton%20onclick%3Dalert%28document.documentElement.innerHTML%29%3ESee%20the%20DOM%3C/button%3E1" width=700 height=400></iframe>
+  <br>
+  <br>
+  <br>
+  <hr>
+  <br>
   <br>
   <b>To be continued...</b>
 </div>
