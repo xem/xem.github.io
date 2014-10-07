@@ -10,7 +10,7 @@ td { padding: 15px 10px; vertical-align: top; font: normal 0.9em/1.5em Arial }
 h1, h2 { color: #006; margin: 2px 0 }
 h1 { font: bold 1.5em Arial; margin-top: 0 }
 h2 { font: bold 1.1em Arial }
-h3 { font: bold italic 1.08em Arial; text-align: center; color: #000; margin: 0 0 30px; color: #500 }
+h3 { font: bold italic 1.08em Arial; text-align: center; color: #000; margin: 0 0 20px; color: #500 }
 a { text-decoration: none }
 a:hover { text-decoration: underline }
 .link1 { font-weight: bold; color: #006 }
