@@ -1,0 +1,482 @@
+<!doctype html>
+<html>
+  <!-- note: your demo in this shim runs in an iframe with this content: https://gist.github.com/qfox/3cccc4f36c8319e09bb7 -->
+  <!--
+  (c) js1k.com 2015
+  Note: submissions belong to their respectful owner, do not copy without their consent
+  -->
+  <head>
+    <meta charset="utf-8">
+    <title>JS1k 2015 - NNNN - TITLE</title>
+    <meta name="author" content="YOU">
+    <link rel="icon" type="image/png" href="http://js1k.com/favicon.png">
+    <link rel="canonical" href="http://js1k.com/2015-hypetrain/demo/NNNN">
+    <link rel="shortlink" href="http://js1k.com/NNNN">
+    <script>
+      // GA
+    </script>
+    <style>
+      /* http://qfox.nl/notes/333 */
+      body,html,iframe{margin:0;padding:0;border:0;width:100%;height:100%}
+      iframe{position:absolute;top:0;left:0;padding-top:50px;box-sizing:border-box}
+      header{position:relative;z-index:1;height:47px;padding-top:2px;border-bottom:1px solid #000;box-shadow:0 -10px 25px #ccc inset;background-color:#eee}
+      aside,div,h1,p{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;font-size:16px;font-weight:inherit;line-height:22px;padding:0;margin:0;cursor:default}
+      aside,h1{display:inline}
+      a{color:#000;text-decoration:none;border-bottom:1px dashed #000}
+      a:hover{border-bottom:1px solid red}
+      a[href="0"]{text-decoration:line-through;pointer-events:none;border-bottom:0;color:#ccc}
+      .button{float:left;width:40px;height:40px;line-height:40px;text-align:center;padding:0;margin:2px 0 0 10px;border:1px solid #888;border-color:#ddd #888 #888 #ddd;font-family:sans-serif;font-size:30px;font-weight:700;cursor:pointer}
+      .button:hover{color:red;border-bottom-color:#888}
+      .r{margin-right:10px}
+      time{display:none}
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>
+          <a href="http://js1k.com/">JS1k</a>
+          <a href="http://js1k.com/2015-hypetrain">2015</a>
+          <strong></strong> demo
+          &mdash;
+          "TITLE" by YOU
+        </h1>
+        <p>
+          <em>
+            FIRST PART OF YOUR DESC GOES HERE
+          </em>
+        </p>
+        <aside>
+          &mdash;
+          1024 bytes
+          &mdash;
+          <a href="http://js1k.com/2015-hypetrain/details/NNNN">demo details</a>
+          &mdash;
+          <a href="http://js1k.com/2015-hypetrain/demos">list of demos</a>
+          &mdash;
+          <a href="http://js1k.com/1955" title="short link for your mobile devices" rel="nofollow">js1k.com/NNNN</a>
+          <time datetime="NOW" pubdate>NOW</time>
+        </aside>
+      </div>
+
+      <a href=".html" class="button p">&Larr;</a>
+      <a href=".html" class="button n">&Rarr;</a>
+    </header>
+
+    <script type="shim">
+      // SHIM (will be ran in the context of the iframe...)
+
+      // unprefix some popular vendor prefixed things (but stick to their original name)
+      iwin.AudioContext = iwin.AudioContext || iwin.webkitAudioContext; // ios8 unmutes audio only during the first user triggered event with sound
+      iwin.requestAnimationFrame = iwin.requestAnimationFrame || iwin.mozRequestAnimationFrame || iwin.webkitRequestAnimationFrame || iwin.msRequestAnimationFrame || function(f){ iwin.setTimeout(f, 1000/30); };
+      canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+      a = canvas;
+      b = idoc.body;
+
+      if (webgl) iwin.c = canvas.getContext('2d');
+      else iwin.g = (function () {
+        iwin.onorientationchange = iwin.onresize = null;
+        try {
+          var o = { antialias: true, stencil: true };
+          var gl = canvas.getContext('webgl', o) || canvas.getContext('experimental-webgl', o);
+
+          // keep in scope, must not be garbage collected
+          iwin.__glExts =
+            [ 'OES_texture_float', 'OES_texture_float_linear', 'OES_standard_derivatives',
+              'EXT_texture_filter_anisotropic', 'MOZ_EXT_texture_filter_anisotropic', 'WEBKIT_EXT_texture_filter_anisotropic',
+              'WEBGL_compressed_texture_s3tc', 'MOZ_WEBGL_compressed_texture_s3tc', 'WEBKIT_WEBGL_compressed_texture_s3tc'
+            ].map(function(ext) {
+                return gl.getExtension(ext);
+              });
+        } catch (e) {
+          idoc.body.innerHTML = 'WebGL not supported.';
+          iwin.a=iwin.b=iwin.c=iwin.d=null;
+          throw e;
+        }
+
+        return gl;
+      })();
+    </script>
+    <script>
+      // submission form configurables:
+
+      // enable canvas shim at all? (2d/3d). other settings are ignored if this is false.
+      var TOKEN_CANVAS_SHIM = true;
+      // true enables webgl shim (exposes `g`), false enables canvas shim (exposes `c`)
+      var TOKEN_WEBGL = false;
+      // px, 0 means always 100%
+      var TOKEN_MAX_WIDTH = 400;
+      // px, 0 means always 100%
+      var TOKEN_MAX_HEIGHT = 350;
+      // only if width<100%
+      var TOKEN_CENTER_CANVAS = false;
+      // "press" reload button on orientation change?
+      var TOKEN_RELOAD_ONORIENTATIONCHANGE = true;
+    </script>
+    <script type="demo">
+      // THIS IS WHERE YOUR DEMO GOES
+      // a: canvas
+      // b: body
+      // c: canvas context2d
+
+a.style.margin="auto";  
+      
+
+// Mouse X & Y, current frame (loops from 0 to 500), current dimension (0:X, 1:y, 2:Z)
+l = t = f = d = 0;
+
+// Retrieve mouse position at each move
+onmousemove = function(e){
+  l = (innerWidth - e.pageX * 2) / 30;
+  t = (innerHeight - e.pageY * 2) / 30;
+}
+
+// Coordinates of the 16 points of the tesseract before animation
+points = [
+  [0,0,0],
+  [0,3,0],
+  [3,0,0],
+  [3,3,0],
+  
+  [0,0,3],
+  [0,3,3],
+  [3,0,3],
+  [3,3,3],
+  
+  [1,1,1],
+  [1,2,1],
+  [2,1,1],
+  [2,2,1],
+  
+  [1,1,2],
+  [1,2,2],
+  [2,1,2],
+  [2,2,2]
+];
+
+// Coordinates of the 16 points at any moment 
+pointsNow = [];
+
+lines = [
+  
+  // Front-back out
+  [0,4],
+  [1,5],
+  [2,6],
+  [3,7],
+
+  // Back out
+  [4,5],
+  [5,7],
+  [4,6],
+  [6,7],
+  
+  // Back in
+  [12,13],
+  [13,15],
+  [12,14],
+  [14,15],
+  
+  // Back out-in
+  [4,12],
+  [5,13],
+  [6,14],
+  [7,15],
+  
+  // Front-back in
+  [8,12],
+  [9,13],
+  [10,14],
+  [11,15],
+
+  // Front in
+  [8,9],
+  [9,11],
+  [8,10],
+  [10,11],
+    
+  // front out-in
+  [0,8],
+  [1,9],
+  [2,10],
+  [3,11],
+  
+  // Front out
+  [0,1],
+  [1,3],
+  [0,2],
+  [2,3]
+];
+
+// Frame counter
+e = 0;
+
+// No animation
+d = 6;
+
+// Loop
+setInterval(function(){
+
+  // Choose an animation
+  f++;
+  f %= 200;
+  if(!f && X && X.checked){
+    d = 0;
+  }
+  if(!f && mX && mX.checked){
+    d = 1;
+  }
+  if(!f && Y && Y.checked){
+    d = 2;
+  }
+  if(!f && mY && mY.checked){
+    d = 3;
+  }
+  if(!f && Z && Z.checked){
+    d = 4;
+  }
+  if(!f && mZ && mZ.checked){
+    d = 5;
+  }
+  
+  points2 = [];
+  
+  for(i in points){
+
+    e++;
+    
+    // Set the initial position of the points
+    x1 = y1 = z1 = x2 = y2 = z2 = 1.5;
+    
+    // Read the final position of the points
+    x = points[i][0];
+    y = points[i][1];
+    z = points[i][2];
+    
+    if(e < 300){
+      x = y = z = 1.5;
+    }
+    
+    else if(e < 500){
+      x2 = x < 2 ? 1 : 2;
+      y = z = 1.5;
+      x = x1 + (x2 - x1) * (e - 300) / 200;
+    }
+    
+    else if(e < 700){
+      x = x < 2 ? 1 : 2;
+      y = z = 1.5;
+    }
+    
+    else if(e < 900){
+      x = x < 2 ? 1 : 2;
+      y2 = y < 2 ? 1 : 2;
+      z = 1.5;
+      y = y1 + (y2 - y1) * (e - 700) / 200;
+    }
+    
+    else if(e < 1100){
+      x = x < 2 ? 1 : 2;
+      y = y < 2 ? 1 : 2;
+      z = 1.5;
+    }
+    
+    else if(e < 1300){
+      x = x < 2 ? 1 : 2;
+      y = y < 2 ? 1 : 2;
+      z2 = z < 2 ? 1 : 2;
+      z = z1 + (z2 - z1) * (e - 1100) / 200;
+    }
+    
+    else if(e < 1500){
+      x = x < 2 ? 1 : 2;
+      y = y < 2 ? 1 : 2;
+      z = z < 2 ? 1 : 2;
+    }
+    
+    else if(e < 1700){
+      x1 = x < 2 ? 1 : 2;
+      y1 = y < 2 ? 1 : 2;
+      z1 = z < 2 ? 1 : 2;
+      x = x1 + (x - x1) * (e - 1500) / 200;
+      y = y1 + (y - y1) * (e - 1500) / 200;
+      z = z1 + (z - z1) * (e - 1500) / 200;
+    }
+    else if(e == 1700){
+      b.insertAdjacentHTML("beforeEnd","<center><input type=radio name=d id=X> X<input type=radio name=d id=mX> -X<input type=radio name=d id=Y> Y<input type=radio name=d id=mY> -Y<input type=radio name=d id=Z> Z<input type=radio name=d id=mZ> -Z<br>");
+    }
+
+    //c.fillStyle = "red";
+    //c.rect(
+    //  a.width / 2 - 200 + x * 60 + 100 - (x - 1.5) * (z - 1.5) * 10 + l * (z - 1.5),
+    //  a.height / 2 - 200 + y * 60 + 100 - (y - 1.5) * (z - 1.5) * 10 + t * (z - 1.5),
+    //  (4 - z) * 5,
+    //  (4 - z) * 5
+    //);
+    //c.fill();
+    
+    points2[i] = [x,y,z];
+    
+
+  }
+
+  // Reset canvas
+  a.width = a.width;
+  
+  // For each line
+  for(j in lines){
+    
+    // Point 1:
+    i = lines[j][0];
+    
+    // x,y,z before
+    p = points2[i][0];
+    q = points2[i][1];
+    r = points2[i][2];
+    
+    u = points2[i][0];
+    v = points2[i][1];
+    w = points2[i][2];
+    
+    // x,y,z after
+    if(d == 0){
+      u = (points2[i][0] + 1) % 4;
+      v = q < 2 ? [0,1,1,0][u] : [3,2,2,3][u];
+      w = r < 2 ? [0,1,1,0][u] : [3,2,2,3][u];
+    }
+    
+    if(d == 1){
+      u = (points2[i][0] - 1);
+      if(u < 0) u = 3;
+      v = q < 2 ? [0,1,1,0][u] : [3,2,2,3][u];
+      w = r < 2 ? [0,1,1,0][u] : [3,2,2,3][u];
+    }
+    
+    if(d == 2){
+      v = (points2[i][1] + 1) % 4;
+      u = p < 2 ? [0,1,1,0][v] : [3,2,2,3][v];
+      w = r < 2 ? [0,1,1,0][v] : [3,2,2,3][v];
+    }
+    
+    if(d == 3){
+      v = (points2[i][1] - 1);
+      if(v < 0) v = 3;
+      u = p < 2 ? [0,1,1,0][v] : [3,2,2,3][v];
+      w = r < 2 ? [0,1,1,0][v] : [3,2,2,3][v];
+    }
+    
+    if(d == 4){
+      w = (points2[i][2] + 1) % 4;
+      u = p < 2 ? [0,1,1,0][w] : [3,2,2,3][w];
+      v = q < 2 ? [0,1,1,0][w] : [3,2,2,3][w];
+    }
+    
+    if(d == 5){
+      w = (points2[i][2] - 1);
+      if(w < 0) w = 3;
+      u = p < 2 ? [0,1,1,0][w] : [3,2,2,3][w];
+      v = q < 2 ? [0,1,1,0][w] : [3,2,2,3][w];
+    }
+    
+    // x,y,z between before and after
+    x = p + (u - p) * f / 200;
+    y = q + (v - q) * f / 200;
+    z = r + (w - r) * f / 200;
+    
+    /*c.rect(
+      20 + x * 60 + 100 - (x - 1.5) * (z - 1.5) * 10 + l * (z - 1.5),
+      -20 + y * 60 + 100 - (y - 1.5) * (z - 1.5) * 10 + t * (z - 1.5),
+      (4 - z) * 5,
+      (4 - z) * 5
+    );*/
+    
+    c.moveTo(
+      20 + x * 60 + 100 - (x - 1.5) * (z - 1.5) * 10 + l * (z - 1.5),
+      -20 + y * 60 + 100 - (y - 1.5) * (z - 1.5) * 10 + t * (z - 1.5)
+    );
+    
+    // Point 2:
+    i = lines[j][1];
+    
+    // x,y,z before
+    p = points2[i][0];
+    q = points2[i][1];
+    r = points2[i][2];
+    
+    u = points2[i][0];
+    v = points2[i][1];
+    w = points2[i][2];
+    
+    // x,y,z after
+    if(d == 0){
+      u = (points2[i][0] + 1) % 4;
+      v = q < 2 ? [0,1,1,0][u] : [3,2,2,3][u];
+      w = r < 2 ? [0,1,1,0][u] : [3,2,2,3][u];
+    }
+    
+    if(d == 1){
+      u = (points2[i][0] - 1);
+      if(u < 0) u = 3;
+      v = q < 2 ? [0,1,1,0][u] : [3,2,2,3][u];
+      w = r < 2 ? [0,1,1,0][u] : [3,2,2,3][u];
+    }
+    
+    if(d == 2){
+      v = (points2[i][1] + 1) % 4;
+      u = p < 2 ? [0,1,1,0][v] : [3,2,2,3][v];
+      w = r < 2 ? [0,1,1,0][v] : [3,2,2,3][v];
+    }
+    
+    if(d == 3){
+      v = (points2[i][1] - 1);
+      if(v < 0) v = 3;
+      u = p < 2 ? [0,1,1,0][v] : [3,2,2,3][v];
+      w = r < 2 ? [0,1,1,0][v] : [3,2,2,3][v];
+    }
+    
+    if(d == 4){
+      w = (points2[i][2] + 1) % 4;
+      u = p < 2 ? [0,1,1,0][w] : [3,2,2,3][w];
+      v = q < 2 ? [0,1,1,0][w] : [3,2,2,3][w];
+    }
+    
+    if(d == 5){
+      w = (points2[i][2] - 1);
+      if(w < 0) w = 3;
+      u = p < 2 ? [0,1,1,0][w] : [3,2,2,3][w];
+      v = q < 2 ? [0,1,1,0][w] : [3,2,2,3][w];
+    }
+    
+    // x,y,z between before and after
+    x = p + (u - p) * f / 200;
+    y = q + (v - q) * f / 200;
+    z = r + (w - r) * f / 200;
+    
+    c.lineTo(
+      20 + x * 60 + 100 - (x - 1.5) * (z - 1.5) * 10 + l * (z - 1.5),
+      -20 + y * 60 + 100 - (y - 1.5) * (z - 1.5) * 10 + t * (z - 1.5)
+    );
+    c.stroke();
+  }
+
+},30);
+
+
+
+
+
+      // END
+    </script>
+    <script>
+      (function(){var doc=document;var header=doc.getElementsByTagName("header")[0];var firstChild=header.firstChild;var p=doc.getElementsByClassName("p")[0];var n=doc.getElementsByClassName("n")[0];header.insertBefore(p,firstChild);header.insertBefore(n,firstChild);header.appendChild(doc.getElementsByTagName("p")[0])})();
+      (function reload(fullscreen){var doc=document;var header=doc.getElementsByTagName("header")[0];var iframe=doc.createElement("iframe");doc.body.appendChild(iframe);var iwin=iframe.contentWindow;var idoc=iframe.contentDocument;idoc.open();idoc.close();idoc.write("<!doctype html>"+'<html style="margin: 0; padding: 0; border: 0; width: 100%; height: 100%;">'+"<head>"+'<meta charset="utf-8">'+'<body style="margin: 0; padding: 0; border: 0; width: 100%; height: 100%;">'+(TOKEN_CANVAS_SHIM?'<canvas style="display: block;'+
+      (TOKEN_CENTER_CANVAS?" margin: auto;":"")+'"></canvas>':"")+"");if(TOKEN_CANVAS_SHIM){var canvas=idoc.getElementsByTagName("canvas")[0];var cs=canvas.style;idoc.body.clientWidth;cs.width=(canvas.width=Math.max(Math.min(TOKEN_MAX_WIDTH||innerWidth,innerWidth),0)||0)+"px";cs.height=(canvas.height=Math.max(Math.min(TOKEN_MAX_HEIGHT||innerHeight-50,innerHeight-50),0)||0)+"px"}if(TOKEN_RELOAD_ONORIENTATIONCHANGE)onorientationchange=reloadClick;iwin.AudioContext=iwin.AudioContext||
+      iwin.webkitAudioContext;iwin.requestAnimationFrame=iwin.requestAnimationFrame||iwin.mozRequestAnimationFrame||iwin.webkitRequestAnimationFrame||iwin.msRequestAnimationFrame||function(f){iwin.setTimeout(f,1E3/30)};if(TOKEN_CANVAS_SHIM)canvas.requestPointerLock=canvas.requestPointerLock||canvas.mozRequestPointerLock||canvas.webkitRequestPointerLock;idoc.body.requestPointerLock=idoc.body.requestPointerLock||idoc.body.mozRequestPointerLock||idoc.body.webkitRequestPointerLock;navigator.getUserMedia=navigator.getUserMedia||
+      navigator.webkitGetUserMedia||navigator.mozGetUserMedia||navigator.msGetUserMedia;if(TOKEN_CANVAS_SHIM)iwin.a=canvas;iwin.b=idoc.body;if(TOKEN_CANVAS_SHIM){if(!TOKEN_WEBGL)iwin.c=canvas.getContext("2d");if(TOKEN_WEBGL)iwin.g=function(){iwin.onorientationchange=iwin.onresize=null;try{var o={antialias:true,stencil:true};var gl=canvas.getContext("webgl",o)||canvas.getContext("experimental-webgl",o);iwin.__glExts=["OES_texture_float","OES_texture_float_linear","OES_standard_derivatives","EXT_texture_filter_anisotropic",
+        "MOZ_EXT_texture_filter_anisotropic","WEBKIT_EXT_texture_filter_anisotropic","WEBGL_compressed_texture_s3tc","MOZ_WEBGL_compressed_texture_s3tc","WEBKIT_WEBGL_compressed_texture_s3tc"].map(function(ext){return gl.getExtension(ext)})}catch(e){idoc.body.innerHTML="WebGL not supported.";iwin.a=iwin.b=iwin.c=iwin.d=null;throw e;}return gl}()}var demo=idoc.createElement("script");demo.textContent=doc.querySelector('script[type="demo"]').textContent;idoc.body.appendChild(demo);idoc.close();iframe.contentWindow.focus();
+        var firstLine=doc.getElementsByTagName("div")[0];function reloadClick(b){doc.body.removeChild(iframe);r.parentElement.removeChild(r);iframe=null;r=null;idoc=null;header=null;reload(b)}window.reload=reloadClick;var r=doc.createElement("div");r.innerHTML="&#8635;";r.className="button r";r.title="restart just the demo (local, without remote fetch)";r.onclick=reloadClick;header.insertBefore(r,firstLine)})();
+    </script>
+  </body>
+</html>
