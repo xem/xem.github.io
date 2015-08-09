@@ -1,0 +1,365 @@
+<!doctype html>
+<meta charset=utf-8>
+<title>GeoQuiz map editor</title>
+<canvas id=C width=1020 height=500 style="background:url(a.png) no-repeat -5px -5px; background-size:1060px"></canvas>
+<pre id=P></pre>
+<style>*{margin:0}</style>
+<script src=data.js></script>
+<script>
+
+c=C.getContext("2d");
+
+
+p = [
+/* Algeria,Algiers */ 'tfpRqLiOjVc]noÿmN',
+/* Argentina,Buenos Aires */ '6¸?Ã>Ï@Ö<Ù;ï7ë4Èÿ<ñ=õ@õÿ>Ð',
+/* Australia,Canberra */ 'Ý¤ãÁÛØÔÖÑËÂÒÄ¹Ë´Õ¥Ù¨×¬Û²ÿÖÜÙÛÖãÿÝÐ',
+/* Austria,Vienna */ 's:w<w7ÿv9',
+/* Belgium,Brussels */ 'm3p3o6ÿn4',
+/* Brazil,Brasilia */ '?É?½5¢0¦/8;ABNJ»D¿BÎÿD²',
+/* Bulgaria,Sofia */ '{?AD|Eÿ|B',
+/* Canada,Ottawa */ canada = '8"9<\nFOB\nBGA!<A<94.&42;B%E2E;A9D3:7?=;A9;.D+7ÿ%)\r11ÿ+\n/	4/\rÿ5:4ÿ8<9\r5ÿ3=',
+/* Chile,Santiago */ '7ë4È6¹2±4Ý7ï=õ;ï7ëÿ4Ì',
+/* China,Beijing */ '©7¢I¨W°^·\\ºj¾gÂkÈdÉXÄHËBË8Ã2ÄB¼MÿÁmÃlÂpÁoÿÂI',
+/* Croatia,Zagreb */ 'v?x=|?yAyFÿx?',
+/* Cuba,Havana */ '\'h+f0l-l*hÿ*f',
+/* Czech Republic,Prague */ 'u8y7u3t7ÿv5',
+/* Denmark,Copenhagen */ 'q-t-t+r,s(q*ÿt-',
+/* Ecuador,Quito */ ')--)ÿ+',
+/* Egypt,Cairo */ '~WX][gi~iÿZ',
+/* Estonia,Tallinn */ '|%~%~(|\'ÿ|%',
+/* Finland,Helsinki */ 'y{} ~#z$z{ÿ}#',
+/* France,Paris */ 'm3q8o<qAnAmCjBj;g7l6ÿm9',
+/* Germany,Berlin */ 'p6p/q-t.u/u3t:p9q7ÿt1',
+/* Greece,Athens */ 'zH|ECFNMF|G|Nÿ|K',
+/* Hungary,Budapest */ 'x=w<w9{9z=ÿy:',
+/* Iceland,Reykjavik */ ']cd`^ÿ_',
+/* India,New Delhi */ 'e£Q¦R¨WªZ©]°a¯l«uª}¨£kÿ¥Z',
+/* Indonesia,Jakarta */ '·¹À¿ÿÀÈ¡ÆÀÿË¢Ì£ÿ× ÿÒÔÿÑÿÐÿÒÿÒÒÑÿÏËËÌÎÍÎÌÌÏÿÃÇÉÉÇÃÿÎ£Ñ¡ÿÜ¡ÙÚÕÔ×ØÙÜÿÁ',
+/* Iran,Tehran */ 'ENKNc]YÿP',
+/* Iraq,Baghdad */ 'MW\\VSÿT',
+/* Ireland,Dublin */ 'f,g0d3e.ÿg0',
+/* Israel,Jerusalem */ 'ZTTXÿX',
+/* Italy,Rome */ 'qAo=t:u>t@xGvMtKwHr@ÿqFrFrIqIÿtC',
+/* Jamaica,Kingston */ '+p.q,sÿ,r',
+/* Japan,Tokyo */ 'ÐXÎTÏPÒOÓLÓDÕIÖPÓSÐRÿÒDÒ>Õ@ÕCÿÔP',
+/* Lebanon,Beirut */ 'TQRTÿS',
+/* Lithuania,Vilnius */ 'y-{.{,ÿz-',
+/* Luxembourg,Luxembourg */ 'p5p6o6ÿp6',
+/* Macedonia,Skopje */ '{F{C|B}Dÿ|C',
+/* Madagascar,Antananarivo */ '§¯»Á­ÿ³',
+/* Mexico,Mexico City */ 'f]TVam"n$h%j$o ungXWÿl',
+/* Monaco,Monaco */ 'pAÿpA',
+/* Morocco,Rabat */ 'c]`^fOiQjVÿeS',
+/* Nepal,Kathmandu */ '°a©]ªY°^ÿ®^',
+/* Netherlands,Amsterdam */ 'p3n2o0p0ÿo1',
+/* New Zealand,Wellington */ 'ïÐíÙíÝòÖÿãåëÛìÝåæÿîÙ',
+/* North Korea,Pyongyang */ 'ÇFÊLÌKÊGÌAÿÉH',
+/* Norway,Oslo */ 'o!sw~}{yus&p(ÿs#',
+/* Palestine,Ramallah */ 'WYTTÿV',
+/* Paraguay,Asunción */ '?Â9»9´<´?½ÿ=¾',
+/* Peru,Lima */ '-1/0¦2¤3².­)-ÿ-¨',
+/* Philippines,Manila */ 'ÊnÌoÌvÎxÊwÿÎ|Í~ÎÿÍÎÐÐÿËt',
+/* Poland,Warsaw */ 'u/u3y7|6{.x-ÿz2',
+/* Portugal,Lisbon */ 'dDfDeLdLÿdI',
+/* Romania,Bucharest */ '{:~9Az=ÿ~>',
+/* Qatar,Doha */ 'd`dÿb',
+/* Russia,Moscow */ russia='}!~#,6?E34/,©7¬4°6°2¹7¾5¾/Ë8ÌAÍBÎ8Ì.Ç-È&Ñ%Ð!Ô!Ô+Ù4Ø(Ö%Ý ÙßàÐ¼·³©ª¢	~ÿÍ.Ñ<Ñ6ÿ-',
+/* Saudi Arabia,Riyadh */ '\\V_ddiorÿf',
+/* Singapore,Singapore */ '½¿¾ÿ¾',
+/* Slovakia,Bratislava */ 'w9{9|6x7ÿx9',
+/* Slovenia,Ljubljana */ 's:t:t<ÿt:',
+/* South Africa,Pretoria */ 'wÅzÅz¾{Â¹ÃÏxÐÿÀ',
+/* South Korea,Seoul */ 'ÊLÌKÍPËRÿËM',
+/* Spain,Madrid */ 'dDeAmCiMeMfDÿhG',
+/* Sweden,Stockholm */ 'y{w x&v+t,s&twÿv\'',
+/* Switzerland,Bern */ 'o<q9s;q=ÿq;',
+/* Taiwan,Taipei */ 'ÊbÉfÊiËcÿÊc',
+/* Tunisia,Tunis */ 'qLsNsVrYpRÿrM',
+/* Turkey,Ankara */ 'FNMEÿH',
+/* Ukraine,Kyiv */ '|316;?<ÿ8{9|6ÿ5',
+/* Uruguay,Montevideo */ '?ÉBÍAÑ>Ïÿ@Ð',
+/* United Arab Emirates,Abu Dhabi */ 'haeÿd',
+/* United Kingdom,London */ 'g5l4j(h&h,i/ÿg.h.g,f,ÿk3',
+/* U.S.A.,Washington D.C. */ 'UQG9+7.D:;;?2J0P,X,a+b*Z [aWÿ"\n%"+&"	\nÿ0H',
+/* Venezuela,Caracas */ '8524/0{7}:ÿ4ÿ',
+/* Vatican City,Vatican City */ 'tBÿtB',
+/* Vietnam,Hanoi */ '¼i¾gÀj¿nÂvÂ|¿¿}ÁzÀuÀt¼hÿ¾j',
+/* Guyana,Georgetown */ ':8;<ÿ;',
+/* Libya,Tripoli */ 'rYtUvUzYzU~W~l}mwfvhtfÿuU',
+
+
+/* Afghanistan,Kabul */ 'PL¤M¦R£Q¢X[Pÿ¡T',
+/* Andorra,Andorra la Vella */ 'lCÿlC',
+/* Albania,Tirana */ 'yA{EzHyFÿzD',
+/* Belarus,Minsk */ '{/|32+ÿ+ÿÿ/',
+/* Bosnia and Herzegovina ,Sarajevo */ '{?yA{Eÿ{B',
+/* Burkina Faso,Ouagadougou */ 'f|jtlzj}h}hÿiy',
+/* Cameroon,Yaoundé */ 'qv{vxrÿt',
+/* Central African Republic,Bangui */ 'vwz}}ÿÿ',
+/* Republic of the Congo ,Brazzaville */ 'yxtsvvxwÿw',
+/* Democratic Republic of the Congo ,Kinshasa */ 'txy¡©|¤|zzxwÿw',
+/* Cote d'Ivoire,Yamoussoukro */ 'dd}hhÿf',
+/* Costa Rica,San Jose */ '%|\'}(%~ÿ\'~',
+/* Colombia,Bogotá */ ')-0424/0{+,ÿ/',
+/* Bolivia,La Paz */ '2¥3²6¹9»9³<µ5¢ÿ4°',
+/* Cabo Verde,Praia */ 'VuÿXuÿXsÿXrÿWrÿVqÿXu',
+/* Cyprus,Nicosia */ 'PPRÿQ',
+/* Benin,Porto-Novo */ 'k|lmmyÿm',
+/* Cambodia,Phnom Penh */ '¾ÿÁzÀv½wÿ¿z',
+/* Dominica,Roseau */ '9uÿ9u',
+/* Dominican Republic,Santo Domingo */ '1l1p4nÿ2o',
+/* Equatorial Guinea,Malabo */ 'rtsrÿqÿq',
+/* Guatemala,Guatemala City */ ' u#q$t"wÿ!u',
+/* Haiti,Port-au-Prince */ '1p1m0m/pÿ1n',
+/* Honduras,Tegucigalpa */ '$t\'t(v$y#vÿ%v',
+/* Jordan,Amman */ 'ZTSV\\ÿU',
+/* Kazakhstan,Astana */ '53.,©7¥BBF=@D@;<ÿ4',
+/* Kosovo,Pristina */ 'zC{C{Eÿ{D',
+/* Kuwait,Kuwait City */ '\\]Xÿ[',
+/* Laos,Vientiane */ 'ºj¼hÀtÀw¾u½o»pºlÿ¼o',
+/* Kenya,Nairobi */ 'ÿ',
+/* Malaysia,Kuala Lumpur */ '»½¾¼ÿÂÇÉÈÃÿ½',
+/* Mali,Bamako */ 'ecgcnomtjtf|ha{auftÿdy',
+/* Malta,Valletta */ 'vOÿvO',
+/* Moldova,Chisinau */ '=ÿ8;ÿ;',
+/* Pakistan,Islamabad */ '[bc¢Xÿ [',
+/* Panama,Panama City */ '\'(+,+*)ÿ*',
+/* San Marino,San Marino */ 't@ÿt@',
+/* Senegal,Dakar */ ']s_ravaz]z_x\\vÿ]v',
+/* Serbia,Belgrade */ 'zC|B{?yAÿzA',
+/* Seychelles,Victoria */ 'ÿ',
+/* Somalia,Mogadishu */ '}{ÿ',
+/* Sri Lanka,Sri Jayawardenepura Kotte */ '««­ÿ«',
+/* Sudan,Khartoum */ '~h|ww}ogiÿt',
+/* Tanzania,Dodoma */ '¢£¦¥ÿ',
+/* Thailand,Bangkok */ 'ºl¸mºz¹»½º»x½z½v¾u½o»pºlÿ»w',
+/* Yemen,Sana'a */ 'rorzrÿu',
+/* Zimbabwe,Harare */ '²­°¹¹²ÿ±',
+
+
+/* Antigua and Barbuda,Saint John's */ '8qÿ8q',
+/* Armenia,Yerevan */ 'GGEEÿF',
+/* Azerbaijan,Baku */ 'EIIDÿG',
+/* Angola,Luanda */ 'txxzz||¤~¥}©|©|¯}±t°u¤ÿu¡',
+/* Bahamas,Nassau */ '-c-eÿ.bÿ.c',
+/* Bahrain,Manama */ '`ÿ`',
+/* Bangladesh,Dhaka */ '°a¯f°i³g´j³bÿ±e',
+/* Barbados,Bridgetown */ ':yÿ:y',
+/* Belize,Belmopan */ '#p%o#tÿ$q',
+/* Bhutan,Thimphu */ '°^±\\²^ÿ±]',
+/* Botswana,Gaborone */ '~²{³z¾{Â}¿À¹ÿ¾',
+/* Brunei,Bandar Seri Begawan */ 'ÆÇÇÿÇ',
+/* Burundi,Bujumbura */ 'ÿ',
+/* Chad,N'Djamena */ 'wfvgwruww}||w}s}lÿv{',
+/* Comoros,Moroni */ '¦ÿ¦',
+/* Djibouti,Djibouti */ 'z|zÿ{',
+/* El Salvador,San Salvador */ '"w#v$yÿ#x',
+/* Eritrea,Asmara */ 'qsvwzztÿu',
+/* Ethiopia,Addis Ababa */ 'p}wvÿ',
+/* Fiji,Suva */ 'ø±ù±ù³ÿú¯ÿù²',
+/* Gabon,Libreville */ 'rstuvvsqÿr',
+/* Gambia,Banjul */ ']w_x]yÿ]x',
+/* Georgia,Tbilisi */ '@CEEÿD',
+/* Ghana,Accra */ 'hh}j}kÿj',
+/* Grenada,St. George's */ '9zÿ9z',
+/* Guinea,Conakry */ '^}_zc{dba_ÿ_~',
+/* Guinea-Bissau,Bissau */ '^|_z]zÿ^{',
+/* Kiribati,South Tarawa */ 'ûÿú ÿû¡ÿû¡',
+/* Kyrgyzstan,Bishkek */ 'B¥B¢HH¡FCÿ¢C',
+/* Latvia,Riga */ '|\'ÿ),z*z(ÿ|)',
+/* Lesotho,Maseru */ 'ÅÇÉÇÿÆ',
+/* Liberia,Monrovia */ 'abcddÿb',
+/* Liechtenstein,Vaduz */ 'r:ÿr:',
+/* Malawi,Lilongwe */ '£ª°®£ÿª',
+/* Maldives,Male */ '¦ÿ¥ÿ¦ÿ¥ÿ¥ÿ¥',
+/* Marshall Islands,Majuro */ 'ñÿóÿôÿôÿõÿõÿô',
+/* Mauritania,Nouakchott */ ']j`jaad`gcecft`u_r]sÿ^o',
+/* Mauritius,Port Louis */ '¶ÿ¶',
+/* Micronesia,Palikir */ 'ßxÿßx',
+/* Mongolia,Ulaanbaatar */ '©7¬4°6°2¹7¼5¾6¾0Ã2ÄBÂEÁC¼Oÿ¼=',
+/* Montenegro,Podgorica */ 'yEzDyByCÿzD',
+/* Mozambique,Maputo */ '¦®°ª¬®°¹ºÁ»¶®¦ÿ¿',
+/* Myanmar,Naypyidaw */ '·]³i¶t¸rº}ºz¸mºk·]ÿ·k',
+/* Namibia,Windhoek */ 't°±{³zÅwÅÿxº',
+/* Nauru,Yaren District */ 'ïÿï',
+/* Nicaragua,Managua */ '$y(u\'|%|ÿ%z',
+/* Niger,Niamey */ 'jtlzowuxwrvhtfnnmtjuÿmw',
+/* Nigeria,Abuja */ 'm{myowuxv|qomÿp',
+/* Oman,Muscat */ 'roidhorÿg',
+/* Palau,Ngerulmud */ '×ÿ×',
+/* Papua New Guinea,Port Moresby */ 'ÜÜ¡ßä¥áæäåáÜÿà ',
+/* Rwanda,Kigali */ 'ÿ',
+/* Saint Kitts and Nevis,Basseterre */ '8pÿ8p',
+/* Saint Lucia,Castries */ '9wÿ9w',
+/* Saint Vincent and the Grenadines,Kingstown */ '9yÿ9y',
+/* Samoa,Apia */ 'ý¬ÿý¬',
+/* Sao Tome and Principe,São Tomé */ 'pÿp',
+/* Sierra Leone,Freetown */ '_abaÿ`',
+/* Solomon Islands,Honiara */ 'í¤ÿì¡ÿë¢ÿëêÿé ÿë¢',
+/* South Sudan,Juba */ '}ÿ',
+/* Suriname,Paramaribo */ ':8;>>ÿ<',
+/* Swaziland,Mbabane */ 'ÃÂÀÿÁ',
+/* Syria,Damascus */ 'NMSSÿQ',
+/* Tajikistan,Dushanbe */ 'LIEH¢I¤NÿJ',
+/* Timor-Leste,Dili */ 'Ï¡Ï£ÑÿÐ¢',
+/* Togo,Lomé */ 'kj}k|lÿk',
+/* Tonga,Nuku'alofa */ 'ý¸ÿý¸',
+/* Trinidad and Tobago,Port of Spain */ //'9}9ÿÿ9}',
+/* Turkmenistan,Ashgabat */ 'MBECLPKÿJ',
+/* Tuvalu,Funafuti */ 'ü ÿü ',
+/* Uganda,Kampala */ 'ÿ',
+/* Uzbekistan,Tashkent */ 'D@=FB¡FHFILLCEDÿE',
+/* Vanuatu,Port Vila */ 'ð¬ð¯ÿñ®ÿñ±ÿñ³ÿñµÿñ¶ÿñ°',
+/* Zambia,Lusaka */ '²}±|¯|ª}©~¦©¡¢£«­²ÿ¬',
+
+/* Greenland */ 'H	Zh^`TP$L"O',
+/* Western sahara */ ']j`jaadac]`^',
+
+];
+
+sp=""; // current subpath
+
+l=s=>console.log(s);
+
+// Trace path
+C.onclick = function(e){
+    if(e.which==1){
+        var x=String.fromCharCode(~~(e.pageX/4)).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/\r/g,"\\r").replace(/\n/g,"\\n").replace(/</g,"&lt;");
+        //l((e.pageX/4).toString(16));
+        var y=String.fromCharCode(~~(e.pageY/2)).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/\r/g,"\\r").replace(/\n/g,"\\n").replace(/</g,"&lt;");
+        //l((e.pageY/2).toString(16));
+        sp+=x;
+        P.innerHTML+=x;
+        sp+=y;
+        P.innerHTML+=y;
+        //l(x.charCodeAt(0));
+        //l(y.charCodeAt(0));
+    }
+}
+
+// Next point of path
+W = 0;
+currentside=0;
+show=function(e){
+    W+=1;
+    W=W%220;
+    
+    C.width=C.width;
+    c.strokeStyle="red";
+    c.lineWidth="1";
+    c.beginPath();
+    //c.arc(230, 200, 200, 0, 7);
+    c.stroke();
+    
+    var path, subpath;
+    
+    for(k=0;k<p.length;k++){
+    
+        path=p[k].split("ÿ");
+        for(i=0;i<path.length;i++){
+            subpath = path[i].replace(/\\\\/g,"\\").replace(/\\r/g,"\r").replace(/\\n/g,"\n").replace(/\\'/g,"'").replace(/&lt;/g,"<");
+            c.beginPath();
+            
+            
+            //c.moveTo(subpath.charCodeAt(0)*4+2-.1, subpath.charCodeAt(1)*2+1-.1);
+            for(j=0;j<subpath.length;j+=2){
+                x2= (subpath.charCodeAt(j) + W) / 110;
+                y2= -(subpath.charCodeAt(j+1) - 120) / 150;
+
+                while(x2>1){
+                    x2-=2;
+                }
+                
+                //l(x2);
+                //if(x2>-1&&x2<=-.5 && p[k]!= russia && p[k]!= canada)x2=-0.5;
+                //if(x2>.5&&x2<=1 && p[k]!= russia && p[k]!= canada)x2=0.5;
+                
+
+                /*if(!j && p[k]!= russia && p[k]!= canada){
+                    if(x2 < 0) currentside = -.5;
+                    if(x2 > 0) currentside = .5;
+                }
+                
+                if(p[k]== russia){
+                    currentside = -.5;
+                    if(W>50)currentside = .5;
+                    if(W>160)currentside = -.5;
+                }
+                
+                if(p[k]== canada){
+                    currentside = .5;
+                    if(W>80)currentside = -.5;
+                    if(W>180)currentside = .5;
+                }
+                if((x2 <= -.5 || x2 >= .5)){
+                    x2 = currentside
+                }*/
+                
+                //l(x2);
+                //l(y2);
+                x2 = Math.sin(x2 * Math.PI) * Math.cos(y2 * Math.PI / 2)
+                y2 = Math.sin(-y2 * Math.PI/2)
+                
+                x2 = x2 * 100 + 100;
+                y2 = y2 * 100 + 100;
+                //if(!j) c.lineTo(x2*4+2, y2*2+1);
+                //c.lineTo(x2*4+2, y2*2+1);
+                
+                if(!j) c.lineTo(x2*2+30, y2*2);
+                c.lineTo(x2*2+30, y2*2);
+
+            }
+            c.closePath();
+            c.fill();
+            c.stroke();
+            
+            
+            
+        }
+    
+    }
+    
+    
+    path=sp.split("ÿ");
+    for(i=0;i<path.length;i++){
+        subpath = path[i].replace(/\\\\/g,"\\").replace(/\\r/g,"\r").replace(/\\n/g,"\n").replace(/\\'/g,"'").replace(/&lt;/g,"<");
+        c.moveTo(subpath.charCodeAt(0)*4+2-.1, subpath.charCodeAt(1)*2+1-.1);
+        for(j=0;j<subpath.length;j+=2){
+            x2=subpath.charCodeAt(j);
+            y2=subpath.charCodeAt(j+1);
+            c.lineTo(x2*4+2, y2*2+1);
+        }
+        c.stroke();
+    }
+    
+    //c.lineTo(~~(e.pageX/4)*4+2, ~~(e.pageY/2)*2+1);
+    c.stroke();
+}
+
+cca = function(s, c){
+    return s.charCodeAt(c);
+}
+
+// Change path
+onkeydown=function(e){
+    if(e.keyCode== 32){
+        p.push(sp);
+        P.innerHTML+="',\n/* " + d[p.length] + " */ '";
+        sp="";
+    }
+}
+
+// Separate islands/parts of a country
+C.oncontextmenu = function(e){
+    sp+="ÿ";
+    P.innerHTML+="ÿ";
+    return false;
+}
+
+//P.innerHTML= "/* " + d[p.length] + " */ '";
+
+setInterval(show, 20);
+
+
+</script>
