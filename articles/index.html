@@ -25,10 +25,201 @@
     <div class=footer>© <script type="text/javascript">document.write(new Date().getFullYear())</script> - <a href="//github.com/xem" target=_blank>Github</a> - <a href="../cv/cv-en.html" target=_blank>CV</a></div>
   </div>
   <div class=body>
+  
+<div class=section id=js13k2015>
+  <h2>JS13kGames 2015 post-mortem: GeoQuiz</h2>
+  <h3>august-september 2015</h3>
+  <p>All code-golfers can tell you this: 13kb is huge. Even for a full-featured HTML5 game. (<a href="http://js13kgames.com/entries/alchemixer">Last year</a>, I didn't manage to use more than 9kb). But rules are rules, and this year again, we have a month to fill a 13kb zip with a high-quality game for... <b><a href="http://js13kgames.com/">js13kgames.com</a></b> !
+  <p>To avoid being annoyed by such a high limit, I decided to make something big, something so big that people will ask themselves how it can fit in just 13kb. Something big enough that I would also wonder how I will pack it in 13kb... and develop my own tools to achieve that goal. Then yes, JS13kGames would be a great code-golfing and compression challenge!
+  <p>Games contain code and data. 13kb of golfed code is very hard to write, so I decided to make a game that uses a lot of data. There was this Flash game that I liked a lot at university: <a href="http://www.travelpod.com/traveler-iq">Traveller's IQ challenge</a>. Its goal was to find famous places (cities, capitols, monuments...) on a World map. I chose to make a game like that, but with my own style.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>A few days before the compo...</h3>
+  <p><i>To be clear, the final game doesn't contain any code or data produced before the beginning of the compo. During this couple of days, I just began to develop my design/compression tools and produced dummy data that would be replaced afterwards.</i>
+  <p>As I was waiting for the compo to start, I started experimenting with different techniques to store efficiently the names, capitols and shapes of all the countries of the world. I chose <a href="images/js13k15/model.png">a good-looking, yet outdated World map</a> (I did not want a Mercator projection - It's too stretched and unrealistic around the poles) and hacked a little tool that would allow me draw the outline of each country with my mouse, on a canvas. The logic was a bit similar to <a href='#js1k_floppydragon'>what I did for Flappy Dragon during JS1k 2014</a>, but with less precision, because this time, I had to draw at least 197 countries. After many experiments, I chose the following way: I placed the model of my map on a 1024 by 512px canvas. Then, for each country and for each point I clicked, the tool would gather two mouse coordinates on the map (X and Y), and append the value of X/4 and Y/2, converted in Unicode, to a string representing the given country. X/4 and Y/2 turned out to be bounded between 0 and 253, so I used one single char for each coordinate, and the character 255 ("ÿ") as a separator for the countries (like Canada) consisting of multiple islands or territories. The capitol's coordinates are appended at the end. With this technique, I could fill a JSON file that looked like this:
+  <p><pre class="code">
+{
+    ...
+    'Brazil,Brasilia': '?É?½5¢0¦/8;ABNJ»D¿BÎÿD²',
+    'Bulgaria,Sofia': '{?AD|Eÿ|B',
+
+    'Canada,Ottawa': '8"9<\nFOB\nBGA!<(...);A9D3:7?=;A9;.D+7ÿ%)\r11ÿ+\n/4/\rÿ5:4ÿ8<9\r5ÿ3=',
+    <b>//   &#11014;                      &#11014;                           &#11014;      &#11014;        &#11014;           &#11014;
+    // Country, capitol    Sequence of X/Y coordinates      Islands separators    Capitol coordinates</b>
+
+    'Chile,Santiago': '7ë4È6¹2±4Ý7ï=õ;ï7ëÿ4Ì',
+    'China,Beijing': '©7¢I¨W°^·\\ºj¾gÂkÈdÉXÄHËBË8Ã2ÄB¼MÿÁmÃlÂpÁoÿÂI',
+    ...
+}</pre>
+  
+  <p>But to draw the map from that JSON, it wasn't as easy and straightforward as I imagined... here are a few screenshots of my first tests featuring a low-detailed map:
+  <br>
+  <br>
+  <img src="images/js13k15/1.png" style="width: 600px; border: 1px solid">
+  <br>
+  <i>fig. 1: Unicode madness, most countries leak everywhere and half of Russia somehow gets drawn over south America.</i>
+  <br>
+  <br>
+  <img src="images/js13k15/2.png" style="width: 600px; border: 1px solid">
+  <br>
+  <i>fig. 2: Debugging, displaying small dots for the capitols, redrawing countries with corrupted data...</i>
+  <br>
+  <br>
+  <img src="images/js13k15/3.png" style="width: 600px; border: 1px solid">
+  <br>
+  <i>fig. 3: More debugging... drawing all countries... and realizing that many territories like Greenland and Western Sahara are not countries... Damn, Earth! :)</i>
+  <br>
+  <br>
+  <p>These tests confirmed that this project was possible. Indeed, the names, shapes and capitols of all the countries on Earth can fit in just 6.2kb in JSON. Now I'm sure there is plenty of room left for a more detailed map, plus the game's code, the music and even more data!
+  <p>But I didn't stop there. I used the unused char U+254 ("þ") as a separator, and made a big string with all my JSON's data...
+  <pre class="code">Algeria,AlgiersþtfpRqLiOjVc]noÿmNþArgentina,Buenos Airesþ6¸?Ã>Ï@Ö<Ù;ï7ë4Èÿ<ñ=õ@õÿ>Ðþ ... </pre>
+  <p>Then I made a tool that converts this string in a binary file. After gzipping, I saw my data fell from 6.2kb to 5.6kb! 600 bytes freed so easily, <a href="https://twitter.com/MaximeEuziere/status/630818472608534528">that's a great news</a>! If you're wondering why this conversion is so efficient, it's for two main reasons. First, the JSON contained some escape sequences ("\\" instead of "\", "\r" and "\n" instead of line breaks, \' instead of quotes) that became a single byte in binary. But most of the savings come from the "code point-to-binary" conversion for all the characters between U+80 and U+FF (these characters take 2 bytes each in UTF-8, as opposed to just 1 byte if we store their code points in binary). You can find more info about how many bytes are used for each character in each charset on <a href="http://xem.github.io/charsets">this page</a>.
+  
+  <p>Here's a golfed encoder that does this conversion in about 230b:
+  <pre class="code">
+// Unicode to binary encoder
+// Input (m) can contain chars between U+0 and U+255
+// Output (download) is a binary file
+m=m.replace(/\\\\/g,"\\").replace(/\\r/g,"\r").replace(/\\n/g,"\n").replace(/\\'/g,"'");y=[];for(i in m)y.push(m.charCodeAt(i));location="data:application/octet-stream;base64,"+btoa(String.fromCharCode.apply(!1,new Uint8Array(y)))</pre>
+
+  <p>Of course, this binary data needs to be read and converted back as a long Unicode string. I made a little JS program that does it in about 160bytes. It's totally worth the overhead, considered the hundreds of bytes that can be saved through binary.
+  
+  <pre class="code">
+// Binary to Unicode decoder
+// After execution, h contains the decoded string.
+with(new XMLHttpRequest)open("GET","data.bin"),responseType='arraybuffer',send(),onload=function(){h="";for(i in u=new Uint8Array(response))h+=String.fromCharCode(u[i])}</pre>
+  <p><b>Golf tip:</b> instead of data.bin, you can name your binary file "0" (or any number), without extension. It will reduce the name used in open() but also make the quotes unnecessary:
+<pre class="code">with(new XMLHttpRequest)open("GET",0), ... </pre>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Compo: Day 1</h3>
+  
+  <p>When the compo started, my map editor was fully functional, and I could start developing my game for real. But before that, I wanted to experiment another thing: to represent the Earth on a 3D-looking sphere instead of always a flat map.
+  <p>I didn't want to use (or make) a 3D engine just for that. I was looking for a very lightweight solution to give the illusion of a real sphere using a few tricks of trigonometry-fu, like <b>Aemkei</b> did for his <a href="http://aem1k.com/world/">1kb world</a>. I'm not an expert but, by chance, my friend <b>Subzey</b> helped me write these simple equations that turn instantly some map coordinates into a projected globe's coordinates:
+  
+  <pre class="code">
+// map_x and map_y placed in the interval [-1:1]
+globe_x = Math.sin(map_x * Math.PI) * Math.cos(map_y * Math.PI / 2);
+globe_y = Math.sin(map_y * Math.PI/2);</pre>
+  <br>
+  <img src="images/js13k15/4.png" style="width: 250px; border: 1px solid; float: right; margin: 0 0 20px 20px">
+  For more info, tke a look at <a href="http://codepen.io/subzey/pen/rVoXQx">this demo by Subzey</a>.
+  <br>
+  <br>
+  Here's <a href="images/js13k15/5.png">what I saw when I tried to adapt this technique to my map</a>.
+  <br>
+  <br>
+  After debugging, here's a <a href="demos/js13k15/globe1.html">demo using my world map (animated)</a>
+  <br>
+  <br>
+  <p>After long days fighting with Canada and Russia (because they are too large to behave correctly where the "-1" and the "1" are connected), I managed to hide the back side of the globe and thus, make it much more realistic.
+  <br>
+  <br>
+  Here's a <a href="demos/js13k15/globe2.html">demo with only the front face of the globe (animated)</a>
+  <br>
+  <br>
+  <p>Great! Everything works. All that's left to do now is to develop the game in a few kilobytes, use another couple of kb for music, and all the rest of my zip will be used to store as many data as possible.  
+  <p>The first thing I developed in the game was a "Home screen" (featuring the rotating 3D globe in more realistic colors, plus slightly blinking stars scrolling in the background), and a presentation screen for each "level" of the game.
+  <br>
+  <br>
+  <img src="images/js13k15/6.png" style="width: 600px; border: 1px solid">
+  <br>
+  <br>
+  <img src="images/js13k15/7.png" style="width: 600px; border: 1px solid">
+  <br>
+  <blockquote class="twitter-tweet" lang="fr"><p lang="en" dir="ltr">Day 1: I already initialized 46 variables and wrote 430 lines of code for my game. (2.7kb mini/1.2k gzip) Just the beginning! :)&#10;<a href="https://twitter.com/hashtag/js13kgames?src=hash">#js13kgames</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/631898962954465281">13 Août 2015</a></blockquote>
+  <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <br>
+  <hr>
+  <br>
+  <h3>Compo: Day 2</h3>
+  <p>I improved the graphics with better colors and gradients.
+  <br>
+  <br>
+  <img src="images/js13k15/8.png" style="width: 600px; border: 1px solid">
+  <br>
+  <br>
+  <img src="images/js13k15/9.png" style="width: 600px; border: 1px solid">
+  <br>
+  <p>I also began to implement a basic interactivity: showing the name of a target and a 10-second timer, clicking on the map, telling if the target has been clicked, and restarting with the next puzzle.
+  <br>
+  <br>
+  <img src="images/js13k15/11.png" style="width: 600px; border: 1px solid">
+  <br>
+  <p>To find if a country is clicked, I use the canvas function "ctx.isPointInPath(mouseX, mouseY)" just after drawing the country in yellow. It's very handy! But when we click outside of the country, I have to loop on all the points of the country, compute which one is the closest (computing distances using Pythagore), and use it for the green flag and the red line.
+  <br>
+  <br>
+  <img src="images/js13k15/10.png" style="width: 600px; border: 1px solid">
+  <br>
+  <blockquote class="twitter-tweet" lang="fr"><p lang="en" dir="ltr">Day 2: game specs are almost finalized, the design takes shape. it&#39;s a little playable already :)&#10;48 vars, 4.2kb min, 1.8kb zip&#10;<a href="https://twitter.com/hashtag/js13kgames?src=hash">#js13kgames</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/632279653504393216">14 Août 2015</a></blockquote>
+  <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <br>
+  <hr>
+  <br>
+  <h3>Day 3</h3>
+  <p>I started refactoring, cleaning, simplifying some code and tried to compress my data a little bit more.
+  <p>Remember, in my JSON file, the islands and the capitol were separated by a "ÿ". But the capitol always corresponds to the last two chars of a country. This means I can drop the last "ÿ" in each country, and isolate the last two chars representing the capitol coordinates. With 197 countries on Earth, that's 197 bytes saved in my binary file. There's a little JS overhead to retrieve manually the coordinates, but it's worth it, because my zip is now 200 bytes smaller than before.
+  It doesn't seem a lot, but 200 free bytes are great to enhance the final game's code and data. In this project, every byte counts!
+  <p>I also worked on the gameplay and added an distance counter that tells you an idea of how far you are from a target. This number will be used to compute the player's score.
+  <br>
+  <br>
+  <img src="images/js13k15/12.png" style="width: 600px; border: 1px solid">
+  <br>
+  <p>Of course, Pythagore isn't a great solution to compute distances on a sphere projected on a map, but for now it works well enough. I'll enhance the formula if I have the time and the bytes for it...
+  <p>I also worked on the gameplay of the level 2 (finding capitols):
+  <br>
+  <br>
+  <img src="images/js13k15/13.png" style="width: 600px; border: 1px solid">
+  <br>
+  <br>
+  <img src="images/js13k15/14.png" style="width: 600px; border: 1px solid">
+  <p>... and worked on the scoring system (your "error gauge" decreases after every mistake and if it reaches 0, the game is over).
+  <br>
+  <hr>
+  <br>
+  <h3>Day 4</h3>
+  <p>With a little help from my friends, I produced an important chunk of data: the names and positions of famous places on Earth. There are 100 of them, separated in 3 categories (easy, medium, hard). The compression technique is about the same as the countries and capitols. The data looks like this:
+  <pre class="code">Christ the RedeemerHºþThe Great Chinese WallÁIþThe Great SphinxZþThe Eiffel Towerm9þ...</pre>
+  <p>The coordinates are glued to the places' names (similarly to the capitols), and all the places are separated by the character "þ".
+  <br>
+  <hr>
+  <br>
+  <h3>Day 5</h3>
+    monday
+  <br>
+  <hr>
+  <br>
+  <h3>Day 6</h3>
+    tue
+  <br>
+  <hr>
+  <br>
+  <h3>Day 7</h3>
+    wed
+  <br>
+  <hr>
+  <br>
+  <h3>Day 8</h3>
+    thu
+  <br>
+  <hr>
+  <br>
+  <h3>Day 9</h3>
+    fri
+  <br>
+  <hr>
+  <br>
+  <h3>Day 10</h3>
+    sat
+</div>
 
 <div class=section id=js1k2015>
-  <h2>JS1k 2015</h2>
-	<h3>february 2015</h3>
+  <h2>JS1k 2015 post-mortem</h2>
+  <h3>february 2015</h3>
   <p>This month was very busy! I spent almost all my free time <s>working</s> golfing for JS1k.</p>
   <br>
   <p>➾ I contributed to <a href="http://subzey.github.io/js1k2015invitro/" target=_blank>the great invitro</a> made by @subzey, by finding a brand new compression technique, allowing to hash the canvas properties as well as the canvas functions.
@@ -329,7 +520,7 @@ setInterval(loop, 30);</pre>
 </div>
 
 <div class=section id=js13k2014>
-	<h2>JS13k 2014</h2>
+	<h2>JS13k 2014 post-mortem </h2>
 	<h3>september 2014</h3>
   <p><a href=//js13kgames.com>JS13kgames</a> is an annual code golfing competition where you can build (desktop / mobile / server-based) HTML5 games that have to fin in a 13kb zip.</p>
   <p>13kb is <a href=//twitter.com/mrspeaker/status/234946942214496256>like, infinity</a> for extreme code golfers, but we decided to give it a try anyway:</p>
@@ -408,7 +599,7 @@ setInterval(loop, 30);</pre>
 </div>
 
 <div class=section id=js1k_2pgames>
-	<h2>JS1k 2014 - 2P Games</h2>
+	<h2>JS1k 2014 post-mortem: 2P Games</h2>
 	<h3>march 2014</h3>
   <p>Welcome again, to the making-of of <a href= target=_blank>2P Games classic</a> and <a href=//js1k.com/2014-dragons/demo/1933 target=_blank>2P Games ++</a>, my team projects for <a href=//js1k.com target=_blank>JS1k</a> 2014.
   <p>I've made these games with the awesome code golfer <b>Subzey</b>, who helped me in many code-golfing projects last year<br>(<a href=//github.com/xem/miniCodeEditor target=_blank>a JSfiddle clone</a>, <a href=//github.com/xem/chip8 target=_blank>a chip8 emulator</a>, <a href=//github.com/xem/paste target=_blank>a Pastebin clone</a>, <a href=//github.com/xem/JSciissors target=_blank>a JS packer</a>,  <a href=//gist.github.com/xem/7086007 target=_blank>a JS-to-unicode converter</a>, ...)
@@ -993,7 +1184,7 @@ else{
 </div>
 
 <div class=section id=js1k_floppydragon>
-	<h2>JS1k 2014 - Floppy Dragon</h2>
+	<h2>JS1k 2014 post-mortem: Floppy Dragon</h2>
 	<h3>febuary 2014</h3>
   <p>Welcome to the making-of of <a href=//js1k.com/2014-dragons/demo/1704 target=_blank>Floppy Dragon</a>, my individual entry for <a href=//js1k.com target=_blank>JS1k</a> 2014.
   <p>In febuary 2014, all the Internet was talking about the game Flappy Bird, so I decided (for fun) to make a mini-game inspired by that, but featuring a dragon instead of a bird, and stalactites in a cave instead of pipes. I also wanted to introduce many cool details such as responsive display, nice animated graphics, random maps, increasing speed and difficulty, textual interface, etc. And, of course, it had to fit in 1k of JavaScript.
@@ -2457,6 +2648,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#js13k2015'>JS13kGames 2015: GeoQuiz
       <li><a href='#js1k2015'>JS1k 2015: MiniApps, MiniGames, hypeRcube
       <li><a href='#js13k2014'>JS13k 2014: Alchemixer, Quintessence
       <li><a href='#dom'>DOM oddities
