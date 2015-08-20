@@ -188,33 +188,18 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   <br>
   <hr>
   <br>
-  <h3>Day 5</h3>
-    monday
+  <h3>Days 5-11</h3>
+    <p>I spent the spare time I had this week adding the U.S.A. states and capitols to my database. Same format as the World's cities and capitols, but I directly drew the "final map", i.e. with all the little details I could draw. This brought my total data counter to 7.9kb zipped.
+    <img src="images/js13k15/15.png" style="width: 600px; border: 1px solid">
+    <p>I also decided to optimize (once again) my data: I separated the text and the binary data. I now have one big JS string with all my names (the advantage of this is that I don't have to find and decode these names from a binary file anymore), and a binary file that contains only the coordinates of all my places. I also changed the order of the data to put all the places first, then all the capitols, then all the US capitols, then all the countries, then all the US states. The advantage of this is that I don't need separators between the three first datasets, because I know they are comprised of 2-byte entries (the place/capitol/US capitol's X and Y coordinates).
   <br>
   <hr>
   <br>
-  <h3>Day 6</h3>
-    tue
+  <h3>Day 12</h3>
   <br>
   <hr>
   <br>
-  <h3>Day 7</h3>
-    wed
-  <br>
-  <hr>
-  <br>
-  <h3>Day 8</h3>
-    thu
-  <br>
-  <hr>
-  <br>
-  <h3>Day 9</h3>
-    fri
-  <br>
-  <hr>
-  <br>
-  <h3>Day 10</h3>
-    sat
+  
 </div>
 
 <div class=section id=js1k2015>
