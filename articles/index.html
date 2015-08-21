@@ -29,7 +29,11 @@
 <div class=section id=js13k2015>
   <h2>JS13kGames 2015 post-mortem: GeoQuiz</h2>
   <h3>august-september 2015</h3>
-  <p>All code-golfers can tell you this: 13kb is huge. Even for a full-featured HTML5 game. (<a href="http://js13kgames.com/entries/alchemixer">Last year</a>, I didn't manage to use more than 9kb). But rules are rules, and this year again, we have a month to fill a 13kb zip with a high-quality game for... <b><a href="http://js13kgames.com/">js13kgames.com</a></b> !
+  <br>
+  <p>>> <a href="">PLAY THE GAME HERE</a> <<
+  <br>
+  <br>
+  <p>13kb seems small, but actually it's huge... even for a full-featured HTML5 game. (<a href="http://js13kgames.com/entries/alchemixer">Last year</a>, I didn't manage to use more than 9kb). But rules are rules, and this year again, we have a month to fill a 13kb zip with a high-quality game for... <b><a href="http://js13kgames.com/">js13kgames.com</a></b> !
   <p>To avoid being annoyed by such a high limit, I decided to make something big, something so big that people will ask themselves how it can fit in just 13kb. Something big enough that I would also wonder how I will pack it in 13kb... and develop my own tools to achieve that goal. Then yes, JS13kGames would be a great code-golfing and compression challenge!
   <p>Games contain code and data. 13kb of golfed code is very hard to write, so I decided to make a game that uses a lot of data. There was this Flash game that I liked a lot at university: <a href="http://www.travelpod.com/traveler-iq">Traveller's IQ challenge</a>. Its goal was to find famous places (cities, capitols, monuments...) on a World map. I chose to make a game like that, but with my own style.
   <br>
@@ -37,8 +41,8 @@
   <hr>
   <br>
   <h3>A few days before the compo...</h3>
-  <p><i>To be clear, the final game doesn't contain any code or data produced before the beginning of the compo. During this couple of days, I just began to develop my design/compression tools and produced dummy data that would be replaced afterwards.</i>
-  <p>As I was waiting for the compo to start, I started experimenting with different techniques to store efficiently the names, capitols and shapes of all the countries of the world. I chose <a href="images/js13k15/model.png">a good-looking, yet outdated World map</a> (I did not want a Mercator projection - It's too stretched and unrealistic around the poles) and hacked a little tool that would allow me draw the outline of each country with my mouse, on a canvas. The logic was a bit similar to <a href='#js1k_floppydragon'>what I did for Flappy Dragon during JS1k 2014</a>, but with less precision, because this time, I had to draw at least 197 countries. After many experiments, I chose the following way: I placed the model of my map on a 1024 by 512px canvas. Then, for each country and for each point I clicked, the tool would gather two mouse coordinates on the map (X and Y), and append the value of X/4 and Y/2, converted in Unicode, to a string representing the given country. X/4 and Y/2 turned out to be bounded between 0 and 253, so I used one single char for each coordinate, and the character 255 ("ÿ") as a separator for the countries (like Canada) consisting of multiple islands or territories. The capitol's coordinates are appended at the end. With this technique, I could fill a JSON file that looked like this:
+  <p><i>To be clear, the final game doesn't contain any code or data produced before the beginning of the compo. During this couple of days, I just began to develop my design tools and produced dummy data that would be replaced afterwards.</i>
+  <p>As I was waiting for the compo to start, I started experimenting with different techniques to draw and store efficiently all the countries, capitols and famous places of the world. I chose <a href="images/js13k15/model.png">a good-looking, yet outdated World map</a> (I did not want a Mercator projection - It's too stretched and unrealistic around the poles) and hacked a little tool that would allow me draw the outline of each country with my mouse, on a canvas. The logic was a bit similar to <a href='#js1k_floppydragon'>what I did for Flappy Dragon during JS1k 2014</a>, but with less precision, because this time, I had to draw more than 197 countries. After many experiments, I chose the following way: I placed the model of my map on a 1024 by 512px canvas. Then, for each country and for each point I clicked, the tool would gather two mouse coordinates on the map (X and Y), and append the value of X/4 and Y/2, converted in Unicode, to a string representing the given country. X/4 and Y/2 turned out to be bounded between 0 and 253, so I could use two chars to represent each point, and the character 255 ("ÿ") as a separator for the countries (like Canada) consisting of multiple islands or territories. The capitol's coordinates are appended at the end. With this technique, I could fill a JSON file that looked like this:
   <p><pre class="code">
 {
     ...
@@ -46,7 +50,7 @@
     'Bulgaria,Sofia': '{?AD|Eÿ|B',
 
     'Canada,Ottawa': '8"9<\nFOB\nBGA!<(...);A9D3:7?=;A9;.D+7ÿ%)\r11ÿ+\n/4/\rÿ5:4ÿ8<9\r5ÿ3=',
-    <b>//   &#11014;                      &#11014;                           &#11014;      &#11014;        &#11014;           &#11014;
+    <b>//   &#11014;                      &#11014;                           &#11014;      &#11014;        &#11014;           &#11014;&#11014;
     // Country, capitol    Sequence of X/Y coordinates      Islands separators    Capitol coordinates</b>
 
     'Chile,Santiago': '7ë4È6¹2±4Ý7ï=õ;ï7ëÿ4Ì',
@@ -64,18 +68,18 @@
   <br>
   <img src="images/js13k15/2.png" style="width: 600px; border: 1px solid">
   <br>
-  <i>fig. 2: Debugging, displaying small dots for the capitols, redrawing countries with corrupted data...</i>
+  <i>fig. 2: Debugging, displaying small dots for the capitols, redrawing countries that had corrupted data...</i>
   <br>
   <br>
   <img src="images/js13k15/3.png" style="width: 600px; border: 1px solid">
   <br>
-  <i>fig. 3: More debugging... drawing all countries... and realizing that many territories like Greenland and Western Sahara are not countries... Damn, Earth! :)</i>
+  <i>fig. 3: More debugging... and realizing that many territories like Greenland and Western Sahara are not countries... Damn, Earth! :)</i>
   <br>
   <br>
   <p>These tests confirmed that this project was possible. Indeed, the names, shapes and capitols of all the countries on Earth can fit in just 6.2kb in JSON. Now I'm sure there is plenty of room left for a more detailed map, plus the game's code, the music and even more data!
   <p>But I didn't stop there. I used the unused char U+254 ("þ") as a separator, and made a big string with all my JSON's data...
   <pre class="code">Algeria,AlgiersþtfpRqLiOjVc]noÿmNþArgentina,Buenos Airesþ6¸?Ã>Ï@Ö<Ù;ï7ë4Èÿ<ñ=õ@õÿ>Ðþ ... </pre>
-  <p>Then I made a tool that converts this string in a binary file. After gzipping, I saw my data fell from 6.2kb to 5.6kb! 600 bytes freed so easily, <a href="https://twitter.com/MaximeEuziere/status/630818472608534528">that's a great news</a>! If you're wondering why this conversion is so efficient, it's for two main reasons. First, the JSON contained some escape sequences ("\\" instead of "\", "\r" and "\n" instead of line breaks, \' instead of quotes) that became a single byte in binary. But most of the savings come from the "code point-to-binary" conversion for all the characters between U+80 and U+FF (these characters take 2 bytes each in UTF-8, as opposed to just 1 byte if we store their code points in binary). You can find more info about how many bytes are used for each character in each charset on <a href="http://xem.github.io/charsets">this page</a>.
+  <p>Then I made a tool that converts this string in a binary file. After gzipping, I saw my data fell from 6.2kb to 5.6kb! 600 bytes saved, <a href="https://twitter.com/MaximeEuziere/status/630818472608534528">that's a great news</a>! If you're wondering why this conversion is so efficient, it's for two main reasons. First, the JSON contained some escape sequences ("\\" instead of "\", "\r" and "\n" instead of line breaks, \' instead of quotes) that became a single byte in binary (the escape was no longer necessary). But most of the savings come from the "code point-to-binary" conversion for all the characters between U+80 and U+FF (these characters take 2 bytes each in UTF-8, as opposed to just 1 byte if we store their code points in binary). You can find more info about how many bytes are used for each character in each charset on <a href="http://xem.github.io/charsets">this page</a>.
   
   <p>Here's a golfed encoder that does this conversion in about 230b:
   <pre class="code">
@@ -84,7 +88,7 @@
 // Output (download) is a binary file
 m=m.replace(/\\\\/g,"\\").replace(/\\r/g,"\r").replace(/\\n/g,"\n").replace(/\\'/g,"'");y=[];for(i in m)y.push(m.charCodeAt(i));location="data:application/octet-stream;base64,"+btoa(String.fromCharCode.apply(!1,new Uint8Array(y)))</pre>
 
-  <p>Of course, this binary data needs to be read and converted back as a long Unicode string. I made a little JS program that does it in about 160bytes. It's totally worth the overhead, considered the hundreds of bytes that can be saved through binary.
+  <p>Of course, at some point, this binary data needs to be read and converted back as a long Unicode string. I made a little JS program that does it in about 160bytes. It's totally worth the overhead, considered the hundreds of bytes that can be saved through binary.
   
   <pre class="code">
 // Binary to Unicode decoder
@@ -98,7 +102,7 @@ with(new XMLHttpRequest)open("GET","data.bin"),responseType='arraybuffer',send()
   <br>
   <h3>Compo: Day 1</h3>
   
-  <p>When the compo started, my map editor was fully functional, and I could start developing my game for real. But before that, I wanted to experiment another thing: to represent the Earth on a 3D-looking sphere instead of always a flat map.
+  <p>When the compo started, my map editor was functional, and I could start developing my game for real. But before that, I wanted to experiment another thing: to represent the Earth on a 3D-looking sphere instead of always a flat map.
   <p>I didn't want to use (or make) a 3D engine just for that. I was looking for a very lightweight solution to give the illusion of a real sphere using a few tricks of trigonometry-fu, like <b>Aemkei</b> did for his <a href="http://aem1k.com/world/">1kb world</a>. I'm not an expert but, by chance, my friend <b>Subzey</b> helped me write these simple equations that turn instantly some map coordinates into a projected globe's coordinates:
   
   <pre class="code">
@@ -160,10 +164,8 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   <br>
   <hr>
   <br>
-  <h3>Day 3</h3>
-  <p>I started refactoring, cleaning, simplifying some code and tried to compress my data a little bit more.
-  <p>Remember, in my JSON file, the islands and the capitol were separated by a "ÿ". But the capitol always corresponds to the last two chars of a country. This means I can drop the last "ÿ" in each country, and isolate the last two chars representing the capitol coordinates. With 197 countries on Earth, that's 197 bytes saved in my binary file. There's a little JS overhead to retrieve manually the coordinates, but it's worth it, because my zip is now 200 bytes smaller than before.
-  It doesn't seem a lot, but 200 free bytes are great to enhance the final game's code and data. In this project, every byte counts!
+  <h3>Days 3 & 4</h3>
+  <p>During this weekend, I started refactoring some code and compressed my data a little bit more (about 200b) by removing some separator bytes in my binary file. (But *spoiler alert* there will be a big data overhaul in a few days, so I'll talk more about it later!).
   <p>I also worked on the gameplay and added an distance counter that tells you an idea of how far you are from a target. This number will be used to compute the player's score.
   <br>
   <br>
@@ -179,19 +181,35 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   <img src="images/js13k15/14.png" style="width: 600px; border: 1px solid">
   <p>... and worked on the scoring system (your "error gauge" decreases after every mistake and if it reaches 0, the game is over).
   <br>
-  <hr>
-  <br>
-  <h3>Day 4</h3>
-  <p>With a little help from my friends, I produced an important chunk of data: the names and positions of famous places on Earth. There are 100 of them, separated in 3 categories (easy, medium, hard). The compression technique is about the same as the countries and capitols. The data looks like this:
-  <pre class="code">Christ the RedeemerHºþThe Great Chinese WallÁIþThe Great SphinxZþThe Eiffel Towerm9þ...</pre>
-  <p>The coordinates are glued to the places' names (similarly to the capitols), and all the places are separated by the character "þ".
+  <p>Also, with a little help from my friends, I produced an important chunk of data: the names and positions of 100 famous places on Earth, separated in 3 categories (easy, medium, hard). The data looks like this in JSON, but it will also be part of the final binary file:
+  <pre class="code">{
+  "Christ the Redeemer": "Hº",
+  "The Great Chinese Wall": "ÁI",
+  "The Great Sphinx": "Z",
+  "The Eiffel Tower", "m9"
+  ...
+}</pre>
+
   <br>
   <hr>
   <br>
   <h3>Days 5-11</h3>
     <p>I spent the spare time I had this week adding the U.S.A. states and capitols to my database. Same format as the World's cities and capitols, but I directly drew the "final map", i.e. with all the little details I could draw. This brought my total data counter to 7.9kb zipped.
+    <br>
+    <br>
     <img src="images/js13k15/15.png" style="width: 600px; border: 1px solid">
-    <p>I also decided to optimize (once again) my data: I separated the text and the binary data. I now have one big JS string with all my names (the advantage of this is that I don't have to find and decode these names from a binary file anymore), and a binary file that contains only the coordinates of all my places. I also changed the order of the data to put all the places first, then all the capitols, then all the US capitols, then all the countries, then all the US states. The advantage of this is that I don't need separators between the three first datasets, because I know they are comprised of 2-byte entries (the place/capitol/US capitol's X and Y coordinates).
+    <p>I also decided to reorganize and optimize my data once again, to make it as small and compressible as possible:
+    <ul>
+    <li>First, I separated the text (the places' names) and the binary data. Having all my names stored in the JS code and all the coordinates stored in a binary file will reduce the effort to retrieve the data I need from the binary file, and will help the compression too (because "just text" or "just random bytes" compresses better than if all is mixed up).
+    <li>I also changed the order of the data to put all the places first, then all the capitols, then all the US capitols, then all the countries, then all the US states. The advantage of this is that I don't need any separators in the first three datasets. I just have to store all the places/capitols/US capitols coordinates sequencially and I'll just read them two by two when I'll try to retrieve the data.
+    <li>Finally, I gathered all my names in a big JS tring, but without any separators: to distinguish them, I'll just use the uppercase letters at the beginning of each name. So the names now look like this:
+    <pre class=code>Cape canaveralChrist the redeemerThe great chinese wallThe great sphinxThe eiffel towerTower of pisaMount everestSagrada familiaBig benThe statue of libertyForbidden cityThe pyramids of gizaThe palace of versailles</pre>
+    
+    <p>After zipping, I discovered that this overhaul made me lose (I mean, earn) 800 bytes of data, so that's a great news!
+    
+    <blockquote class="twitter-tweet" lang="fr"><p lang="en" dir="ltr">Today I saved 800b in my zip just by organizing my game&#39;s data in a smarter and more compressible way. 7.9kb =&gt; 7.1kb. Yay :D&#10;<a href="https://twitter.com/hashtag/js13kgames?src=hash">#js13kgames</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/634610685914284032">21 Août 2015</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
   <br>
   <hr>
   <br>
