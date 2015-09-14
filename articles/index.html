@@ -27,22 +27,27 @@
   <div class=body>
   
 <div class=section id=js13k2015>
+  <img src="images/js13k15/screen-small.png" style="float:right;">
   <h2>JS13kGames 2015 post-mortem: GeoQuiz</h2>
   <h3>august-september 2015</h3>
   <br>
-  <p>>> <a href="">PLAY THE GAME HERE</a> <<
+  <p>>>> <a href="http://js13kgames.com/entries/geoquiz">PLAY THE GAME HERE</a> <<<
+  <br>
+  <p><a href="https://github.com/xem/JS13k15">source code</a> - <a href="">reddit discussion</a>
   <br>
   <br>
-  <p>13kb seems small, but actually it's huge... even for a full-featured HTML5 game. (<a href="http://js13kgames.com/entries/alchemixer">Last year</a>, I didn't manage to use more than 9kb). But rules are rules, and this year again, we have a month to fill a 13kb zip with a high-quality game for... <b><a href="http://js13kgames.com/">js13kgames.com</a></b> !
-  <p>To avoid being annoyed by such a high limit, I decided to make something big, something so big that people will ask themselves how it can fit in just 13kb. Something big enough that I would also wonder how I will pack it in 13kb... and develop my own tools to achieve that goal. Then yes, JS13kGames would be a great code-golfing and compression challenge!
-  <p>Games contain code and data. 13kb of golfed code is very hard to write, so I decided to make a game that uses a lot of data. There was this Flash game that I liked a lot at university: <a href="http://www.travelpod.com/traveler-iq">Traveller's IQ challenge</a>. Its goal was to find famous places (cities, capitols, monuments...) on a World map. I chose to make a game like that, but with my own style.
+  <p>13kb seems small, but actually it's huge... even for a full-featured HTML5 game.<br>(<a href="http://js13kgames.com/entries/alchemixer">Last year</a>, despite my efforts, I didn't manage to use more than 9kb).<br>But rules are rules, and this year again, we have a month to fill a 13kb zip with a high-quality game for... <b><a href="http://js13kgames.com/">js13kgames.com</a></b> !
+  <p>To avoid being annoyed by such a high limit, I decided to make something big, something so big that people will ask themselves how it can fit in just 13kb. <br>Something big enough that I would also wonder how I will pack it in 13kb... and develop my own tools to achieve that goal.<br>Then yes, JS13kGames would be a great code-golfing and compression challenge!
+  <p>Games contain code and data. 13kb of golfed code is very hard to write, so I decided to make a game that uses a lot of data.<br>Hey... how about putting the whole world in my game?<br>There was this Flash game that I liked a lot at university: <a href="http://www.travelpod.com/traveler-iq">Traveller's IQ challenge</a>.<br>Its goal was to find famous places (cities, capitols, monuments...) on a World map.<br>I chose to make a game like that, but with my own style.
   <br>
   <br>
   <hr>
   <br>
   <h3>A few days before the compo...</h3>
-  <p><i>To be clear, the final game doesn't contain any code or data produced before the beginning of the compo. During this couple of days, I just began to develop my design tools and produced dummy data that would be replaced afterwards.</i>
-  <p>As I was waiting for the compo to start, I started experimenting with different techniques to draw and store efficiently all the countries, capitols and famous places of the world. I chose <a href="images/js13k15/model.png">a good-looking, yet outdated World map</a> (I did not want a Mercator projection - It's too stretched and unrealistic around the poles) and hacked a little tool that would allow me draw the outline of each country with my mouse, on a canvas. The logic was a bit similar to <a href='#js1k_floppydragon'>what I did for Flappy Dragon during JS1k 2014</a>, but with less precision, because this time, I had to draw more than 197 countries. After many experiments, I chose the following way: I placed the model of my map on a 1024 by 512px canvas. Then, for each country and for each point I clicked, the tool would gather two mouse coordinates on the map (X and Y), and append the value of X/4 and Y/2, converted in Unicode, to a string representing the given country. X/4 and Y/2 turned out to be bounded between 0 and 253, so I could use two chars to represent each point, and the character 255 ("ÿ") as a separator for the countries (like Canada) consisting of multiple islands or territories. The capitol's coordinates are appended at the end. With this technique, I could fill a JSON file that looked like this:
+  <p><i>The final game doesn't contain any code or data produced before the beginning of the compo. During this couple of days, I just began to develop my design tools and produced dummy data that would be replaced afterwards.</i>
+  <p>As I was waiting for the compo to start, I started experimenting with different techniques to draw and store efficiently all the countries, capitols and famous places of the world. I chose <a href="images/js13k15/model.png">a good-looking, yet outdated World map</a> (I did not want a Mercator projection - It's too stretched and unrealistic around the poles) and hacked a little tool that would let me draw the outline of each country with my mouse, on a canvas. The logic was a bit similar to <a href='#js1k_floppydragon'>what I did for Flappy Dragon during JS1k 2014</a>, but with less precision, because this time, I had to draw more than 197 countries. After many experiments, I chose the following way: I placed the model of my map on a 1024 by 512px canvas. Then, for each country and for each point I clicked, the tool would gather two mouse coordinates on the map (X and Y), and append the value of X/4 and Y/2, converted in Unicode, to a string representing the given country. X/4 and Y/2 turned out to be bounded between 0 and 253, so I could use two chars to represent each point, and the character 255 ("ÿ") as a separator for the countries (like Canada) consisting of multiple islands or territories. The capitol's coordinates are appended at the end. With this technique, I could fill a JSON file that looked like this:
+  <br>
+  <br>
   <p><pre class="code">
 {
     ...
@@ -57,8 +62,11 @@
     'China,Beijing': '©7¢I¨W°^·\\ºj¾gÂkÈdÉXÄHËBË8Ã2ÄB¼MÿÁmÃlÂpÁoÿÂI',
     ...
 }</pre>
-  
-  <p>But to draw the map from that JSON, it wasn't as easy and straightforward as I imagined... here are a few screenshots of my first tests featuring a low-detailed map:
+  <br>
+  <p><i>You can try the editor <a href="http://xem.github.io/JS13k15/old/editor.html">here</a>. (use left click to place a point, right click to start a new island and spacebar to start a new country. The coordinates are appended to the text under the map)</i>
+  <br>
+  <br>
+  <p>Then, I tried to draw the map from that JSON, and it wasn't as easy and straightforward as I imagined... here are a few screenshots of my first tests:
   <br>
   <br>
   <img src="images/js13k15/1.png" style="width: 600px; border: 1px solid">
@@ -120,7 +128,7 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   After debugging, here's a <a href="demos/js13k15/globe1.html">demo using my world map (animated)</a>
   <br>
   <br>
-  <p>After long days fighting with Canada and Russia (because they are too large to behave correctly where the "-1" and the "1" are connected), I managed to hide the back side of the globe and thus, make it much more realistic.
+  <p>After long hours fighting with Canada and Russia (because they are too large to behave correctly where the "-1" and the "1" are connected), I managed to hide the back side of the globe and thus, make it much more realistic.
   <br>
   <br>
   Here's a <a href="demos/js13k15/globe2.html">demo with only the front face of the globe (animated)</a>
@@ -171,7 +179,7 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   <br>
   <img src="images/js13k15/12.png" style="width: 600px; border: 1px solid">
   <br>
-  <p>Of course, Pythagore isn't a great solution to compute distances on a sphere projected on a map, but for now it works well enough. I'll enhance the formula if I have the time and the bytes for it...
+  <p>Of course, Pythagore isn't a great solution to compute distances on a sphere projected on a map, it works well enough for a mini-game.
   <p>I also worked on the gameplay of the level 2 (finding capitols):
   <br>
   <br>
@@ -181,7 +189,7 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   <img src="images/js13k15/14.png" style="width: 600px; border: 1px solid">
   <p>... and worked on the scoring system (your "error gauge" decreases after every mistake and if it reaches 0, the game is over).
   <br>
-  <p>Also, with a little help from my friends, I produced an important chunk of data: the names and positions of 100 famous places on Earth, separated in 3 categories (easy, medium, hard). The data looks like this in JSON, but it will also be part of the final binary file:
+  <p>Also, with a little help from my friends and my Twitter friends, I produced an important chunk of data: the names and positions of 100 famous places on Earth, separated in 3 categories (easy, medium, hard). The data looks like this in JSON, and of course, it will be part of the final binary file:
   <pre class="code">{
   "Christ the Redeemer": "Hº",
   "The Great Chinese Wall": "ÁI",
@@ -194,7 +202,7 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   <hr>
   <br>
   <h3>Days 5-11</h3>
-    <p>I spent the spare time I had this week adding the U.S.A. states and capitols to my database. Same format as the World's cities and capitols, but I directly drew the "final map", i.e. with all the little details I could draw. This brought my total data counter to 7.9kb zipped.
+    <p>I knew I had too much free space, so I spent the spare time I had this week adding the U.S.A. states and capitols to my database. Same format as the World's cities and capitols, but I directly drew the "final map", i.e. with all the little details I could draw. This brought my total data counter to 7.9kb zipped.
     <br>
     <br>
     <img src="images/js13k15/15.png" style="width: 600px; border: 1px solid">
@@ -203,20 +211,29 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
     <li>First, I separated the text (the places' names) and the binary data. Having all my names stored in the JS code and all the coordinates stored in a binary file will reduce the effort to retrieve the data I need from the binary file, and will help the compression too (because "just text" or "just random bytes" compresses better than if all is mixed up).
     <li>I also changed the order of the data to put all the places first, then all the capitols, then all the US capitols, then all the countries, then all the US states. The advantage of this is that I don't need any separators in the first three datasets. I just have to store all the places/capitols/US capitols coordinates sequencially and I'll just read them two by two when I'll try to retrieve the data.
     <li>Finally, I gathered all my names in a big JS tring, but without any separators: to distinguish them, I'll just use the uppercase letters at the beginning of each name. So the names now look like this:
-    <pre class=code>Cape canaveralChrist the redeemerThe great chinese wallThe great sphinxThe eiffel towerTower of pisaMount everestSagrada familiaBig benThe statue of libertyForbidden cityThe pyramids of gizaThe palace of versailles</pre>
+    <pre class=code>Cape canaveralChrist the redeemerThe great chinese wallThe great sphinxThe eiffel towerTower of pisaMount everestSagrada familiaBig benThe statue of libertyForbidden cityThe pyramids of gizaThe palace of versailles...</pre>
     
     <p>After zipping, I discovered that this overhaul made me lose (I mean, earn) 800 bytes of data, so that's a great news!
     
     <blockquote class="twitter-tweet" lang="fr"><p lang="en" dir="ltr">Today I saved 800b in my zip just by organizing my game&#39;s data in a smarter and more compressible way. 7.9kb =&gt; 7.1kb. Yay :D&#10;<a href="https://twitter.com/hashtag/js13kgames?src=hash">#js13kgames</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/634610685914284032">21 Août 2015</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
+  <hr>
+  <br>
+  <h3>Days 12 - 18</h3>
+  <p>I spent the week rewriting the game to adapt it to the new data format, and revamped all the code to make it more logic and easy to maintain.
+  <br>
   <br>
   <hr>
   <br>
-  <h3>Day 12</h3>
+  <h3>Days 19 - 25</h3>
+  <p>I spent the week fixing the gameplay of the 13 levels of the game. <a href)"https://twitter.com/MaximeEuziere/status/638677982844952576">and tweeted about it</a>
+  <br>
   <br>
   <hr>
   <br>
+  <h3>Last week</h3>
+  <br>
+  <p>lol
   
 </div>
 
