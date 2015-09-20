@@ -33,7 +33,7 @@
   <br>
   <p>>>> <a href="http://js13kgames.com/entries/geoquiz">PLAY THE GAME HERE</a> <<<
   <br>
-  <p><a href="https://github.com/xem/JS13k15">source code</a> - <a href="https://www.reddit.com/r/tinycode/comments/3ky4jk/geoquiz_a_js_game_featuring_the_whole_world_in/">reddit discussion</a>
+  <p><a href="http://xem.github.io/JS13k15/">Play enhanced version on Github</a><br><a href="https://github.com/xem/JS13k15">source code</a><br><a href="https://www.reddit.com/r/tinycode/comments/3ky4jk/geoquiz_a_js_game_featuring_the_whole_world_in/">Reddit discussion</a>
   <br>
   <br>
   <p>13kb seems small, but actually it's huge... even for a full-featured HTML5 game.<br>(<a href="http://js13kgames.com/entries/alchemixer">Last year</a>, despite my efforts, I didn't manage to use more than 9kb).<br>But rules are rules, and this year again, we have a month to fill a 13kb zip with a high-quality game for... <b><a href="http://js13kgames.com/">js13kgames.com</a></b> !
@@ -232,15 +232,29 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   <hr>
   <br>
   <h3>Days 26 - 32: Last week</h3>
-  <p>I spent that last week redrawing the final world map in high quality, debugging all the little artifacts that were remaining, and added some last minute features to respect the theme "Reversed" and make the game a little more interesting: the maps get reversed every five puzzles, and the fronteers disappear during the last 5 puzzles of each level.
+  <p>I spent that last week redrawing the final world map in high quality, debugging all the little artifacts that were remaining, and added some last minute features to respect the theme "Reversed" and make the game a little more interesting: the maps get reversed every five puzzles, and the fronteers disappear during the last 5 puzzles of each level. I also inserted some little last-minute hacks to make the game better and better-looking without spending a lot of time on it. One weird hack I discovered and used, was about the data shuffling. I initially did that on page load and remarked that the puzzles order were often very similar, as if there was no real randomness in the shuffle function. I assumed that Math.random() was influenced by the JS execution time, so I delayed all the data shuffling from the page load to the moment where the player clicks on "START". The puzzles looked much more random after that.
   <p>On friday, I asked my colleagues to test my game, and the result was very good. They loved it, and they played it very well!
   <br>
   <blockquote class="twitter-tweet" lang="fr"><p lang="en" dir="ltr">Hiring my colleagues to beta test my <a href="https://twitter.com/hashtag/js13k?src=hash">#js13k</a> game. They&#39;re very good! One of them reached level 13! <a href="http://t.co/dBiRHQKSxi">pic.twitter.com/dBiRHQKSxi</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/642250536180404224">11 Septembre 2015</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   <style>#js13k2015 .twitter-tweet[data-tweet-id="642250536180404224"]{height:430px!important}</style>
   <br>
-  <p>Oh, and... how about the size? Well, it's surprisingly small: 10.9kb. And it still lacks sound or music, because I have absolutely no talent for that. I launched <a href="https://twitter.com/MaximeEuziere/status/642302415098769409">a desperate cry for help on Twitter</a> and a great guy (<a href="https://twitter.com/sqaxomonophonen">Anders Kaare</a>) answered my prayers and agreed to compose a musical theme for GeoQuiz in less than 24h. He did such a great job, he also included a reversed variation for the puzzles where the map is reversed, plus a "blacker" variation for the puzzles where the map is black, and without fronteers.
-  <p>I released the final build a few hours before the end of the compo. My final zip weighs 11.9kb... Once again, I failed at filling the whole 13kb allowed by the contest, but I'm happy with the result, even if I could have made it even better with more time, and if Unicode flags were already useable in browsers...
+  <p>Oh, and... how about the size? Well, it was surprisingly small: 10.9kb. And it still lacked sound or music, because I have absolutely no talent for that. I launched <a href="https://twitter.com/MaximeEuziere/status/642302415098769409">a desperate cry for help on Twitter</a> and a great guy (<a href="https://twitter.com/sqaxomonophonen">Anders Kaare</a>) answered my prayers and agreed to compose a musical theme for GeoQuiz in less than 24h. He did such a great job, he also included a reversed variation for the puzzles where the map is reversed, plus a "blacker" variation for the puzzles where the map is black, and without fronteers. Kudos to him!
+  <p>I released the final build a few hours before the end of the compo. My final zip weighs 11.9kb... Once again, I failed at filling the whole 13kb allowed by the contest, but I'm happy with the result, even if I could have made it even better with more time... and if these damn <a href="http://apps.timwhitlock.info/emoji/tables/iso3166">Unicode flags</a> were already useable in browsers!
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>One week after</h3>
+  <p>I received a lot of <a href="https://twitter.com/McFunkypants/status/644350930075254786">great</a> <a href="https://twitter.com/mhcurylo/status/645337527570857988">feedbacks</a> for my game, and it also appeared on some <a href="https://twitter.com/keithkarnage/status/643842201433317380">video tests</a>. Some people asked for a little enhancement to make it a better learning tool: in the "capitols" puzzles, they asked me to display the name of the country in which the capitol is located. So I added this feature on the Github version of my game.
+  <br>
+  <br>
+  <img src="images/js13k15/16.png" style="width: 600px; border: 1px solid">
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Conclusion</h3>
   <p>See you next year, js13kgames! And thanks for existing! It was fun to code for you!
   <br>
   <br>
