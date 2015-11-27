@@ -26,10 +26,45 @@
   </div>
   <div class=body>
 	
-<div class=intro>
-	Code-golfing is a recreative form of coding where we try to develop a program or a game with the smallest possible source code.
+<div class=intro id=intro>
+	<h1>Code-golfing?</h1>
+  Code-golfing is a recreative form of coding where we try to develop a program or a game with the smallest possible source code.
 	<br>
 	This page contains all my code-golfing projects. You can find more projects made by my team <a href="https://gist.github.com/xem/206db44adbdd09bac424">on this page</a>!
+</div>
+
+<div class=section id=obfuscatweet_url_en>
+  <h2>Obfusc-a-tweet Reloaded</h2>
+	<h3>november 2015</h3>
+	<p>Abusing Twitter's URL shortener to store and execute ~16kb of JavaScript from a single tweet!
+  <p>You can <a href="../articles/#obfuscatweet_url_en">read this article</a> explaining how it works.
+  <p>Or head directly to <a href="http://xem.github.io/obfuscatweet-reloaded">the packer!</a>
+</div>
+
+<div class=section id=twitter_counter_en>
+  <h2>Twitter character counter</h2>
+	<h3>november 2015</h3>
+	<p>A tiny Twitter char counter in 78b, inspired by and golfed with <a href="//twitter.com/innovati">Tommy Hodgins</a> and <a href="//twitter.com/subzey">Subzey</a>.
+	<br>
+  <pre class=code>&lt;input onkeyup=c.color=(c.innerHTML=140-value.length)&lt;0?"red":0>&lt;font id=c>140</pre>
+	<br>
+  <b>Demo:</b>
+  <br>
+  <input id=twittercounterinput onkeyup=twittercounter.color=(twittercounter.innerHTML=140-value.length)<0?"red":0> <font id=twittercounter>140</font>
+  <script>twittercounterinput.value=""</script>
+  <br>
+  <br>
+  <hr>
+  <br>
+  With this counter, astral Unicode glyphs (like "&#128169;") count as two characters. Here's a more precise version that counts each Unicode character as 1 char, in 104 bytes:
+  <br>
+  <pre class=code>&lt;input onkeyup=c.color=(c.innerHTML=141-value.split(/[^\udc00-\udfff]/).length)&lt;0?"red":0>&lt;font id=c>140</pre>
+  <br>
+  <b>Demo:</b>
+  <br>
+  <input id=twittercounterunicodeinput onkeyup=twittercounterunicode.color=(twittercounterunicode.innerHTML=141-value.split(/[^\udc00-\udfff]/).length)<0?"red":0> <font id=twittercounterunicode>140</font>
+  <script>twittercounterunicodeinput.value=""</script>
+  
 </div>
 
 <div class=section id=minijsperf_en>
@@ -248,7 +283,7 @@ m=1,v=value.replace(eval("/.
 
 <div class=section id=jstweet_en>
   <img src=../english.png class=lang onclick="jstweet_en.style.display='none';jstweet_fr.style.display='block'">
-	<h2>How many JavaScript code can we fit in 140 characters?</h2>
+	<h2>Obfusc-a-tweet: How many JavaScript code can we fit in 140 characters?</h2>
 	<h3>november 2013, may 2014</h3>
   <p>The answer is: 190 characters!</p>
   <p>On <a href=//140byt.es target=_blank>140byt.es</a>, the goal is to write JavaScript functions that fit in a tweet, i.e. in 140 characters.</p>
@@ -942,6 +977,9 @@ function b(a,b,c){
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#intro'>Intro
+      <li><a href='#obfuscatweet_url_en'>Obfusc-a-tweet reloaded
+      <li><a href='#twitter_counter_en'>Twitter character counter
       <li><a href='#minijsperf_en'>MiniJSPerf
       <li><a href='#minishadowart_en'>MiniShadowArt
       <li><a href='#alchemixer_en'>Alchemixer
