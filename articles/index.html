@@ -100,6 +100,15 @@
   <p>To sum things up, if we want to make a JS packer, the mission is to take a JS string as input, URL-encode it, URL-encode the parenthesis characters, decode the three chars that don't need to be encoded (<b>[, ], |</b>), append a double slash (//), split the result in 4084-char blocks, pack these blocks in URLs, surround these URLs with an unpacker/executer, and output the result as a tweetable message.
   <p>Here's <a href="http://xem.github.io/obfuscatweet-reloaded">the packer!</a>
   <p>And <a href="https://github.com/xem/obfuscatweet-reloaded/blob/gh-pages/index.html">here's its source code!</a>
+  <p>And <a href="https://twitter.com/MaximeEuziere/status/670307047171366912">here's a demo tweet that alerts a 12639-char text</a>
+  <br>
+  <hr>
+  <br>
+  <h3>What's next?</h3>
+  <p>This is just the beginning! For example, we can imagine a JS packer optimized to output as few escaped characters as possible, by removing these chars or replacing with other letters or shorter sequences, in order to maximize the quantity of JS that can fit into a tweet... but that's another story! 
+  <br>
+  <hr>
+  <br>
   <p>Cheers,
   <br>
   <b>@MaximeEuziere</b>
