@@ -1,11 +1,12 @@
 * { margin: 0; padding: 0; }
 html { background: #fff; height: 100%; overflow: auto; }
-body { width: 1150px; min-height: 100%; overflow: visible; margin: 0 auto; font: normal 12px/18px Arial; background: #eee; background: linear-gradient(90deg, #fff 195px, #eee 205px, #eee 990px, #fff 1000px); }
+body { max-width: 1150px; min-width: 640px; min-height: 100%; overflow: visible; margin: 0 auto; font: normal 12px/18px Arial; background: #eee; background: linear-gradient(90deg, #fff 195px, #eee 205px, #eee 990px, #fff 1000px); }
 h1, h2, h3, h4 { margin: 10px 0; }
 ol, ul { padding-left: 20px; }
 table { width: 100%; border-collapse: collapse; }
 textarea { width: 100%; }
 td { vertical-align: top; }
+img, iframe { max-width: 100% !important; }
 .header a, .header a:visited { display: block; width: 160px; margin: 10px auto; text-align: center; color: #456 }
 button, .header a { margin: 10px 0; cursor: pointer; padding: 5px; background: #eee; border-radius: 5px; border: 1px solid #888; box-shadow: 2px 2px 2px #888; }
 button:hover, .header a:hover { border: 1px solid #888; box-shadow: none; position: relative; top: 2px; left: 2px; }
@@ -14,12 +15,13 @@ button.active, .header a.active { background: #888; color: #fff; border: 1px sol
 .menu { width: 190px; text-align: center; padding-right: 10px; }
 .menu h1 { font-size: 22px; margin-bottom: 5px; }
 .section button { padding: 1px 3px; }
-.body { width: 770px; height: 100%; margin: 0; padding: 0 10px; }
+.body { width: 770px; width: calc(100vw - 250px); min-width: 400px; max-width: 770px; height: 100%; margin: 0; padding: 0 10px; }
 a { color: #007CAD; font-weight: 600; text-decoration: none; }
 a:visited { color: #00A4E5; }
 .accueil li { line-height: 1.7em; }
+@media screen and (max-width: 850px){ .accueil td { display: block; width: 100%; }}
 .intro { background: #ffd; border-radius: 10px; border: 2px solid #aaa; border-right: 3px solid #aaa; border-bottom: 3px solid #aaa; padding: 20px; }
-.section { background: #fff; border-radius: 10px; border: 2px solid #aaa; border-right: 3px solid #aaa; border-bottom: 3px solid #aaa; padding: 20px; text-align: left; }
+.section { overflow-x: hidden; background: #fff; border-radius: 10px; border: 2px solid #aaa; border-right: 3px solid #aaa; border-bottom: 3px solid #aaa; padding: 20px; text-align: left; }
 .center { text-align: center; }
 pre { background: #fed; padding: 20px; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
 p, div, script, style, pre { margin: 10px 0; }
@@ -41,3 +43,13 @@ div[contenteditable], pre[contenteditable], style[contenteditable], script[conte
 #js13k2015 .twitter-tweet  { height: 250px!important; width: 500px!important; }
 .lang { float: right; cursor: pointer; }
 .aside { width: 300px; padding-left: 30px; position: fixed; }
+@media screen and (max-width: 650px){
+  body { padding-bottom: 50px; }
+  body, .body { min-width: auto; padding: 0; }
+  .menu, .body, .aside { display: block; width: 95%; margin: 0 auto; }
+  .header, .footer, .aside { position: static; width: 100%; }
+  .header a { display: inline-block; vertical-align: top; margin: 10px 5px 0 0; }
+  .footer { position: fixed; bottom: 0; left: 0; background: #fff; margin: 0; border-top: 1px solid #ccc; }
+  .aside { padding: 30px 0; }
+  .aside * { margin-left: 20px; }
+}
