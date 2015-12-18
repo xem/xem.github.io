@@ -15,7 +15,7 @@ button.active, .header a.active { background: #888; color: #fff; border: 1px sol
 .menu { width: 190px; text-align: center; padding-right: 10px; }
 .menu h1 { font-size: 22px; margin-bottom: 5px; }
 .section button { padding: 1px 3px; }
-.body { width: 770px; width: calc(100vw - 250px); min-width: 400px; max-width: 770px; height: 100%; margin: 0; padding: 0 10px; }
+.body { width: 770px; width: calc(100vw - 250px); min-width: 400px; max-width: 770px; height: 100%; margin: 0; padding: 0 10px; position: relative; z-index: 2; }
 a { color: #007CAD; font-weight: 600; text-decoration: none; }
 a:visited { color: #00A4E5; }
 .accueil li { line-height: 1.7em; }
@@ -42,14 +42,17 @@ div[contenteditable], pre[contenteditable], style[contenteditable], script[conte
 #twitter-widget-0, #twitter-widget-1 { height: 750px; width: 360px!important; }
 #js13k2015 .twitter-tweet  { height: 250px!important; width: 500px!important; }
 .lang { float: right; cursor: pointer; }
-.aside { width: 300px; padding-left: 30px; position: fixed; }
+.aside { width: 300px; padding-left: 805px; position: fixed; }
+@media screen and (max-width: 1200px){
+  .aside { padding: 0; left: 10px; top: 380px; max-height: calc(100vh - 430px); overflow: auto; width: 190px; }
+}
 @media screen and (max-width: 650px){
-  body { padding-bottom: 50px; }
   body, .body { min-width: auto; padding: 0; }
+  body { padding-bottom: 50px; background: linear-gradient(#fff, #eee 200px); }
   .menu, .body, .aside { display: block; width: 95%; margin: 0 auto; }
   .header, .footer, .aside { position: static; width: 100%; }
   .header a { display: inline-block; vertical-align: top; margin: 10px 5px 0 0; }
-  .footer { position: fixed; bottom: 0; left: 0; background: #fff; margin: 0; border-top: 1px solid #ccc; }
+  .footer { position: fixed; z-index: 3; bottom: 0; left: 0; background: #fff; margin: 0; border-top: 1px solid #ccc; }
   .aside { padding: 30px 0; }
   .aside * { margin-left: 20px; }
 }

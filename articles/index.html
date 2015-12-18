@@ -24,6 +24,23 @@
     </div>
     <div class=footer>© <script type="text/javascript">document.write(new Date().getFullYear())</script> - <a href="//github.com/xem" target=_blank>Github</a> - <a href="../cv/cv-en.html" target=_blank>CV</a></div>
   </div>
+  <div class=aside>
+    <h2>Summary</h2>
+    <ul>
+      <li><a href='#obfuscatweet_url_en'>Obfusc-a-tweet reloaded</a>
+      <li><a href='#js13k2015'>JS13kGames 2015</a>
+      <li><a href='#js1k2015'>JS1k 2015</a>
+      <li><a href='#js13k2014'>JS13k 2014</a>
+      <li><a href='#dom'>DOM oddities</a>
+      <li><a href='#js1k_2pgames'>JS1k'14: 2P Games</a>
+      <li><a href='#js1k_floppydragon'>JS1k 2014</a>
+      <li><a href='#implicitgetelementbyid_en'>getElementById</a>
+      <li><a href='#textshadows_en'>Text-shadows</a>
+      <li><a href='#lists_en'>Lists</a>
+      <li><a href='#contenteditable_en'>Contenteditable</a>
+      <li><a href='#doctype_fr'>Doctype</a>
+    </ul>
+  </div>
   <div class=body>
   
 <div class=section id=obfuscatweet_url_en>
@@ -32,7 +49,7 @@
   <br>
   <hr>
   <br>
-	<p>Last year, <b>Subzey</b> and I introduced <a href="../golfing/#jstweet_en">Obfusc-a-tweet</a>, allowing to fill 190 chars of JavaScript in a single 140-chars tweet, by packing a pair of ASCII chars in 95 Unicode symbols and using the other 45 chars to unpack and execute them.
+	<p>Last year, <b>Subzey</b> and I introduced <a href="../golfing/#jstweet_en">Obfusc-a-tweet</a>, allowing to fit 190 chars of JavaScript in a single 140-chars tweet, by packing a pair of ASCII chars in 95 Unicode symbols and using the other 45 chars to unpack and execute them.
   <p>This time, the idea is to take advantage of Twitter's URL shortener!
   <p>When you tweet an URL, Twitter currently shrinks it (or lenghtens it) into a 23-chars URL, in the form <b>https://t.co/xxxxxxxxxx</b>.
   <p>In the final tweet, your original URL can appear truncated on the left or on the right, or both, according to <a href="https://twitter.com/MaximeEuziere/status/669865248447438849">this rule</a>.
@@ -41,21 +58,20 @@
   <hr>
   <br>
   <h3>Testing the limits</h3>
-  <p>I made some experiments so find the limits of this system and here are my conclusions:
+  <p>I made some experiments so find the limits of this system and here's what I found:
   <ul>
   <li>A tweet can contain up to 5 URLs, separated by a space or a punctuation. (5 URLs take 119 chars. If you add a 6th one, it would overflow to 143 chars)
   <li>A tweeted URL can be up to 4096 chars long. If it's longer, <a href="images/twitter-4097-chars-url.png">an alert will tell you that your tweet is longer than 140 chars, even if the counter disagrees</a>.
-  <li>The URL must be in ASCII. If you want to fill a 4096-chars-long URL with non-ASCII chars or astral Unicode chars, <a href="images/twitter-unicode-url.png">an alert will tell you that Twitter has encountered an internal server error and the counter will go nuts</a>.
-  <li>If you insist and try to tweet a domain name filled with astral Unicode chars, the limit will actually be 140 chars (in fact, your message won't be transformed into an URL, nor shortened, but considered as normal text). 
-  <li>If you choose a two-letter-long top-level domain like ".fr", the URL can contain a domain name up to 4086 chars long. The 10 remaining chars will be used by the automatic "http://" and the TLD. But that's not very interesting to store JS code, because domain names can only contain alphanumeric characters and some punctuation, and they can't contain URL-encoded chars.
-  <li>If you choose a one letter-long domain-name and a two-letter-long top-level-domain (like "a.fr/..."), the URL can contain up to 4084 chars after the slash. (The 12 remaining chars will be used by "http://a.fr/"). This is interesting to store JS code, because these 4084 chars can include any url-encoded text.
+  <li>International domain names (IDN) are not well supported. For example, you can tweet "http://mañana.com" and it will work fine. If you tweet a 140-chars-long URL like "http://mañññ(...)ññññññana.com", it will appear as text instead of a link, and if you try to tweet a longer IDN, <a href="images/twitter-unicode-url.png">an alert will tell you that Twitter has encountered an internal server error and the char counter will go nuts</a>.
+  <li>If you stick to regular domain names (limited to letters, numbers and dashes), and if you choose a two-letter-long top-level domain like ".fr", the URL's domain name can take up to 4086 letters or numbers. The 10 remaining chars will be used by the automatic "http://" and the TLD ".fr". As you can imagine, this is not very interesting to store JS code.
+  <li>But if you choose a one letter-long domain-name and a two-letter-long top-level-domain (like "a.fr/..."), the URL can contain up to 4084 chars after the slash. (The 12 remaining chars will be used by "http://a.fr/"). This is interesting to store JS code, because these 4084 chars can include any url-encoded text... and more!
   </ul>
   <br>
   <hr>
   <br>
   <h3>Packing JS code</h3>
-  <p>So, if we want to store random text into a 140-chars tweet, the theorical limit is about 5 x 4084 url-encoded chars (stored into 5 URLs) + 4 spaces or punctuations between each URL + 21 other characters.
-  <p>But our goal is to have an executable tweet, that can be copied as-is into a JS console and run instantly. Thus, the tweet needs to contain some long URLs plus a small JS unpacker and executer. After a lot of tries, here is the most efficient solution I could find: (it contains only 4 URL's and uses all the other chars to unpack and execute the JS code).
+  <p>So, if we want to store a lot of text in a 140-chars tweet, the theorical limit is about 5 x 4084 url-encoded chars (stored into 5 URLs) + 4 spaces or punctuations between each URL + 21 other characters.
+  <p>But our goal is to have an executable tweet, that can be copied as-is into a JS console and run instantly. Thus, the tweet needs to contain some long URLs plus a small JS unpacker and executer. After a lot of tries, here is the most efficient solution I could find: (it contains only 4 URLs and uses all the other chars to unpack and execute the JS code).
   <pre class=code>eval(decodeURI(" 🖝http://a.fr/WWW http://a.fr/XXX http://a.fr/YYY http://a.fr/ZZZ".replace(/ .{1,14}/g,'')))</pre>
   <p>... where WWW, XXX, YYY and ZZZ are url-encoded strings up to 4084 chars long.
   <p>When this message is tweeted, it takes exactly 140 characters.
@@ -67,21 +83,22 @@
   // step 0: copy-paste the tweet
   eval(decodeURI(" 🖝http://a.fr/WWW … http://a.fr/XXX … http://a.fr/YYY … http://a.fr/ZZZ …".replace(/ .{1,14}/g,'')))
   
-  // step 1: the replace() transforms the string:
+  // step 1: the replace() transforms the string to keep only the interesting parts
   // it removes the beginning: " 🖝http://a.fr/", because it's a space followed by 14 characters.
   // The "🖝" is an astral Unicode character. It counts as two chars in JS, but only one on Twitter.
   // It also removes the three occurences of " … http://a.fr/" (space + 14 chars)
   // And it also removes the end: " …" (space + 1 char).
+  // After the replace, here's the remaining string:
   eval(decodeURI("WWWXXXYYYZZZ"))
   
   // step 2: the remaining string is url-decoded
+  // for example, any occurrence of "%7D" will be decoded to a tilde ("~").
   eval("WWWXXXYYYZZZ")
   
   // step 3: the remaining string is evaluated
-  WWWXXXYYYZZZ;
   </pre>
   <p>The 🖝 symbol can be replaced by any astral Unicode symbol (U+10000 - U+10FFFF).
-  <p>At this point, we can potentially store up to 4 * 4084 = 16336 chars in a single tweet! But this total includes escape sequences for many characters that can't be used into URLs (such sequences take <a href="http://xem.github.io/escape/">3 to 12 bytes</a>).
+  <p>At this point, we can potentially store up to 4 * 4084 = 16336 chars in a single tweet! But this total includes escape sequences for many characters that can't be used into URLs (such sequences take <a href="http://xem.github.io/escape/">3 to 12 chars each</a>).
   <hr>
   <br>
   <h3>A word about encoded URIs</h3>
@@ -90,8 +107,8 @@
   <pre class=code> !"#$%&'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~</pre>
   <p>Here are the same chars after passing them through JS's encodeURI:
   <pre class=code>%20!%22#$%25&'()*+,-./0123456789:;%3C=%3E?@ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~</pre>
-  <p>Basically, the only chars that need to be escaped are <b>[space], ", %, &lt;, >, [, \, ], ^, `, {, | and }</b>
-  <p>But Twitter has some quirks: it doesn't support URLs containing empty parenthesis like "()" or unbalanced parenthesis like "(a(a)a)a)" or "(a(a)a" and on the other hand, it supports URLs containing <b>%, [, ] and |</b>.
+  <p>Basically, according to JS, the only chars that need to be escaped are <b>[space], ", %, &lt;, >, [, \, ], ^, `, {, | and }</b>.
+  <p>But Twitter has some quirks: it doesn't support URLs containing empty parenthesis like "()" or unbalanced parenthesis like "a(a)a)" or "(a(a)a" and on the other hand, it supports URLs containing <b>%, [, ] and |</b>.
   <p>We need to take that into account to build a packer as effective as possible. (We will keep parenthesis and percent signs escaped to avoid weird parsing bugs, and we will keep <b>[, ] and |</b> unescaped because they are safe enough to be used like that in our URLs).
   <p>All the characters that are out of ASCII's printable range will be escaped too, because Twitter's URL shortener won't allow using a lot of them in URLs anyway.
   <br>
@@ -105,8 +122,10 @@
   <br>
   <hr>
   <br>
-  <h3>What's next?</h3>
-  <p>This is just the beginning! For example, we can imagine a JS packer optimized to output as few escaped characters as possible, by removing these chars or replacing with other letters or shorter sequences, in order to maximize the quantity of JS that can fit into a tweet... but that's another story! 
+  <h3>UPDATE: we can go further!</h3>
+  <p>After releasing the first version of this packer, I realized with <b>Anders Kaare</b> that a lot of non-ASCII chars were actually useable in Twitter's URLs. After some manual research, we discovered that there's actually a total of 483 chars that can be used safely.
+  <pre class="code">!#$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz[]|~ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚțȜȝȞȟȠȡȢȣȤȥȦȧȨȩȪȫȬȭȮȯȰȱȲȳȴȵȶȷȸȹȺȻȼȽȾȿɀɁɂɃɄɅɆɇɈɉɊɋɌɍɎɏ</pre>
+  <p>This represents a subset of the Unicode blocks "Basic Latin" and "Latin-1 supplement" plus the whole blocks "Latin-extended-A" and "Latin-extended-B", containing respectively 128 and 256 characters.
   <br>
   <hr>
   <br>
@@ -2782,23 +2801,6 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
 		<b>@MaximeEuziere</b>
 	</div>
 </div>
-  </div>
-  <div class=aside>
-    <h2>Summary</h2>
-    <ul>
-      <li><a href='#obfuscatweet_url_en'>Obfusc-a-tweet reloaded
-      <li><a href='#js13k2015'>JS13kGames 2015: GeoQuiz
-      <li><a href='#js1k2015'>JS1k 2015: MiniApps, MiniGames, hypeRcube
-      <li><a href='#js13k2014'>JS13k 2014: Alchemixer, Quintessence
-      <li><a href='#dom'>DOM oddities
-      <li><a href='#js1k_2pgames'>JS1k'14: 2P Games
-      <li><a href='#js1k_floppydragon'>JS1k'14: Floppy Dragon
-      <li><a href='#implicitgetelementbyid_en'>getElementById
-      <li><a href='#textshadows_en'>Text-shadows
-      <li><a href='#lists_en'>Lists
-      <li><a href='#contenteditable_en'>Contenteditable
-      <li><a href='#doctype_fr'>Doctype
-    </ul>
   </div>
 </body>
 </html>
