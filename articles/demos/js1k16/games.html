@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+  <!-- note: your demo in this shim runs in an iframe with this content: https://gist.github.com/qfox/3cccc4f36c8319e09bb7 -->
+  <!--
+  (c) js1k.com 2015
+  Note: submissions belong to their respectful owner, do not copy without their consent
+  -->
+  <head>
+    <meta charset="utf-8">
+    <title>JS1k 2015 - NNNN - TITLE</title>
+    <meta name="author" content="YOU">
+    <link rel="icon" type="image/png" href="http://js1k.com/favicon.png">
+    <link rel="canonical" href="http://js1k.com/2015-hypetrain/demo/NNNN">
+    <link rel="shortlink" href="http://js1k.com/NNNN">
+    <script>
+      // GA
+    </script>
+    <style>
+      /* http://qfox.nl/notes/333 */
+      body,html,iframe{margin:0;padding:0;border:0;width:100%;height:100%}
+      iframe{position:absolute;top:0;left:0;padding-top:50px;box-sizing:border-box}
+      header{position:relative;z-index:1;height:47px;padding-top:2px;border-bottom:1px solid #000;box-shadow:0 -10px 25px #ccc inset;background-color:#eee}
+      aside,div,h1,p{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;font-size:16px;font-weight:inherit;line-height:22px;padding:0;margin:0;cursor:default}
+      aside,h1{display:inline}
+      a{color:#000;text-decoration:none;border-bottom:1px dashed #000}
+      a:hover{border-bottom:1px solid red}
+      a[href="0"]{text-decoration:line-through;pointer-events:none;border-bottom:0;color:#ccc}
+      .button{float:left;width:40px;height:40px;line-height:40px;text-align:center;padding:0;margin:2px 0 0 10px;border:1px solid #888;border-color:#ddd #888 #888 #ddd;font-family:sans-serif;font-size:30px;font-weight:700;cursor:pointer}
+      .button:hover{color:red;border-bottom-color:#888}
+      .r{margin-right:10px}
+      time{display:none}
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>
+          <a href="http://js1k.com/">JS1k</a>
+          <a href="http://js1k.com/2015-hypetrain">2015</a>
+          <strong></strong> demo
+          &mdash;
+          "TITLE" by YOU
+        </h1>
+        <p>
+          <em>
+            FIRST PART OF YOUR DESC GOES HERE
+          </em>
+        </p>
+        <aside>
+          &mdash;
+          1024 bytes
+          &mdash;
+          <a href="http://js1k.com/2015-hypetrain/details/NNNN">demo details</a>
+          &mdash;
+          <a href="http://js1k.com/2015-hypetrain/demos">list of demos</a>
+          &mdash;
+          <a href="http://js1k.com/1955" title="short link for your mobile devices" rel="nofollow">js1k.com/NNNN</a>
+          <time datetime="NOW" pubdate>NOW</time>
+        </aside>
+      </div>
+
+      <a href="500" class="button p">&Larr;</a>
+      <a href="502" class="button n">&Rarr;</a>
+    </header>
+
+    <script type="shim">
+      // SHIM (will be ran in the context of the iframe...)
+
+      // unprefix some popular vendor prefixed things (but stick to their original name)
+      iwin.AudioContext = iwin.AudioContext || iwin.webkitAudioContext; // ios8 unmutes audio only during the first user triggered event with sound
+      iwin.requestAnimationFrame = iwin.requestAnimationFrame || iwin.mozRequestAnimationFrame || iwin.webkitRequestAnimationFrame || iwin.msRequestAnimationFrame || function(f){ iwin.setTimeout(f, 1000/30); };
+      canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+      a = canvas;
+      b = idoc.body;
+
+      if (webgl) iwin.c = canvas.getContext('2d');
+      else iwin.g = (function () {
+        iwin.onorientationchange = iwin.onresize = null;
+        try {
+          var o = { antialias: true, stencil: true };
+          var gl = canvas.getContext('webgl', o) || canvas.getContext('experimental-webgl', o);
+
+          // keep in scope, must not be garbage collected
+          iwin.__glExts =
+            [ 'OES_texture_float', 'OES_texture_float_linear', 'OES_standard_derivatives',
+              'EXT_texture_filter_anisotropic', 'MOZ_EXT_texture_filter_anisotropic', 'WEBKIT_EXT_texture_filter_anisotropic',
+              'WEBGL_compressed_texture_s3tc', 'MOZ_WEBGL_compressed_texture_s3tc', 'WEBKIT_WEBGL_compressed_texture_s3tc'
+            ].map(function(ext) {
+                return gl.getExtension(ext);
+              });
+        } catch (e) {
+          idoc.body.innerHTML = 'WebGL not supported.';
+          iwin.a=iwin.b=iwin.c=iwin.d=null;
+          throw e;
+        }
+
+        return gl;
+      })();
+    </script>
+    <script>
+      // submission form configurables:
+
+      // enable canvas shim at all? (2d/3d). other settings are ignored if this is false.
+      var TOKEN_CANVAS_SHIM = false;
+      // true enables webgl shim (exposes `g`), false enables canvas shim (exposes `c`)
+      var TOKEN_WEBGL = false;
+      // px, 0 means always 100%
+      var TOKEN_MAX_WIDTH = 0;
+      // px, 0 means always 100%
+      var TOKEN_MAX_HEIGHT = 0;
+      // only if width<100%
+      var TOKEN_CENTER_CANVAS = false;
+      // "press" reload button on orientation change?
+      var TOKEN_RELOAD_ONORIENTATIONCHANGE = true;
+    </script>
+    <script type="demo">
+      
+      
+      
+      // UI
+      S = b.style.height = 0;
+      b.innerHTML='<center><p><button onclick=P(0)>GameOfBraille<button onclick=P(1)>FlappyBraille<button onclick=P(2)>Ping<button onclick=P(3)>Pacman</button><p><pre id=p style=width:20em;text-align:left>';
+      
+      // Engine
+      P=n=>{
+      
+        // Reset
+        clearInterval(S);
+        p.innerHTML = top.location.hash = '';
+        
+        // Game of Braille
+        if(n==0){
+          a=[];y=0;S=setInterval('d=[];c="";for(i=0;i<x;i++)for(j=0;j<x;j++)if(n=(m=(l=(k=x*i+j)+x)+x)+x,y)for(z in 0==i%4&&0==j%2&&(c+=String.fromCharCode(10240+a[k]+2*a[l]+4*a[m]+8*a[k+1]+16*a[l+1]+32*a[m+1]+64*a[n]+128*a[n+1])),j||3!=i%4||(c+="\\n"),f=0,e=[1,89,x,91])f+=a[k+e[z]]+a[k-e[z]],d[k]=3==f|a[k]&2==f;else a[k]=~~(Math.random()*2);y?a=d:y=1;p.innerHTML=c',x=90)
+        }
+        
+        // FlappyBraille
+        if(n==1){
+          for(i=g=b=[c=''];d=e=f=g;onkeydown=a=>d+=a.which-39)c+="  "+"⡆⡅⡃⠇"[b[i++]=(g=8*++g%97)%4];S=setInterval('e<4||e%27?i:i&&b[g++]==d?f++:i=0;top.location.hash=i?"⠈⠐⠠⢀"[d]+c.slice(e++/9):f',27)
+        }
+        
+        // Ping
+        if(n==2){
+            onkeydown=n=>{k+=n.which-38};k=13,x=W=27,X=Y=1,S=setInterval('for(i=h="",k=k<0?0:24<k?24:k,X=x%W?X:-X,Y=x<0?1:297<x?1%(x-299-k)?p:-1:Y,x+=Y*(W+X*Y);i++<297+k;p.innerHTML=h+888)h+=i%W?i^x?" ":0:"|\\n"',99)
+        }
+        
+        // Pacman
+        if(n==3){
+          onkeydown=n=>{k=n.which-38};for(l=D=11;d=k=D--;x=78)l+="῿၁᝝ᐅᗕᔕᕵ".charCodeAt(D<7?D:10-D).toString(2)+3;l=l.split(""),S=setInterval("if(x^X)for(h=i=l[x]=2,l[x+=d=2%k||9&l[x+(o=k%2||~-k*14)]?9&l[x+d]?0:d:o]=4,l[X]&=7,b=D%4-2,b=b++%2||b*14,9&l[X+b]?D++:X+=b,l[X]|=8;i<154;)p.innerHTML=h+='.# \\nx'[l[++i]]||0",X=151)
+        }
+      }
+      
+      
+      // minified and Regpacked: 1230b:
+      // for(_='onNbuttNE\\u1@5@5$l[`9&`_]+V+1VU,X=R)+xQm){K><pJ]=&&""d=k=leString);harCodeif(=0;||<E NclicP(BrailInterval(\\\\na[k===functiN(+=++	*a[\\u28top.locatiN.hash==h.which-3for(S=set.innerHTML=Nkeydownh){S=b.sty.heightb"<centerJ>0)>GameOf1)>Flappy2)>Ping3)>Pacman</EJJre ip sty=width:20em;text-align:ft>";PKcarSp;0m(a=[],y=0,\'[];c=;ii<x;i	)jj<x;j	)n=(m=(l=(x*i+jQQQ,y)z in 0i%40j%2(c.fromC(10240+V2lV4mV8kU16lU32mU64nV128n+1])),j3!=i%4(c""),f=0,e=[1,89,x,91])f+e[z]V-e[z]],d[k3f|]&2f;else ~~(Math.random()*2y?a=d:y=1;pc\',x=90)1Ki=g=b=[c=];e=f=g;return d+9})c"  "+"46454307"[b[i	(g=8*	g%97)%4];\'e<4e%27?i:ib[g	]d?f	:ii?"08102080"[dVc.slice(e	/9):f\',27)}2m(k+8},13,x=W=27RY=1,\'i=h=,k<0?0:24<k?24:kRx%W?X:-X,Y=x<0?1:297<x?1%(x-299-k)?p:-1:Y,xY*(W+X*Yi	<297+k;ph+888)hi%W?i^x?" ":0:"|"\',99)3Kk8};l=D=11;D--;x=78)l"@fff@041@75d@40$d$1$75".cAt(7>D?D:10-D).to(2)+3;l=l.split("x^X)h=i=`x2,`x2%k_x+(o=k%2~-k*14)]?_x+d]?0:d:o4,`X]&=7,b=D%4-2,b=b	%2b*14,_X+b]?D	:Xb,`X]|=8;i<154;)ph\'.# x\'[`	i]]0"R151)}}';G=/[-JKQRUV_`$@EN]/.exec(_);)with(_.split(G))_=join(shift());eval(_)
+      
+      
+      // END
+      
+      
+    </script>
+    <script>
+      (function(){var doc=document;var header=doc.getElementsByTagName("header")[0];var firstChild=header.firstChild;var p=doc.getElementsByClassName("p")[0];var n=doc.getElementsByClassName("n")[0];header.insertBefore(p,firstChild);header.insertBefore(n,firstChild);header.appendChild(doc.getElementsByTagName("p")[0])})();
+      (function reload(fullscreen){var doc=document;var header=doc.getElementsByTagName("header")[0];var iframe=doc.createElement("iframe");doc.body.appendChild(iframe);var iwin=iframe.contentWindow;var idoc=iframe.contentDocument;idoc.open();idoc.close();idoc.write("<!doctype html>"+'<html style="margin: 0; padding: 0; border: 0; width: 100%; height: 100%;">'+"<head>"+'<meta charset="utf-8">'+'<body style="margin: 0; padding: 0; border: 0; width: 100%; height: 100%;">'+(TOKEN_CANVAS_SHIM?'<canvas style="display: block;'+
+      (TOKEN_CENTER_CANVAS?" margin: auto;":"")+'"></canvas>':"")+"");if(TOKEN_CANVAS_SHIM){var canvas=idoc.getElementsByTagName("canvas")[0];var cs=canvas.style;idoc.body.clientWidth;cs.width=(canvas.width=Math.max(Math.min(TOKEN_MAX_WIDTH||innerWidth,innerWidth),0)||0)+"px";cs.height=(canvas.height=Math.max(Math.min(TOKEN_MAX_HEIGHT||innerHeight-50,innerHeight-50),0)||0)+"px"}if(TOKEN_RELOAD_ONORIENTATIONCHANGE)onorientationchange=reloadClick;iwin.AudioContext=iwin.AudioContext||
+      iwin.webkitAudioContext;iwin.requestAnimationFrame=iwin.requestAnimationFrame||iwin.mozRequestAnimationFrame||iwin.webkitRequestAnimationFrame||iwin.msRequestAnimationFrame||function(f){iwin.setTimeout(f,1E3/30)};if(TOKEN_CANVAS_SHIM)canvas.requestPointerLock=canvas.requestPointerLock||canvas.mozRequestPointerLock||canvas.webkitRequestPointerLock;idoc.body.requestPointerLock=idoc.body.requestPointerLock||idoc.body.mozRequestPointerLock||idoc.body.webkitRequestPointerLock;navigator.getUserMedia=navigator.getUserMedia||
+      navigator.webkitGetUserMedia||navigator.mozGetUserMedia||navigator.msGetUserMedia;if(TOKEN_CANVAS_SHIM)iwin.a=canvas;iwin.b=idoc.body;if(TOKEN_CANVAS_SHIM){if(!TOKEN_WEBGL)iwin.c=canvas.getContext("2d");if(TOKEN_WEBGL)iwin.g=function(){iwin.onorientationchange=iwin.onresize=null;try{var o={antialias:true,stencil:true};var gl=canvas.getContext("webgl",o)||canvas.getContext("experimental-webgl",o);iwin.__glExts=["OES_texture_float","OES_texture_float_linear","OES_standard_derivatives","EXT_texture_filter_anisotropic",
+        "MOZ_EXT_texture_filter_anisotropic","WEBKIT_EXT_texture_filter_anisotropic","WEBGL_compressed_texture_s3tc","MOZ_WEBGL_compressed_texture_s3tc","WEBKIT_WEBGL_compressed_texture_s3tc"].map(function(ext){return gl.getExtension(ext)})}catch(e){idoc.body.innerHTML="WebGL not supported.";iwin.a=iwin.b=iwin.c=iwin.d=null;throw e;}return gl}()}var demo=idoc.createElement("script");demo.textContent=doc.querySelector('script[type="demo"]').textContent;idoc.body.appendChild(demo);idoc.close();iframe.contentWindow.focus();
+        var firstLine=doc.getElementsByTagName("div")[0];function reloadClick(b){doc.body.removeChild(iframe);r.parentElement.removeChild(r);iframe=null;r=null;idoc=null;header=null;reload(b)}window.reload=reloadClick;var r=doc.createElement("div");r.innerHTML="&#8635;";r.className="button r";r.title="restart just the demo (local, without remote fetch)";r.onclick=reloadClick;header.insertBefore(r,firstLine)})();
+    </script>
+  </body>
+</html>
