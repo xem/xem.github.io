@@ -164,9 +164,9 @@
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,vertexAttrib1f(1,NO+=.01),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=[SHADER]}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)),B+82),lo(P),ug(P))'>
 </pre>
 
-<p>Mini WebGL boilerplate, commented (step 10, update soon):
+<p>Mini WebGL boilerplate, commented:
 
-<pre>
+<pre style="white-space:pre">
 &lt;canvas id=a>
 &lt;script>
 
@@ -190,63 +190,42 @@
 // g.FRAGMENT_SHADER => g.FN (value: 35632)
 // g.ELEMENT_ARRAY_BUFFER_BINDING => g.ET (value: 34965)
 
-
-
 for(i in g=a.getContext(`webgl`)){
   g[i[0]+i[6]]=g[i];
 }
 
-// With(g) allows to avoid writing "g." before each webgl method
 with(g){
-
-  // Start the main loop
-  setInterval(
-  
-    // Inside the loop, increase the uniform variable T (by reusing g.NO) and call g.drawArrays(6,0,3), with g.TRIANGLE_FAN = 6.
-    x=>uniform1f(gf(P,"T"),NO++)+dr(6,0,3)
-  ,9);
-  
-  // Create the program P
-  P=cP();
-  
-  // Define the function `A()` that takes a source s and creates a shader with it, increases g.FN, compiles the shader, and attaches the shader to P.
-  // Call A one time to set the fragment shader (g.FN == 36532 == g.FRAGMENT_SHADER)
-  (
-    A=s=>sS(S=cS(FN++),s)+ce(S)+aS(P,S)
-  )(
-    `uniform lowp float T${V=";varying lowp vec4 c;void main(){gl_"}FragColor=[SHADER]}`
-  );
-  
-  // Call A a second time to create the vertex shader (g.FN == 35633 == g.VERTEX_SHADER)
-  A(
-    `attribute vec4 P${V}Position=c=P;}`
-  );
-  
-  // Link the program P
-  lo(P);
-  
-  // Use the program P
-  ug(P);
-  
-  // Create and bind buffer (g.ARRAY_BUFFER == g.ET - 3 == 34962. we can't use g.AB as it's overwritten during hashing)
-  bf(
-    B=ET-3,
-    cB()
-  );
-  
-  // Reset t and call g.enableVertexAttribArray
-  eV(0);
-  
-  // Set vertexAttribPointer (g.BYTE = 5120)
-  vA(0,2,5120,0,0,0);
-  
-  // Set the coordinates of a big triangle in bufferData (g.STATIC_DRAW == 34962 + 82 == 35044)
-  bD(
-    B,
-    Int8Array.of(-3,1,1,-3,1,1),
-    B+82
+  vA(                                                   // Equivalent to vertexAttribPointer(0,2,g.BYTE = 5120,0,0,0)
+    P=cP(),                                             // Create the program P
+    2,
+    5120,
+    bD(                                                 // Fill bufferData
+      B=ET-3,                                           // Initialize B at 34962 (g.ARRAY_BUFFER == g.ET - 3 == 34962. we can't use g.AB as it's overwritten during hashing)
+      Int8Array.of(                                     // Set the coordinates of a big triangle surrounding the canvas
+        B,                                              // x1 = 34962
+        setInterval(                                    // Start the main loop. y1 = any positive value returned by setInterval
+          x=>dr(6,vertexAttrib1f(1,NO+=.01),3),         // Inside the loop, increase the uniform variable T (by reusing g.NO) and call g.drawArrays(g.TRIANGLE_FAN = 6,0,3)
+          A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)           // Also, define the function A that takes a source s and creates a shader with it, increases g.FN, compiles the shader, and attaches the shader to P.
+        ),
+        !A(                                             // Call A one time to set the fragment shader (at this moment, g.FN == 36532 == g.FRAGMENT_SHADER), and return x2 = !A() = 1
+          `${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=[SHADER]}`
+        ),
+        B,                                              // y2 = 34962
+        !eV(                                            // x3 = 1, returned by !g.enableVertexAttribArray(0)
+          bf(                                           // Bind the buffer created on-the-fly with cB
+            B,                                          // g.ARRAY_BUFFER
+            cB()                                        // g.createBuffer
+          )
+        ),
+        !A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`) // Call A a second time to create the vertex shader (at this moment, g.FN == 35633 == g.VERTEX_SHADER), and return y3 = !A() = 1
+      ),
+      B+82                                              // g.STATIC_DRAW == 34962 + 82 == 35044
+    ),
+    lo(P),                                              // Link the program P
+    ug(P)                                               // Use the program P
   )
 }
+
 &lt;/script>
 </pre>
 
