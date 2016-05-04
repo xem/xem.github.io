@@ -48,15 +48,15 @@
 <div class=section id=webgl_quest>
   <h2>The quest of the smallest possible WebGL playground</h2>
 	<h3>april - may 2016</h3>
-  <p>During the last few weeks, the codegolf team (including Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, ...) has welcomed new members (Elias Schütt & HellMood, authors of JS1K 2016 winning entry <a href="http://js1k.com/2016-elemental/demo/2552">Romanesco 2.0</a>) and gave itself a nice challenge: develop the smallest possible HTML/JS (ES6) boilerplate that's able to run a WebGL fragment shader. It's currently as short as <b>372b</b>, and looks like this:
-  <pre class=code>&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,uniform1f(gf(P,"t"),NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|~aS(P,S))),2,5120,0,eV(bf(B=ET-3,cB())),bD(B,Int8Array.of(3,A(`uniform lowp float t${V=";varying lowp vec4 p;void main(){gl_"}FragColor=[SHADER]}`),A(`attribute vec4 P${V}Position=p=P;}`),3,~lo(P),~ug(P)),B+82))'></pre>
-  <p>With this boilerplate, you have access to a <b>uniform float T</b> (a frame counter) plus a <b>varying vec4 c</b> (representing the clip space coordinates gl_PointCoord), and all you need to do is replace <b>[SHADER]</b> with the value set by your shader to gl_FragColor, for example: <b style=background:#def>c+sin(atan(c.y,c.x)*9.)*sin(c*T/90.+1./dot(c,c)*9.+T/9.);</b>
-  <p>Optional:
+  <p>During the last few weeks, the codegolf team (including Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, ...) has welcomed new members (Elias Schütt & HellMood, authors of JS1K 2016 winning entry <a href="http://js1k.com/2016-elemental/demo/2552">Romanesco 2.0</a>) and gave itself a nice challenge: develop the smallest possible HTML/JS (ES6) boilerplate that's able to run a WebGL fragment shader. It's currently as short as <b>356b</b>, and looks like this:
+  <pre class=code>&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=<b>[SHADER]</b>}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)),B+82),lo(P),ug(P))'></pre>
+  <p>With this boilerplate, you have access to a time counter <b>t.z</b> (a frame counter), the clip space coordinates <b>c</b> (representing gl_PointCoord), and all you need to do is replace <b>[SHADER]</b> with the value set by your shader to gl_FragColor, for example: <b style=background:#def>p+sin(atan(p.y,p.x)*9.)*sin(p*t.x/40.+9./dot(p,p)+t.x/40.);</b>
+  <p><u>Optional:</u>
   <p>- You can set the size of the canvas with things like <b style=background:#def>a.width=a.height=600;</b> or <b style=background:#def>a.width=outerWidth;a.height=outerHeight;</b> at the beinning of the JS code.
-  <br>- You can change the animation speed by changing the way T is incremented, <b>T+=.1</b> is often a better trade-off than <b>T++</b>.
+  <br>- You can change the animation speed by changing the way t is incremented, <b>NO+=.1</b> is often a better trade-off than <b>NO++</b>.
   <p>Here are <a href="http://dev.elias.media/MiniShadertoy/">some gorgeous demos</a> made by Elias, with this template, in less than 512b.
   <p><a href="http://dev.elias.media/MiniShadertoy/"><img src="./images/webgl/elias.jpg" width=600 style="border:1px solid"></a>
-  <p>For code-golfers and demosceners, this boilerplate offers a total of 140b dedicated to the shader in a 512b demo (or 652b in a 1kb demo, not counting the gain of RegPack or gzip): more than never before in the history of WebGL demo'ing!
+  <p>For code-golfers and demosceners, this boilerplate offers a total of 156b dedicated to the shader in a 512b demo (or 668b in a 1kb demo, not counting the gain of RegPack or gzip): more than never before in the history of WebGL demo'ing!
   <br>
   <br>
   <hr>
@@ -124,7 +124,7 @@
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext(`webgl`))g[i[0]+i[6]]=g[i];with(g)setInterval(x=>uniform1f(gf(P,"T"),NO++)+dr(6,0,3),9),P=cP(),(A=s=>sS(S=cS(FN++),s)+ce(S)+aS(P,S))(`uniform lowp float T${V=";varying lowp vec4 c;void main(){gl_"}FragColor=[SHADER]}`),A(`attribute vec4 P${V}Position=c=P;}`),lo(P),ug(P),bf(B=ET-3,cB()),eV(0),vA(0,2,5120,0,0,0),bD(B,Int8Array.of(-3,1,1,-3,1,1),B+82)'>
 
-<b>// Step 11: Subzey joins the game... remove getContext parenthesis, replace the second param of g.dr (`0`) with the result of the neighbour function uniform1f()</b>
+<b>// Step 11: Subzey joins the game... remove `getContext` parenthesis, replace the second param of `g.dr` (0) with the result of the neighbour function `uniform1f()`. Renamem c into p and T to t</b>
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)setInterval(x=>dr(6,uniform1f(gf(P,"t"),NO++),3),P=cP(),(A=s=>sS(S=cS(FN++),s)+ce(S)+aS(P,S))(`uniform lowp float t${V=";varying lowp vec4 p;void main(){gl_"}FragColor=[SHADER]}`),A(`attribute vec4 P${V}Position=p=P;}`),lo(P),ug(P),bf(B=ET-3,cB()),eV(0),vA(0,2,5120,0,0,0),bD(B,Int8Array.of(-3,1,1,-3,1,1),B+82))'>
 
@@ -147,10 +147,21 @@
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,uniform1f(gf(P,"t"),NO++),3),A=s=>sS(S=cS(FN++),s)+ce(S)+aS(P,S))),2,5120,A(`uniform lowp float t${V=";varying lowp vec4 p;void main(){gl_"}FragColor=[SHADER]}`),eV(bf(B=ET-3,cB())),bD(B,Int8Array.of(3,-1,~A(`attribute vec4 P${V}Position=p=P;}`),3,~lo(P),~ug(P)),B+82))'>
 
-<b>Step 17: Make `A()` always return `-1`</b>
+<b>// Step 17: Make `A()` always return `-1`</b>
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,uniform1f(gf(P,"t"),NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|~aS(P,S))),2,5120,0,eV(bf(B=ET-3,cB())),bD(B,Int8Array.of(3,A(`uniform lowp float t${V=";varying lowp vec4 p;void main(){gl_"}FragColor=[SHADER]}`),A(`attribute vec4 P${V}Position=p=P;}`),3,~lo(P),~ug(P)),B+82))'>
 
+<b>// Step 19: change the shape of the triangle, using the return value of `setInterval` (usually between 1 and 127) as first param of `Int8Array`</b>
+
+&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,uniform1f(gf(P,"t"),NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`uniform lowp float t${V=";varying lowp vec4 p;void main(){gl_"}FragColor=[SHADER]}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P${V}Position=p=P;}`)),B+82),lo(P),ug(P))'>
+
+<b>// Step 20: introduce C and T as attributes, set `t.x=T.x`, and use `vA` (vertexAttrib1f) instead of `uniform1f`</b>
+
+&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=[SHADER]}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P,T;${V}Position=p=P;t.x=T.x;}`)),B+82),lo(P),ug(P))'>
+
+<b>// Step 21: Set `t=T` directly</b>
+
+&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,vertexAttrib1f(1,NO+=.01),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=[SHADER]}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)),B+82),lo(P),ug(P))'>
 </pre>
 
 <p>Mini WebGL boilerplate, commented (step 10, update soon):
