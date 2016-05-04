@@ -151,15 +151,15 @@
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,uniform1f(gf(P,"t"),NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|~aS(P,S))),2,5120,0,eV(bf(B=ET-3,cB())),bD(B,Int8Array.of(3,A(`uniform lowp float t${V=";varying lowp vec4 p;void main(){gl_"}FragColor=[SHADER]}`),A(`attribute vec4 P${V}Position=p=P;}`),3,~lo(P),~ug(P)),B+82))'>
 
-<b>// Step 19: change the shape of the triangle, using the return value of `setInterval` (usually between 1 and 127) as first param of `Int8Array`</b>
+<b>// Step 18: change the shape of the triangle, using the return value of `setInterval` (usually between 1 and 127) as first param of `Int8Array`</b>
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,uniform1f(gf(P,"t"),NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`uniform lowp float t${V=";varying lowp vec4 p;void main(){gl_"}FragColor=[SHADER]}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P${V}Position=p=P;}`)),B+82),lo(P),ug(P))'>
 
-<b>// Step 20: introduce C and T as attributes, set `t.x=T.x`, and use `vA` (vertexAttrib1f) instead of `uniform1f`</b>
+<b>// Step 19: introduce C and T as attributes, set `t.x=T.x`, and use `vA` (vertexAttrib1f) instead of `uniform1f`</b>
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=[SHADER]}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P,T;${V}Position=p=P;t.x=T.x;}`)),B+82),lo(P),ug(P))'>
 
-<b>// Step 21: Set `t=T` directly</b>
+<b>// Step 20: Set `t=T` directly</b>
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,vertexAttrib1f(1,NO+=.01),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=[SHADER]}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)),B+82),lo(P),ug(P))'>
 </pre>
