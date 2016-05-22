@@ -281,8 +281,8 @@ m=1,v=value.replace(eval("/.
 <div class=section id=jstweet_en>
   <img src=../english.png class=lang onclick="jstweet_en.style.display='none';jstweet_fr.style.display='block'">
 	<h2>Obfusc-a-tweet: How many JavaScript code can we fit in 140 characters?</h2>
-	<h3>november 2013, may 2014</h3>
-  <p>The answer is: 190 characters!</p>
+	<h3>november 2013, may 2014, may 2016</h3>
+  <p>The answer is: <s>190</s> 194 characters!</p>
   <p>On <a href=//140byt.es target=_blank>140byt.es</a>, the goal is to write JavaScript functions that fit in a tweet, i.e. in 140 characters.</p>
   <p>Until now, these functions were always written in "clear" ASCII characters. But a tweet can contain 140 Unicode characters, including the "astral" ones, encoded on 4 bytes.</p>
   <p>So I had the idea to use this encoding (UTF-16) to compress a long JavaScript code, and insert this encoded string in a JavaScript expression able to decode and execute it, while respecting the 140 chars limitation.</p>
@@ -308,7 +308,7 @@ z = function(b, c, a, f){
   // Return string
   c="";
   
-  // Shortcut for "String.fromCherCode"
+  // Shortcut for "String.fromCharCode"
   f = String.fromCharCode;
   
   // Loop on all the ASCII characters
@@ -324,7 +324,7 @@ z = function(b, c, a, f){
   <br>
   <p>And here is the expression decoding and executing the original JavaScript code (thanks to <a href=//twitter.com/subzey target=_blank>@subzey</a> for his help):</p>
   <pre>// replace "𠑂𠱄" with your encoded string
-eval(unescape(escape("𠑂𠱄").replace(/uD./g,'')))</pre>
+eval(unescape(escape`𠑂𠱄`.replace(/uD./g,'')))</pre>
   <button onclick="source_decoder190_en.style.display='block';this.style.display='none'">See the source code</button>
   <pre id=source_decoder190_en style="display: none">// First, we need to know how JavaScript handles escaped characters:
 // ASCII characters are escaped as: %XX (XX is an hexadecimal value)
@@ -347,7 +347,7 @@ var unescaped = unescape(replaced); // --> "ABCD" (the decoded string)
 eval(unescaped); // Tries to execute the decoded string.
   </pre>
   <br>
-  <p>This decoder-executer is only 45 bytes long. So we can execute <b>190</b> ((140 - 45) x 2) JS characters in a single tweet.</p>
+  <p>This decoder-executer is only 43 bytes long. So we can execute <b>194</b> ((140 - 43) x 2) JS characters in a single tweet.</p>
   <br>
   <hr>
   <br>
