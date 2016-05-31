@@ -163,7 +163,7 @@
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(),2,5120,bD(B=ET-3,Int8Array.of(B,setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S)),!A(`${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=[SHADER]}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)),B+82),lo(P),ug(P))'>
 
-<b>// Step 21: Set 5th parameter of vA (i.e. `vertexAttribPointer`) to `!lo(P)=1` (i.e. `stride`), to reduce `int8Array.of(x1=-3, y1=1, x2=1, y2=-3, x3=1, y3=1)` to `int8Array.of(x1=1, y1=x2=-3, y2=x3=1, y3=1)`. (the coordinate pairs overlap). Also, setTimeout is moved into `cP` (i.e. `createProgram`)</b>
+<b>// Step 21: Set 5th parameter of vA (i.e. `vertexAttribPointer`), stride, to 1, to  make the coordinate pairs overlap: `int8Array.of(x1 = 1, y1 = x2 = -3, y2 = x3 = 1, y3 = 1)`. Also, the setTimeout is moved into `cP` (i.e. `createProgram`)</b>
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(!A(`${V="varying lowp vec4 p,t;void main(){gl_"}FragColor=[SHADER];}`),B,!eV(bf(B,cB())),!A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)),B+82),!lo(P),ug(P))'>
 
@@ -228,7 +228,7 @@ with(g){
             cB()                                        // g.createBuffer
           )
         ),
-        A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)  // Call A a second time to create the vertex shader (at this moment, g.FN == 35633 == g.VERTEX_SHADER), and return y3 = 1
+        A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)  // Call A a second time to create the vertex shader (at this moment, g.FN = 35633 = g.VERTEX_SHADER), and return y3 = 1
       ),
       B+82                                              // 3rd param of bD: g.STATIC_DRAW = 35044 = 34962 + 82
     ),
