@@ -248,12 +248,11 @@
 // g.NO_ERROR => g.NO (value = 0)
 // g.FRAGMENT_SHADER => g.FN (value: 35632)
 // g.ELEMENT_ARRAY_BUFFER_BINDING => g.ET (value: 34965)
-
-// The following code is minified and placed in an &lt;svg onload="...">. The variable "id" below is therefore an empty string, until we rename it. 
-
 for(i in g=a.getContext(`webgl`)){
   g[i[0]+i[6]]=g[i];
 }
+
+id = "";                                    // The following code is minified and placed in an &lt;svg onload="...">. The variable "id" below is therefore an empty string, until we rename it.
 
 with(g){                                    // Keep g into scope for future function calls (ex: vA == g.vA)
   vA(                                       // Call vA (vertexAttribPointer) with the following params: vertex_index = 0, components_per_vertex_attribute = 2, vertex_attributes_type = g.BYTE = 5120, normalized = 0, stride = 1, offset = 0.
