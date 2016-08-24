@@ -27,6 +27,7 @@
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#js13k2016'>JS13kGames 2016</a>
       <li><a href='#eqcss'>EQCSS</a>
       <li><a href='#fatigue'>Shitty systems fatigue</a>
       <li><a href='#webgl_quest'>WebGL quest</a>
@@ -47,7 +48,166 @@
   </div>
   <div class=body>
 
+<div class=section id=js13k2016>
+  <h2>JS13kGames 2016: Super Chrono Portal Maker!</h2>
+	<h3>august-september 2016</h3>
+  <br>
+  <hr>
+  <br>
+  <h3>TL;DR</h3>
+  <p>You can play the game <a href=#>HERE</a>!
+  <p>You can see all the shared levels <a href=#>HERE</a>!
+  <p>The Github repo of the game is <a href=#>HERE</a>.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Preparation</h3>
+  <p>This year, I was really into 2D platforming.
+  <p>I developed a <a href="https://github.com/xem/platform-engine">platform engine</a> during my free time.
+  <p>We also discussed on <a href="https://js13kgames.slack.com">JS13k's slack</a> about the idea of a "13kb Mario Maker". This idea made me develop <a href="https://github.com/xem/js13k-level-editor">a 1kb level editor</a> with shareable URLs, that all js13k's devs can use in their games...
+  <p><img src="https://pbs.twimg.com/media/CmBPCzDWYAAw87S.jpg:large">
+  <p>As I was a bit rusty on 2D maths, I also made this <a href="https://gist.github.com/xem/99930986c5333125a13b0ea50600391f">trigonometry cheat-sheet for 2D games</a> that many people found very useful.
+  <p>I also made a <a href="https://github.com/xem/js13k-graphics-editor">tiny graphics editor</a>, to help devs produce line-based graphics quickly and lightly (like I did for my 2015 entry GeoQuiz).
+  <p><img src="https://pbs.twimg.com/media/CmykE_XWEAAzPzq.jpg:large">
+  <p>And finally, <b>@innovati</b>, <b>@p01</b> and I, made a graphical music composer called <a href="http://xem.github.io/miniPiano">miniPiano</a> that lets you draw a melody and outputs a tiny piece of JS code to play it back.
+  <p><img src="images/js13k16/piano.png">
+  <p>Everything is ready to make a cool game now!
+  <br>
+  <hr>
+  <br>
+  <h3>Week-end 1</h3>
+  <p>When JS13kGames 2016 started, I remembered this Mario Maker idea and decided to mix it with two other of my favourite games, Portal (no presentation needed) and <a href="http://www.kongregate.com/games/scarybug/chronotron">Chronotron</a> (a Flash puzzle-game that lets you rewind time and collaborate with your past self).
+  <p>The idea of mixing Mario and Portal also comes from <a href="files/SuperMarioPortal.zip">Super Mario Portal</a> by "Moumou" (20Mb, made with RPG Maker!) and <a href="http://stabyourself.net/mari0/">Mari0</a> by StabYourself.
+  <p>The idea of mixing Portal and time travel also comes from <a href="http://store.steampowered.com/app/286080/">Thinking with Time Machine</a>, a great Portal 2 mod.
+  <p>Some inspiration can also be found in <a href="http://braid-game.com/">Braid</a> (for time travel) and <a href="http://www.kongregate.com/games/radx/enough-plumbers">Enough Plumbers</a> (for the multiple Mario gameplay).
+  <p>So I wanted to make a game featuring most of the cool mechanics of these three games (Mario, portal gun, time travel, mechanisms, companion cube, traps, and of course a level editor).
+  <p>For the record, <a href="https://blog.applepinegames.com/2d-portals-e293dc41a61e?gi=fb8d223c78e9">this article</a> is a great resource about 2D portals implementation!
+  <p>The theme of js13k this year is "Glitch!", and to include it in my game, I decided to provoke random bugs when Mario goes back in time. (like altering the graphics, the sound, the controls or the speed of the game). The more time travels are made, the more glitches occur. It could lead to fun things...
+  <p>Like previous years, my personal challenge was to make a game so big that it would be complicated to make it fit in 13kb. So with this puzzle-maker idea, I believed it would be a hard (and fun) task to achieve.
+  <p>Unlike previous years, my source code before minification will be really readable: well commented, cut into multiple files, and not using 1-letter variable names! The project is too big to take these "risks", and all these optimizations will be done at the end instead. (also, reducing var names to one letter can be easily done by the minifier, so let's not bother with that). I can't promise that the code will be clean and mainainable, but at least, it'll be readable.
+  <p>Last detail: last year, half of the zip was used by the game's data (world map, names of countries, capitols, famous places, etc), but this year, I'll really focus on filling it with a lot of code and a ton of features, instead of data. So, to sum up, I don't wanna be lazy this year (I wasn't during last years, but I wanna do more this time!)...
+  <br>
+  <p>During this first week-end, I wrote the game's specs, then I drew all the images of my game into this spritesheet...
+  <p><img src="images/js13k16/1b.png" style="width:90%">
+  <p>... based on this quick collage that I made from Super Mario Maker, Chronotron and Portal graphics:
+  <p><img src="images/js13k16/1.png" style="width:90%">
+  <p>I also developed basic menus (title screen, level selection screen...) and started to develop the main features of the level editor (select tiles, place them on the map, etc).
+  <p>All the following screenshots just show the work in progress. The final game may look different...
+  <p><img src="images/js13k16/2.png" style="background:#5C94FC;">
+  <p><img src="images/js13k16/3.png" style="background:#5C94FC;">
+  <p><img src="images/js13k16/4.jpg">
+  <p>Current code size: ~7kb commented, ~1.5kb minified and gzipped. (plus a 1.8kb PNG)
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Week 2</h3>
+  <p>During the first half of this week, I developed the level editor, to give it strict rules (eg. only one starting point, only one end flag, the ability to place green pipes and switches that make them go up and down, the ability to place pairs of balanced platforms, etc...).
+  <p>To do that, I had to define a precise format for saving the levels, a format that allows to store all the level's tiles in a grid of 40 * 20 ASCII characters (which is the most compressible output I could find while developing the 1k level editor), plus information about linked elements (pipes and switches, pairs of balanced platforms, etc). And all this data needs to be serializable in a string shorter than 4096 bytes, in order to be easily shareable via an URL.
+  <p>Here's what the data of a level looks like:
+  <p><pre class=code>// As a JS object:
+level_data = {
+  tiles: [
+    [0, 0, 1, 2, ...],
+    [3, 2, 0, 0, ...],
+    ...
+  ],
+  pipes: [
+    [x, height_1, height_2, switch_x, switch_y],
+    ...
+  ],
+  balances: [
+    [x1, y1, x2, y2],
+    ...
+  ]
+};</pre>
+  <p><pre>// As an URL:
+http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],balances:[[x1,y1,x2,y2]...]}</pre>
+  <p>I also added many checks in the code of the editor to prevent to draw overlapping pipes and balances, and also to avoid overwriting important elements of the map (like the pipes or the time machine) to avoid bugs.
+  <p><img src="images/js13k16/7.gif">
+  <p>The whole code, including the menus, the complete level editor, as well as the "share", "clear" and "exit" buttons, is 19kb commented, and 2.16kb minified and gzipped. (plus the usual 1.8kb PNG)
+  <p>~
+  <p>At the end of the week, I designed the first levels of the game, which will be used as tutorials. These levels will also be useful for me, to develop the game's engine in "real conditions". These first levels introduce the platform gameplay, then the mechanics (pipes, question blocks, balances), then the portals (plus directions, bounces and momentum), and finally the time travel (with paradoxes and "no-time-travel-clouds"). The other levels will be puzzles mixing all these concepts.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Weeks 3 &amp; 4</h3>
+  <p>During these two weeks I wrote the game's engine, little by little, according to the "features" introduced in the first levels of the game. Here's my TO DO list:
+  <p><b>General stuff:</b>
+  <ul>
+  <li>Load/draw a level
+  <li>Restart with "R"
+  <li>Quit by clicking on the black "x" 
+  <li>Record all the inputs (in order to be able to play them back after time travels)
+  <li>Animate the hero (use different sprites, walk, jump, die, turn left or right, etc)
+  </ul>
   
+  <p><b>Level 1:</b>
+  <p><img src="images/js13k16/7.png" style="background:#5C94FC;">
+  <ul>
+  <li>Fall (and stop falling if there's a solid object below)
+  <li>Move left / right (and stop moving if there's a solid object aside)
+  <li>Jump (and stop going up if there's a solid object above)
+  <li>Break brick tiles by jumping under them
+  <li>Collect coins
+  <li>Die by falling (<a href="https://twitter.com/SuperCPMaker/status/764910763442114560">bloopers!</a>)
+  <li>Die by touching a spike
+  <li>Win by touching the flag if all the coins are collected
+  <li>Hold/drop companion cube
+  <li>Stand on companion cubes, but don't be blocked by cubes when walking or jumping (they're only solid on top)
+  <li>Stack cubes (<a href="https://twitter.com/SuperCPMaker/status/765800431884828672">bloopers!</a>)
+  </ul>
+  <p>(at this point (and after a little refactoring session), the JS code fits in ~3.6kb minified and gzipped. The zip takes 5.4kb.)
+  <p><b>Level 2:</b>
+  <p><img src="images/js13k16/8.png" style="background:#5C94FC;">
+  <ul>
+  <li>"!" blocks and toggle switches (<a href="https://twitter.com/SuperCPMaker/status/766972885097324544">Nice!</a>)
+  <li>Pipes as elevators and pipe switches  
+  <li>The hero dies if he's crushed by a pipe
+  <li>Switches can be pressed by cubes (<a href="https://twitter.com/SuperCPMaker/status/766967775541669888">bloopers!</a>) (<a href="https://twitter.com/SuperCPMaker/status/766969188405555200">Nice!</a>)
+  <li>Balanced platforms (moves only if more heros / cubes are on one side)
+  <li>The hero can go on a platform from below (only solid on top)
+  <li>Cubes can make balanced platforms move (<a href="https://twitter.com/SuperCPMaker/status/767001327369003008">bloopers!</a>) (<a href="https://twitter.com/SuperCPMaker/status/767033151067750400">Nice!</a>)
+  </ul>
+  <p>(Little refactoring... current zip size: 6.5kb)
+  <p><b>Levels 3, 4:</b>
+  <p><img src="images/js13k16/9.png" style="background:#5C94FC;">
+  <ul>
+  <li>Portals (mouse to aim, left/right click to shoot)
+  <li>Portal ray bounces on ice
+  <li>The hero keeps his momentum when he goes through a portal
+  </ul>
+  <p>(zip size: ... kb)
+  <p><b>Levels 5, 6, 7:</b>
+  <p><img src="images/js13k16/10.png" style="background:#5C94FC;">
+  <ul>
+  <li>Time machine (press space to rewind time and play with your previous version(s))
+  <li>Show which one is the "current" hero
+  <li>The hero can walk on a cube held/dropped by another version
+  <li>Game over if a previous version doesn't reach the time machine (a.k.a. Paradox)
+  <li>Game over if a previous version is crushed by a pipe or a reappearing question block (a.k.a. Deus Ex Machina)
+  <li>Previous version can  collect coins, take/drop cubes, press switches, walk on pipes, walk on balanced platforms, launch portals, go through past/present/future portals.
+  <li>Previous versions can "steal" cubes to present hero and disable his portals by firing their own portals (and vice-versa)
+  <li>Clouds appear after first time travel and can block present and past Marios.
+  </ul>
+  <p>zip size ...kb!
+  <br>
+  <br>
+  <hr>
+  <br><h3>Weeks 5 &amp; 6</h3>
+  <p>These two weeks (actually, one week plus two days) were consacred to the creation of the final levels included in the game, the music, the debugging, the polishing and the golfing in order to make everything fit in 13kb.
+  <p>In the meantime, I also created the official Twitter account of the game and the "shared levels" webpage.
+  <p>This project took me around 150h to complete, much more than any of my previous entries, and more than my previous personal projects in general!
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><b>Cheers!</b>
+</div>
+
+
 <div class=section id=eqcss>
   <h2>EQCSS: The Search For The Holy Grail: How I Ended Up With Element Queries, And How You Can Use Them Today</h2>
 	<h3>july 2016</h3>
@@ -55,6 +215,7 @@
   <p>You can read it <a href="https://www.smashingmagazine.com/2016/07/how-i-ended-up-with-element-queries-and-how-you-can-use-them-today/">HERE</a>!
   <p><img src="https://media-mediatemple.netdna-ssl.com/wp-content/uploads/2016/07/eqcss-logo-opt.png">
 </div>
+
 <div class=section id=fatigue>
   <h2>Shitty systems & superfluous hacking fatigue</h2>
   <b>or: How we waste most of our lives struggling to obtain the most basic features from overly complicated and badly designed systems</b>
