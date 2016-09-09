@@ -134,54 +134,53 @@ http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],ba
   <hr>
   <br>
   <h3>Weeks 3 &amp; 4</h3>
-  <p>During these two weeks I wrote the game's engine, little by little, according to the "features" introduced in the first levels of the game. Here's my TO DO list:
+  <p>During these two weeks I wrote the game's engine, little by little, according to the "features" introduced in the first levels of the game. Here's my TO DO list, plus some GIFs I tweeted while developing it:
   <p><b>General stuff:</b>
   <ul>
-  <li>Load/draw a level
-  <li>Restart with "R"
-  <li>Quit by clicking on the black "x" 
-  <li>Record all the inputs (in order to be able to play them back after time travels)
-  <li>Animate the hero (use different sprites, walk, jump, die, turn left or right, etc)
+  <li>✅ Load/draw a level
+  <li>✅ Restart with "R"
+  <li>✅ Quit by clicking on the black "x" 
+  <li>✅ Record all the inputs (in order to be able to play them back after time travels)
+  <li>✅ Animate the hero (use different sprites, walk, jump, die, turn left or right, etc)
   </ul>
   
-  <p><b>Level 1:</b>
-  <p><img src="images/js13k16/7.png" style="background:#5C94FC;">
+  <p><b>Basic controls:</b>
   <ul>
-  <li>Fall (and stop falling if there's a solid object below)
-  <li>Move left / right (and stop moving if there's a solid object aside)
-  <li>Jump (and stop going up if there's a solid object above)
-  <li>Break brick tiles by jumping under them
-  <li>Collect coins
-  <li>Die by falling (<a href="https://twitter.com/SuperCPMaker/status/764910763442114560">bloopers!</a>)
-  <li>Die by touching a spike
-  <li>Win by touching the flag if all the coins are collected
-  <li>Hold/drop companion cube
-  <li>Stand on companion cubes, but don't be blocked by cubes when walking or jumping (they're only solid on top)
-  <li>Stack cubes (<a href="https://twitter.com/SuperCPMaker/status/765800431884828672">bloopers!</a>)
+  <li>✅ Fall (and stop falling if there's a solid object below)
+  <li>✅ Move left / right (and stop moving if there's a solid object aside)
+  <li>✅ Jump (and stop going up if there's a solid object above)
+  <li>✅ Break brick tiles by jumping under them
+  <li>✅ Collect coins
+  <li>✅ Die by falling (<a href="https://twitter.com/SuperCPMaker/status/764910763442114560">Oops!</a>)
+  <li>✅ Die by touching a spike
+  <li>✅ Win by touching the flag if all the coins are collected
+  <li>✅ Hold/drop companion cube
+  <li>✅ Stand on companion cubes, but don't be blocked by cubes when walking or jumping (they're only solid on top)
+  <li>✅ Stack cubes (<a href="https://twitter.com/SuperCPMaker/status/765800431884828672">Oops!</a>)
+  <li>✅ The hero slips on ice (and can't jump or change direction if he slips in a direction)
   </ul>
   <p>(at this point (and after a little refactoring session), the JS code fits in ~3.6kb minified and gzipped. The zip takes 5.4kb.)
-  <p><b>Level 2:</b>
-  <p><img src="images/js13k16/8.png" style="background:#5C94FC;">
+  <p><b>Mechanisms</b>:
   <ul>
-  <li>"!" blocks and toggle switches (<a href="https://twitter.com/SuperCPMaker/status/766972885097324544">Nice!</a>)
-  <li>Pipes as elevators and pipe switches  
-  <li>The hero dies if he's crushed by a pipe
-  <li>Switches can be pressed by cubes (<a href="https://twitter.com/SuperCPMaker/status/766967775541669888">bloopers!</a>) (<a href="https://twitter.com/SuperCPMaker/status/766969188405555200">Nice!</a>)
-  <li>Balanced platforms (moves only if more heros / cubes are on one side)
-  <li>The hero can go on a platform from below (only solid on top)
-  <li>Cubes can make balanced platforms move (<a href="https://twitter.com/SuperCPMaker/status/767001327369003008">bloopers!</a>) (<a href="https://twitter.com/SuperCPMaker/status/767033151067750400">Nice!</a>)
+  <li>✅ "!" blocks and toggle switches (<a href="https://twitter.com/SuperCPMaker/status/766972885097324544">Nice!</a>)
+  <li>✅ Pipes as elevators and switches makes them move  
+  <li>✅ The hero dies if he's crushed by a pipe or a balance
+  <li>✅ Switches can be pressed by cubes (<a href="https://twitter.com/SuperCPMaker/status/766967775541669888">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/766969188405555200">Nice!</a>)
+  <li>✅ Balanced platforms (moves only if more heros / cubes are on one side)
+  <li>✅ The hero can go on a platform from below (only solid on top)
+  <li>✅ Cubes can make balanced platforms move (<a href="https://twitter.com/SuperCPMaker/status/767001327369003008">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/767033151067750400">Nice!</a>)
   </ul>
   <p>(Little refactoring... current zip size: 6.5kb)
-  <p><b>Levels 3, 4:</b>
-  <p><img src="images/js13k16/9.png" style="background:#5C94FC;">
+  <p><b>Portals:</b>
   <ul>
-  <li>Portals (mouse to aim, left/right click to shoot)
-  <li>Portal ray bounces on ice
-  <li>The hero keeps his momentum when he goes through a portal
+  <li>✅ Portals (mouse to aim, left/right click to shoot)
+  <li>✅ Portal ray bounces on ice
+  <li>✅ The hero keeps his momentum when he goes through a portal
+  <li>✅ Cubes an be dropped or carried through a portal (they keep momentum too)
+  <li>✅ Avoid being stuck is two portals face the same direction
   </ul>
-  <p>(zip size: ... kb)
-  <p><b>Levels 5, 6, 7:</b>
-  <p><img src="images/js13k16/10.png" style="background:#5C94FC;">
+  <p>(Big refactoring... current zip size: 8.2b)
+  <p><b>Time travel:</b>
   <ul>
   <li>Time machine (press space to rewind time and play with your previous version(s))
   <li>Show which one is the "current" hero
@@ -192,7 +191,7 @@ http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],ba
   <li>Previous versions can "steal" cubes to present hero and disable his portals by firing their own portals (and vice-versa)
   <li>Clouds appear after first time travel and can block present and past Marios.
   </ul>
-  <p>zip size ...kb!
+  <p>(zip size ...kb!)
   <br>
   <br>
   <hr>
