@@ -216,16 +216,20 @@ http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],ba
   <p>(current zip size: 13.9kb)
   <br>
   <p>Important discovery made a few days before the deadline: Advzip, a zip optimizer/recompressor is able to save around 1kb out of a 13kb zip. By passing my current zip through Advzip, it only takes 12.8kb. We're still below the limit! Although, I don't have background music yet, so I'll golf it a little to make room for an hypothetical future music...
-  <p>At this point, my commented source code weighs 114kb (scattered in 12 files and containing more than 3200 lines of code), and shrinks to 72.4kb when minified (including 27kb of level data)
+  <p>At this point, my commented source code weighs 114kb (scattered in 12 files and containing more than 3600 lines of code), and shrinks to 72.4kb when minified (including 27kb of level data)
   <p>And yes, as incredible as it sounds, once zipped, all that code fits in less than 13kb!
   <p><b>Golfing:</b>
   <ul>
   <li>✅ Just one HTML file with all the game contents
-  <li>✅ Inline some functions that are only called once
-  <li>✅ Built-in levels are golfed a little (JSON optimizations)
-  <li>✅ All the game variables are renamed to 1 char
-  <li>✅ Remaining functions are renamed to 1 to 2 chars (because all the ASCII alphabet is used!)
-  <li>✅ Various optimizations here and there...
+  <li>✅ Inline the functions that are only called once
+  <li>✅ Optimize the JSON of the built-in levels
+  <li>✅ All the game variables are renamed to 1 to 2 chars and made global (no declaration)
+  <li>✅ All the hero / level / cube properties are renamed to 1 char
+  <li>✅ All the function params are renamed to e,f,g,h
+  <li>✅ Functions are renamed to 2 chars
+  <li>✅ Explicit "window" references are removed
+  <li>✅ Shorten Twitter URL
+  <li>✅ Minification, zip, advzip
   </ul>
   <p>Zip size after this golfing: ...kb!
   <br>
