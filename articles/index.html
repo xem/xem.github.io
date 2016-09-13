@@ -55,12 +55,13 @@
   <hr>
   <br>
   <h3>TL;DR:</h3>
-  <p>You can play the game <a href=https://js13kgames.com/#>HERE</a>! (please share!)
-  <p>Try also the Codegolf Team's entry <a href=#>HERE</a> (please share too)! 
-  <p>You can see all the shared levels (and share yours) <a href=https://twitter.com/search?f=tweets&q=%23SuperChronoPortalMaker>HERE</a>.
-  <p>The Github repo of the game is <a href=https://github.com/xem/js13k16>HERE</a>.
-  <p>The speedruns of the game are <a href=#>HERE</a>. (and mine is <a href=#>HERE</a>)
-  <p>Please share and retweet <a href=#>THIS</a>!
+  <p>You can play the game <a href="http://js13kgames.com/entries/super-chrono-portal-maker">HERE</a>! (please share!)
+  <p>Try also the Codegolf Team's entry "26 games in 1" <a href="http://js13kgames.com/entries/26-games-in-1">HERE</a> (please share too)! 
+  <p>You can see all the shared levels (and share yours) <a href="https://twitter.com/search?f=tweets&q=%23SuperChronoPortalMaker">HERE</a>.
+  <p>The Github repo of the game is <a href="https://github.com/xem/js13k16">HERE</a>.
+  <p>The speedruns of the game are (COMING SOON) <!--<a href=#>HERE</a>. (and mine is <a href=#>HERE</a>)-->
+  <p>Please share and retweet <a href="https://twitter.com/js13kGames/status/775465165064171520">THIS</a>! Thanks!
+  <p>And a big thanks to Anders Kaare, the Codegolf Team, Andrzej, and my supportive friends, colleagues and family.
   <br>
   <br>
   <hr>
@@ -126,7 +127,7 @@ level_data = {
   ]
 };</pre>
   <p><pre>// As an URL:
-http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],balances:[[x1,y1,x2,y2]...]}</pre>
+http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1,y1,x2,y2]...]}</pre>
   <p>I also added many checks in the code of the editor to prevent to draw overlapping pipes and balances, and also to avoid overwriting important elements of the map (like the pipes or the time machine) to avoid bugs.
   <p><img src="images/js13k16/7.gif">
   <p>The whole code, including the menus, the complete level editor, as well as the "share", "clear" and "exit" buttons, is 19kb commented, and 2.16kb minified and gzipped. (plus the usual 1.8kb PNG)
@@ -160,15 +161,15 @@ http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],ba
   <li>✅ Win by touching the flag if all the coins are collected
   <li>✅ Hold/drop/throw a companion cube
   <li>✅ Stand on companion cubes (they're only solid on the top side)
-  <li>✅ Stack cubes (<a href="https://twitter.com/SuperCPMaker/status/765800431884828672">Oops!</a>)
-  <li>✅ Slip on ice (unless we're standing still)
+  <li>✅ Stack cubes (<a href="https://twitter.com/SuperCPMaker/status/765800431884828672">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/774631449462964225">WOW!</a>)
+  <li>✅ Slip on ice (unless we're standing still) (<a href="https://twitter.com/SuperCPMaker/status/769540427875815424">Nice!</a>)
   </ul>
   <p>(at this point (and after a little refactoring session), the JS code fits in ~3.6kb minified and gzipped. The zip takes 5.4kb.)
   <p><b>Mechanisms</b>:
   <ul>
-  <li>✅ "!" blocks and toggle switches (<a href="https://twitter.com/SuperCPMaker/status/766972885097324544">Nice!</a>)
+  <li>✅ "!" blocks and toggle switches (<a href="https://twitter.com/SuperCPMaker/status/768152146642698242">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/766972885097324544">Nice!</a>)
   <li>✅ Pipe elevators and switches makes them move  
-  <li>✅ The hero dies if he's crushed by a pipe or a balance
+  <li>✅ The hero dies if he's crushed by a pipe or a balance (<a href="https://twitter.com/SuperCPMaker/status/769547241845645312">Nice!</a>)
   <li>✅ Switches can be pressed by cubes (<a href="https://twitter.com/SuperCPMaker/status/766967775541669888">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/766969188405555200">Nice!</a>)
   <li>✅ Balanced platforms (that move if more weight is on one side)
   <li>✅ The hero can go on a platform from below (only solid on top)
@@ -177,23 +178,24 @@ http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],ba
   <p>(Little refactoring... current zip size with 5 levels: 6.5kb)
   <p><b>Portals:</b>
   <ul>
-  <li>✅ Portals (mouse to aim, left/right click to shoot)
-  <li>✅ Portal ray bounces on ice
-  <li>✅ The hero keeps his momentum when he goes through a portal
-  <li>✅ Cubes an be dropped or carried through a portal (they keep momentum too)
-  <li>✅ Avoid being stuck is two portals face the same direction
+  <li>✅ Portals (mouse to aim, left/right click to shoot) (<a href="https://twitter.com/SuperCPMaker/status/768511361466916864">WIP</a> <a href="https://twitter.com/SuperCPMaker/status/768879901084614656">Nice!</a>)
+  <li>✅ Portals push you out (<a href="https://twitter.com/SuperCPMaker/status/769232540934823936">Nice!</a>)
+  <li>✅ Portal ray bounces on ice (<a href="https://twitter.com/SuperCPMaker/status/769446044388233216">Nice!</a>)
+  <li>✅ The hero keeps his momentum when he goes through a portal (<a href="https://twitter.com/SuperCPMaker/status/769293696420417536">Nice!</a>)
+  <li>✅ Cubes an be dropped or carried through a portal (they keep momentum too) (<a href="https://twitter.com/SuperCPMaker/status/769533899651346432">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/769536708949991424">Nice!</a>)
   </ul>
   <p>(Huge refactoring (it took 5 days)... current zip size with 10 levels: 8.2b)
   <p><b>Time travel:</b>
   <ul>
-  <li>✅ Time machine (press space to rewind time and play with your previous version(s))
+  <li>✅ Time machine (press shift to rewind time and play with your previous version(s)) (<a href="https://twitter.com/SuperCPMaker/status/772184450637656065">Nice!</a>)
+  <li>✅ Multiple time travels (<a href="https://twitter.com/SuperCPMaker/status/772399726092312576">Nice!</a>)
   <li>✅ Show which one is the "current" hero
-  <li>✅ The hero can walk on a cube held/dropped by another version
-  <li>✅ Game over if a previous version doesn't reach the time machine (a.k.a. Paradox)
-  <li>✅ Game over if a previous version is crushed by a pipe or a reappearing question block (a.k.a. Deus Ex Machina)
-  <li>✅ Previous version can  collect coins, take/drop cubes, press switches, walk on pipes, walk on balanced platforms, launch portals, go through past/present/future portals.
+  <li>✅ The hero can walk on a cube held/dropped/thrown by another version (<a href="https://twitter.com/SuperCPMaker/status/773943440518316032">Nice!</a>)
+  <li>✅ Game over if a previous version doesn't reach the time machine (a.k.a. Paradox) (<a href="https://twitter.com/SuperCPMaker/status/772893860360024064">Glitch!</a>)
+  <li>✅ Game over if a previous version dies too
+  <li>✅ Previous version can collect coins, take/drop cubes, press switches, walk on pipes, walk on balanced platforms, launch portals, go through past/present/future portals, get the flag.
   <li>✅ Previous versions can "steal" cubes to present hero and disable his portals by firing their own portals (and vice-versa)
-  <li>✅ Clouds appear after first time travel and can block present and past Marios.
+  <li>✅ Clouds! (<a href="https://twitter.com/SuperCPMaker/status/774522976356237312">Nice!</a>).
   </ul>
   <p>(Another refactoring...current zip size with 15 levels: 10.5kb)
   <br>
@@ -211,11 +213,10 @@ http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],ba
   <li>✅ Video record for all the dev times (for speedrun.com)
   <li>✅ Final title screen
   <li>✅ Inline the tileset in base64
-  <li>✅ And some surprises...
   </ul>
   <p>(current zip size: 13.9kb)
   <br>
-  <p>Important discovery made a few days before the deadline: Advzip, a zip optimizer/recompressor is able to save around 1kb out of a 13kb zip. By passing my current zip through Advzip, it only takes 12.8kb. We're still below the limit! Although, I don't have background music yet, so I'll golf it a little to make room for an hypothetical future music...
+  <p>There's an <a href="https://twitter.com/SuperCPMaker/status/773988452903903232">important discovery</a> made a few days before the deadline: Advzip, a zip optimizer/recompressor is able to save around 1kb out of a 13kb zip. By passing my current zip through Advzip, it only takes 12.8kb. We're still below the limit! Maybe we can have some music...
   <p>At this point, my commented source code weighs 114kb (scattered in 12 files and containing more than 3600 lines of code), and shrinks to 72.4kb when minified (including 27kb of level data)
   <p>And yes, as incredible as it sounds, once zipped, all that code fits in less than 13kb!
   <p><b>Golfing:</b>
@@ -229,17 +230,27 @@ http://...#{hash:"0012...",pipes:[[x,height_1,height_2,switch_x,switch_y]...],ba
   <li>✅ Shorten Twitter URL
   <li>✅ Minification, zip, advzip
   </ul>
-  <p>Zip size after this golfing: ...kb!
+  <p>Zip size after this golfing: 11.1kb!
   <br>
   <br>
   <p><b>Final touch</b>
-  <p>TODO
-  
+  <p>With 24 hours left and nearly 2kb available in my zip, I called Anders Kaare to save my life once again. He made me a great collection of sounds plus a gorgeous musical theme in no time!
+  <p>I also added a hidden, super difficult level and recorded all my developer times as a challenge for speedrunners.
+  <p><a href="https://twitter.com/SuperCPMaker/status/775285475691167744">Final beta-testing!</a> 
+  <br>
+  <br>
+  Final interface:
+  <br>
+  <img src="images/js13k16/title.jpg">
+  <br>
+  <br>
+  <hr>
   <br>
   <p><b>Conclusion</b>
-  <p>This project took me around 200h to complete, much more than any of my previous entries, and more than any of my previous personal projects!
-  <p>I'm very happy with the result, and hope that a lot of people will enjoy it and create stunning levels! (and maybe speedrun it?!)
-  <p>Thanks js13kgames, and Andrzej, and see you next year for somthing even bigger! :D
+  <p>This project took me nearly 200h to complete, much more than any of my previous entries, and more than any of my previous personal projects!
+  <p>There's a lot more that could be done, but I ran out of time and energy... but never ran out of free space! My final zip is just 12.5kb!
+  <p>I'm still very happy with the result, and hope that a lot of people will enjoy it and create stunning levels! (and maybe speedrun it too ?)
+  <p>Thanks js13kgames, and Andrzej, and Anders for the music, and all the people that helped me and supported me during this compo, and see you next year for something even bigger! :D
   <br>
   <br>
   <hr>
