@@ -88,7 +88,7 @@ up = right = down = left = false;
 // Keydown listener
 onkeydown = (e) => {
 
-  // Top (top / W / Z)
+  // Up (up / W / Z)
   if(e.keyCode == 38 || e.keyCode == 90 || e.keyCode == 87){
     up = true;
   }
@@ -98,9 +98,9 @@ onkeydown = (e) => {
     right = true;
   }
   
-  // Bottom (bottom / S)
+  // Down (down / S)
   if(e.keyCode == 40 || e.keyCode == 83){
-    bottom = true;
+    down = true;
   }
   
   // Left (left / A / Q)
@@ -112,7 +112,7 @@ onkeydown = (e) => {
 // Keyup listener
 onkeyup = (e) => {
     
-  // Top
+  // Up
   if(e.keyCode == 38 || e.keyCode == 90 || e.keyCode == 87){
     up = false;
   }
@@ -122,9 +122,9 @@ onkeyup = (e) => {
     right = false;
   }
   
-  // Bottom
+  // Down
   if(e.keyCode == 40 || e.keyCode == 83){
-    bottom = false;
+    down = false;
   }
   
   // Left
@@ -135,6 +135,12 @@ onkeyup = (e) => {
 </pre>
   <p>Then, during you game loop, you just need to rely on the state of these four variables to know if the player is currently pressing a direction (or an alias in WASD or ZQSD) or not!
   <p>Want to see a demo? Of course! Just launch the first level of <a href="http://js13kgames.com/entries/super-chrono-portal-maker">my js13kgames entry</a>. It uses this exact technique :)
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p>P.S: if you want a minified ang golfed version, here it is: only 160b! (the four vars u,r,d,l, are not booleans but just truthy and falsy)
+<pre class=code>u=r=d=l=0;onkeydown=(e)=>t(e,1);onkeyup=(e)=>t(e);t=(e,v,l,i)=>{for(i in l={u:[38,90,87],r:[39,68],d:[40,83],l:[37,65,81]})if(l[i].includes(e.keyCode))top[i]=v}</pre>
   <p>Cheers,
   <p><b>@MaximeEuziere</b>
 </div>
