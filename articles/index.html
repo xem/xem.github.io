@@ -27,6 +27,7 @@
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#css3d'>CSS 3D game making</a>
       <li><a href='#jsgamesinputs'>JS games keyboard inputs</a>
       <li><a href='#js13k2016'>JS13kGames 2016</a>
       <li><a href='#eqcss'>EQCSS</a>
@@ -48,6 +49,44 @@
     </ul>
   </div>
   <div class=body>
+
+<div class=section id=css3d>
+  <h2>CSS3D game making</h2>
+	<h3>october 2016</h3>
+  <br>
+  <hr>
+  <br>
+  <p>Since <a href="https://www.sitepoint.com/add-remove-css-class-vanilla-js/?utm_source=javascriptweekly&utm_medium=email">the most essential CSS tutorial ever</a> is already online (troll), let's focus on a new experimental subject instead:
+  <br>"CSS 3D" rendering and gaming.
+  <p>Shortly after beginning working on this case, css-tricks published <a href="https://css-tricks.com/things-watch-working-css-3d/">an awesome article about CSS3D</a>, and (no troll) it's a great resource and a great complement to this post.
+  <p>Here, we will go deeper in the gaming aspect of CSS3D by explaining how to simulate a camera and how to make CSS3D scenes interactive without too much hassle.
+  <p>In parallel of this article, I'm updating <a href="https://github.com/xem/CSS3Dprototypes">this Github repo</a> with my experiments. 
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Why?</h3>
+  <p>Because it's fun, hacky, and also because it's super lightweight. You can literally make a 3D scene interactive with a dozen of lines of HTML/CSS and a dozen of lines of JS (<a href="https://github.com/xem/CSS3Dprototypes/blob/gh-pages/1/index.html">example</a>) (<a href="https://xem.github.io/CSS3Dprototypes/1/">demo</a>), so it can be useful for lazy coders, or code-golfers trying to work with the size limits of <b>js1k</b> or <b>js13kgames</b>!
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>A camera?</h3>
+  <p>In a webpage, there's no "camera", but there's a viewport (the portion of the page visible in browser's window).
+  <p>In this course, We'll use a container element acting like a viewport with a fixed size of 400x400px.<br>Of course, you can change these sizes, or even make it fullscreen without too much effort.<br>The center of this container (200:200) will be the position of our virtual camera. To make it act like a camera, we will just make the 3D scene evolve around this point.
+  <p>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Interactive?</h3>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p>...
+</div>
+
 
 <div class=section id=jsgamesinputs>
   <h2>Some subtleties of keyboard inputs in JS games</h2>
