@@ -51,40 +51,53 @@
   <div class=body>
 
 <div class=section id=css3d>
-  <h2>CSS3D games</h2>
+  <h2>How to make a game in CSS3D</h2>
 	<h3>october 2016</h3>
   <br>
   <hr>
   <br>
-  <p>This article is aimed at developers already familiar with CSS3D.
-  <p>I also recommend reading the following resources:
+  <p>This article is aimed at developers that are already familiar with JS game making and CSS3D.
+  <p>If you don't already know them, I also recommend reading the following resources:
   <br>- <a href="https://24ways.org/2010/intro-to-css-3d-transforms/">An Introduction to CSS 3D Transforms</a>
   <br>- <a href="https://css-tricks.com/things-watch-working-css-3d/">Things to watch when working with CSS3D</a>
   <br>- <a href="http://www.keithclark.co.uk/">Keith Clark's articles and demos about CSS3D engine, lighting, shadowing, etc.</a>
   <br>- <a href="http://thingsinjars.com/post/434/super-mario-kart-css/">Super Mario Kart in CSS,</a> it's heavy, old, not optimized, not cross-browser, but that's what inspired me to do this today :)
-  <p>I won't cover all the features of CSS3D but instead, I'll focus on some discoveries I've made, like how to deal with the rotation and translation axis, how to simulate a camera and how to make CSS3D scenes interactive with a little bit of JS.
+  <p>I won't cover all the features of CSS3D but instead, but instead I'll focus on some discoveries I've made, like how to deal with the rotation and translation axis, how to simulate a camera and how to make CSS3D scenes interactive with a little bit of JS.
   <p>In parallel of this article, I'm updating <a href="https://github.com/xem/CSS3Dprototypes">this Github repo</a> with my experiments. 
   <br>
   <br>
   <hr>
   <br>
   <h3>Why?</h3>
-  <p>Why make games in CSS3D? Because it works (most of the time), because it's fun and hacky, and also because it's super lightweight. You can literally make a 3D scene interactive with a dozen of lines of HTML/CSS and a dozen of lines of JS (<a href="https://github.com/xem/CSS3Dprototypes/blob/gh-pages/1/index.html">example</a>) (<a href="https://xem.github.io/CSS3Dprototypes/1/">demo</a>), so it can be useful for lazy coders, or code-golfers trying to work with the size limits of <b>js1k</b> or <b>js13kgames</b>!
+  <p>Why make games in CSS3D? Because it works fine (most of the time), because it's fun and hacky, and also because it's super lightweight! You can literally make a 3D scene interactive with a dozen of lines of HTML/CSS and a dozen of lines of JS (<a href="https://github.com/xem/CSS3Dprototypes/blob/gh-pages/1/index.html">example</a>) (<a href="https://xem.github.io/CSS3Dprototypes/1/">demo</a>), so it can be useful for lazy coders, or code-golfers trying to work with the size limits of <b>js1k</b> or <b>js13kgames</b>!
   <br>
   <br>
   <hr>
   <br>
-  <h3>How?</h3>
+  <h3>Spoiler: 3D games otfen are just 2D games plus perspective</h3>
+  <p>It seems stupid to say it like that, but it's one of the most important things I realized while experimenting: if you can make a 2D game in JS (for example a chess game or a racing game seen from above, or anything else you can imagine), you literally just need to look at your scene from a slightly different angle and you have turned it into a 3D game "for free".
+  <br>
+  You can see what I mean with this <a href="http://xem.github.io/CSS3Dprototypes/5.html">Mario Kart prototype</a>: the only real difference between the 2D view and the 3D view is rotation of 80 degrees along the X axis!
+  <p><img src="images/css3d/2D3D.gif">
+  <p>But we'll se that in greater detail later.
   <br>
   <br>
   <hr>
   <br>
-  <h3>Axis, translations, rotations?</h3>
+  <h3>So let's get started with CSS3D!</h3>
+  <br>Nowadays, CSS3D is pretty easy to use. Modern browsers don't require vendor-prefixes anymore and their performances are... decent.
+  <p>All you have to do is to set "perspective: 400px" to a container in your page (avoid the &lt;body> though) - of course you can replace 400px with any length you want; as far as I understand, this length represents the distance between the container and the virtual camera that will "see" the scene in perspective. (the lower the perspective, the more deformed the scene is). Then fill the container with elements, apply all the CSS3D transforms you want to these elements, don't forget to set "transform-style: preserve-3d;" to render them in "real 3D" instead of "false flat 3D" and you're done!
+  <p>
+  <p>But now, let's dig into some subtleties that you may face while playing with this new toy!
+  <br>
+  <hr>
+  <br>
+  <h3>Subtlety #1: HTML elements vs. axis, translations and rotations?</h3>
   <br>
   <br>
   <hr>
   <br>
-  <h3>A "camera"?</h3>
+  <h3>Subtlety #2: A "camera"?</h3>
   <p>In a webpage, there's no "camera", but there's a viewport (the portion of the page visible in browser's window).
   <p>In this course, We'll use a container element acting like a viewport with a fixed size of 400x400px.<br>Of course, you can change these sizes, or even make it fullscreen without too much effort.<br>The center of this container (200:200) will be the position of our virtual camera. To make it act like a camera, we will just make the 3D scene evolve around this point.
   <p>
@@ -92,12 +105,12 @@
   <br>
   <hr>
   <br>
-  <h3>Interactivity?</h3>
+  <h3>Subtlety #3: Interactivity?</h3>
   <br>
   <br>
   <hr>
   <br>
-  <h3>... and how about browser support?</h3>
+  <h3>Subtlety #4: browser support?</h3>
   <br>
   <br>
   <hr>
@@ -199,6 +212,8 @@ onkeyup = (e) => {
   <br>
   <p>P.S: if you want a minified ang golfed version, here it is: only 160b! (the four vars u,r,d,l, are not booleans but just truthy and falsy)
 <pre class=code>u=r=d=l=0;onkeydown=(e)=>t(e,1);onkeyup=(e)=>t(e);t=(e,v,l,i)=>{for(i in l={u:[38,90,87],r:[39,68],d:[40,83],l:[37,65,81]})if(l[i].includes(e.keyCode))top[i]=v}</pre>
+<p>P.P.S: Here's a 122b version by @p01, using a radically different idea: a look-up table of keyCodes represented as a string, and which instead of keyCode (because it's the same thing):
+<pre class=code>u=r=d=l=0;onkeyup=t=(e,v)=>top['lurd************************l**r************l*d***u**u'[e.which-37]]=v;onkeydown=e=>t(e,1)</pre>
   <p>Cheers,
   <p><b>@MaximeEuziere</b>
 </div>
