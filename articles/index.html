@@ -57,12 +57,12 @@
   <hr>
   <br>
   <p>This article is aimed at developers that are already familiar with JS game making and CSS3D.
-  <p>If you don't already know them, I also recommend reading the following resources:
+  <p>If you don't already know CSS3D, I also recommend reading the following resources:
   <br>- <a href="https://24ways.org/2010/intro-to-css-3d-transforms/">An Introduction to CSS 3D Transforms</a>
   <br>- <a href="https://css-tricks.com/things-watch-working-css-3d/">Things to watch when working with CSS3D</a>
   <br>- <a href="http://www.keithclark.co.uk/">Keith Clark's articles and demos about CSS3D engine, lighting, shadowing, etc.</a>
   <br>- <a href="http://thingsinjars.com/post/434/super-mario-kart-css/">Super Mario Kart in CSS,</a> it's heavy, old, not optimized, not cross-browser, but that's what inspired me to do this today :)
-  <p>I won't cover all the features of CSS3D but instead, but instead I'll focus on some discoveries I've made, like how to deal with the rotation and translation axis, how to simulate a camera and how to make CSS3D scenes interactive with a little bit of JS.
+  <p>I won't cover all the features of CSS3D, but instead I'll focus on some discoveries I've made, like how to deal with the rotation and translation axis, how to simulate a camera and how to make CSS3D scenes interactive with a little bit of JS.
   <p>In parallel of this article, I'm updating <a href="https://github.com/xem/CSS3Dprototypes">this Github repo</a> with my experiments. 
   <br>
   <br>
@@ -94,6 +94,14 @@
   <br>
   <h3>Subtlety #1: HTML elements vs. axis, translations and rotations?</h3>
   <br>
+  <br>By default, each HTML element of your page is drawn at a certain position according to the flow of the page and the CSS you applied to the element, its neighbours and its ancestors. It has no translation and no rotation, and its default transform-origin it at their top-left corner. This transform-origin is editable, and is the starting point of all the possible CSS transforms, but six of them are particularly important here: rotateX / Y / Z and translateX / Y / Z. The X axis goes on the right, the Y axis goes downwards, and the Z axis goes in depth towards your eyes, as you can see in the following demo:
+  <p><a href="demos/css3d/transform.html">DEMO!</a>
+  <p>The demo above allows to move the transform-origin of a square (represented by a red dot), and allows to translate in X,Y and Z axis and rotate along X,Y and Z axis, in this order. All the range inputs go from 0 to 100 (whatever the unit).
+  <p>Note that translateX and translateY can be expressed in percent units, but not translateZ. If you try to sate a translateZ in %, the whole transform will be discarded.
+  <p>Note also that the order of the transforms is extremely important. You wouldn't get the same results if you rotated the square before translating it. Transforms are accumuled from the first one to the last one, while the transform-origin can only have one value for all the transforms.
+  <p>This transform composition also allows for example to rotate an element, then translate in, then rotate it back to the original angle, to make an object move <a href="http://lea.verou.me/2012/02/moving-an-element-along-a-circle/">around a circle</a>!
+  <p>Finally, note that the X, Y and Z axis of an element can get different orientations thann the ones by default, if a parent element is rotated too. (for example, if the parent of the square had a 90 degrees rotation along its X axis, the square would undergo this parent transform and have its Y and Z axis rotated 90 degrees along the X axis of the parent, i.e. the Y axis would behave like a Z axis and the Z axis would behavel ike a -X axis.
+  <p>The <a href="https://developer.mozilla.org/fr/docs/Web/CSS/transform">other possible CSS transforms</a> include matrix, translate, scale, scaleX, scaleY, skew, skewX, skewY, mareix3d, translate3D, scale3D, rotate3D and perspective, but we won't study them here. (but for the record, matrix3D has <a href="http://franklinta.com/2014/09/08/computing-css-matrix3d-transforms/">very interesting applications</a>)
   <br>
   <hr>
   <br>

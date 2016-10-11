@@ -1,0 +1,70 @@
+<div id=controls>
+  transform-origin:
+  <br>
+  <input type=range id=originX value=0>%
+  <br>
+  <input type=range id=originY value=0>%;
+  <br>
+  transform:
+  <br>
+  translateX(<input type=range id=translateX value=0>px)
+  <br>
+  translateY(<input type=range id=translateY value=0>px)
+  <br>
+  translateZ(<input type=range id=translateZ value=0>px)
+  <br>
+  rotateX(<input type=range id=rotateX value=0>deg)
+  <br>
+  rotateY(<input type=range id=rotateY value=0>deg)
+  <br>
+  rotateZ(<input type=range id=rotateZ value=0>deg);
+</div>
+
+<div id=container>
+  <div id=plane>
+    <div id=origin></div>
+  </div>
+</div>
+
+<style>
+* { 
+  transform-style: preserve-3d;
+}
+
+#controls {
+  position: absolute;  
+}
+
+#container {
+  perspective: 400px;
+  width: 200px;
+  height: 200px;
+  margin: 50px auto;
+}
+
+#plane {
+  background: #abc;
+  width: 200px;
+  height: 200px;
+}
+
+#origin {
+  width: 5px;
+  height: 5px;
+  background: red;
+  position: relative;
+  border-radius: 50%;
+}
+
+</style>
+
+<script>
+
+onload = oninput = function(){
+  plane.style.transformOrigin = originX.value + "% " + originY.value + "%";
+  origin.style.left = originX.value + "%";
+  origin.style.top = originY.value + "%";
+  plane.style.transform = "translateX(" + translateX.value + "px) translateY(" + translateY.value + "px) translateZ(" + translateZ.value + "px) rotateX(" + rotateX.value + "deg) rotateY(" + rotateY.value + "deg)  rotateZ(" + rotateZ.value + "deg)";
+}
+
+</script>
