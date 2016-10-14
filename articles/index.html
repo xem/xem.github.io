@@ -77,7 +77,7 @@
   <h3>Spoiler: 3D games otfen are just 2D games plus perspective</h3>
   <p>It seems stupid to say it like that, but it's one of the most important things I realized while experimenting: if you can make a 2D game in JS (for example a chess game or a racing game seen from above, or anything else you can imagine), you literally just need to look at your scene from a slightly different angle and you have turned it into a 3D game "for free".
   <br>
-  You can see what I mean with this <a href="http://xem.github.io/CSS3Dprototypes/5.html">Mario Kart prototype</a>: the only real difference between the 2D view and the 3D view is rotation of 80 degrees along the X axis!
+  You can see what I mean with this <a href="https://xem.github.io/CSS3Dprototypes/5/">Mario Kart prototype</a>: the only real difference between the 2D view and the 3D view is rotation of 80 degrees along the X axis!
   <p><img src="images/css3d/2D3D.gif">
   <p>But we'll se that in greater detail later.
   <br>
@@ -94,31 +94,82 @@
   <br>
   <h3>Subtlety #1: HTML elements vs. axis, translations and rotations?</h3>
   <br>
-  <br>By default, each HTML element of your page is drawn at a certain position according to the flow of the page and the CSS you applied to the element, its neighbours and its ancestors. It has no translation and no rotation, and its default transform-origin it at their top-left corner. This transform-origin is editable, and is the starting point of all the possible CSS transforms, but six of them are particularly important here: rotateX / Y / Z and translateX / Y / Z. The X axis goes on the right, the Y axis goes downwards, and the Z axis goes in depth towards your eyes, as you can see in the following demo:
+  By default, each HTML element of your page is drawn at a certain position according to the flow of the page and the CSS you applied to the element, its neighbours and its ancestors. It has no translation and no rotation, and its default transform-origin it at their top-left corner. This transform-origin is editable, and it's the starting point of all the possible CSS transforms, but six of them are particularly important here: rotateX / Y / Z and translateX / Y / Z. The X axis goes on the right, the Y axis goes downwards, and the Z axis goes in depth towards your eyes, as you can see in the following demo:
   <p><a href="demos/css3d/transform.html">DEMO!</a>
-  <p>The demo above allows to move the transform-origin of a square (represented by a red dot), and allows to translate in X,Y and Z axis and rotate along X,Y and Z axis, in this order. All the range inputs go from 0 to 100 (whatever the unit).
+  <p>The demo above allows to move the transform-origin of a square (represented by a red dot), and allows to translate in X,Y and Z axis and rotate along X,Y and Z axis, in this order. All the range inputs go from 0 to 100 (regardless to the units used).
   <p>Note that translateX and translateY can be expressed in percent units, but not translateZ. If you try to sate a translateZ in %, the whole transform will be discarded.
-  <p>Note also that the order of the transforms is extremely important. You wouldn't get the same results if you rotated the square before translating it. Transforms are accumuled from the first one to the last one, while the transform-origin can only have one value for all the transforms.
-  <p>This transform composition also allows for example to rotate an element, then translate in, then rotate it back to the original angle, to make an object move <a href="http://lea.verou.me/2012/02/moving-an-element-along-a-circle/">around a circle</a>!
-  <p>Finally, note that the X, Y and Z axis of an element can get different orientations thann the ones by default, if a parent element is rotated too. (for example, if the parent of the square had a 90 degrees rotation along its X axis, the square would undergo this parent transform and have its Y and Z axis rotated 90 degrees along the X axis of the parent, i.e. the Y axis would behave like a Z axis and the Z axis would behavel ike a -X axis.
-  <p>The <a href="https://developer.mozilla.org/fr/docs/Web/CSS/transform">other possible CSS transforms</a> include matrix, translate, scale, scaleX, scaleY, skew, skewX, skewY, mareix3d, translate3D, scale3D, rotate3D and perspective, but we won't study them here. (but for the record, matrix3D has <a href="http://franklinta.com/2014/09/08/computing-css-matrix3d-transforms/">very interesting applications</a>)
+  <p>Note also that the order of the transforms is extremely important. For example here, you can translate the square then rotate it, but you wouldn't get the same result if you rotated the square before translating it. Transforms are accumulated from the first one to the last one, while the transform-origin can only have one value used by all the transforms. (of course, even if its value never changes, the transform-origin moves with the element when it's translated).
+  <p>This principle allows, for example, to rotate an element, then translate in, then rotate it back to the original angle, to make an object move <a href="http://lea.verou.me/2012/02/moving-an-element-along-a-circle/">around a circle</a>!
+  <p>Finally, note that the X, Y and Z axis of an element can have different orientations than the ones by default, if a parent element is rotated. (for example, if the parent of the square above had a 90 degrees rotation along its X axis, the square would undergo this parent transform and have its Y and Z axis rotated 90 degrees along the X axis of the parent, i.e. the Y axis would behave like a Z axis and the Z axis would behave like X axis.
+  <p>The <a href="https://developer.mozilla.org/fr/docs/Web/CSS/transform">other possible CSS transforms</a> include matrix, translate, scale, scaleX, scaleY, skew, skewX, skewY, matrix3d, translate3D, scale3D, rotate3D and perspective, but we won't study them here. ( for the record, matrix3D has <a href="http://franklinta.com/2014/09/08/computing-css-matrix3d-transforms/">very interesting applications</a>!)
   <br>
   <hr>
   <br>
-  <h3>Subtlety #2: A "camera"?</h3>
+  <h3>Subtlety #2: The HTML structure</h3>
+  <p>Even if a container (with perspective) and its children (with CSS transforms) are enough to test CSS3D, I established a HTML structure that will make your work (and calculations) much easier, especially if you want to do a CSS3D game:
+  <p>First, you need a viewport (the equivalent of a canvas element when you do a canvas-based JS game). For example, use a 600x400px div. Of course, the perspective will be applied to this element.
+  <p>At the center of this viewport, we place a 0x0px div called "camera". It's not REALLY the camera (more details in the next paragraph), but the point that will always be watched by the camera, something like a global transform-origin for the game.
+  <p>Inside this "camera" point, we can place a scene container with all the scene objects, in their order of appearance (for a better browser support - more details at the end of the article). For example, we can put inside the kart, the tree, and finally the circuit.
+  <p>Here's the template's HTML:
+  <pre class=code>&lt;div id=viewport>
+  &lt;div id=camera>
+    &lt;div id=scene>
+      (...scene content...)
+    &lt;/div>
+  &lt;/div>
+&lt;/div></pre>
+  <p>And CSS:</p>
+  <pre class=code>* { transform-style: preserve-3d; box-sizing: border-box; }
+#viewport { width: 600px; height: 400px; overflow: hidden; perspective: 400px; }
+#camera { width: 0px; height: 0px; position: relative; left: 300px; top: 200px; }
+#scene { width: 4000px; height: 4500px; transform-origin: 0 0; }
+#scene { transform: rotateX(80deg) translateZ(-70px); }</pre>
+  <p>The "#kart" and "#tree" rules are just examples for this case, you need to replace them with your scene objects.
+  <p>The last CSS line (rotateX and translateZ on the #scene element) enables the 3D view, exactly like in the previous Gif.
+  <p>You can find a demo <a href="./demos/css3D/template.html">HERE</a>.
+  <p>In this demo, the viewport is shown in red, the camera in blue, and the scene in green (you can see the top-left corner of the scene in perspective).
+  <p>In the screenshot below, you can see what the template looks like before and after adding the last line of CSS (the 3D toggle)
+  <p><img src="./images/css3d/template.png">
+  <p>That's all! Everything else depends on your content and your creativity!
+  <br>
+  <hr>
+  <br>
+  <h3>Subtlety #3: A "camera"?</h3>
   <p>In a webpage, there's no "camera", but there's a viewport (the portion of the page visible in browser's window).
-  <p>In this course, We'll use a container element acting like a viewport with a fixed size of 400x400px.<br>Of course, you can change these sizes, or even make it fullscreen without too much effort.<br>The center of this container (200:200) will be the position of our virtual camera. To make it act like a camera, we will just make the 3D scene evolve around this point.
-  <p>
+  <p>In most cases, and even in 2D games, the notion of camera is completely neglected, and we generally call "camera" the current view, i.e. the rectangle in which the user can see your game.
+  <p>But in 3D, we should never forget that the camera is a point in the space, and all the scene is "seen" from this point.
+  <p>Remember, when you make a scene in CSS3D, you set a given perspective to a container, and it defines how all the children are rendered. Well, here it is! If your scene has a perspective set to "400px", the camera is just 400px away, along the Z axis.
+  <p>So, can you guess what happens if you perform a "translateZ(400px)" transformation on that scene?
+  <p>Yep, what you get is a first-person view!
+  <p><img src="images/css3d/3p1p.gif">
+  <p>Here you can see the translateZ being enabled and disabled in the Mario Kart prototype (there's also a toggle of the kart's opacity), and of course, you can imagine having this transformation always enabled if you make a CSS3D FPS for example!
   <br>
   <br>
   <hr>
   <br>
-  <h3>Subtlety #3: Interactivity?</h3>
+  <h3>Subtlety #4: Interactivity!</h3>
+  <p>Adding interactivity (controls) to a 3D scene is rather simple if you're well organized and keep <a href="https://gist.github.com/xem/99930986c5333125a13b0ea50600391f">a few trigonometry basis</a> in mind:
+  <p>For example, you may want to look around you using the mouse or the keyboard, so you can declare a var called angle_z. For more simplicity, this var will contain your Z rotation in radians (one turn = 2 * PI ~= 6.28 radians). It's possible to use degrees but all the JS Math functions work in radians and you'd need to convert units all the time.
+  <p>You'll probably want to move too, that's why you can declare two vars x_pos and y_pos. If you're surprised by the "Y" axis used to work forwards and backwards, remember that our 3D game starts as a 2D game, and in 2D, the Y axis allows you to move up and down, which will become a forwards-backwards movement after passing in 3D view. These vars can be updated with keyboard inputs for example. 
+  <p>Remark: naively, we can thing that it's okay to move along the X axis when we press left and right keys, and move along the Y axis when we press up and down keys, but it's not what we want. What we want is to go forwards according to our current angle! So when we press "up", the right thing to do is probably something like:
+  <pre class=code>pos_x += 15 * Math.sin(angle_z);
+pos_y += 15 * Math.cos(angle_z);</pre>
+  <p>Finally, we want to apply these vars to our scene at each frame, and to do so, we just have to generate a CSS transform string and apply it with JS; something like:
+  <pre class=code>scene.style.transform = "rotateZ(" + angle_z + "rad) translateX(" + pos_x + "px) translateY(" + pos_y + "px)";</pre>
+  <p>All the rest is just a slight variation of these principles. For example, to place the kart at the right position and the right angle, you hav to do something like:
+  <pre class=code>kart.style.transform = "translateX(" + (-pos_x - kart_width / 2) + "px) translateY(" + (-pos_y - kart_width / 2) + "px) translateZ(" + kart_height + "px) rotateZ(" + (-angle_z) + "rad)";</pre>
+  <p>It takes a few fails and retries to get the right values and the right order for all the rensforms, but with practice it becomes more an more logic and natural.
   <br>
   <br>
   <hr>
   <br>
-  <h3>Subtlety #4: browser support?</h3>
+  <h3>Subtlety #5: browser support?</h3>
+  <p>I said earlier that CSS3D works fine... most of the time. Indeed, you may encounter a few glitches, or even some elements that disappear completely while they should be here, but that's the fault of the browsers, and Firefox in particular.
+  <p>First, some parts of the scene can look broken if the camera is too close to them. It happens with the road for example, as you can see during a few frames of the previous GIF. This happens on both Chrome and Firefox, but for their defense, my camera is VERY close to the road (like, 20px high). The solution is to put the camera a bit further.
+  <p>Then, with the great help from Keith Clark, I understood why Firefox hides the kart behind the scene in this case: 
+  <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://t.co/3dQEHSz4zW">https://t.co/3dQEHSz4zW</a><br>Most Chrome glitches are fixed by putting the camera a bit higher. But sadly <a href="https://twitter.com/firefox">@Firefox</a> still has too many depth bugs: <a href="https://t.co/phGJaGOGTU">pic.twitter.com/phGJaGOGTU</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/782996905840304129">3 octobre 2016</a></blockquote>
+  <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <p>As you can see in his <a href="https://github.com/xem/CSS3Dprototypes/pull/1">super detailed pull request</a>, the order of the elements in the DOM is super important to help the browsers draw the "above" elements above, and the "below" elements below, and not the other way around. He also explains that Firefox completely stops doing any effort if your scene contains more than 100 children. In that case, you need to reorganize your DOM manually at each frame... or more realistically, just completely drop Firefox support for your game!
   <br>
   <br>
   <hr>
