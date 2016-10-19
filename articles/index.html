@@ -27,6 +27,7 @@
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#webspeech'>Web Speech API golfing</a>
       <li><a href='#css3d'>CSS 3D games</a>
       <li><a href='#jsgamesinputs'>JS games keyboard inputs</a>
       <li><a href='#js13k2016'>JS13kGames 2016</a>
@@ -49,6 +50,69 @@
     </ul>
   </div>
   <div class=body>
+
+<div class=section id=webspeech>
+  <h2>Web Speech API golfing (plus our new best JS golfing tricks)</h2>
+	<h3>october 2016</h3>
+  <br>
+  <hr>
+  <br>
+  <p>The Codegolf Team and I constantly make new codegolf-related discoveries, sometimes completely randomly. 
+  <p>Our most recent ones are the following:
+  <ul>
+  <li>ES6 template literals allow to get rid of parenthesis in functions accepting a string or a string + other parameters. Examples:
+  <pre class="code">document.write`Hi`;
+setTimeout`foo=1,bar=2${99}baz=3`;</pre>
+  The last snippet may look a little cryptic, but yes, you can replace one comma in the template literal with an invokation of the next parameter (here, it's 99). The browser splits the template literal into an array (["foo=1,bar=2","baz=3"]), which is transformed into a string ("foo=1,bar=2,baz=3") which in turn, is passed to setInterval, along with the second parameter (99).
+  <br>
+  <br>
+  <li>The code we put inside &lt;svg onload=...> is interpreted with two implied scopes: "this" and "document". So it's totally possible to write things like:
+  <pre class=code>&lt;svg onload=outerHTML="Hi!">
+&lt;svg onload=write`Hi!`></pre>
+  <br>
+  <li>The "Vertical Tab" char (U+000B) a.k.a VT is interpreted as a space in JS but not in HTML. As a result, we can write this kind of attributes with no quotes:
+  <pre class="code">&lt;svg onload=alert(newDate)></pre>
+  (there's a VT between "new" and "Date").
+  <br>Sadly, you can't replace spaces in strings with this character because it won't show up in your page.
+  </ul>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p>We also discovered the Web Speech API, allowing to make your browsers generate voices from any text you input (Speech Synthesis) and vice-versa (Speech Recognition)!
+  <p>Naturally, we tried to golf these new features as much as possible, and here is the result:
+  <ul>
+  <li><a href="https://github.com/xem/miniSpeechSynthesis">miniSpeechSynthesis</a>
+  <li><a href="https://github.com/xem/miniSpeechRecognition">miniSpeechRecognition</a> (WIP)
+  </ul>
+  <p>And as many people are curious about how we make things like that, here's the detail, for miniSpeechSynthesis, golfed by @p01, @subzey, @nderscore, @veubeke, @literallylara and I:
+  <div style="overflow-x:auto">
+  <pre class=code style="width:900px"><b>// Non golfed</b>
+&lt;input id=i>&lt;button onclick="s=speechSynthesis;u=new SpeechSynthesisUtterance(i.value);u.voice=s.getVoices()[0];s.speak(u)">Speak!
+
+<b>// Use new() to avoid using a space, and remove attribute quotes</b>
+&lt;input id=i>&lt;button onclick=s=speechSynthesis;u=new(SpeechSynthesisUtterance)(i.value);u.voice=s.getVoices()[0];s.speak(u)>Speak!
+
+<b>// Add speechSynthesis's scope to get rid of "s."</b>
+&lt;input id=i>&lt;button onclick=with(speechSynthesis)u=new(SpeechSynthesisUtterance)(i.value),u.voice=getVoices()[0],speak(u)>Speak!
+
+<b>//Use ES6 destructuring to set u.voice to getVoices()[0] implicitly</b>
+&lt;input id=i>&lt;button onclick=with(speechSynthesis)u=new(SpeechSynthesisUtterance)(i.value),[u.voice]=getVoices(),speak(u)>Speak!
+
+<b>// Move a bit of previous code in empty parenthesis</b>
+&lt;input id=i>&lt;button onclick=with(speechSynthesis)[u.voice]=getVoices(u=new(SpeechSynthesisUtterance)(i.value)),speak(u)>Speak!
+
+<b>// Get rid of the button (speak when the input changes), the voice and the id "i" because it's implied now</b>
+&lt;input onchange=speechSynthesis.speak(new(SpeechSynthesisUtterance(value)))>
+
+<b>// Use the onblur event (shorter and more handy: indeed, triggering the speaker at each keystroke was not nice)</b>
+&lt;input onblur=speechSynthesis.speak(new(SpeechSynthesisUtterance)(value))>
+
+<b>// Use a VT character between "new" and "SpeechSynthesisUtterance"</b>
+&lt;input onblur=speechSynthesis.speak(newSpeechSynthesisUtterance(value))></pre>
+  </div>
+  <p>To be continued...
+</div>
 
 <div class=section id=css3d>
   <h2>How to make a game in CSS3D</h2>
