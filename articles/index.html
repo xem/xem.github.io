@@ -66,11 +66,15 @@ setTimeout`foo=1,bar=2${99}baz=3`;</pre>
   The last snippet may look a little cryptic, but yes, you can replace one comma in the template literal with an invokation of the next parameter (here, it's 99). The browser splits the template literal into an array (["foo=1,bar=2","baz=3"]), which is transformed into a string ("foo=1,bar=2,baz=3") which in turn, is passed to setInterval, along with the second parameter (99).
   <br>
   <br>
+  <li>The obsolete HTML attribute bgColor (that we generally set to the body) can also be set to "document":
+  <pre class=code>document.bgColor=0</pre>
+  <br>
   <li>The code we put inside &lt;svg onload=...> is interpreted with two implied scopes: "this" and "document". So it's totally possible to write things like:
   <pre class=code>&lt;svg onload=outerHTML="Hi!">
-&lt;svg onload=write`Hi!`></pre>
+&lt;svg onload=write`Hi!`>
+&lt;svg onload=bgColor=123456></pre>
   <br>
-  <li>The "Vertical Tab" char (U+000B) a.k.a VT is interpreted as a space in JS but not in HTML. As a result, we can write this kind of attributes with no quotes:
+  <li>The "Vertical Tab" control character (U+000B), a.k.a VT, is interpreted as a space in JS but not in HTML. As a result, we can write this kind of attributes with no quotes:
   <pre class="code">&lt;svg onload=alert(newDate)></pre>
   (there's a VT between "new" and "Date").
   <br>Sadly, you can't replace spaces in strings with this character because it won't show up in your page.
