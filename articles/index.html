@@ -90,8 +90,9 @@ setTimeout`foo=1,bar=2${99}baz=3`;</pre>
   <ul>
   <li><a href="https://github.com/xem/miniSpeechSynthesis">miniSpeechSynthesis</a> (+ Bonus app with a language selection)
   <li><a href="https://github.com/xem/miniSpeechRecognition">miniSpeechRecognition</a> (+ Bonus app featuring a voice commanded color switcher)
+  <li><a href="https://github.com/xem/miniSpeechRecognitionAndSynthesis">miniSpeechRecognitionAndSynthesis</a> (this one repeats what you say in the mic)
   </ul>
-  <p>And as many people are curious about how we make things like that, here's the detail, for miniSpeechSynthesis, golfed by @p01, @subzey, @nderscore, @veubeke, @literallylara and I:
+  <p>And as many people are curious about how we make things like that, here's the detail, for miniSpeechSynthesis, golfed by @p01, @subzey, @nderscore, @veubeke, @literallylara, @sqaxomonophonen and I:
   <div style="overflow-x:auto">
   <pre class=code style="width:900px"><b>// Non golfed</b>
 &lt;input id=i>&lt;button onclick="s=speechSynthesis;u=new SpeechSynthesisUtterance(i.value);u.voice=s.getVoices()[0];s.speak(u)">Speak!
@@ -122,10 +123,12 @@ setTimeout`foo=1,bar=2${99}baz=3`;</pre>
   <br>
   <br>
   <hr>
-  <br><p>The other apps use very similar techniques as you can see for example in the source code of miniSpeechRecognition:
+  <br><p>The other apps use very similar techniques as you can see for example in the source code of miniSpeechRecognition (webkit only):
   <pre class=code>&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>write(e.results[0][0].transcript))'></pre>
   <br>...or its bgColor variant, using the trick described at the beginning of this article:
   <pre class=code>&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>bgColor=e.results[0][0].transcript)'></pre>
+  <br>... and as a bonus, an app that repeats with Speech Synthesis what you say in the microphone, interpreted by Speech Recognition! The lite version is only 146b (webkit only)
+  <pre class=code>&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>speechSynthesis.speak(new SpeechSynthesisUtterance(e.results[0][0].transcript)))'></pre>
   <p>Cheers!
 </div>
 
