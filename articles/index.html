@@ -2803,38 +2803,38 @@ alert(present);                           // --> false
 &lt;div id=global0><&lt;/div>
 
 &lt;script>
-  global0.innerHTML = "global0";        // --> nothing happens
-  alert(global0);                       // --> 1
+  global0.innerHTML = "global0"; // --> nothing happens
+  alert(global0);                // --> 1
 &lt;/script></pre>
 		<br>
     <p><b>A global var defined with the "window." prefix can overload an implicit getElementById</b></p>
     <pre>&lt;div id=global1>&lt;/div>
 
 &lt;script>
-  global1.innerHTML = "global1";        // --> the div contains the text "global1" 
-  console.log(global1);                 // --> [object HTMLDivElement]
-  window.global1 = 1;                   // overload global1
-  console.log(global1);                 // --> 1
+  global1.innerHTML = "global1"; // --> the div contains the text "global1" 
+  console.log(global1);          // --> [object HTMLDivElement]
+  window.global1 = 1;            // overload global1
+  console.log(global1);          // --> 1
 &lt;/script></pre>
     <br>
     <p><b>If we try to overload an implicit getElementById with a global var defined without any prefix, this is what happens (the results differ according to the browser used):</b></p>
     <pre>&lt;div id=global2>&lt;/div>
 
 &lt;script>
-  global2.innerHTML = "global2";        // --> the div contains the text "global2" 
-  try{global2 = 1}                      // Try to overload global2
-  catch(e){alert(e)}                    // --> TypeError on IE < 9 / no error on other browsers
-  console.log(global2);                 // --> [object HTMLDivElement] on IE < 9 / 1 on other browsers
+  global2.innerHTML = "global2"; // --> the div contains the text "global2" 
+  try{global2 = 1}               // Try to overload global2
+  catch(e){alert(e)}             // --> TypeError on IE < 9 / no error on other browsers
+  console.log(global2);          // --> [object HTMLDivElement] on IE < 9 / 1 on other browsers
 &lt;/script></pre>
     <br>
     <p><b>Finally, if we try to overload an implicit getElementById with a global var defined with a "var", this is what happens:</b></p>
     <pre>&lt;div id=global3>&lt;/div>
 
 &lt;script>
-  global3.innerHTML = "global3";        // --> TypeError: Can't set property 'innerHTML' of undefined
-  console.log(global3);                 // --> undefined
-  var global3 = 1;                      // --> Try to overload global3
-  console.log(global3);                 // --> 1
+  global3.innerHTML = "global3"; // --> TypeError: Can't set property 'innerHTML' of undefined
+  console.log(global3);          // --> undefined
+  var global3 = 1;               // --> Try to overload global3
+  console.log(global3);          // --> 1
 &lt;/script></pre>
     <br>
     <p>As you can see, even if the var global3 is defined later in the code, <a href="https://developer.mozilla.org/en-US/docs/Glossary/Hoisting">browsers hoist variable definitions at the beginning of their scopes</a>, and that's why it still breaks the lines 1 and 2.</p>
