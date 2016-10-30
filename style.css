@@ -43,6 +43,7 @@ div[contenteditable], pre[contenteditable], style[contenteditable], script[conte
 #js13k2015 .twitter-tweet  { height: 250px!important; width: 500px!important; }
 .lang { float: right; cursor: pointer; }
 .aside { width: 300px; padding-left: 805px; position: fixed; max-height: 95vh; overflow: auto; }
+code {display: block; }
 @media screen and (max-width: 1200px){
   .aside { padding: 0; left: 10px; top: 380px; max-height: calc(100vh - 430px); overflow: auto; width: 190px; }
 }
