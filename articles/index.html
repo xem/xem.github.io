@@ -77,58 +77,58 @@
   <p>Here are the different steps of this quite epic golfing session, just after we realized that the rules of this game were the same as Game of Life's, except that cells live with 0 or 3 live neighbours instead of 2 or 3 live neighbours:
   <p>The commented source code can be found <a href="https://github.com/xem/miniConwaySerpinski/blob/gh-pages/index.html">HERE</a>.
   <div style=overflow-x:auto>
-  <pre class=code style=width:1800px>// Just minified, not golfed yet.
+  <pre class=code style=width:1800px><b>// Just minified, not golfed yet.</b>
 &lt;canvas id=a>&lt;script>d=[];k=0;setInterval(function(){a.width^=0;e=[];for(i=0;i&lt;98*98;i++){if(!k){d[i]=((i%98)==49)?1:0;}else{n=0;for(j of[1,97,98,99])n+=!!d[i+j]+!!d[i-j];if(e[i]=[x=d[i],,x,!x][n])a.getContext`2d`.fillRect(i%98,~~(i/98),1,1);}}if(k)d=e;k++;},9)&lt;/script>
 
-// Move k (a flag telling if the game has started or not) into d (an array representing all cells' state). Pass a string to setInterval. Move the rest of the code to remove some curly braces.
+<b>// Move k (a flag telling if the game has started or not) into d (an array representing all cells' state). Pass a string to setInterval. Move the rest of the code to remove some curly braces.</b>
 &lt;canvas id=a>&lt;script>d=[k=0];setInterval(`a.width^=0;e=[];for(i=0;i&lt;98*98;i++){n=0;if(k)for(j of[1,97,98,99])n+=!!d[i+j]+!!d[i-j];else d[i]=e[i]=((i%98)==49)?1:0;if(e[i]=[x=d[i],,x,!x][n])a.getContext("2d").fillRect(i%98,~~(i/98),1,1);}d=e;k++`,9)&lt;/script>
 
-// Move some code inside e (an array representing the new state of the grid). Use .map() to iterate on the set of neighbours offsets. 
+<b>// Move some code inside e (an array representing the new state of the grid). Use .map() to iterate on the set of neighbours offsets. </b>
 &lt;canvas id=a>&lt;script>d=[k=0];setInterval(`for(e=[a.width^=i=0];i&lt;98*98;i++)n=0,k?[1,97,98,99].map(j=>n+=!!d[i+j]+!!d[i-j]):d[i]=e[i]=i%98-49?0:1,(e[i]=[x=d[i],,x,!x][n])&&a.getContext("2d").fillRect(i%98,~~(i/98),1,1);d=e;k++`,9)&lt;/script>
 
-// Reverse the loop (from 10000 to 0) to iterate on all the cells. Move n reset at the end.
+<b>// Reverse the loop (from 10000 to 0) to iterate on all the cells. Move n reset at the end.</b>
 &lt;canvas id=a>&lt;script>d=[k=0];setInterval(`e=[a.width^=0];for(i=1e4;i--;k?[1,97,98,99].map(j=>n+=!!d[i+j]+!!d[i-j]):d[i]=e[i]=i%98-49?0:1,(e[i]=[x=d[i],,x,!x][n])&&a.getContext("2d").fillRect(i%98,~~(i/98),1,1))n=0;d=e;k++`,9)&lt;/script>
 
-// Instead of incrementing k at each loop, just set it to the value of e after the first iteration
+<b>// Instead of incrementing k at each loop, just set it to the value of e after the first iteration</b>
 &lt;canvas id=a>&lt;script>     d=[k=0];setInterval(`e=[a.width^=0];for(i=1e4;i--;k?[1,97,98,99].map(j=>n+=!!d[i+j]+!!d[i-j]):d[i]=e[i]=i%98-49?0:1,(e[i]=[x=d[i],,x,!x][n])&&a.getContext("2d").fillRect(i%98,~~(i/98),1,1))n=0;k=d=e`,9)&lt;/script>
 
-// Place all the JS code in an svg onload. Reorder the code a little, and simplify the game's rules (e[i]=!(d[i]?n^2&n:n^3) instead of e[i]=[x=d[i],,x,!x][n])
+<b>// Place all the JS code in an svg onload. Reorder the code a little, and simplify the game's rules (e[i]=!(d[i]?n^2&n:n^3) instead of e[i]=[x=d[i],,x,!x][n])</b>
 &lt;canvas id=a>&lt;svg onload="d=[k=0];setInterval('e=[a.width^=0];for(i=1e4;i--;k?[1,97,98,99].map(j=>n+=d[i+j]+d[i-j])|(e[i]=!(d[i]?n^2&n:n^3))&&a.getContext`2d`.fillRect(i%98,i/98|0,1,1):e[i]=i%98==49)n=0;k=d=e',9)">
 
-// Set d to zero and use it as the second parameter of setInterval (it's not useful as an array at the beginning ant it's set to the value of e after each iteration)
+<b>// Set d to zero and use it as the second parameter of setInterval (it's not useful as an array at the beginning ant it's set to the value of e after each iteration)</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('e=[a.width^=0];for(i=1e4;i--;d?[1,97,98,99].map(j=>n+=d[i+j]+d[i-j])|(e[i]=!(d[i]?n^2&n:n^3))&&a.getContext`2d`.fillRect(i%98,i/98|0,1,1):e[i]=i%98==49)n=0;k=d=e',d=0)">
 
-// k is not needed anymore, the truthiness of d is enough to choose between "initiate the grid" (when d=0) and "iterate" (when d=e)
+<b>// k is not needed anymore, the truthiness of d is enough to choose between "initiate the grid" (when d=0) and "iterate" (when d=e)</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('e=[a.width^=0];for(i=1e4;i--;d?[1,97,98,99].map(j=>n+=d[i+j]+d[i-j])|(e[i]=!(d[i]?n^2&n:n^3))&&a.getContext`2d`.fillRect(i%98,i/98|0,1,1):e[i]=i%98==49)n=0;d=e',d=0)">
 
-// Do not floor the y position of each pixel (at this scale, it's almost not noticeable)
+<b>// Do not floor the y position of each pixel (at this scale, it's almost not noticeable)</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('e=[a.width^=0];for(i=1e4;i--;d?[1,97,98,99].map(j=>n+=d[i+j]+d[i-j])|(e[i]=!(d[i]?n^2&n:n^3))&&a.getContext`2d`.fillRect(i%98,i/98,1,1):e[i]=i%98==49)n=0;d=e',d=0)">
 
-// Try to use a boolean in d... but it doesn't work on Firefox (Fx needs an integer as second param of setInterval)
+<b>// Try to use a boolean in d... but it doesn't work on Firefox (Fx needs an integer as second param of setInterval)</b>
 &lt;canvas id=a>&lt;svg onload="d=!setInterval('e=[a.width^=0];for(i=1e4;i--;d?[1,97,98,99].map(j=>n+=d[i+j]+d[i-j])|(e[i]=!(d[i]?n^2&n:n^3))&&a.getContext`2d`.fillRect(i%98,i/98,1,1):e[i]=i%98==49)n=0;d=e')">
 
-// Rollback
+<b>// Rollback</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('e=[a.width^=0];for(i=1e4;i--;d?[1,97,98,99].map(j=>n+=d[i+j]+d[i-j])|(e[i]=!(d[i]?n^2&n:n^3))&&a.getContext`2d`.fillRect(i%98,i/98,1,1):e[i]=i%98==49)n=0;d=e',d=0)">
 
-// Move some code inside e[i]=xxx (e[yyy,i]=xxx is valid in JS!)
+<b>// Move some code inside e[i]=xxx (e[yyy,i]=xxx is valid in JS!)</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('e=[a.width^=0];for(i=1e4;i--;e[[1,97,98,99].map(j=>n+=d[i+j]+d[i-j]),i]=d?(d[i]?n^2&n:n^3)?0:!a.getContext`2d`.fillRect(i%98,i/98,1,1):i%98==49)n=0;d=e',d=0)">
 
-// Move some code (declaration of e and reset of a.width) inside the for loop and mix it with "i=1e4". Also, save the number 98 in a variable (k) to reuse it many times.
+<b>// Move some code (declaration of e and reset of a.width) inside the for loop and mix it with "i=1e4". Also, save the number 98 in a variable (k) to reuse it many times.</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('for(a.width|=e=[i=1e4];i--;e[[1,97,k=98,99].map(j=>n+=d[i+j]+d[i-j]),i]=d?(d[i]?n^2&n:n^3)?0:!a.getContext`2d`.fillRect(i%k,i/k,1,1):i%k==49)n=0;d=e',d=0)">
 
-// Simplify the rules with a global "n xor"
+<b>// Simplify the rules with a global "n xor"</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('for(a.width|=e=[i=1e4];i--;e[[1,97,k=98,99].map(j=>n+=d[i+j]+d[i-j]),i]=d?n^(d[i]?2&n:3)?0:!a.getContext`2d`.fillRect(i%k,i/k,1,1):i%k==49)n=0;d=e',d=0)">
 
-// Change the rules again but reorganize all the rest of the code to test their falsiness instead of their truthness.
+<b>// Moved rules inside of height argument of fillRect.</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('for(a.width&=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=d?!(d[i]?n^2&n:n^3):i%k==49))[1,97,k=98,99].map(j=>n+=d[i+j]+d[i-j],n=0);d=e',d=0)">
 
-// Simplify the rules again (reuse the global "n xor" trick) and simplify "i%k==49" into "i%k^49".
+<b>// Simplify the rules again (reuse the global "n xor" trick) and simplify "i%k==49" into "i%k^49".</b>
 &lt;canvas id=a>&lt;svg onload="setInterval('for(a.width&=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=!(d?n^(d[i]?2&n:3):i%k^49)))[1,97,k=98,99].map(j=>n+=d[i+j]+d[i-j],n=0);d=e',d=0)">
 
-// Remove the quotes of the svg onload attribute, and replace the map() with "for(j of[...])". The space is replaced with a vertical tab character (considered as a space in JS but not in HTML) 
+<b>// Remove the quotes of the svg onload attribute, and replace the map() with "for(j of[...])". The space is replaced with a vertical tab character (considered as a space in JS but not in HTML)</b>
 &lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=!(d?n^(d[i]?2&n:3):i%k^49))){n=0;for(jof[1,97,k=98,99])n+=d[i+j]+d[i-j]}d=e',d=0)>
 
-// Move n=0 at the beginning of the loop to get rid of two more curly braces.
+<b>// Move n=0 at the beginning of the loop to get rid of two more curly braces.</b>
 &lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];n=0,i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=!(d?n^(d[i]?2&n:3):i%k^49)))for(jof[1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)></pre>
   </div>
   <br>
