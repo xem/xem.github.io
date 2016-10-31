@@ -61,12 +61,12 @@
   <p>We golfed the Game of Life many times in the past few years, in many different forms:
   <p>First, when 140byt.es still existed, we golfed the algorithm alone in less than 140 bytes (<a href="https://gist.github.com/aemkei/1134658">135b by aemkei</a> and <a href="https://gist.github.com/xem/6465061">126b by me</a>);
   <p>Subzey joined us to golf <a href="http://xem.github.io/miniGameOfLife/">miniGameOfLife</a>, a complete Game of Life simulation in ASCII in 238b, which used the mouse and the keyboard to set the initial state and evolve;
-  <p>Aemkei presented <a href="https://youtu.be/1uvIw7X0u48?t=1104">many</a>... <a href="https://youtu.be/T3xMyZH93i8?t=1184">obfuscated</a>... <a href="https://youtu.be/ET3iKgqPzjw?t=1437">versions</a>... <a href="https://youtu.be/-QZSJx8oXus?t=1136">on stage</a>;
+  <p>Aemkei golfed a <a href="http://aem1k.com/life/">pure HTML version in 176b</a> and he presented <a href="https://youtu.be/1uvIw7X0u48?t=1104">many</a>... <a href="https://youtu.be/T3xMyZH93i8?t=1184">obfuscated</a>... <a href="https://youtu.be/ET3iKgqPzjw?t=1437">versions</a>... <a href="https://youtu.be/-QZSJx8oXus?t=1136">on stage</a>;
   <p>We made <a href="http://xem.github.io/miniGameOfBraille/">MiniGameOfBraille</a> in 389b;
   <p>And finally, we ended up golfing <a href="http://xem.github.io/miniGameOfBraille/canvas.html">a super tiny version</a> on a 100x100px canvas inspired by aemkei's talks, in just 221b, featuring ES6 and a pseudo-random initial state.
   <pre class="code">&lt;canvas id=a>&lt;svg onload=z=a.getContext`2d`;s=!setInterval`p=a;a=[];for(i=1e4;a[i]=s?3==k|p[i]&2==k:3&lt;i%9,k=0,i--;)for((j)of[1,97,v,99])k+=p[i+j]+p[i-j];for(s=1e4;s--;)z[a[s]?'fillRect':'clearRect'](s%v,s/v|0,1${v=98}1)`></pre>
   <p>During months, we really thought we couldn't do better than that. We even included this version in our js13kgames entry <a href="http://js13kgames.com/entries/26-games-in-1">26-games-in-1</a>.
-  <p>We also golfed other cellular automata like <a href="http://xem.github.io/miniLangtonLoops/">miniLangtonLoops</a> and <a href="http://xem.github.io/cellularandom/">cellularandom</a>.
+  <p>We also golfed other cellular automata like <a href="https://github.com/xem/miniLangtonAnt/">miniLangtonAnt</a>, <a href="http://xem.github.io/miniLangtonLoops/">miniLangtonLoops</a> and <a href="http://xem.github.io/cellularandom/">cellularandom</a>.
   <br>
   <br>
   <hr>
