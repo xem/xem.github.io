@@ -753,15 +753,15 @@ http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1
 <div class=section id=webgl_quest>
   <h2>The quest of the 🌍🔬🕸🇬🇱🎠 (World's Smallest WebGL Playground)</h2>
 	<h3>april to june 2016</h3>
-  <p>During the last few weeks, the codegolf team (including Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, ...) has welcomed new members (Elias Schütt & HellMood, authors of JS1K 2016 winning entry <a href="http://js1k.com/2016-elemental/demo/2552">Romanesco 2.0</a>) and gave itself a nice challenge: develop the smallest possible HTML/JS (ES6) boilerplate that's able to run a WebGL fragment shader. It's currently as short as <b>349b</b>, and looks like this:
+  <p>During the last few weeks, the codegolf team (including Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, ...) has welcomed new members (LiterallyLara & HellMood, authors of JS1K 2016 winning entry <a href="http://js1k.com/2016-elemental/demo/2552">Romanesco 2.0</a>) and gave itself a nice challenge: develop the smallest possible HTML/JS (ES6) boilerplate that's able to run a WebGL fragment shader. It's currently as short as <b>349b</b>, and looks like this:
   <pre class=code style=padding:5px>&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=<b>[SHADER]</b>}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'></pre>
   <p>See <a href=#webgl_detailed_code>detailed source code</a> below!
   <p>With this boilerplate, you have access to a time counter <b>t.x</b> (a frame counter), the clip space coordinates <b>c</b> (representing gl_PointCoord), and all you need to do is replace <b>[SHADER]</b> with the value set by your shader to gl_FragColor, for example: <b style=background:#def>p+sin(atan(p.y,p.x)*9.)*sin(p*t.x/40.+9./dot(p,p)+t.x/40.);</b> (<a href=demos/webgl/psych.html>DEMO</a>).
   <p><u>Optional:</u>
   <p>- You can set the size of the canvas with things like <b style=background:#def>a.width=a.height=600;</b> or <b style=background:#def>a.width=outerWidth;a.height=outerHeight;</b> at the beinning of the JS code.
   <br>- You can change the animation speed by changing the way t is incremented, <b>NO+=.1</b> (t incremented by 0.1 at each frame) is often a better trade-off than <b>NO++</b> (t incremented by 1 at each frame).
-  <p>Here are <a href="http://dev.elias.media/MiniShadertoy/">some gorgeous demos</a> made by Elias, with this template, in less than 512b.
-  <p><a href="http://dev.elias.media/MiniShadertoy/"><img src="./images/webgl/elias.jpg" width=600 style="border:1px solid"></a>
+  <p>Here are <a href="https://rawgit.com/literallylara/7c1f8dbe2effc415c746f3684beb8530/raw/08e31826be41cf87473a6949e0885b131328f807/Tiny%2520WebGL%2520Boilerplate.html">some gorgeous demos</a> made by LiterallyLara, with this template, in less than 512b.
+  <p><a href="https://rawgit.com/literallylara/7c1f8dbe2effc415c746f3684beb8530/raw/08e31826be41cf87473a6949e0885b131328f807/Tiny%2520WebGL%2520Boilerplate.html"><img src="./images/webgl/elias.jpg" width=600 style="border:1px solid"></a>
   <p>For code-golfers and demosceners, this boilerplate offers a total of 163b dedicated to the shader in a 512b demo (or 675b in a 1kb demo, not counting the gain of RegPack or gzip): more than never before in the history of WebGL demo'ing!
   <br>
   <br>
@@ -770,7 +770,7 @@ http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1
   <h3>Making-of & Interactive playground</h3>
   <p>Between 2014 and 2015, it took us nearly 60 golfing iterations to make the Codepen clone <a href="//xem.github.io/miniCodeEditor">miniCodeEditor</a> fit in 158b. Since then, I talked with Subzey and wondered if we could do something similar with WebGL, maybe a clone of <a href="//shadertoy.com">Shadertoy</a>. I tried many times to understand / simplify the source code of shadertoy, but it was too big and too complex (694kb of JS, with 148kb really dedicated to the app's engine.)
   <p>So I reversed the problem and decided to start from a finished, milimalist WebGL demo and try to make it editable, like on ShaderToy.
-  <p>WebGL implementation is very (very) cryptic, but by chance, Elias's post-mortem gave me all the keys to get started.
+  <p>WebGL implementation is very (very) cryptic, but by chance, Lara's post-mortem gave me all the keys to get started.
   <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/elias_schuett">@elias_schuett</a> <a href="https://twitter.com/subzey">@subzey</a> well, this answers our questions about WebGL golfing. Thank for the post mortem! :)</p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/723863692245258240">23 avril 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   <p>As a result, we managed to release, and golf <a href="//xem.github.io/MiniShadertoy">MiniShadertoy</a>, including almost all the features of Shadertoy in less than 1kb...
