@@ -378,7 +378,7 @@ pos_y += walk_speed * Math.cos(angle_z);</pre>
 
 <div class=section id=jsgamesinputs>
   <h2>Some subtleties of keyboard inputs in JS games</h2>
-	<h3>september 2016</h3>
+	<h3>september 2016, january 2017</h3>
   <br>
   <hr>
   <br>
@@ -399,7 +399,7 @@ pos_y += walk_speed * Math.cos(angle_z);</pre>
   <p><h3>The JS keyboard events issue</h3>
   <p>As you can see on <a href="http://xem.github.io/miniKeyCode/complete.html">this page displaying the keyCodes of all your keyboard events</a>, when you press a key, two events are fired by the browser: keydown and keypress. when you release it, another event is fired: keyup. And if you keep a key pressed for a moment (depending on your OS settings), after a short pause during which nothing happens, both keydown and keypress are fired repeatedly. There's also an "input" event, but it happens only in form elements, so it's not really relevant here.
   <p>There are many problems with this default behavior: firstly, this pause that happens after pressing a key is not good for a video game. If you play a platform game, you don't want Mario to stay idle for a few frames before running or jumping. And secondly, the keypress event is totally messed up (look at the keyCode returned by this event when you press letter keys or arrow keys, and you'll see absurd values almost everytime, and different absurd values depending on the browser you're using.
-  <p>So my advice is to avoid relying on keypress events altogther, and also to void relying on keydown at each frame to see if a key is down or not, because the pause will bother your players.
+  <p>So my advice is to avoid relying on keypress events altogther, and also to avoid relying on keydown at each frame to see if a key is down or not, because the pause will bother your players.
   <br>
   <br>
   <hr>
@@ -468,8 +468,15 @@ onkeyup = (e) => {
   <br>
   <p>P.S: if you want a minified ang golfed version, here it is: only 160b! (the four vars u,r,d,l, are not booleans but just truthy and falsy)
 <pre class=code>u=r=d=l=0;onkeydown=(e)=>t(e,1);onkeyup=(e)=>t(e);t=(e,v,l,i)=>{for(i in l={u:[38,90,87],r:[39,68],d:[40,83],l:[37,65,81]})if(l[i].includes(e.keyCode))top[i]=v}</pre>
-<p>P.P.S: Here's a 122b version by @p01, using a radically different idea: a look-up table of keyCodes represented as a string, and which instead of keyCode (because it's the same thing):
+<p>P.P.S: Here's a 122b version by @p01, using a radically different idea: a look-up table of keyCodes represented as a string, and ".which" instead of ".keyCode" (because it's the same thing):
 <pre class=code>u=r=d=l=0;onkeyup=t=(e,v)=>top['lurd************************l**r************l*d***u**u'[e.which-37]]=v;onkeydown=e=>t(e,1)</pre>
+  <br>
+  <hr>
+  <br>
+  <p><b>2017 update</b>
+  <p>New version, 87b only, but it works if the only keys you need to support are arrows, WASD and ZQSD (and disregard all the other keys):
+  <pre class=code>u=d=l=r=0;onkeyup=t=(e,v)=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=v;onkeydown=e=>t(e,1)</pre>
+  <p><a href="demos/urdl.html">DEMO</a>
   <p>Cheers,
   <p><b>@MaximeEuziere</b>
 </div>
