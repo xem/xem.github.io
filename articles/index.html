@@ -484,6 +484,10 @@ onkeyup = (e) => {
   <pre class=code>u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[3]<'u'</pre>
   <p><a href="demos/arrowkeys/1.html">(DEMO)</a>
   <br>
+  <p>Note: there's no collision with the keys "E", "R", "T" "space", "shift" and "Enter", so you can also handle them just fine with just a 100 bytes:
+  <pre class=code>E=R=T=_=s=e=u=d=l=r=0;onkeydown=onkeyup=z=>top['lurdlRdTl*urEu*_e**s'[(z.which+3)%20]]=z.type[3]<'u'</pre>
+  <p><a href="demos/arrowkeys/2.html">(DEMO)</a>
+  <br>
   <hr>
   <br>
   <p>Cheers,
