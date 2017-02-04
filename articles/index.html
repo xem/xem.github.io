@@ -782,6 +782,19 @@ http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1
 <div class=section id=webgl_quest>
   <h2>The quest of the 🌍🔬🕸🇬🇱🎠 (World's Smallest WebGL Playground)</h2>
 	<h3>april to june 2016, january 2017</h3>
+  
+  <br>
+  <hr>
+  <br>
+  
+  <p>See the JS1k 2017 update <a href="#webgl_quest_2017">here</a>!
+  <br>
+  (or continue reading for the full story)
+  
+  <br>
+  <br>
+  <hr>
+  
   <p>During the last few weeks, the codegolf team (including Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, ...) has welcomed new members (LiterallyLara & HellMood, authors of JS1K 2016 winning entry <a href="http://js1k.com/2016-elemental/demo/2552">Romanesco 2.0</a>) and gave itself a nice challenge: develop the smallest possible HTML/JS (ES6) boilerplate that's able to run a WebGL fragment shader. It's currently as short as <b>349b</b>, and looks like this:
   <pre class=code style=padding:5px>&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=<b>[SHADER]</b>}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'></pre>
   <p>See <a href=#webgl_detailed_code>detailed source code</a> below!
@@ -803,7 +816,7 @@ http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1
   <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/elias_schuett">@elias_schuett</a> <a href="https://twitter.com/subzey">@subzey</a> well, this answers our questions about WebGL golfing. Thank for the post mortem! :)</p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/723863692245258240">23 avril 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   <p>As a result, we managed to release, and golf <a href="//xem.github.io/MiniShadertoy">MiniShadertoy</a>, including almost all the features of Shadertoy in less than 1kb...
-   <br>
+  <br>
   <br>
   <img src="./images/webgl/minishadertoy.jpg" width=600>
   <br>
@@ -1009,14 +1022,16 @@ Here's the <a href="http://xem.github.io/MiniShadertoyLite/">last version of Min
 <p>And thanks to <b>@innovati</b> for the Emoji title: 🌍🔬🕸🇬🇱🎠 !
 <br>
 <br>
-<hr>
+<hr id="webgl_quest_2017">
 <br>
 <h3>01/2017 update</h3>
-<p>We made an entry for JS1k 2017 featuring all the tricks of this article, plus a nice UI and compatibility with Shadertoy.com!
+<p>We made an entry for JS1k 2017 featuring all the tricks of this article, plus a nice UI and great compatibility with Shadertoy.com!
+<p><img src="images/webgl/js1k.png">
 <br>
-Entry: <a href=#>HERE</a>
 <br>
-Commented source code: <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">HERE</a>
+<p>You ca find the entry <a href=#>HERE</a>.
+<br>
+<p>The commented source code is <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">HERE</a>.
 <br>
 <br>
 <hr>
