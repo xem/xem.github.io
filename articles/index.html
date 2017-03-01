@@ -59,55 +59,148 @@
   <br>
   <hr>
   <br>
-  <p>JS1k is probably the most important rendez-vous for JS code-golfers each year,
+  <p><i><b>PSA:</b><br>there's now a Slack room dedicated to JS code-golfing: <a href="//jsgolf.club">jsgolf.club</a>.
+  <br>You can fill <a href="//register.jsgolf.club">this form</a> to get an invite!</i>
+  <br><br><hr><br>
+  <p><b>JS1k:</b>
+  <br>JS1k is certainly the most important rendez-vous for JS code-golfers each year,
   <br>
-  and this time we have been very busy to submit interesting entries!
+  and this time a lot of people have been very busy to submit incredible entries!
+  <br>
+  Here are the 5 entries I worked on, in team and alone, plus some anecdotes and tricks we found while making them!
+  <br>
   <br>
   <hr>
   <br>
   <h3>Mini Shadertoy</h3>
-  <p>by xem, literallylara, nderscore, innovati, subzey, p01, sqaxomonophonen (and aemkei for the non-js1k version)
+  <p>made with literallylara, nderscore, innovati, subzey, p01, sqaxomonophonen (and aemkei for the non-js1k version)
   <p>
   - <a href="http://js1k.com/2017-magic/demo/2645">PLAY</a>
   <br>
-  - <a href="https://github.com/xem/miniShadertoy">GITHUB</a>
+  - <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">COMMENTED SOURCE</a>
+  <br>
+  - <a href="https://github.com/xem/miniShadertoy#readme">GITHUB</a>
   <p>Our first team entry is inspired by our previous work on WebGL: <a href="http://xem.github.io/MiniShadertoy">MiniShadertoy</a>, <a href="http://xem.github.io/MiniShadertoyLite">MiniShadertoyLite</a> and <a href="http://xem.github.io/articles/#webgl_quest">WebGL playground</a>.
-  <p>We completely reworked these demos to include a sweet split-screen UI, a perfect compatibility with Shadertoy's syntax and a cool built-in example. (plus a fullscreen view on double-click).
-  <p>As a result, our entry is able to play demos from shadertoy.com, provided they only contain one shader code, and no buffers or channels.
-  <p><img src="images/js1k17/shadertoy.png">
+  <p>We completely reworked these apps to include a split-screen UI, shareable URLs, a perfect compatibility with Shadertoy's syntax and a cool built-in example. (plus a fullscreen view on double-click).
+  <p>As a result, our entry is able to play demos from shadertoy.com (like <a href="https://www.shadertoy.com/view/Ms2SD1">Seascape</a>), provided they only contain one shader code, and no extra buffers or channels.
+  <p><img src="images/js1k17/shadertoy.png" style="border: 2px solid #555">
+  <br>
+  <br>
+  <p><h4>Tricks and lessons learned:</h4>
+  <ul>
+  <li>Making this demo was not as easy as taking our 349b WebGL bootstrap (minus the free <b>g=a.getContext`webgl`</b>) and packaging it in a nice UI. We decided to include the same shader inputs as Shadertoy's (iResolution, iGlobalTime, iTimeDelta, iFrame, iMouse and iDate). To do so, we made a loop that sets/updates these variables at each frame (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L251-L294">here</a>), while the g.createShader (called on load and after each keyboard input) starts with the declaration of these variables (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L187">here</a>).
+  <li>The fragment shader declares a main function, that calls mainImage(), which is editable in the demo. (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L189">here</a>).
+  <li>To have the same color rendering as shadertoy, the main function always sets the alpha byte of the current pixel to 1 just after calling mainImage. (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L189">here</a>).
+  <li>Our WebGL bootstrap also had a special way of computing the pixel coordinates: [0:0] was at the center; but on shadertoy, [0:0] is on the bottom-left corner. So to have the same result, we changed "<b>varying lowp vec4 p</b>" to "<b>attribute vec4 p</b>" <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L216">here</a>. (this is not well documented: varying variables have centered coordinates, attribute vars don't), and added this line in the built-in demo: "<b>vec4 p=vec4(coord/iResolution*2.-1.,0,1);</b>" (PS: the "*2" is used to stay in the [-1:+1] range.
+  <li>The WebGL canvas and its context are provided by JS1k's shim, but we couldn't add the textarea in the DOM with "b.innerHTML+='&lt;textarea>...": that would have rewritten the canvas and its 2D context would no longer be valid. So instead, we used insertedAdjacentHTML: <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L77-L96">here</a>.
+  <li>With JS1k, you can never assume (or force) the intrinsic width and height of the canvas, you can only set its max-width and max-height. So to adapt our demo to this constraint, we measure the canvas' width and height and use this measure when we update iResolution (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L277-L278">here</a>) and iMouse (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L239-L248">here</a> and <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L300-L304">here</a>). Then, the canvas is distorted in CSS to fit one half of the screen (or all the screen after a doubleclick): <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L307-L325">here</a>.
+  </ul>
   <br>
   <hr>
   <br>
   <h3>PERIOD1k reloaded</h3>
-  <p>by xem, innovati and subzey
+  <p>made with innovati and subzey
   <p>
   - <a href="http://js1k.com/2017-magic/demo/2839">PLAY</a>
   <br>
-  - <a href="https://github.com/codegolf/period1k">GITHUB</a>
+  - <a href="https://github.com/codegolf/period1k/blob/gh-pages/golfed.commented.html">COMMENTED SOURCE</a>
+  <br>
+  - <a href="https://github.com/codegolf/period1k#readme">GITHUB</a>
   <p>Last year, we submitted PERIOD1k, a periodic table drawn on a canvas.
   <br>This time, we rewrote it entirely and the result is much better!
-  <br>It's rendered in HTML/CSS and generated with ES6 template literals (26kb of generated code!)
-  <br>It contains the definitive names for the last four elements, better responsiveness, and a new information: the state of each element at room temperature (Liquid / Solid / Gas).
-  <p><img src="images/js1k17/period1k.png">
+  <br>It's rendered in HTML/CSS and generated with a big chunk of ES6 template literals (26kb of generated code in total!)
+  <br>It contains the definitive names for the last four elements (officialized in june 2016), better responsiveness, and a new information: the state of each element at room temperature (Liquid / Solid / Gas).
+  <p><img src="images/js1k17/period1k.png" style="border: 2px solid #555">
+  <br>
+  <br>
+  <p><h4>Tricks and lessons learned:</h4>
+  <ul>
+    <li>When you think something can't be golfed any more, try rewriting it entirely! Very often, new optimizations will appear just by reordering your code differently.
+    <li>With this version, switching from canvas to pure HTML wasn't really shorter, but had the advantage to produce a scalable periodic table, without any pixellization. So, definitely a plus.
+    <li>On the other hand, one huge improvement consisted in merging all the data (name, color, atomic mass, plus the new info: the state at room temperature) in one big string that's easily splittable by cutting before the capital letter present at the beginning of each element's name (<a href="https://github.com/codegolf/period1k/blob/gh-pages/golfed.commented.html#L15-L141">here</a>). This new organization allowed to stop encoding the 118 element's colors separately, but instead, only encode an element's color if it's different from the previous one, and saving one byte if it has the same color. There are only 46 color variations from one element to the next, so 46 bytes are enough to store them. The code used to decode each color correctly fits in 10 bytes (<a href="https://github.com/codegolf/period1k/blob/gh-pages/golfed.commented.html#L176-L191">here</a>).
+    <li>The free space allowed to add one char for each of the 2 liquids and a char for each of the 12 gases. All the other elements are solid so it's the default state. The states are then represented by a letter (L / G / S) with a very simple test (<a href="https://github.com/codegolf/period1k/blob/gh-pages/golfed.commented.html#L200-L201">here</a>).
+  </ul>
+  <br>
   <br>
   <hr>
   <br>
   <h3>If the Moon was 1px</h3>
-  <p>Team entry: <a href="http://js1k.com/2017-magic/demo/2717">If the Moon was 1px</a> (with Innovati).
-  <p><img src="images/js1k17/moon.png">
+  <p>made with innovati
+  <p>
+  - <a href="http://js1k.com/2017-magic/demo/2717">PLAY</a>
+  <br>
+  - <a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html">COMMENTED SOURCE</a>
+  <br>
+  - <a href="https://github.com/xem/if-the-moon-was-1px">GITHUB</a>
+  <p>This demo is a tribute to <a href="http://joshworth.com/dev/pixelspace/pixelspace_solarsystem.html">If the Moon were only 1px</a> by Josh Worth, reimagined with the hard constraint of 1kb.
+  <br>
+  We wanted to make an extremely complete and precise solar system, with all the planets, dwarf planets, satellites and belts.
+  <br>
+  We almost nailed it: all the planets positions are precise with a margin error &lt; 1000px, and their size is pixel-perfect;
+  <br>
+  the major satellites have pixel-perfect positions and their full names are displayed in the page;
+  <br>
+  The only important size/accuracy compromises are the belts (not drawn in the page) and the minor satellites (placed at pseudo-random positions and not named).
+  <p><img src="images/js1k17/moon.png" style="border: 2px solid #555">
+  <br>
+  <br>
+  <p><h4>Tricks and lessons learned:</h4>
+  <ul>
+    <li>Always aim big to see how many things you have to cut! At first, we had made a big table with all the names and position for the 21 moons and the 161 minor satellites. This took a lot of time, but trying to compress it has made us understand that we could not fit all the minor satellites information in our entry, as the dataset was already bigger than 1kb. but it was a good starting point to golf and simplify our data. by ignoring all the minor satellites, we saw that all the rest could fit pretty comfortably in 1kb, and this allowed us to make a nice UI (with a legend, a title, comfortable margins everywhere, etc) and add interesting details, like the planets Unicode symbols (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L120-L121">here</a>) and the rings for Jupiter, Saturn, Uranus and Neptune (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L162-L177">here</a>).
+    <li>We wanted to display the moons centered horizontally in the screen, and have their names written on the right side, centered vertically. Since all the moons sizes are rounded to 1px, the trick was to represent them with a braille character containing one dot at the center ("<b>·</b>"), followed by a non-breaking space ("<b>\xa0</b>") followed by the moon's name, and place all that in a container with a 5px width (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L207-L222">here</a>). The illusion is perfect! (NB: the minor satellites are just ASCII points: "<b>.</b>").
+    <li>If the CSS doesn't behave like you want, force it! For example, all the moons had very precise positions, but because of planets margins and rings, and the moons names' font-sizes and line-height, plus the space contained in the morse character, all the moons were displayed in a wrong position! After trying to understand and fix that (in vain), I finally decided to adjust manually all the distances in my dataset, in order to have a perfect result, even if the hardcoded values are wrong. ("ah, this one is 9px too low... welp, let's change its offset from 62 to 53!", etc).
+    <li>We wanted to make everything twice as big (like, "if the moon was 2px!") to display more details, but there was an unexpected problem: the page was too long, and browsers stopped rendering them after a certain height. Haumea, Makemake and Eris were broken, so we decided to switch back to a 1px Moon. If you want to see more details, you can still use your browser's zoom!
+    <li>Planet X was considered, but is too hypothetical, too mysterious and too far to be displayed accurately.
+    <li>The Oort cloud, of course, couldn't be shown on the page, ad it's more than 200 times further from the Sun than Eris. So we added a little indication to say that it's far away (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L179-L181">here</a>).
+  </ul>
+  <br>
   <br>
   <hr>
   <br>
   <h3>Can I haz 1Karrot</h3>
   <p>Individual entry: <a href="http://js1k.com/2017-magic/demo/2794">Can I haz 1Karrot?</a>.
-  <p><img src="images/js1k17/1karrot.png">
+  <p><img src="images/js1k17/1karrot.png" style="border: 2px solid #555">
+  <br>
+  <br>
+  <p><h4>Video:</h4>
+  I made a video recording to show the demo played in the best conditions (Windows 10 + Webkit):
+  <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/Ai3IJGfBBWQ?ecver=2" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
+  <br>
+  <br>
+  <p><h4>Tricks and lessons learned:</h4>
+  <ul>
+    <li>
+  </ul>
+  <br>
+  <br>
+  <p><h4>Glitches and other WIP adventures:</h4>
+  <ul>
+    <li>
+  </ul>
+  <br>
   <br>
   <hr>
   <br>
   <h3>1Kind of magic</h3>
   <p>Individual entry: <a href="">1Kind of magic</a>.
-  <p><img src="images/js1k17/1kindofmagic.png">
-
+  <p><img src="images/js1k17/1kindofmagic.png" style="border: 2px solid #555">
+  <br>
+  <br>
+  <p><h4>Tricks and lessons learned:</h4>
+  <ul>
+    <li>
+  </ul>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>CSS golfing</h3>
+  <p>
+  <br>
+  <br>
+  <hr>
+  <br>
+  Cheers!
 </div>
 
 <div class=section id=gameoflife>
@@ -4147,7 +4240,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
 	</div>
 </div>
   </div>
-  <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
+  <iframe src="//meuziere.free.fr/visitsx" width=1 height=1 hidden></iframe>
   </body>
 </html>
 
