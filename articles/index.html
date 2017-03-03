@@ -61,13 +61,13 @@
   <br>
   <p><i><b>PSA:</b><br>there's now a Slack room dedicated to JS code-golfing: <a href="//jsgolf.club">jsgolf.club</a>.
   <br>You can fill <a href="//register.jsgolf.club">this form</a> to get an invite!</i>
-  <p>Also, a big thumbs up for <a href="//dwitter.net">Dwitter</a>: a platform allowing to make art on a canvas in 140b...
-  <br>(Dwitter also inspired <a href="http://js1k.com/2017-magic/demo/2894">this entry by p01</a>, and <a href="https://github.com/nderscore/tiny-dwitter">this 140b clone by nderscore</a>)
+  <p>And a big thumbs up for <a href="//dwitter.net">Dwitter</a>: a platform allowing to make art on a canvas in 140b...
+  <p>Also, Dwitter inspired <a href="http://js1k.com/2017-magic/demo/2894">this entry by p01</a>, and <a href="https://github.com/nderscore/tiny-dwitter">this 140b clone by nderscore</a>.
   <br><br><hr><br>
   <p><b>JS1k:</b>
   <br>JS1k is certainly the most important rendez-vous for JS code-golfers each year,
   <br>
-  and this time a lot of people have been very busy to submit incredible entries!
+  and this time a lot of people have been very busy to submit incredible entries with the theme "<b>some kind of magic</b>"!
   <br>
   Here are the 5 entries I worked on, in team and alone, plus some anecdotes and tricks we found while making them!
   <br>
@@ -76,6 +76,7 @@
   <br>
   <h3>Mini Shadertoy</h3>
   <p>made with literallylara, nderscore, innovati, subzey, p01, sqaxomonophonen (and aemkei for the non-js1k version)
+  <p>
   - <a href="http://js1k.com/2017-magic/demo/2645">PLAY</a>
   <br>
   - <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">COMMENTED SOURCE</a>
@@ -92,7 +93,9 @@
   <li>Making this demo was not as easy as taking our 349b WebGL bootstrap (minus the free <b>g=a.getContext`webgl`</b>) and packaging it in a nice UI. We decided to include the same shader inputs as Shadertoy's (iResolution, iGlobalTime, iTimeDelta, iFrame, iMouse and iDate). To do so, we made a loop that sets/updates these variables at each frame (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L251-L294">here</a>), while the g.createShader (called on load and after each keyboard input) starts with the declaration of these variables (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L187">here</a>).
   <li>The fragment shader declares a main function, that calls mainImage(), which is editable in the demo. (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L189">here</a>).
   <li>To have the same color rendering as shadertoy, the main function always sets the alpha byte of the current pixel to 1 just after calling mainImage. (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L189">here</a>).
-  <li>Our WebGL bootstrap also had a special way of computing the pixel coordinates: [0:0] was at the center; but on shadertoy, [0:0] is on the bottom-left corner. So to have the same result, we changed "<b>varying lowp vec4 p</b>" to "<b>attribute vec4 p</b>" <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L216">here</a>. (this is not well documented: varying variables have centered coordinates, attribute vars don't), and added this line in the built-in demo: "<b>vec4 p=vec4(coord/iResolution*2.-1.,0,1);</b>" (PS: the "*2" is used to stay in the [-1:+1] range.
+  <li>Our WebGL bootstrap also had a special way of computing the pixel coordinates: [0:0] was at the center; but on shadertoy, [0:0] is on the bottom-left corner. So to have the same result, we changed "<b>varying lowp vec4 p</b>" to "<b>attribute vec4 p</b>" <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L216">here</a>. (this is not well documented: varying variables have centered coordinates, attribute vars don't), and added this line in the built-in demo: "<b>vec4 p=vec4(coord/iResolution*2.-1.,0,1);</b>"
+  <br>
+  (PS: the "*2" is used to stay in the [-1:+1] range.)
   <li>The WebGL canvas and its context are provided by JS1k's shim, but we couldn't add the textarea in the DOM with "b.innerHTML+='&lt;textarea>...": that would have rewritten the canvas and its 2D context would no longer be valid. So instead, we used insertedAdjacentHTML: <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L77-L96">here</a>.
   <li>With JS1k, you can never assume (or force) the intrinsic width and height of the canvas, you can only set its max-width and max-height. So to adapt our demo to this constraint, we measure the canvas' width and height and use this measure when we update iResolution (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L277-L278">here</a>) and iMouse (<a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L239-L248">here</a> and <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L300-L304">here</a>). Then, the canvas is distorted in CSS to fit one half of the screen (or all the screen after a doubleclick): <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html#L307-L325">here</a>.
   </ul>
@@ -149,10 +152,10 @@
   <ul>
     <li>Always aim big to see how many things you have to cut! At first, we had made a big table with all the names and position for the 21 moons and the 161 minor satellites. This took a lot of time, but trying to compress it has made us understand that we could not fit all the minor satellites information in our entry, as the dataset was already bigger than 1kb. but it was a good starting point to golf and simplify our data. by ignoring all the minor satellites, we saw that all the rest could fit pretty comfortably in 1kb, and this allowed us to make a nice UI (with a legend, a title, comfortable margins everywhere, etc) and add interesting details, like the planets Unicode symbols (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L120-L121">here</a>) and the rings for Jupiter, Saturn, Uranus and Neptune (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L162-L177">here</a>).
     <li>We wanted to display the moons centered horizontally in the screen, and have their names written on the right side, centered vertically. Since all the moons sizes are rounded to 1px, the trick was to represent them with a braille character containing one dot at the center ("<b>·</b>"), followed by a non-breaking space ("<b>\xa0</b>") followed by the moon's name, and place all that in a container with a 5px width (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L207-L222">here</a>). The illusion is perfect! (NB: the minor satellites are just ASCII points: "<b>.</b>").
-    <li>If the CSS doesn't behave like you want, force it! For example, all the moons had very precise positions, but because of planets margins and rings, and the moons names' font-sizes and line-height, plus the space contained in the morse character, all the moons were displayed in a wrong position! After trying to understand and fix that (in vain), I finally decided to adjust manually all the distances in my dataset, in order to have a perfect result, even if the hardcoded values are wrong. ("ah, this one is 9px too low... welp, let's change its offset from 62 to 53!", etc).
+    <li>If the CSS doesn't behave like you want, force it! For example, all the moons had very precise positions, but because of planets margins and rings, and the moons names' font-sizes and line-height, plus the space contained in the braille character, all the moons were displayed in a wrong position! After trying to understand and fix that (in vain), I finally decided to adjust manually all the distances in the dataset, in order to have a perfect result, even if the hardcoded values are wrong. ("ah, this one is 9px too low... welp, let's change its offset from 62 to 53!", etc).
     <li>We wanted to make everything twice as big (like, "if the moon was 2px!") to display more details, but there was an unexpected problem: the page was too long, and browsers stopped rendering them after a certain height. Haumea, Makemake and Eris were broken, so we decided to switch back to a 1px Moon. If you want to see more details, you can still use your browser's zoom!
     <li>Planet X was considered, but is too hypothetical, too mysterious and too far to be displayed accurately.
-    <li>The Oort cloud, of course, couldn't be shown on the page, ad it's more than 200 times further from the Sun than Eris. So we added a little indication to say that it's far away (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L179-L181">here</a>).
+    <li>The Oort cloud, of course, couldn't be shown on the page, because it's more than 200 times further from the Sun than Eris. So we added a little indication to say that it's far away (<a href="https://github.com/xem/if-the-moon-was-1px/blob/gh-pages/commented.js1k.html#L179-L181">here</a>).
   </ul>
   <br>
   <br>
@@ -167,15 +170,16 @@
   <br>
   - <a href="https://github.com/xem/1karrot#readme">GITHUB</a>
   <br>
-  <p>I always wanted to make something cool with CSS3D and emoji, but never had the good idea... until a week after the start of JS1k, when I realized I could make a game with a rabbit in a hat (because the theme is "some kind of magic") that could run through a maze to find its carrot, and with a surprising ending. All the other details were improvised during the next ~3 weeks of intensive development.
+  <p>I always wanted to make something cool with CSS3D and emoji, but never had the good idea... until a week after the start of JS1k, when I realized I could make a game with a rabbit in a hat that could run through a maze to find its carrot, and with a surprising ending. All the other details were improvised during the next ~3 weeks of intensive development.
   <p>This demo relies heavily on two CSS and golfing experiments from 2016:
   <br>
   - <a href="http://xem.github.io/articles/#jsgamesinputs">JS games inputs</a> (to support both arrow keys, WASD and ZQSD in 82 bytes);
   <br>
-  - and <a href="http://xem.github.io/articles/#css3d">How to make games in CSS3D</a>
+  - <a href="http://xem.github.io/articles/#css3d">How to make games in CSS3D</a>
   <br>(though all the "good practices" of this tutorial were heavily tortured and trespassed in this demo in order to save every byte possible).
   <p>Mobile controls would have been cool (moreover, mobile browsers have no problem displaying the demo), but it would have been so heavy to listen to touch events and bypass their default behavior to make the rabbit move (around 200b), that too many features would have been cut out (no animals, bad collisions, bad camera, less trees, etc.) and it was too much of a downgrade to me, so I abandoned it.
   <p>Same thing for the sound or the interaction with the animals: they were sacrified to make the main thing more enjoyable.
+  <p>Big thanks to Keith Clark for his CSS3D expertise, and to the friends from the Codegolf Team for their tests!
   <br>
   <p><img src="images/js1k17/1karrot.png" style="border: 2px solid #555">
   <br>
@@ -199,7 +203,7 @@
     The inner div gets the "<b>transform-style:preserve-3d</b>" CSS property to enable realistic perspective for all the scene, and has margins to have its top-left origin placed at the center of the viewport (like <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L111-L115">here</a>). I call it the scene container.
     <li>All the children of the scene container can be placed where you want either with margin-left + margin-top, or transform:translate(x,y) or translate3D(x,y,z) (which is handy to place them above the floor). The objects in the scene do not need, and MUST NOT have the CSS property "<b>transform-style:preserve-3d</b>", because it can lead to weird behaviors and important visual glitches on some browsers. Setting it on the scene container only is enough.
     <li><b>Emoji are fun!</b> They provide cute visual assets almost for free!
-    <li>Emoji are a pain to use consistently across browsers and OS's. Not only they'll appear differently everywhere (ugly on Mac, monochrome or tofu on Linux and Edge, and quite good on Windows), but they'll also have different horizontal and vertical alignments. I've spent most of these weeks fighting with flying trees, animals going below the ground, and the rabbit head jumping 50px away from the hat on one OS, and 50px away, on the other side, on another OS...
+    <li>Emoji are a pain to use consistently across browsers and OS's. Not only they'll appear differently everywhere (ugly on Mac, monochrome or tofu on Linux and Edge, and quite good on other Windows 10 browsers), but they'll also have different horizontal and vertical alignments. I've spent most of these weeks fighting with flying trees, animals going below the ground, and the rabbit head always placed on one side of the hat or the other, depending on the OS...
     <br>
     In the end, I had no choice but detecting MacOS (with the trick "<b>navigator.platform[5]</b>") to set different sizes and positions on MacOS and other platforms (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L138-L144">here</a>). Thanks to the codegolf team for helping me find such a short MacOS detection script!
     <li>No need to set a big green floor in 3D under the scene, setting a green background to the viewport div does the trick! (so technically, the trees and animals fly above an infinite void, but painted in green).
@@ -216,26 +220,26 @@
     Sadly, 7em is too small for my trees!
     <br>
     The solution was to scale the trees 2.5 times with <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L217">an extra CSS transform</a>.
-    <li>The polyglot keyboard code (arrows / WASD / ZQSD) was 82 bytes long in the standalone version, but this demo uses a modified version, with more repetitions, in order to RegPack much better (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L67-L99">here</a>).
+    <li>The polyglot keyboard code (arrows / WASD / ZQSD) was originally 82 bytes long, but this demo uses a modified version, with more repetitions, in order to RegPack much better (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L67-L99">here</a>).
     <br>
     Also, the "onkeyup" word is reused a lot in the rest of the code to differenciate trees and animals (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L117-L136">here</a> and <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L213-L228">here</a>), which is a good byte saver. 
     <li>The demo consists of a few variables initialized to 0 (frame counter, tree counter and keys states), and a game loop, in which the frame counter is incremented at each frame.
     <br>RegPack 5.0.0 featured a "refactor with setInterval" feature that was cool but added unnecessary code inside the packed code (this was then fixed in regPack 5.0.1).
     <br>
-    So while RegPack was being fixed, in order to achieve the best compression, I RegPacked the content of my loop function as usual, then I replaced the final "<b>eval(_)</b>" with "<b>setInterval(_,33)</b>", and replaced "<b>_=join(shift())</b>" with "<b>_=join(shift(q=u=d=l=r=f=0))</b>" (I included my 6 variables initialized to 0 in the shift function).
-    <li>The "- It hurts when I do it - Then don't do it!" principle: for some reason, the rabbit could escape the maze on the left (behind the snail) and on the top of the "1" and the "k", i.e. when its x or y was below zero. It could only escape inside one virtual square though, but couldn't go anywhere in the green infinity. I couldn't find a convincing explanation for this behavior, but fixed it in my collision detection (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L263-L272">here</a>).
+    So while RegPack was being fixed, in order to achieve the best compression, I RegPacked the content of my loop function as usual, then I replaced the final "<b>eval(_)</b>" with "<b>setInterval(_,33)</b>", and replaced "<b>_=join(shift())</b>" with "<b>_=join(shift(q=u=d=l=r=f=0))</b>" (I included my 6 variables initializations in the shift function).
+    <li>Do you know the "- It hurts when I do it - Then don't do it!" principle? For some reason, the rabbit could escape the maze on the left (behind the snail) and on the top of the "1" and the "k", i.e. when its x or y was below zero. It could only escape inside one virtual square though, but couldn't go anywhere else in the green infinity. I couldn't find a convincing explanation for this behavior, but fixed it in my collision detection (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L263-L272">here</a>).
     <br>The whole collision detection script uses the same principle actually: at each frame, the rabbit moves according to the keys pressed, and if its position is not on the path, cancel the move and keep the rabbit at its previous position. Works like a charm!
     <li>By the way, the snail is a wink to Rebecca (@veubeke) who's the biggest snail fan I've ever met, and a great golfer too!
     <li>
     <img src="images/js1k17/mario.png" width=250 style="float: right; margin: 5px 20px; ">
-    While making this demo, I had the idea to slant all the objects (trees, animals, carrot...) backwards to face the camera, and look less uncomfortably vertical.<br>This trick is quite unnoticeable during gameplay, but can be seen in the "glitchy state" after the end of the game, when the camera follows the rabbit with a 5-second delay.
+    While making this demo, I had the idea to tilt all the objects (trees, animals, carrot...) towards the camera, to make them look less uncomfortably vertical.<br>This trick is quite unnoticeable during gameplay, but can be seen in the "glitchy state" after the end of the game, when the camera follows the rabbit with a 5-second delay.
     <br>
-    Fun fact: I discovered after submitting my entry that <a href="https://twitter.com/MaximeEuziere/status/835607608971128832/photo/1">Mario 64 did exactly the same thing for its sprites!</a> (<a href="http://www.suppermariobroth.com/post/157560405110/trees-in-super-mario-64-always-tilt-to-be">
+    Fun fact: I discovered after submitting my entry that <a href="https://twitter.com/MaximeEuziere/status/835607608971128832/photo/1">Mario 64 did exactly the same thing for its sprites!</a> (<a href="http://www.suppermariobroth.com/post/157560405110/trees-in-super-mario-64-always-tilt-to-be">source</a>)
     <li>One final ES6 trick, found on Twitter with the great help of to Mathias Bynens (@mathias) and @FakeUnicode: the shortest way to make an array of Unicode symbols without breaking surrogate pairs is: "<b>[..."unicode text"]</b>". (I used it for the trees list <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L195-L197">here</a>).
   </ul>
   <br>
   <br>
-  <p><h4>Glitches and other WIP adventures:</h4>
+  <p><h4>WIP screenshots and funny glitches:</h4>
   <ul>
     <li>At the beginnong, I tried to show a mountained horizon, and make a floor that was only comprised of emoji color variation characters
     <br>(such as 🏻 🏼 🏽 🏾 🏿).
@@ -243,9 +247,9 @@
     <br><img src="images/js1k17/3.jpg" width=400 style="margin:10px">
     <li>Here's how the first prototype "seen from above" looked on Firefox, Edge, Chrome, Safari Mac, Android 5.0 and Ubuntu:
     <br>The rabbit-in-hat offset was then adjusted to be good on all OS's except Mac, and a MacOS hack was added on top to make it look good.
-    <br><img src="images/js1k17/1.jpg">
+    <br><img src="images/js1k17/1.jpg" style="margin:10px">
     <li>
-    At least, my undefined errors appear in 3D! (this was when I tried to hide some trees) 
+    At least, my undefined errors appear in 3D! (this happened when I tried to hide some trees) 
     <br><img src="images/js1k17/4.jpg" width=400 style="margin:10px">
     <li>
     The animals could have talked to the rabbit... (but there wasn't enough room for that)
@@ -291,9 +295,9 @@
   <p><h4>Tricks and lessons learned:</h4>
   <ul>
     <li>Lara managed to convert a MIDI file into a ready-to-use array of numbers. Unfortunately, this didn't worked well for the MIDI interpretations of "A kind of magic", the melody was corrupted after a few seconds. That's why I plotted all the content of the MIDI file with <a href="this tool"> and wrote each note and each silence by hand in a big array of numbers (<a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L19-L413">here</a>)
-    <li>Then, each note was encoded on two ASCII chars: the first one represents String.fromCharCode(50 + note offset) and the other String.fromcharcode(50 + duration). Each silence was encoded on one char: String.fromcharcode(97 + duration)</b>. This encoding allowed to avoid annoying characters like ", ', `, \ and the control characters (U+0001 to U+0020) used by RegPack to compress the demo. (<a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L415-L432">here</a> and <a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L458-L459">here</a>)
+    <li>Then, each note was encoded on two ASCII chars: the first one represents String.fromCharCode(50 + note offset) and the other String.fromCharCode(50 + duration). Each silence was encoded on one char: String.fromCharCode(97 + duration)</b>. This encoding allowed to avoid annoying characters like ", ', `, \ and the control characters (U+0001 to U+0020) used by RegPack to compress the demo. (<a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L415-L432">here</a> and <a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L458-L459">here</a>)
     <li>The rest was pretty straightforward, except when I wanted to make the melody more quiet, in order to make the speech synthesis more hearable. The audioContext's gainNode is very poorly documented, and the team helped me wire it correctly to the oscillator (<a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L480-L502">here</a>).
-    <li>For some reason, a gain of 0.5, even 0.1 didn't change anything. I spent a long time trying to figure out why it didn't reduce the notes volume, until I tried 0.001 and finally heard a very low volume. The final code has a 0.005 gain on the melody and a 0.01 gain on the drums. It kina made a perfect balance between the music and the voice on my laptop, but again, for some reason, it was super quiet on other PC's or browsers. Welp. At least it's kinda working everywhere, even if the voice can be a bit too loud for some people. And I'm quite happy with the length of the melody I managed to fit in this tiny budget!
+    <li>For some reason, a gain of 0.5, even 0.1 didn't change anything. I spent a long time trying to figure out why it didn't reduce the notes volume, until I tried 0.001 and finally heard a very low volume. The final code has a 0.005 gain on the melody and a 0.01 gain on the drums. It kinda made a good balance between the music and the voice on my laptop, but again, for some reason, it was super quiet on other PC's or browsers. Welp. At least it's kinda working everywhere, even if the voice can be a bit too loud for some people. And I'm quite happy with the length of the melody I managed to fit in this tiny budget!
   </ul>
   <br>
   <br>
@@ -308,14 +312,13 @@
     <li><b>"margin: 50vw 50vh"</b> can be simplified to <b>margin:50vw+50vh</b>
     <li><b>"box-shadox: 2px 2px #222"</b> can be simplified to <b>box-shadox:2px+2px#222</b>
     <li><b>"font: 12px / 14px arial"</b> can be simplified to <b>font:12px/14px'arial'</b> (for a custom font-family)
-    <li><b>"font: 12px / 14px sans-serif"</b> can be simplified to <b>font:12px/14px''</b> (for the default font-family)
+    <li><b>"font: 12px / 14px sans-serif"</b> can be simplified to <b>font:12px/14px""</b> (if you want to keep the default font-family)
   </ul>
-  <p>The only spaces that I don't know how to remove so far are:
+  <p>The only spaces that can't be removed so far are:
   <ul>
-    <li>spaces around the + and - in "calc(1px + 2em - 3vw)" (if they were absent, it'd make ambiguous signed numbers)
-    <li>spaces around keywords, for example in "font:bold 12px'arial'" or "background:url(...)no-repeat red".
+    <li>spaces around the + and - in "<b>calc(1px + 2em - 3vw)</b>" (if they were absent, it'd make ambiguous signed numbers)
+    <li>spaces around keywords, for example in "<b>font:bold 12px'arial'</b>" or "<b>background:url(...)no-repeat red</b>".
   </ul>
-  <br>
   <p>There's a second CSS trick that can save many bytes when you write a lot of CSS functions, but I don't really recommend it because it doesn't work on Safari: all the closing parenthesis at the end of CSS rules (or at the end of inline styles) can be omitted, ex:
   <ul>
     <li>width:calc(10px + 10vw
