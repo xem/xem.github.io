@@ -3,7 +3,7 @@ html { background: #fff; height: 100%; overflow: auto; }
 body { max-width: 1150px; min-width: 640px; min-height: 100%; overflow: visible; margin: 0 auto; font: normal 12px/18px Arial; background: #eee; background: linear-gradient(90deg, #fff 195px, #eee 205px, #eee 990px, #fff 1000px); }
 h1, h2, h3, h4 { margin: 10px 0; }
 ol, ul { padding-left: 20px; }
-li { margin: 10px 0; }
+.section li { margin: 10px 0; }
 table { width: 100%; border-collapse: collapse; }
 textarea { width: 100%; }
 td { vertical-align: top; }
