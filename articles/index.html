@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset=utf-8>
-  <link rel=stylesheet href="../style.css">
+  <link rel=stylesheet href="../style.css?v=2">
   <title>Maxime Euzière</title>
 </head>
 <body>
@@ -61,6 +61,8 @@
   <br>
   <p><i><b>PSA:</b><br>there's now a Slack room dedicated to JS code-golfing: <a href="//jsgolf.club">jsgolf.club</a>.
   <br>You can fill <a href="//register.jsgolf.club">this form</a> to get an invite!</i>
+  <p>Also, a big thumbs up for <a href="//dwitter.net">Dwitter</a>: a platform allowing to make art on a canvas in 140b...
+  <br>(Dwitter also inspired <a href="http://js1k.com/2017-magic/demo/2894">this entry by p01</a>, and <a href="https://github.com/nderscore/tiny-dwitter">this 140b clone by nderscore</a>)
   <br><br><hr><br>
   <p><b>JS1k:</b>
   <br>JS1k is certainly the most important rendez-vous for JS code-golfers each year,
@@ -74,7 +76,6 @@
   <br>
   <h3>Mini Shadertoy</h3>
   <p>made with literallylara, nderscore, innovati, subzey, p01, sqaxomonophonen (and aemkei for the non-js1k version)
-  <p>
   - <a href="http://js1k.com/2017-magic/demo/2645">PLAY</a>
   <br>
   - <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">COMMENTED SOURCE</a>
@@ -203,7 +204,7 @@
     In the end, I had no choice but detecting MacOS (with the trick "<b>navigator.platform[5]</b>") to set different sizes and positions on MacOS and other platforms (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L138-L144">here</a>). Thanks to the codegolf team for helping me find such a short MacOS detection script!
     <li>No need to set a big green floor in 3D under the scene, setting a green background to the viewport div does the trick! (so technically, the trees and animals fly above an infinite void, but painted in green).
     <li>
-    <img src="images/js1k17/fontsize.jpg" width=250 style="float: right; margin: 5px 20px; ">Some browsers / OS's have a threshold for multicolor emoji:
+    <img src="images/js1k17/fontsize.jpg" width=250 style="float: right; margin: 5px 20px;">Some browsers / OS's have a threshold for multicolor emoji:
     <br><a href="https://twitter.com/MaximeEuziere/status/827890520085131266">they become monochrome after a certain font-size.</a>
     <br>
     This limit varies a lot from a system to another,
@@ -224,13 +225,45 @@
     So while RegPack was being fixed, in order to achieve the best compression, I RegPacked the content of my loop function as usual, then I replaced the final "<b>eval(_)</b>" with "<b>setInterval(_,33)</b>", and replaced "<b>_=join(shift())</b>" with "<b>_=join(shift(q=u=d=l=r=f=0))</b>" (I included my 6 variables initialized to 0 in the shift function).
     <li>The "- It hurts when I do it - Then don't do it!" principle: for some reason, the rabbit could escape the maze on the left (behind the snail) and on the top of the "1" and the "k", i.e. when its x or y was below zero. It could only escape inside one virtual square though, but couldn't go anywhere in the green infinity. I couldn't find a convincing explanation for this behavior, but fixed it in my collision detection (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L263-L272">here</a>).
     <br>The whole collision detection script uses the same principle actually: at each frame, the rabbit moves according to the keys pressed, and if its position is not on the path, cancel the move and keep the rabbit at its previous position. Works like a charm!
+    <li>By the way, the snail is a wink to Rebecca (@veubeke) who's the biggest snail fan I've ever met, and a great golfer too!
+    <li>
+    <img src="images/js1k17/mario.png" width=250 style="float: right; margin: 5px 20px; ">
+    While making this demo, I had the idea to slant all the objects (trees, animals, carrot...) backwards to face the camera, and look less uncomfortably vertical.<br>This trick is quite unnoticeable during gameplay, but can be seen in the "glitchy state" after the end of the game, when the camera follows the rabbit with a 5-second delay.
+    <br>
+    Fun fact: I discovered after submitting my entry that <a href="https://twitter.com/MaximeEuziere/status/835607608971128832/photo/1">Mario 64 did exactly the same thing for its sprites!</a> (<a href="http://www.suppermariobroth.com/post/157560405110/trees-in-super-mario-64-always-tilt-to-be">
     <li>One final ES6 trick, found on Twitter with the great help of to Mathias Bynens (@mathias) and @FakeUnicode: the shortest way to make an array of Unicode symbols without breaking surrogate pairs is: "<b>[..."unicode text"]</b>". (I used it for the trees list <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L195-L197">here</a>).
   </ul>
   <br>
   <br>
   <p><h4>Glitches and other WIP adventures:</h4>
   <ul>
-    <li>coming soon...
+    <li>At the beginnong, I tried to show a mountained horizon, and make a floor that was only comprised of emoji color variation characters (🏻 🏼 🏽 🏾 🏿).
+    <br>This was abandoned for being too heavy and too inconsistent across browsers and OS's.
+    <br><img src="images/js1k17/3.jpg" width=400>
+    <li>Here's how the first prototype "seen from above" looked on Firefox, Edge, Chrome, Safari Mac, Android 5.0 and Ubuntu:
+    <br>The rabbit-in-hat offset was then adjusted to be good on all OS's except Mac, and a MacOS hack was added on top to make it look good.
+    <br><img src="images/js1k17/1.jpg">
+    <li>
+    At least, my undefined errors appear in 3D! (this was when I tried to hide some trees) 
+    <br><img src="images/js1k17/4.jpg" width=400>
+    <li>
+    The animals could have talked to the rabbit... (but there wasn't enough room for that)
+    <br><img src="images/js1k17/5.jpg" width=400>
+    <li>
+    This happened when I tried to animate the animals but not the trees...
+    <br><img src="images/js1k17/6.jpg" width=400>
+    <li>
+    This appeared when I tried to refactor the inline style of the trees...
+    <br><img src="images/js1k17/6.gif" width=400>
+    <li>
+    This happened when I tried to apply CSS transitions from the beginning of the game instead of applying it only at the end...
+    <br>
+    Bad idea, even though if it would have made a funny introduction.
+    <br><img src="images/js1k17/7.gif" width=400>
+    <li>
+    This happened when I refactored my emoji...
+    <br><img src="images/js1k17/8.gif" width=400>
+    <li>And finally, the Carrot Update © ! On MacOS Sierra &lt; 10.2.3 there is no carrot emoji. Nothing appears where the carrot is supposed to be. That's why the demo description says it's only suited for MacOS 10.2.3+... Jokingly, we imagined that Apple deployed Mac0S 10.2.3 as "The Carrot Update ©", just to fix the missing emoji 🥕 :D
   </ul>
   <br>
   <br>
@@ -239,18 +272,27 @@
   <h3>1Kind of magic</h3>
   <p>Individual entry
   <p>
-  - <a href="">PLAY</a>
+  - <a href="http://js1k.com/2017-magic/demo/2834">PLAY</a>
   <br>
   - <a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html">COMMENTED SOURCE</a>
   <br>
   - <a href="https://github.com/xem/1kind-of-magic">GITHUB</a>
   <br>
+  <p>This demo was rushed during the last week of the compo, after seeing @literallylara's entry <a href="http://js1k.com/2017-magic/demo/2814">magic flute</a>. (which has a remarkably readable source code).
+  <br>As a joke, I asked "what if we played Queen's "A kind of magic" in JS? that'd be a fun interpretation of the theme!".
+  <br>I ended up handwriting every note of the song and playing them with two JS oscillators (one for the melody and one for the drums starting after 12 seconds).
+  <br>The remaining room was used to display some emoji at the center of the page, changing the background after each note, and using a little bit of JS speech synthesis to pronounce the first 3 lyrics of the song.
+  <br>It was also a good occasion to finally make a non-mute demo for js1k!
+  <br>The Speech Synthesis is inspired by <a href="https://github.com/xem/miniSpeechSynthesis/">miniSpeechSynthesis</a>.
   <p><img src="images/js1k17/1kindofmagic.png" style="border: 2px solid #555">
   <br>
   <br>
   <p><h4>Tricks and lessons learned:</h4>
   <ul>
-    <li>coming soon...
+    <li>Lara managed to convert a MIDI file into a ready-to-use array of numbers. Unfortunately, this didn't worked well for the MIDI interpretations of "A kind of magic", the melody was corrupted after a few seconds. That's why I plotted all the content of the MIDI file with <a href="this tool"> and wrote each note and each silence by hand in a big array of numbers (<a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L19-L413">here</a>)
+    <li>Then, each note was encoded on two ASCII chars: the first one represents String.fromCharCode(50 + note offset) and the other String.fromcharcode(50 + duration). Each silence was encoded on one char: String.fromcharcode(97 + duration)</b>. This encoding allowed to avoid annoying characters like ", ', `, \ and the control characters (U+0001 to U+0020) used by RegPack to compress the demo. (<a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L415-L432">here</a> and <a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L458-L459">here</a>)
+    <li>The rest was pretty straightforward, except when I wanted to make the melody more quiet, in order to make the speech synthesis more hearable. The audioContext's gainNode is very poorly documented, and the team helped me wire it correctly to the oscillator (<a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html#L480-L502">here</a>).
+    <li>For some reason, a gain of 0.5, even 0.1 didn't change anything. I spent a long time trying to figure out why it didn't reduce the notes volume, until I tried 0.001 and finally heard a very low volume. The final code has a 0.005 gain on the melody and a 0.01 gain on the drums. It kina made a perfect balance between the music and the voice on my laptop, but again, for some reason, it was super quiet on other PC's or browsers. Welp. At least it's kinda working everywhere, even if the voice can be a bit too loud for some people. And I'm quite happy with the length of the melody I managed to fit in this tiny budget!
   </ul>
   <br>
   <br>
@@ -258,13 +300,26 @@
   <br>
   <h3>Bonus: CSS golfing</h3>
   <p>To finish, I'd like to talk about a code-golf trick that I found while making these demos, and it's about inline CSS code.
+  <p>It generally saves 1 byte per element, but hey, every byte counts!
   <p>Inline CSS looks like "<b>&lt;div style='...'></b>", and as you may know, the attribute quotes can be omitted if the inline style doesn't contain any space, for example "<b>&lt;div style=color:#fff;background:#000;border-radius:50%></b>".
   <p>My demos contained many CSS properties that generally use spaces, and I discovered I could get rid of most of these spaces, by removing them or replacing them with a "<b>+</b>" or quotes (<b>''</b>). Here are some examples:
   <ul>
     <li><b>"margin: 50vw 50vh"</b> can be simplified to <b>margin:50vw+50vh</b>
     <li><b>"box-shadox: 2px 2px #222"</b> can be simplified to <b>box-shadox:2px+2px#222</b>
-    <li><b>"font: 12px / 14px arial"</b> can be simplified to <b>font:12px/14px'arial'</b>
-    <li><b>"font: 12px / 14px sans-serif"</b> can be simplified to <b>font:12px/14px''</b>
+    <li><b>"font: 12px / 14px arial"</b> can be simplified to <b>font:12px/14px'arial'</b> (for a custom font-family)
+    <li><b>"font: 12px / 14px sans-serif"</b> can be simplified to <b>font:12px/14px''</b> (for the default font-family)
+  </ul>
+  <p>The only spaces that I don't know how to remove so far are:
+  <ul>
+    <li>spaces around the + and - in "calc(1px + 2em - 3vw)" (if they were absent, it'd make ambiguous signed numbers)
+    <li>spaces around keywords, for example in "font:bold 12px'arial'" or "background:url(...)no-repeat red".
+  </ul>
+  <br>
+  <p>There's a second CSS trick that can save many bytes when you write a lot of CSS functions, but I don't really recommend it because it doesn't work on Safari: all the closing parenthesis at the end of CSS rules (or at the end of inline styles) can be omitted, ex:
+  <ul>
+    <li>width:calc(10px + 10vw
+    <li>transform:translate(x,y)scale(2
+    <li>etc.
   </ul>
   <br>
   <br>
@@ -4310,7 +4365,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
 	</div>
 </div>
   </div>
-  <iframe src="//meuziere.free.fr/visitsx" width=1 height=1 hidden></iframe>
+  <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
   </body>
 </html>
 
