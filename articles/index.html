@@ -157,45 +157,115 @@
   <br>
   <hr>
   <br>
-  <h3>Can I haz 1Karrot</h3>
-  <p>Individual entry: <a href="http://js1k.com/2017-magic/demo/2794">Can I haz 1Karrot?</a>.
+  <h3>Can I haz 1Karrot?</h3>
+  <p>Individual entry
+  <p>
+  - <a href="http://js1k.com/2017-magic/demo/2794">PLAY</a>
+  <br>
+  - <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html">COMMENTED SOURCE</a>
+  <br>
+  - <a href="https://github.com/xem/1karrot#readme">GITHUB</a>
+  <br>
+  <p>I always wanted to make something cool with CSS3D and emoji, but never had the good idea... until a week after the start of JS1k, when I realized I could make a game with a rabbit in a hat (because the theme is "some kind of magic") that could run through a maze to find its carrot, and with a surprising ending. All the other details were improvised during the next ~3 weeks of intensive development.
+  <p>This demo relies heavily on two CSS and golfing experiments from 2016:
+  <br>
+  - <a href="http://xem.github.io/articles/#jsgamesinputs">JS games inputs</a> (to support both arrow keys, WASD and ZQSD in 82 bytes);
+  <br>
+  - and <a href="http://xem.github.io/articles/#css3d">How to make games in CSS3D</a>
+  <br>(though all the "good practices" of this tutorial were heavily tortured and trespassed in this demo in order to save every byte possible).
+  <p>Mobile controls would have been cool (moreover, mobile browsers have no problem displaying the demo), but it would have been so heavy to listen to touch events and bypass their default behavior to make the rabbit move (around 200b), that too many features would have been cut out (no animals, bad collisions, bad camera, less trees, etc.) and it was too much of a downgrade to me, so I abandoned it.
+  <p>Same thing for the sound or the interaction with the animals: they were sacrified to make the main thing more enjoyable.
+  <br>
   <p><img src="images/js1k17/1karrot.png" style="border: 2px solid #555">
   <br>
   <br>
   <p><h4>Video:</h4>
   I made a video recording to show the demo played in the best conditions (Windows 10 + Webkit):
-  <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/Ai3IJGfBBWQ?ecver=2" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
   <br>
+  (<b>WARNING: SPOILERS!</b>)
+  <br>
+  <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/Ai3IJGfBBWQ?ecver=2" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
   <br>
   <p><h4>Tricks and lessons learned:</h4>
   <ul>
+    <li><b>CSS3D is fun!</b>. It provides a 3D engine almost for free! No need to implement any kind of raycasting, depth-sorting, etc. !
+    <li>CSS3D is still highly experimental. We're in febuary 2017, and Firefox explodes (I mean: stops doing any kind of z-zorting) when a page contains more than 100 "CSS3D" elements (i.e. elements with rotate / translate transformations). Firefox 53 will finally drop this limit, but it'll only release in april. So for this JS1k, my game had to respect this limit, and if you count the trees, the ground tiles, the animals, the carrot, the rabbit and the hat, you'll find a total of exactly 100. I could have added much more trees and other items to make this forest much more dense, but it was too expensive. Firefox still has a few little visual glitches but nothing dramatic...
+    <li>All the ground tiles could have been replaced by just one element, and the entire path could have been drawn with multiple brown CSS box-shadows on this element (like <a href="http://xem.github.io/miniShadowArt/">here</a>). It was too glitchy on some browsers, mostly the MacOS ones, and I had to revert that. (too bad! the box-shadow trick weighs as many bytes as the current method but it would have made room for a few dozens extra trees).
+    <li>At the minimum, you have to use 2 div containers around your scene objects to make the CSS3D magic work.
+    <br>
+    The outer div acts as the viewport, and must have a width, a height, a perspective and overflow:hidden (like <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L106-L109">here</a>). Avoid using the body element as a viewport, as it can cause weird effects too.
+    <br>
+    The inner div gets the "<b>transform-style:preserve-3d</b>" CSS property to enable realistic perspective for all the scene, and has margins to have its top-left origin placed at the center of the viewport (like <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L111-L115">here</a>). I call it the scene container.
+    <li>All the children of the scene container can be placed where you want either with margin-left + margin-top, or transform:translate(x,y) or translate3D(x,y,z) (which is handy to place them above the floor). The objects in the scene do not need, and MUST NOT have the CSS property "<b>transform-style:preserve-3d</b>", because it can lead to weird behaviors and important visual glitches on some browsers. Setting it on the scene container only is enough.
+    <li><b>Emoji are fun!</b> They provide cute visual assets almost for free!
+    <li>Emoji are a pain to use consistently across browsers and OS's. Not only they'll appear differently everywhere (ugly on Mac, monochrome or tofu on Linux and Edge, and quite good on Windows), but they'll also have different horizontal and vertical alignments. I've spent most of these weeks fighting with flying trees, animals going below the ground, and the rabbit head jumping 50px away from the hat on one OS, and 50px away, on the other side, on another OS...
+    <br>
+    In the end, I had no choice but detecting MacOS (with the trick "<b>navigator.platform[5]</b>") to set different sizes and positions on MacOS and other platforms (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L138-L144">here</a>). Thanks to the codegolf team for helping me find such a short MacOS detection script!
+    <li>No need to set a big green floor in 3D under the scene, setting a green background to the viewport div does the trick! (so technically, the trees and animals fly above an infinite void, but painted in green).
     <li>
+    <img src="images/js1k17/fontsize.jpg" width=250 style="float: right; margin: 5px 20px; ">Some browsers / OS's have a threshold for multicolor emoji:
+    <br><a href="https://twitter.com/MaximeEuziere/status/827890520085131266">they become monochrome after a certain font-size.</a>
+    <br>
+    This limit varies a lot from a system to another,
+    <br>
+    but a font-size of 7em seemed to work everywhere.
+    <br>
+    (In the context of this demo, 1em is 16px, so 7em is 112px.)
+    <br>
+    Sadly, 7em is too small for my trees!
+    <br>
+    The solution was to scale the trees 2.5 times with <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L217">an extra CSS transform</a>.
+    <li>The polyglot keyboard code (arrows / WASD / ZQSD) was 82 bytes long in the standalone version, but this demo uses a modified version, with more repetitions, in order to RegPack much better (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L67-L99">here</a>).
+    <br>
+    Also, the "onkeyup" word is reused a lot in the rest of the code to differenciate trees and animals (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L117-L136">here</a> and <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L213-L228">here</a>), which is a good byte saver. 
+    <li>The demo consists of a few variables initialized to 0 (frame counter, tree counter and keys states), and a game loop, in which the frame counter is incremented at each frame.
+    <br>RegPack 5.0.0 featured a "refactor with setInterval" feature that was cool but added unnecessary code inside the packed code (this was then fixed in regPack 5.0.1).
+    <br>
+    So while RegPack was being fixed, in order to achieve the best compression, I RegPacked the content of my loop function as usual, then I replaced the final "<b>eval(_)</b>" with "<b>setInterval(_,33)</b>", and replaced "<b>_=join(shift())</b>" with "<b>_=join(shift(q=u=d=l=r=f=0))</b>" (I included my 6 variables initialized to 0 in the shift function).
+    <li>The "- It hurts when I do it - Then don't do it!" principle: for some reason, the rabbit could escape the maze on the left (behind the snail) and on the top of the "1" and the "k", i.e. when its x or y was below zero. It could only escape inside one virtual square though, but couldn't go anywhere in the green infinity. I couldn't find a convincing explanation for this behavior, but fixed it in my collision detection (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L263-L272">here</a>).
+    <br>The whole collision detection script uses the same principle actually: at each frame, the rabbit moves according to the keys pressed, and if its position is not on the path, cancel the move and keep the rabbit at its previous position. Works like a charm!
+    <li>One final ES6 trick, found on Twitter with the great help of to Mathias Bynens (@mathias) and @FakeUnicode: the shortest way to make an array of Unicode symbols without breaking surrogate pairs is: "<b>[..."unicode text"]</b>". (I used it for the trees list <a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L195-L197">here</a>).
   </ul>
   <br>
   <br>
   <p><h4>Glitches and other WIP adventures:</h4>
   <ul>
-    <li>
+    <li>coming soon...
   </ul>
   <br>
   <br>
   <hr>
   <br>
   <h3>1Kind of magic</h3>
-  <p>Individual entry: <a href="">1Kind of magic</a>.
+  <p>Individual entry
+  <p>
+  - <a href="">PLAY</a>
+  <br>
+  - <a href="https://github.com/xem/1kind-of-magic/blob/gh-pages/commented.html">COMMENTED SOURCE</a>
+  <br>
+  - <a href="https://github.com/xem/1kind-of-magic">GITHUB</a>
+  <br>
   <p><img src="images/js1k17/1kindofmagic.png" style="border: 2px solid #555">
   <br>
   <br>
   <p><h4>Tricks and lessons learned:</h4>
   <ul>
-    <li>
+    <li>coming soon...
   </ul>
   <br>
   <br>
   <hr>
   <br>
-  <h3>CSS golfing</h3>
-  <p>
+  <h3>Bonus: CSS golfing</h3>
+  <p>To finish, I'd like to talk about a code-golf trick that I found while making these demos, and it's about inline CSS code.
+  <p>Inline CSS looks like "<b>&lt;div style='...'></b>", and as you may know, the attribute quotes can be omitted if the inline style doesn't contain any space, for example "<b>&lt;div style=color:#fff;background:#000;border-radius:50%></b>".
+  <p>My demos contained many CSS properties that generally use spaces, and I discovered I could get rid of most of these spaces, by removing them or replacing them with a "<b>+</b>" or quotes (<b>''</b>). Here are some examples:
+  <ul>
+    <li><b>"margin: 50vw 50vh"</b> can be simplified to <b>margin:50vw+50vh</b>
+    <li><b>"box-shadox: 2px 2px #222"</b> can be simplified to <b>box-shadox:2px+2px#222</b>
+    <li><b>"font: 12px / 14px arial"</b> can be simplified to <b>font:12px/14px'arial'</b>
+    <li><b>"font: 12px / 14px sans-serif"</b> can be simplified to <b>font:12px/14px''</b>
+  </ul>
   <br>
   <br>
   <hr>
