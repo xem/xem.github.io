@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset=utf-8>
-  <link rel=stylesheet href="../style.css?v=2">
+  <link rel=stylesheet href="../style.css?v=3">
   <title>Maxime Euzière</title>
 </head>
 <body>
@@ -51,20 +51,30 @@
       <li><a href='#doctype_fr'>Doctype</a>
     </ul>
   </div>
-  <div class=body>
+  <div class="body articles">
 
 <div class=section id=js1k2017>
-  <h2>JS1K 2017: some kind of magic</h2>
+  <h2>JS1K 2017: some kind of magic (plus a few other news)</h2>
 	<h3>febuary 2017</h3>
   <br>
   <hr>
   <br>
-  <p><i><b>PSA:</b><br>there's now a Slack room dedicated to JS code-golfing: <a href="//jsgolf.club">jsgolf.club</a>.
+  <p><b>News:</b>
+  <br>
+  <br>there's now a Slack room dedicated to JS code-golfing: <a href="//jsgolf.club">jsgolf.club</a>.
   <br>You can fill <a href="//register.jsgolf.club">this form</a> to get an invite!</i>
   <p>And a big thumbs up for <a href="//dwitter.net">Dwitter</a>: a platform allowing to make art on a canvas in 140b...
   <p>Also, Dwitter inspired <a href="http://js1k.com/2017-magic/demo/2894">this entry by p01</a>, and <a href="https://github.com/nderscore/tiny-dwitter">this 140b clone by nderscore</a>.
   <br><br><hr><br>
+  <b>Update: results!</b>
+  <br>
+  <br>
+  <i>MiniShadertoy</i> arrived 7th and <i>Can I Haz 1Karrot?</i> arrived 8th!
+  <br>
+  <a href="//js1k.com/2017-magic">More info on js1k.com</a> (many entries of the Codegolf Team members are in the top 10!)
+  <br><br><hr><br>
   <p><b>JS1k:</b>
+  <br>
   <br>JS1k is certainly the most important rendez-vous for JS code-golfers each year,
   <br>
   and this time a lot of people have been very busy to submit incredible entries with the theme "<b>some kind of magic</b>"!
@@ -228,6 +238,8 @@
     <br>
     So while RegPack was being fixed, in order to achieve the best compression, I RegPacked the content of my loop function as usual, then I replaced the final "<b>eval(_)</b>" with "<b>setInterval(_,33)</b>", and replaced "<b>_=join(shift())</b>" with "<b>_=join(shift(q=u=d=l=r=f=0))</b>" (I included my 6 variables initializations in the shift function).
     <li>Do you know the "- It hurts when I do it - Then don't do it!" principle? For some reason, the rabbit could escape the maze on the left (behind the snail) and on the top of the "1" and the "k", i.e. when its x or y was below zero. It could only escape inside one virtual square though, but couldn't go anywhere else in the green infinity. I couldn't find a convincing explanation for this behavior, but fixed it in my collision detection (<a href="https://github.com/xem/1karrot/blob/gh-pages/index.commented.html#L263-L272">here</a>).
+    <br>
+    <b>Edit: I finally understood what caused this glitch: the x and y coordinates of the rabbit are divided by 3 and floored with "~~" to determine what floor tile is under the hat. If the rabbit can go on the 0'th tile of a line, or any tile of the 0'th line, it can also go to the tile "-1" (or the column "-1"), because when you floor any number between 0 and -1 (excluded) with the "~~" operator, you get 0!</b>
     <br>The whole collision detection script uses the same principle actually: at each frame, the rabbit moves according to the keys pressed, and if its position is not on the path, cancel the move and keep the rabbit at its previous position. Works like a charm!
     <li>By the way, the snail is a wink to Rebecca (@veubeke) who's the biggest snail fan I've ever met, and a great golfer too!
     <li>
@@ -328,8 +340,6 @@
   <br>
   <br>
   <hr>
-  <br>
-  To be concluded (after the results!)
   <br>
   Cheers!
 </div>
