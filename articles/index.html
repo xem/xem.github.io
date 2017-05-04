@@ -27,6 +27,7 @@
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#webgl_quest_2'>WebGL quest #2</a>
       <li><a href='#js1k2017'>JS1k 2017</a>
       <li><a href='#gameoflife'>Golfing the Game of Life</a>
       <li><a href='#webspeech'>Web Speech API golfing</a>
@@ -52,6 +53,47 @@
     </ul>
   </div>
   <div class="body articles">
+
+<div class=section id=webgl_quest_2>
+  <h2>WebGL quest #2: a tiny bootstrap for raymarching with distance estimation functions</h2>
+	<h3>2017</h3>
+  <br>
+  <hr>
+  <br>
+  <h3>Introduction</h3>
+  <p>This article is the sequel of <a href="#webgl_quest">our first WebGL quest</a>, that should be read first.
+  <p>After JS1k 2017 (where we presented <b><a href="#js1k2017">MiniShadertoy</a></b> based on our tiny WebGL bootstrap), we started reading many articles and tutorials explaining how to draw 3D shapes, with shadows, using raymarching algorithms and distance estimation functions, with WebGL.
+  <p>Here are some of the best resources we've found on this subject:
+  <ul>
+    <li><a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/">Distance Estimated 3D Fractals</a>
+    <li><a href="http://iquilezles.org">iquilezles.org</a> (the entire site but especially the pages about <a href="http://iquilezles.org/www/articles/distfunctions/distfunctions.htm">distance functions</a> and <a href="http://iquilezles.org/www/articles/distfunctions/distfunctions.htm">avoiding trigonometry</a>)
+    <li><a href="http://www.geeks3d.com/20130524/building-worlds-with-distance-functions-in-glsl-raymarching-glslhacker-tutorial-opengl/">Building Worlds With Distance Functions in GLSL (Raymarching)</a>
+    <li><a href="http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/">Ray Marching and Signed Distance Functions</a>
+    <li><a href="http://xoofx.com/blog/2009/10/12/potatro-and-raymarching-story-of/">Potatro, RayMarching and DistanceFields : a story of SphereTracing</a>
+    <li><a href="http://alexsimes.com/sphere-tracing-distance-fields-and-fractals.pdf">Sphere Tracing, Distance Fields, and Fractals</a>
+    <li><a href="http://www.scratchapixel.com/">Scratchapixel (Learn Computer Graphics From Scratch!)</a>
+    <li><a href="https://www.reddit.com/r/twotriangles/comments/1hy5qy/tutorial_1_writing_a_simple_distance_field/">Writing a simple distance field raymarcher</a>
+    <li><a href="https://www.shadertoy.com/view/MlGSWm">A simple shadertoy demo made by LiterallyLara</a> (uncomment line 38 to render a torus instead of a sphere)
+  </ul>
+  <p>Once all that was understood, our goal was to make a bootstrap of Raymarcher compatible with any Distance Estimation function, and as small as possible.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Raymarching? Distance Estimation?</h3>
+  <p>To sum up very quickly (and not exhaustively), this rendering technique consists in sending a ray in a virtual 3D scene, for each pixel of the canvas.
+  <p>The canvas can use a 2D context or a WebGL context, the logic will be the same, but with WebGL, you'll have much better performances (because all the computations are parallelized on the GPU), with the little disadvantage of having to write your renderer in GLSL instead of JS.
+  <img src="http://jamie-wong.com/images/16-07-11/spheretrace.jpg" width=350 style="float:right;margin: 30px 10px 20px 30px; box-shadow: 0 0 0 10px #fff, 0 0 10px 10px #000" title="Image from an old Nvidia documentation that's not online anymore">
+  <p>Each ray then "marches" (advances in the scene) in many steps, by computing at the beginning, and at each step, what's its distance from the nearest object of the scene (using the DE - Distance Estimation - function of each object), and progresses in the scene until this distance is zero or small enough. In this case, the corresponding pixel of the canvas can be drawn with the color of the hit object.
+  <p>Shadows can be rendered by aiming for the light source as soon as an object's surface is hit, and considering that the hit point is shadowed or lit, if something in the scene is placed between this point and the light source or not. 
+  <p>If a ray doesn't hit any object, it must be stopped after a certain distance (or as soon as its distance with the scene increases) to avoid an infinite loop.
+  <p>Combining the distance function with modulos allow to render a plane or a space filled with "infinite" objects.
+  <p>DE functions exist for most 3D shapes (and even 3D fractals), and they can be combined pretty easily to generate complex scenes.
+  <br>
+  <hr>
+  <br>
+  To be continued... (WIP)
+</div>
 
 <div class=section id=js1k2017>
   <h2>JS1K 2017: some kind of magic (plus a few other news)</h2>
@@ -1029,7 +1071,7 @@ http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1
 	<h3>july 2016</h3>
   <p>A great article written by @innovati about our Element Queries library got published on Smashing Magazine!
   <p>You can read it <a href="https://www.smashingmagazine.com/2016/07/how-i-ended-up-with-element-queries-and-how-you-can-use-them-today/">HERE</a>!
-  <p><img src="https://media-mediatemple.netdna-ssl.com/wp-content/uploads/2016/07/eqcss-logo-opt.png">
+  <p><img src="http://elementqueries.com/eqcss-logo.png">
 </div>
 
 <div class=section id=fatigue>
@@ -1076,17 +1118,22 @@ http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1
 	<h3>april to june 2016, january 2017</h3>
   
   <br>
+  <hr id="webgl_quest_2017">
+  <br>
+  <h3>01/2017 update</h3>
+  <p>We made an entry for JS1k 2017 featuring all the tricks of this article, plus a nice UI and great compatibility with Shadertoy.com. It was ranked #7!
+  <p><img src="images/webgl/js1k.png">
+  <br>
+  <br>
+  <p>You can find the entry <a href="http://js1k.com/2017-magic/demo/2645">HERE</a>.
+  <br>
+  <p>The commented source code is <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">HERE</a>.
+  
+  <br>
+  <br>
   <hr>
   <br>
-  
-  <p>See the JS1k 2017 update <a href="#webgl_quest_2017">here</a>!
-  <br>
-  (or continue reading for the full story)
-  
-  <br>
-  <br>
-  <hr>
-  
+  <h3>Full Story</h3>
   <p>During the last few weeks, the codegolf team (including Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, ...) has welcomed new members (LiterallyLara & HellMood, authors of JS1K 2016 winning entry <a href="http://js1k.com/2016-elemental/demo/2552">Romanesco 2.0</a>) and gave itself a nice challenge: develop the smallest possible HTML/JS (ES6) boilerplate that's able to run a WebGL fragment shader. It's currently as short as <b>349b</b>, and looks like this:
   <pre class=code style=padding:5px>&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=<b>[SHADER]</b>}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'></pre>
   <p>See <a href=#webgl_detailed_code>detailed source code</a> below!
@@ -1312,18 +1359,6 @@ Here's the <a href="http://xem.github.io/MiniShadertoyLite/">last version of Min
 <a href="http://xem.github.io/MiniShadertoyLite/"><img src="./images/webgl/minishadertoylite2.png" width=600 style="border: 1px solid"></a>
 
 <p>And thanks to <b>@innovati</b> for the Emoji title: 🌍🔬🕸🇬🇱🎠 !
-<br>
-<br>
-<hr id="webgl_quest_2017">
-<br>
-<h3>01/2017 update</h3>
-<p>We made an entry for JS1k 2017 featuring all the tricks of this article, plus a nice UI and great compatibility with Shadertoy.com!
-<p><img src="images/webgl/js1k.png">
-<br>
-<br>
-<p>You ca find the entry <a href=#>HERE</a>.
-<br>
-<p>The commented source code is <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">HERE</a>.
 <br>
 <br>
 <hr>
@@ -4180,148 +4215,6 @@ console.log("Log at each edition");</script>
 	</div>
 </div>
 
-<div class=section id=contenteditable_fr style=display:none>
-  <img src=../francais.png class=lang onclick="contenteditable_fr.style.display='none';contenteditable_en.style.display='block'">
-	<h2>L'attribut contenteditable en HTML5</h2>
-	<h3>juillet 2013</h3>
-	<div id=contenteditablecontent_fr>
-		<p>L'attribut <b>contenteditable</b> permet de rendre le contenu de n'importe quel élément HTML éditable avec le clavier et/ou la souris.</p>
-		<p>
-		Cet attribut fait partie des <a href="http://dev.w3.org/html5/markup/global-attributes.html">attributs globaux HTML5</a>, ce qui signifie qu'il peut potentiellement être appliqué à tous les éléments HTML5.
-		<br>
-		Il fait également partie de ces fonctionnalités qui ont existé dans les navigateurs bien avant d'avoir été standardisées par le W3C.
-		<br>
-		En effet, <a href="http://caniuse.com/contenteditable">on retrouve cet attribut</a> sur des navigateurs aussi anciens qu'IE 5 et Firefox 3! C'est d'ailleurs Microsoft qui l'a créé.
-		</p>
-		<p>
-		Pour l'utiliser, rien de plus simple: tout comme vous pouvez appliquer un attribut <b>id</b> ou <b>class</b> à un élément HTML, vous pouvez utiliser <b>contenteditable="true"</b>, ou tout simplement <b>contenteditable</b>.
-		<br>
-		Il est à noter que cet attribut est hérité par défaut. La valeur <b>contenteditable="inherit"</b> est donc complètement inutile.
-		<br>
-		Par contre, si vous voulez rendre un élément éditable mais pas ses descendants, ceux-ci doivent avoir <b>contenteditable="false"</b>.
-		</p>
-		<p contenteditable><b>Exemple:</b> cliquer sur ce paragraphe pour éditer le texte qui s'y trouve.</p>
-		<hr>
-		<p>Voici maintenant la liste des trucs dingues concernant <b>contenteditable</b>:</p>
-		<ul>
-			<li>
-				Comme on l'a vu plus haut, on peut rendre un élément non éditable alors que son parent est éditable. L'élément non éditable pourra toutefois être sélectionné, déplacé et supprimé.
-				<p contenteditable><b>Exemple:</b> Dans ce paragraphe éditable, on ne peut pas éditer <b contenteditable="false">ce texte en gras</b> mais on peut le supprimer et le déplacer à l'aide de la souris.</p>
-				Sur Firefox, on ne peut pas déplacer du texte d'un bloc éditable à un autre bloc éditable. C'est un bug.
-			</li>
-			<li>
-				Firefox permet de redimensionner les images qui ont l'attribut <b>contenteditable</b> (ou qui en héritent)<br><br>
-				<b>Exemple:</b><br>
-				<p contenteditable> Cliquez sur cette image <img src="http://placehold.it/200x50" style="vertical-align: middle"> pour la redimensionner.</p>
-			</li>
-			<li>
-				On peut insérer n'importe quel code HTML dans un élément éditable
-				<div contenteditable><b>Exemple:</b> copiez-collez ci-dessous<br><br>- Le contenu d'une autre page Web:<br><br><br><br>- Le contenu d'un document Word ou Excel:<br><br><br><br></div>
-			</li>
-			<li>
-				Grâce à cet attribut, on peut faire des éditeurs WYSIWYG ultra-complets, comme <a href="http://ckeditor.com/demo#full">CKEditor</a>.
-			</li>
-			<li>
-				On peut aussi avoir accès à un bloc-notes d'appoint en tapant <b>data:text/html, &lt;html contenteditable></b> dans la barre d'adresse de son navigateur (ou en cliquant <a href="data:text/html, <html contenteditable>" target="_blank">ici</a>).
-				On doit cette astuce à <a href="https://coderwall.com/p/lhsrcq">Jose Jesus Perez Aguinaga</a>.
-				Vous trouverez <a href="https://news.ycombinator.com/item?id=5135194" target="_blank">ici</a> de nombreuses variations de ce bloc-botes. 
-			</li>
-			<li>Rendre un élément <b>style</b> visible et éditable peut mener à un éditeur auto-récursif assez dingue, étant donné que vous pouvez editer en direct le style du bloc dans lequel vous écrivez.<br>Essayez ci-dessous:<br>
-				<style spellcheck="false" contenteditable>#contenteditable_fr style[contenteditable] {
-	display: block;          /* rendre vidible les blocs <style> */
-	white-space: pre;        /* présentation */
-	font-family: monospace;  /* typographie */
-	background: #ddeeff;     /* couleur de fond */
-	color: #112233;          /* couleur de texte */
-}</style>
-			</li>
-			<li>
-				On peut aussi rendre les éléments <b>script</b> visibles et éditables (en voici un exemple). Toutefois, le code JavaScript n'est pas réexécuté automatiquement à chaque modification.<br>
-				<script contenteditable>console.log("Log unique");</script>
-				<br>
-				(ouvrez votre console F12 pour voir ce message)
-				<br>
-				Mais JavaScript, justement, permet de détecter les changements qui ont lieu dans un élément <b>script</b> et exécuter son contenu.<br>
-				Attention toutefois, évaluer du code JS venant de vos visiteurs peut être dangereux. L'exemple qui suit n'est qu'un proof of concept!<br> 
-				<script id="js" contenteditable>// Ce bloc script a l'id "js".
-var js = document.getElementById("js");
-js.onkeyup = function(){
-	eval(js.innerText);
-}
-console.log("Log à chaque modification");</script>
-				<br>
-				Cela fonctionne très bien sur Chrome et IE 10. Firefox et IE9 sont hélas capricieux et il est compliqué de leur faire exécuter du code JS à chaque modification d'un élément <b>script</b>... A vrai dire, je ne suis même pas sûr que ça soit possible. Faute de mieux, on peut continuer à utiliser des textarea, qui sont nativement éditables et envoient les bons événements.
-			</li>
-		</ul>
-		<br>
-		<br>
-		A bientôt!
-		<br>
-		<b>@MaximeEuziere</b>
-	</div>
-</div>
-
-
-<div class=section id=doctype_en style=display:none>
-  <img src=../english.png class=lang onclick="doctype_en.style.display='none';doctype_fr.style.display='block'">
-	<h2>The HTML5 Doctype</h2>
-	<h3>june 2013</h3>
-  coming soon
-	<!--div id=doctype>
-		<p>Le doctype n'est pas un élément HTML comme les autres, c'est un préambule qui sert à dire au navigateur comment il doit afficher le reste de la page.</p>
-		<p>Ce préambule existe depuis HTML2 et XHTML1. Toutefois, jusqu'à l'apparition d'HTML5, les doctypes étaient de très longues chaînes impossibles à mémoriser par coeur, et pour peu qu'on fasse une faute de frappe, les navigateurs pouvaient mal le prendre, en particulier IE qui applique des règles d'affichage ancestrales (qu'on appelle aussi "mode quirks") en cas de doctype absent ou invalide.</p>
-		<p>Bref: ce qu'il faut retenir, c'est que maintenant, le doctype s'écrit comme ceci: <b>&lt;!doctype html></b>, et qu'il doit être placé tout au début du document HTML. Il est suivi de l'élément racine, à savoir <b>&lt;html></b>.</p>
-		</p>Oui mais comment on fait du XHTML5 alors? La réponse est simple: ça n'existe pas. Il n'y a qu'un HTML5, et il n'est ni "X" ni "strict" ni "transitional". et ça ne l'empêche pas de bien marcher, même sur les IE préhistoriques.</p>
-		<hr>
-		<p>Voici maintenant la liste tant attendue des trucs de ouf concernant <b>le doctype HTML5</b>:</p>
-		<ul>
-			<li>Le <b>doctype</b> est insensible à la casse et peut contenir plusieurs espaces avant et après le mot "html". Vous pouvez donc l'écrire <b>&lt;!DoCtYpE &nbsp; &nbsp; HtMl &nbsp; ></b> si ça vous chante.</li>
-			<li>Le <b>doctype</b> HTML5 peut contenir <a href="http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-doctype" target="_blank">d'autres informations</a>, mais aucune n'est utile quand on écrit son HTML à la main ou avec un IDE moderne.
-			<li>
-				Le <b>doctype</b> et l'élément <b>title</b> sont les deux seuls éléments obligatoires dans un document HTML5 valide.
-				<br>
-				Voici le plus petit valide document HTML5:
-				<pre>&lt;!doctype html>
-&lt;title>&lt;/title></pre>
-			</li>
-			<li>
-				Le doctype ne peut pas être lu, ni modifié en JavaScript, mais on peut tout de même savoir si le navigateur est en mode quirks ou en mode compatibilité comme ceci:
-				<pre>if(document.compatMode === 'CSS1Compat'){
-	// On est pas en mode quirks!
-}
-if(document.compatMode === 'BackCompat'){
-	// On est en mode compatibilité!
-}</pre>
-				<button onclick="alert(document.compatMode!=='CSS1Compat')">Est-on en mode quirks?</button>
-				<button onclick="alert(document.compatMode!=='BackCompat')">Est-on en mode compatibilité?</button> (si les deux sont "false", tout va bien)
-			</li>
-			<li>A propos du "mode compatibilité", qui pousse IE7, IE8, IE9 et IE10 à afficher les pages Web avec le moteur de rendu de leur prédécésseur (E6, IE7, IE8 et IE9, respectivement), de nombreuses raisons font que ce mode s'active sur IE, mais le plus souvent, c'est dû au fait qu'on visionne une page HTML qui se trouve sur son PC, ou sur un réseau local. Pour éviter ce désagrément, ouvrez IE, faites "alt" pour que le menu du haut apparaisse, allez sur "outils > paramètres d'affichage de compatibilité" et décochez "Afficher les sites intranet dans Affichage de compatibilité". Faites "OK" et redémarrez IE. C'est réglé!</li>
-			<li>
-				Sur IE < 9, le <b>doctype</b>, du fait qu'il commence par un <b>!</b>, est considéré comme un <b>commentaire HTML</b>. En voici la preuve:
-				<pre>// Récupérons le nom du premier élément HTML de cette page dans le DOM
-var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
-				<button onclick="alert(document.getElementsByTagName('*')[0].tagName)">Quel est le nom du premier élément du DOM?</button> ("!" sur IE < 9, "HTML" ailleurs)
-				<br>
-				<br>
-				(Les IE < 9 sont d'ailleurs les seuls navigateurs à inclure les commentaires (sauf les commentaires conditionnels) dans <b>document.getElementsByTagName("*")</b>, comme décrit <a href="http://lea.verou.me/2009/02/20things-you-should-know-when-not-using-a-js-library/" target="_blank">ici</a>)
-			</li>
-			<li>
-				Le <b>doctype</b> HTML5 fait apparaitre de vilaines scrollbars autour des <b>iframes</b> sur IE6, pour <a href="http://inmyexperience.com/2003/01/iframe-and-doctype-follies.html" target="_blank">d'obscures raisons</a>, alors que les doctypes d'avant HTML4 ne le faisaient pas. Le seul moyen de les faire disparaître est d'utiliser l'attribut (hélas non standard) <b>scrolling=no</b> sur vos iframes... si vous voulez supporter IE6, bien sûr, ce que je ne vous conseille pas de faire.</li>
-				Démo: iframe normale<br>
-				<iframe style="width: 200px; height: 40px; border: 1px solid black;"></iframe>
-				<br><br>iframe sans scrollbars sur IE6<br>
-				<iframe style="width: 200px; height: 40px; border: 1px solid black;" scrolling=no></iframe>
-			</li>
-			<li>Il y a un autre bug sur IE, y compris IE10 (et peut-être IE11, à confirmer): si votre page est en mode quirks, et qu'elle contient des <b>iframe</b> qui ont un doctype valide, ces <b>iframe</b> s'afficheront tout de même en mode quirks!
-		</ul>
-		<br>
-			<br>
-		A bientôt!
-		<br>
-		<b>@MaximeEuziere</b>
-	</div-->
-</div>
-
 <div class=section id=doctype_fr>
   <img src=../francais.png class=lang onclick="doctype_fr.style.display='none';doctype_en.style.display='block'">
 	<h2>Le doctype HTML5</h2>
@@ -4380,8 +4273,17 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
 		<b>@MaximeEuziere</b>
 	</div>
 </div>
+
+<div class=intro style="margin: 0 0 50vh">
+  <h3>Wait! There's more!</h3>
+  Use the menu to see the other articles!
+</div>
+
   </div>
   <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
+  <style>
+    .section { display: none }
+    .section:first-of-type, .section:nth-of-type(2), .section:target { display: block }
+  </style>
   </body>
 </html>
-
