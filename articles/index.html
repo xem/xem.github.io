@@ -55,8 +55,8 @@
   <div class="body articles">
 
 <div class=section id=webgl_quest_2>
-  <h2>WebGL quest #2: a tiny bootstrap for raymarching with distance estimation functions</h2>
-	<h3>2017</h3>
+  <h2>WebGL quest #2: tiny raymarching bootstrap with Distance Estimation functions</h2>
+	<h3>may 2017</h3>
   <br>
   <hr>
   <br>
@@ -81,17 +81,24 @@
   <hr>
   <br>
   <h3>Raymarching? Distance Estimation?</h3>
-  <p>To sum up very quickly (and not exhaustively), this rendering technique consists in sending a ray in a virtual 3D scene, for each pixel of the canvas.
-  <p>The canvas can use a 2D context or a WebGL context, the logic will be the same, but with WebGL, you'll have much better performances (because all the computations are parallelized on the GPU), with the little disadvantage of having to write your renderer in GLSL instead of JS.
-  <img src="http://jamie-wong.com/images/16-07-11/spheretrace.jpg" width=350 style="float:right;margin: 30px 10px 20px 30px; box-shadow: 0 0 0 10px #fff, 0 0 10px 10px #000" title="Image from an old Nvidia documentation that's not online anymore">
-  <p>Each ray then "marches" (advances in the scene) in many steps, by computing at the beginning, and at each step, what's its distance from the nearest object of the scene (using the DE - Distance Estimation - function of each object), and progresses in the scene until this distance is zero or small enough. In this case, the corresponding pixel of the canvas can be drawn with the color of the hit object.
-  <p>Shadows can be rendered by aiming for the light source as soon as an object's surface is hit, and considering that the hit point is shadowed or lit, if something in the scene is placed between this point and the light source or not. 
+  <p>To sum up very quickly (and not exhaustively), this rendering technique consists in sending a ray from the camera, in a 3D scene, for each pixel of the canvas...
+  <img src="images/webgl2/spheretrace.jpg" width=350 style="float:right;margin: 30px 10px 20px 50px; box-shadow: 0 0 0 10px #fff, 0 0 10px 10px #000" title="Image from an old Nvidia documentation">
+  <p>Each ray then "marches" (advances in the scene) in many steps, by computing at the beginning, and at each step, its distance from the nearest object of the scene (using the Distance Estimation function of each object), and progressing that exact distance in the scene until the closest object is hit (or close enough to be considered as hit). In this case, the corresponding pixel of the canvas can be colored with the color of the hit object.
+  <p>Shadows can be rendered by aiming for the light source as soon as an object's surface is hit, and considering that the hit point is shadowed or lit, if something in the scene is placed between this point and the light source or not.
   <p>If a ray doesn't hit any object, it must be stopped after a certain distance (or as soon as its distance with the scene increases) to avoid an infinite loop.
-  <p>Combining the distance function with modulos allow to render a plane or a space filled with "infinite" objects.
-  <p>DE functions exist for most 3D shapes (and even 3D fractals), and they can be combined pretty easily to generate complex scenes.
+  <p>Simple operations can be applied to the DE (Distande Estimation) functions to rotate or scale each object.
+  <br>
+  Combining the DE functions with modulos allow to render a plane or a space filled with "infinite" objects:
+  <p><img src="images/webgl2/repetition.png" width=350 style="margin: 10px; box-shadow: 0 0 5px #000" title="modulo repetition">
+  <br>
+  These techniques will be detailed below.
+  <p>DE functions exist for most 3D shapes (and even 3D fractals), and they can be combined pretty easily to generate complex scenes. In "real" projects, scenes are only constitued of a multitude of triangles, because triangles are the shapes for which the rendering is the most easy and the most optimizable for a computer.
+  <p>NB: The canvas can use either a 2D context or a WebGL context, the logic will be the same, but with WebGL, you'll have much better performances (because the computations are parallelized on the GPU), and the renderer will need to be written in GLSL instead of JS.
+  <br>
   <br>
   <hr>
   <br>
+  <h3>Let's code!</h3>
   To be continued... (WIP)
 </div>
 
@@ -4280,7 +4287,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
 </div>
 
   </div>
-  <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
+  <iframe src="//meuziere.free.fr/visitswww" width=1 height=1 hidden></iframe>
   <style>
     .section { display: none }
     .section:first-of-type, .section:nth-of-type(2), .section:target { display: block }
