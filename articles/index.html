@@ -74,32 +74,147 @@
     <li><a href="http://www.scratchapixel.com/">Scratchapixel (Learn Computer Graphics From Scratch!)</a>
     <li><a href="https://www.reddit.com/r/twotriangles/comments/1hy5qy/tutorial_1_writing_a_simple_distance_field/">Writing a simple distance field raymarcher</a>
     <li><a href="https://www.shadertoy.com/view/MlGSWm">A simple shadertoy demo made by LiterallyLara</a> (uncomment line 38 to render a torus instead of a sphere)
+    <li><a href="https://www.shadertoy.com/view/XllGW4">HOWTO Get Started With Ray Marching by MysticReddit</a>
+    <li><a href="https://gist.github.com/sephirot47/f942b8c252eb7d1b7311">GLSL Raymarch ShaderToy tutorial and example code by sephirot47</a>
+    <li><a href="https://www.youtube.com/watch?v=yxNnRSefK94">ShaderToy Raymarch Tutorial video (with super short source code)</a>
+</a>
   </ul>
-  <p>Once all that was understood, our goal was to make a bootstrap of Raymarcher compatible with any Distance Estimation function, and as small as possible.
+  <p>Once all that was understood, our goal was to make a WebGL raymarcher compatible with any distance estimation function, and as small as possible.
   <br>
   <br>
   <hr>
   <br>
-  <h3>Raymarching? Distance Estimation?</h3>
+  <h3>Raymarching? Distance estimation?</h3>
+  <img src="images/webgl2/spheretrace.jpg" width=350 style="float:right;margin: 10px 10px 20px 50px; box-shadow: 0 0 0 10px #fff, 0 0 10px 10px #000" title="Image from an old Nvidia documentation">
   <p>To sum up very quickly (and not exhaustively), this rendering technique consists in sending a ray from the camera, in a 3D scene, for each pixel of the canvas...
-  <img src="images/webgl2/spheretrace.jpg" width=350 style="float:right;margin: 30px 10px 20px 50px; box-shadow: 0 0 0 10px #fff, 0 0 10px 10px #000" title="Image from an old Nvidia documentation">
-  <p>Each ray then "marches" (advances in the scene) in many steps, by computing at the beginning, and at each step, its distance from the nearest object of the scene (using the Distance Estimation function of each object), and progressing that exact distance in the scene until the closest object is hit (or close enough to be considered as hit). In this case, the corresponding pixel of the canvas can be colored with the color of the hit object.
-  <p>Shadows can be rendered by aiming for the light source as soon as an object's surface is hit, and considering that the hit point is shadowed or lit, if something in the scene is placed between this point and the light source or not.
-  <p>If a ray doesn't hit any object, it must be stopped after a certain distance (or as soon as its distance with the scene increases) to avoid an infinite loop.
-  <p>Simple operations can be applied to the DE (Distande Estimation) functions to rotate or scale each object.
+  <p>The scene is defined with an equation, or the combination of many equations representing each of the objects we want to draw. These equations can be translated in source code, that's what we call Distance Estimation (DE) functions. These functions have the advantage to tell you how far from the object is any point in the 3D space...
+  <p>Each ray then "marches" (advances in the scene) in many steps, by computing at the beginning, and at each step, its distance from the nearest object of the scene, and progressing that exact distance in the scene until the closest object is hit (or close enough to be considered as hit). In this case, the corresponding pixel of the canvas can be colored with the color of the hit object.
+  <p>Fog can be applied very easily, based on the hit distance, to give a sense of depth, or hide the fact that some of the objects are too far to be drawn.
+  <p>Shadows and light reflections can also be rendered quite easily by aiming for the the light source from each hit point and seeing if something is placed in-between or not.
+  <p>If a ray doesn't hit any object, it must be stopped after a certain distance to avoid an infinite loop.
+  <p><img src="images/webgl2/repetition.png" width=350 style="float:right; margin: 10px; box-shadow: 0 0 5px #000" title="modulo repetition">
+  <p>Simple operations can be applied to the DE (Distance Estimation) functions to rotate, translate, scale or twist any object.
   <br>
-  Combining the DE functions with modulos allow to render a plane or a space filled with "infinite" objects:
-  <p><img src="images/webgl2/repetition.png" width=350 style="margin: 10px; box-shadow: 0 0 5px #000" title="modulo repetition">
+  Combining a DE function with a modulo operator allows to render a plane or a space filled with "infinite" objects.
   <br>
-  These techniques will be detailed below.
-  <p>DE functions exist for most 3D shapes (and even 3D fractals), and they can be combined pretty easily to generate complex scenes. In "real" projects, scenes are only constitued of a multitude of triangles, because triangles are the shapes for which the rendering is the most easy and the most optimizable for a computer.
-  <p>NB: The canvas can use either a 2D context or a WebGL context, the logic will be the same, but with WebGL, you'll have much better performances (because the computations are parallelized on the GPU), and the renderer will need to be written in GLSL instead of JS.
+  <p>DE functions exist for most 3D shapes (and even 3D fractals), and they can be combined pretty easily to generate complex scenes. In "real" projects like video games, scenes are generally only comprised of a multitude of triangles, because triangles are the shapes for which the rendering is the easiest and the most optimizable for a computer.
+  <p>NB: The canvas can use either a 2D context or a WebGL context, the logic will be the same, but with WebGL, you'll have much better performance (because the computations for each pixel are parallelized on the GPU), and the renderer will need to be written in GLSL instead of JS.
   <br>
   <br>
   <hr>
   <br>
   <h3>Let's code!</h3>
-  To be continued... (WIP)
+  <p>So here's an example of commented shader that does the basic job with very little code. On <a href="https://www.shadertoy.com/view/ldScWc">the Shadertoy version</a>, you can change the settings in the first lines of code to change the shapes to be drawn.
+  <br>
+  <pre class=code>// =========================================
+
+// Shape: 0 = sphere, 1 = box, 2 = torus,
+//        3 = union, 4 = substraction, 5 = intersection
+int shape = 0;
+
+// Infinite: 0 = no, 1 = yes
+int infinite = 1;
+
+// =========================================
+
+// Distance Estimation function
+float DE(vec3 p){
+    
+    // Infinite
+    if(infinite == 1){
+      p = mod(p, 2.0) - 0.5 * 2.0;
+    }
+    
+    // Scaling based on a cosinus wave
+    float scale = ((cos(iGlobalTime) + 2.5) / 2.7);
+    p = p / scale;
+    
+    float r;
+    
+    // Sphere
+    if(shape == 0){
+      r = length(p) - 0.7;
+    }
+    
+    // Box
+    if(shape == 1){
+      r = length(max(abs(p) - 0.5, 0.0));
+    }
+    
+    // Torus
+    if(shape == 2){
+      vec2 q = vec2(length(p.xy) - 0.5, p.z);
+      r = length(q)-0.1;
+    }
+    
+    // Union
+    if(shape == 3){
+      r = min(length(p) - 0.7, length(max(abs(p) - 0.55, 0.0)));
+    }
+    
+    // Substraction
+    if(shape == 4){
+      r = max(-(length(p) - 0.7), length(max(abs(p) - 0.55, 0.0)));
+    }
+    
+    // Intersection
+    if(shape == 5){
+      r = max(length(p) - 0.7, length(max(abs(p) - 0.5, 0.0)));
+    }
+    
+    // End of scale
+    return r * scale;
+}
+
+// Main function (called for each pixel)
+// Simple algorithm: all rays are parallel.
+void mainImage(out vec4 fragColor,vec2 fragCoord){
+	
+    // Adjust to canvas size
+    vec2 uv = fragCoord.xy / iResolution.xy;
+    uv = uv * 2.0 - 1.0;
+    uv.x *= iResolution.x / iResolution.y;
+    
+    // Create a ray that goes forward
+    vec3 r = normalize(vec3(uv, 1.0));
+    
+    // The origin o is the camera's position
+    vec3 o;
+    
+    // Infinite: Make the camera move
+    if(infinite == 1){
+        o = vec3(0.0, iGlobalTime, iGlobalTime);
+    }
+    
+    // Not infinite: place the camera at (0,0,-2)
+    if(infinite == 0){
+        o = vec3(0.0, 0.0, -2.0);   
+    }
+    
+    // Raymarching loop
+    float t = 0.0;
+    vec3 p;
+
+    for(int i = 0; i < 99; i++)
+    {
+        p = (o + r * t);// * 0.3;
+    	  float d = DE(p);
+        t += d;
+    }
+    
+    // Fog
+    float fog = 1.0 / (1.0 + t * t * 0.3);
+    
+    // Color the current pixel according to the fog
+    fragColor = vec4(vec3(fog), 1.0);
+}
+</pre>
+  <br>
+  <p>Let's golf it!
+  <p>
+  
+  <br>
+  (to be continued...)
 </div>
 
 <div class=section id=js1k2017>
@@ -4290,7 +4405,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
   <iframe src="//meuziere.free.fr/visitswww" width=1 height=1 hidden></iframe>
   <style>
     .section { display: none }
-    .section:first-of-type, .section:nth-of-type(2), .section:target { display: block }
+    .section:first-of-type, .section:target { display: block }
   </style>
   </body>
 </html>
