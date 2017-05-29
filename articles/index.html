@@ -104,7 +104,7 @@
   <hr>
   <br>
   <h3>Let's code!</h3>
-  <p>So here's an example of commented shader that does the basic job with very little code. On <a href="https://www.shadertoy.com/view/ldScWc">the Shadertoy version</a>, you can change the settings in the first lines of code to change the shapes to be drawn.
+  <p>So here's an example of commented shader that does the job with very little code. On <a href="https://www.shadertoy.com/view/ldScWc">the Shadertoy version</a>, you can change the settings in the first lines of code to change the shapes to be drawn.
   <br>
   <pre class=code>// =========================================
 
@@ -167,7 +167,6 @@ float DE(vec3 p){
 }
 
 // Main function (called for each pixel)
-// Simple algorithm: all rays are parallel.
 void mainImage(out vec4 fragColor,vec2 fragCoord){
 	
     // Adjust to canvas size
@@ -191,11 +190,11 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
         o = vec3(0.0, 0.0, -2.0);   
     }
     
-    // Raymarching loop
+    // Raymarching loop (calling DE() at each step)
     float t = 0.0;
     vec3 p;
 
-    for(int i = 0; i < 99; i++)
+    for(int i = 0; i &lt; 99; i++)
     {
         p = (o + r * t);// * 0.3;
     	  float d = DE(p);
@@ -211,10 +210,31 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
 </pre>
   <br>
   <p>Let's golf it!
+  <p>The following code was golfed with the help of the team plus a shadertoy user called coyote. Thanks to them! <a href="https://www.shadertoy.com/view/MdsfRr">live demo</a>!
   <p>
+  <pre class=code>void mainImage(out vec4 r,vec2 d){
   
+  // Direction vector
+  vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));
+  
+  // r represents the current pixel's color, which is proportional to the accumulated distance
+  r-=r;
+  
+  // Loop
+  for(int i=0;i&lt;50;++i)
+	
+	// Add the result of DE to all the components of r (flagColor) to produce a shade of grey
+	// Camera origin is implied (0,0,0).
+    r+=DE(D*r.x);
+	
+  // Fog (make the furthest points darker)
+  r=1./r;
+}
+  </pre>
   <br>
-  (to be continued...)
+  <p>If we count the useful chars only, the results fits in 135b!
+  <pre class=code>void mainImage(out vec4 r,vec2 d){vec3=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;++i)r+=DE(D*r.x);r=1./r;}</pre>
+  <p>To be continued...
 </div>
 
 <div class=section id=js1k2017>
@@ -4402,7 +4422,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
 </div>
 
   </div>
-  <iframe src="//meuziere.free.fr/visitswww" width=1 height=1 hidden></iframe>
+  <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
   <style>
     .section { display: none }
     .section:first-of-type, .section:target { display: block }
