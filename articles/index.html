@@ -221,7 +221,7 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
   r-=r;
   
   // Loop
-  for(int i=0;i&lt;50;++i)
+  for(int i=50;i-->0;)
 	
 	// Add the result of DE to all the components of r (flagColor) to produce a shade of grey
 	// Camera origin is implied (0,0,0).
@@ -232,8 +232,8 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
 }
   </pre>
   <br>
-  <p>If we count the useful chars only, the results fits in 135b!
-  <pre class=code>void mainImage(out vec4 r,vec2 d){vec3=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;++i)r+=DE(D*r.x);r=1./r;}</pre>
+  <p>If we count the useful chars only, the results fits in 134b!
+  <pre class=code>void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=50;i-->0;)r+=DE(D*r.x);r=1./r;}</pre>
   <p>To be continued...
 </div>
 
