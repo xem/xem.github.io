@@ -1,0 +1,11 @@
+<!doctype html>
+<meta charset=utf-8>
+
+<canvas id=a><svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)h=FN,vA(p=cP(i=e=>sS(s=cS(h++),e)|ce(s)|!aS(p,s)),2,5120,bD(n=ET-3,Int8Array.of(i(`precision lowp float;uniform float F;
+
+/* DE function (interchangeable) */
+float DE(vec3 p){
+  p+=vec3(0.,F*.08,F*.05);p=mod(p,2.)-.5*2.;return length(vec2(length(p.xy)-.6,p.z))-.2;
+}
+
+void main(){vec4 r=gl_FragColor;vec2 d=gl_FragCoord.xy;vec3 D=normalize(vec3(d+d-(r.xy=vec2(300,150)),r.y));r-=r;for(int i=0;i<50;i++)r+=DE(D*r.x);r=1./r;gl_FragColor=vec4(r.xyz,1.);}`),n,!eV(bf(n,cB(j=0))),i`attribute vec4 p;void main(){gl_Position=p;}`),n+82),!lo(p),ug(p)),setInterval(e=>dr(6,uniform1f(gf(p,`F`),j++),3),33)'>
