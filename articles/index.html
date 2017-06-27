@@ -785,7 +785,7 @@ setTimeout`foo=1,bar=2${99}baz=3`;</pre>
 
 <div class=section id=css3d>
   <h2>How to make a game in CSS3D</h2>
-	<h3>october 2016</h3>
+	<h3>october 2016 - june 2017</h3>
   <br>
   <hr>
   <br>
@@ -908,6 +908,16 @@ pos_y += walk_speed * Math.cos(angle_z);</pre>
   <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://t.co/3dQEHSz4zW">https://t.co/3dQEHSz4zW</a><br>Most Chrome glitches are fixed by putting the camera a bit higher. But sadly <a href="https://twitter.com/firefox">@Firefox</a> still has too many depth bugs: <a href="https://t.co/phGJaGOGTU">pic.twitter.com/phGJaGOGTU</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/782996905840304129">3 octobre 2016</a></blockquote>
   <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   <p>As you can see in his <a href="https://github.com/xem/CSS3Dprototypes/pull/1">super detailed pull request</a>, the order of the elements in the DOM is super important to help the browsers draw the "above" elements above, and the "below" elements below, and not the other way around. He also explains that Firefox completely stops doing any depth-ordering effort if your scene contains more than 100 children. In that case, you need to reorganize your DOM manually at each frame... or more realistically, just completely drop Firefox support for your game!
+  <br>
+  <br>
+  <hr>
+  <br>
+  <b>2017 update:</b>
+  <br>
+  - My JS1k entry "Can I haz 1Karrot" uses many tricks discussed here plus a lot of new ones. It arrived 8th!<br>You can read more in the dedicated blog post and detailed source code <a href="http://xem.github.io/articles/#js1k2017">HERE</a>.
+  <br><img src="http://xem.github.io/articles/images/js1k17/1karrot.png">
+  <br>
+  - Since April, Firefox no longer limits CSS3D scenes to a maximum of 100 elements! You can use as many elements as you want, but don't rejoice too fast: Firefox is still very glitchy with CSS3D...
   <br>
   <br>
   <hr>
