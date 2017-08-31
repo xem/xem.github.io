@@ -27,6 +27,7 @@
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#js13k17'>JS13kGames 2017</a>
       <li><a href='#webgl_quest_2'>WebGL quest #2</a>
       <li><a href='#js1k2017'>JS1k 2017</a>
       <li><a href='#gameoflife'>Golfing the Game of Life</a>
@@ -54,6 +55,515 @@
   </div>
   <div class="body articles">
 
+<div class=section id=js13k17>
+<style>
+#js13k17 img { border: 2px solid #888; margin-top: 5px; }
+</style>
+<h2>JS13kGames 2017 making-of: LOSSST</h2>
+<h3>july-september 2017</h3>
+<br>
+<hr>
+<br>
+<h3>TL;DR</h3>
+<p>
+<ul>
+<li>This post explains in detail the development of LOSSST, and contains spoilers about the game's content. It's recommended to play first!</a>
+<li>You can play the game here: <a href="">LOSSST on JS13KGAMES</a>
+<li>You can see the game's source code here: <a href="https://github.com/xem/JS13k17">LOSSST on GITHUB</a>
+<li>Jam Results: SOON!
+</ul>
+<br>
+<hr>
+<br>
+<h3>Introduction</h3>
+<p><a href="http://js13kgames.com/">JS13kgames</a> is certainly the most important game jam for code golfers every year, and I wouldn't miss it for any reason!
+<p>
+<ul>
+<li>In 2014, my game <a href="http://js13kgames.com/entries/alchemixer">AlcheMixer</a> was ranked 72th on desktop and our team entry <a href="http://js13kgames.com/entries/quintessence">Quintessence</a> 23th on desktop and 8th on mobile!
+<li>In 2015, my game <a href="http://js13kgames.com/entries/geoquiz">GeoQuiz</a> was ranked 12th on desktop and 18th in the community awards (and it's now available <a href="http://xem.github.io/JS13k15/mobile/">on all devices</a>!).
+<li>Last year, my game <a href="http://js13kgames.com/entries/super-chrono-portal-maker">Super Chrono Portal Maker</a> was ranked 3rd on desktop and 2nd in the community awards,<br>and our team entry <a href="http://js13kgames.com/entries/26-games-in-1">26 games in 1</a> was awarded the "super special prize", and was ranked 10th in the community awards.
+</ul>
+<p>This progression makes me want to build something even better and bigger every year!
+<p>This year, I decided to make a game that uses emoji and CSS3D, like I did for my JS1k 2017 entry <a href='https://github.com/xem/1karrot/'>Can I haz 1Karrot?</a>. It'll be a game for desktop and mobile. I also want to include a bit of storytelling, a few cinematics and exploration phases between each gameplay session, and if possible, different musical and visual ambiances. I want it to be speedrunnable. I want a WOW effect when people launch it. Also, I'll try to fill the whole 13kb with HTML, CSS and JS code only. No images, no long texts, no kilobytes of binary data, only code! It'll be my biggest solo project (in terms of lines of code, hours of work and in thought) since Super Chrono Portal Maker... and maybe this year it'll be so big that I'll really have to golf it in less than 13kb at the end! That would be cool.
+<br>
+<br>
+<hr>
+<br>
+<h3>Preparation</h3>
+<p>Since last JS13k, I've listed a dozen game concepts on paper (mostly puzzle or reflexion games, because that's the genre I like the most), and waited for this year's theme to see which idea would suit it the most...
+<p>I also worked on many CSS3D tools, techniques and prototypes, to cite a few:
+<ul>
+<li>A mini <a href="https://twitter.com/MaximeEuziere/status/868485687263277056">Portal clone in CSS3D</a>
+<br><img src="images/js13k17/cssportal.gif" width=400>
+<li><a href="https://github.com/xem/3D-level-editor">3D-level-editor</a>, a CSS3D scene editor allowing to place shapes, sprites, and controlling the camera, including switching from 3D view to 2D isometric view, like in the game Fez (I live-tweeted the progress <a href="https://twitter.com/MaximeEuziere/status/876077765916860416">here</a>).
+<br><img src="images/js13k17/3d-15.gif" width=400>
+<li>A prototype of <a href="https://twitter.com/MaximeEuziere/status/891185716276940800">controllable cube in 3D</a> (also tweeted <a href="https://twitter.com/MaximeEuziere/status/891185716276940800">here</a>)
+<br><img src="images/js13k17/3d-16.gif" width=400>
+<li>A technique allowing to <a href="https://twitter.com/MaximeEuziere/status/891770683365220353">render a CSS3D cube of any size</a> by editing a single CSS variable.
+<br><img src="images/js13k17/3d-18.gif" width=400>
+<br><img src="images/js13k17/cube.jpg">
+<br>(Related: I discovered that scale(.1) is not enough to resize a CSS3D object, <a href="https://twitter.com/MaximeEuziere/status/893757285008379904">scaleZ(.1) is also needed</a>)
+<li>A technique allowing to generate <a href="https://twitter.com/MaximeEuziere/status/892293325738455040">emoji shadows in pure CSS</a> (based on <a href="https://codepen.io/xem/pen/aJpaQo">this pen</a>).
+<br><img src="images/js13k17/3d-19.gif" width=400>
+<li>I also wrote about how to make CSS3D games in <a href="http://xem.github.io/articles/#css3d">this blog post</a>, along with <a href="https://github.com/xem/CSS3Dprototypes">these Mario Kart prototypes</a>, and completed it with <a href="http://xem.github.io/articles/#js1k2017">this blog post</a> where I explain in detail the making of my JS1k entry "Can I haz 1Karrot".
+<br><img src="images/js13k17/prototypes.png" width=600>
+<li>And only 3 hours before the start of the compo, I made a <a href="//github.com/xem/miniMusic">tiny visual music editor</a> that lets you draw and export any melody with a JS player as small as 150 bytes.
+<br><img src="images/js13k17/minimusic.jpg" width=600>
+
+</ul>
+<br>
+<br>
+<hr>
+<br>
+<h3>Week 1</h3>
+
+<h3>The idea</h3>
+
+<p>When the theme was announced (<b>Lost</b>), I picked an idea in my list.
+<p><img src="images/js13k17/wall.jpg" width=400 style="float:right;margin:0 0 20px 20px">It'll be a game loosely inspired by these japanese games where people need to pass through holes in moving walls.
+<p>Instead of humans, the game will feature a snake made of (CSS3D) cubes.
+<p>The 3D snake is also an hommage to this extraordinary mobile game called Snaky Snake (free on <a href="https://play.google.com/store/apps/details?id=com.nicoplvgames.snakysnake">Android</a> / <a href="https://itunes.apple.com/us/app/snaky-snake-the-spherical-snake/id1255560499?mt=8">iOS</a>), and there'll be a little influence of the games The Witness and Polarium DS too (but it'll still be completely original!)
+<p>Instead of moving walls, the snake will enter a series of puzzles in which it has to fit more and more complex shapes, first in 2D, then with wrap-around, and finally in 3D.
+<p> I really like this concept because I've never seen it before in a video game, it's super simple to understand and use, and it allows a big variety of puzzles, from very simple to very complex.
+
+<p>The theme "Lost" will be part of the game's scenario: the game will be labyrinthic, and the hero (the snake) has to find his son. I made a little intro cinematic with animated emoji eyes, but I'll need to improve it later.
+
+<p><img src="images/js13k17/eyes.gif" width=400>
+
+<p><b>Sketches!</b>
+
+<p>During this week, I sketched on paper most of the game's puzzles, as well as a basic storyboard and a lot of notes. If all goes well, the game will contain about 100 puzzles and a puzzle editor.
+
+<p><img src="images/js13k17/sketch.png">
+
+<p><b>First, a puzzle editor!</b>
+
+<p>During this first week, I focused on the development of a good-looking puzzle editor. The first goal of this tool is to easily create all the puzzles of the game, but also to be included as a bonus, so people can create and exchange custom levels on social networks.
+
+<p>It's made in HTML, all the sizes are in "vh" units to make it responsive and playable on vertical screens; the background colors (including the sun) are made of radial gradients, and the tree's shadow is reused from an experiment shown earlier. The snake's shadow is made of semi-transparent squares below each cube, and its head is stylized with Unicode / Emoji characters<br>( Y, ‿, 👀 ).
+
+<p>Here's the basic feature where you can draw a 2D puzzle on the ground, and solve it with the arrow keys:
+
+<p><img src="images/js13k17/snake7.gif" width=500>
+
+<p>In the second group of puzzles, you can wrap from left to right and from top to bottom, a la Pac-Man:
+
+<p><img src="images/js13k17/snake8.gif" width=500>
+
+<p>In the last group of puzzles, you can move in the 3 dimensions, first to reproduce patterns drawn on the vertical wall:
+
+<p><img src="images/js13k17/snake9.gif" width=500>
+
+<p>Then you must match both grids (the wall and the ground) in 3D:
+
+<p><img src="images/js13k17/snake10.gif" width=500>
+
+<p>And at the end, you have to match both grids, in 3D, and with wraps:
+
+<p><img src="images/js13k17/snake11.gif" width=500>
+
+<p>The checkboxes interactions (to enable or disable the ground, the wall or the wraps) are made in pure CSS, with rules like that:
+
+<pre class=code>/* Hide all cells */
+.cell {
+  opacity: 0;
+}
+
+/* Show ground/wall cells if ground/wall checkboxes are enabled */
+#ground:checked ~ .puzzle .cell,
+#wall:checked ~ .puzzle .cell {
+  opacity: 1;
+}
+
+/* Show wrap surfaces if wrap checkbox is enabled */
+#wrap:checked ~ .puzzle .wrap > div {
+  background: rgba(200,200,200,.25);
+}
+</pre>
+
+<p>Wrap surfaces have the CSS property <b>pointer-events: none</b>, allowing to draw the puzzles even if they're in the middle.
+
+<p>I also implemented more boring (but essential) things, like:
+<ul>
+<li>In the editing phase, the ability to resize the grid and the snake, test the puzzle, reset everyrhing and export the puzzle as an url. (Ex: <b>"http://(game-url)/#5,5,1,,1000010000111001110011111"</b> for the <a href="images/js13k17/snake7.gif">first gif</a> above). Hopefully this compact notation will allow to include almost 100 levels in the game files...
+<li>when playing, the cells coloring in red and green according to the movements of the snake, and all the tests to check if a puzzle is solved,
+<li>the collision checks to avoid going in a place that already contains a snake's cube (but allow to take the place of the very last cube, because when the head of the snake will move there, the last cube will move away, freeing that spot!),
+<li>prevent the 3D snake from going below the ground (unless the wrap is enabled of course),
+<li>disable keyboard inputs during the snake's transition,
+<li>and enable warping only for the cubes that try to get out of the puzzle, but not on the cubes that haven't entered the puzzle yet.
+</ul>
+
+<p><img src="images/js13k17/fxbug1.gif" width=300 style="float:right; margin:0 0 20px 20px"><b>Screw you, Firefox!</b>
+
+<p>The most complicated task this week has been to debug Firefox. Firefox (on desktop) is super bad with CSS3D. It got a bit better in april 2017 by allowing more than 100 CSS3D elements to appear at the same time in a page, but they still haven't fixed (and they may never fix) their z-ordering and CSS3D intersections (as you can see <a href="http://jsfiddle.net/yNfQX/21/">here</a>).
+<p>I spent hours ordering and reordering the elements in my page to have the best result possible, and added little offsets everywhere to ensure that two shapes never intersect each other. This fixed the most important problems (for example in that gif), but there are still a lot of glitches that I can't fix, like the cube's faces that behave normally when the "camera" moves, and disappear randomly as soon as the scene is still:
+
+
+<p><img src="images/js13k17/fxbug2.gif" width=300>
+
+<p>But in general, in order to have the best result possible (at least on Firefox), the secret is to organize your DOM such as the first elements hide the last ones, or appear in front of them. Sort of doing the z-ordering manually.
+
+<p>I also noticed that most of the glitches that remain on Firefox disappear when my browser is not in fullscreen. Weird.
+
+<p>Anyway, on Webkit it's perfect, so let's stop losing time on this issue for now, there's a game to make!
+
+<p>As in every big project, it took me quite a lot of time to find a good way to organize my code and my files to work properly. At the end of the first week, everything is still chaotic... 
+
+<p>Anyway, the byte count is currently 19.5kb (commented and uncompressed), and only 3.4kb (not golfed, but minified and zipped).
+
+<p>At first I thought <a href="https://babeljs.io/repl">BabelJS</a> (and its Babili/ES2017 presets) was the new graal of JS minification, but no! The slow and ugly <a href="https://closure-compiler.appspot.com/home">Google Closure compiler</a>, even if it outputs only ES5 code, is still the best compressor for JS code out there! (its output is around 3% smaller than BabelJS's)
+
+<p>I also selected a few classical musics that may be played in the different sections of the game. We'll see that later.
+
+<br>
+<br>
+<hr style=clear:both>
+<br>
+<h3>Week 2</h3>
+
+<p>Let's start by fixing a few boring details. First, the controls. I've tried many configuration and finally implemented the one that seems the most natural: arrow keys to move forwards, backwards, left and right (relative to the camera), shift to go upwards, ctrl to go downwards. I won't provide a way to just "look up", "look down" like in the moving cube prototype. On mobile, there will be buttons on the screen to simulate these 6 keys.
+
+<p>Another important fix is to make the wraps much clearer visually. Instead of transitioning to the other side of the level, the cubes can now quit the level, disappear, reappear on the other side, and then transition to the right place. Easier said than done, it took me an entire day and a headache to get this result:
+
+<p><img src="images/js13k17/snake12.gif" width=400>
+
+<p>The code used to do this animation is super dirty but it'll be rewritten many times during the compo.
+
+<p>And while we're talking of little details, don't forget to hide the snake's shadows when its cubes are not touching the ground!
+<p><img src="images/js13k17/shadow.png">
+
+<br><br>
+
+<p><b>The hub (and screw you, Chrome!)</b>
+
+<p>Instead of making a game containing only a list of puzzles, I decided to make a "hub", a big room where the game starts and from which the character (the snake) can evolve and access all the puzzles, editor, etc. Though, I soon realized that this hub can't be too big, because on my computer, Chrome crops the backgrounds of CSS3D elements when they exceed a size of about 32k pixels squared. (Ex: this green div measures 900vh * 900vh, and these circles are placed at its center. Chrome seems to crop everything that exceeds ~6500px in width and height).
+<img src="images/js13k17/chromebug1.png">
+
+<p>There's another issue I encountered on Chrome on my laptop: localStorage becomes locked (impossible to read or write) when my PC gets back from hibernation mode. It took me a while to understand that. I searched a bug in my code for a long time, and finally everything got back to normal when I closed and restarted Chrome. (NB: closing a tab is not enough to fix that. All chrome tabs must be killed!)
+
+<p>A last issue specific to Chrome Windows (that I already encountered during JS1k) is that the emoji lose their fill colors when they exceed a certain computed size <i>in pixels</i>. Here, the sizes are in vh, so if I have a screen too big, or a zoom too important, they can glitch quite randomly when the window is resized:
+
+<p><img src="images/js13k17/chromebug2.gif" width=400>
+
+<p>On Mac it's even worse, the trees don't appear at all:
+
+<p><img src="images/js13k17/chromebug3.png" width=400>
+
+<p>I fixed these issues as I could, by changing the camera's zoom, angle, perspective, and by making the trees smaller, but I'm afraid there's no miracle solution that'll work everywhere. 
+
+<p>An important refactoring allowed me to use the same code for controlling the snake in the editor's tests and the "real" game.
+
+<p>The main difference with the puzzle editor is that here, the snake first gets out of the ground, can move but doesn't have a puzzle to solve (yet), and the camera must follow it around the scene.
+
+<p>I rewrote the code of the trees and tree shadows to appear at precise coordinates and with solid hitboxes. The trees are slightly slanted backwards to face the camera (when I first used this trick, I discovered it was <a href="https://twitter.com/maximeeuziere/status/835607608971128832">also used in Super Mario 64!</a>).
+<p>I also added a few custom transitions and timeouts on the scene and the snake's head to make a mini opening cinematic. Here's a first preview (with camera rotations to show how the trees are tilted backwards):
+
+<p><img src="images/js13k17/snake13.gif" width=400>
+
+<p><b>Eat apples, grow longer, and move back!</b>
+
+<p>The snake will have to eat apples to get longer, and thus, solve more and more difficult puzzles. But by doing so, two issues become apparent:
+<ul>
+<li>If a cube is added at the tail of the snake, where should it be placed?
+<li>If the snake reaches a length of 9 cubes or more, how can we avoid it to get stuck like that?
+</ul>
+<p><img src="images/js13k17/stuck.png" width=250> 
+<p>There's a single answer to these two issues: I have to record all the positions of the snake's head since the beginning of the game. By doing so, I can place any new cube where the tail was one move ago, and add a button (Alt ot backspace) to let the snake get back to any previous position when it's stuck.
+<p>I can also remove all the occurrences of oldsnakex/y/z in my code, and only use snakex/y/z instead, because oldsnakex[i] is nothing more that snakex[i-1]!
+<p>Here's the result after one day of refactoring:
+
+<p><img src="images/js13k17/snake14.gif" width=400>
+
+<p>Side note: my error messages are still very stylish in CSS3D!
+
+<p><img src="images/js13k17/undef1.png" width=400>
+
+<p>It took me a long time to wonder if a collision between the head and the tail could occur when the snake goes back to a previous position, or when it eats an apple. Turns out, it can't happen. Believe me, I tried hard!
+
+<p><b>Doors, rooms... and autosaves?</b>
+
+<p>To ease the progression of the player, I wanted to implement doors and paths to travel from a room to another. The doors will open if the snake approaches it with a sufficient length, or if it has solved all the puzzles in the room.
+
+<p>The tests (in JS) and animations (in CSS) to open the door were pretty easy (even it it had to be rewritten a few times to work correctly in the four directions), and going in a new room simply consists of loading a different HTML page, but this feature still required a big refactoring to maintain the snake's length and all the doors and apples states when we travel between rooms, and to make the snake spawn at the right place in the new room every time it goes through a door. All these pieces of data are stored in the browser's localStorage. This has the advantage to be persistent between pages, but also to have an automatic save and load feature for when the player quits the game and relaunches it later.
+
+<p>I actually didn't intend to implement autosave/autoload so soon, nor to implement it like that, but this use of localStorage brought it very naturally and basically for free. Awesome!
+
+<p>After a big effort of refactoring, each room just needs to declare the positions and behaviors of its emoji (trees, apples, ...), doors, paths and puzzles, and the game's engine will just do the rest.
+
+<p><img src="images/js13k17/snake15.gif" width=400>
+
+<p>Well... after thinking about it a little, loading a different HTML page for each room is kinda dirty, and causes two issues: when the player loads his/her save data, he/she will land on index.html (the hub), instead of the last visited room. And the other issue is for the music: it'll stop playing and restart from start when the page changes, and I don't want that. So instead of loading a different page when the snake goes through a door, I prefer to reset and redraw everything in the same page (index.html). This page will load the hub by default, or the last visited room if it's saved in localStorage. As a bonus, having a single, generic HTML page saves some hundred bytes in total!
+
+<p>This refactoring wasn't as easy as I thought. At some point, when I passed a door, the result was a mix of the last room and the new room!
+
+<p><img src="images/js13k17/snake16.gif" width=400>
+
+<p>But this was fixed quickly (I forgot to empty the objects container before drawing a new room). And with this new organizations, I also have camera transitions from a room to the other for free. Cool!
+
+<p><b>The first 2D puzzles</b>
+
+<p>A new challenge appears: display many puzzles in a room and let the player solve them in any order. Moreover, the camera must focus on the puzzle's grid while the snake is inside, and the game engine must show the solved state of every puzzle and save it in localStorage (in order to avoid solving a puzzle multiple times). Finally, the snake can quit a puzzle before it finishes solving it.
+
+<p><img src="images/js13k17/snake17.gif" width=400>
+
+<p>I finished this week by adding apples animations, higher platforms, and explaining how to backtrack and open doors in the hub:
+
+<p><img src="images/js13k17/snake18.gif" width=400>
+
+<p>I'm quite happy with this little effect: the platform on the left is not rectangular: it's made of many little cubes, but each cube has a computed background and background-position, which gives an homogeneous radial gradient to the whole surface:
+<br>(The performance on Firefox is so atroceous that I only kept a little portion of the platform in the final game, but it still has this fancy radial gradient!)
+
+<p><img src="images/js13k17/snake19.png" width=400>
+
+<p>Current progress: 1783 lines of code, 45.6kb uncompressed and commented, 7.19kb minified and zipped.
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>Week 3</h3>
+
+
+<p><b>All the 2D puzzles!</b>
+
+<p>After showing the game to two friends, I realized that my 2D puzzles were quite easy and risked to be annoying. So when I made the three other 2D puzzle rooms, I discarded most of my original puzzles designs and replaced them with most difficult ones.
+<p>I originally planned to have 4 x 6 2D puzzles, but to spice things up a little, I removed a room completely, and made more apples appear before each new room, which makes six 2D puzzles for a snake of length 8, six for length 11 and six for length 13. I also added cubes here and there to make the puzzles solutions less obvious.
+<p>The rooms are arranged in circle to easily return to the hub when they're completed.
+
+<p><img src="images/js13k17/snake20.png">
+
+<p>I threw away a lot of puzzles, but it's for the good cause: I want the players (and the judges) to quickly discover the two other tiers of the game!
+
+<p>Budget-wise, I'm quite happy that these 3 rooms and 18 puzzles only add 600b to my zip (while they add nearly 4kb in the source code). Of course they need more decoration but it's alredy a nice compression.
+
+<p><b>Cleanup!</b>
+
+<p>To continue coding in good conditions, let's clean up all the dead/bad code that piled up during the last two weeks, and organize it such as all the variables names get automatically reduced to 1 char when passed into Closure Compiler.
+
+<p>This cleanup made the project much cleaner, and made the zip 1kb smaller! Yay!
+
+<p><b>Godmode!</b>
+
+<p>When you make a game with a long intro and progression, you quickly get annoyed when you have to replay from the beginning to arrive at a certain point. In that case I highly recommend to create a "godmode": a secret menu containing shortcuts to different places or states in the game.
+
+<p><img src="images/js13k17/snake22.gif" width=400>
+
+<p>Adding these shortcuts to load each room with the corresponding snake length, and buttons to rotate the camera or erase all saved data took only a few minutes and really changed my life!
+
+<p><b>Hints</b>
+
+<p>Some beta-testers were very confused about the gameplay (how to backtrack, how apples/doors/puzzles work, etc...), so let's take some time to add hints explaining how the game works. These signboards only appear when the snake has a given size, allowing to display different messages at the start of the game, and later.
+
+<p><img src="images/js13k17/hint.png">
+
+<p>When I added these hints in the game, I realized something with CSS3D sprites (eg. the trees, and apples, and now the hints). They won't appear at the right place if you set this in their CSS: (imagine that W, H, L and T represent a width, height, left offset and top offset in vh)
+<ul>
+<li>width: W
+<li>height: H
+<li>left: L
+<li>top: T
+<li>transform-origin: 50% 100%
+<li>transform: rotateX(-90deg)
+</ul>
+
+<p>This doesn't work fine because the "top" property will set an Y offset to the top of the sprite before it's rotated along the X axis. After fiddling a little, I discovered that the good way to do it is:
+
+<ul>
+<li>width: W
+<li>height: H
+<li>left: L
+<li>bottom: 0
+<li>transform-origin: 50% 100%
+<li>transform: translateY(Y) rotateX(-90deg)
+</ul>
+
+<p>When you do it this way, the point at the bottom center of the sprite is moved at the exact coordinates L:T in the scene, thanks to the "bottom: 0" that makes it start exactly from the top of the scene!
+
+<p><b>Access to the editor</b>
+
+<p>Now that the 2D puzzles are done, the hub allows to access the puzzle editor to make other 2D puzzles. (wraps and 3D options are hidden for now.)
+
+<p><img src="images/js13k17/editor.gif">
+
+<p><b>The wrap area</b>
+
+<p>The second area of the game contains all the 2D puzzles with wrap, and are playable with a snake of length 14, then 15, then 16 then 20.
+<p>It starts with a little hub explaining the principle of the wrap: a wall blocks the way and a puzzle with shiny sides invites the player to follow the black path and arrive to the other side.
+
+<p><img src="images/js13k17/snake23.gif" width=400>
+
+<p>One particularity of the wrap puzzles is that the snake is trapped inside the shiny walls until it solves the puzzles. It can also backtrack many times to return to a place out of the puzzle, but beta testers told me they wanted to reset a puzzle entirely instead of backtracking, so I added a reset feature when we press the key "R".
+
+<p><img src="images/js13k17/snake24.gif" width=400>
+
+<p>The snake can then go into to two rooms containing 12 puzzles each. The first room was very complicated to design because its puzzles form a big easter egg, that I don't want to spoil here. With the help of the beta-testers, I managed to enhance the puzzles and optimize this room so that the easter-egg's idea is more easy to grasp. If you already saw it, you can see a before/after picture <a href="images/js13k17/easteregg.png" target=_blank>here</a>. It's indeed much clearer in the final version!
+
+<p>When these rooms are completed, the puzzle editor gets a new option to draw 2D wrap puzzles.
+
+<p>There are just 2 puzzles of size 16 and 2 puzzles of size 20, because of a sudden lack of ideas. I spent hours trying to design other puzzles for these rooms but all of them were too easy or didn't have a solution.
+
+<p><img src="images/js13k17/scribbles2.png" width=400>
+
+<p>However, beta tests showed that the difficulty curve was too steep between the 2D puzzles and the wrap puzzles, so I added an extra room with 4 "easy" wrap puzzles, just after the wrap introduction.
+
+<p><img src="images/js13k17/2.15.png">
+
+<p>So let's start the final part of the game!
+
+<p><b>Preparing for the 3D puzzles</b>
+
+<p>The 3D puzzles require a new ability (move up and down), and less cubes (at least 6). Our current snake is now 21 cubes long and doesn't have the ability to move up and down. So it's the good time to find the lost son snake, that will solve the last puzzles, in 3D. The switch has been quite complex to implement, but it's done!
+
+<p><img src="images/js13k17/snake25.gif" width=400>
+
+<p>Basically, the orange snake becomes a pile of immobile CSS3D cubes (but keeps its hitboxes), a flag (called "son") is set to true, all the snake's data structures are reset, and the function that resets the snake is called. This function is modified to create a new snake, and let the player control it when the "son" flag is set to 1. The flag is also saved in localStorage, to let the player continue playing with this snake when a savefile is loaded.
+<br>
+
+<p>And that's the end of week 3!
+
+<p><p>Current progress: 39 puzzles, 2448 lines of code, 63.3kb uncompressed and commented, 8.49kb minified and zipped.
+<br>
+<br>
+<hr>
+<br>
+
+<h3>Week 4</h3>
+
+<p><b>Gravity</b>
+
+<p>Our little snake can go up and down, but it must not fly! So I added a big bunch of code to test if all the parts of the snake are on the floor or on a cube, and if they're not, all the cube parts get instantly lowered.
+
+<p><img src="images/js13k17/snake26.gif" width=400>
+
+<p>If the snake backtracks just after being lowered, some of its parts can glitch a little because their "history" has been rewritten, but I won't fix that, it's too complex. Let's say it's an hommage to last year's theme...
+
+<p>Fast-forward a few days: this gravity system caused me a big headache in a particular edge case that has somee chances to happen during a normal gameplay: when the snake is entering a 3D puzzle by the top side, and falls inside the puzzle because it's not tall enough, and if we press R to quit the puzzle, the snake gets stuck in an infinite loop of quitting the puzzle and falling inside it, and it can't move anymore. Eventually, my (dirty) fix was to put a try/catch around the falling code and if it detects an infinite loop, the game rollbacks for a number of moves equal to the snake's size. It'll generally land a few stepss before the entrance of the puzzle and won't be stuck anymore!
+
+<p><img src="images/js13k17/dirtyfix.gif" width=400>
+
+<p><b>The 3D area</b>
+
+<p>The 3D puzzles, that must be solved with the little snake, required a few days to design (designing 2D puzzles was hard, but designing 3D puzzles is super hard!).
+
+<p><img src="images/js13k17/scribbles3.png">
+
+<p>In the end there will be about 45 of them, including wall-only puzzles, wall+ground puzzles and wall+ground+wrap puzzles, for a snake of length 6 to length 20. This represent the biggest half of the game! But the first ones are very easy, to avoid discouraging the players. And there'll probably be another easter-egg too. Here's how the first rooms look like (wip):
+
+<p><img src="images/js13k17/world3.png" width=600>
+
+<p>By chance, all these new levels compress very well and as far as I tested, they won't add much more than 1kb in my zip. So, plenty of room left for the rest!
+
+<p><b>Final puzzle editor</b>
+
+<p>After all these puzzles are completed, the final puzzle editor is finally availablel for the player. I made a few arrangements to make the snake black and able to go up and down only if the vertical wall is enabled, and orange otherwise.
+
+<p>I also prevented the snake from going through the vertical wall of the 3D puzzles, except if the wrap is enabled.
+
+<p><img src="images/js13k17/snake27.gif" width=400>
+
+<p><b>Unexpected fun with boolean golfing</b>
+
+<p>While I was working on the last puzzle editor and hints improvements, I happened to write two interesting tests, which I had fun trying to simplify with a friend. They looked like this:
+
+<pre class=code>if((f && mousedown) || !f){ ... }
+
+if((son && hints[i][5]) || (!son && !hints[i][5])){ ... }</pre>
+
+<p>Which can be simplified to:
+
+<pre class=code>if((A & B) || !A) { ... }
+
+if((A & B) || (!A && !B) { ... }</pre>
+
+<p>For the first one we had no idea, but we drew a truth table before realizing that if A is false, it's okay, and otherwise it's necessarily true so we don't have to repeat it when we test B. So, the golfed version is: 
+
+<pre class=code>if(!A || B){ ... }</pre>
+
+<p>For the second one, it was a bit harder. When we drew the truth table, nothing was obvious, except that it was basically the opposite of a XOR. So I tried an assumption: what if it was a XAND? After a quick check on Stack Overflow, it appeared that there's actually no such thing as "XAND" (ha ha! silly me), and what we're looking for was actually a NXOR. Hey, not far! How to do a NXOR in JS, you ask? Easy!
+
+<pre class=code>if(!(A ^ B)){ ... }</pre>
+
+<p>That was a fun pause! Let's go back to work.
+
+<p><b>Main menu, mobile controls... and screw you, localStorage!</b>
+
+<p>It took a few days to have the (very basic) main menu and mobile controls work properly, and to adapt all the signposts to the device used (keyboard for desktop, buttons for mobile).
+
+<p>Here are some traps that made me lose quite a lot of time:
+<ul>
+<li>Disable pinch-zoom, and other history-related touch events, with this meta tag:
+<pre class=code>&lt;meta name=viewport content="width=device-width, user-scalable=no"></pre>
+<lu>Disable tap-highlight (making the whole screen blue after each touch event) with the help of a bunch of annoying CSS rules:
+<pre class=code>* {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+}</pre>
+<li>Mobile fullscreen: with the help of Twitter friends, I <a href="https://twitter.com/MaximeEuziere/status/903222067490955265">found a way to do it</a>, but finally I abandoned the idea of forcing fullscreen display on mobile because of the lack of iOS support for the fullscreen API, and the eed to save bytes. 
+<li>localStorage does not write or delete entries instantly. If you create or delete a localStorage key, always have local variables updated at the same time, because when you need them later, localStorage may not have updated itself yet, and there are chances it won't contain what you think it contains.
+</ul>
+
+
+<p><b>OCD's</b>
+
+<p>For OCD players, I added a move counter and a time counter, that are able to save and resume their states when the game is played in multiple sessions. I'll have a screen congratulating them if they beat my best time and/or score.
+
+<p><b>Beta-test</b>
+
+<p>This year I have the chance to have a lot of volunteers for testing my game. I gathered a lot of feedback by watching them play IRL, or by interviewing them when they live in other countries. All want very well, a lot of puzzles, hints and features were added thanks to their tests. A thousand thanks to all of them (and all the others who followed the progress on twitter and told me that it was looking great):
+<ul>
+<li>Tommy Hodgins
+<li>Adrien Guéret
+<li>Julien Laville
+<li>Odilon Ghedin
+<li>Vincent Vidal
+<li>Lucas Dupuis
+<li>Victoire Yau
+<li>Pierre Vignaux
+<li>Nicolas Pierre-Loti-Viaud
+<li>Anders Kaare
+<li>Matthew Mccord
+<li>Ryan Malm
+<li>Veubeke
+<li>The_coder
+<li>Theprogrammerjack
+<li>Nicoloz
+</ul> 
+
+<p><b>Music!</b>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>Week 5</h3>
+
+<p><b>Decoration</b>
+
+<p><b>Browsers, OS, Devices</b>
+
+
+<p><b>Golf, zip, repeat!</b>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class=section id=webgl_quest_2>
   <h2>WebGL quest #2: tiny raymarching bootstrap with Distance Estimation functions</h2>
 	<h3>may 2017</h3>
@@ -65,8 +575,7 @@
   <pre class=code>void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;}</pre>
   <br>
   That's for the shader alone. For a complete demo including a WebGL bootstrap in HTML/JS and the shader input "F" as a frame counter, the total is <b>531b</b>. (<a href="demos/webgl/full.html">DEMO</a>)
-  <!--<pre class=code>&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)h=FN,vA(p=cP(i=e=>sS(s=cS(h++),e)|ce(s)|!aS(p,s)),2,5120,bD(n=ET-3,Int8Array.of(i(`precision lowp float;uniform float F;<b>[DE FUNCTION]</b>void main(){vec4 r=gl_FragColor;vec2 d=gl_FragCoord.xy;vec3 D=normalize(vec3(d+d-(r.xy=vec2(300,150)),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;gl_FragColor=vec4(r.xyz,1.);}`),n,!eV(bf(n,cB(j=0))),i`attribute vec4 p;void main(){gl_Position=p;}`),n+82),!lo(p),ug(p)),setInterval(e=>dr(6,<wbr>uniform1f(gf(p,`F`),j++),3),33)'></pre>
-  --><br>
+  <br>
   <img src="images/webgl2/webgl-all.gif" width=500>
   <br>
   <hr>
@@ -79,6 +588,7 @@
     <li><a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/">Distance Estimated 3D Fractals</a>
     <li><a href="http://iquilezles.org">iquilezles.org</a> (the entire site but especially the pages about <a href="http://iquilezles.org/www/articles/distfunctions/distfunctions.htm">distance functions</a> and <a href="http://iquilezles.org/www/articles/distfunctions/distfunctions.htm">avoiding trigonometry</a>)
     <li><a href="https://www.youtube.com/watch?v=s8nFqwOho-s">How to Create Content with Signed Distance Functions (awesome video)</a>
+    <li><a href="mercury.sexy/hg_sdf/">hg_sdf</a>, the lib used in the video above.
     <li><a href="http://www.geeks3d.com/20130524/building-worlds-with-distance-functions-in-glsl-raymarching-glslhacker-tutorial-opengl/">Building Worlds With Distance Functions in GLSL (Raymarching)</a>
     <li><a href="http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/">Ray Marching and Signed Distance Functions</a>
     <li><a href="http://xoofx.com/blog/2009/10/12/potatro-and-raymarching-story-of/">Potatro, RayMarching and DistanceFields : a story of SphereTracing</a>
@@ -90,6 +600,7 @@
     <li><a href="https://gist.github.com/sephirot47/f942b8c252eb7d1b7311">GLSL Raymarch ShaderToy tutorial and example code by sephirot47</a>
     <li><a href="https://www.youtube.com/watch?v=yxNnRSefK94">ShaderToy Raymarch Tutorial video (with super short source code)</a>
     <li><a href="https://www.shadertoy.com/view/4dfXDn">2D distance functions (interesting too!)</a>
+    <li><a href="https://www.shadertoy.com/view/4dSfRc">a tutorial about ray marching distance fields (using a ray marcher in Shadertoy)</a>
 	
 </a>
   </ul>
@@ -4499,7 +5010,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
 </div>
 
   </div>
-  <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
+  <iframe src="//meuziere.free.fr/visitsx" width=1 height=1 hidden></iframe>
   <style>
     .section { display: none }
     .section:first-of-type, .section:target { display: block }
