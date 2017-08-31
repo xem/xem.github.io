@@ -343,7 +343,7 @@
 
 <p>This cleanup made the project much cleaner, and made the zip 1kb smaller! Yay!
 
-<p><b>Godmode!</b>
+<p><b>God mode!</b>
 
 <p>When you make a game with a long intro and progression, you quickly get annoyed when you have to replay from the beginning to arrive at a certain point. In that case I highly recommend to create a "godmode": a secret menu containing shortcuts to different places or states in the game.
 
@@ -454,6 +454,8 @@
 
 <p>By chance, all these new levels compress very well and as far as I tested, they won't add much more than 1kb in my zip. So, plenty of room left for the rest!
 
+<p>I designed the last room with a final easter egg, and developped the end cinematic at the same time. (<a href="images/js13k17/end.gif">spoiler!</a> don't click before playing the game!).
+
 <p><b>Final puzzle editor</b>
 
 <p>After all these puzzles are completed, the final puzzle editor is finally availablel for the player. I made a few arrangements to make the snake black and able to go up and down only if the vertical wall is enabled, and orange otherwise.
@@ -461,6 +463,10 @@
 <p>I also prevented the snake from going through the vertical wall of the 3D puzzles, except if the wrap is enabled.
 
 <p><img src="images/js13k17/snake27.gif" width=400>
+
+<p>It's also time to add a level loader and a dedicated room for player-created levels. This room reminds the controls to the player and has a path to return to the "real" game.
+
+<p><img src="images/js13k17/load.png" width=400>
 
 <p><b>Unexpected fun with boolean golfing</b>
 
@@ -512,7 +518,11 @@ if((A & B) || (!A && !B) { ... }</pre>
 
 <p>For OCD players, I added a move counter and a time counter, that are able to save and resume their states when the game is played in multiple sessions. I'll have a screen congratulating them if they beat my best time and/or score.
 
+<p>Current zip size: 18.5kb. WHAAAAT? After a few hours stressfully wondering how to lose weight, and make room for the music, I realized I had actually zipped my minified JS plus my unnecessary, unminified JS. Without that dumb mistake, the zip is below 11.5kb. Oof!
+
 <p><b>Beta-test</b>
+
+<p><img src="images/js13k17/beta.jpg">
 
 <p>This year I have the chance to have a lot of volunteers for testing my game. I gathered a lot of feedback by watching them play IRL, or by interviewing them when they live in other countries. All want very well, a lot of puzzles, hints and features were added thanks to their tests. A thousand thanks to all of them (and all the others who followed the progress on twitter and told me that it was looking great):
 <ul>
@@ -533,6 +543,8 @@ if((A & B) || (!A && !B) { ... }</pre>
 <li>Theprogrammerjack
 <li>Nicoloz
 </ul> 
+
+<p>I have a question though: WHY NO ONE READS THE SIGNPOSTS? Every single tester I've seen wondered how to eat the second apple without being stuck. There's a signposts a few centimeters ahead that tells to press Alt to backtrack, but no one sees it. Meh.
 
 <p><b>Music!</b>
 
