@@ -357,25 +357,21 @@
 <p><img src="images/js13k17/hint.png">
 
 <p>When I added these hints in the game, I realized something with CSS3D sprites (eg. the trees, and apples, and now the hints). They won't appear at the right place if you set this in their CSS: (imagine that W, H, L and T represent a width, height, left offset and top offset in vh)
-<ul>
-<li>width: W
-<li>height: H
-<li>left: L
-<li>top: T
-<li>transform-origin: 50% 100%
-<li>transform: rotateX(-90deg)
-</ul>
+<pre class=code>width: W;
+height: H;
+left: L;
+top: T;
+transform-origin: 50% 100%;
+transform: rotateX(-90deg);</pre>
 
 <p>This doesn't work fine because the "top" property will set an Y offset to the top of the sprite before it's rotated along the X axis. After fiddling a little, I discovered that the good way to do it is:
 
-<ul>
-<li>width: W
-<li>height: H
-<li>left: L
-<li>bottom: 0
-<li>transform-origin: 50% 100%
-<li>transform: translateY(Y) rotateX(-90deg)
-</ul>
+<pre class=code>width: W;
+height: H;
+left: L;
+bottom: 0;
+transform-origin: 50% 100%;
+transform: translateY(Y) rotateX(-90deg);</pre>
 
 <p>When you do it this way, the point at the bottom center of the sprite is moved at the exact coordinates L:T in the scene, thanks to the "bottom: 0" that makes it start exactly from the top of the scene!
 
@@ -500,7 +496,11 @@ if((A & B) || (!A && !B) { ... }</pre>
 
 <p><b>Final name</b>
 
-<p>I wanted to find a pun like "Lost in translations" as a reference to all the CSS3D translate's in my code, or (........) but that would have been too much of a geeky private joke, so let's go with LOSSST instead.<br>At least it respects the theme, and it's a reference to the snakes in the game!
+<p>
+One idea of title for the game was "pattern-alism", referencing both the patterns constituting the puzzles, and the fack that the father snake must find his son. But it's too complicated.
+<p>I wanted to find a pun like "Lost in translations" as a reference to all the CSS3D translate's in my code, but that would have been too much of a geeky private joke, so let's go with LOSSST instead.
+<br>
+At least it respects the theme, and it's a reference to the snakes in the game!
 
 <p><b>Main menu, mobile controls... and screw you, localStorage!</b>
 
@@ -520,12 +520,31 @@ if((A & B) || (!A && !B) { ... }</pre>
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* old webkit hack */
+  -webkit-tap-highlight-color: transparent; /* new webkit hack */
 }</pre>
 <li>Mobile fullscreen: with the help of Twitter friends, I <a href="https://twitter.com/MaximeEuziere/status/903222067490955265">found a way to do it</a>, but finally I abandoned the idea of forcing fullscreen display on mobile because of the lack of iOS support for the fullscreen API, and the need to save bytes. 
 <li>localStorage does not write or delete entries instantly. If you create or delete a localStorage key, always have local variables updated at the same time, because when you need them later, localStorage may not have updated itself yet, and there are chances it won't contain what you think it contains.
-<li>When you press a button on mobile, there's no recurrent event being fired, telling you that the button is still being pressed, contrary to keyboard keys, firing keypress events all the time. To make long presses on directional buttons behave like long press og real keys, the trick is to start a setInterval ontouchstart, calling the desired function at each loop, and stop it ontouchend.
+<li>When you press a button on mobile, there's no recurrent event being fired, telling you that the button is still being pressed, contrary to keyboard keys, firing keypress events all the time. To make long presses on directional buttons behave like long press og real keys, the trick is to start a setInterval ontouchstart, calling the desired function at each loop, and stop it ontouchend. But on touchend, it must be stopped after a certain delay, or else it won't loop once if you just tap quiclky the button! And finally, to avoid having many uncancellable intervals by tapping the buttons too fast, we have to cancel any previous loop when a button is touched. Here's how it looks in my code (pro tip: touchstart and touchend trigger the real keyboard events):
+<pre class=code>
+touchstart = (n) => {
+
+  // Cancel previous loop (if any)
+  if(touchintervals[n])clearInterval(touchintervals[n]);
+
+  // call onkeydown immediately
+  onkeydown({which:"+n+"});
+
+  // And loop every 150ms
+  touchintervals[n] = setInterval("onkeydown({which:"+n+"})",150);
+};
+
+touchend = (n) => {
+  // Clear loop after 150ms
+  setTimeout("clearInterval(touchintervals["+n+"]);onkeyup()",150);
+}
+</pre>
+
 </ul>
 
 <p>The mobile mode has quite a lot of buttons (to move in all directions, backtrack, exit puzzles and move the camera), but to avoid shocking the player with this ton of buttons, I made them appear progressively, when the player reaches a zone where these buttons become necessary.
@@ -600,7 +619,10 @@ if((A & B) || (!A && !B) { ... }</pre>
 
 <p>my second attempt to reduce the size of my ids and localStorage keys was less catastrophic and made me save some space. at the end of the week.
 
-Current status: X kb, X lines of code, Xkb minified and zipped
+<p>Current status: X kb, X lines of code, Xkb minified and zipped.
+
+<p>And no music yet...
+
 <br>
 <br>
 <hr>
