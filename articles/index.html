@@ -211,7 +211,7 @@
 
 <p>Anyway, the byte count is currently 19.5kb (commented and uncompressed), and only 3.4kb (not golfed, but minified and zipped).
 
-<p>At first I thought <a href="https://babeljs.io/repl">BabelJS</a> (and its Babili/ES2017 presets) was the new graal of JS minification, but no! The slow and ugly <a href="https://closure-compiler.appspot.com/home">Google Closure compiler</a>, even if it outputs only ES5 code, is still the best compressor for JS code out there! (its output is around 3% smaller than BabelJS's)
+<p>At first I thought <a href="https://babeljs.io/repl">BabelJS</a> (and its Babili/ES2017 presets) was the new graal of JS minification, but no! The slow and ugly <a href="https://closure-compiler.appspot.com/home">Google Closure compiler</a>, even if it outputs only ES5 code, is still the best compressor for JS code out there! (its output is around 3% smaller than BabelJS's, and ES5 ensures a better compatibility with older or bad browsers, like the ones on iOS, so it's win-win)
 
 <p>I also thought of a few musics that may be played in the different sections of the game. We'll see that later.
 
@@ -497,7 +497,7 @@ if((A & B) || (!A && !B) { ... }</pre>
 <p><b>Final name</b>
 
 <p>
-One idea of title for the game was "pattern-alism", referencing both the patterns constituting the puzzles, and the fack that the father snake must find his son. But it's too complicated.
+One idea of title for the game was "pattern-alism", referencing both the patterns constituting the puzzles, and the fact that the father snake must find his son. But it's too complicated.
 <p>I wanted to find a pun like "Lost in translations" as a reference to all the CSS3D translate's in my code, but that would have been too much of a geeky private joke, so let's go with LOSSST instead.
 <br>
 At least it respects the theme, and it's a reference to the snakes in the game!
@@ -581,6 +581,7 @@ touchend = (n) => {
 <li>The_coder
 <li>Theprogrammerjack
 <li>Nicoloz
+<li>My parents
 </ul> 
 
 <p>One sad note though: almost no one reads my signposts. Most of the testers wondered how to eat the second apple without getting stuck. There's a signpost a few centimeters ahead that tells to press Alt to backtrack, but it's still not clear enough. Meh... I don't know what else I can do if people don't read signposts!
@@ -595,7 +596,9 @@ touchend = (n) => {
 
 <p><b>Browsers, OS, Devices</b>
 
-<p>To avoid nasty visual glitches, I decided to degrade the visual quality on Firefox, and on MacOS and mobiles, by hiding all the shadows in the game.
+<p>To avoid nasty visual glitches, I decided to degrade the visual quality on Firefox, MacOS and mobiles, by hiding all the shadows in the game (except the snake shadows).
+
+<p>I also made two versions of the intro (for Firefox and for the others: on Firefox the snake waits the end of the camera movement to get its head out of the ground, otherwise it's all glitchy) and two version of the easter-egg animations (for mobile and desktop, to ensure that everything is visible even if the mobile is held in portrait mode).
 
 <p>Moreover, on MacOS, the emoji have line-heights different than all the other OS's, so I added specific hacks to have the trees, apples and animals actually touch the ground.
 
@@ -615,11 +618,11 @@ touchend = (n) => {
 
 <p>This editor rewrite saved 900b in my zip. (12.2kb)
 
-<p>After adding a bit of decoration and byte-consuming visual enhancements (especially the "wrap walls", the highlighting of the easter-eggs, and spawning a signpost after the first easter-egg to show where's the exit), and finishing the puzzle editor, nearly 600b were added to the zip size.
+<p>After adding a bit of decoration and byte-consuming visual enhancements (especially the "wrap walls", the highlighting of the easter-eggs, and spawning a signpost after the first easter-egg to show where's the exit), finishing the puzzle editor, and making the 3D wrap puzzles walls solid after they're completed, nearly 800b were added to the zip size.
 
-<p>my second attempt to reduce the size of my ids and localStorage keys was less catastrophic and made me save some space. at the end of the week.
+<p>After putting all my code in a single file, removing more dead code, and retrying (successfully) to reduce the names of my ids and localStorage keys, I managed to save plenty of space.
 
-<p>Current status: X kb, X lines of code, Xkb minified and zipped.
+<p>Status at the end of week 4: 75 puzzles, X kb of code, X lines of code, Xkb minified and zipped.
 
 <p>And no music yet...
 
@@ -632,7 +635,72 @@ touchend = (n) => {
 
 <p><b>Music!</b>
 
-<p><b>Golf, zip, repeat!</b>
+<p>As usual, Anders Kaare saved my life during the last week-end of the compo, and he had a great idea: to play a melody (kindly created by himself), but play all the notes one by one, each time the snake moves! That's pretty original and works very well, with a very small overhead. Thanks a lot to him, and to McCoordinator who also kindly offered to make a music for my game. I'm keeping everything he's done for my next games! :D You guys rock!
+
+ 
+<p><b>Add stuff, Minify, Golf, Zip, Advzip, Repeat! (and Screw you, Closure Compiler!)</b>
+
+<p>After adding the music and a few sound effects borrowed from last year's game, and compressing everything, I realized that my zip had reached a size of 13kb plus a few bytes. That's cool!
+
+<p>However, something less cool occurred. My minified JS code was all broken, because when Closure Compiler minified my code and renamed all my vars, it didn't rename them in my 44 setTimeout's and 7 setInterval's. Ex:
+<pre class=code>
+Song = () => {
+  ...
+}
+
+setInterval("Song.forward()",500); // after minification, I get an error saying "Song is not defined"</pre>
+
+<p>Even if it was a bit late, the solution was to spend a few hours rewriting all my intervals and timeouts using functions instead of strings... The most boring task was to use closures or change the logic to be able to pass vars to the delayed/repeated functions when they're in for loops. Ex:
+
+<pre class=code>// Using logic changes
+// Before
+z = 0;
+for(i = 0; i < snakelength; i++){
+  z--;
+  setTimeout("snakez.push("+z+")");
+}
+
+// After
+var z = 0;
+for(i = 0; i < snakelength; i++){
+  setTimeout(()=>{
+    snakez.push(z--);
+  }, i * 150);
+}</pre>
+
+By chance, closures are much easier to write in ES6 than before (but I still hate them):
+
+<pre class=code>// Using closures
+// Before
+for(var i in apples){
+  if(applecanappear[i]){
+    setTimeout('top["apple"'+i+'].className="emoji apple"',800);
+  }
+}
+
+// After
+for(var i in apples){
+  if(applecanappear[i]){
+    setTimeout(
+      (
+        ()=>{
+          scene.style.transform="translateX("+(-apples[i][0]*sidesize)+"vh)translateY("+(-apples[i][1]*sidesize)+"vh)translateZ(50vh)rotateX(35deg)";
+          L[P+"appleappeared"+pagename+i]=1;
+          scene.style.transformOrigin=""+(apples[i][0]*sidesize)+"vh "+(apples[i][1]*sidesize)+"vh"
+        }
+      )(i), 250
+    );
+  }
+}</pre>
+
+<p><b>Bonus</b>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>Conclusion</h3>
 
 
 </div>
