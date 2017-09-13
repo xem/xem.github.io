@@ -61,14 +61,15 @@
 </style>
 <h2>JS13kGames 2017 making-of: LOSSST</h2>
 <h3>july-september 2017</h3>
+<p><img src="images/js13k17/cover.png">
 <br>
 <hr>
 <br>
 <h3>TL;DR</h3>
 <p>
 <ul>
-<li>This post explains in detail the development of LOSSST, and contains spoilers about the game's content. It's recommended to play first!</a>
-<li>You can play the game here: <a href="">LOSSST on JS13KGAMES</a>
+<li>This post explains in detail the development of LOSSST, and contains spoilers about the game's content. It's recommended to play the game first!</a>
+<li>You can play the game here: <a href="http://js13kgames.com/entries/lossst">LOSSST on JS13KGAMES</a>
 <li>You can see the game's source code here: <a href="https://github.com/xem/JS13k17">LOSSST on GITHUB</a>
 <li>Jam Results: SOON!
 </ul>
@@ -90,7 +91,7 @@
 <hr>
 <br>
 <h3>Preparation</h3>
-<p>Since last JS13k, I've listed a dozen game concepts on paper (mostly puzzle or reflexion games, because that's the genre I like the most), and waited for this year's theme to see which idea would suit it the most...
+<p>Since last JS13k, I've listed a dozen game concepts on paper (mostly puzzle or reflection games, because that's the genre I like the most), and waited for this year's theme to see which idea would suit it the most...
 <p>I also worked on many CSS3D tools, techniques and prototypes, to cite a few:
 <ul>
 <li>A mini <a href="https://twitter.com/MaximeEuziere/status/868485687263277056">Portal clone in CSS3D</a>
@@ -105,6 +106,7 @@
 <br>(Related: I discovered that scale(.1) is not enough to resize a CSS3D object, <a href="https://twitter.com/MaximeEuziere/status/893757285008379904">scaleZ(.1) is also needed</a>)
 <li>A technique allowing to generate <a href="https://twitter.com/MaximeEuziere/status/892293325738455040">emoji shadows in pure CSS</a> (based on <a href="https://codepen.io/xem/pen/aJpaQo">this pen</a>).
 <br><img src="images/js13k17/3d-19.gif" width=400>
+<li>I tweeted <a href="https://twitter.com/MaximeEuziere/status/883044404453294080">a sub-140b JS game framework</a> that seems to have helped some folks to kickstart their game project this year.
 <li>I also wrote about how to make CSS3D games in <a href="http://xem.github.io/articles/#css3d">this blog post</a>, along with <a href="https://github.com/xem/CSS3Dprototypes">these Mario Kart prototypes</a>, and completed it with <a href="http://xem.github.io/articles/#js1k2017">this blog post</a> where I explain in detail the making of my JS1k entry "Can I haz 1Karrot".
 <br><img src="images/js13k17/prototypes.png" width=600>
 <li>And only 3 hours before the start of the compo, I made a <a href="//github.com/xem/miniMusic">tiny visual music editor</a> that lets you draw and export any melody with a JS player as small as 150 bytes.
@@ -188,7 +190,7 @@
 <li>The ability to resize the grid and the snake, edit/test the puzzle, reset everything and export the puzzle as an url. (Ex: <b>"http://(game-url)/#5,5,1,,1000010000111001110011111"</b>). Hopefully this compact notation will allow to include all the built-in levels in the game files...
 <li>when playing, the cells coloring in red and green according to the movements of the snake, and many tests are performed to check if a puzzle is solved,
 <li>the collision checks to avoid going in a place that already contains a snake's cube (but allow to take the place of the very last cube, because when the head of the snake will move there, the last cube will move away, freeing that spot!),
-<li>prevent the 3D snake from going below the ground (unless the wrap is enabled of course, because that actually makes it go upwards),
+<li>prevent the 3D snake from going below the ground (unless the wrap is enabled of course, because that actually makes it go upward),
 <li>disable keyboard inputs during the snake's transition,
 <li>and enable warping only for the cubes that try to get out of the puzzle, but not on the cubes that haven't entered the puzzle yet.
 </ul>
@@ -211,9 +213,9 @@
 
 <p>Anyway, the byte count is currently 19.5kb (commented and uncompressed), and only 3.4kb (not golfed, but minified and zipped).
 
-<p>At first I thought <a href="https://babeljs.io/repl">BabelJS</a> (and its Babili/ES2017 presets) was the new graal of JS minification, but no! The slow and ugly <a href="https://closure-compiler.appspot.com/home">Google Closure compiler</a>, even if it outputs only ES5 code, is still the best compressor for JS code out there! (its output is around 3% smaller than BabelJS's, and ES5 ensures a better compatibility with older or bad browsers, like the ones on iOS, so it's win-win)
+<p>At first I thought <a href="https://babeljs.io/repl">BabelJS</a> (and its Babili/ES2017 presets) was the new Holy Grail of JS minification, but no! The slow and ugly <a href="https://closure-compiler.appspot.com/home">Google Closure compiler</a>, even if it outputs only ES5 code, is still the best compressor for JS code out there! (its output is around 3% smaller than BabelJS's, and ES5 ensures a better compatibility with older or bad browsers, like the ones on iOS, so it's win-win)
 
-<p>I also thought of a few musics that may be played in the different sections of the game. We'll see that later.
+<p>I also thought of a few melodies that may be played in the different sections of the game. We'll see that later.
 
 <br>
 <br>
@@ -221,9 +223,9 @@
 <br>
 <h3>Week 2</h3>
 
-<p>Let's start by fixing a few boring details. First, the controls. I've tried many configuration and finally implemented the one that seems the most natural: arrow keys to move forwards, backwards, left and right (relative to the camera), shift to go upwards, ctrl to go downwards. I won't provide a way to just "look up", "look down" like in the moving cube prototype. On mobile, there will be buttons on the screen to simulate these 6 keys.
+<p>Let's start by fixing a few boring details. First, the controls. I've tried many configuration and finally implemented the one that seems the most natural: arrow keys to move forward, backward, left and right (relative to the camera), shift to go upward, ctrl to go downward. I won't provide a way to just "look up", "look down" like in the moving cube prototype. On mobile, there will be buttons on the screen to simulate these 6 keys.
 
-<p>Another important fix is to make the wraps much clearer visually. Instead of transitioning to the other side of the level, the cubes can now quit the level, disappear, reappear on the other side, and then transition to the right place. Easier said than done, it took me an entire day and a headache to get this result:
+<p>Another important fix is to make the wraps much clearer visually. Instead of transitioning to the other side of the level, the cubes can now leave the level, disappear, reappear on the other side, and then transition to the right place. Easier said than done, it took me an entire day and a headache to get this result:
 
 <p><img src="images/js13k17/snake12.gif" width=400>
 
@@ -255,8 +257,8 @@
 
 <p>The main difference with the puzzle editor is that here, the snake first gets out of the ground, can move but doesn't have a puzzle to solve (yet), and the camera must follow it around the scene.
 
-<p>I rewrote the code of the trees and tree shadows to appear at precise coordinates and with solid hitboxes. The trees are slightly slanted backwards to face the camera (when I first used this trick, I discovered it was <a href="https://twitter.com/maximeeuziere/status/835607608971128832">also used in Super Mario 64!</a>).
-<p>I also added a few custom transitions and timeouts on the scene and the snake's head to make a mini opening cinematic. Here's a first preview (with camera rotations to show how the trees are tilted backwards):
+<p>I rewrote the code of the trees and tree shadows to appear at precise coordinates and with solid hitboxes. The trees are slightly slanted backward from the camera (when I first used this trick, I discovered it was <a href="https://twitter.com/maximeeuziere/status/835607608971128832">also used in Super Mario 64!</a>).
+<p>I also added a few custom transitions and timeouts on the scene and the snake's head to make a mini opening cinematic. Here's a first preview (with camera rotations to show how the trees are tilted backward):
 
 <p><img src="images/js13k17/snake13.gif" width=400>
 
@@ -301,7 +303,7 @@
 
 <p><b>The first 2D puzzles</b>
 
-<p>A new challenge appears: display many puzzles in a room and let the player solve them in any order. Moreover, the camera must focus on the puzzle's grid while the snake is inside, and the game engine must show the solved state of every puzzle and save it in localStorage (in order to avoid solving a puzzle multiple times). Finally, the snake can quit a puzzle before it finishes solving it.
+<p>A new challenge appears: display many puzzles in a room and let the player solve them in any order. Moreover, the camera must focus on the puzzle's grid while the snake is inside, and the game engine must show the solved state of every puzzle and save it in localStorage (in order to avoid solving a puzzle multiple times). Finally, the snake can leave a puzzle before it finishes solving it.
 
 <p><img src="images/js13k17/snake17.gif" width=400>
 
@@ -332,7 +334,7 @@
 
 <p><img src="images/js13k17/snake20.png">
 
-<p>I threw away a lot of puzzles, but it's for the good cause: I want the players (and the judges) to quickly discover the two other sections of the game!
+<p>I threw away a lot of puzzles, but for a good cause: I want the players (and the judges) to quickly discover the two other sections of the game!
 
 <p>Budget-wise, I'm quite happy that these 3 rooms and 18 puzzles only add 600b to my zip (even though they add nearly 4kb in the source code). Of course they need more decoration but it's alredy a nice compression.
 
@@ -344,7 +346,7 @@
 
 <p><b>God mode!</b>
 
-<p>When you make a game with a long intro and progression, you quickly get annoyed when you have to replay from the beginning to arrive at a certain point. In that case I highly recommend to create a "godmode": a secret menu containing shortcuts to different places or states in the game. Here's mine:
+<p>When you make a game with a long intro and progression, you quickly get annoyed when you have to replay from the beginning to arrive at a certain point. In that case I highly recommend to create a "god mode": a secret menu containing shortcuts to different places or states in the game. Here's mine:
 
 <p><img src="images/js13k17/snake22.gif" width=400>
 
@@ -356,7 +358,7 @@
 
 <p><img src="images/js13k17/hint.png">
 
-<p>When I added these hints in the game, I realized something with CSS3D sprites (eg. the trees, and apples, and now the hints). They won't appear at the right place if you set this in their CSS: (imagine that W, H, L and T represent a width, height, left offset and top offset in vh)
+<p>When I added these hints in the game, I realized something with CSS3D sprites (eg. the trees, and apples, and now the hints). They won't appear at the right place if you set this in their CSS: (imagine that W, H, L and T represent respectively a width, a height, a left offset and a top offset in vh)
 <pre class=code>width: W;
 height: H;
 left: L;
@@ -371,7 +373,7 @@ height: H;
 left: L;
 bottom: 0;
 transform-origin: 50% 100%;
-transform: translateY(Y) rotateX(-90deg);</pre>
+transform: translateY(T) rotateX(-90deg);</pre>
 
 <p>When you do it this way, the point at the bottom center of the sprite is moved at the exact coordinates L:T in the scene, thanks to the "bottom: 0" that makes it start exactly from the top of the scene!
 
@@ -396,11 +398,12 @@ transform: translateY(Y) rotateX(-90deg);</pre>
 
 <p>The snake can then go into a room containing 12 puzzles. The first room was very complicated to design because its puzzles form a big easter egg, that I won't spoil here. With the help of the beta-testers, I managed to enhance the puzzles and optimize this room so that the easter-egg is more easy to see. If you already saw it, you can see a before/after picture <a href="images/js13k17/easteregg.png" target=_blank>here</a>, and the final version with extra highlight <a href="images/js13k17/easteregg.gif" target=_blank>here</a>. It's indeed much clearer like that!
 
-<p>Then, tere are just 2 puzzles of size 16 and 2 puzzles of size 20, because of a sudden lack of ideas. I spent hours trying to design other puzzles for these rooms but all of them were too easy or didn't have a solution, so it's a sign that it's time to move to something else!
-
-<p>When tese rooms are completed, the puzzle editor gets a new option to draw 2D wrap puzzles.
+<p>Then, there are just 2 puzzles of size 16 and 2 puzzles of size 20, because of a sudden lack of ideas. I spent hours trying to design other puzzles for these rooms but all of them were too easy or didn't have a solution, so it's a sign that it's time to move to something else!
 
 <p><img src="images/js13k17/scribbles2.png">
+
+<p>When these rooms are completed, the puzzle editor gets a new option to draw 2D wrap puzzles.
+
 
 <p>However, beta tests showed that the difficulty curve was too steep between the tutorial  and the 12 first wrap puzzles, so I added an extra room with 4 "easy" wrap puzzles, just after the tutorial, and it seems to be very helpful indeed.
 
@@ -419,11 +422,11 @@ transform: translateY(Y) rotateX(-90deg);</pre>
 
 <p><b>Gravity</b>
 
-<p>Our little snake can go up and down, but it must not fly! So I added a big bunch of code to test if all the parts of the snake are on the floor or on a cube, and if they're not, all the cube parts get instantly lowered.
+<p>Our little snake can go up and down, but it must not fly! So I added a big bunch of code to test if all the parts of the snake are on the floor or on a cube, and if they're not, all the snake's cubes get instantly lowered.
 
 <p><img src="images/js13k17/snake26.gif" width=400>
 
-<p>If the snake backtracks just after being lowered, some of its parts can glitch a little because their "history" has been rewritten, but I won't fix that, it's too complex. Let's say it's an hommage to last year's theme...
+<p>If the snake backtracks just after being lowered by the gravity, some of its parts can glitch a little because their "history" has been rewritten, but I won't fix that, it's too complex. Let's say it's an hommage to last year's "glitch" theme...
 
 <p>Fast-forward a few days: this gravity system caused me a big headache in a particular edge case that has some chances to happen during a normal gameplay: when the snake is entering a 3D puzzle by the top side, and falls inside the puzzle because it's not tall enough, and if we press R to quit the puzzle, the snake gets stuck in an infinite loop of quitting the puzzle and falling inside it, and it can't move anymore. Eventually, my (dirty) fix was to put a try/catch around the falling code and if it detects an infinite loop, the game rollbacks for a number of moves equal to the snake's size. It'll generally land a few steps before the entrance of the puzzle and won't be stuck anymore. And besides a little freeze, the result is practically unnoticeable! Ex:
 
@@ -443,7 +446,9 @@ transform: translateY(Y) rotateX(-90deg);</pre>
 
 <p><b>The 3D area</b>
 
-<p>The 3D puzzles, that must be solved with the little snake, required a few days to design (designing 2D puzzles was hard, but designing 3D puzzles is super hard!). And yes, still on paper.
+<p>The 3D puzzles, that must be solved with the little snake, required a few days to design (designing 2D puzzles was hard, but designing 3D puzzles is super hard!). And yes, still on paper, because I'm more inspired when I'm outside.
+
+<p><img src="images/js13k17/outside.jpg" width=400>
 
 <p><img src="images/js13k17/scribbles3.png">
 
@@ -525,7 +530,7 @@ At least it respects the theme, and it's a reference to the snakes in the game!
 }</pre>
 <li>Mobile fullscreen: with the help of Twitter friends, I <a href="https://twitter.com/MaximeEuziere/status/903222067490955265">found a way to do it</a>, but finally I abandoned the idea of forcing fullscreen display on mobile because of the lack of iOS support for the fullscreen API, and the need to save bytes. 
 <li>localStorage does not write or delete entries instantly. If you create or delete a localStorage key, always have local variables updated at the same time, because when you need them later, localStorage may not have updated itself yet, and there are chances it won't contain what you think it contains.
-<li>When you press a button on mobile, there's no recurrent event being fired, telling you that the button is still being pressed, contrary to keyboard keys, firing keypress events all the time. To make long presses on directional buttons behave like long press og real keys, the trick is to start a setInterval ontouchstart, calling the desired function at each loop, and stop it ontouchend. But on touchend, it must be stopped after a certain delay, or else it won't loop once if you just tap quiclky the button! And finally, to avoid having many uncancellable intervals by tapping the buttons too fast, we have to cancel any previous loop when a button is touched. Here's how it looks in my code (pro tip: touchstart and touchend trigger the real keyboard events):
+<li>When you press a button on mobile, there's no recurrent event being fired, telling you that the button is still being pressed, contrary to keyboard keys, firing keypress events all the time. To make long presses on directional buttons behave like long presses on real keys, the trick is to start a setInterval on touchstart, calling the desired function at each loop, and stop it on touchend. But on touchend, it must be stopped after a certain delay, or else it won't loop once if you just tap quiclky the button! And finally, to avoid having many uncancellable intervals by tapping the buttons too fast, we have to cancel any previous loop when a button is touched. Here's how it looks in my code (pro tip: touchstart and touchend trigger the real keyboard events):
 <pre class=code>
 touchstart = (n) => {
 
@@ -563,7 +568,7 @@ touchend = (n) => {
 
 <p><img src="images/js13k17/beta.jpg">
 
-<p>This year I have the chance to have a lot of volunteers for testing my game. I gathered a lot of feedback by watching them play IRL, or by interviewing them when they live in other countries. All want very well, a lot of puzzles, hints and features were added thanks to their tests. A thousand thanks to all of them (and all the others who followed the progress on twitter and told me that it was looking great):
+<p>This year I have the chance to have a lot of volunteers for testing my game. I gathered a lot of feedback by watching them play IRL, or by interviewing them when they live in other countries. All went very well, a lot of puzzles, hints and features were added thanks to them. A thousand thanks to all of them (and all the others who followed the progress on twitter and told me that it was looking great):
 <ul>
 <li>Tommy Hodgins
 <li>Adrien Guéret
@@ -573,6 +578,7 @@ touchend = (n) => {
 <li>Lucas Dupuis
 <li>Victoire Yau
 <li>Pierre Vignaux
+<li>Jules Baratoux
 <li>Nicolas Pierre-Loti-Viaud
 <li>Anders Kaare
 <li>Matthew Mccord
@@ -584,11 +590,11 @@ touchend = (n) => {
 <li>My parents
 </ul> 
 
-<p>One sad note though: almost no one reads my signposts. Most of the testers wondered how to eat the second apple without getting stuck. There's a signpost a few centimeters ahead that tells to press Alt to backtrack, but it's still not clear enough. Meh... I don't know what else I can do if people don't read signposts!
+<p>One sad note though: almost no one reads my signposts. Most of the testers wondered how to eat the second apple without getting stuck. There's a signpost a few centimeters ahead that tells to press Alt to backtrack, but it's still not clear enough. Meh... I don't know what else I can do if people don't wanna read! It's not a game for lazy people :p
 
 <p><b>Decoration</b>
 
-<p>For decoration, there was not much room available, so I just added an emoji animal in each room, and applied a light animation to the animals and the apple. It's a little detail but it makes the world less static.
+<p>For decoration, there was not much room available, so I just added an emoji animal in each room, and applied a little CSS animation to the animals and the apples. It's a little detail but it makes the world less static.
 
 <p>When I added the animals, I realized that all my emoji shadows were wrong: they actually needed an extra "scaleX(-1)" and a bigger angle to be symmetrical to the actual emoji. Here are the "emoji shadows 2.0":
 
@@ -602,15 +608,15 @@ touchend = (n) => {
 
 <p>Moreover, on MacOS, the emoji have line-heights different than all the other OS's, so I added specific hacks to have the trees, apples and animals actually touch the ground.
 
-<p>Current size: 87.8kb unminified, 13.1kb minified and zipped. There are a few days left to add musc and actually golf the code! Yay!
+<p>Current size: 87.8kb unminified, 13.1kb minified and zipped. There are a few days left to add music and actually golf the code! Yay!
 
 <p><b>Trees fix!</b>
 
-<p>Remember my problem of disappearing trees? Webkit browsers (Chrome, Safari, Android) don't like to draw trees exceeding a certain font-size <i>in pixels</i>, so I finally found the right solution. I made all the elements of my game almost two times smaller, and made the camera two times closer to the scene to compensate. It required a lot of edits (in CSS and in JS, especially the cinematics) but it worked like a charm. The trees appear as big as before, but with a font-size two times smaller, they don't glitch anymore!
+<p>Remember my problem of disappearing trees? Webkit browsers (Chrome, Safari, Android) don't like to draw trees exceeding a certain font-size <i>in pixels</i>, so I finally found the right solution. I made all the elements of my game almost two times smaller, and made the camera two times closer to the scene to compensate. It required a lot of edits (in CSS and in JS, especially the cinematics) but it worked like a charm. The trees appear about as big as before, but with a font-size technically two times smaller, they don't glitch anymore!
 
 <p><b>Lose weight!</b>
 
-<p>The first attempt to lose bytes consisted in replacing all my classNames, ids and localStorage keys with one-char variables. It failed miserably (I forgot that css classes were case-insensitive, so my ".a" collided with my ".A", and same for all the rest of the alphabet), so I reverted everything.
+<p>The first attempt to lose bytes consisted in replacing all my classNames, ids and localStorage keys with one-char variables. It failed miserably (I forgot that in CSS codes, ids and classnames were case-insensitive, so my ".a" collided with my ".A", my "#a" with my "#A", and same for all the rest of the alphabet), so I reverted everything.
 
 <p>New tactic: rewrite my beloved puzzle editor, but much simpler, and reusing all the code of the game engine to resize the grid or move the snake. I also followed the idea of some beta-testers and removed the ability to draw a puzzle completely. Now to make a puzzle, you just have to place the snake as you want on the grid and click "share":
 
@@ -618,13 +624,11 @@ touchend = (n) => {
 
 <p>This editor rewrite saved 900b in my zip. (12.2kb)
 
-<p>After adding a bit of decoration and byte-consuming visual enhancements (especially the "wrap walls", the highlighting of the easter-eggs, and spawning a signpost after the first easter-egg to show where's the exit), finishing the puzzle editor, and making the 3D wrap puzzles walls solid after they're completed, nearly 800b were added to the zip size.
+<p>After adding a bit of decoration and byte-consuming visual enhancements (especially for the "shiny wrap walls", the highlighting of the easter-eggs, and spawning a signpost after the first easter-egg to show where the exit is), finishing the puzzle editor, and making the 3D wrap puzzles walls solid after they're completed, nearly 800b were added to the zip size.
 
 <p>After putting all my code in a single file, removing more dead code, and retrying (successfully) to reduce the names of my ids and localStorage keys, I managed to save plenty of space.
 
-<p>Status at the end of week 4: 75 puzzles, X kb of code, X lines of code, Xkb minified and zipped.
-
-<p>And no music yet...
+<p>I'm still very close to 13kb... and there's no music yet...
 
 <br>
 <br>
@@ -635,43 +639,42 @@ touchend = (n) => {
 
 <p><b>Music!</b>
 
-<p>As usual, Anders Kaare saved my life during the last week-end of the compo, and he had a great idea: to play a melody (kindly created by himself), but play all the notes one by one, each time the snake moves! That's pretty original and works very well, with a very small overhead. Thanks a lot to him, and to McCoordinator who also kindly offered to make a music for my game. I'm keeping everything he's done for my next games! :D You guys rock!
+<p>As usual, Anders Kaare saved my life at the end of the last week-end of the compo, and he had a great idea: to play a melody that he composed, but play all the notes one by one, each time the snake moves! That's pretty original and works very well, with a very small overhead. Thanks a lot to him, and to McCoordinator who also kindly offered to make a music for my game. I'm keeping his prototypes and stay in touch for my next games! :D You guys rock!
+
+<p>Anders shared a few details about how he made the two melodies of the game: (verbatim)
+
+<i>
+<ul>
+<li>The source code for the songs is here: <a href="https://github.com/sqaxomonophonen/hodgepodge/tree/master/codes/js13kmusic">on Github</a>.
+<li>I used <a href="https://www.renoise.com/">Renoise</a> to compose the music. It was unexpectedly nice for the task because [enter] steps through the music just like moving does in the game, so I could verify the music worked with an unsteady tempo, without having to build index.html first.
+<li>Renoise's music format is open and XML-based, so I simply wrote Python script that compiles the notes into a JS string (well, initially a JS array), and then some bash scripts to throw the data into index.html.
+<li>The Python stuff was salvaged and repurposed from an earlier Ludum Dare entry of mine that also exported/converted Renoise music (<a href="https://github.com/sqaxomonophonen/ld32-drums-of-the-dead">Github</a>).
+<li>I also reused the Audio()/base64 stuff we used both this and last year. I thought it would be better for on-demand sound (because you could argue the music is a kind of sound fx), rather than WebAudio API stuff that's better for streaming
+</ul>
+</i>
+
+<p>To clear things up (or scare you a little more, depending on how you react to dirty hacks explanations), each sound effect in the game, and each note of the melodies, constitutes a specific "wave shape", that is represented with 44100 numbers per second. All these values are computed procedurally and placed in a wav file that is created out of thin air, comverted in base64'd and played on-the-fly with an Audio tag.
+
+<p>The demo/code he sent me last sunday is available <a href="http://veralin.dk/js13k_17.html">here</a>.
+
+<p>There was no time for the sound effects, so I just reused procedural sounds Anders made for my 2016 entry.
 
  
 <p><b>Add stuff, Minify, Golf, Zip, Advzip, Repeat! (and Screw you, Closure Compiler!)</b>
 
-<p>After adding the music and a few sound effects borrowed from last year's game, and compressing everything, I realized that my zip had reached a size of 13kb plus a few bytes. That's cool!
+<p>After adding the music and sound effects, and compressing everything, I realized that my zip had reached a size of 13.4kb plus a few bytes. Pretty cool!
 
 <p>However, something less cool occurred. My minified JS code was all broken, because when Closure Compiler minified my code and renamed all my vars, it didn't rename them in my 44 setTimeout's and 7 setInterval's. Ex:
 <pre class=code>
-Song = () => {
-  ...
-}
+var Song = () => { /*...*/ } // This function gets renamed as "A"
 
-setInterval("Song.forward()",500); // after minification, I get an error saying "Song is not defined"</pre>
+setInterval("Song.forward()",500); // After minification, the browsers throws an error saying "Song is not defined"</pre>
 
-<p>Even if it was a bit late, the solution was to spend a few hours rewriting all my intervals and timeouts using functions instead of strings... The most boring task was to use closures or change the logic to be able to pass vars to the delayed/repeated functions when they're in for loops. Ex:
+<p>Closure Compiler transpiles ES6 to ES5 but doesn't interpret string passed to setTimeout and setInterval. I didn't know that and it was pretty annoying.
 
-<pre class=code>// Using logic changes
-// Before
-z = 0;
-for(i = 0; i < snakelength; i++){
-  z--;
-  setTimeout("snakez.push("+z+")");
-}
+<p>Even if it was a bit late, the solution was to spend a few hours rewriting all my intervals and timeouts using functions instead of strings... The most boring task was to use closures to be able to pass vars to the delayed/repeated functions when they're in for loops. Ex:
 
-// After
-var z = 0;
-for(i = 0; i < snakelength; i++){
-  setTimeout(()=>{
-    snakez.push(z--);
-  }, i * 150);
-}</pre>
-
-By chance, closures are much easier to write in ES6 than before (but I still hate them):
-
-<pre class=code>// Using closures
-// Before
+<pre class=code>// Before
 for(var i in apples){
   if(applecanappear[i]){
     setTimeout('top["apple"'+i+'].className="emoji apple"',800);
@@ -682,18 +685,49 @@ for(var i in apples){
 for(var i in apples){
   if(applecanappear[i]){
     setTimeout(
-      (
-        ()=>{
-          scene.style.transform="translateX("+(-apples[i][0]*sidesize)+"vh)translateY("+(-apples[i][1]*sidesize)+"vh)translateZ(50vh)rotateX(35deg)";
-          L[P+"appleappeared"+pagename+i]=1;
-          scene.style.transformOrigin=""+(apples[i][0]*sidesize)+"vh "+(apples[i][1]*sidesize)+"vh"
+      function(i){
+        return function(){
+          top["apple"+i].className="emoji apple"
         }
-      )(i), 250
+      }(f),90
     );
   }
 }</pre>
 
+<P>Actually, with the kind help of @kuvos, @veubeke, @AdrienGueret and @salvan13, I was able to gather 3 different ways to rewrite a "string interval" as a "non-string" interval. They're listed <a href="jsfiddle.net/f0mbessr/">here</a>.
+<br>After a pass in Closure Compiler, two of them are transformed to the same code. The last one becomes a closure. <a href="https://twitter.com/MaximeEuziere/status/907124053802143744">weird</a>.
+
+<p>As there was still a lot of bytes to remove, I continued my manual rewriting session, and renamed all the hardcoded elements' classNames and ids and all localStorage keys as one or sometimes 2 chars, by following <a href="https://github.com/xem/JS13k17/blob/gh-pages/dico.txt">this rudimentary dictionnary</a>.
+
+<p>After a long rename/debug session, and after dropping a few useless signposts, I managed to fall below 13kb 15h before the deadline, only to realize later in the night that my editor was all broken, once again because of Closure Compiler.
+<br>
+Closure Compiler renames all vars, even if they're global, and even if they're declared as "top.varname = 1234;". But I still had dozens of places in my code where I had to call a variable by its id in the top object (ex: top["u"]), but CC also didn't interpret that correctly ones. It renamed the original u but kept the top["u"] as-is. The solution was to "force" CC to not rename these vars that are required in strings, by being more silly than it:
+
+<pre class=code>
+// Before
+u=r=d=l=s=c=B=0;
+
+// After
+window["u"]=window["r"]=window["d"]=window["l"]=window["s"]=window["c"]=window["B"]=0
+
+// Then minify that, paste the result in my min.html file, and put back the "before' version to save bytes.
+</pre>
+
+<p>Last warning: Closure Compiler adds line breaks in minified JS code. This is a good practice for real-life JS code, but for js13kgames, all these line breaks (75 in my case) can and must be removed.
+
+<p>Last scare</p>
+
+<p>I submitted my game at 1h40 AM, less than 12h before the deadline, and wend to sleep.
+
+<p>The morning, I saw it online and tried it. All my "return to main menu" links were broken. Turns out, these links had a href=".", and js13kgames.com didn't support that. So I renamed each "." in "index.html", and everything went back to normal after I sent an updated version to Andrzej at 9h30.
+
+<p>Final version of the game, after all the necessary hacks and renames: 86.1kb commented, 3175 lines of code, 41.6kb minified, 13300 bytes zipped and advzipped. Just 12b below the limit!
+
+<p>BTW, If you don't know advzip, it's a zip recompressor that optimizes any zip as strongly as possible. Without it, my final zip would have been over 13.4kb. A real life saver. <a href="https://twitter.com/MaximeEuziere/status/905787255721263105">How to use it</a>.
+
 <p><b>Bonus</b>
+
+<p>During my spare time, I prepared <a href="https://xem.github.io/JS13k17/bonus.html">a bonus page</a>, on my Github, where I could put all the levels I didn't include in the game, and all the levels shared on Twitter plus a link to this making-of, and my Github, and my Itch page, as well as the game credits, and a video of my dev speedrun. This video was recorded september 13 at 9h00, just before updating and sending my zip to Andrzej, so I could include my time and move count (the lowest I had ever done) in the final game over screen!
 
 <br>
 <br>
@@ -701,6 +735,10 @@ for(var i in apples){
 <br>
 
 <h3>Conclusion</h3>
+
+<p>After the release, the game had super nice reviews from friends, and people on Twitter and Slack. Most of them enjoyed the music a lot (maybe because they know how hard it is to make music for a 13kb game, and they don't have the chance to have Anders as a magi-musi-cian). Some people even had more fun with the interactive music than with the game itself, heh!
+
+<p>To be concluded after the results!
 
 
 </div>
@@ -1492,7 +1530,7 @@ setTimeout`foo=1,bar=2${99}baz=3`;</pre>
   <br>
   <h3>Subtlety #1: HTML elements vs. axis, translations and rotations?</h3>
   <br>
-  By default, each HTML element of your page is drawn at a certain position according to the flow of the page and the CSS you applied to the element, its neighbours and its ancestors. It has no translation and no rotation, and its default transform-origin it at their top-left corner. This transform-origin is editable, and it's the starting point of all the possible CSS transforms, but six of them are particularly important here: rotateX / Y / Z and translateX / Y / Z. The X axis goes on the right, the Y axis goes downwards, and the Z axis goes in depth towards your eyes, as you can see in the following demo:
+  By default, each HTML element of your page is drawn at a certain position according to the flow of the page and the CSS you applied to the element, its neighbours and its ancestors. It has no translation and no rotation, and its default transform-origin it at their top-left corner. This transform-origin is editable, and it's the starting point of all the possible CSS transforms, but six of them are particularly important here: rotateX / Y / Z and translateX / Y / Z. The X axis goes on the right, the Y axis goes downward, and the Z axis goes in depth towards your eyes, as you can see in the following demo:
   <p><a href="demos/css3d/transform.html">DEMO!</a>
   <p><img src="images/css3d/axis.gif">
   <p>The demo above allows to move the transform-origin of a square (represented by a red dot), and allows to translate in X,Y and Z axis and rotate along X,Y and Z axis, in this order. All the range inputs go from 0 to 100 (regardless to the units used).
@@ -1551,8 +1589,8 @@ setTimeout`foo=1,bar=2${99}baz=3`;</pre>
   <p>Adding interactivity (controls) to a 3D scene is rather simple if you're well organized and keep <a href="https://gist.github.com/xem/99930986c5333125a13b0ea50600391f">a few trigonometry basics</a> in mind:
   <p>(NB: the following tips mostly apply to CSS3D games with first-person or third-person view, like a FPS or Mario Kart.)
   <p>For example, you may want to look around you using the mouse or the keyboard, so you can declare a var called angle_z, and update it every time you move the mouse or press Left/Right arrows.<br>For more simplicity, this var will contain your Z rotation in radians (one turn = 2 * PI ~= 6.28 radians). It's possible to use degrees but all the JS Math functions work in radians and you'd need to convert units all the time, so I don't recommend it.
-  <p>You'll probably want to move too, that's why you can declare two vars x_pos and y_pos. If you're surprised by the "Y" axis used to walk forwards and backwards, remember that our 3D game starts as a 2D game, and in 2D, the Y axis allows you to move up and down, which will become a forwards-backwards movement after passing in 3D view. These vars can be updated with keyboard inputs for example. 
-  <p>Remark: naively, we can think that it's okay to move along the X axis when we press left and right keys, and move along the Y axis when we press up and down keys, but in first-person or third-person view, it's often not what we want at all. What we want is to go forwards according to our current angle! So when we press "up", the right thing to do is probably something like:
+  <p>You'll probably want to move too, that's why you can declare two vars x_pos and y_pos. If you're surprised by the "Y" axis used to walk forward and backward, remember that our 3D game starts as a 2D game, and in 2D, the Y axis allows you to move up and down, which will become a forward-backward movement after passing in 3D view. These vars can be updated with keyboard inputs for example. 
+  <p>Remark: naively, we can think that it's okay to move along the X axis when we press left and right keys, and move along the Y axis when we press up and down keys, but in first-person or third-person view, it's often not what we want at all. What we want is to go forward according to our current angle! So when we press "up", the right thing to do is probably something like:
   <pre class=code>pos_x += walk_speed * Math.sin(angle_z);
 pos_y += walk_speed * Math.cos(angle_z);</pre>
   <p>Finally, we want to apply these vars to our scene at each frame, and to do so, we just have to generate a CSS transform string and apply it with JS; something like:
@@ -2958,7 +2996,7 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
 // b: body
 // c: canvas context2d
 // d: which animation (0: none, 1: X, 2: Y, 3: Z)
-// e: animation direction (1 = forward, 3 = backwards)
+// e: animation direction (1 = forward, 3 = backward)
 // f: array containing the coordinates of all the points of the tesseract (to read 3 by 3). They are arranged to form a hamiltonian path where all edges are used only once (see http://img.ctrlv.in/img/15/02/14/54dfca5f4c396.png)
 // g: null at the beginning, then truthy while the demo plays
 // h: rotation state (0: pause, 1: play)
