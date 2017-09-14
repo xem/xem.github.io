@@ -658,11 +658,11 @@ touchend = (n) => {
 
 <p>To clear things up (or scare you a little more, depending on how you react to dirty hacks explanations), each sound effect in the game, and each note of the melodies, constitutes a specific "wave shape", that is represented with 44100 floating numbers, per second and sent to the speakers.
 
-<p>For example, here are all the samples for the sound that I used to tell that a puzzle is completed, plotted. This ~150ms sound is made of 16000 floating-point samples! (full list <a href="images/js13k17/coin.js">here</a>)
+<p>For example, here are all the samples for the sound that I used to tell that a puzzle is completed, plotted. This ~150ms sound is made of 16000 floating-point samples! (full list <a href="images/js13k17/win.txt">here</a>)
 
 <p><img src="images/js13k17/wav1.png" width=400>
 
-<p>Of course, all these values are not stored in the game's code, but are computed procedurally, placed in a wav file that is created out of thin air, comverted in base64'd and played on-the-fly with an Audio tag.
+<p>Of course, all these values are not stored in the game's code, but are computed procedurally, placed in a wav file that is created out of thin air, converted in base64'd and played on-the-fly with an Audio tag.
 
 <p>Demo:
 
@@ -798,10 +798,10 @@ for(var i in apples){
   }
 }</pre>
 
-<P>Then, with the kind help of @kuvos, @veubeke, @AdrienGueret and @salvan13, I was able to gather 3 different ways to rewrite a "string interval" as a "non-string" interval. They're listed <a href="jsfiddle.net/f0mbessr/">here</a>.
+<P>Then, with the kind help of @kuvos, @veubeke, @AdrienGueret and @salvan13, I was able to gather 3 different ways to rewrite a "string interval" as a "non-string" interval. They're listed <a href="//jsfiddle.net/f0mbessr/">here</a>.
 <br>After a pass in Closure Compiler, two of them are transformed to the same code. The last one becomes a closure. <a href="https://twitter.com/MaximeEuziere/status/907124053802143744">weird</a>. But good to know.
 
-<p>As there was still a lot of bytes to remove, I continued my manual rewriting session, and renamed all the hardcoded classNames and ids as one or 2 chars, by following <a href="https://github.com/xem/JS13k17/blob/gh-pages/dico.txt">this rudimentary dictionnary</a>.
+<p>As there was still a lot of bytes to remove, I continued my manual rewriting session, and renamed all the hardcoded classNames and ids as one or 2 chars, by following <a href="https://github.com/xem/JS13k17/blob/gh-pages/dico.txt">this rudimentary dictionary</a>.
 
 <p>After a long rename/debug session, and after dropping a few useless signposts, I managed to fall below 13kb 15h before the deadline, only to realize later in the night that my editor was all broken, once again because of Closure Compiler:
 <br>
@@ -821,9 +821,9 @@ window["u"]=window["r"]=window["d"]=window["l"]=window["s"]=window["c"]=window["
 
 <p><b>Final scare</b>
 
-<p>I submitted my game at 1h40 AM, less than 12h before the deadline, and wend to sleep.
+<p>I submitted my game at 1h40 AM, less than 12h before the deadline, and went to sleep.
 
-<p>The morning, I saw it online and tried it. All my "return to main menu" links were broken. Turns out, these links had a href="." attribute, and js13kgames.com didn't support that. So I renamed each "." in "index.html", and everything went back to normal after I sent an updated version to Andrzej at 9h30.
+<p>The next morning, I saw it online and tried it. All my "return to main menu" links were broken. Turns out, these links had a href="." attribute, and js13kgames.com didn't support that. So I renamed each "." in "index.html", and everything went back to normal after I sent an updated version to Andrzej at 9h30.
 
 <p>Final version of the game, after all the necessary hacks and renames: ~200h of work (including thinking + drawing + coding + beta-testing), 86.1kb commented, 80 global vars (including functions), 3175 lines of code, 41.6kb minified, 13300 bytes zipped and advzipped. Just 12b below the limit!
 
@@ -840,7 +840,7 @@ window["u"]=window["r"]=window["d"]=window["l"]=window["s"]=window["c"]=window["
 
 <h3>Conclusion</h3>
 
-<p>After the release, the game had super nice reviews from friends, and from a lot od friends and strangers on Twitter and on Slack. Most of them really enjoyed the music (maybe because they know how hard it is to make music for a 13kb game, and they don't have the chance to have Anders as a magi-musi-cian).
+<p>After the release, the game had super nice reviews from friends, and from a lot of friends and strangers on Twitter and on Slack. Most of them really enjoyed the music (maybe because they know how hard it is to make music for a 13kb game, and they don't have the chance to have Anders as a magi-musi-cian).
 <p>Some people even told me that they had more fun with the interactive music than with the game itself, heh!
 <p>I also went into each room of the game and counted all the HTML elements generated by my game's engine, and dumped all the HTML code generated in a single file.
 <p>I teased the result with <a href="https://twitter.com/MaximeEuziere/status/908016906732556288">this poll</a>, then revealed the answer <a href="https://twitter.com/MaximeEuziere/status/908401502410211330">here</a>: 7434 elements and 1.26MB of HTML is generated by my 13kb game! How crazy is that?!
