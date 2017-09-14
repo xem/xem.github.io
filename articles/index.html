@@ -70,8 +70,9 @@
 <ul>
 <li>This post explains in detail the development of LOSSST, and contains spoilers about the game's content. It's recommended to play the game first!</a>
 <li>You can play the game here: <a href="http://js13kgames.com/entries/lossst">LOSSST on JS13KGAMES</a>
+<li>You can see all the bonuses: <a href="https://xem.github.io/JS13k17/bonus">HERE</a>
 <li>You can see the game's source code here: <a href="https://github.com/xem/JS13k17">LOSSST on GITHUB</a>
-<li>Jam Results: SOON!
+<li>Jam Results: SOON! 🤞
 </ul>
 <br>
 <hr>
@@ -111,8 +112,8 @@
 <br><img src="images/js13k17/prototypes.png" width=600>
 <li>And only 3 hours before the start of the compo, I made a <a href="//github.com/xem/miniMusic">tiny visual music editor</a> that lets you draw and export any melody with a JS player as small as 150 bytes.
 <br><img src="images/js13k17/minimusic.jpg" width=600>
-
 </ul>
+<p>Finally, I took 2 weeks of holidays to be able to work on this entry as much as I wanted!
 <br>
 <br>
 <hr>
@@ -452,7 +453,7 @@ transform: translateY(T) rotateX(-90deg);</pre>
 
 <p><img src="images/js13k17/scribbles3.png">
 
-<p>In the end there will be about 40 of them, including wall-only puzzles, wall+ground puzzles and wall+ground+wrap puzzles, for a snake of length 6 to length 20. This represent a half of the game! But the first ones are very easy, to avoid discouraging the players. Here's how the first rooms look like (wip pictures):
+<p>In the end there will be about 40 of them, including wall-only puzzles, wall+ground puzzles and wall+ground+wrap puzzles, for a snake of length 6 to length 20. This represent a half of the game! But the first ones are very easy, to avoid discouraging the players (but some of them will be cut and included in the game's bonus, to avoid annoying people too much). Here's how the 3D rooms look like (wip pictures):
 
 <p><img src="images/js13k17/world3.png" width=600>
 
@@ -568,7 +569,7 @@ touchend = (n) => {
 
 <p><img src="images/js13k17/beta.jpg">
 
-<p>This year I have the chance to have a lot of volunteers for testing my game. I gathered a lot of feedback by watching them play IRL, or by interviewing them when they live in other countries. All went very well, a lot of puzzles, hints and features were added thanks to them. A thousand thanks to all of them (and all the others who followed the progress on twitter and told me that it was looking great):
+<p>This year I have the chance to have a lot of volunteers for testing my game. I gathered a lot of feedback by watching them play IRL, or by interviewing them when they live in other countries.
 <ul>
 <li>Tommy Hodgins
 <li>Adrien Guéret
@@ -589,8 +590,9 @@ touchend = (n) => {
 <li>Nicoloz
 <li>My parents
 </ul> 
+<p>All went very well, a lot of puzzles, hints and features were added thanks to them. You guys rock!
 
-<p>One sad note though: almost no one reads my signposts. Most of the testers wondered how to eat the second apple without getting stuck. There's a signpost a few centimeters ahead that tells to press Alt to backtrack, but it's still not clear enough. Meh... I don't know what else I can do if people don't wanna read! It's not a game for lazy people :p
+<p>One sad note though (but it's my fault): almost no one reads my signposts. Most of the testers wondered how to eat the second apple without getting stuck. There's a signpost a few centimeters ahead that tells to press Alt to backtrack, but it's still not clear enough. Meh... I don't know what else I can do if people don't wanna read anything!
 
 <p><b>Decoration</b>
 
@@ -604,7 +606,7 @@ touchend = (n) => {
 
 <p>To avoid nasty visual glitches, I decided to degrade the visual quality on Firefox, MacOS and mobiles, by hiding all the shadows in the game (except the snake shadows).
 
-<p>I also made two versions of the intro (for Firefox and for the others: on Firefox the snake waits the end of the camera movement to get its head out of the ground, otherwise it's all glitchy) and two version of the easter-egg animations (for mobile and desktop, to ensure that everything is visible even if the mobile is held in portrait mode).
+<p>I also made two versions of the intro (for Firefox and for the others: on Firefox the snake waits the end of the camera movement to get its head out of the ground, otherwise it's all glitchy) and two versions of the easter-egg animations (less zoomed on mobile and more zoomed on desktop, to ensure that everything is visible even if the mobile is held in portrait mode).
 
 <p>Moreover, on MacOS, the emoji have line-heights different than all the other OS's, so I added specific hacks to have the trees, apples and animals actually touch the ground.
 
@@ -616,7 +618,7 @@ touchend = (n) => {
 
 <p><b>Lose weight!</b>
 
-<p>The first attempt to lose bytes consisted in replacing all my classNames, ids and localStorage keys with one-char variables. It failed miserably (I forgot that in CSS codes, ids and classnames were case-insensitive, so my ".a" collided with my ".A", my "#a" with my "#A", and same for all the rest of the alphabet), so I reverted everything.
+<p>The first attempt to lose bytes consisted in replacing all my classNames, ids and localStorage keys with one-char variables. It failed miserably (I forgot that in CSS, ids and classnames were case-insensitive, so my ".a" collided with my ".A", my "#a" with my "#A", and same problem for all the rest of the alphabet), so I reverted everything.
 
 <p>New tactic: rewrite my beloved puzzle editor, but much simpler, and reusing all the code of the game engine to resize the grid or move the snake. I also followed the idea of some beta-testers and removed the ability to draw a puzzle completely. Now to make a puzzle, you just have to place the snake as you want on the grid and click "share":
 
@@ -626,7 +628,7 @@ touchend = (n) => {
 
 <p>After adding a bit of decoration and byte-consuming visual enhancements (especially for the "shiny wrap walls", the highlighting of the easter-eggs, and spawning a signpost after the first easter-egg to show where the exit is), finishing the puzzle editor, and making the 3D wrap puzzles walls solid after they're completed, nearly 800b were added to the zip size.
 
-<p>After putting all my code in a single file, removing more dead code, and retrying (successfully) to reduce the names of my ids and localStorage keys, I managed to save plenty of space.
+<p>After putting all my code in a single file, removing more dead code, and retrying (successfully) to reduce the names of my ids and localStorage keys into 1 or 2 chars, I managed to save plenty of space.
 
 <p>I'm still very close to 13kb... and there's no music yet...
 
@@ -639,7 +641,7 @@ touchend = (n) => {
 
 <p><b>Music!</b>
 
-<p>As usual, Anders Kaare saved my life at the end of the last week-end of the compo, and he had a great idea: to play a melody that he composed, but play all the notes one by one, each time the snake moves! That's pretty original and works very well, with a very small overhead. Thanks a lot to him, and to McCoordinator who also kindly offered to make a music for my game. I'm keeping his prototypes and stay in touch for my next games! :D You guys rock!
+<p>As usual, Anders Kaare saved my life at the end of the last week-end of the compo, and he had a great idea: to play a melody that he composed, but play all the notes one by one, each time the snake moves! That's pretty original and works very well, with a very small overhead. Thanks a lot to him, and to McCoordinator who also kindly offered to make a music for my game. I'm keeping his prototypes and stay in touch for my next games! :D You guys rock too!
 
 <p>Anders shared a few details about how he made the two melodies of the game: (verbatim)
 
@@ -653,24 +655,125 @@ touchend = (n) => {
 </ul>
 </i>
 
-<p>To clear things up (or scare you a little more, depending on how you react to dirty hacks explanations), each sound effect in the game, and each note of the melodies, constitutes a specific "wave shape", that is represented with 44100 numbers per second. All these values are computed procedurally and placed in a wav file that is created out of thin air, comverted in base64'd and played on-the-fly with an Audio tag.
+<p>To clear things up (or scare you a little more, depending on how you react to dirty hacks explanations), each sound effect in the game, and each note of the melodies, constitutes a specific "wave shape", that is represented with 44100 floating numbers, per second and sent to the speakers.
 
-<p>The demo/code he sent me last sunday is available <a href="http://veralin.dk/js13k_17.html">here</a>.
+<p>For example, here are all the samples for the sound that I used to tell that a puzzle is completed, plotted. This ~150ms sound is made of 16000 floating-point samples! (full list <a href="images/js13k17/coin.js">here</a>)
 
-<p>There was no time for the sound effects, so I just reused procedural sounds Anders made for my 2016 entry.
+<p><img src="images/js13k17/wav1.png" width=400>
 
+<p>Of course, all these values are not stored in the game's code, but are computed procedurally, placed in a wav file that is created out of thin air, comverted in base64'd and played on-the-fly with an Audio tag.
+
+<p>Demo:
+
+<pre class=code>
+// mkaudio generates samples based on a function passed in parameter, creates a wav file and exposes a "play" method
+function mkaudio(fn) {
+	var data = [];
+	for (var i = 0;;i++) {
+		var smp = fn(i);
+		if (smp === null) break;
+		data.push(smp);
+	}
+	var l = data.length;
+	var l2=l*2;
+
+	var b32 = function (v) {
+		var s = 0;
+		var b = "";
+		for (var i=0; i<4; i++,s+=8) b+=String.fromCharCode((v>>s)&255);
+		return b;
+	};
+	var b16 = function (v) {
+		var b = b32(v);
+		return b[0]+b[1];
+	};
+  
+	var SR=48e3;
+	var b = "RIFF"+b32(l2+36)+"WAVEfmt "+b32(16)+b16(1)+b16(1)+b32(SR)+b32(SR*2)+b16(2)+b16(16)+"data"+b32(l2);
+	for (var i in data) b+=b16(data[i]*10e3);
+	return new Audio("data:audio/wav;base64,"+btoa(b));
+}
+
+P=Math.pow;
+S=Math.sin;
+function t(i,n) {
+	return (n-i)/n;
+}
+
+// Here's the "equation" for the win sound
+function win(i) {
+	var n=1.6e4;
+	var c=n/7;
+	if (i > n) return null;
+	var q=P(t(i,n),2.1);
+	return (i < c ? ((i+S(-i/900)*10)&16) : i&13) ?q :-q;
+}</pre>
+
+<button id=winsound>mkaudio(win).play()</button>
+
+<script>winsound.onclick=()=>{
+function mkaudio(fn) {
+	var data = [];
+	for (var i = 0;;i++) {
+		var smp = fn(i);
+		if (smp===null) break;
+		data.push(smp);
+	}
+	var l = data.length;
+	var l2=l*2;
+
+	var b32 = function (v) {
+		var s = 0;
+		var b = "";
+		for (var i=0; i<4; i++,s+=8) b+=String.fromCharCode((v>>s)&255);
+		return b;
+	};
+	var b16 = function (v) {
+		var b = b32(v);
+		return b[0]+b[1];
+	};
+  
+	var SR=48e3;
+	var b = "RIFF"+b32(l2+36)+"WAVEfmt "+b32(16)+b16(1)+b16(1)+b32(SR)+b32(SR*2)+b16(2)+b16(16)+"data"+b32(l2);
+	for (var i in data) b+=b16(data[i]*10e3);
+	return new Audio("data:audio/wav;base64,"+btoa(b));
+}
+
+P=Math.pow;
+S=Math.sin;
+function t(i,n) {
+	return (n-i)/n;
+}
+
+function win(i) {
+	var n=1.6e4;
+	var c=n/7;
+	if (i > n) return null;
+	var q=P(t(i,n),2.1);
+	return (i < c ? ((i+S(-i/900)*10)&16) : i&13) ?q :-q;
+}
+
+mkaudio(win).play();
+
+}</script>
+
+<p>(don't get me wrong, even if I can kinda explain what happens, this code is still black magic for me)
+
+<p>The demo/code of the melodies he sent me during the last sunday of the jam is available <a href="http://veralin.dk/js13k_17.html">here</a>.
+
+<p>In case you missed it, no new sound effects were made this year, I just reused sounds that Anders had made for my 2016 entry (for example, the "win" sound above was used when a coin was collected in the previous game).
  
 <p><b>Add stuff, Minify, Golf, Zip, Advzip, Repeat! (and Screw you, Closure Compiler!)</b>
 
-<p>After adding the music and sound effects, and compressing everything, I realized that my zip had reached a size of 13.4kb plus a few bytes. Pretty cool!
+<p>After adding the music and sound effects, and compressing everything, I realized that my zip had reached a size of 13.4kb plus a few bytes. Pretty cool! The music and sounds really create an ambiance in the game and end up taking less than 1/2kb zipped!
 
-<p>However, something less cool occurred. My minified JS code was all broken, because when Closure Compiler minified my code and renamed all my vars, it didn't rename them in my 44 setTimeout's and 7 setInterval's. Ex:
+<p>However, something less cool occurred. My minified JS code was all buggy, because when Closure Compiler minified my code and renamed all my vars, it didn't rename them in my 44 setTimeout's and 7 setInterval's, in which the JS code was stringified. Ex:
 <pre class=code>
 var Song = () => { /*...*/ } // This function gets renamed as "A"
 
-setInterval("Song.forward()",500); // After minification, the browsers throws an error saying "Song is not defined"</pre>
+setInterval("Song.forward()",500); // After minification, the browsers throw an error saying "Song is not defined"</pre>
 
-<p>Closure Compiler transpiles ES6 to ES5 but doesn't interpret string passed to setTimeout and setInterval. I didn't know that and it was pretty annoying.
+<p>Closure Compiler transpiles ES6 to ES5 but doesn't interpret strings passed to setTimeout and setInterval. I didn't know that and it was pretty annoying.
 
 <p>Even if it was a bit late, the solution was to spend a few hours rewriting all my intervals and timeouts using functions instead of strings... The most boring task was to use closures to be able to pass vars to the delayed/repeated functions when they're in for loops. Ex:
 
@@ -694,14 +797,14 @@ for(var i in apples){
   }
 }</pre>
 
-<P>Actually, with the kind help of @kuvos, @veubeke, @AdrienGueret and @salvan13, I was able to gather 3 different ways to rewrite a "string interval" as a "non-string" interval. They're listed <a href="jsfiddle.net/f0mbessr/">here</a>.
-<br>After a pass in Closure Compiler, two of them are transformed to the same code. The last one becomes a closure. <a href="https://twitter.com/MaximeEuziere/status/907124053802143744">weird</a>.
+<P>Then, with the kind help of @kuvos, @veubeke, @AdrienGueret and @salvan13, I was able to gather 3 different ways to rewrite a "string interval" as a "non-string" interval. They're listed <a href="jsfiddle.net/f0mbessr/">here</a>.
+<br>After a pass in Closure Compiler, two of them are transformed to the same code. The last one becomes a closure. <a href="https://twitter.com/MaximeEuziere/status/907124053802143744">weird</a>. But good to know.
 
-<p>As there was still a lot of bytes to remove, I continued my manual rewriting session, and renamed all the hardcoded elements' classNames and ids and all localStorage keys as one or sometimes 2 chars, by following <a href="https://github.com/xem/JS13k17/blob/gh-pages/dico.txt">this rudimentary dictionnary</a>.
+<p>As there was still a lot of bytes to remove, I continued my manual rewriting session, and renamed all the hardcoded classNames and ids as one or 2 chars, by following <a href="https://github.com/xem/JS13k17/blob/gh-pages/dico.txt">this rudimentary dictionnary</a>.
 
-<p>After a long rename/debug session, and after dropping a few useless signposts, I managed to fall below 13kb 15h before the deadline, only to realize later in the night that my editor was all broken, once again because of Closure Compiler.
+<p>After a long rename/debug session, and after dropping a few useless signposts, I managed to fall below 13kb 15h before the deadline, only to realize later in the night that my editor was all broken, once again because of Closure Compiler:
 <br>
-Closure Compiler renames all vars, even if they're global, and even if they're declared as "top.varname = 1234;". But I still had dozens of places in my code where I had to call a variable by its id in the top object (ex: top["u"]), but CC also didn't interpret that correctly ones. It renamed the original u but kept the top["u"] as-is. The solution was to "force" CC to not rename these vars that are required in strings, by being more silly than it:
+Closure Compiler renames all vars, even if they're global, and even if they're declared as "top.varname = 1234;". But I still had dozens of places in my code where I had to call a variable by its id in the top object (ex: top["u"]), but Closure Compiler also didn't interpret that correctly. It renamed the original "u" but kept the top["u"] as-is. The solution was to "force" it to not rename these vars that are required in strings, by being more silly than it:
 
 <pre class=code>
 // Before
@@ -710,24 +813,24 @@ u=r=d=l=s=c=B=0;
 // After
 window["u"]=window["r"]=window["d"]=window["l"]=window["s"]=window["c"]=window["B"]=0
 
-// Then minify that, paste the result in my min.html file, and put back the "before' version to save bytes.
+// Then after mnification, I paste the result in my min.html file, and replace the "after" snippet by the "before" one to save bytes.
 </pre>
 
 <p>Last warning: Closure Compiler adds line breaks in minified JS code. This is a good practice for real-life JS code, but for js13kgames, all these line breaks (75 in my case) can and must be removed.
 
-<p>Last scare</p>
+<p><b>Final scare</b>
 
 <p>I submitted my game at 1h40 AM, less than 12h before the deadline, and wend to sleep.
 
-<p>The morning, I saw it online and tried it. All my "return to main menu" links were broken. Turns out, these links had a href=".", and js13kgames.com didn't support that. So I renamed each "." in "index.html", and everything went back to normal after I sent an updated version to Andrzej at 9h30.
+<p>The morning, I saw it online and tried it. All my "return to main menu" links were broken. Turns out, these links had a href="." attribute, and js13kgames.com didn't support that. So I renamed each "." in "index.html", and everything went back to normal after I sent an updated version to Andrzej at 9h30.
 
-<p>Final version of the game, after all the necessary hacks and renames: 86.1kb commented, 3175 lines of code, 41.6kb minified, 13300 bytes zipped and advzipped. Just 12b below the limit!
+<p>Final version of the game, after all the necessary hacks and renames: ~200h of work (including thinking + drawing + coding + beta-testing), 86.1kb commented, 80 global vars (including functions), 3175 lines of code, 41.6kb minified, 13300 bytes zipped and advzipped. Just 12b below the limit!
 
 <p>BTW, If you don't know advzip, it's a zip recompressor that optimizes any zip as strongly as possible. Without it, my final zip would have been over 13.4kb. A real life saver. <a href="https://twitter.com/MaximeEuziere/status/905787255721263105">How to use it</a>.
 
 <p><b>Bonus</b>
 
-<p>During my spare time, I prepared <a href="https://xem.github.io/JS13k17/bonus.html">a bonus page</a>, on my Github, where I could put all the levels I didn't include in the game, and all the levels shared on Twitter plus a link to this making-of, and my Github, and my Itch page, as well as the game credits, and a video of my dev speedrun. This video was recorded september 13 at 9h00, just before updating and sending my zip to Andrzej, so I could include my time and move count (the lowest I had ever done) in the final game over screen!
+<p>During my spare time, I prepared <a href="https://xem.github.io/JS13k17/bonus.html">a bonus page</a>, on my Github repo, where I could put all the levels I didn't include in the game, and all the levels shared on Twitter plus a link to this making-of / my Github / my Itch page, as well as the game credits, and a video of my dev speedrun. This video was recorded september 13 at 9h00, just before updating and sending my zip to Andrzej, so I could update my time and move count (the lowest I had ever done) in the final build's game over screen!
 
 <br>
 <br>
@@ -736,8 +839,14 @@ window["u"]=window["r"]=window["d"]=window["l"]=window["s"]=window["c"]=window["
 
 <h3>Conclusion</h3>
 
-<p>After the release, the game had super nice reviews from friends, and people on Twitter and Slack. Most of them enjoyed the music a lot (maybe because they know how hard it is to make music for a 13kb game, and they don't have the chance to have Anders as a magi-musi-cian). Some people even had more fun with the interactive music than with the game itself, heh!
+<p>After the release, the game had super nice reviews from friends, and from a lot od friends and strangers on Twitter and on Slack. Most of them really enjoyed the music (maybe because they know how hard it is to make music for a 13kb game, and they don't have the chance to have Anders as a magi-musi-cian).
+<p>Some people even told me that they had more fun with the interactive music than with the game itself, heh!
+<p>I also went into each room of the game and counted all the HTML elements generated by my game's engine, and dumped all the HTML code generated in a single file.
+<p>I teased the result with <a href="https://twitter.com/MaximeEuziere/status/908016906732556288">this poll</a>, then revealed the answer <a href="https://twitter.com/MaximeEuziere/status/908401502410211330">here</a>: 7434 elements and 1.26MB of HTML is generated by my 13kb game! How crazy is that?!
 
+<p>So, I'm very happy with this year's game and by the people's reactions. It's the game I wanted to make when I started, and the lack of extra time only prevented me from trying to fix my code for a better result on Firefox, and on Safari Mac and on iOS. Meh. Browsers are not ready for so much CSS3D and so many emoji.
+ 
+<p>...
 <p>To be concluded after the results!
 
 
@@ -5201,7 +5310,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
 </div>
 
   </div>
-  <iframe src="//meuziere.free.fr/visitsx" width=1 height=1 hidden></iframe>
+  <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
   <style>
     .section { display: none }
     .section:first-of-type, .section:target { display: block }
