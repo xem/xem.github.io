@@ -875,7 +875,7 @@ All these keys are deleted when we click "new game", except one: the key that te
 <br>
 For some reason, sometimes, the browser freezes when you click "new game" after the game over screen, but no JS error occurs whatsoever, so the only solution is to kill and restart the browser before continuing. Welp. Who would play that games many times anyway?
 
-<li><img src="images/js13k17/unicode.png" width=400 style="float:right;margin:0 0 10px 10px">Something fun happened when I pasted my JS code in a new, unique index.html file, encoded in UTF-8: most emoji suddenly broke.
+<li><img src="images/js13k17/unicodebug.png" width=400 style="float:right;margin:0 0 10px 10px">Something fun happened when I pasted my JS code in a new, unique index.html file, encoded in UTF-8: most emoji suddenly broke.
 <br>
 Turns out, my new file didn't contain the famous &lt;meta charset=utf-8> tag, and in order to avoid writing it, I converted my HTML file in "UTF-8 with BOM". This 4-byte prefix is enough to tell the browser to interpret the file in UTF-8 instead of windows-1252.
 <br>Later, this BOM also became useless due to Closure Compiler escaping every emoji in the JS source code (ex: "🍎" => "\ud83c\udf4e"). At first sight, it looks like I could have saved a lot of bytes by replacing every escaped emoji with the corresponding glyph, but in reality, I was too lazy, and moreover, it wouldn't have saved such a lot of space, because escaped emoji are in ASCII, and contain a lot of repeated characters (like "\ud..."), which makes their zip compression very efficient, contrary to their 3 or 4-byte equivalent glyph that gets almost no saves at all when zipped... plus the size of the BOM!
