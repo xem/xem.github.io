@@ -61,8 +61,9 @@
 </style>
 <h2>JS13kGames 2017 making-of: LOSSST</h2>
 <h3>july-september 2017</h3>
-<p><img src="images/js13k17/cover.png">
-<br>
+<p><img src="images/js13k17/cover.png" style=width:55%;float:left>
+<iframe style=width:40%;float:left src="https://www.youtube.com/embed/ynh-eJVKGAw?showinfo=0" frameborder="0" allowfullscreen></iframe>
+<br style=clear:both>
 <hr>
 <br>
 <h3>TL;DR</h3>
@@ -73,7 +74,8 @@
 <li>You can see all the bonuses: <a href="https://xem.github.io/JS13k17/bonus">HERE</a>
 <li>You can see the game's source code here: <a href="https://github.com/xem/JS13k17">LOSSST on GITHUB</a>
 <li>And don't forget to <a href="https://twitter.com/MaximeEuziere/status/907913678145679361">RETWEET</a>!
-<li>Jam Results: <a href="http://2017.js13kgames.com/#winners">HERE</a>! 🤞
+<li>LOSSST was ranked <b>#2 on desktop, #2 in community vote, #1 on Twitter and #1 on mobile!</b> (out of 254 games!)
+<li>See all the winners <a href="http://2017.js13kgames.com/#winners">HERE</a>!
 </ul>
 <br>
 <hr>
@@ -871,52 +873,53 @@ window["u"]=window["r"]=window["d"]=window["l"]=window["s"]=window["c"]=window["
 
 <p>First, let's address a few details that I forgot in the rest of the making-of, or dicovered afterwards:
 <ul>
-<li>Surprisingly, many contestants didn't know the existence of localStorage and thought the only way to save/recover a game state was through cookies (or maybe cheat codes?). On my side, I used it, and I used it a lot. It may not be obvious, but I use localStorage to save a lot of metadata (desktop / mobile, time counter, moves counter, snake length, snake color, current room, snake position in the room, number of puzzles solved, puzzle editor features unlocked, ...) but I also use it to save the state of each door (open / closed), each apple (appeared / not appeared yet, eaten / not eaten yet), each puzzle (solved / not solved yet) and each mobile button (appeared / not appeared yet), for a total of nearly 200 different keys and values.
+<li>Surprisingly, many contestants didn't know the existence of localStorage and thought the only way to save/recover a game state was through cookies (or maybe cheat codes?). Most didn't even bother making multi-session games. On my side, I used localStorage, and I used it a lot. It may not be obvious, but I use localStorage to save a lot of metadata (desktop / mobile, time counter, moves counter, snake length, snake color, current room, snake position in the room, number of puzzles solved, puzzle editor features unlocked, ...) but I also use it to save the state of each door (open / closed), each apple (appeared / not appeared yet, eaten / not eaten yet), each puzzle (solved / not solved yet) and each mobile button (appeared / not appeared yet), for a total of nearly 200 different persistent items.
 <br>
-All these keys are deleted when we click "new game", except one: the key that tells the game that the full puzzle editor has been unlocked. All these localStorage keys are prefixed with the string "lossst_", so I can easily delete just my keys, instead of just doing localStorage.clear(), that would also delete the saves of all the other games hosted on js13kgames.com.
+All these keys are deleted when we click "new game", except one: the key that says that the full puzzle editor has been unlocked. All these localStorage keys are prefixed with the string "lossst_", so I can easily delete just my keys, instead of just doing localStorage.clear(), that would also delete the saves of all the other games hosted on js13kgames.com.
 <br>
 For some reason, sometimes, the browser freezes when you click "new game" after the game over screen, but no JS error appears whatsoever, so the only solution is to kill and restart the browser before continuing. Welp. Who would play that game many times anyway?
 <br>
 PS: Gheja decided to <a href="https://github.com/gheja/lost13k/commit/b3a5e3f63628d44a1f14c4449a00185e2ff17541">use prefixed keys</a> for his game after reading this making-of, and credit me! Cheers!
 <li><img src="images/js13k17/unicodebug.png" width=400 style="float:right;margin:0 0 10px 10px">Something fun happened when I pasted my JS code in a new, unique index.html file, encoded in UTF-8: most emoji suddenly broke.
 <br>
-Turns out, my new file didn't contain the famous &lt;meta charset=utf-8> tag, and in order to avoid writing it, I converted my HTML file in "UTF-8 with BOM". This 4-byte prefix is enough to tell the browser to interpret the file in UTF-8 instead of windows-1252.
+Turns out, my new file didn't contain the famous &lt;meta charset=utf-8> tag, and in order to avoid writing it, I converted my HTML file in "UTF-8 with BOM". This 3-byte prefix is enough to tell the browser to interpret the file in UTF-8 instead of windows-1252.
 <br>Later, this BOM also became useless due to Closure Compiler escaping every emoji in the JS source code (ex: "🍎" => "\ud83c\udf4e"). At first sight, it looks like I could have saved a lot of bytes by replacing every escaped emoji with the corresponding glyph, but in reality, I was too lazy, and moreover, it wouldn't have saved such a lot of space, because escaped emoji are in ASCII, and contain a lot of repeated characters (like "\ud..."), which makes their zip compression very efficient, contrary to their 3 or 4-byte equivalent glyph that gets almost no compression at all during gzip... plus the size of the BOM!
 <br>
 Speaking of emoji, at some point a few developers showed on js13k's slack a spritesheet of all the graphical assets they used in their games. Here's my (troll) answer:
 <br><img src="images/js13k17/assets.png" width=400>
 
-<li>Due to the lack of time, and the chance that my zipped code didn't overflow the size limit too much, I couldn't really golf anything, I basically just relied on Closure Compiler, manual variable renames, zip and advzip to fit everything under the 13kb limit. Though, I really think the game could have been much much smaller with some extra efforts, like for example, storing the puzzles in binary instead of long strings of 0's and 1's, converting back all my code to ES6 (arrow functions, template literals), converting back all my setTimeouts and setIntervals' arguments to strings, merging <a href="https://github.com/xem/JS13k17/blob/gh-pages/index.html#L75-L154">the two mkaudio() functions into one</a>, etc...
+<li>Due to the lack of time, and the chance that my zipped code didn't overflow the size limit too much, I couldn't really golf anything, I basically just relied on Closure Compiler, manual variable renames, zip and advzip to fit everything under the 13kb limit. Though, I really think the game could have been much much smaller with some extra efforts, like for example, storing the puzzles in binary instead of long strings of 0's and 1's, converting back all my code to ES6 (with arrow functions, template literals), converting back all my setTimeouts and setIntervals' arguments to strings, merging <a href="https://github.com/xem/JS13k17/blob/gh-pages/index.html#L75-L154">the two mkaudio() functions into one</a>, etc...
 
-<li>Speaking of music, you may hear some "clicking" after some of the notes, especially on Chrome (they're also present in the speedrun video). This clicking generally happens when a note is stopped abruptly duting playback, but there's no reason for it to happen, especially on just one browser. Anyway, restarting Chrome and having no other sound playing on the computer at the same time generally helps fixing this issue.
+<li>Speaking of music, you may hear some "clicking" after some of the notes, especially on Chrome (they're also present in the speedrun video). This clicking generally happens when a note is stopped abruptly during playback, but there's no reason for it to happen, especially on just one browser. Anyway, restarting Chrome and having no other sound playing on the computer at the same time generally helps fixing this issue.
 
-<li>There's no sound on mobile, and I don't know why! Ander's demos work perfectly on mobile, but not in my game, even though each sound is triggered directly by touch inputs.
-<p>On some PCs (including mine), Firefox only plays the low-frequency notes and skips all the high ones. *shrug* !
+<li>As you may have noticed, there's no sound on mobile, and I don't know why! Ander's demos work perfectly on mobile, but not in my game, even though each sound is triggered more or less directly by touch inputs.
+<br>Also, on some PCs (including mine), Firefox only plays the low-frequency notes and skips all the high ones. *shrug* !
 
 <li>Remember the boolean golfing episode? Turns out the NXOR (a.k.a. XNOR) could be golfed even more than "if(!(A^B))", by doing "if(A^B^1)" instead, and as A and B were both booleans, we could just have used "if(A==B)". Thanks to Magna for this extra black magic (and for letting me know <a href="https://en.wikipedia.org/wiki/Karnaugh_map">Karnaugh maps</a> also existed for this particular need)!
 
-<li>I may not have emphasized it enough, but I'm very happy that I managed to make a real 3D game, that also works on (good) mobiles, with cool graphics and sounds (the two most hazardy parts of my game, as they mostly didn't depend on me), without getting blocked on any technical problem (besides browsers bugs -_- ) for more than a couple hours. All the rest of the development went surprisingly smoothly. There's just one point that I'm not proud of: my build process. Here's a video showing all the steps required to generate the zip of my game from the source file. Yes, it's unbearably long, and I had to do that many times each day during the fifth week of development. Never again!
+<li>I may not have emphasized it enough, but I'm very happy that I managed to make a big, real 3D game, that also works on (good) mobiles, with cool graphics and sounds (the two most hazardy parts of my game, as they mostly didn't depend on me), without blocking on any technical problem (besides browsers bugs -_- ) for more than a couple hours. All the rest of the development went surprisingly smoothly. It doesn't mean I find my game perfect: for me, it still lacks a ton of details (like particles effects, more animations, different visual ambiances, smarter hints, etc...). And there's one point that I'm particularly not proud of: my build process. Here's a video showing all the steps required to generate the zip of my game from the commented source file. Yes, it's unbearably long, and I had to do that many times each day during the fifth week of development. Never again!
 
 <br><iframe width="560" height="315" src="https://www.youtube.com/embed/JWzKXj_FzmU" frameborder="0" allowfullscreen></iframe>
 
-<br>Anecdote: a colleague whose daily job is to automate every process in my company saw me do that one day, and almost exploded. Promise, I'll make something much simpler for next years!
+<br>Anecdote: a colleague whose daily job is to automate every process in my company saw me do that one day, and almost exploded. Promise, I'll automate my build process next years!
 
 
-<li>Finally, here's a fun fact, all the extra snake cubes are actually already present in the scene, and hidden below the ground. When the snake eats an apple, I just increment the variable representing the snake's length, and the game's engine will automatically handle one extra cube as if it was always there. This hack was much easier and less glitchy than redrawing all the snake at the right position, plus an extra cube after each apple eaten. Here's how the intro looks with a transparent floor. You can see the cubes stock below the ground, and one cube "jumping" on the snake's tail when it touches the apple: 
+<li>Finally, here's a fun fact, all the extra snake cubes are actually already present in the scene, and hidden below the ground. When the snake eats an apple, I just increment the variable representing the snake's length, and the game's engine will automatically handle one extra cube as if it was always there. This hack was much easier and less glitchy than redrawing all the snake at the right position, plus an extra cube, after each apple eaten. Here's how the intro looks with a transparent floor. You can see the cubes stock below the ground, and one cube "jumping" on the snake's tail when it touches the apple: 
 
 <p><img src="images/js13k17/extracubes.gif" width=400>
 
-<p>But how many cubes are there under the floor? Answer: just the right amount - there are as many hidden cubes as hidden apples in each room.
+<p>But how many cubes are there under the floor? Answer: just the right amount - there are as many hidden cubes as not-yet-eaten apples in each room.
 
-<p>In the puzzle editor though, the snake is entirely rewritten every time its size is changed. This wasn't mandatory, but it allowed better performances on bad browsers like Firefox, that don't handle very well having 30 or 40 useless 3D shapes in the scene. Also, in the editor, the snake can be shortened, which never happens in the real game. So overall, it was a bit easier to do like that, even if it used more code than a generic implementation.
+<p>In the puzzle editor though, the snake is entirely rewritten every time its size is changed. This wasn't mandatory, but it allowed better performances on bad browsers like Firefox, that don't handle very well having 30 to 40 useless 3D shapes below the scene. Also, in the editor, the snake can be shortened, which never happens in the real game. So overall, it was a bit easier to do like that, even if it used more code than a generic implementation.
 
 </ul>
 
 <p><b>Feedbacks</b>
 
-<p>I received A LOT of positive feedback on my game, I'm really impressed by the people's kindness and nice words to describe my game:
+<p>Before the results, I received A LOT of positive feedback on my game, I'm really impressed by the people's kindness and nice words to describe my game:
 <ul>
-<li>"LOSSST - #js13k \@MaximeEuziere Great game; nice puzzle ideas and a unique use of the emoji. My no 1 vote." - AndrewHS
+<li>"LOSSST - #js13k \ @MaximeEuziere Great game; nice puzzle ideas and a unique use of the emoji. My no 1 vote." - AndrewHS
+<li>"@MaximeEuziere I hate you :P Some puzzles are so hard @_@ But I'll finish them all sooner or later!" - Mattia Fortunati
 <li>"A fantastic game with unique mechanics, challenging puzzles, yet with very well balanced learning curve. 👏 Bravo, @MaximeEuziere!" - Subzey
 <li>"The theatrics of this entry are so good: the opening, the little sounds that play on movement" - Logan Franken
 <li>"This is such a really cool #js13k entry!!" - Matthew McCord
@@ -925,19 +928,19 @@ Speaking of emoji, at some point a few developers showed on js13k's slack a spri
 <li>"super neat! great puzzle concept. fun emojis. something weird about the controls (can't press too fast) & the camera motion; still enjoyable" - Gaëtan Renaudeau‏
 <li>"good job maxime! 👏🏻" - Kelly Hodgins
 <li>"Wanted to quickly check this 13K JS game out, got immediately hooked :)" - Ates Goral
-<li>"the game is amazing ! Well done it's impressive" / "allez un dernier .... aller encore un .... arrrrrrrrgh" - Cyril Moreau
+<li>"the game is amazing ! Well done it's impressive" - Cyril Moreau
+<li>"allez un dernier .... aller encore un .... arrrrrrrrgh" - Cyril Moreau, 5 minutes later
 <li>"Hey, EUZIERE I love your game. Thank you so much for that. The idea is great. And I think it's great that the music is as fast as you walk." - Sven Herz
 <li>"I guess I found the glitch ;) Thanks for the game, I love what your puzzles require from my brain cells :)" - Bartez Szopka
 <li>"tu t'es gavé!" - Amaury Beauzac
 <li>"very cool game! quite polished and long :)" - Anders Kaare
 <li>"Still amazing what you can accomplish for 13k competition with limited size" / "It's easy to understand, fun to play and it's really good combination of easy and hard puzzles" / "almost threw my laptop from balcony while doing last puzzle before entering door 21" - Nicoloz
 <li>"excellent ton jeu! bravo !" - Ange Albertini
-<li>"I thought that was super clever. It's a puzzle game but has a bit of adventure thrown in." / "I hadn't played the finished with the music in yet. Love it @xem!" - Ryan Malm
-<li>"played Lossst yesterday, when saw the warping i was like: what. dude, what." / "oh, and the one step one note music is really fun, really like it" - Gabor Heja
+<li>"I thought that was super clever. It's a puzzle game but has a bit of adventure thrown in. Love it @xem!" - Ryan Malm
+<li>"played Lossst yesterday, when saw the warping i was like: what. dude, what. Oh, and the one step one note music is really fun, really like it" - Gabor Heja
 </ul>
-
 <br>
-<p><b>Feedbacks on the making-of</b>
+<p><b>Feedbacks about this making-of</b>
 
 <ul>
 <li>"Sometimes, you feel like a "front end dev", then sometimes you read an article like that, and your day to day life feels like a scam." - Amaury Beauzac
@@ -947,54 +950,122 @@ Speaking of emoji, at some point a few developers showed on js13k's slack a spri
 <br>
 <p><b>My first shootout !</b>
 
-<p>Ryan Malm (a.k.a. Rybar) added a shout-out to me and other golfers who helped him during the development of his game in his game over screen!
+<p>Ryan Malm (a.k.a. Rybar), the dude (and friend) who arrived first in the desktop category with the game Greeble, added a shout-out to me and other golfers who helped him during the development of his game, in his game over screen!
 
 <br><img src="images/js13k17/shootout.jpg" width=400>
 
-<p>So shout out to him too! Also, his game is super nice, <a href="http://js13kgames.com/entries/greeble">go check it out!</a>.
+<p>So shout out to him too! If you haven't done it yet, <a href="http://js13kgames.com/entries/greeble">go check out his game!</a>.
 
 <p><b>Custom puzzles</b>
 
-<p>Many players played my game 100% (congrats!) and some players even solved the bonus puzzles (including the glitchy one), and created very cool custom puzzles. Some of them were hard to solve, <a href="https://twitter.com/salvan13/status/908456372802637825">even for me</a>! You can find them here: 
+<p>Nearly a dozen players finished my game at 100% (congrats!) and some players even solved the bonus puzzles (including the glitchy ones), and created very cool custom puzzles. Some of them were hard to solve, <a href="https://twitter.com/salvan13/status/908456372802637825">even for me</a>! You can find them here: 
 
 <a href="https://twitter.com/search?f=tweets&vertical=default&q=%23LOSSSTlevels&src=typd">#LOSSSTlevels</a>.
 
-<p>I also couldn't resist the urge to create 26 extra puzzles representing all the alphabet, because these kind of puzzles were pretty fun to design for the easter-eggs. So now, the bonus page contains 26 "hard-ish" letter-shaped puzzles!
+<p>I also couldn't resist the urge to create 26 bonus puzzles representing all the alphabet, because these kind of puzzles were pretty fun to design for the easter-eggs. So now, the bonus page contains 26 "hard-ish" letter-shaped puzzles!
 
 <br><img src="images/js13k17/alphabet.png" width=400>
 
+<p>With all the in-game puzzles, and all the bonuses, I designed a total of 111 puzzles for this game!
+
 <p><b>miniMusic</b>
 
-<p>One entry (by Alex Swan) actually used miniMusic for its theme!... but he had to hack the code to be able to play the melody repeatedly, as Webkit doesn't like when we create more than 6 AudioContexts. The solution is to reuse the same over and over, and destroy it between each use.
+<p>At least one entry (<a href="http://js13kgames.com/entries/polyhedron-runner">Polyhedron Runner</a>, by Alex Swan, one of my favourites this year) actually used miniMusic for its theme! Woohoo!... but he had to hack the code to be able to play the melody repeatedly, as Webkit doesn't like when we create more than 6 AudioContexts. The solution is to reuse the same over and over, and destroy it between each use.
 
 <p>I'm gonna enhance this tool and make it more dev-friendly before the next game jam!
 
 <p><b>Speedrun!</b>
 
-<p>I progressed on the game's speedrun, and managed to beat the game in 742s and 2266 moves. These scores will be the final dev times appearing on the game over screen (I included them when I sent a litte hotfix to Ender a few days after the end of the compo).
+<p>I progressed on the game's speedrun, and managed to beat the game in 742s and 2266 moves. These scores will be the final dev times appearing on the game over screen (I included them when I sent a litte bug's hotfix to Andrzej a few days after the end of the compo).
+
+<p>It's far from perfect: I did a few mistakes during the run, and the route could be simplified for some puzzles solutions (Jupiter Hadley's solution for one of the first puzzles of the game was much easier than the one I used, though I had never thought of using this solution before I saw her video:
+
+<p><b>Jupiter Hadley's video test</b>
+
+<p>You can see the video test of LOSSST by Jupiter Hadley (one of the judges, and indie game expert) here, at 9:49
+
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/qc-66CAKn74?start=589" frameborder="0" allowfullscreen></iframe>
+
+<p>I'm also present at the beginning of <a href="https://www.youtube.com/watch?v=8gSTuXrFyIc">this compilation video</a> made by one other judge, Agar3s.
+
+<p>Thanks!
 
 <p><b>Jam results!</b>
 
+<p>They're finally <a href="http://2017.js13kgames.com/#winners">here</a>, and they're very good!
+
+<p>Community awards (I'm #2):
+
 <br><img src="images/js13k17/community.jpg" width=400>
 
-<p>Last week, LOSSST arrived second (on 254!) in the <a href="http://2017.js13kgames.com/#winners">community awards</a> (the vote organized between all the contestants)
+<p>Twitter specials (I'm #1):
 
-<p>Here are a few kind comments I received after that:
+<br><img src="images/js13k17/twitter.jpg" width=400>
+
+<p>Mobile awards (I'm #1):
+
+<br><img src="images/js13k17/mobile.jpg" width=400>
+
+<p>Desktop awards (I'm #2):
+
+<br><img src="images/js13k17/desktop.jpg" width=400>
+
+<p>Here are the lovely judge's feedbacks on <a href="http://js13kgames.com/entries/lossst">my entry's page</a>:
+
+<br><img src="images/js13k17/judges.jpg">
+
+<p>I really liked the comparison with Braid, and the typo at the end (the music is synced to whaaaat?)
+
+<p>Here are some kind messages I received from after the results:
 
 <ul>
 <li>"Congrats on second place! I really enjoyed your entry!" - James Wright
 <li>"Congratulations on second place Maxime You did a great job and you really earned the second place." - Sven Herz
 <li>"GG Max!!" / "c'est mérité le jeu est ultra bon!" - my colleagues
-<li>
+<li>"Beautiful!" - Agar3s (one of the judges)
+<li>"well deserved dude ! Try LOSSST guys, if you love puzzle games, will be your best/worst friend today :)" - Cyril Moreau
+<li>"I totally agree, LOSSST is great! The idea, the puzzles, the music :) With some tweaks it can become a bigger title for a wider audience!" - Mattia Fortunati
+<li>"Keep being awesome!" - McFunkyPants (one of the judges)
+<li>"y'a un super concept. Faut absolument que tu le portes sur iOS, Android & Steam. Tous ceux à qui je l'ai montré ont KIFFE" - re Cyril Moreau
+<li>"Where’s the app though? ;)" - Veubeke
+<li>"Time to port it to Aframe 😜 your game has potential and iterations will make it even better :)" - Marc Guinea
+<li>"Congrats! I really enjoyed playing your game!" - Thunraz
+<li>"For sure I enjoyed it! I've already started some of the letter levels you posted, looking forward for further developments/releases :)" - re Mattia Fortunati
+<li>"That's the best puzzle I've played in ages, you should push it further. Congrats =)" - Fernando Meyer
+<li>"Truely awesome for a js13k entry. Greedle is technically impressive too, but I beat it in 3 minutes compare to almost 3 hours for LOSSST. As a coder, I find more value in Greedle, but as a gamer, yours is #1 by far. LOSSST has great gameplay, creative ideas, details in mechanics, progressive difficulty, and CSS3D camera is 💯. I played LOSSST 3 hours in a row and never got bored. Such depth is very rare for a code golf, it felt like a game I could pay for" - Sylvain PV (+ <a href="https://twitter.com/SylvainPV/status/914103719238733824">thread</a>)
+<li>"I could never design the mind-bending puzzles in your game or cram as much content in as you do on top of a level editor. I take my hat off to you sir." - Ryan Malm (Desktop category winner)
+<li>"Dude, btw, I'm really amazed, for reals, your game is the one changes the way of thinking. Much like the "tetris effect"! That's none of my business, but… Maybe you should polish it a little and submit it into Steam" - Subzey
 </ul>
 
-<p>Thank to everyone who voted for me!
+<p>Thank everyone! Anders Kaare, The testers, the players, the judges, and Andrzej. You're all fabulous!
 
+<p><b>What's next?</b>
 
-<p>TODO end.
+<p>First, I'm gonna adapt this entry for AirConsole, and present it to their upcoming game jam. (I "just" moved the mobile controls into a separate page that communicates with the game with WebRTC messages). Here's how it looks in AirConsole's simulator:
 
+<br><img src="images/js13k17/airconsole.jpg" width=400>
 
+<p>And on real hardware (a bit laggy but enjoyable. It even works with two players, controlling the snake together):
 
+<br><img src="images/js13k17/airconsole2.jpg" width=400>
+
+<p><b>And then?</b>
+
+<p>It seems clear that this game deserves some kind of further development, and by chance, I have a ton of new ideas that couldn't be implemented during the compo!
+
+<p>I'm currently gathering people and ideas to work on something much bigger, yet still based on this basic pattern-matching schema.
+
+<p>I don't want to spoil you the surprises , but I'll still leave you with some food for thought...<br>What if...?
+
+<p>What if the black and white tiles were not just square?
+<p>What if the puzzles were not just placed on flat surfaces like floors and walls?
+<p>What if the snake had more than one color?
+<p>What if there was more than one snake?
+
+<p>The answers to these questions, and probably many others, may be coming on Ssssteam or on an App Sssstore near you in 2018!
+
+<p>Cheers!
+<br>xem
 </div>
 
 
