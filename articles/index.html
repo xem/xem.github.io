@@ -27,6 +27,7 @@
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#golfctober_2017'>Golfctober 2017</a>
       <li><a href='#js13k17'>JS13kGames 2017</a>
       <li><a href='#webgl_quest_2'>WebGL quest #2</a>
       <li><a href='#js1k2017'>JS1k 2017</a>
@@ -54,6 +55,498 @@
     </ul>
   </div>
   <div class="body articles">
+
+  
+<div class=section id=golfctober_2017>
+<style>
+#golfctober_2017 pre { white-space: pre }
+#golfctober_2017 iframe { border: 2px solid #ccc !important; border-radius: 5px; width: 45% !important;
+display: inline-block !important; vertical-align: top; margin: 0 1% 2% 0; }
+</style>
+<h2>#Golfctober 2017</h2>
+<h3>october 2017</h3>
+<p>This year, I tried to follow the trend of <b>#inktober</b> or <b>#blocktober</b>, but adapted to JS code golfing.
+<p>I bet I could golf (or regolf) one project a day for 31 days, and called it <b>#golfctober</b>.
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Regolfing mini apps with ES6 &amp; the great help and discoveries from the codegolf team and its epic newcomers <a href="https://twitter.com/mmastrac?ref_src=twsrc%5Etfw">@mmastrac</a> and <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> 🙋</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/914808537179676672?ref_src=twsrc%5Etfw">2 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>By chance, the whole Codegolf Team, with some excellent new recruits, joined the game and helped me find some awesome new tricks, and save a lot bytes on projects we couldn't golf any more.
+<p>Here's a recap of all the progress and lessons learned!
+<p>Cheers to all the authors: <b>@p01, @aemkei, @subzey, @veubeke, @justecorruptio, @mmastrac, @xen_the, @nderscore, @ETHproductions, @benjamin_js, @atesgoral, @fusselwurm and Senokai</b> !
+
+<br><br><hr><br><h3>Day 1 + day 5: <a href="//xem.github.io/miniCodeEditor">miniCodeEditor</a></h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> episode 1:<br>minicodeEditor is now 3b shorter thanks to a complete rewrite and a &quot;&lt;iframe onload&gt;&quot; trick<a href="https://t.co/VAzvwH66aO">https://t.co/VAzvwH66aO</a> <a href="https://t.co/mBHvjDBBiE">pic.twitter.com/mBHvjDBBiE</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/914823629006888960?ref_src=twsrc%5Etfw">2 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 5<br>MiniCodeEditor is back! (78th iteration)<br>Full: 149b =&gt;142b (thx <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a>)<br>Mini: 64b =&gt; 62b<a href="https://t.co/YgnawETfLr">https://t.co/YgnawETfLr</a> <a href="https://t.co/F8PPO0OlGP">pic.twitter.com/F8PPO0OlGP</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/915830273622847505?ref_src=twsrc%5Etfw">5 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><b>Progress</b>
+<pre class=code>
+<b>Previous version (156b)</b>
+&lt;body oninput='f.srcdoc=t0[v="value"]+`&lt;script>${t2[v]}&lt;/script>&lt;style>`+t1[v]'onload='for(i=3;i--;)f.outerHTML+=`&lt;textarea id=t${i} rows=9>`'>&lt;iframe id=f>
+
+<b>Get rid of the &lt;body> by using "&lt;iframe onload=...">, use the iframe id as a textarea counter then set it to "f".</b>
+&lt;iframe onload='id++&lt;3?outerHTML+=`&lt;textarea oninput="f.srcdoc=t3.value+\`&lt;script>\${t1.value}&lt;/script>&lt;style>\`+t2.value"id=t${id} rows=9>`:id="f"'>
+
+<b>Make each textarea store its content in f[id] after each input, stop prefixing textareas ids with "t".</b>
+&lt;iframe onload='id++&lt;3?outerHTML+=`&lt;textarea oninput="f[id]=value;f.srcdoc=f[3]+\`&lt;script>\${f[1]}&lt;/script>&lt;style>\`+f[2]"id=${id} rows=9>`:id="f"'>
+
+<b>Final version (142b): remove the textareas id's altogether and directly update f[id] after each input.</b>
+&lt;iframe onload='id++&lt;3?outerHTML+=`&lt;textarea oninput="f[${id}]=value;f.srcdoc=f[3]+\`&lt;script>\${f[1]}&lt;/script>&lt;style>\`+f[2]"rows=9>`:id="f"'>
+</pre>
+
+<p><b>New tricks</b>
+<ul>
+<li>You can execute JS code with &lt;iframe onload=...>
+<li>You can use an undefined iframe id as a loop var (<a href="http://jsfiddle.net/adefyhyn/">also works with svg</a>).
+<li>The default value of an undefined id is '' (empty string). When you do 'id++', it's set to 1.
+<li>changing the iframe's (or svg's) outerHTML re-triggers its onload event, which leads to another loop.
+</ul>
+
+<br><br><hr><br><h3>Day 2: <a href="http://xem.github.io/miniBookmarklet/">MiniBookmarklet</a></h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 2:<br>miniBookmarklet (80b =&gt; 64b!)<a href="https://t.co/FI4qOaPZy9">https://t.co/FI4qOaPZy9</a><br><br>&lt;a id=a&gt;@&lt;input oninput=&#39;a.href=`javascript:(a=&gt;{${value}})()`&#39;&gt; <a href="https://t.co/8RCQDjhOkL">pic.twitter.com/8RCQDjhOkL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/914924204973264896?ref_src=twsrc%5Etfw">2 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+<b>Previous version (80b)</b>
+&lt;p>&lt;a id=a>BM&lt;p>&lt;textarea oninput=a.href='javascript:(function(){'+value+'})()'> 
+
+<b>New version (64b): use ES6 and include the input in the link</b>
+&lt;a id=a>@&lt;input oninput='a.href=`javascript:(a=>{${value}})()`'>
+</pre>
+<p><b>New tricks & reminders</b>
+<ul>
+<li>Bookmarklets' code need to be embedded in an IIFE "(a=>{...})()", vor various reasons. The most obvious one is to avoid global scope pollution, but more generally, if you don't do it, your code will often be buggy.
+<li>The input element is included in the link, and updates this link's href when text is typed inside.
+<li>When the link is dragged in the bookmarks, the text content "@" is used for the bookmark's name, the link's href is used for the bookmark's url, and the input is ignored.
+</ul>
+
+<br><br><hr><br><h3>Day 3: <a href="https://xem.github.io/sheet/">sheet</a></h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 3:<br>The famous <a href="https://t.co/uay7diKK4U">https://t.co/uay7diKK4U</a> lost 15b over the weekend!<br>thanks to <a href="https://twitter.com/mmastrac?ref_src=twsrc%5Etfw">@mmastrac</a> <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a><br>cc <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a> <a href="https://t.co/YcYyWZWgPC">pic.twitter.com/YcYyWZWgPC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/915101856317280256?ref_src=twsrc%5Etfw">3 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 3 (bonus):<br>The commented source code of our 188b spreadsheet.<br>A lot of stuff is happening in there!<a href="https://t.co/yxRATIymO7">https://t.co/yxRATIymO7</a> <a href="https://t.co/2aXyXkpd0g">pic.twitter.com/2aXyXkpd0g</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/915272497800650753?ref_src=twsrc%5Etfw">3 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Sheet (originally 220b long) was entirely rewritten into three versions: a minimal one in 188b, a full-featured one in less than 256b, and a good-looking one (with excel-like headers) in 277b.
+<p>The commented source code of each version explains in detail all the (new) tricks we used, like:
+<ul>
+<li>Using a function's source code to iterate many times in 13 chars ("for(i in{}+o)" or "for(i in o+o)", if the function is called "o";
+<li>creating a var 'y' containing a cell's name, write an input element with id=${y}, then access this element with top[y] (or self[y] if you want your app to be iframe-able);
+<li>'/.../.test(z)' is shorter than 'z.match(/.../)' but is also handier because it works even when y is undefined;
+<li>'x-~x' is better than "+x" to detect if a string contains a nimber (integer or float), as it supports the value '0';
+<li>'+x' acts as 'parseFloat(x)';
+<li>given 5 expressions A,B,C,D,E, 'document.write(y?(A,B):(C,D,E))' will execute A and B, or C, D and E, but will only write the value returned by B or E;
+<li>Math or document can be used to store values like any other object.
+</ul>
+
+<br><br><hr><br><h3>Day 4: <a href="https://github.com/xem/miniKeyCode">MiniKeyCode</a></h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 4:<br>miniKeyCode (128b=&gt;88b) logs all keyboard events!<br>by <a href="https://twitter.com/mmastrac?ref_src=twsrc%5Etfw">@mmastrac</a>, <a href="https://twitter.com/corruptio?ref_src=twsrc%5Etfw">@corruptio</a>, <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a>, <a href="https://twitter.com/nderscore?ref_src=twsrc%5Etfw">@nderscore</a>, <a href="https://twitter.com/benjamin_js?ref_src=twsrc%5Etfw">@benjamin_js</a>, <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a><a href="https://t.co/55xsmF6rSw">https://t.co/55xsmF6rSw</a><br><br>Source code (line break included):<br><br>&lt;body onload=&quot;for(let a in b)b[a[4]&gt;&#39;x&#39;&amp;&amp;a]=e=&gt;b.innerText+=`<br>`+[a,e.which]&quot;id=b&gt; <a href="https://t.co/wbU38uyKuh">pic.twitter.com/wbU38uyKuh</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/915466626971176960?ref_src=twsrc%5Etfw">4 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+<b>Previous version (128b)</b>
+&lt;body onload='for(i in a=["down","press","up"])eval("onkey"+a[i]+"=function(e){b.innerHTML+=\"&lt;p>key"+a[i]+" \"+e.which}")'id=b>
+
+<b>Use map(), arrow function and temlplate literal</b>
+&lt;body onload="['down','press','up'].map(x=>eval(`onkey${x}=e=>b.innerHTML+='&lt;p>key${x} '+e.which`))"id=b>
+
+<b>Use replace() instead of map()</b>
+&lt;body onload='eval("down;press;up".replace(/\w+/g,"onkey$&=e=>b.innerHTML+=`&lt;p>key$& `+e.which"))'id=b>
+
+<b>Use innerText and \n instead of innerHTML and &lt;p></b>
+&lt;body onload='eval("down;press;up".replace(/\w+/g,"onkey$&=e=>b.innerText+=`\nkey$& `+e.which"))'id=b>
+
+<b>Use e.type to tell the name of the event</b>
+&lt;body onload='onkeydown=onkeyup=onkeypress=e=>b.innerHTML+=e.type+" "+e.which'id=b>
+
+<b>Different approach (a bit longer but more golfable): define three global event listeners</b>
+&lt;body onload='onkeydown=onkeyup=onkeypress=e=>b.innerHTML+=`&lt;p>${e.type} `+e.which'id=b>
+
+<b>Create all the event listeners in which the 5th char is "y" (onkey...)</b>
+&lt;body onload="for(a in b)b[a[4]=='y'?a:0]=e=>b.innerHTML+=`&lt;p>${e.type} `+e.which"id=b>
+
+<b>Simplify "==y" to ">x", and replace the superfluous ternary test with a "&&"</b>
+&lt;body onload="for(a in b)b[a[4]>'x'&&a]=e=>b.innerHTML+=`&lt;p>${e.type} `+e.which"id=b>
+
+<b>Reintroduce innerText</b>
+&lt;body onload="for(a in b)b[a[4]>'x'&&a]=e=>b.innerText+=`\n${e.type} `+e.which"id=b>
+
+<b>Replace "\n" with a real line break</b>
+&lt;body onload="for(a in b)b[a[4]>'x'&&a]=e=>b.innerText+=`
+${e.type} `+e.which"id=b>
+
+<b>Replace the space in each line with a comma (default Array to String behavior)</b>
+&lt;body onload="for(a in b)b[a[4]>'x'&&a]=e=>b.innerText+=`
+`+[e.type,e.which]"id=b>
+
+<b>Use "let a" in the loop to simplify "e.type" into "a"</b>
+&lt;body onload="for(let a in b)b[a[4]>'x'&&a]=e=>b.innerText+=`
+`+[a,e.which]"id=b>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>Contrary to innerHTML, innerText allows to make visible line breaks using '\n', or even shorter: a template literal (``) containing a line break char.
+<li>Iterate on all the events of an element to pick only the ones you need can be shorter than naming them.
+<li>"let" can be useful in a for loop that generates different functions, to have access to the name of the current element of the loop inside the function (like a closure, but shorter).
+</ul>
+
+<!--
+<br><br><hr><br><h3>Day 6</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 6: miniURI<br>99b=&gt;98b / 140b =&gt; 133b<br>drop a file, and it&#39;s transformed in dataURI (mime-type + base64)<a href="https://t.co/pv24AzHdGN">https://t.co/pv24AzHdGN</a> <a href="https://t.co/DFg8FczjGD">pic.twitter.com/DFg8FczjGD</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/916199389395333120?ref_src=twsrc%5Etfw">6 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 7</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 7: miniDragonCurve<a href="https://t.co/yp83mWS7GB">https://t.co/yp83mWS7GB</a><br>112b/118b optimizations by <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@xen_the</a>, based on <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a>&#39;s famous 121b DRAGON PUNCH <a href="https://t.co/KPILpgpqRN">pic.twitter.com/KPILpgpqRN</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/916651684474081280?ref_src=twsrc%5Etfw">7 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 8</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 8: miniSerpinskiTriangle<a href="https://t.co/Y9X42rh11Q">https://t.co/Y9X42rh11Q</a><br>119b/123b golf by <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@xen_the</a> <a href="https://t.co/hKLCy33ItW">pic.twitter.com/hKLCy33ItW</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/916933662389817345?ref_src=twsrc%5Etfw">8 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+
+<br><br><hr><br><h3>Day 9</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 9<br>Mini Lorenz attractor (112b=&gt;111b)<br>Based on <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a>&#39;s: <a href="https://t.co/1YswnrkaOq">https://t.co/1YswnrkaOq</a><br>Golfed by <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@xen_the</a>: <a href="https://t.co/coKvGYDL9k">https://t.co/coKvGYDL9k</a> <a href="https://t.co/v26uEOkcZi">pic.twitter.com/v26uEOkcZi</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/917342895388192768?ref_src=twsrc%5Etfw">9 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 10</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 9<br>Mini Lorenz attractor (112b=&gt;111b)<br>Based on <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a>&#39;s: <a href="https://t.co/1YswnrkaOq">https://t.co/1YswnrkaOq</a><br>Golfed by <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@xen_the</a>: <a href="https://t.co/coKvGYDL9k">https://t.co/coKvGYDL9k</a> <a href="https://t.co/v26uEOkcZi">pic.twitter.com/v26uEOkcZi</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/917342895388192768?ref_src=twsrc%5Etfw">9 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 11</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 11: miniUnicode<br>Our 7 Unicode slideshows just lost 8+17+22+43+42+2x20b!<br>Tx <a href="https://twitter.com/mmastrac?ref_src=twsrc%5Etfw">@mmastrac</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> <a href="https://twitter.com/atesgoral?ref_src=twsrc%5Etfw">@atesgoral</a><a href="https://t.co/aG1LkbOtTN">https://t.co/aG1LkbOtTN</a> <a href="https://t.co/gTCErjFvjz">pic.twitter.com/gTCErjFvjz</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/918076932255862784?ref_src=twsrc%5Etfw">11 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+- String.fromCodePoint(i) => "&#"+i
+- big/huge/epic versions only show assigned code points
+- huge/epic change bg color at each frame
+</ul>
+
+<br><br><hr><br><h3>Day 12</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 12: Mini Tetris<br>made by <a href="https://twitter.com/veubeke?ref_src=twsrc%5Etfw">@veubeke</a>,<br>helped by <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a>, <a href="https://twitter.com/benjamin_js?ref_src=twsrc%5Etfw">@benjamin_js</a> and <a href="https://twitter.com/Fusselwurm?ref_src=twsrc%5Etfw">@Fusselwurm</a><br>(great readme too)<a href="https://t.co/Drs7sIaesW">https://t.co/Drs7sIaesW</a> <a href="https://t.co/cjb6WmXWVK">pic.twitter.com/cjb6WmXWVK</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/918434121650704384?ref_src=twsrc%5Etfw">12 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 13</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 13:<br>mini ASCII Serpinski triangle<br>golfed from 96b to 64/65b!!<br>thanks <a href="https://twitter.com/benjamin_js?ref_src=twsrc%5Etfw">@benjamin_js</a> &amp; <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a><a href="https://t.co/ceBpd4MM6D">https://t.co/ceBpd4MM6D</a> <a href="https://t.co/CYcy4O3tb4">pic.twitter.com/CYcy4O3tb4</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/918887293557116928?ref_src=twsrc%5Etfw">13 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 14</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 14:<br>(Sprite) sheet just got real!<a href="https://t.co/yxRATIymO7">https://t.co/yxRATIymO7</a><br>2 versions (mini: 188b, full: 253b)<br>&amp; super-detailed source code <a href="https://t.co/YCX7DXP1Lx">pic.twitter.com/YCX7DXP1Lx</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/919181675820650496?ref_src=twsrc%5Etfw">14 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 15</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 15:<br>To celebrate the middle of the month, let&#39;s see improvements the Codegolf Team added to some of the previous entries!</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/919493371126861824?ref_src=twsrc%5Etfw">15 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">1) <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> removed 1 byte to MiniKeyCode (79 =&gt; 78b)<a href="https://t.co/ccSl2r0nmM">https://t.co/ccSl2r0nmM</a><br>No more line breaks, but you can still use the zoom ;) <a href="https://t.co/lb6OEkT2Z4">pic.twitter.com/lb6OEkT2Z4</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/919494736658026497?ref_src=twsrc%5Etfw">15 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">2) <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@xen_the</a> improved big MiniASCIISerpinski:<br>- Autoplay (61b) <a href="https://t.co/jT9Q2xUzwX">https://t.co/jT9Q2xUzwX</a><br>- Click quotes to run (57b) <a href="https://t.co/urV9mGjrEN">https://t.co/urV9mGjrEN</a> <a href="https://t.co/0l3NnY5Jot">pic.twitter.com/0l3NnY5Jot</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/919497692853792768?ref_src=twsrc%5Etfw">15 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">3) <a href="https://twitter.com/mmastrac?ref_src=twsrc%5Etfw">@mmastrac</a> made a new version of sheet with ABC... / 123... headers, in 277b (plus a bit of optional CSS code)<a href="https://t.co/2SEj9lfBVw">https://t.co/2SEj9lfBVw</a> <a href="https://t.co/pfFsy7mxyI">pic.twitter.com/pfFsy7mxyI</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/919499125833465856?ref_src=twsrc%5Etfw">15 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">4) <a href="https://twitter.com/veubeke?ref_src=twsrc%5Etfw">@veubeke</a> (&amp; all the team) improved the 512b tetris!<br>There&#39;s a game over screen, all 7 shapes are playable, etc. !<a href="https://t.co/Drs7sIaesW">https://t.co/Drs7sIaesW</a> <a href="https://t.co/1ZQDPaL7sf">pic.twitter.com/1ZQDPaL7sf</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/919500624047366144?ref_src=twsrc%5Etfw">15 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 16</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 16:<br>Mini Clifford Attractor (226=&gt;220b, canvas=&gt;svg)<br>w/ <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> &amp; <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a><br>Pick 4 numbers &amp; wait for it!<a href="https://t.co/Cq4ZfX30He">https://t.co/Cq4ZfX30He</a> <a href="https://t.co/P9Olk15aba">pic.twitter.com/P9Olk15aba</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/920008735455633408?ref_src=twsrc%5Etfw">16 octobre 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 17</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 17:<br>Mini Peter de Jong Attractor (226b=&gt;220b) &amp; The One Ring (229b=&gt;223b)<br>golfed with <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> &amp; <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a><a href="https://t.co/RGAnRsjAjh">https://t.co/RGAnRsjAjh</a> <a href="https://t.co/3Y4pvYZ5vs">pic.twitter.com/3Y4pvYZ5vs</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/920242407882592256?ref_src=twsrc%5Etfw">17 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 18</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 17:<br>Mini Peter de Jong Attractor (226b=&gt;220b) &amp; The One Ring (229b=&gt;223b)<br>golfed with <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> &amp; <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a><a href="https://t.co/RGAnRsjAjh">https://t.co/RGAnRsjAjh</a> <a href="https://t.co/3Y4pvYZ5vs">pic.twitter.com/3Y4pvYZ5vs</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/920242407882592256?ref_src=twsrc%5Etfw">17 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 19</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 19:<a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a> golfed atree from 137b to 134b: <a href="https://t.co/bUsec0wOfm">https://t.co/bUsec0wOfm</a><br>and even 121b (click to start): <a href="https://t.co/0XewVzc9DN">https://t.co/0XewVzc9DN</a> <a href="https://t.co/wzFJJo9Jh5">pic.twitter.com/wzFJJo9Jh5</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/921126528985026561?ref_src=twsrc%5Etfw">19 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 20</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 20:<br>Tetris theme, with loop, golfed in 182b by <a href="https://twitter.com/mmastrac?ref_src=twsrc%5Etfw">@mmastrac</a>, <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a>, <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> &amp; me.<a href="https://t.co/DjLwQWlCFv">https://t.co/DjLwQWlCFv</a><a href="https://twitter.com/hashtag/noscreenshot?src=hash&amp;ref_src=twsrc%5Etfw">#noscreenshot</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/921438098688544768?ref_src=twsrc%5Etfw">20 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 21</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 21:<br>An UTF-8 bytes counter function golfed in 39b with <a href="https://twitter.com/ETHProductions?ref_src=twsrc%5Etfw">@ETHProductions</a>:<br><br>s=&gt;encodeURI(s).split(/%..|./).length-1 <a href="https://t.co/MQL5SdPk2I">pic.twitter.com/MQL5SdPk2I</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/921677234116747264?ref_src=twsrc%5Etfw">21 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 22</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 22:<br>HD clifford attractors with custom parameters, in 279b<a href="https://t.co/FJxvzu0DrO">https://t.co/FJxvzu0DrO</a> <a href="https://t.co/FTEfdBWEsw">pic.twitter.com/FTEfdBWEsw</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/922016829517811712?ref_src=twsrc%5Etfw">22 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 23</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 23:<br>HD Peter De Jong Attractor (279b) + &quot;the one ring&quot; (281b)<br>(both allow custom parameters)<a href="https://t.co/h6x1YeQIHZ">https://t.co/h6x1YeQIHZ</a> <a href="https://t.co/ELnYiAMpRD">pic.twitter.com/ELnYiAMpRD</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/922536954427854848?ref_src=twsrc%5Etfw">23 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 24</h3>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 24:<br>Random attractors in 356b!<br>w/ <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a> <a href="https://twitter.com/veubeke?ref_src=twsrc%5Etfw">@veubeke</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> <a href="https://twitter.com/nderscore?ref_src=twsrc%5Etfw">@nderscore</a> <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> <a href="https://twitter.com/ETHprod?ref_src=twsrc%5Etfw">@ETHprod</a> senokai <a href="https://t.co/bZg9WprT6S">https://t.co/bZg9WprT6S</a> <a href="https://t.co/DauMhoL9mY">pic.twitter.com/DauMhoL9mY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/922892477517979648?ref_src=twsrc%5Etfw">24 octobre 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 25</h3>
+
+<p>tweet
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 26</h3>
+
+<p>tweet
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 27</h3>
+
+<p>tweet
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 28</h3>
+
+<p>tweet
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 29</h3>
+
+<p>tweet
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 30</h3>
+
+<p>tweet
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+<br><br><hr><br><h3>Day 31</h3>
+
+<p>tweet
+<p><b>Progress</b>
+<pre class=code>
+</pre>
+<p><b>New tricks</b>
+<ul>
+<li>
+<li>
+</ul>
+
+
+todo: talk about closing tags necessary even though it works on codepen/jsfiddle without it
+-->
+
+<br><br><hr><br>
+
+<p>To be continued...
+
+</div>
+
+
 
 <div class=section id=js13k17>
 <style>
@@ -5565,7 +6058,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
   
   <script>
     if(!location.hash){
-      location.hash="js13k17";
+      location.hash="golfctober_2017";
     }
   </script>
   </body>

@@ -28,6 +28,7 @@ pre { background: #fed; padding: 20px; white-space: pre-wrap; white-space: -moz-
 p, div, script, style, pre { margin: 10px 0; }
 script, style, pre { font: normal 11px/16px monospace; overflow-x: auto; }
 div#twitter { margin: 0; }
+div#twitter iframe { height: 900px !important; border: 2px solid #eee !important; border-radius: 5px !important; }
 div.demo div { margin: 0; }
 div.demo { background: #def; padding: 20px }
 div.demo pre { background: #def; padding: 10px; }
@@ -36,7 +37,6 @@ div[contenteditable], pre[contenteditable], style[contenteditable], script[conte
 .header, .footer { width: 175px; margin: 10px; position: absolute; position: fixed; }
 .header { top: 0; margin-bottom: 30px; }
 .footer { bottom: 0; }
-@media screen and (max-height: 450px){ .header, .footer { position: relative; }}
 @-webkit-keyframes pulse { 50% { -webkit-transform: scale(1.2); transform: scale(1.2); }}
 @keyframes pulse { 50% { -webkit-transform: scale(1.2); -ms-transform: scale(1.2); transform: scale(1.2); }}
 .pulse { -webkit-animation: pulse 1s 10; -moz-animation: pulse 1s 10; -o-animation: pulse 1s 10; animation: pulse 1s 10; border: 1px solid #000; }
@@ -45,6 +45,8 @@ div[contenteditable], pre[contenteditable], style[contenteditable], script[conte
 .lang { float: right; cursor: pointer; }
 .aside { width: 300px; padding-left: 805px; position: fixed; max-height: 95vh; overflow: auto; }
 code {display: block; }
+.games a { width: 48%; display: inline-block; vertical-align: top; margin: 0 1% 2% 0; }
+.games a img { width: 100%; }
 @media screen and (max-width: 1200px){
   .aside { padding: 0; left: 10px; top: 380px; max-height: calc(100vh - 430px); overflow: auto; width: 190px; }
 }
@@ -55,6 +57,10 @@ code {display: block; }
   .header, .footer, .aside { position: static; width: 100%; }
   .header a { display: inline-block; vertical-align: top; margin: 10px 5px 0 0; }
   .footer { position: fixed; z-index: 3; bottom: 0; left: 0; background: #fff; margin: 0; border-top: 1px solid #ccc; }
-  .aside { padding: 30px 0; }
+  .aside { padding: 30px 0; max-height: 200px }
   .aside * { margin-left: 20px; }
+}
+@media screen and (max-height: 500px){
+  .header, .footer { position: relative; }
+  .aside { max-height: none; position: absolute; left: 10px; top: 450px; }
 }
