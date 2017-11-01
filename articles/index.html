@@ -202,11 +202,12 @@ ${e.type} `+e.which"id=b>
 &lt;body onload="for(let a in b)b[a[4]>'x'&&a]=e=>b.innerText+=`
 `+[a,e.which]"id=b>
 </pre>
-<p><b>New tricks</b>
+<p><b>New tricks and reminders</b>
 <ul>
 <li>Contrary to innerHTML, innerText allows to make visible line breaks using '\n', or even shorter: a template literal (``) containing a line break char.
 <li>Iterate on all the events of an element to pick only the ones you need can be shorter than naming them.
 <li>"let" can be useful in a for loop that generates different functions, to have access to the name of the current element of the loop inside the function (like a closure, but shorter).
+<li>Never rely on onkeypress. Its keyCode (a.k.a. which) doesn't match the keyCodes of onkeydown and onkeyup, and it is inconsistent across browsers.
 </ul>
 
 <br><br><hr><br><h3>Day 6: <a href="http://xem.github.io/miniURI/">MiniURI</a> </h3>
@@ -349,12 +350,15 @@ i=0;setInterval(`document.body.innerHTML="&#"+i++`,99)
 
 <p>More information in the project's <a href="https://github.com/veu/mini-tetris#readme">README</a> and <a href="https://github.com/veu/mini-tetris/blob/master/src/tetris.js">commented source code</a>
 
-<br><br><hr><br><h3>Day 13 + day 15: <a href="https://github.com/xem/miniASCIISerpinski">Mini ASCII Serpinski</a> </h3>
+<br><br><hr><br><h3>Day 13 + day 15 + day 31: <a href="https://github.com/xem/miniASCIISerpinski">Mini ASCII Serpinski</a> </h3>
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 13:<br>mini ASCII Serpinski triangle<br>golfed from 96b to 64/65b!!<br>thanks <a href="https://twitter.com/benjamin_js?ref_src=twsrc%5Etfw">@benjamin_js</a> &amp; <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a><a href="https://t.co/ceBpd4MM6D">https://t.co/ceBpd4MM6D</a> <a href="https://t.co/CYcy4O3tb4">pic.twitter.com/CYcy4O3tb4</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/918887293557116928?ref_src=twsrc%5Etfw">13 octobre 2017</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">2) <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@xen_the</a> improved big MiniASCIISerpinski:<br>- Autoplay (61b) <a href="https://t.co/jT9Q2xUzwX">https://t.co/jT9Q2xUzwX</a><br>- Click quotes to run (57b) <a href="https://t.co/urV9mGjrEN">https://t.co/urV9mGjrEN</a> <a href="https://t.co/0l3NnY5Jot">pic.twitter.com/0l3NnY5Jot</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/919497692853792768?ref_src=twsrc%5Etfw">15 octobre 2017</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="da" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> bonus 4<br>MiniASCIISerpinski+<a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> = 63b<a href="https://t.co/mNf4WIrQkP">https://t.co/mNf4WIrQkP</a><br>&lt;svg onload=&#39;for(i=1024;i--;)write(i%63&lt;32?`&lt;p&gt;`:i&amp;i&gt;&gt;5&amp;&amp;`_`)&#39;&gt; <a href="https://t.co/HzwTrM5ygw">pic.twitter.com/HzwTrM5ygw</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/925748512209489920?ref_src=twsrc%5Etfw">1 novembre 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 <p><b>Progress</b>
 <pre class=code>
 <b>Previous version: <a href="http://www.p01.org/128b_sierpinski/">serpinski gasket</a> by p01 (96b)</b>
@@ -372,8 +376,11 @@ i=0;setInterval(`document.body.innerHTML="&#"+i++`,99)
 <b>Shorter and simpler loop</b>
 &lt;svg onload='for(i=1024;i--;)write(i%63?i%63&lt;32?``:i&i>>5?`_`:0:`&lt;br>`)'>
 
-<b>Final version (64b): simpler test, use &lt;p> instead of &lt;br></b>
+<b>Simpler test, use &lt;p> instead of &lt;br></b>
 &lt;svg onload='for(i=1024;i--;)write(i%63&lt;32?`&lt;p>`:i&i>>5?`_`:0)'>
+
+<b>Final version (63b): use '&&`_`' instead of '?`_`:0`'</b>
+&lt;svg onload='for(i=1024;i--;)write(i%63&lt;32?`&lt;p>`:i&i>>5&&`_`)'>
 </pre>
 
 <pre class=code>
@@ -472,7 +479,7 @@ with(new AudioContext)with(createOscillator())connect(destination),start(setInte
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 21:<br>An UTF-8 bytes counter function golfed in 39b with <a href="https://twitter.com/ETHProductions?ref_src=twsrc%5Etfw">@ETHProductions</a>:<br><br>s=&gt;encodeURI(s).split(/%..|./).length-1 <a href="https://t.co/MQL5SdPk2I">pic.twitter.com/MQL5SdPk2I</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/921677234116747264?ref_src=twsrc%5Etfw">21 octobre 2017</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="fr" dir="ltr">32b!<br>s=&gt;unescape(encodeURI(s)).length <a href="https://t.co/nSC4kVrY6D">pic.twitter.com/nSC4kVrY6D</a></p>&mdash; subzey (@subzey) <a href="https://twitter.com/subzey/status/922458812950433794?ref_src=twsrc%5Etfw">23 octobre 2017</a></blockquote>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> bonus 2:<br>Our UTF-8 bytes counter is down to 32b thanks to <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a>:<br><br>s=&gt;unescape(encodeURI(s)).length<a href="https://t.co/4oy51Jh0lJ">https://t.co/4oy51Jh0lJ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/925669262500532224?ref_src=twsrc%5Etfw">1 novembre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p><b>Progress</b>
 <pre class=code>
@@ -494,111 +501,192 @@ s=>unescape(encodeURI(s)).length
 l.href="#"+(l.innerHTML=q=(h=decodeURI(location.hash))?h.slice(1):[s()+s(),s()+s()])
 setInterval("for(i=1e4;i--;a.getContext`2d`.fillRect(450+99*X,450+99*Y,.1,.1))[X,Y]=["+q+"]",X=Y=1)'></pre>
 <p><b>New tricks</b>
-<ul>
-<li>'Math.random()*N|0' is shorter than '~~(Math.random*N)' 
-</ul>
+<p>'Math.random()*N|0' is shorter than '~~(Math.random*N)' 
 
-<!--
-<br><br><hr><br><h3>Day 25: <a href=""></a> </h3>
+
+<br><br><hr><br><h3>Day 25: <a href="https://xem.github.io/miniPlot/">Mini Plot</a> </h3>
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> 25:<br>miniPlot, an interactive curve plotter, with axis and legends,<br>golfed in 243b with <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a><a href="https://t.co/L0U4CxIza9">https://t.co/L0U4CxIza9</a> <a href="https://t.co/OPLQkXdOMf">pic.twitter.com/OPLQkXdOMf</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/923290703182123009?ref_src=twsrc%5Etfw">25 octobre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p><b>Progress</b>
-<pre class=code>
-</pre>
-<p><b>New tricks</b>
-<ul>
-<li>
-<li>
-</ul>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> bonus 3:<br>We didn&#39;t realize miniPlot was upside-down...😣<br>It&#39;s fixed now! And still 243b.<br>Thanks <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a>!<a href="https://t.co/L0U4CxIza9">https://t.co/L0U4CxIza9</a> <a href="https://t.co/wWMpPmfS1h">pic.twitter.com/wWMpPmfS1h</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/925718880017936386?ref_src=twsrc%5Etfw">1 novembre 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><b>Source code</b>
+<pre class=code>&lt;input oninput=with(c=a.getContext`2d`)for(c.z=fillRect,c.Z=fillText,z(0,75,W=a.width|=0,1),z(u=150,0,1,W),Z(0,155,70),Z(u,280,70),Z(75,155,9),x=-u;x&lt;u;x+=.01)z(u+x,75-eval(value),1,1) value=y=99/x id=f>&lt;p>&lt;canvas id=a>&lt;svg onload=f.oninput()></pre>
+<p><b>Tricks used</b>
+<p>The function is evaluated and drawn 30,000 times in total (for x=0.01, 0.02, 0.03, etc.), to ensure there are no discontinuities in the plot. 
 
-<br><br><hr><br><h3>Day 26: <a href=""></a> </h3>
+<br><br><hr><br><h3>Day 26: <a href="https://ethproductions.github.io/golf/tic-tac-toe/">Mini Tic-Tac-Toe</a> </h3>
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 26:<br>miniTicTacToe<br>golfed by <a href="https://twitter.com/ETHprod?ref_src=twsrc%5Etfw">@ethprod</a>, <a href="https://twitter.com/nderscore?ref_src=twsrc%5Etfw">@nderscore</a>, <a href="https://twitter.com/atesgoral?ref_src=twsrc%5Etfw">@atesgoral</a> and me.<br>Full: 225b. Mini: 167b.<a href="https://t.co/zrycFSyWbU">https://t.co/zrycFSyWbU</a> <a href="https://t.co/YpPzBzL1AO">pic.twitter.com/YpPzBzL1AO</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/923676861204520961?ref_src=twsrc%5Etfw">26 octobre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p><b>Progress</b>
+<p><b>Source code (full/minimal)</b>
 <pre class=code>
+for(i=12;--i;d.write(i%4?`&lt;input type=button value=" "onclick="
+value-1?value=d[${i}]='XO'[i++%2]:0;for(b of'1345')for(a of'12359')
+for(q of(c=d[a])&&c==d[a-=-b]&c==d[+b+a]?d.all:[])q.value=c"style=
+width:30>`:`&lt;br>`))d=document
 </pre>
-<p><b>New tricks</b>
-<ul>
-<li>
-<li>
+<pre class=code>
+for(i=12;--i;d.write(i%4?`&lt;a onclick="innerText=d[${i}]=d[${i}]||i
+++%2+1;for(b of'1345')for(a of'12359')d[a]&d[a-=-b]&d[+b+a]&&d.
+write(d[a])">_&lt;/a> `:`&lt;p>`))d=document
+</pre>
+<p><b>Tricks used</b>
+<p>There's a very clever way to detect when a player has won, using two loops (one for start, one for offset). More details <a href="https://github.com/ETHproductions/golf/blob/gh-pages/tic-tac-toe/minimal-commented.js">here</a>!
 </ul>
 
-<br><br><hr><br><h3>Day 27: <a href=""></a> </h3>
+<br><br><hr><br><h3>Day 27: "paste my email here" bookmarklet </h3>
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 27:<br>&quot;paste my email here&quot; bookmarklet in 66b<br>javascript:(a=&gt;{with(document.activeElement)value=innerHTML=&quot;me@domain.com&quot;})() <a href="https://t.co/GhDdx42k1n">pic.twitter.com/GhDdx42k1n</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/924006257329147904?ref_src=twsrc%5Etfw">27 octobre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p><b>Progress</b>
 <pre class=code>
-</pre>
-<p><b>New tricks</b>
-<ul>
-<li>
-<li>
-</ul>
+<b>Old version (149b)</b>
+javascript:(function(d){d=document.activeElement;if(d.tagName=="INPUT"||d.tagName=="TEXTAREA"||d.contentEditable=="true"){d.value=d.innerHTML="JOHN@DOE.COM"}})()
 
-<br><br><hr><br><h3>Day 28: <a href=""></a> </h3>
+<b>New version (66b) - stops checking if the focused element is an input, a textarea or if it has contenteditable</b>
+javascript:(a=>{with(document.activeElement)value=innerHTML="JOHN@DOE.COM"})()
+</pre>
+
+<br><br><hr><br><h3>Day 28: <a href="">CodegolfIDE</a> </h3>
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 28:<br>an online IDE (handy for code golfing) in 491b (+ CodeMirror)<a href="https://t.co/F2mLGHAhhw">https://t.co/F2mLGHAhhw</a> <a href="https://t.co/Y1rddB2Vqe">pic.twitter.com/Y1rddB2Vqe</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/924322746103975937?ref_src=twsrc%5Etfw">28 octobre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p><b>Progress</b>
+<p><b>Source code</b>
 <pre class=code>
+&lt;link rel=stylesheet href=c.css>&lt;textarea id=c>&lt;body text=blue id=b onload=b.innerHTML="Hello,World!">&lt;/textarea>&lt;iframe id=f>&lt;/iframe>&lt;script src=c.js>&lt;/script>&lt;script>E=CodeMirror.fromTextArea(c,{lineNumbers:!0,lineWrapping:!0,mode:"htmlmixed"});(U=z=>f.srcdoc=E.getValue())();E.on("keyup",z=>{console.clear(),document.title=encodeURI(U()).split(/%..|./).length-1+"b"})&lt;/script>&lt;style>*{margin:0;font-size:12px}.CodeMirror,#f{width:100%;height:50%;border:1px solid;box-sizing:border-box
 </pre>
-<p><b>New tricks</b>
+<p><b>New tricks and reminders</b>
 <ul>
-<li>
-<li>
+<li>Body's background color and text color can be set through its bgColor and text attributes.
+<li>Everything in a trailing &lt;style> tag can stay unclosed (parenthesis, curly brace, and aven the closing tag &lt;/style>).
 </ul>
 
-<br><br><hr><br><h3>Day 29: <a href=""></a> </h3>
+<br><br><hr><br><h3>Day 29: <a href="https://xem.github.io/miniAudioViz/">Mini Audio Viz</a> </h3>
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 29<br>MiniAudioViz, golfed in 274b with <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a><br>Works with any mp3 file provided you rename it as &quot;3&quot;.<a href="https://t.co/bR4gAYr7ei">https://t.co/bR4gAYr7ei</a> <a href="https://t.co/5UruLMaQHC">pic.twitter.com/5UruLMaQHC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/924543703242420225?ref_src=twsrc%5Etfw">29 octobre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p><b>Progress</b>
 <pre class=code>
+
+<b>Original source code inspired by p01</b>
+
+canvas id=c>&lt;script>
+x=c.getContext`2d`;
+a=new Audio("song.mp3");
+a.autoplay=a.loop=!0;
+with(new AudioContext)
+with(createMediaElementSource(a))
+connect(destination),
+A=createAnalyser(),
+connect(A);
+setInterval(z=>{
+c.width^=0;
+A.getByteFrequencyData(D=new Uint8Array(A.frequencyBinCount));
+m=1;
+D.map((y,i)=>x.lineTo(i,150-D[i]/150*m++));
+x.stroke();
+},9)
+&lt;/script>
+
+<b>(...)</b>
+
+<b>Call the mp3 file "3"</b>
+&lt;canvas id=c>&lt;svg onload="a=new Audio(3);with(new AudioContext)with(createMediaElementSource(a))connect(destination),connect(A=createAnalyser());setInterval('A.getByteFrequencyData(D=new Uint8Array(c.width=512));D.map((v,i)=>c.getContext`2d`.fillRect(i,150,1,-v*.58))',a.autoplay=a.loop=9)">
+
+<b>Use an audio tag</b>
+&lt;canvas id=c>&lt;audio src=3 id=a autoplay loop>&lt;svg onload="with(new AudioContext)with(createMediaElementSource(a))connect(destination),connect(A=createAnalyser());setInterval('A.getByteFrequencyData(D=new Uint8Array(c.width=512));D.map((v,i)=>c.getContext`2d`.fillRect(i,150,1,-v*.6))',9)">
+
+<b>Replace &lt;svg onload=...> with &lt;audio onplay=...></b>
+&lt;canvas id=c>&lt;audio src=3 onplay="with(new AudioContext)with(createMediaElementSource(this))connect(destination),connect(A=createAnalyser());setInterval('A.getByteFrequencyData(D=new Uint8Array(c.width=512));D.map((v,i)=>c.getContext`2d`.fillRect(i,150,1,-v*.6))',9)"autoplay>
+
+<b>Reset the canvas value to its default value, 300, at each loop (c.width^=0), and use it for the size of the frequency data array</b>
+&lt;canvas id=c>&lt;audio src=3 onplay="with(new AudioContext)with(createMediaElementSource(this))connect(destination),connect(A=createAnalyser());setInterval('A.getByteFrequencyData(D=new Uint8Array(c.width^=0));D.map((v,i)=>c.getContext`2d`.fillRect(i,150,1,-v/2))',9)"autoplay>
 </pre>
 <p><b>New tricks</b>
 <ul>
-<li>
-<li>
+<li>A mp3 file can be called "3" with no extension, and played with &lt;audio src=3>.
+<li>To execute JS when the page is loaded, you can use the &lt;audio>'s onplay event.
 </ul>
 
-<br><br><hr><br><h3>Day 30: <a href=""></a> </h3>
+<br><br><hr><br><h3>Day 30: Mini Game Of Life <a href="http://xem.github.io/miniGameOfLife/">1</a> & <a href="http://xem.github.io/miniGameOfLife2/">2</a> </h3>
 
-<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 30:<br>MiniGameOfLife 1 &amp; 2:<a href="https://t.co/GDPcu68nGZ">https://t.co/GDPcu68nGZ</a> (238&gt;200b)<a href="https://t.co/f5uvCVVUtj">https://t.co/f5uvCVVUtj</a> (182&gt;176b)<br>with <a href="https://twitter.com/mmastrac?ref_src=twsrc%5Etfw">@mmastrac</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@xen_the</a> <a href="https://t.co/NosjDLwRoU">pic.twitter.com/NosjDLwRoU</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/924903357420097536?ref_src=twsrc%5Etfw">30 octobre 2017</a></blockquote>
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 30:<br>MiniGameOfLife 1 &amp; 2:<a href="https://t.co/GDPcu68nGZ">https://t.co/GDPcu68nGZ</a> (238&gt;200b)<a href="https://t.co/f5uvCVVUtj">https://t.co/f5uvCVVUtj</a> (182&gt;176b)<br>with <a href="https://twitter.com/mmastrac?ref_src=twsrc%5Etfw">@mmastrac</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@xen_the</a> <a href="https://t.co/NosjDLwRoU">pic.twitter.com/NosjDLwRoU</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/924903357420097536?ref_src=twsrc%5Etfw">30 octobre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Bonus: MiniGameOfLife2 &quot;autoplay&quot; is also shorter (182 =&gt; 179b)<br>thanks to <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> <a href="https://t.co/Xi9J4ytodA">https://t.co/Xi9J4ytodA</a> <a href="https://t.co/km4pRPGPAs">pic.twitter.com/km4pRPGPAs</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/924918744173957125?ref_src=twsrc%5Etfw">30 octobre 2017</a></blockquote>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Bonus: MiniGameOfLife2 &quot;autoplay&quot; is also shorter (182 =&gt; 179b)<br>thanks to <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> <a href="https://t.co/Xi9J4ytodA">https://t.co/Xi9J4ytodA</a> <a href="https://t.co/km4pRPGPAs">pic.twitter.com/km4pRPGPAs</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/924918744173957125?ref_src=twsrc%5Etfw">30 octobre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p><b>Progress</b>
 <pre class=code>
-</pre>
-<p><b>New tricks</b>
-<ul>
-<li>
-<li>
-</ul>
+<b>ASCII version before (238b)</b>
+&lt;body onkeyup="a=b;b=[h='&lt;pre>'];for(i=40;i--;h+='\n')for(j=80;j--;){k=80*i+j;d=0;for(z in e=[1,79,80,81])d+=a[k+e[z]]+a[k-e[z]];h+='&lt;a onclick=innerHTML=q[b['+k+']^=1]>'+q[b[k]=3==d|a[k]&2==d]}innerHTML=h"onload=f.onkeyup(b=q=".@") id=f>
 
-<br><br><hr><br><h3>Day 31: <a href=""></a> </h3>
+<b>Simplify the loop</b>
+&lt;body onkeyup="a=b;b=[h='&lt;pre>'];for(i=k=2048;i--;h+=--k&63?'':'\n'){d=0;for(e of[1,63,64,65])d+=a[k+e]+a[k-e];h+='&lt;a onclick=innerHTML=q[b['+k+']^=1]>'+q[b[k]=3==d|a[k]&2==d]}innerHTML=h"onload=f.onkeyup(b=q=".@") id=f> 
+
+<b>Move d initialization</b>
+&lt;body onkeyup="a=b;b=[h='&lt;pre>'];for(i=k=2048;i--;h+=--k&63?'':'\n'){for(e of[d=1,63,64,65])d+=a[k+e]+a[k-e];h+='&lt;a onclick=innerHTML=q[b['+k+']^=1]>'+q[b[k]=[1,a[k]][4-d]|0]}innerHTML=h"onload=f.onkeyup(b=q=".@") id=f>
+
+<b>Move everything</b>
+&lt;body onkeyup="a=b;b=[h='&lt;pre>'];for(i=k=2048;d=0,i--;h+=--k&63?'&lt;a onclick=innerHTML=q[b['+k+']^=1]>'+q[b[k]=3==d|a[k]&2==d]:'\n')for(e of[1,63,64,65])d+=a[k+e]+a[k-e];innerHTML=h"onload=f.onkeyup(b=q=".@") id=f> 
+
+<b>Use template literals</b>
+&lt;body onkeyup="a=b;b=[h='&lt;pre>'];for(i=k=2048;d=0,i--;h+=--k&63?`&lt;a onclick=innerHTML=q[b[${k}]^=1]>`+q[b[k]=3==d|a[k]&2==d]:'\n')for(e of[1,63,64,65])d+=a[k+e]+a[k-e];innerHTML=h"onload=f.onkeyup(b=q=".@") id=f>
+
+<b>Move everything again and use a line break char inside the &lt;pre tag to make a new line, instead of \n</b>
+&lt;body onkeyup="a=b;b=[h='&lt;pre>'];for(i=2048;i--;h+=i&63?`&lt;a onclick=innerHTML=q[b[${i}]^=1]>`+q[b[i]=[1,a[i]][4-d]|0]:`
+`)for(e of[d=1,63,64,65])d+=a[i+e]+a[i-e];innerHTML=h"onload=f.onkeyup(b=q=".@") id=f>
+
+<b>New version (200b) - Move the alphabet (.@) before the &lt;pre> tag</b>
+&lt;body onkeyup="a=b;b=[h='.@&lt;pre>'];for(i=2048;i--;h+=i&63?`&lt;a onclick=innerHTML=h[b[${i}]^=1]>`+h[b[i]=[1,a[i]][4-d]|0]:` 
+`)for(e of[d=1,63,64,65])d+=a[i+e]+a[i-e];innerHTML=h"onload=b.onkeyup() id=b> 
+</pre>
+
+<pre class=code>
+<b>Canvas autoplay version before (182b)</b>
+&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=d?d[i]+n==4||n==4:3&lt;i%9))for(jof[n=1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)>
+
+<b>New version (179b)</b>
+&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width=e=[i=6e3];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=(n-1|d[i])==3|i%9&!d))for(jof[n=1,73,k=74,75])n+=d[i+j]+d[i-j];d=e',d=0)>
+</pre>
+
+<p><b>Tricks used</b>
+<p>The vertical tab trick, used here, is explained <a href="http://xem.github.io/articles/#webspeech">in this blog post</a>!
+
+<br><br><hr><br><h3>Day 31: <a href="https://rawgit.com/justecorruptio/golf/master/tetris.html">Tetris</a> </h3>
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> 31:<br>A new tiny tetris game in 370b by <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> &amp; all the team<br>play: <a href="https://t.co/rWfzq4R3HP">https://t.co/rWfzq4R3HP</a><br>read: <a href="https://t.co/JefHcRG24d">https://t.co/JefHcRG24d</a> <a href="https://t.co/mryVJso2RR">pic.twitter.com/mryVJso2RR</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/925259350679130113?ref_src=twsrc%5Etfw">31 octobre 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p><b>Progress</b>
+<p><b>Source code</b> (<a href="https://github.com/justecorruptio/golf/commits/master">progression</a>)
 <pre class=code>
+&lt;body onload="x=y=4;B=[~!setInterval(onkeyup=e=>{u=[x,y,i=r+4];e&&(g=e.which-38)-2?g?x-=g:r++:y++;C=[...B];for(z=S;--i;(B[b+=24-y]|2049)&(k=1&lt;&lt;a+x)?[x,y,r,u]=u:i&lt;T?Z.innerText=z+=`_#
+`[C[b]|=k,i%11?C[i/11+1|0]>>i%11&1:2]+'| ':0)for(a='547690681'[i%4+(i&2&&t)],b=a&3,a>>=2,j=r&3;j--;a=f)f=b,b=3-t/5-a|0;B=u||e?B:C.filter(_=>_-2046?x=y=4:!++S,t=r%7)},r=T=210),t=S=0]"id=Z>
 </pre>
-<p><b>New tricks</b>
-<ul>
-<li>
-<li>
-</ul>
+
+<p><b>Tricks used</b>
+<p>Read the <a href="https://github.com/justecorruptio/golf/blob/master/tetris_annotated.html">annotated source code</a>!
+
 
 <br><br><hr><br>
 
-<p>To finish, there's a faux-ami golfing trick that we thought we had discovered: <a href="http://jsfiddle.net/mrf6m8ta/">leaving the last HTML tag unclosed</a>.
-<p>It works on jsfiddle because JSfiddle adds a lot of stuff at the end of your HTML code, but in reality, in a standalone demo, it's just broken.
-<p>Inspect the SVG in the demo above and you'll see it actually merged with a &lt;script> tag that was hidden after it by jsfiddle's engine.
+<h3>Bonuses</h3>
 
--->
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> bonus 1:<br>print all unicode characters in 57b!<a href="https://t.co/DodHniPmkS">https://t.co/DodHniPmkS</a><br> setInterval(`document.body.innerHTML+=&quot;&lt;wbr&gt;&amp;#&quot;+i++`,i=0) <a href="https://t.co/MqRw1USxZJ">pic.twitter.com/MqRw1USxZJ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/925668550810927105?ref_src=twsrc%5Etfw">1 novembre 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> bonus 5:<br>nanoid golfed by <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> in 106b<br>(+ some gzip optimizations explained on his twitter timeline)<a href="https://t.co/AhLycp0m1x">https://t.co/AhLycp0m1x</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/925749938641883138?ref_src=twsrc%5Etfw">1 novembre 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> bonus 6:<br>A 389b maze-shaped maze generator: <a href="https://t.co/ZQk45vxLo2">https://t.co/ZQk45vxLo2</a><br>and a 319b maze solver: <a href="https://t.co/w5UjoDBybE">https://t.co/w5UjoDBybE</a><br>by <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a> <a href="https://t.co/T61ogWxRwE">pic.twitter.com/T61ogWxRwE</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/925752045155635200?ref_src=twsrc%5Etfw">1 novembre 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br><br><hr><br>
+
+<p>To finish, there's a faux-ami golfing trick that we thought we had discovered earlier this month: <a href="http://jsfiddle.net/mrf6m8ta/">leaving the last HTML tag unclosed</a>.
+<p>It works on jsfiddle because JSfiddle adds a lot of stuff at the end of your HTML code, which gets merged with your unclosed tag without bad consequences, but in reality, in a standalone demo, it's just broken.
+
+<br><br><hr><br>
+
+Cheers!
+<br>
+xem & the team!
 </div>
 
 
