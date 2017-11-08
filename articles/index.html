@@ -148,12 +148,12 @@ v)):document.write(y||'&lt;p ',z,y,' onfocus=value=[o[id]]>')})()</pre>
 <p><b>New tricks</b>
 <p>The commented source code of each version explains in detail all the (new) tricks we used, like:
 <ul>
-<li>Using a function's source code to iterate many times in 13 chars ("for(i in{}+o)" or "for(i in o+o)", if the function is called "o";
+<li>cheap loop: iterate on a function's source code ("for(i in{}+o)" or "for(i in o+o)", if the function is called "o");
 <li>creating a var 'y' containing a cell's name, write an input element with id=${y}, then access this element with top[y] (or self[y] if you want your app to be iframe-able);
 <li>'/.../.test(z)' is shorter than 'z.match(/.../)' but is also handier because it works even when y is undefined;
 <li>'x-~x' is better than "+x" to detect if a string contains a nimber (integer or float), as it supports the value '0';
 <li>'+x' acts as 'parseFloat(x)';
-<li>given 5 expressions A,B,C,D,E, 'document.write(y?(A,B):(C,D,E))' will execute A and B, or C, D and E, but will only write the value returned by B or E;
+<li>given 5 expressions A,B,C,D,E, 'document.write(y?(A,B):(C,D,E))' will execute (A and B), or (C, D and E), but will only write the value returned by B or E, according to the value of y;
 <li>Math or document can be used to store values like any other object.
 </ul>
 
@@ -250,7 +250,7 @@ ${e.type} `+e.which"id=b>
 <pre class=code>&lt;canvas id=a>&lt;svg onload=setInterval('with(a.getContext`2d`)fillText(drawImage(a,(V=t++%3|0)*Z,V%2*Z,150,Z),1,1)',Z=t=75)></pre>
 <p><b>New tricks</b>
 <ul>
-<li>Uing canvas fillText(X, 1, 1) can be used to <a href="http://jsfiddle.net/gu3vboa1/">draw a dotted line</a> measuring about 50px on top of a canvas. 
+<li>When X returns 'undefined', usng canvas fillText(X(), 1, 1) can be used to <a href="http://jsfiddle.net/gu3vboa1/">draw a dotted line</a> measuring about 50px on top of a canvas. 
 </ul>
 
 
@@ -445,7 +445,7 @@ s=>[...s+='ÿ'].map((_,i)=>s[S='slice'](i)+s[S](0,i)).sort().map(x=>x[S](-1)).jo
 <ul>
 <li>The transform and untransform functions need to agree on which char is used as the end-of-string delimiter. This is boring to do for the user, so they both automatically use the char "ÿ" for that. It's appended during the transform, and removed at the end of the untransform.
 <li>The second parameter of a function can contain an expression that includes the first parameter: '(d,t=d.indexOf`ÿ`)=>...'
-<li>'"...".slice(0,-1)' is the shortest way (as far as we know) to remove the last char of a string.
+<li>' "...".slice(0,-1)' is the shortest way (as far as we know) to remove the last char of a string.
 </ul>
 
 <br><br><hr><br><h3>Day 19: <a href="https://github.com/xem/atree">atree</a> </h3>
@@ -457,7 +457,7 @@ s=>[...s+='ÿ'].map((_,i)=>s[S='slice'](i)+s[S](0,i)).sort().map(x=>x[S](-1)).jo
 <b>Previous version (137b)</b>
 &lt;body onload=setInterval("c.width|=Q=Math.cos;for(i=57;i--;)c.getContext('2d').fillRect(99+i*Q(o),i*3,z=2+Q(o+=14),z)",o=9)>&lt;canvas id=c>
 
-<b>New version (134b)</b> use svg instead of body and getcontext`2d` instead of ('2d')
+<b>New version (134b) use svg instead of body and getcontext`2d` instead of getContext('2d')</b>
 &lt;canvas id=c>&lt;svg onload=setInterval("c.width|=Q=Math.cos;for(i=57;i--;)c.getContext`2d`.fillRect(99+i*Q(o),i*3,z=2+Q(o+=14),z)",o=9)>
 
 <b>Demake (121b, click to start)</b>
@@ -608,7 +608,7 @@ x.stroke();
 <p><b>New tricks</b>
 <ul>
 <li>A mp3 file can be called "3" with no extension, and played with &lt;audio src=3>.
-<li>To execute JS when the page is loaded, you can use the &lt;audio>'s onplay event.
+<li>To execute JS when the page is loaded, you can use the &lt;audio>'s onplay event, if it also has an autoplay attribute.
 </ul>
 
 <br><br><hr><br><h3>Day 30: Mini Game Of Life <a href="http://xem.github.io/miniGameOfLife/">1</a> & <a href="http://xem.github.io/miniGameOfLife2/">2</a> </h3>
@@ -6211,11 +6211,7 @@ var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
   
   <script>
     if(!location.hash){
-      //location.hash="golfctober_2017";
-      golfctober_2017.style.display="block";
-    }
-    else if(location.hash != "#golfctober_2017") {
-      golfctober_2017.style.display="none";
+      location.hash=document.querySelector(".section").id;
     }
   </script>
   </body>
