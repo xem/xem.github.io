@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>xem news</title>
+    <description>The latest news from xem</description>
+    <copyright>Copyright © xem 2017</copyright>
+    <ttl>60</ttl>
+    <lastBuildDate>Wed, 08 Nov 2017 10:59:14 GMT</lastBuildDate>
+    <item>
+      <title>Golfctober 2017</title>
+      <description>This year, I tried to follow the trend of #inktober or #blocktober, but adapted to JS code golfing. I bet I could golf (or regolf) one project a day for 31 days, and called it #golfctober. By chance, the whole Codegolf Team, with some excellent new recruits, joined the game and helped me find some awesome new tricks, and save a lot bytes on projects we couldn't golf any more. Here's a recap of all the progress and lessons learned!</description>
+      <link>http://xem.github.io/articles/#golfctober_2017</link>
+      <guid isPermaLink="false">c6af72449ec54676991b92c5f1264fcd</guid>
+      <pubDate>Wed, 08 Nov 2017 10:58:48 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
