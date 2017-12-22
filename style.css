@@ -28,7 +28,7 @@ pre { background: #fed; padding: 20px; white-space: pre-wrap; white-space: -moz-
 p, div, script, style, pre { margin: 10px 0; }
 script, style, pre { font: normal 11px/16px monospace; overflow-x: auto; }
 div#twitter { margin: 0; }
-div#twitter iframe { height: 900px !important; border: 2px solid #eee !important; border-radius: 5px !important; }
+div#twitter iframe { height: 600px !important; border: 2px solid #eee !important; border-radius: 5px !important; }
 div.demo div { margin: 0; }
 div.demo { background: #def; padding: 20px }
 div.demo pre { background: #def; padding: 10px; }
