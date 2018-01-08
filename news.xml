@@ -7,6 +7,13 @@
     <ttl>60</ttl>
     <lastBuildDate>Wed, 08 Nov 2017 10:59:14 GMT</lastBuildDate>
     <item>
+      <title>January 2018 update</title>
+      <description>Big website update! - New quick-access links on the home page - 6 new projects - 29 new or updated code-golfed apps - The best of 6 months of tech watch (>500 items!) - My funniest images from the Web in 2017 (>600 images!)</description>
+      <link>http://xem.github.io</link>
+      <guid isPermaLink="false">c6af72449ec54676991b92c5f1264fce</guid>
+      <pubDate>Mon, 08 Jan 2018 10:58:48 GMT</pubDate>
+    </item>
+    <item>
       <title>Golfctober 2017</title>
       <description>This year, I tried to follow the trend of #inktober or #blocktober, but adapted to JS code golfing. I bet I could golf (or regolf) one project a day for 31 days, and called it #golfctober. By chance, the whole Codegolf Team, with some excellent new recruits, joined the game and helped me find some awesome new tricks, and save a lot bytes on projects we couldn't golf any more. Here's a recap of all the progress and lessons learned!</description>
       <link>http://xem.github.io/articles/#golfctober_2017</link>
