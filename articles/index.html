@@ -2642,8 +2642,6 @@ pos_y += walk_speed * Math.cos(angle_z);</pre>
   <p><b>TL;DR - state of the art:</b>
   <pre class=code>// Update four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD inputs. (78b)
 u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[5]</pre>
-  <pre class=code>// Update two coordinates (X, Y) based on Arrow keys inputs. (56b)
-X=Y=0;onkeydown=e=>top["YXYX"[g=e.which%4]]-="0220"[g]-1</pre>
   <br>
   <hr>
   <br>
@@ -2761,11 +2759,10 @@ onkeyup = (e) => {
   <br>
   <p>And here's a different approach, where keydown events directly update two variables called X and Y using the arrow keys, in 56b only!
   <pre class=code>X=Y=0;onkeydown=e=>top["YXYX"[g=e.which%4]]-="0220"[g]-1</pre>
-  <br>
-  <p>or, with additional WASD/ZQSD support (81b):
-  <pre class=code>X=Y=0;onkeydown=e=>top["XYXYX*Y*X*YX*Y"[g=(e.which+3)%20]]-="22002*0*2*20*2"[g]-1</pre>
+  <p>Unfortunately, if you keep one key pressed, the browser will make a short pause just after firing the first event, before firing around 60 times per second.
   <br>
   <p>NB: if you make a JS1k or itch.io game using these techniques, you'll need to replace 'top' with 'this' to avoid escaping your iframe.
+  <br>
   <br>
   <hr>
   <br>
