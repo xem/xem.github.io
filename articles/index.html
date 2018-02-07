@@ -2635,7 +2635,15 @@ pos_y += walk_speed * Math.cos(angle_z);</pre>
 
 <div class=section id=jsgamesinputs>
   <h2>Some subtleties of keyboard inputs in JS games</h2>
-	<h3>september 2016, january 2017</h3>
+	<h3>september 2016, january 2017, febuary 2018</h3>
+  <br>
+  <hr>
+  <br>
+  <p><b>TL;DR - state of the art:</b>
+  <pre class=code>// Update four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD inputs. (78b)
+u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[5]</pre>
+  <pre class=code>// Update two coordinates (X, Y) based on Arrow keys inputs. (56b)
+X=Y=0;onkeydown=e=>top["YXYX"[g=e.which%4]]-="0220"[g]-1</pre>
   <br>
   <hr>
   <br>
@@ -2744,6 +2752,20 @@ onkeyup = (e) => {
   <p>Note: there's no collision with the keys "E", "R", "T" "space", "shift" and "Enter", so you can also handle them just fine with just a 100 bytes:
   <pre class=code>E=R=T=_=s=e=u=d=l=r=0;onkeydown=onkeyup=z=>top['lurdlRdTl*urEu*_e**s'[(z.which+3)%20]]=z.type[3]<'u'</pre>
   <p><a href="demos/arrowkeys/2.html">(DEMO)</a>
+  <br>
+  <hr>
+  <br>
+  <p><b>Febuary 2018 update, thanks to @BalintCsala !</b>
+  <p>Here's how to save the state of four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD, in 78b:
+  <pre class=code>u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[5]</pre>
+  <br>
+  <p>And here's a different approach, where keydown events directly update two variables called X and Y using the arrow keys, in 56b only!
+  <pre class=code>X=Y=0;onkeydown=e=>top["YXYX"[g=e.which%4]]-="0220"[g]-1</pre>
+  <br>
+  <p>or, with additional WASD/ZQSD support (81b):
+  <pre class=code>X=Y=0;onkeydown=e=>top["XYXYX*Y*X*YX*Y"[g=(e.which+3)%20]]-="22002*0*2*20*2"[g]-1</pre>
+  <br>
+  <p>NB: if you make a JS1k or itch.io game using these techniques, you'll need to replace 'top' with 'this' to avoid escaping your iframe.
   <br>
   <hr>
   <br>
