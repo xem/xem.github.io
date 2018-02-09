@@ -2640,8 +2640,8 @@ pos_y += walk_speed * Math.cos(angle_z);</pre>
   <hr>
   <br>
   <p><b>TL;DR - state of the art:</b>
-  <pre class=code>// Update four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD inputs. (78b)
-u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[5]</pre>
+  <pre class=code><b>// Update four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD inputs. (73b)</b>
+u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</pre>
   <br>
   <hr>
   <br>
@@ -2753,9 +2753,9 @@ onkeyup = (e) => {
   <br>
   <hr>
   <br>
-  <p><b>Febuary 2018 update, thanks to @BalintCsala !</b>
+  <p><b>Febuary 2018 update, thanks to @BalintCsala and @ETHProd !</b>
   <p>Here's how to save the state of four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD, in 78b:
-  <pre class=code>u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[5]</pre>
+  <pre class=code>u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</pre>
   <br>
   <p>And here's a different approach, where keydown events directly update two variables called X and Y using the arrow keys, in 56b only!
   <pre class=code>X=Y=0;onkeydown=e=>top["YXYX"[g=e.which%4]]-="0220"[g]-1</pre>
