@@ -27,6 +27,7 @@
   <div class=aside>
     <h2>Summary</h2>
     <ul>
+      <li><a href='#js1k_2018'>JS1k 2018</a>
       <li><a href='#golfctober_2017'>Golfctober 2017</a>
       <li><a href='#js13k17'>JS13kGames 2017</a>
       <li><a href='#webgl_quest_2'>WebGL quest #2</a>
@@ -56,7 +57,328 @@
   </div>
   <div class="body articles">
 
-  
+
+<div class=section id=js1k_2018>
+<style>
+#js1k_2018 iframe { border: 2px solid #ccc !important; border-radius: 5px; width: 31% !important; min-height: 400px; display: inline-block !important; vertical-align: top; margin: 0 1% 2% 0; }
+</style>
+<h2>JS1K 2018</h2>
+<h3>febuary 2018</h3>
+
+<br>
+<hr>
+<br>
+
+<p>Fortunately, a new JS1K was organized this year, and a lot of great demos were made, and a lot of new tricks were discovered!
+<p>The theme was <a href="https://js1k.com/2018-coins/">Coin Mine</a>.
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>CSS3D maybe?</h3>
+
+<p>I thought I could reinterpret the word "coin" with a CSS3D scene, because "coin" means "corner" in french.
+<br>So I explored CSS3D cube golfing. I managed to generate a CSS3D cube in less than 256b of <a href="http://siorki.github.io/regPack.html">RegPacked</a> JS, then 1000 cubes or a staircase in less than 500b:
+
+<p>
+
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">// 255b CSS3D cube <a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a><br>_=&#39;&lt;divqperspective:9k;margk:40vh+40vwu}Z(2`-1`j-j1k~&quot;&gt;~&quot;&gt;&lt;pqborder:1px solid;width:2k;height:2k;position:fixed}_late|kurotate{(90deg)}z1k)}Z(u~;_form:q style=&quot;kinj1|X{Y(z`|Y{(-z_trans&#39;;for(i of&#39;_`jkquz{|}~&#39;)with(_.split(i))_=join(pop());document.write(_) <a href="https://t.co/rf3qcIxjwR">pic.twitter.com/rf3qcIxjwR</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/960059843703967745?ref_src=twsrc%5Etfw">4 février 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Here are 1000 <a href="https://twitter.com/hashtag/CSS3D?src=hash&amp;ref_src=twsrc%5Etfw">#CSS3D</a> cubes with transparency, fitting in &lt;500b of <a href="https://twitter.com/hashtag/JS?src=hash&amp;ref_src=twsrc%5Etfw">#JS</a> code, and rendered in ~5s by Firefox and ~10s by Chrome.<br>Not bad... There&#39;s something to do here...<a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> <a href="https://t.co/dQhjv21KcC">pic.twitter.com/dQhjv21KcC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/960202296008282115?ref_src=twsrc%5Etfw">4 février 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Some <a href="https://twitter.com/hashtag/CSS3D?src=hash&amp;ref_src=twsrc%5Etfw">#CSS3D</a> stairs (out of deformed cubes)<br>Drawn with &lt; 500b of packed <a href="https://twitter.com/hashtag/JS?src=hash&amp;ref_src=twsrc%5Etfw">#JS</a> code...<br>😏<a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> <a href="https://t.co/U5vmrGMXaj">pic.twitter.com/U5vmrGMXaj</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/960617256089767937?ref_src=twsrc%5Etfw">5 février 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>I wanted to make a MC Escher-esque scene based on this work but didn't find the right approach or time to do so. Maybe next year!
+
+<p>So let's see what I actually released.
+
+<br>
+<br>
+<hr>
+
+<h3>SN1KE</h3>
+
+- <a href="https://js1k.com/2018-coins/demo/3003">PLAY</a>
+<br>- <a href="https://github.com/xem/miniLOSSST">GITHUB</a>
+<br>- <a href="https://github.com/xem/miniLOSSST/blob/gh-pages/all-commented.html">DETAILED SOURCE CODE</a>
+
+<p><img src="images/js1k18/1.jpg">
+
+<p>A few weeks before JS1k, I launched an idea on the <a href="//jsgolf.club">JSgolf.club</a> Slack room: let's try to demake <a href="http://js13kgames.com/entries/lossst">my JS13kGames 2017 entry LOSSST</a>: reduce it to the bare minimum and let's see how small it can get.
+<p>My golfing friends <b>Xen, Xaotic, Corruptio, Subzey and p01</b> joined the byte-squashing party.
+<p>The game's principle is actually so simple that a 2D array (for the map) and a list of head positions (for the snake) is enough to represent all the data structures used by the game. We managed to implement the game engine (display, moves, collisions, puzzle solving) plus 25 puzzles in <a href="https://github.com/xem/miniLOSSST/blob/a379ecd7d41d9dc074e51dd77714460bd7d48eba/index.html">~500b</a>.
+<br>
+Then, we made a new version with wraps, featuring 25 wrap puzzles in <a href="https://github.com/xem/miniLOSSST/blob/142dd99b5e44f4190551407046036def460b117e/wrap.html">~800b</a>.
+<p>p01 even made <a href="https://xem.github.io/miniLOSSST/ascii.html">a 436b demake's demake</a>, rendered in ASCII!
+<p>The size difference between both wrap and non-wrap versions is mostly due to the encoding of the puzzles:
+<p><ul><li>The no-wrap puzzles could all fit in a 6x4 grid, and after ensuring the first 4 cells were blank, the remaining cells could be encoded in the bits of a single Unicode character, encoded on 3 or 4 UTF-8 bytes.
+<pre class="code">"ٯӟ൳ͷϼ໴𦙷࿟⛿ཿ濸ｳ񵝗𷝳𮻼𷝗𿹦򌻷򏿨򿦟񯽗𷿮񿧳" // 25 no-wrap puzzles</pre>
+<li>The wrapping puzzles were a bit bigger and required more bytes to be encoded, so we converted the long binary string representing each puzzle from base 2 to base 36 and saved the result in ASCII.
+<br>
+The wrap puzzles also needed an explicit size (4x4, 5x5, 6x6 or 7x7) to let the game handle the wrap area properly.
+<pre class="code">"1hrdfddq8y,g3t6b,2tc09uicht,1ibkfyb,pesw8s3,9jorj,j7r6m,jio5o,fv5kd,jokrj,jdyrj,b2lvj,b1asx,jopxb,9luxq,d8473,jnejl,jrkbh,e03aae4,427yw3s,im7v7p,ofbd9ip,46nskug,p2yhnzn,ofaqrjz" 
+// 25 wrap puzzles</pre>
+</ul>
+<p>Many great byte-saving techniques were found, including:
+<p><ul><li>Use 3ch (24px) for the squares' size, make them float to the left, and make the &lt;body> 48ch wide to wrap after each line of 16 squares. Also, use &lt;a> elements for the squares, because &lt;a> tags can't contain each other, so &lt;a>&lt;a>&lt;a> produces three neighbour blocks. The "3ch" size, in particular, allows the emoji eyes to be displayed at the right size and position without any extra CSS.
+<li>Checking that the snake does not collide with itself, prepending a new head position (q) in the snake array (s), and saving it in a variable called p is as short as: <pre class=code style=display:inline;padding:4px>s.includes(q)||s=[p=q,...s]</pre>.
+<li>Checking if a puzzle is solved is as easy as checking if every item of s is on a black square of the puzzle, basically: <pre class=code style=display:inline;padding:4px>w=s.every(p=>grid[p])}</pre>.
+<li>Ensuring the snake never exceeds its max size after prepending a new head position is as easy as: <pre class=code style=display:inline;padding:4px>s.length=maxsize</pre>.
+</ul>
+
+<p>When JS1k started, we rewrote from scratch a game that included the 25 no-wrap and the 25 wrap puzzles, with a common game engine. We first kept the no-wrap puzzles encoded in Unicode chars and the wrap puzzles encoded in base36 ASCII chars, then realized that it took less bytes to encode all the levels in base36 and use a single decoder.
+<p>Surprisingly, after a few optimizations, the whole result could fit in less than 950b! So we added 5 more wrap levels, centered the puzzles in the scene according to their size, and even made a proper game ending screen: a scrolling message saying "🎉 YOU WON! 🎉".
+
+<p>We're super happy to have been able to include so much gameplay content in 1024b.
+<p>Note: the code's entropy is so high (328b are used to encode levels data in base36, and almost no JS code is repeated in the rest of the entry) that we didn't even pack it (it wouldn't have saved bytes).
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>Mini Fourier</h3>
+
+- <a href="https://js1k.com/2018-coins/demo/3050">PLAY</a>
+<br>- <a href="https://github.com/xem/miniFourier">GITHUB</a>
+<br>- <a href="https://github.com/xem/miniFourier/blob/gh-pages/index.html">DETAILED SOURCE CODE</a>
+
+<p><img src="images/js1k18/2.png">
+
+<p>I always wanted to understand and implement 2D (image) Fourier transforms.
+<p>I studied Signal Processing at school but it has always been black magic for me, especially FFTs (Fast Fourier Transforms), as opposed to DFT (Discrete Fourier Transforms).<br>FFT that can compute huge amounts of Fourier transforms in just a fraction of the time.
+<p>It's pretty easy to find 1D FFT implementations in any language, some are short, some are huge, some are recursive and some are iterative.
+<br>My favourite is <a href="https://antimatter15.com/2015/05/cooley-tukey-fft-dct-idct-in-under-1k-of-javascript/">this one by antimatter15</a>: it's in JS, it's iterative, and it's super tiny (about 360b minified).
+<p>A 1D Fourier Transform takes a list of numbers (generally real numbers, because they come from the real world (ex: sound samples), but it can also work on complex numbers), and it outputs a list of complex numbers representing the frequencies present in the signal. FFTs have little quirks: they only work on signals that have a size equal to a power of two (4, 8, 16, 32, 64, 128, 256, 512, ...), and their output is always symmetric (first == last, second == second-to-last, etc).
+<p>And that's pretty much all you can learn about it online.
+<p>But how do 2D FFT work? I found some big Github projects that perform 2D FFTs with all the options you can imagine, but I couldn't find any clear explanation on what operations are actually required to make them work.
+<p>Then it hit me: there's no such thing as a "2D FFT". 2D FFTs algorithms use 1D FFTs for each line and each column of an image and assemble them. How exactly? Well, here again, the Web wasn't very specific, and the people who know it talk about stuff like"radix 2" and other cryptic keywords, but I finally found <a href="https://stackoverflow.com/a/11333566/3124943">this very concise SO answer</a> and went with it.
+<p><ul><li>Take a greyscale image (each pixel has a greyscale value between 0 and 255). For example, a 256x256px image.
+<li>Compute the 1D FFT of each line of the image. You get 256 FFTs containing 256 items.
+<li>Assemble these 1D FFTs on a 2D grid. The grid is made of 256x256 complex numbers.
+<li>Take each column of this grid and compute its 1D FFT.
+<li>Assemble these 1D FFTs on a 2D grid (again).
+<li>Compute the magnitude of each complex number in the grid, and plot it on a canvas using a logarithmic scale (because all the values in the FFT are either super tiny or super huge, so if we didn't use this scale, the 2D FFT would be almost entirely black).
+</ul>
+<p>By chance, when I tried to code it, it worked on the first try!
+<p>It was fast, but it wasn't REAL TIME fast (around 80ms for a 256x256px image).
+<p>So I remembered that FFTs are symmetric, and managed to compute only half of them on the first pass and on the second pass, and completing the holes by copying all the values, mirrored, in JS. The computation time fell down to 25-40ms depending on the computer used. That's fast enough for a 30fps demo!
+<p>So I proceeded to make the base image drawable with the mouse, and added some options to change the thickness of the drawing (1 to 100px), its shape (round or square) and its color (black or white). The FFT was instantly computed and drawn on the side.
+<p>After forcing for a while, and with the great help of <b>BalintCsala and Subzey</b>, I managed to fit it in 1024b. <b>Corruptio</b> attempted a demake to see how small a basic, non-interactive 2D FFT could be, and reached <a href="https://github.com/justecorruptio/golf/blob/master/fourier.html">409b</a>! (check out the demo <a href="https://rawgit.com/justecorruptio/golf/master/fourier.html">HERE</a>).
+
+<p><img src="images/js1k18/2b.png" width=400 style="border: 2px solid">
+
+<p>Some Math / Golfing tricks from the detailed source code:
+<p><ul><li>In the JS1K shim, <pre class=code style=display:inline;padding:4px>d.write`...`</pre> can be used to add HTML after a canvas without breaking its 2D context (as opposed to <pre class=code style=display:inline;padding:4px>b.innerHTML+="..."</pre>).
+<li>If you want a reset button with free i18n, use <pre class=code style=display:inline;padding:4px>&lt;input type=reset onclick="..."></pre> (it doesn't even need a value or a parent &lt;form>).
+<li>Computing the magnitude of a complex number (Math.sqrt(a*a+b*b)) can be done with <pre class=code style=display:inline;padding:4px>Math.hypot(a,b)</pre>.
+<li>About the logarithmic scale: the highest magnitude of the 2D FFT is savef in a variable "max",<br>then we take its logarithm (<pre class=code style=display:inline;padding:4px>logmax = Math.log(max)</pre>). Then every complex number of drawn on a pixel with a greyscale value equal to its magnitude divided by logmax. It's not necessary to ensure that the values are well between 0 and 255, it just works out of the box. 🤷‍♂️
+</ul>
+
+<p>PS: I recently discovered that JS had a native FFT method - <b>p01</b> and I even used it in our 274b <a href="https://github.com/xem/miniAudioViz">miniAudioviz</a> app - though it only works with an Audio element, and I didn't find any way to feed it with arbitrary data. too bad, it would have been pretty handy!
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>Shaderandom</h3>
+
+- <a href="https://js1k.com/2018-coins/demo/3063">PLAY</a>
+<br>- <a href="https://github.com/xem/shaderandom">GITHUB</a>
+<br>- <a href="https://github.com/xem/shaderandom/blob/gh-pages/js1k.html">DETAILED SOURCE CODE</a>
+
+<p><img src="images/js1k18/3.png">
+
+<p>I decided to rework Shaderandom (<a href=" http://xem.github.io/shaderandom">DEMO</a>), the random WebGL shader generator I wrote two years ago during our <a href="https://xem.github.io/articles/#webgl_quest">WebGL quest</a>. I especially wanted to make this work in 1kb because it's the only project that I didn't manage to golf properly during <a href="https://xem.github.io/articles/#golfctober_2017">#Golfctober 2017</a> (everything I tried broke the app entirely!).
+
+<p>So I reopened the project, annotated all the code, golfed the WebGL setup and the shader grammar as far as I could, minified it manually to avoid any Closure Compiler error, adjusted some params to have as many visual (and animated) outputs as possible, made the generated code compatible with <b>shadertoy.com</b> and placed it in a textarea under the canvas.
+
+<p>No new golf tricks to share here, but a little warning about the JS1K shim's header: this header pushes down your demo's content, so be careful if you stack elements with a total height of "100vh", because if you do so, the page will scroll. (it happened to me in this demo, but I didn't have the room to fix it).
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>Epic cycles</h3>
+
+- <a href="https://js1k.com/2018-coins/demo/3124">PLAY</a>
+<br>- <a href="https://github.com/xem/epicycles">GITHUB</a>
+<br>- <a href="https://github.com/xem/epicycles/blob/gh-pages/index.html">DETAILED SOURCE CODE</a>
+
+<p><img src="images/js1k18/4.png">
+
+<p>During this month, a big trend appeared on Twitter (even if the concept was <a href="https://www.youtube.com/watch?feature=youtu.be&v=QVuU2YCwHjw">pretty old</a>): drawing stuff with epicycloids.
+
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Generative Art. <a href="https://t.co/9bdJfhGeAx">pic.twitter.com/9bdJfhGeAx</a></p>&mdash; じゃがりきん (@jagarikin) <a href="https://twitter.com/jagarikin/status/964037102655586304?ref_src=twsrc%5Etfw">15 février 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>A lot of people asked how it worked, and a lot of other people were like "it's super simple, just fjzfoijef a Fourier $!#@*% then xyxyyzzyxy the phase and magnitude of the complex numbers in the (){[}>)]]} and it's done!". (at least, that's the only thing I understood, despite the fact that I had just made a 2D FFT demo).
+
+<p>Fortunately, I found two allies in this mission, <b>Román Cortés</b> who gave me a clearer interpretation of the technical mumble up there, and <b>Bálint Csala</b>, who already helped me on MiniFourier and was about to try and implement epicycloids on his side. So we teamed up to make this entry!
+
+<p>It took us a lot of different attempts, and the discovery of <a href="https://github.com/brettcvz/epicycles/">this github project by brettcvz</a> to finally have a prototype running: I've put all the HTML and JS code of brettcvz in a single, 1500-line HTML page, then removed all the not mandatory parts to end up with a page structured more or less like this:
+
+<p><pre>
+&lt;canvas>
+
+&lt;script>
+var points = [ /* hardcoded points of a sample "B" shape */ ];
+var complex = [ ];
+var gears = [ ];
+
+// FFT.js (289 lines), computes a 1D FFT
+fft = (output, input) => { ... }
+
+// epicycles.js (89 lines), computes a series of gears based on the FFT of a list of points
+calculateGears = (complex, number) => { ... }
+
+// simulator.js (107 lines), renders the epicycloid
+render = () { ... }
+
+complex = fft(points);
+gears = calculateGears(complex, complex.length);
+render();
+
+&lt;/script>
+</pre>
+
+<p>This worked fine! So on a separate file, we started from the end, by writing our own, simplified render loop:
+
+<p><pre>
+gears = [ /* hardcoded gears radii and angles used by the render loop */ ];
+
+setInterval(
+  ()=>{
+    /* Render gears (22 lines) */
+  }, 16
+)
+</pre>
+
+<p>When this worked, <a href="https://github.com/xem/epicycles/blob/501baee97da279a0e59e4bf1a920f305170d5b1b/index.html">we started golfing calculateGears</a>:
+
+<p><pre>
+complex = [ /* hardcoded FFT used to compute gears */ ];
+gears = [];
+
+/* Compute gears (15 lines) */
+
+setInterval(
+  ()=>{
+    /* Render gears (22 lines) */
+  }, 16
+)
+</pre>
+
+<p>When this worked too, we finally attempted the most difficult part: <a href="https://github.com/xem/epicycles/blob/6c612edd21358573e5297eea4b1ed61aec5ff138/index.html">computing the FFT of a list of hardcoded points</a>. by chance, we could reuse the tiny implementation written by antimatter15:
+
+<p><pre>
+points = [ /* hardcoded points */ ]
+complex = [];
+gears = [];
+
+/* Compute points FFT into complex (18 lines) */
+
+/* Compute gears (15 lines) */
+
+setInterval(
+  ()=>{
+    /* Render gears (22 lines) */
+  }, 16
+)
+</pre>
+
+<p>The annoying part was to ensure that there are always a number of points equal to a power of two, but Bálint had the nice idea to insert intermediate points between each successive pair of points to fill the array without changing the shape:
+
+<pre>
+for (i = 0; Math.log2(points.length) != (Math.log2(points.length) | 0); i = (i + 2) % points.length)
+  points.splice(i + 1, 0, [(points[i][0] + points[i + 1][0]) / 2, (points[i][1] + points[i + 1][1]) / 2]);
+</pre>
+
+<p>This entire demo (with hardcoded points) took 862b minified and packed.
+<p>After adding a rudimentary drawing feature (just click on the canvas to add points), it was up to 989b. But most importantly, we could finally generate our very own epicycloids!
+
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">*cough cough* <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a> and I may have something fun to present to <a href="https://twitter.com/js1k?ref_src=twsrc%5Etfw">@js1k</a> soon.<br><br>Something... with epicycles!<br><br>Cheers to the <a href="https://twitter.com/romancortes?ref_src=twsrc%5Etfw">@romancortes</a>, <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a>, <a href="https://twitter.com/ElJj?ref_src=twsrc%5Etfw">@ElJj</a>, <a href="https://twitter.com/antimatter15?ref_src=twsrc%5Etfw">@antimatter15</a> and <a href="https://twitter.com/brettcvz?ref_src=twsrc%5Etfw">@brettcvz</a> for their help and individual work! <a href="https://t.co/UAkHJq0dv7">pic.twitter.com/UAkHJq0dv7</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/966404193148964868?ref_src=twsrc%5Etfw">21 février 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="und" dir="ltr"><a href="https://t.co/woiAecM4hg">pic.twitter.com/woiAecM4hg</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/966406359771205633?ref_src=twsrc%5Etfw">21 février 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">&quot;JS1K&quot; drawn by 29 circles :D <a href="https://t.co/Ocj3lp290H">pic.twitter.com/Ocj3lp290H</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/966418060549804033?ref_src=twsrc%5Etfw">21 février 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>So we started adding cool stuff in the demo... and golfing it at the same time: <a href="https://github.com/xem/epicycles/blob/d4059875efcbbd2f88c897ed3d5f161ed19d8bd1/index.html">1037b</a> after including a build-in JS1K logo, <a href="https://github.com/xem/epicycles/blob/a87ff1acb7fb4d4b727c9252818d152f7e50f678/index.html">1023b</a> after making the canvas fullscreen and compressing all the points into ASCII chars, <a href="https://github.com/xem/epicycles/blob/9a046103a83cb30dc13327c2f91dd18f453839fb/index.html">1042b</a> after adding keyboard controls, <a href="https://github.com/xem/epicycles/blob/fc0b586dbf4c32c4b2fba103cbf305b6eef0d5ad/index.html">1010b</a> after optimizing the gears generation, <a href="https://github.com/xem/epicycles/blob/1274645674d95db9d8db29772f20ae658af9a0c3/index.html">1051b</a> after implementing a nicer drawing UI (click - move - release), etc...
+<p>Then we hit a barrier: we wanted to implement some cool features (like avoiding to draw dozens of points too close to each other by moving the mouse slowly for example), but we couldn't free enough bytes to add them.
+<p>Fortunately, Bálint found a way to implement DCT instead of FFT, which suddenly made our demo fall to 930b!
+<p><pre class=code>
+// Compute the DFT of P.
+// This is black magic inspired by Paul Bourke's C++ code.
+_ = [];
+for (i in P) {
+  _[i] = [0, 0];
+  for (k in P)
+    // Perform complex rotations or something like that?
+    _[i][0] += (P[k][0] * Math.cos(k * -2 * Math.PI * i / P.length) - P[k][1] * Math.sin(k * -2 * Math.PI * i / P.length)),
+    _[i][1] += (P[k][0] * Math.sin(k * -2 * Math.PI * i / P.length) + P[k][1] * Math.cos(k * -2 * Math.PI * i / P.length));
+}
+</pre>
+<p>This allowed us to do all the little enhancements we wanted to do, and even put a black background to the page, while the lines were being traced in white.
+
+<p>Golfing tricks:
+[TODO]
+
+
+
+
+
+
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>MUS1K</h3>
+
+- <a href="https://js1k.com/2018-coins/demo/3191">PLAY</a>
+<br>- <a href="https://github.com/xem/miniMusic">GITHUB</a>
+<br>- <a href="https://github.com/xem/miniMusic/blob/gh-pages/1k.html">DETAILED SOURCE CODE</a>
+
+<p><img src="images/js1k18/5.png">
+
+<p> [TODO]
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3>BONUS (not submitted): 1KB NES ROM DISASSEMBLER</h3>
+
+- <a href="https://xem.github.io/nes/disassembler.html">DEMO</a>
+<br>- <a href="https://github.com/xem/nes">GITHUB</a>
+<br>- <a href="https://github.com/xem/nes/blob/gh-pages/disassembler.html">DETAILED SOURCE CODE</a>
+
+<p><img src="images/js1k18/6.png">
+
+<p> [TODO]
+
+<br>
+<br>
+<hr>
+<br>
+
+<p>See you next year!
+
+</div>
+
 <div class=section id=golfctober_2017>
 <style>
 #golfctober_2017 pre { white-space: pre }
