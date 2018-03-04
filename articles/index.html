@@ -375,7 +375,7 @@ for (i = 0; Math.log2(points.length) != (Math.log2(points.length) | 0); i = (i +
   points.splice(i + 1, 0, [(points[i][0] + points[i + 1][0]) / 2, (points[i][1] + points[i + 1][1]) / 2]);
 </pre>
 
-<p>Fun fact from <b>romancortes</b>: the gears can be chained in any order, they will always trace the same pattern. We decided to sort them from the biggest to the smallest for better visuals.
+<p>Fun fact from <b>romancortes</b>: the gears can be chained in any order, they will always trace the same pattern. We decided to sort them from the biggest to the smallest for for more interesting visuals. (This explains why the gears speeds often appear in random order)
 
 <p>This entire demo (with hardcoded points) took 862b minified and packed.
 <p>After adding a rudimentary drawing feature (just click on the canvas to add points), it was up to 989b. But most importantly, we could finally generate our very own epicycloids!
@@ -407,7 +407,10 @@ for (i in P) {
 </pre>
 <p>This allowed us to do all the little enhancements we wanted to do, and even put a black background to the page, while the lines were being traced in white.
 <p>We're very happy with the result!
-<p>In the meantime, <b>3blue1brown</b> published a <a href="https://www.youtube.com/watch?v=spUNpyF58BY">great video</a> showing why FFTs are so associated with rotations. Watching this video suddenly made epicycloids make a lot of sense: the Fourier transform "rolls" the points on a circle, and the epicycloids just do the opposite operation. 
+<p>In the meantime, <b>3blue1brown</b> published a <a href="https://www.youtube.com/watch?v=spUNpyF58BY">great video</a> showing why FFTs are so associated with rotations. Watching this video suddenly made epicycloids make a lot of sense: the Fourier transform "rolls" the points on a circle, and the epicycloids just do the opposite operation.
+
+<p>After JS1K, Bálint published a similar tool with a much nicer UI (and many extra kilobytes): <a href="http://circlemachine.github.io">CircleMachine</a>.
+
 <br>
 <br>
 <hr>
