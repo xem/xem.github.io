@@ -110,7 +110,8 @@ blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radiu
 <p><b>Kids, if you need to save bytes for js13k, put all all your code and assets (images, sounds, binary, ...) inside index.html!</b>
 <p>I also recompressed the entry with <a href="https://www.advancemame.it/download">AdvanceComp</a>'s tool advzip, which removed another few hundred bytes (the total was around 11kb).
 <p><b>Kids, always recompress your entries with advzip!</b>
-<p>For the record, the magic command line is: <span style="font-family:courier">.\advzip.exe -z -4 .\entry.zip</span></b>
+<p>For the record, the magic command line is: <span style="font-family:courier">.\advzip.exe -z -4 -i 1000 .\entry.zip</span></b>
+<br>(if you need to squeeze a few extra bytes, replace 1000 by a bigger number, like 50000, but it'll take more time to process.)
 <p>Then I imagined using "polar offsets" instead of X/Y offsets for each new point of a polygon, and tried keeping the total under 7 bits (to encode each point in an ASCII char) by using 3 bits for angle and 4 bits for distance.
 <p>Here's a test with the Brazil, encoded on 38 chars, then reduced to 21 chars (for the record, it took 74 bytes in my 2015 entry):
 <p><img src="images/js13k18/1.png">
@@ -450,7 +451,7 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
 <p>After taking care of all the little details and cross-browser issues, the zip reached 14.1kb.
 
 <p>I spent another day golfing all my code and removing every superfluous decoration.
-<br>I also simplified many items names ("Democratic Republic of the Congo" => "DR Congo", "The pyramids of Giza" => "Giza pyramids", etc.)
+<br>I also simplified many items names ("Czech republic" => "Czechia", "The pyramids of Giza" => "Giza pyramids", etc.)
 <br>Finally, as suggested on slack, I switched from babelJS to <a href="https://skalman.github.io/UglifyJS-online/">Uglify-ES</a> to minify my JS code, which saved me a little more than 200 bytes before gzip.
 <p>At the end of the first week of the compo, the game's code was complete, golfed, minified, and there was "just" 855 bytes to cut in order to make the zip pass the 13kb barrier.
 
