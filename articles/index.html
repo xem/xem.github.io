@@ -81,7 +81,7 @@
 <p>
 <ul>
 <li>GeoQuiz 2 is playable <a href="">HERE</a> (source code <a href="">HERE</a>)
-<li>?????? is playable <a href="">HERE</a> (source code <a href="">HERE</a>)
+<!--<li>?????? is playable <a href="">HERE</a> (source code <a href="">HERE</a>)-->
 <li>Tools developed during this compo:
 <br>- <a href="https://github.com/xem/js13k-path">js13k-path</a>
 <br>- <a href="https://xem.github.io/int2binary2html/">int2binary2html</a>
@@ -205,6 +205,33 @@ blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radiu
 <p><img src="images/js13k18/9.png">
 
 <p>Total size (for the 14 datasets): 10.6kb zipped. Yay! That fits my data budget! (...give or take 100 bytes)
+
+<p><b>Organizing the data</b>
+
+<p>The names of the items in each category are concatenated in CamelCase and retrieved using a regex. For example the places:
+
+<pre class=code>places = `Cape canaveralChrist redeemerGreat wall of chinaSphinxEiffel towerPisa towerSagrada familiaBig benLiberty statueEtc...`.split(/(?=[A-Z])/)
+
+// ["Cape canaveral","Christ redeemer","Great wall of china","Sphinx","Eiffel tower","Pisa tower","Sagrada familia","Big ben","Liberty statue","Etc..."]</pre>
+
+<p>The binary data is also concatenated.
+<br>When it represents fixed-size items like places (encoded on 2 bytes), it looks like this: 
+
+<pre class=code>places_binary=`HacªÓN—]‚?ˆG‚K€9LMÓN...`.match(/.{2}/g);
+
+// ["Ha", "cª", "ÓN", "—]", "‚?", "ˆG", "‚K", "€9", "LM", "ÓN", ...]</pre>
+
+<p>When the data represents polygons (countries, US states, territories, forests, deserts or lakes), the "reserved" character (i.e. not present in the rest of the data) DEL (U+127) is used to separate islands, while ~ (U+126), also reserved, is used to separate items.
+<br>For items with capitals (countries and US states), the capital coordinates are placed at the beginning of each item. For example, the US states and capitals are encoded like this:
+
+<pre class=code>
+us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~7X5Ur+~9l:eKjzs	+X=~:k:k},M~GrJpMm\n\n~\\}X}sa:2Q~WhYclY;0~]i[k*ia~hghg(...`.split`~`,
+
+// ["0X“P)", "+=&OOWMrUsbW↵a})>K9;Zx/PAHS8p", "7X5Ur+", "9l:eKjzs	+X=", ":k:k},M", "GrJpMm↵↵", "\}X}sa:2Q", "WhYclY;0", "]i[k*ia", "hghg(", ...]</pre>
+
+<p>The second item (Alaska) is encoded like this:
+
+<p><img src="images/js13k18/alaska.png">
 
 <p>Now it's time to code!
 
@@ -435,6 +462,9 @@ c.closePath();
 
 <p>So I naturally decided to use it in the game... so it gets stuck in YOUR heads too!
 <p>My musician friend <b>Nghia</b> drew the recurring part of the melody inside my newly updated MiniMusic tool.
+
+<p><img src="images/js13k18/song.png">
+
 <br>The output code was pretty light, around 450 bytes.
 <br>Though, most of the size was used by an array of little numbers... A-HA! Are you thinking what I'm thinking?
 <p>I put these numbers inside <b>int2binary2html</b> and ended up having all the melody fitting in this little function.
@@ -506,6 +536,9 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">In the meantime, I re-drew all the USA map, with better borders and more accuracy on the west coast, and somehow 35 bytes smaller!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/7jgfZbthNx">pic.twitter.com/7jgfZbthNx</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1032330531340476417?ref_src=twsrc%5Etfw">22 août 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+
+<h2>(the end of the making of will be online soon!)</h2>
+<!--
 <p><b>The latin-1 fright</b>
 
 <p>(TODO)
