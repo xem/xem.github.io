@@ -68,7 +68,7 @@
 
 <h3>Intro</h3>
 
-<p>During this compo, I challenged myself to develop two games: a reboot of my 2015 entry <b>Geoquiz</b> and <b>???????</b>.
+<p>During this compo, I challenged myself to develop two games: a sequel to my 2015 entry <b>Geoquiz</b> and <b>???????</b>.
 <p>The development of both games is detailed below.
 
 <br>
@@ -80,7 +80,7 @@
 
 <p>
 <ul>
-<li>GeoQuiz 2 is playable <a href="">HERE</a> (source code <a href="">HERE</a>)
+<li>GeoQuiz 2 is playable <a href="http://js13kgames.com/entries/geoquiz-2">HERE</a> (source code <a href="github.com/xem/geoquiz2">HERE</a>)
 <!--<li>?????? is playable <a href="">HERE</a> (source code <a href="">HERE</a>)-->
 <li>Tools developed during this compo:
 <br>- <a href="https://github.com/xem/js13k-path">js13k-path</a>
@@ -123,7 +123,7 @@ blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radiu
 <p>So I changed that, and instead, used 4 bits for the angle and 3 bits for the distance.
 <p>This lead to the release of my tool: <a href="http://xem.github.io/js13k-path/">js13k-path</a>
 <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> path tracer v0.2:<br>- The canvas can be as big as 2048px * 1024px<br>- The first point of the path is encoded on 3 ASCII chars<br>- each new point is encoded on 1 ASCII char (4 bits for angle, 3 bits for distance, distance is a multiple of 4 between 4 and 32) <a href="https://t.co/xn09Ve4jpa">pic.twitter.com/xn09Ve4jpa</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1011667171431378944?ref_src=twsrc%5Etfw">26 juin 2018</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 <p>As you can see in this tweet, at first, I encoded the start coordinates on 3 ASCII chars (11 bits for X and 10 bits for Y), but it was unnecessarily complicated. Instead, I encoded each coordinate on 1 byte (i.e. a number ranging from 0 to 255), and converted them in characters like the rest of the polygons.
 <br>Problem: if they were converted to (UTF-8) chars like the rest of the polygons, every value higher than 127 would bacome a non-ASCII char and take 2 bytes, which is not optimal!
@@ -132,7 +132,7 @@ blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radiu
 <p>So I unearthed some compression tricks I had seen and used before (in <a href="http://codegolf.github.io/zpng/">Zpng</a> and <a href="http://xem.github.io/JSciissors/">JSciissors</a>), and I worked on a tool allowing to easily store binary code directly inside index.html. I came up with 3 different solutions, and I compiled them in a single tool: <a href="https://xem.github.io/int2binary2html/">int2binary2html</a>
 
 <p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">🚀New tool for <a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> 2018:<br><br>𝗶𝗻𝘁𝟮𝗯𝗶𝗻𝟮𝗵𝘁𝗺𝗹<a href="https://t.co/ykXvORLC9T">https://t.co/ykXvORLC9T</a><br><br>Wanna use a lot of byte-size numbers in your game?<br>Store them in binary directly inside your index.html<br>This app proposes 3 different approaches to retrieve them:<br>Self-XHR, Latin-1 string &amp; Base64 <a href="https://t.co/fNke3UYEAI">pic.twitter.com/fNke3UYEAI</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1024628879959511040?ref_src=twsrc%5Etfw">1 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 <p>In my case, the "Latin-1" approach seemed to be the best solution to store such an amount of data, especially if I reduce to the minimum the use of chars that need to be escaped, like '\0', '\r', '\\' and "`".
 
@@ -152,7 +152,7 @@ blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radiu
 
 <p>I also updated my MiniMusic tool with the help of <b>@d_nghia</b>, but we'll talk about it later!
 <p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> starts tomorrow!<br><br>Time to update my 2017 tool MiniMusic!<a href="https://t.co/KeiphbXzXM">https://t.co/KeiphbXzXM</a><br><br>The editor now has a keyboard on the left, a functioning tempo field, and (FINALLY) no more &quot;clicking noises&quot; between each note, thanks to a new algorithm!<br><br>Thx <a href="https://twitter.com/d_nghia?ref_src=twsrc%5Etfw">@d_nghia</a> for his help! <a href="https://t.co/WTmSSNlmGw">pic.twitter.com/WTmSSNlmGw</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1028728946064584714?ref_src=twsrc%5Etfw">12 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 <p>At least, this update of MiniMusic was appreciated!
 <p><img src="images/js13k18/xem.png" style="border:1px solid">
@@ -210,18 +210,18 @@ blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radiu
 
 <p>The names of the items in each category are concatenated in CamelCase and retrieved using a regex. For example the places:
 
-<pre class=code>places = `Cape canaveralChrist redeemerGreat wall of chinaSphinxEiffel towerPisa towerSagrada familiaBig benLiberty statueEtc...`.split(/(?=[A-Z])/)
+<pre class=code>places = `Cape canaveralChrist the redeemerGreat wall of chinaSphinxEiffel towerPisa towerSagrada familiaBig ben...`.split(/(?=[A-Z])/)
 
-// ["Cape canaveral","Christ redeemer","Great wall of china","Sphinx","Eiffel tower","Pisa tower","Sagrada familia","Big ben","Liberty statue","Etc..."]</pre>
+// ["Cape canaveral", "Christ the redeemer", "Great wall of china", "Sphinx","Eiffel tower", "Pisa tower", "Sagrada familia", "Big ben", ...]</pre>
 
 <p>The binary data is also concatenated.
 <br>When it represents fixed-size items like places (encoded on 2 bytes), it looks like this: 
 
-<pre class=code>places_binary=`HacªÓN—]‚?ˆG‚K€9LMÓN...`.match(/.{2}/g);
+<pre class=code>places_binary = `HacªÓN—]‚?ˆG‚K€9LMÓN...`.match(/.{2}/g);
 
 // ["Ha", "cª", "ÓN", "—]", "‚?", "ˆG", "‚K", "€9", "LM", "ÓN", ...]</pre>
 
-<p>When the data represents polygons (countries, US states, territories, forests, deserts or lakes), the "reserved" character (i.e. not present in the rest of the data) DEL (U+127) is used to separate islands, while ~ (U+126), also reserved, is used to separate items.
+<p>When the data represents polygons (countries, US states, territories, forests, deserts or lakes), the "reserved" character (i.e. not present in the rest of the data) "DEL" (U+127) is used to separate islands, while ~ (U+126), also reserved, is used to separate items.
 <br>For items with capitals (countries and US states), the capital coordinates are placed at the beginning of each item. For example, the US states and capitals are encoded like this:
 
 <pre class=code>
@@ -229,9 +229,9 @@ us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~
 
 // ["0X“P)", "+=&OOWMrUsbW↵a})>K9;Zx/PAHS8p", "7X5Ur+", "9l:eKjzs	+X=", ":k:k},M", "GrJpMm↵↵", "\}X}sa:2Q", "WhYclY;0", "]i[k*ia", "hghg(", ...]</pre>
 
-<p>The second item (Alaska) is encoded like this:
+<p>The second US state of this list (Alaska) is encoded like this:
 
-<p><img src="images/js13k18/alaska.png">
+<p><img src="images/js13k18/alaska.png" style="border:1px solid">
 
 <p>Now it's time to code!
 
@@ -239,7 +239,7 @@ us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~
 
 <p>No rotating globe on the title screen this year (this globe took me too many bytes and hours in 2015).
 <br>Just a fixed screen and some emoji for the graphics.
-<br>The font and emoji are terrible on mobile, but I fixed them the best I could. On js13kgames.com, the entry will be playable on mobile, but optimized for desktop.
+<br>For some reason, on Android, the game page needs to be reloaded in order to see the right font on the title screen.
 <br>This screen uses ~300bytes of code.
 <br>PS: in the source code <a href="https://github.com/xem/geoquiz2/blob/gh-pages/old5/game.html#L443-L470">HERE</a>, all the emoji are escaped as HTML entities because the file is encoded in Latin-1, where only ASCII and 127 other latin chars are allowed.
 
@@ -252,7 +252,7 @@ us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~
 <br>Here's the shortest coordinate converter I managed to do (for a 1024 x 768px canvas):
 <pre class=code>
 <b>/* CSS */</b>
-#a { max-width: calc(100vh * 1.35) }
+canvas { max-width: calc(100vh * 1.35) }
 </pre>
 
 <p>Note: 1.35 is the canvas ratio: 1024/768.
@@ -260,23 +260,31 @@ us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~
 
 <pre class=code>
 <b>/* JS */</b>
+
 xy = function(e){
   w = a.offsetWidth;
+  
+  // mobile
   if(e.changedTouches){
     x = e.changedTouches[0].pageX * 1024 / w;
     y = e.changedTouches[0].pageY * 1024 / w;
   }
   
+  // desktop
   else{
     x = e.pageX * 1024 / w;
     y = e.pageY * 1024 / w;
   }
 }
+
+onmouseup = function(e){
+  xy(); // saves the pointer coordinates in the vars x and y
+}
 </pre>
 
 <p><b>The flags problem</b>
 
-<p>It's 2018 and Windows 10 still has zero support for Emoji country flags, Linux may support them in some distros (but as fas as I know, it doesn't), while MacOS, iOS and Android support them fine.
+<p>It's 2018 and Windows 10 still has zero support for Emoji country flags, Linux may support them in some distros (but as far as I know, it doesn't), while MacOS, iOS and Android support them fine.
 <p>But this time, it won't stop me from adding a flags quiz in the game! At least, for the countries.
 <br>I negotiated with <b>@end3r</b> the right to live-load an emoji web font on OS's that don't support them, as long as the game can work without them and the player agrees.
 <p><img src="images/js13k18/font.png">
@@ -286,10 +294,10 @@ xy = function(e){
 You can read the detail in these two Twitter threads:
 
 <p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Nightmare of the day (<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a>):<br><br>I wanted to load a color emoji webfont, and draw emoji (especially flags but not only) on a canvas, on Windows browsers (because, of course, browsers can&#39;t display flags natively on Windows).<br><br>How hard could that be?<br><br>Thread 👇</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1030165022809448448?ref_src=twsrc%5Etfw">16 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 <p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Web font vs. emoji flags, day 2! <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a><br>(Day 1: <a href="https://t.co/KC6GH80wVd">https://t.co/KC6GH80wVd</a>)<br>So if we load Twitter&#39;s twemoji.ttf and Google&#39;s NotoColorEmoji.ttf in cascade, we can display all 199 countries flags on Fx, and 198 flags on Chrome &amp; Edge, because Noto doesn&#39;t include Kosovo&#39;s flag.<br>(1/n) <a href="https://t.co/9BBk7DFK07">pic.twitter.com/9BBk7DFK07</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1030423890265354241?ref_src=twsrc%5Etfw">17 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 <p>But I'm happy with the result: all 199 countries flags (except Kosovo, that has never been included in Google's Noto Emoji font) can appear in the game!
 
@@ -315,7 +323,6 @@ if(WindowsorLinux){
 <br>When the error counter reached 0, the game was over. This was nice, but it could also be quite frustrating because the last levels were pretty difficult to reach without restarting the game a few times.
 <p>This time, there won't be any levels. All the datasets will be accessible at the same time and picked randomly, while the difficulty will progressively increase.
 <br>Also, I'll let the player choose between two modes, the "Least error" mode similar to the first game, and the new "Highest score" mode where a list of questions is asked entirely, and at the end, the player receives a score.
-<br>Oh, and I'll get rid of the time limit for each question, to let people think of their best answer.
 
 <p>Here's the menu flow so far (the visuals are not definitive):
 
@@ -356,14 +363,14 @@ if(WindowsorLinux){
 <br>The first line could take as long 1 to 15 chars + 1 space or 1 end-of-string, and the second line (if any) could take the remaining 1-15 chars + 1 end-of-string.
 <br>It worked fine, until the volcano <b>Eyjafjallajokull</b> popped up in the game.
 As there are no spaces, the regex only took the 15 last chars + the end-of-string, and the initial "E" was lost.
-<br>After a bit of thinking, I fixed it by replacing the 15 with a 16 in the regex.
+<br>After a bit of thinking, I fixed it by replacing the 15 with a 16 in the regex. Good enough!
 
 
 <p><b>World map</b>
 
 <p>Here, I ran into a very weird and unexpected bug:
 <br>In my map editor, I drew the World map on a 2048*1024px canvas.
-<br>Though, in the game, I want to trace the map scaled down by a factor of 2, i.e. on a 1024*512px canvas (this is important in order to have better performance on slow devices), so I applied a "*.5" coefficient to every polygon's start coordinates and every polygon's distance between two points.
+<br>Though, in the game, I want to trace the map scaled down by a factor of 2, i.e. on a 1024*512px canvas (this is important in order to have better performance on slow PCs and mobiles), so I applied a "*.5" coefficient to every polygon's start coordinates and every polygon's distance between two points.
 <br>Pretty basic, eh? But this happened:
 
 <p><img src="images/js13k18/12.png">
@@ -420,7 +427,7 @@ c.closePath();
 
 <p>Time to start worrying about my byte budget...
 <p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">It&#39;s the first time I have such a hard byte budget for a <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> game!<br><br>Data: more than 1100 items, ~10.5kb zipped<br>Music: ~400b zipped<br>Title screen: ~400b zipped<br>Menus/final score: ~500b zipped<br>HTML+CSS: ~300b zipped<br>Quiz/map/gameplay: ~900b zipped<br><br>Why do I do this to myself? 😩</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1030907904642166784?ref_src=twsrc%5Etfw">18 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 <p>I spent almost a full week-end rewriting all my code as clean, simplified and optimized as possible. Didn't touch the data.
 <br>I also made all my JS vars local (by embedding all my code in a big onload() function) so they could be renamed by the minifier
@@ -461,13 +468,14 @@ c.closePath();
 <p><iframe width="1106" height="513" src="https://www.youtube.com/embed/x88Z5txBc7w" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <p>So I naturally decided to use it in the game... so it gets stuck in YOUR heads too!
-<p>My musician friend <b>Nghia</b> drew the recurring part of the melody inside my newly updated MiniMusic tool.
+<p>My musician friend <b>Nghia</b> drew the recurring part of the melody (plus the transition) inside my newly updated MiniMusic tool.
 
 <p><img src="images/js13k18/song.png">
 
 <br>The output code was pretty light, around 450 bytes.
 <br>Though, most of the size was used by an array of little numbers... A-HA! Are you thinking what I'm thinking?
 <p>I put these numbers inside <b>int2binary2html</b> and ended up having all the melody fitting in this little function.
+<br>
 
 <pre class=code>
 music = function(){
@@ -489,6 +497,8 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
 }
 </pre>
 
+<br>(The string "notes" contains a lot of non-printable chars. It's actually 150 chars long)
+
 <p>Played in an infinite loop, this music only added 204 bytes into the game's zip! I can't afford a lot of free space, but I can definitely free up 204 bytes for an entire music!
 
 <p><a href="https://codepen.io/xem/pen/KBEBPM?editors=1012">Here's an experiment</a> where the theme gets is played a little higher and a little faster after the end of the loop. It sounded nice, but I didn't know how to keep it playing long enough without getting too high or too fast, so I didn't keep it.
@@ -497,10 +507,11 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
 
 <p>After taking care of all the little details and cross-browser issues, the zip reached 14.1kb.
 
-<p>I spent another day golfing all my code and removing every superfluous decoration.
+<p>I spent another day golfing all my code and removing every superfluous text and decoration.
+
 <br>I also simplified many items names ("Czech republic" => "Czechia", "The pyramids of Giza" => "Giza pyramids", etc.)
 <br>Finally, as suggested on slack, I switched from babelJS to <a href="https://skalman.github.io/UglifyJS-online/">Uglify-ES</a> to minify my JS code, which saved me a little more than 200 bytes before gzip.
-<p>At the end of the first week of the compo, the game's code was complete, golfed, minified, and there was "just" 855 bytes to cut in order to make the zip pass the 13kb barrier.
+<p>At the end of the first week of the compo, the game's code was complete, golfed, minified, and there were "just" 855 bytes to cut in order to make the zip pass the 13kb barrier.
 
 <p>For the record, the 199 countries and their capitals use 3218 bytes of binary data, so about 16 bytes per country.
 <br>Similarly, each US state and its capital take about 559/50 = 11 bytes, each territory about 284/50 = 6 bytes, each stream about 781/76 = 10 bytes, and each desert/forest about 8 bytes, while all the other datasets have a fixed amount of bytes per item (places, volcanoes, mountains: 2 bytes, seas: 3 bytes)
@@ -510,62 +521,97 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
 <p>First, the streams
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">So, with the music my zip is 855 bytes too large and the code can&#39;t be compressed any more.<br>It&#39;s time to use less data!<br>First, I let&#39;s re-trace all the streams with less details and without their affluents.<br>259 bytes saved! 596 to go.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/Htrm0ANxhY">pic.twitter.com/Htrm0ANxhY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1031811080786468865?ref_src=twsrc%5Etfw">21 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<img src="images/js13k18/20.png">
 
 <p>Then, all the countries!
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">These extra bytes won&#39;t go away alone.<br>I&#39;m redrawing the entire World map, again.<br>I call this &quot;polygon golfing&quot;: the goal is to make a country polygon use less points, but keep it highly recognizable.<br>Sometimes, they even look better with less points!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/kZJCCfv4AB">pic.twitter.com/kZJCCfv4AB</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1031958419996127233?ref_src=twsrc%5Etfw">21 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><img src="images/js13k18/21.png">
 
 <p>This tweet was liked by <b>Notch</b> himself! OMG.
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> polygon golfing:<br>- 199 countries redrawn<br>- 554 bytes saved<br>- Not really degraded visually<br>- The zip now weighs 13kb + 223 bytes<br>🤞 <a href="https://t.co/QwpiCuuDvi">pic.twitter.com/QwpiCuuDvi</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1032201527761543168?ref_src=twsrc%5Etfw">22 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>I also saved a lot of bytes by not drawing the USA as a country, but instead, considering all the USA dataset as the answer to the question "USA":
+<p><img src="images/js13k18/22.png">
+
+
+<p>(I also saved a lot of bytes by not drawing the USA as a country, but instead, considering all the USA dataset as the answer to the question "USA")
 
 <img src="images/js13k18/23.png">
 
 <p>Then the territories...
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">After redrawing all the territories (like Greenland) and the deserts, the zip finally passed below 13kb, without having to remove any of the 1123 questions of the game!<br>Let&#39;s use the extra 19 bytes for a final mini feature!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/WZuIYvPDUC">pic.twitter.com/WZuIYvPDUC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1032240997831503872?ref_src=twsrc%5Etfw">22 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>At this point, the zip fell below 13kb. But the first beta testers requested some extra features, so I also re-drew all the USA (a fifth time!)
+
+<p>At this point, the zip was finally below 13kb. But the first beta testers requested some extra features, so I also re-drew all the USA (a fifth time!)
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">In the meantime, I re-drew all the USA map, with better borders and more accuracy on the west coast, and somehow 35 bytes smaller!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/7jgfZbthNx">pic.twitter.com/7jgfZbthNx</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1032330531340476417?ref_src=twsrc%5Etfw">22 août 2018</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+<p><img src="images/js13k18/25.png">
 
-<h2>(the end of the making of will be online soon!)</h2>
-<!--
-<p><b>The latin-1 fright</b>
+<p><b>The big latin-1 fright</b>
 
-<p>(TODO)
+<p>I pushed my game on Github to let some testers try it, and they sent me this screenshot: 
+
+<p><img src="images/js13k18/26.png">
+
+<p>All the map was broken! At first I thought it only happened on MacOS, but when I visited <a href="https://xem.github.io/geoquiz2/game.html">the same URL</a> on Windows I had the same problem. Whaaaaat?!
+
+<p>Turns out, my HTML page contains a "&lt;meta charset=iso-8859-1>" to "force" the content to be parsed as latin-1, and this works fine locally. But Github pages enforces UTF-8 parsing through HTTP headers, and HTTP headers are stronger than the charset meta tag. 
+<br>If it's read as an UTF-8 string, almost all my data is corrupted! I was really panicked at this moment.
+<p>But <b>End3r</b> kindly agreed to upload my game on js13kgames' server so we could see if it enforced UTF-8 too, and by chance, it didn't! Oof again!
 
 <p><b>Last minute features</b>
 
-<p>My testers mainly asked three things: remember the emoji flags answer (i.e. only ask it once), less clicking between the questions, and a time limit for each question.
+<p>My testers mainly asked two things: they wanted less clicks between the questions, and they wanted me to reintroduce a time limit for each question, like in the first game.
 
-<p>(TO BE CONTINUED)
+<p>I solved both problems by introducing a little game loop in the game. This loop executes 30 times per second and only acts under certain conditions, to avoid forcing on the CPU.
 
+<br>On the map screen, it decrements a 20-second timer and shows a progress bar.
+
+<p><img src="images/js13k18/timer.gif">
+
+<br>Geoquiz 1 was super slow on mobile because all the map was redrawn at each frame. I avoided it this time:
+
+<br>At each frame, a new yellow rectangle is drawn on top of the last one, so the whole screen - including the map - doesn't need to be re-rendered every time
+
+<p>And on the feedback screen, another 3-second timer is used to move automatically to the next question.
+
+<p><b>The final bytes</b>
+
+<p>After another day of golfing, I was just 16 bytes over the budget, and had no more ideas to make everything fit.
+<p>I decided to remove 3 hard questions from the game:
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">After an intense golfing session, I finally managed to add a time limit, automatic screen transitions and many other enhancements in 13kb+16b.<br>I removed 3 (too hard) questions to reduce it to exactly 13kb.<br>So... Geoquiz 2 will have 1120 questions instead of 1123! 🤷‍♂️<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/2KQcAt8QFc">pic.twitter.com/2KQcAt8QFc</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1033373016321867777?ref_src=twsrc%5Etfw">25 août 2018</a></blockquote>
+
+<p>... and release it like that, at the middle of the jam.
+<br>(A mini-update was released a bit later, to fix some typos and  better cross-browser support).
+
+<p><b>Some interesting numbers</b>
+
+<p>In its final version, Geoquiz 2 represents:
+<br>- 13 days of development (half the dev time of Geoquiz 1, even though it's twice bigger)
+<br>- Only one, 1230-line <a href="https://github.com/xem/geoquiz2/blob/gh-pages/game.html">commented source file</a>.
+<br>- 33kb of <a href="https://github.com/xem/geoquiz2/blob/gh-pages/temp.txt">raw data</a> (before binary packing and names concatenation)
+<br>- Before gzip: 4948 bytes of map data, 9911 bytes of items names, 431 bytes of HTML/CSS and 6403 bytes of JS code. (<a href="https://github.com/xem/geoquiz2/blob/gh-pages/index.html">total: 21.9kb</a>)
+<br>- 14.0kb zipped
+<br>- 13kb + 10 bytes after using Advzip with the default settings
+<br>- 13.00kb after using Advzip with 100000 passes (the process takes several minutes)
+
+<p><b>How about the theme?</b>
+
+<p>To respect the theme "offline", I kinda made an "offline" version of my game by drawing and painting a World map on my room's wall. I'll share a picture when it's dried.
 
 <br>
 <br>
 <hr>
 <br>
 
+<h2>TO BE CONTINUED</b>
 
-
-
-
-<!--
-
-<img src="images/js13k18/1.png">
-<img src="images/js13k18/1.png">
-<img src="images/js13k18/1.png">
-
--->
 </div>
 
 
