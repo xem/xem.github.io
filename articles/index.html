@@ -68,7 +68,7 @@
 
 <h3>Intro</h3>
 
-<p>During this compo, I challenged myself to develop two games: a sequel to my 2015 entry <b>Geoquiz</b> and <b>???????</b>.
+<p>During this compo, I challenged myself to develop two games: a sequel to my 2015 entry <b>Geoquiz</b> and a puzzle game called <b>envelope</b>.
 <p>The development of both games is detailed below.
 
 <br>
@@ -80,13 +80,16 @@
 
 <p>
 <ul>
-<li>GeoQuiz 2 is playable <a href="http://js13kgames.com/entries/geoquiz-2">HERE</a> (source code <a href="github.com/xem/geoquiz2">HERE</a>)
-<!--<li>?????? is playable <a href="">HERE</a> (source code <a href="">HERE</a>)-->
-<li>Tools developed during this compo:
+<li>GeoQuiz 2 is playable <a href="http://js13kgames.com/entries/geoquiz-2">HERE</a> (source code <a href="//github.com/xem/geoquiz2">HERE</a>)
+<li>envelope is playable <a href="http://js13kgames.com/entries/envelope">HERE</a> (source code <a href="//github.com/xem/envelope">HERE</a>)
+<li>Tools developed during this compo (I didn't use  all of them):
 <br>- <a href="https://github.com/xem/js13k-path">js13k-path</a>
 <br>- <a href="https://xem.github.io/int2binary2html/">int2binary2html</a>
 <br>- <a href="https://xem.github.io/miniMusic/simple.html">MiniMusic v2</a>
 <br>- <a href="https://xem.github.io/miniPixelArt/">MiniPixelArt</a> <br>- <a href=" https://github.com/xem/twemoji-webfont">twemoji-webfont</a>
+<br>- <a href="https://codepen.io/xem/pen/OoXpmM?editors=1000">SVGenerator</a>
+<br>- <a href="//github.com/xem/CSS3D">CSS3D</a>
+<br>- <a href="//github.com/xem/gyro">Gyro</a>
 <li>Results: (in september)!
 </ul>
 
@@ -99,7 +102,7 @@
 blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radius: 5px; padding: 0 10px 10px; }
 </style>
 
-<h3>Geoquiz 2</h3>
+<h2>Geoquiz 2</h2>
 
 <h4>Before the compo</h4>
 <p>This summer, I thought about my 2015 entry <a href="archive.html#js13k2015">Geoquiz</a>... especially its World map:
@@ -610,7 +613,211 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
 <hr>
 <br>
 
-<h2>TO BE CONTINUED</b>
+<h2>Envelope</h2>
+
+<p>A friend of mine, <b>Olivier</b> wanted to remake <a href="https://appadvice.com/app/envelope-hd/562759664">envelope</a> (<a href="https://www.youtube.com/watch?v=KgJ86w9_cmg">trailer</a>), an iPad puzzle game he created in 2012, which is no longer present on the App Store.
+
+<p><img src="images/js13k18/ipad.png">
+
+<br>We had successfully prototyped it earlier this year...
+
+<p><img src="images/js13k18/proto.png">
+
+<br>... but didn't go any further.
+
+<br>Time to reboot it, in JS and in 13k!
+<p>The gameplay consists in modeling a network of lines to match a shape, so it fits the theme pretty well.
+<p>By the way, the original game had more than 50 levels, but this entry will be a free demo for an App Store re-release, and will only contain a selection of 12 levels.
+
+<p><b>The assets</b>
+
+<p>First, I wondered how I could imitate a wood texture within 13kb (for the game's background and shapes).
+<br>Procedural generation? Maybe, but that would take a lot of time.
+<br>Vector images? The best free svg wood textures I found online are <a href="https://openclipart.org/detail/240277/wood-texture">these ones</a> (12kb each):
+
+<p><img src="images/js13k18/a1.svg" width="49%"> <img src="images/js13k18/a2.svg" width="49%">
+
+<p>They're basically the same but with two different pairs of colors (#96642c + #8c5829 and #76440c + #6c3809)
+<br>So I wondered if I could generate SVG images on-the-fly with custom palettes, which lead to the creation of this tool: <a href="https://codepen.io/xem/pen/OoXpmM?editors=1000">SVGenerator</a>.
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">My game will use a SVG image, but it needs it to be drawn with different colors.<br>I can&#39;t recolor it with CSS &quot;fill&quot; because I want to trace this SVG on a canvas, so it needs to be in an &lt;img&gt; tag.<br>So I made a little tool to generate it on-the-fly:<a href="https://t.co/nnttYF1R2Q">https://t.co/nnttYF1R2Q</a><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/hPbtuzBFBh">pic.twitter.com/hPbtuzBFBh</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1033745589043953667?ref_src=twsrc%5Etfw">26 août 2018</a></blockquote>
+
+<p>I also tried to make this SVG smaller, by removing all the unnecessary tags and by rounding all the floating-point numbers present inside.
+
+<p>Before (12kb, 6.15kb zipped) - After (7.8kb, 2.74kb zipped)
+
+<p><img src="images/js13k18/a1.svg" width="49%"> <img src="images/js13k18/a3.svg" width="49%">
+
+<p>The difference is pretty much invisible!
+
+<p>Next challenge: use this generic texture as a background, and as a text / shape texture on a canvas.
+
+<p><img src="images/js13k18/a4.png">
+
+<p>The background uses the clear palette plus a white radial-gradient, and the text and triangle are drawn four times, with little offsets, to represent depth (3 times with the dark palette, and once with the clear palette.)
+
+<p>Very few code was necessary:
+
+<pre class=code>w = new Image();
+c = a.getContext("2d");
+w2 = new Image();
+w.src = "data:image/svg+xml;base64," + btoa(makewood("#96642c", "#8c5829")); // light palette
+w2.src = "data:image/svg+xml;base64," + btoa(makewood("#76440c", "#6c3809")); // dark palette
+w2.onload = function() {
+  draw(w2,-.5,2); // params: image, x offset, y offset 
+  draw(w2,-1,4);
+  draw(w2,-1.5,6);
+  draw(w,0,0);
+  
+  a.style.background = "radial-gradient(rgba(255,255,255,.3), rgba(255,255,255,1) 170%) repeat center center, url('data:image/svg+xml;base64," + btoa(makewood("#96642c", "#8c5829")) + "') repeat center top";
+  a.style.backgroundSize = "99vw 99vh, auto 99vh"; 
+}
+
+function draw(w,xo,yo) {
+  c.font = "bold 120px arial";  
+  pattern = c.createPattern(w,"");
+  c.fillStyle = pattern 
+  c.textAlign = 'center';
+  var x = a.width / 2;
+  var y = a.height / 2;
+  c.fillText("test", x+xo, y+yo);
+  c.beginPath();
+  c.moveTo(x-20+xo, y+50+yo);
+  c.lineTo(x+20+xo, y+75+yo);
+  c.lineTo(x-20+xo, y+100+yo);
+  c.fill();
+}</pre>
+
+<p>Then I tried to rotate the text/triangle texture and discovered a Firefox bug: fill() supports rotated textures but fillText() doesn't!
+
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Is there a JS canvas/SVG expert around here?<br>I&#39;m trying to create a pattern from an image, rotate it, and use it to fill some text and a triangle.<br>It works on <a href="https://twitter.com/googlechrome?ref_src=twsrc%5Etfw">@googlechrome</a>, but on <a href="https://twitter.com/firefox?ref_src=twsrc%5Etfw">@Firefox</a> the text texture refuses to rotate... ??!<br>Demo: <a href="https://t.co/B7jYay1erD">https://t.co/B7jYay1erD</a><br>cc <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/lTBv6jrKYG">pic.twitter.com/lTBv6jrKYG</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1033816997388328960?ref_src=twsrc%5Etfw">26 août 2018</a></blockquote>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">It&#39;s a bug :(<br>Just filed as <a href="https://t.co/S7aZ7T3rOD">https://t.co/S7aZ7T3rOD</a></p>&mdash; 𝔣𝔩𝔞𝔨𝔦 (@slsoftworks) <a href="https://twitter.com/slsoftworks/status/1033833933895557120?ref_src=twsrc%5Etfw">26 août 2018</a></blockquote>
+
+<!--<p>For the other assets, I gathered 3 images and a sound from the original game and recompressed them:
+<p>Sprites in PNG (1.96kb)
+<p><img src="images/js13k18/sprites.png">
+<p>Victory sound in mp3 (3.26kb)-->
+
+<p>For the game's sounds, I recompressed a little mp3 file to play after each puzzle solving (3.26kb)
+<p><audio controls src="images/js13k18/win.mp3">
+
+<p>As for the music, the original game's music was a 1.5MB MP3.
+
+<p><audio controls src="images/js13k18/theme.mp3">
+
+<p>Fortunately, my friend <b>Nghia</b> accepted to remake a part of it with MiniMusic, and moreover, with the accumulation of 5 different channels played simultaneously.
+
+<p>The result (a 15-second loop) can be heard in the final game and its source code is available below (2.3kb minified, 520 bytes zipped).
+
+<pre class=code>music=function(){with(new AudioContext)with(G=createGain())for(i in D=[13,,9,,,,16,,11,,3,,,,,,13,,9,,,13,16,,11,,3,,,,,,13,,9,,,,16,,11,,3,,,,,,13,,9,,,13,16,,11,,3,,,,,])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(880*1.06**(13-D[i]),.23*i),gain.setValueAtTime(.01,.23*i),gain.setTargetAtTime(1e-4,.23*i+(i%16==2?.3:i%16==10?.4:.2),i%16==2?.3:i%16==10?.3:.05),stop(.23*i+(i%16==2?.7:i%16==10?.7:.23)));
+
+with(new AudioContext)with(G=createGain())for(i in D=[,,,,,,,,,,6,,,,,15,,,,,,,,,,,6,,,,,,16,,,,,,,,,,6,,,,,,18,,,,,,,,,,6])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(880*1.06**(13-D[i]),.23*i),gain.setValueAtTime(.01,.23*i),gain.setTargetAtTime(1e-4,.23*i+(i%16==2?.3:i%16==10?.4:.23),i%16==2?.3:i%16==10?.3:.005),stop(.23*i+(i%16==2?9:i%16==10?.9:.24)));with(new AudioContext)with(G=createGain())for(i in D=[,,20,,,20,,,20,,,20,,,20,,,20,,,20,,,20,13,,,13,,,18,,,18,,,18,,,18,,,18,,,18,,,9,,,9,,,9,,,9,,,9,,,9])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(440*1.06**(13-D[i]),.23*i),gain.setValueAtTime([,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.002,,,.0015,.005,,,.0045,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025][i],.23*i),gain.setTargetAtTime(1e-4,.23*i+.21,.005),stop(.23*i+.22));
+
+with(new AudioContext)with(G=createGain())for(i in D=[,,16,,,16,,,16,,,16,,,16,,,16,,,16,,,16])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(440*1.06**(13-D[i]),.23*i),gain.setValueAtTime([,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.002,,,.0015,.005,,,.0045,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025][i],.23*i),gain.setTargetAtTime(1e-4,.23*i+.21,.005),stop(.23*i+.22));
+
+with(new AudioContext)with(G=createGain())for(i in D=[,,13,,,13,,,13,,,13,,,13,,,13,,,13,,,13])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(440*1.06**(13-D[i]),.23*i),gain.setValueAtTime([,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.002,,,.0015,.005,,,.0045,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025][i],.23*i),gain.setTargetAtTime(1e-4,.23*i+.21,.005),stop(.23*i+.22))},
+
+music(),
+
+setInterval(music,14990);</pre>
+
+<br>Note: the code above contain some little tweaks allowing some notes to be played longer than the others, while the channels 3, 4 and 5 are altered to play the repeated notes with a decreasing volume (this is actually done by setting manually a specific volume to each note)
+
+<p>So, in total, that's almost 6kb of assets! The remaining space should be enough for the code!
+
+<p><b>The puzzle editor</b>
+
+<p>I already had a basic puzzle editor, that I reworked for this compo.
+<br>The size of the grid can be chosen on load, the points can be drag-and-dropped to make shapes easily, and the JSON export can be re-imported for extra edits.
+<br>You can try it <a href="http://xem.github.io/envelope/editor">HERE</a>.
+<p>I didn't have enough time to polish it and include it in the entry but I used it to encode the 12 puzzles.
+
+<p><img src="images/js13k18/a5.png">
+
+<p><b>Artistic shift</b>
+
+<p>After developing the basic menus and puzzle screens, I was not convinced by the overall look of the game.
+<p>Thankfully, <b>rybar</b> (winner of JS13kgames 2017), then <b>Alternative451</b> and <b>Olivier</b> suggested to use other wood palettes and some shadows. I find the result much better after each iteration.
+
+<p><img src="images/js13k18/a6.png">
+
+<p><b>Responsive design</b>
+
+<p>In this game, I did something unusual (at least for me): use a responsive canvas, in which the intrinsic size is the same as the size of the browser.
+<br>And in order to have a nice layout on desktop, on tablet and on mobile (vertically and horizontally), all the items drawn on screen have positions relative to the center of the canvas, and all their sizes are not in pixels but in multiples of 1 "vmin", or 1 "vh"
+<br>vmin is a CSS unit representing a hundredth of the smallest side of the screen, and vh is a hundredth of the screen height. I polyfilled them in JS like this:
+
+<pre class=code>w = a.width = innerWidth;
+h = a.height = innerHeight;
+vmin = Math.min(w, h) / 100; // used in title screen and menu
+vh = h / 100; // used in the puzzles</pre>
+
+<p>As a bonus, I reset the canvas, recompute vmin and redraw the screen as soon as the browser gets resized.
+
+<p><img src="images/js13k18/a7.gif">
+
+<p>You may notice that the clear wood texture doesn't scale (I disabled it because of the Firefox bug), while the dark one stretches nicely (because it's used as a CSS background).
+
+<p><b>Gameplay</b>
+
+<p>I recoded the puzzle-solving screens from scratch, but inspired by the prototype I had done earlier.
+<br>Here are some interesting things:
+<ul>
+
+<li>On canvas, patterns (textures) behave like "position: fixed" CSS backgrounds (you can see it in the GIF above, when the puzzle appears and moves), so instead of drawing a textured shape at position (x,y), I actually need to translate my canvas context to (x,y), draw the shape at (0,0), and finally translate the canvas back to its original position (see code <a href="https://github.com/xem/envelope/blob/gh-pages/index.html#L212-L239">HERE</a>).
+
+<li>All puzzles don't have just one, but at least 8 solutions. Indeed, the interactive grid can be superimposed on the shape rotated and/or transposed and the puzzle must be considered solved in every case:
+
+<br><img src="images/js13k18/a8.png">
+
+<br>(These 8 valid grids were not obvious to me, I discovered I had to introduce rotations, then transposes, just by testing the game and by wondering why it didn't work in some cases.)
+
+<br>Note: the horizontal and vertical mirrors are also valid solutions, but can be obtained with a transpose and a rotation, so they're already in that list (2 of them are represented with grey arrows).
+
+<br>I could have determined if a puzzle was solved by checking that all the dots are placed on a target and are only connected to the good neighbors, but it was too complex, so I made two methods rotate3x3() and transpose3x3() that help me find all the variations of any puzzle solution and check each of them every time the player moves something.
+
+<li><img src="images/js13k18/a9.png" style="float: right; margin: 10px 0 10px 10px">
+I said "at least 8 solutions", because the 6th puzzle (visible here on the right) actually has 2 "unique" solutions, or a total of 16 solutions if we count all the rotates and transposes, so all of them are checked after each player movement.
+
+<br>The second "unique" solution to this puzzle was found by a beta-tester (thanks to him!) and involves some sort of horizontal mirroring mixed with the inversion of two points, but I don't wanna spoil the exact solution.  
+
+<li>The canvas is so "responsive" that every time a puzzle is initialized, the coordinates of all the points of the grid and solution are recomputed. Sadly, their positions can't adapt easily when the browser is resized, so I had to reset the current puzzle on resize.
+
+<li>The shadowBlur, the colors and the false perspective kinda makes the game look like it's in 3D, but it's just 2D.
+<br><img src="images/js13k18/a10.gif">
+
+<li>When an animal-shaped puzzle is solved, I draw them with a little decoration like eyes or a mouth.
+<br><img src="images/js13k18/a11.gif">
+
+<li>I encountered a problem where I hid the lines of the shape when a puzzle was solved. The shape, that is comprised of 4 quadrilaterals, had visible holes between them. These holes were seemingly caused by rounding errors, but fortunately, I could fill them by redrawing the same shapes 4 times at the same position, as you can see at the end of this gif: 
+<br><img src="images/js13k18/a12.gif">
+
+<li>I encounrered another bug, but this one was super annoying and cost me a week-end of debugging... at the end of which I still had no idea what was going on!
+<li>As soon as a puzzle had appeared, if the window was resized or the grid clicked by the player, the two buttons on top of the screen would just jump a few dozen pixels on the right. I searched in the resize events, the mousemove/touchmove events, the draw function, the screen transition function, couldn't find the cause of this bug.
+<br>Resigned, I finally had the idea to provoke a resize event artificially as soon as the puzzle and the top-screen buttons appear, so that no one has the time to see them at the wrong position.
+
+<br><img src="images/js13k18/a13.gif">
+
+<br>Much later, I discovered that it was just a matter of "c.textAlign = 'center'" disabled by the resize/drag function, and that "jump" we see is just the text suddenly being drawn with text-align: left. *shrug* !
+
+<br>The whole game was developed in a single, 953-line html file. I didn't even minify it: the commented source code plus the mp3 file ended up taking only 11.9kb zipped.
+</ul>
+
+<p>
+<h1>~</h1>
+
+<p><b>Results</b>
+
+<p>Soon...
+
+<p><b>Conclusion</b>
+
+<p>Sadly, this wasn't my best js13k. I've had health issues, less free time than I wanted, and no great idea that fitted the theme. But I enjoyed creating new tools, new techniques, and releasing these games with the help of my friends.
+<p>Geoquiz 2 was a game that I wanted to make for a long time, and took the time to do it well, even though it's very niche and not super in-the-theme. I couldn't include all the features I wanted though, so I'll probably make a "Geoquiz 3D" in the future.
+<p>Envelope was developed in a hurry, and faced many annoying bugs, but we definitely want to complete it and send it on app stores in the future.
+<p>Next year, I'll focus on one big entry, and I'll have better preparation!
+<p><b>Xem</b>
 
 </div>
 
