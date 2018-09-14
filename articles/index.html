@@ -68,8 +68,14 @@
 
 <h3>Intro</h3>
 
-<p>During this compo, I challenged myself to develop two games: a sequel to my 2015 entry <b>Geoquiz</b> and a puzzle game called <b>envelope</b>.
-<p>The development of both games is detailed below.
+<p><img src="images/js13k18/intro.png">
+
+<p>During this compo, I challenged myself to develop three games:
+<br>a sequel to my 2015 entry <b>Geoquiz</b>,
+<br>a reboot of the puzzle game <b>envelope</b>
+<br>and a funambulism VR mini-game called <b>Man on Wire</b>.
+
+<p>The development of these games is detailed below.
 
 <br>
 <br>
@@ -81,7 +87,8 @@
 <p>
 <ul>
 <li>GeoQuiz 2 is playable <a href="http://js13kgames.com/entries/geoquiz-2">HERE</a> (source code <a href="//github.com/xem/geoquiz2">HERE</a>)
-<li>envelope is playable <a href="http://js13kgames.com/entries/envelope">HERE</a> (source code <a href="//github.com/xem/envelope">HERE</a>)
+<li>Envelope is playable <a href="http://js13kgames.com/entries/envelope">HERE</a> (source code <a href="//github.com/xem/envelope">HERE</a>)
+<li>Man on Wire is playable <a href="http://js13kgames.com/entries/man-on-wire">HERE</a> (source code <a href="//github.com/xem/funambule">HERE</a>)
 <li>Tools developed during this compo (I didn't use  all of them):
 <br>- <a href="https://github.com/xem/js13k-path">js13k-path</a>
 <br>- <a href="https://xem.github.io/int2binary2html/">int2binary2html</a>
@@ -90,6 +97,7 @@
 <br>- <a href="https://codepen.io/xem/pen/OoXpmM?editors=1000">SVGenerator</a>
 <br>- <a href="//github.com/xem/CSS3D">CSS3D</a>
 <br>- <a href="//github.com/xem/gyro">Gyro</a>
+<br>- <a href="https://xem.github.io/terser-online/">Terser-online</a>
 <li>Results: (in september)!
 </ul>
 
@@ -801,10 +809,63 @@ I said "at least 8 solutions", because the 6th puzzle (visible here on the right
 
 <br>Much later, I discovered that it was just a matter of "c.textAlign = 'center'" disabled by the resize/drag function, and that "jump" we see is just the text suddenly being drawn with text-align: left. *shrug* !
 
-<br>The whole game was developed in a single, 953-line html file. I didn't even minify it: the commented source code plus the mp3 file ended up taking only 11.9kb zipped.
+<br>The whole game was developed in a single, 953-line HTML file. I didn't even minify it: the commented source code plus the mp3 file ended up taking only 11.9kb zipped.
 </ul>
 
 <p>
+<h1>~</h1>
+
+<p><b>The last week</b>
+
+<p>I submitted Envelope 2 days before the compo, on september 11... just before noticing that despite all the appropriate meta tags and other mobile hacks, it was completely unplayable on iOS. At first I thought it was due to the retina pixel-ratio (x2) that made all the drags move less than intended:
+
+<p><img src="images/js13k18/last1.gif">
+
+<p>But even after multiplying every deltaX/Y by 2, the result was wrong.
+So I tried something else, I removed the "position:fixed" of my canvas and finally discovered the real problem:
+
+<p><img src="images/js13k18/last2.gif">
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">After investigation, it seems that it&#39;s caused by iOS window bounce, as we can see here (i removed the canvas&#39;s position:fixed, the square follows the finger, and on touchend, everything moves due to the window&#39;s elastic scroll, which I haven&#39;t been able to disable so far)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/kMl6zSquiZ">pic.twitter.com/kMl6zSquiZ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1039438487014002690?ref_src=twsrc%5Etfw">11 septembre 2018</a></blockquote>
+
+<p>This damned elastic scroll was present (and directly impacted my touchmove measures), even though I called "e.preventDefault" on every possible JS event (ontouchstart, ontouchmove, ontouchend, ondrag, onscroll, onclick, ...) and measuring e.clientX & e.clientY instead of e.pageX & e.pageY didn't change anything.
+
+<p>So I made a <a href="https://xem.github.io/envelope/bug.html">reduced version</a> of my problem and tried every solution suggested by <b>gheja</b>, <b>@Ox000000</b>, <b>potasmic</b>, <b>madmarcel</b> and <b>LDOC</b>, until it finally worked. The trick was to use <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L2-L7">these meta tags</a>, plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L21">preventDefault()</a> on every event, plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L44-L45">clientX/Y</a> (and not pageX/Y), plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L59">a fixed canvas wrapper</a>, plus these very specific and not super well-known <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L71-L73">CSS rules</a>:
+
+<pre class=code>-webkit-overflow-scrolling: touch;
+overflow: hidden;
+overscroll-behavior: none;</pre>
+
+<p>The combination of all these factors finally disabled the elastic scroll and let the points follow my finger:
+
+<p><img src="images/js13k18/last3.gif">
+
+<p>So I submitted an update that works on all devices! Oof!
+
+<p>Then, there were about 48h left before the end of the compo, it was 9/11, and the WebXR category was empty, so I unearthed the first idea I had when the theme was announced (I even <a href="https://twitter.com/MaximeEuziere/status/1029771979061178368">wrote 3 pages of specs about it</a>), and decided to make a super-mini version of what this game could have been: just the traversal of a wire installed between the WTC twin towers (inspired by <a href="http://www.magpictures.com/manonwire/">a real story!</a>).
+
+<p>The first evening, I coded the towers using CSS3D. (the textures were made with CSS gradients), and a little intro animation, also in CSS. The same scene was shown twice on a split-screen to enable cardboard-like VR gameplay.
+
+<p><img src="images/js13k18/last4.gif">
+
+<p>The difference of scale between the super high towers, the little man and the very thin cable was quite problematic. If I made everything small (at first, the towers measured 10vmin x 10vmin x 100vmin) and zoomed on it, the texture would become very blurry, and if I made everything bigger (100vmin x 100vmin x 1000vmin, the performance became so bad on mobile that it became unplayable.
+
+<p>I readjusted the size of everything 4 times in total, and finally converged to towers measuring 25vmin x 25vmin x 250vmin, and a character measuring 4vmin x 2vmin. (as explained earlier, the vmin unit allows the game to be responsive across all screen sizes).
+
+<p>To optimize mobile performance even more, I removed  every tower facade that wasn't visible during the intro and during the game, as you can see in this picture taken from below:
+
+<p><img src="images/js13k18/last5.png">
+
+<p>I also used a real photo of Philippe Petit doing the WTC walk as the game character. 
+
+<p>During the second evening, I programmed the gyroscope controls (that was very weird, as always when JS and gyroscopes are involved), but I finally managed to have decent left/right tilt controls. (I abandoned front/back tilt controls to save time)
+
+<p><img src="images/js13k18/last6.gif">
+
+<p>I also made the game menus and added the random "unbalances" that the player has to fix by tilting their head to the left or to the right.
+
+<p>And finally, during the last morning of the compo, I programmed the game overs (if the character is too tilted for at least 5 frames, he falls), added an increading difficulty at the middle and the 3/4 of the walk, and I submitted.
+
 <h1>~</h1>
 
 <p><b>Results</b>
@@ -813,10 +874,14 @@ I said "at least 8 solutions", because the 6th puzzle (visible here on the right
 
 <p><b>Conclusion</b>
 
-<p>Sadly, this wasn't my best js13k. I've had health issues, less free time than I wanted, and no great idea that fitted the theme. But I enjoyed creating new tools, new techniques, and releasing these games with the help of my friends.
-<p>Geoquiz 2 was a game that I wanted to make for a long time, and took the time to do it well, even though it's very niche and not super in-the-theme. I couldn't include all the features I wanted though, so I'll probably make a "Geoquiz 3D" in the future.
-<p>Envelope was developed in a hurry, and faced many annoying bugs, but we definitely want to complete it and send it on app stores in the future.
-<p>Next year, I'll focus on one big entry, and I'll have better preparation!
+<p>Sadly, this wasn't my best js13k. I've had health issues, less free time than I wanted, and no great idea that fitted the theme. I can't say I was not inspired because I still released 3 games, but it was not the same thing as 2016 and 2017.
+<p>Anyway, I enjoyed creating new tools, new techniques, and releasing these games with the help of my friends.
+<p>Geoquiz 2 was a game that I wanted to make for a long time, and took the time to do it well, even though it's very niche and not super in-the-theme. I'm super happy with the amount of data I could put inside, though I couldn't include all the features and all the optimizations that I wanted, so I'll probably make a "Geoquiz 3D" in the future.
+<p>Envelope was developed in a hurry, and encountered too many annoying bugs, but we definitely want to complete it and send it on app stores, now that the demo works!
+<p>Man on Wire was a fun 48h challenge, without pretention, and I'll probably do a more complete funambulism game later, I think it has some potential.
+<p>In all cases, next year I'll focus on one big entry, and I'll do my best to have better ideas (and better tools) ready for the kick-off!
+<p>Cheers!
+
 <p><b>Xem</b>
 
 </div>
