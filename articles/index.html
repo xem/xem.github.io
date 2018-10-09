@@ -59,7 +59,7 @@
   <div class="body articles">
 
 <div class=section id=js13k18>
-<h2>JS13kGames 2018 (WIP)</h2>
+<h2>JS13kGames 2018</h2>
 <h3>august-september 2018</h3>
 
 <br>
@@ -98,7 +98,12 @@
 <br>- <a href="//github.com/xem/CSS3D">CSS3D</a>
 <br>- <a href="//github.com/xem/gyro">Gyro</a>
 <br>- <a href="https://xem.github.io/terser-online/">Terser-online</a>
-<li>Results: (in september)!
+</ul>
+<p>Results:
+<ul>
+<li>Geoquiz 2 was ranked 18th on mobile, 80th on desktop, and 16th in the community vote
+<li>Envelope was ranked 6th on mobile, 45th on desktop, ad 48th in the community vote
+<li>Man on Wire was ranked 13th on WebXR and 48th in the community vote
 </ul>
 
 <br>
@@ -614,7 +619,11 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
 
 <p><b>How about the theme?</b>
 
-<p>To respect the theme "offline", I kinda made an "offline" version of my game by drawing and painting a World map on my room's wall. I'll share a picture when it's dried.
+<p>To respect the theme "offline", I kinda made an "offline" version of my game by drawing and painting a World map on my room's wall.
+
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">I know it&#39;s very late, but as promised in my <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> 2018 making-of, my game <a href="https://twitter.com/hashtag/Geoquiz2?src=hash&amp;ref_src=twsrc%5Etfw">#Geoquiz2</a> has sort of an offline version, in my bedroom ! 🗺️<br>This is just the continents outline, but two black markers have died in the process. Colors soon !<br>(I foired Indonesia &amp; Australia 😩) <a href="https://t.co/qZXEeD1DNS">pic.twitter.com/qZXEeD1DNS</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1046020159926947841?ref_src=twsrc%5Etfw">29 septembre 2018</a></blockquote>
+
+<p><img src="images/js13k18/room.jpg">
 
 <br>
 <br>
@@ -701,11 +710,6 @@ function draw(w,xo,yo) {
 <p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Is there a JS canvas/SVG expert around here?<br>I&#39;m trying to create a pattern from an image, rotate it, and use it to fill some text and a triangle.<br>It works on <a href="https://twitter.com/googlechrome?ref_src=twsrc%5Etfw">@googlechrome</a>, but on <a href="https://twitter.com/firefox?ref_src=twsrc%5Etfw">@Firefox</a> the text texture refuses to rotate... ??!<br>Demo: <a href="https://t.co/B7jYay1erD">https://t.co/B7jYay1erD</a><br>cc <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/lTBv6jrKYG">pic.twitter.com/lTBv6jrKYG</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1033816997388328960?ref_src=twsrc%5Etfw">26 août 2018</a></blockquote>
 
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">It&#39;s a bug :(<br>Just filed as <a href="https://t.co/S7aZ7T3rOD">https://t.co/S7aZ7T3rOD</a></p>&mdash; 𝔣𝔩𝔞𝔨𝔦 (@slsoftworks) <a href="https://twitter.com/slsoftworks/status/1033833933895557120?ref_src=twsrc%5Etfw">26 août 2018</a></blockquote>
-
-<!--<p>For the other assets, I gathered 3 images and a sound from the original game and recompressed them:
-<p>Sprites in PNG (1.96kb)
-<p><img src="images/js13k18/sprites.png">
-<p>Victory sound in mp3 (3.26kb)-->
 
 <p>For the game's sounds, I recompressed a little mp3 file to play after each puzzle solving (3.26kb)
 <p><audio controls src="images/js13k18/win.mp3">
@@ -813,7 +817,7 @@ I said "at least 8 solutions", because the 6th puzzle (visible here on the right
 </ul>
 
 <p>
-<h1>~</h1>
+<h1>~~~</h1>
 
 <p><b>The last week</b>
 
@@ -842,6 +846,8 @@ overscroll-behavior: none;</pre>
 
 <p>So I submitted an update that works on all devices! Oof!
 
+<h3>Man on Wire</h3>
+
 <p>Then, there were about 48h left before the end of the compo, it was 9/11, and the WebXR category was empty, so I unearthed the first idea I had when the theme was announced (I even <a href="https://twitter.com/MaximeEuziere/status/1029771979061178368">wrote 3 pages of specs about it</a>), and decided to make a super-mini version of what this game could have been: just the traversal of a wire installed between the WTC twin towers (inspired by <a href="http://www.magpictures.com/manonwire/">a real story!</a>).
 
 <p>The first evening, I coded the towers using CSS3D. (the textures were made with CSS gradients), and a little intro animation, also in CSS. The same scene was shown twice on a split-screen to enable cardboard-like VR gameplay.
@@ -866,11 +872,7 @@ overscroll-behavior: none;</pre>
 
 <p>And finally, during the last morning of the compo, I programmed the game overs (if the character is too tilted for at least 5 frames, he falls), added an increading difficulty at the middle and the 3/4 of the walk, and I submitted.
 
-<h1>~</h1>
-
-<p><b>Results</b>
-
-<p>Soon...
+<h1>~~~</h1>
 
 <p><b>Conclusion</b>
 
