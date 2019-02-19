@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
   <meta charset=utf-8>
@@ -63,6 +63,15 @@
 
 <div class=section id=js1k19>
 
+<style>
+#js1k19 br {margin: 2px;}
+#js1k19 summary { cursor: pointer;  }
+#js1k19 summary b { border-bottom: 2px solid #def; }
+#js1k19 img { border: 2px solid #def; margin: 5px 0; }
+#js1k19 pre.inline { display: inline; padding: 5px; }
+#js1k19 twitter-widget { height: auto; width: 45% !important; display: inline-block !important; vertical-align: top; border: 2px solid #def; border-radius: 5px; }
+</style>
+
 <h2>JS1K 2019</h2>
 <h3>march 2018 - march 2019</h3>
 
@@ -71,12 +80,15 @@
 <br>
 
 <p>This 10th edition of <a href="https://js1k.com/2019-x/">JS1K</a> was so important, it was announced <a href="//js10k.com">one year in advance</a> with the theme "X".
-<p>To respect the theme, I didn't do a "X" entry, but I did X (ten) entries! All of them are in <a href="https://github.com/xem/js1k19">this Github repo</a>.
+<p>To respect the theme, I didn't really do a "X" entry, but I did X (ten) entries! All of them are in <a href="https://github.com/xem/js1k19">this Github repo</a>.
 <p>5 of them were made before the official compo start (febuary 1), the 5 others were done during the two following months.
 <p>Here they are by order of submission, with all their development tricks and anecdotes.
 <p>The commented source codes of each demo is super detailed too, so it's recommended to read them along this post!
 
-<br><hr><br>
+<br>
+<br>
+<hr>
+<br>
 
 <h3>1) Emojysics</h3>
 
@@ -86,19 +98,89 @@
 <li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/emojysics/index.min.html">HERE</a>
 </ul>
 
-<p><img src="">
+<p><img src="images/js1k19/2.gif">
 
-<h4>Tricks and anecdotes</h4>
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
-<li>Right after JS13Kgames 2018, I started looking for tiny 2D engines in JS, and wanted to understand how they work.
-<br>I found many great libs with variable featuresets
-<br>(<a href="https://github.com/shakiba/planck.js">Planck</a> (43kb zipped), <a href="http://brm.io/matter-js/">Matter.js</a> (22kb zipped), <a href="http://wellcaffeinated.net/PhysicsJS/">PhysicsJS</a> (11/23kb), <a href="https://github.com/colorhook/JPE">JPE</a> (10kb zipped), <a href="https://github.com/subprotocol/verlet-js">Verlet</a> (3.4kb zipped), only citing the smallest standalone ones)...
-<br>But all of them were pretty big and their source code was hard to understand even when it was clean, because understanding how a 2D engine works requires a bit of theoric background.
+<li>Right after JS13Kgames 2018, I started looking for tiny 2D physic engines in JS, and wanted to understand how they work.
+<br>I found many interesting libs with different featuresets:
+<br><a href="https://github.com/shakiba/planck.js">Planck</a> (43kb zipped), <a href="http://brm.io/matter-js/">Matter.js</a> (22kb zipped), <a href="http://wellcaffeinated.net/PhysicsJS/">PhysicsJS</a> (11/23kb), <a href="https://github.com/colorhook/JPE">JPE</a> (10kb zipped), <a href="https://github.com/subprotocol/verlet-js">Verlet</a> (3.4kb zipped)...
+<br>But they were too big for me and their source code was hard to understand without a strong theoric background.
 <br>I first found <a href="https://gamedevelopment.tutsplus.com/tutorials/how-to-create-a-custom-2d-physics-engine-the-basics-and-impulse-resolution--gamedev-6331">this tutorial</a>, that was unfortunately very incomplete and buggy, but at least it started explaining something.
-<br>https://twitter.com/MaximeEuziere/status/1042748849725616128
-<li>...
-<li>...
+<br>Then I went to look if a book existed, and the best (only) result was: <a href="https://www.apress.com/la/book/9781484225820">Building a 2D Game Physics Engine Using HTML5 and JS</a>.
+<br>It had an affordable PDF version and a Github repo with <a href="https://rawgit.com/Apress/building-a-2d-physics-game-engine/master/978-1-4842-2582-0_source%20code/Chapter5/Chapter5.1ACoolDemo/public_html/index.html">a pretty convincing demo</a>.
+
+<br><img src="images/js1k19/1.gif">
+
+<br>I read the pdf and managed to summarize it in <a href="https://twitter.com/MaximeEuziere/status/1042748849725616128">9 handwritten pages on a tiny notepad</a>.
+
+<br><a href="images/js1k19/2.png"><img src="images/js1k19/2.png"></a>
+
+<br>The more I understood the subject, the more I realized that the book contained a lot of typos, mistakes, contradictions, bad practices, and that it only scratched the surface, by only explaining the less accurate algorithms with very few details (especially at the end, with friction and restitution parts), while being extremely verbose on other points like setting up the IDE and creating JS files.
+<br>But at least, it explained things better than any other tutorial.
+<br>Then, I looked at their source code on Github and was shocked with the unnecessary complexity and antipatterns everywhere, plus the lack of useful comments almost everywhere.
+<br>I did some stats:
+
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Mini JS 2D physics engine, continued!<br><br>So I read this nice book: <a href="https://t.co/ukEUQBplhG">https://t.co/ukEUQBplhG</a><br>and analyzed the book&#39;s demo: <a href="https://t.co/jUjnveVOZH">https://t.co/jUjnveVOZH</a><br><br>This 2D engine represents:<br>- 1162 lines of code<br>- 39kb of code<br>- 11.7kb minified<br>- 3.4kb zipped<br><a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/f3UZVX6sRY">pic.twitter.com/f3UZVX6sRY</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1083854217826238467?ref_src=twsrc%5Etfw">11 janvier 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br>After <a href="//xem.github.io/articles/#codegolfctober18">Codegolfctober 2018</a> where we golfed a 2D vector library in 264 bytes (or 236 bytes RegPacked)...
+
+<pre class="code">
+V=(x,y)=>({x,y})            // vec2(x,y)
+l=v=>d(v,v)**.5             // length(v)
+a=(v,w)=>V(v.x+w.x,v.y+w.y) // add(v,w)
+s=(v,w)=>a(v,m(w,-1))       // sub(v,w)
+m=(v,n)=>V(v.x*n,v.y*n)     // mul(v,n)
+t=(v,w)=>l(s(v,w))          // dist(v,w)
+d=(v,w)=>v.x*w.x+v.y*w.y    // dotproduct(v,w)
+c=(v,w)=>v.x*w.y-v.y*w.x    // crossproduct(v,w)
+r=(v,o,t)=>a(o,V(c(f=s(v,o),g=V(Math.sin(t),Math.cos(t))),d(f,g))) // rotate(v,origin,theta)
+n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
+
+<br>...I decided to take this code and remove every line that could be removed, and clean up/comment/golf every line that remained
+<br>The demo is <a href="https://xem.github.io/mini2Dphysics/">HERE</a>, the commented source code is <a href="https://github.com/xem/mini2Dphysics/blob/gh-pages/index.html">HERE</a> and the minified code is <a href="https://github.com/xem/mini2Dphysics/blob/gh-pages/index.min.js">HERE</a>.
+
+<br><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">This code contains tons of useless complexity, like tmp vars used only once, and excessive OOP<br><br>I rewrote it clean, while preserving all the physics features:<a href="https://t.co/9QeyY3vekV">https://t.co/9QeyY3vekV</a><br><br>- 518 lines of code<br>- 15.6kb<br>- 4.13kb minified<br>- 1.97kb zipped!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/l7Q2iRGvEI">pic.twitter.com/l7Q2iRGvEI</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1083854220233764869?ref_src=twsrc%5Etfw">11 janvier 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">New mini 2D physics engine update:<br>Minified: 2.69kb<br>Zipped: 1.45kb!<br><br>Demo: <a href="https://t.co/9QeyY3vekV">https://t.co/9QeyY3vekV</a><a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a>+1 <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/NCeRWFyMHL">pic.twitter.com/NCeRWFyMHL</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1084389400967086080?ref_src=twsrc%5Etfw">13 janvier 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<li>Then, came the time to start working on a js1k entry. Obviously, a 2D lib that fits in 1.45kb zipped can't fit in a 1kb demo, it needed to be reduced.
+<br>After many attempts, I realized that the rectangles had to be removed, so my goal would be a circle-only entry.
+<br>I trimmed every line of code that was related to rectangles, and the minified code reached about 2kb.
+<br>I simplified many aspects of the simulation, like giving every circle the same restitution (bounciness) and friction: 0.5; or using the same value for radius, mass and inertia.
+<br>I removed every test that is normally used to optimize the simulation, like testing if the bounding circles intersect and if the shapes move towards each other before computing their collision and updating the scene in consequence.
+<br>Finally, I removed an "important" loop that made the collision solving algorithm run 15 times at every frame in order to ensure that no shapes were still intersecting.
+<br>Instead, I replaced the loops that consider every pair of circles once:
+<pre class=code>for(i = objects.length; i--;){
+  for(j = objects.length; j-- > i;){
+    ...
+  }
+}</pre>
+<br>With loops that consider every pair twice:
+<pre class=code>for(i = objects.length; i--;){
+  for(j = objects.length; j--;){
+    ...
+  }
+}</pre>
+<br>This allowed to enhance the simulation precision (as if it was run twice at each frame) and save bytes at the same time.
+<li>Speaking of loops, when the code contained <pre class="code inline">j-- > i</pre>, I noticed that <a href="https://xem.github.io/terser-online/">Terser</a> minified it as <pre class="code inline">j-- >i</pre> while <pre class="code inline">j-->i</pre> would have been perfectly valid, even though it can be interpreted as an end of HTML comment in some weird situations.
+<br>I also noticed that no matter how many "top-level" options I enabled, Terser didn't want to rewrite any global variable as one char.
+<br>So I added a bunch of tricks in my online Terser minifier to fix these cases if the "js1k" option is checked:
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Terser-online (<a href="https://twitter.com/hashtag/ES6?src=hash&amp;ref_src=twsrc%5Etfw">#ES6</a> minifier) update!<a href="https://t.co/srj6BBtZmF">https://t.co/srj6BBtZmF</a><br><br>- Extra compression can now be toggled with a checkbox<br>- Output size and RegPack options are placed below the output<br><br>Here&#39;s a 4.6kb app minified in 1800b, then 1434b extra minified, then packed in 1023b<a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/NBv4UhuA5O">pic.twitter.com/NBv4UhuA5O</a></p>&mdash; xem ??? (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1079761862609260544?ref_src=twsrc%5Etfw">31 d?cembre 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">FYI, extra minification (on top of Terser&#39;s strongest compression) includes:<br>- Renaming global vars names as 1 char (they need to be declared with &quot;var&quot; though)<br>- Remove the space in &quot;i-- &gt;j&quot;<br>- Remove leading &quot;var&quot; &amp; trailing semicolon<br>(remaining &quot;var&quot;s must be cleaned manually) <a href="https://t.co/5pgRbYK6Hw">pic.twitter.com/5pgRbYK6Hw</a></p>&mdash; xem ??? (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1079766556249333760?ref_src=twsrc%5Etfw">31 d?cembre 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<li>When I tried to pack this "big" demo, RegPack was crashing, which lead to <a href="https://github.com/Siorki/RegPack/issues/94">this bugfix</a>. 
+<li>After managing to golf it below 950 bytes, I decided to use circular emoji (faces) instead of circles. Of course, it didn't work as planned. I used trial-and-error to determine the right font-size and X/Y offsets to make an emoji <a href="https://github.com/xem/js1k19/blob/gh-pages/emojysics/index.html#L240">appear exactly where a circle would have been drawn</a>.
+<li>On Apple devices, the rotated emoji were too buggy, so with the help of Twitter I found <a href="https://github.com/xem/js1k19/blob/gh-pages/emojysics/index.html#L236-L237">a tiny test</a> (<pre class="code inline">navigator.userAgent.match("Ma")</pre>) that allowed me to detect them and fallback to regular circles.
+<li>The emoji (picked randomly) are in the range U+1F600 - U+1F644 (😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃🙄)
 </ul>
+</details>
 
 <br><hr><br>
 
@@ -110,7 +192,7 @@
 <li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.min.html">HERE</a>
 </ul>
 
-<p><img src="">
+<p><img src="images/js1k19/3.gif">
 
 <h4>Tricks and anecdotes</h4>
 <ul>
