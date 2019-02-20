@@ -83,7 +83,7 @@
 <p>To respect the theme, I didn't really do a "X" entry, but I did X (ten) entries! All of them are in <a href="https://github.com/xem/js1k19">this Github repo</a>.
 <p>5 of them were made before the official compo start (febuary 1), the 5 others were done during the two following months.
 <p>Here they are by order of submission, with all their development tricks and anecdotes.
-<p>The commented source codes of each demo is super detailed too, so it's recommended to read them along this post!
+<p><b>The commented source codes of each demo is super detailed too, so it's recommended to read them along this post!</b>
 
 <br>
 <br>
@@ -194,12 +194,44 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 
 <p><img src="images/js1k19/3.gif">
 
-<h4>Tricks and anecdotes</h4>
+<details>
+
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
 
-<li>...
-<li>...
+<li>This demo is a "challenge accepted" from Twitter!
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">So, it&#39;s surprisingly hard to make a platformer in 1kb of JavaScript. Here&#39;s my best effort <a href="https://t.co/3ba7x99fLb">https://t.co/3ba7x99fLb</a><a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> <a href="https://twitter.com/hashtag/wastingmylife?src=hash&amp;ref_src=twsrc%5Etfw">#wastingmylife</a> <a href="https://t.co/ZqFMtNLC20">pic.twitter.com/ZqFMtNLC20</a></p>&mdash; Chris Glover (@mad_maw) <a href="https://twitter.com/mad_maw/status/1060775962185392128?ref_src=twsrc%5Etfw">9 novembre 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Challenge accepted!<br>Here&#39;s a quick draft (~700b)<a href="https://t.co/gZaUi4gYST">https://t.co/gZaUi4gYST</a><br>PS: could you allow arrow keys or ZQSD controls? not everyone has QWERTY keyboards ;) <a href="https://t.co/XZTUpBq1XE">pic.twitter.com/XZTUpBq1XE</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1061257995571617792?ref_src=twsrc%5Etfw">10 novembre 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<li>When I saw that <b>mad_maw</b> said it was hard to make a platform engine in 1kb, I realized I had never tried golfing one mefore, so I hacked a little demo in a couple hours.
+<br>In about 700 bytes, it had a fixed map, a character that could walk and jump, and collisions in every direction.
+<br>After that, I thought it would be fun to add scrolling and destructible blocks and pipes and holes to make a demo that looked a bit like the beginning of Super Mario Bros.
+<br>It worked so well that I finally decided to put the entire SMB 1-1 map in the demo, whatever it takes! (Spoiler: it took 1206 bytes)
+<br>Here's a <a href="https://codepen.io/xem/pen/RqZjaQ?editors=1000">PLAYABLE DEMO</a>.
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">New <a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> prototype: SMB 1-1 demake<br>Currently 1206b<br>Includes map, scroll, gravity, question/brick blocks, death pits &amp; flag victory (not working on codepen)<br>Todo: enemies, clouds, mountains, castle, explorable pipe, music, UI?<a href="https://t.co/CRgtBWLur2">https://t.co/CRgtBWLur2</a><a href="https://twitter.com/hashtag/screenshotsunday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsunday</a> <a href="https://twitter.com/hashtag/gamedev?src=hash&amp;ref_src=twsrc%5Etfw">#gamedev</a> <a href="https://t.co/j9H1z7cvLF">pic.twitter.com/j9H1z7cvLF</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1063763918756163585?ref_src=twsrc%5Etfw">17 novembre 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<li>I used <a href="https://goo.gl/nju6DR">this grid</a> as a guide for the map.
+
+<br><img src="images/js1k19/3.png">
+<br>I analyzed this map a lot and realized that there were 3 holes, 6 pipes, 7 stairs (5 to the left, 2 to the right) and interactive blocks scattered on lines 4 and 8.
+<br>So I wrote <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L58-L84">a pipe generator and a stair generator</a>, then <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L110-L146">placed everything on a 211px x 15px grid</a>.
+<br>The way interactive blocks work is interesting, and detailed <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L94-L102">in the collision function</a>.
+<li>After golfing it as hard as I could, and seeing that it would never fit in 1kb, I made a difficult decision: downgrade the graphics of the game.
+<br>No more borders, no more bricks, no more arms, legs and cap for Mario, every item of the game had to be reduced to a single pixel instead of a 16x16px block.
+<br>As a compensation, having Mario being just one pixel not only saved a lot of bytes in the drawing phase, but also simplified a lot the collisions tests.
+<br>Indeed, when everything around him is aligned on a pixel grid, every time I had to resolve a collision, I just had to floor or ceil his X or Y coordinates.
+<li>Of course, when Mario walks and jumps, his X and Y positions at each frame are computed in subpixels. Same thing for the Gomba enemy at the beginning.
+<li>Speaking of the enemy, the collision between Mario and him istested at every frame using <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L168">a Math.hypot</a>.
+<br>If the distance is smaller than 1px, Mario dies if he's on the ground, or kills it if he's in the air.
+<br>To save bytes the enemy is not "really" killed, it's just <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L172">moved at x = -1</a> so we don't see it anymore.
+<li>Finally, a lot of manual edits were necessary to make the minified code optimal for RegPack, as explained <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L312-L318">here</a>.
+
 </ul>
+
+</details>
 
 <br><hr><br>
 
