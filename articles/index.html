@@ -243,18 +243,48 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniSynth/index.min.html">HERE</a>
 </ul>
 
-<p><img src="">
+<p><img src="images/js1k19/4.png">
 
-<h4>Tricks and anecdotes</h4>
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
-<li>...
-<li>...
-<li>...
+<li>I made a lot of sound / music tools for JS13k but wasn't satisfied by how the notes sounded (mostly "beeps"), so I finally started researching how to synthesize notes that actually sounded like real instruments in JS.
+<li>Of course, it's a super difficult thing to do, and often requires a lot of code. So I tried to look what solutions already existed.
+<li>There's <a href="https://github.com/nicolas-van/sonant-x">Sonant-x</a>, which has a complex UI but outputs songs that can be used in 13kb games.
+<br>And there's <a href="https://github.com/keithwhor/audiosynth">audiosynth</a> which produces convincing piano and guitar notes, despite its unreadable source code.
+<br>It has a cool <a href="https://keithwhor.com/music/">DEMO</a> though!
+<li>I decided to take the complicated source code of audiosynth, and like I did for Emojysics, remove every line of code that wasn't necessary to play a given piano note or a given guitar note, and clean up the remaining lines. The result was impressively small (less than 512 bytes for each synth, instead of 11.3kb for the original lib)
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">New mini project + <a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> entry + <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> tool!<a href="https://t.co/MKkz5lWKZn">https://t.co/MKkz5lWKZn</a><br><br>   A piano synth function in less than 512b<br>+ a piano UI in less than 512b<br>= a 993b piano toy, inspired by <a href="https://t.co/FHq10NF7dT">https://t.co/FHq10NF7dT</a><br><br>Thanks to <a href="https://twitter.com/kchplr?ref_src=twsrc%5Etfw">@kchplr</a> @ryanmalm <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> <a href="https://twitter.com/innovati?ref_src=twsrc%5Etfw">@innovati</a> <a href="https://twitter.com/d_nghia?ref_src=twsrc%5Etfw">@d_nghia</a> !<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://t.co/U221GBnArm">pic.twitter.com/U221GBnArm</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1071490262772404224?ref_src=twsrc%5Etfw">8 décembre 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Golfed MiniPiano note generator/player from 503 to 422 bytes.<br>Demo: <a href="https://t.co/ghB8ZrCRPV">https://t.co/ghB8ZrCRPV</a><br><br>Added MiniGuitar (also inspired by audiosynth.js), golfed in 483b!<br>Demo: <a href="https://t.co/FqpOfEXwxY">https://t.co/FqpOfEXwxY</a><br><br>Let&#39;s put them both in 1kb!<a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> <a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> <a href="https://t.co/IiFVVgccXe">pic.twitter.com/IiFVVgccXe</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1077862878219325440?ref_src=twsrc%5Etfw">26 décembre 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<li>So naturally, I thought I could merge the two synths with an unified UI and make a JS1K entry out of it.
+<br>It worked pretty well, as <a href="https://twitter.com/MaximeEuziere/status/1077886743775494144">I managed to fit it in 1023b on the first try</a>, and 950b with a lot of extra golfing.
+<li>I submitted it to js1k mid-febuary, but no luck: the demo, once published on <a href="//js1k.com/4052">js1k.com/4052</a>, didn't play any sound.
+<br>The problem was that js1k's shim didn't like the way I generated and played the notes, and I found no way to fix it...
+<br>Then it hit me! With the 74 free bytes I had, I could put all my app inside an iframe, which would bypass completely all the shim's fixes and polyfills that made my app mute.
+<br><pre class=code>// Before
+n=n=>{...(synth)...},b.innerHTML=`...(ui)...`
+
+// After
+b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n=n=>{...(synth)...};b.innerHTML=`...(ui)...`&lt;\/script>\">&lt;/iframe>"</pre>
+<br>By chance, it worked and fitted exactly in 1024 bytes. We can see the borders of the iframe, but who cares?
+<br>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Hi, sorry if you only see a mute demo! it was supposed to play notes for real.<br>While we fix it, you can test it out of JS1K here:<a href="https://t.co/WtQhVvI2Lv">https://t.co/WtQhVvI2Lv</a><br>Cheers!</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1095946841710051328?ref_src=twsrc%5Etfw">14 février 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Guys, BTW, the MiniSynth demo was updated here, and it now plays sound correctly!<a href="https://t.co/2tvYHbqxwt">https://t.co/2tvYHbqxwt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1098931818575941632?ref_src=twsrc%5Etfw">22 février 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<li>As for the piano and guitar synthesizing itself, the most interesting part of the app in a way, I can't tell much about it because I still see it as black magic... though, I described it the best I could in the commented source code.
+<br>As far as I can tell, the piano is simulated by an addition of different frequencies with lower and lower volumes for each "sub-frequency", and the guitar is simulated by accumulating a random noise in a variable after each sample generation and using this variable in the computation of the next note.
+<br>Also, to have a more natural feeling, each note is made of two phases: the attack (where the volume goes steadily from 0 to 1) and the decay (where the volume decreases while being multiplied by <a href="https://github.com/xem/js1k19/blob/gh-pages/miniSynth/index.html#L76-L81">a log-ish operation</a>.
 </ul>
+</details>
 
 <br><hr><br>
 
-<!--<h3></h3>
+<h3>4) PERIOD1K 2019</h3>
 <img src="">
 
 <ul>
@@ -263,12 +293,34 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <li>Minified source code: <a href="">HERE</a>
 </ul>
 
-<h4>Tricks and anecdotes</h4>
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
 <li>...
 <li>...
 <li>...
 </ul>
+</details>
+
+<br><hr><br>
+<!--
+<h3></h3>
+<img src="">
+
+<ul>
+<li>Demo: <a href="">HERE</a>
+<li>Commented source code: <a href="">HERE</a>
+<li>Minified source code: <a href="">HERE</a>
+</ul>
+
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
+<ul>
+<li>...
+<li>...
+<li>...
+</ul>
+</details>
 
 <br><hr><br>
 
@@ -281,12 +333,14 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <li>Minified source code: <a href="">HERE</a>
 </ul>
 
-<h4>Tricks and anecdotes</h4>
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
 <li>...
 <li>...
 <li>...
 </ul>
+</details>
 
 <br><hr><br>
 
@@ -299,12 +353,14 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <li>Minified source code: <a href="">HERE</a>
 </ul>
 
-<h4>Tricks and anecdotes</h4>
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
 <li>...
 <li>...
 <li>...
 </ul>
+</details>
 
 <br><hr><br>
 
@@ -317,12 +373,14 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <li>Minified source code: <a href="">HERE</a>
 </ul>
 
-<h4>Tricks and anecdotes</h4>
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
 <li>...
 <li>...
 <li>...
 </ul>
+</details>
 
 <br><hr><br>
 
@@ -335,12 +393,14 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <li>Minified source code: <a href="">HERE</a>
 </ul>
 
-<h4>Tricks and anecdotes</h4>
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
 <li>...
 <li>...
 <li>...
 </ul>
+</details>
 
 <br><hr><br>
 
@@ -353,30 +413,14 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <li>Minified source code: <a href="">HERE</a>
 </ul>
 
-<h4>Tricks and anecdotes</h4>
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
 <ul>
 <li>...
 <li>...
 <li>...
 </ul>
-
-<br><hr><br>
-
-<h3></h3>
-<img src="">
-
-<ul>
-<li>Demo: <a href="">HERE</a>
-<li>Commented source code: <a href="">HERE</a>
-<li>Minified source code: <a href="">HERE</a>
-</ul>
-
-<h4>Tricks and anecdotes</h4>
-<ul>
-<li>...
-<li>...
-<li>...
-</ul>
+</details>
 -->
 
 (to be continued...)
