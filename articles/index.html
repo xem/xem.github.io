@@ -285,24 +285,136 @@ b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n
 <br><hr><br>
 
 <h3>4) PERIOD1K 2019</h3>
-<img src="">
+<img src="images/js1k19/6.png">
 
 <ul>
-<li>Demo: <a href="">HERE</a>
-<li>Commented source code: <a href="">HERE</a>
-<li>Minified source code: <a href="">HERE</a>
+<li>Demo: <a href="https://js1k.com/2019-x/demo/4062">HERE</a>
+<li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/period1k%202019/index.html">HERE</a>
+<li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/period1k%202019/index.min.html">HERE</a>
 </ul>
 
 <details>
 <summary><b>Tricks and anecdotes</b></summary>
 <ul>
-<li>...
-<li>...
-<li>...
+<li>I've had a long affective codegolf story with the periodic table of chemical elements:
+<br>In 2016 <a href="http://codegolf.github.io/period1k/final.min.pack.html">I made an entry inspired by the theme "EleMental"</a>, on a canvas, with the great help of <b>Subzey</b> and <b>Innovati</b>.
+<br>In 2017, <a href="http://codegolf.github.io/period1k/js1k17.html">I rebooted it in HTML</a>, which saved enough bytes to include extra information like the final names of the elements 113 to 118 (that were voted in november 2016) and the state of every element at room temperature.
+<br>Just after that, I dweeted a periodic table in 138 bytes <a href="https://www.dwitter.net/d/646">HERE</a> (only containing the shape of the table and colors going from green to blue).
+<br><img src="images/js1k19/5.png">
+<br>I even produced <a href="http://codegolf.github.io/period1k/wallpaper.png">a wallpaper</a> and <a href="https://twitter.com/MaximeEuziere/status/745312281018376193">a business card</a> for fun.
+<li>When JS1K 2019 started, I remembered the Aufbau function that Subzey had made on 140byt.es (showing the electron configuration of any element) and golfed it in 108 bytes, hoping that I could include its outout in a new version of PERIOD1K.
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Reduced <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a>&#39;s Aufbau from 120 to 108 bytes... <br>(source: <a href="https://t.co/NbEieZldv6">https://t.co/NbEieZldv6</a>)<br><br>aufbau=(a,b,c,d,e)=&gt;{for(c=b=&quot;&quot;;a;)for(d=++c&gt;&gt;1;d--&amp;&amp;a;b+=c+~d+&quot;spdf&quot;[d]+e)a-=e=d*4+2&lt;a?d*4+2:a,b+=b&amp;&amp;&quot; &quot;;return b}<br><br>might use it later :p</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1085075726066421760?ref_src=twsrc%5Etfw">15 janvier 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<br>Unfortunately, this function outputted the entire electron configuration, which is a super long string, and doesn't fit in a little cell.
+<br>For example, Aufbau(118) = "1s2 2s2 2p6 3s2 3p6 4s2 3d10 4p6 5s2 4d10 5p6 6s2 4f14 5d10 6p6 7s2 5f14 6d10 7p6".
+<br>Some <a href="http://httpsecumania.org/wp-content/uploads/2019/01/modern-periodic-table-with-atomic-mass-and-atomic-number-hd-archives-refrence-inspiration-periodic-table-with-atomic-mass-in-hd-ibcltd-new-periodic-table-x-ray-energies-archives-secumania-ne.png">periodic tables</a> show this information by replacing the longest possible prefix with a previous element.
+<br>For example, Aufbau(118) can be written as "[Rn] 7s2 5f14 6d10 7p6"
+<br>Unfortunately, this would have taken too many bytes to implement for js1k, so I abandoned it and found two other pieces of information that could be added in my table pretty easily: the element's natural occurrence (primordial / from decay / synthetic), and if the element's type has been observed yet.
+<li>To fit these new details, I sacrificed a couple cosmetic details (the black background and the text-shadows) and golfed the HTML and the CSS even more than it already was!
+<br><pre class=code>// CSS before:
+padding:.7vw .5vw
+
+// CSS after (vw can be replaced by % in many cases, and the space can be removed):
+padding:.7%.5%</a>
+<li>The result is a table with 10 (X) different pieces of informations for each element, which is pretty much in the theme... :p
+<li>NB: I also fixed the type of some elements that was wrong in the previous editions.
 </ul>
 </details>
 
 <br><hr><br>
+<h3>5) Peach1Kastle</h3>
+<img src="images/js1k19/peach1k.gif">
+
+<ul>
+<li>Demo: <a href="https://js1k.com/2019-x/demo/4066">HERE</a>
+<li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/peach1Kastle/index.html">HERE</a>
+<li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/peach1Kastle/index.min.html">HERE</a>
+</ul>
+
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
+<ul>
+<li>This is the earliest demo I started, back in summer 2018, but the idea is even older:
+<br>for many years I dreamed of a "Mario 64"-esque Peach castle, as detailed as possible, in 1kb.
+<br>After js13kgames, I met <b>Calada2</b> who made <a href="https://twitter.com/js13kGames/status/1040380749151649792">a CSS3D dino runner game</a>, and discussed with him and <b>Keith Clark</b> (my CSS3D master) about my project. They were super enthusiast and helpful!
+<br>I first drew a quick sketch of my 3D scene, viewed from above and from the front side: 
+<br><img src="images/js1k19/7.png">
+<br>It was pretty clear that the scene will be made of (more or less deformed) CSS3D cubes and pyramids.
+<br>I made a quick test to see if CSS3D supported transparent water and deformed pyramids (using scaleX, scaleY and scaleZ).
+<br><img src="images/js1k19/8.png">
+<br>It worked nice, but only if the scene wasn't responsive. (if the pyramids divs were sized in "vw", they would have been too buggy on resize).
+<li>So I started implementing the scene, without all the castle floors and roofs, to have a rough idea of the look and the size of the demo.
+<br>It looked like that and weighed 3.5kb minified (950 bytes packed).
+<br>Note the transparent water and the hills (represented by a big inverted green pyramid) that are not present in the final entry.
+<br><img src="images/js1k19/9.png">
+<br>Keith Clark gave himself the challenge to implement his <a href="https://keithclark.co.uk/labs/css-3d-shadows/">realistic shadows</a> in the scene:
+<br><img src="images/js1k19/10.png">
+<br>It looked great but, sadly, wasn't really doable under 1kb.
+<li>At least, Keith gave me a great tip to produce the pyramids triangles with clip-path instead of borders:
+<pre class=code><b>// Before</b>
+border-left:2em solid transparent;border-right:2em solid transparent;border-bottom:2em solid #090
+
+<b>// Keith's suggestion (-18b)</b>
+height:4em;width:4em;clip-path:polygon(50% 0%,0 100%,100% 100%);background:#090
+
+<b>// Final code (-22b)</b>
+height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre>
+<li>I continued improving what I had, especially by adjusting every block's height and adjusting every div to fill every gap between the cubes and in the roofs.
+<br>Also, I made all the cubes overlap on their neighbours (using "transform:scale(1.1)") to avoid seeing a "grid" on the floor.
+<br>Finally, I lightened the scene as much as I could, by removing invisible faces in the cubes and the pyramids, and using a single div for the water. Here's the castle seen from behind:
+<br><img src="images/js1k19/12.png">
+<br>Finally, I simulated natural lighting by coloring the right faces of my cubes and pyramids with a darker color, and added a triangle containing a princess face emoji (👸) on the castle's front wall, to hide the hole above the castle's entrance:
+<br><img src="images/js1k19/13.png">
+<li>After adding a camera rotation and a lot of tweaking, golfing, and RegPack optimizations, I reached this result (2.8kb minified, 1025b packed), that I teased at the end of <a href="https://twitter.com/MaximeEuziere/status/1057689364111781888">#codegolfctober 2018</a>:
+<br><img src="images/js1k19/11.png">
+<li>Weeks pass, and I find more and more tricks to save bytes, down to 964 bytes with the same graphics as before.
+<br>(Most bytes were saved by organizing the CSS code in a more RegPack-friendly way and merging my loops into a single one.)
+<li>I decided to use the remaining bytes to add a colored background, and other emoji in the scene.
+<br>Unfortunately, we're in 2019 and there are still no "window" emoji to represent the castle's windows, so I abandoned them and went with a door (🚪) in the entrance, trees (🌳) on every 7th grass block, and flags (🚩) on the four lower roofs.
+<li>for the colored background, I first tried setting a green value to "b.bgColor", but out of serendipity, I realized that I could directly set it to "m" (the scene's map), and have it get parsed as a nice green.
+<li>The entry is optimized for Windows because Macs and Linux computers (and browsers) have a much worse CSS3D support. Here's how the demo looks on Linux for example:
+<br><img src="images/js1k19/14.png">
+<li>Also, I'd like to thank <b>p01</b> (Mathieu Henri) and <b>Roman Cortes</b> for their interest in this demo and their suggestions to enhance it, by using a raycasting engine instead of CSS3D.
+<br>Raycasting would certainly have allowed more detailed graphics, but it was a bit too complex for me to create such a scene in the form of raycasting equations, it's just above my current abilities... and the emoji would have been much more difficult to render too... Maybe next year?
+</ul>
+</details>
+
+<br><hr><br>
+
+<h3>6) Mini Unicode Toys + 7) EscApe</h3>
+<img src="images/js1k19/15.png">
+<img src="images/js1k19/.png">
+
+<ul>
+<li>Demo: <a href="https://js1k.com/2019-x/demo/4090">HERE</a> and <a href="">HERE</a>
+<li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/UnicodeToys/index.html">HERE</a> and <a href="https://github.com/xem/js1k19/blob/gh-pages/escape/script.js">HERE</a>
+<li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/UnicodeToys/index.min.html">HERE</a> and <a href="https://github.com/xem/js1k19/blob/gh-pages/escape/index.min.html">HERE</a>.
+</ul>
+
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
+<ul>
+<li>My 6th and 7th demos are due to my passion for Unicode and text encodings, and all the things we can do with them.
+<br>They were made in a week, from scratch, but highly inspired by existing tools made by me and other devs.
+<br>Thanks to <b>Innovati</b> and <b>FakeUnicode</b> for testing and reviewing them.
+<li>For Mini Unicode Toys, the hard task was to find a set of 25 transforms that were visually interesting and implementable in 1kb.
+<br>I had to abandon many pseudoalphabets (not "natively" present in Unicode, but proposed by <a href="http://qaz.wtf/u/convert.cgi?text=%21%22%23%24%25%26%27%28%29*%2B%2C-.%2F0123456789%3A%3B%3C%3D%3E%3F%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D%7E">qaz.wtf</a>), because they were too incomplete and/or required too many bytes to be declared in an entry's source code.
+<br>Here are all the pseudoalphabets present in qaz.wtf, the three I included in this entry are marked in red:
+<br>><img src="images/js1k19/16.png">
+<br>I used <a href="//shapecatcher.com">shapecatcher</a> to complete and fix some pseudoalphabets, in the following way:
+<pre class=code><b>//qaz.wtf</b>
+Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ
+Reversed: ~}|{zʎxʍʌnʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ`_^]\[zʎxʍ𐌡nʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ@¿>=&lt;;:9876543210/.-‘+*)(,⅋%$#"¡
+
+<b>// Mini Unicode toys</b>
+Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ
+reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ@¿&lt;=>⸵:68⏌9S߈εᘔ⥝0/˙-‘+*(),⅋%$#„¡</pre>
+<li>For EscApe, ...
+</ul>
+</details>
+
+<br><hr><br>
+
 <!--
 <h3></h3>
 <img src="">
@@ -362,65 +474,6 @@ b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n
 </ul>
 </details>
 
-<br><hr><br>
-
-<h3></h3>
-<img src="">
-
-<ul>
-<li>Demo: <a href="">HERE</a>
-<li>Commented source code: <a href="">HERE</a>
-<li>Minified source code: <a href="">HERE</a>
-</ul>
-
-<details>
-<summary><b>Tricks and anecdotes</b></summary>
-<ul>
-<li>...
-<li>...
-<li>...
-</ul>
-</details>
-
-<br><hr><br>
-
-<h3></h3>
-<img src="">
-
-<ul>
-<li>Demo: <a href="">HERE</a>
-<li>Commented source code: <a href="">HERE</a>
-<li>Minified source code: <a href="">HERE</a>
-</ul>
-
-<details>
-<summary><b>Tricks and anecdotes</b></summary>
-<ul>
-<li>...
-<li>...
-<li>...
-</ul>
-</details>
-
-<br><hr><br>
-
-<h3></h3>
-<img src="">
-
-<ul>
-<li>Demo: <a href="">HERE</a>
-<li>Commented source code: <a href="">HERE</a>
-<li>Minified source code: <a href="">HERE</a>
-</ul>
-
-<details>
-<summary><b>Tricks and anecdotes</b></summary>
-<ul>
-<li>...
-<li>...
-<li>...
-</ul>
-</details>
 -->
 
 (to be continued...)
