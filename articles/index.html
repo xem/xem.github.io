@@ -383,7 +383,7 @@ height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre
 
 <h3>6) Mini Unicode Toys + 7) EscApe</h3>
 <img src="images/js1k19/15.png">
-<img src="images/js1k19/.png">
+<img src="images/js1k19/xxxxx.png">
 
 <ul>
 <li>Demo: <a href="https://js1k.com/2019-x/demo/4090">HERE</a> and <a href="">HERE</a>
@@ -403,13 +403,21 @@ height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre
 <br>><img src="images/js1k19/16.png">
 <br>I used <a href="//shapecatcher.com">shapecatcher</a> to complete and fix some pseudoalphabets, in the following way:
 <pre class=code><b>//qaz.wtf</b>
-Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ
+Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ
 Reversed: ~}|{zʎxʍʌnʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ`_^]\[zʎxʍ𐌡nʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ@¿>=&lt;;:9876543210/.-‘+*)(,⅋%$#"¡
 
 <b>// Mini Unicode toys</b>
 Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ
 reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ@¿&lt;=>⸵:68⏌9S߈εᘔ⥝0/˙-‘+*(),⅋%$#„¡</pre>
-<li>For EscApe, ...
+<br>(I didn't include uppercase superscript chars, because they were too incomplete: ᴬᴮ*ᴰᴱ*ᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾ*ᴿ*ᵀᵁⱽᵂ***, I reused the lowercase ones instead.)
+<li>For each other transform, I studied how it worked, on which Unicode subset it could apply to, and implemented a system that performs it as simply as possible. (see the source code for all the details).
+<li>For EscApe, which is a much geeker subject, I unearthed my real <a href="//xem.github.io/escape">EscApe</a> project that was aiming to give a complete list of transforms and encodings for any kind of text entered in the input textarea, and kept (and golfed) as many interesting features as I could in 1kb.
+<br>In total, I included 21 transforms, and used many very hacky glitches such as:
+<br>- using <b>for(i of[...input.value])</b> to loop on all the glyphs (a.k.a UTF-32 BE code points).
+<br>- using <b>for(i in input.value)</b> to loop on all the JS chars (a.k.a UTF-16 BE code points).
+<br>- using regexes like <b>.replace(/(..)(..)(..)(..) /g, `$4$3$2$1 `)</b> to reorder the hex values of UTF-16 BE and UTF-32 BE transforms into UTF-16 LE and UTF-32 LE transforms.
+<br>- using <b>encodeURIComponent</b> and regexes to isolate the UTF-8 bytes of every multi-byte character, directly in their hexadecimal form.
+<br>- using <b>XMLHttpRequests</b> to change the encoding of a base64'd text (interpret a latin-1 text in UTF-8 and vice-versa)
 </ul>
 </details>
 
