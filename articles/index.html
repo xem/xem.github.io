@@ -381,9 +381,9 @@ height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre
 
 <br><hr><br>
 
-<h3>6) Mini Unicode Toys + 7) EscApe</h3>
-<img src="images/js1k19/15.png">
-<img src="images/js1k19/xxxxx.png">
+<h3>6) Mini Unicode Toys & 7) EscApe</h3>
+<img src="images/js1k19/15.png" width="48%">
+<img src="images/js1k19/17.png" width="48%">
 
 <ul>
 <li>Demo: <a href="https://js1k.com/2019-x/demo/4090">HERE</a> and <a href="">HERE</a>
@@ -407,7 +407,7 @@ Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸ�
 Reversed: ~}|{zʎxʍʌnʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ`_^]\[zʎxʍ𐌡nʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ@¿>=&lt;;:9876543210/.-‘+*)(,⅋%$#"¡
 
 <b>// Mini Unicode toys</b>
-Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ
+Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ
 reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ@¿&lt;=>⸵:68⏌9S߈εᘔ⥝0/˙-‘+*(),⅋%$#„¡</pre>
 <br>(I didn't include uppercase superscript chars, because they were too incomplete: ᴬᴮ*ᴰᴱ*ᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾ*ᴿ*ᵀᵁⱽᵂ***, I reused the lowercase ones instead.)
 <li>For each other transform, I studied how it worked, on which Unicode subset it could apply to, and implemented a system that performs it as simply as possible. (see the source code for all the details).
@@ -417,14 +417,25 @@ reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdo
 <br>- using <b>for(i in input.value)</b> to loop on all the JS chars (a.k.a UTF-16 BE code points).
 <br>- using regexes like <b>.replace(/(..)(..)(..)(..) /g, `$4$3$2$1 `)</b> to reorder the hex values of UTF-16 BE and UTF-32 BE transforms into UTF-16 LE and UTF-32 LE transforms.
 <br>- using <b>encodeURIComponent</b> and regexes to isolate the UTF-8 bytes of every multi-byte character, directly in their hexadecimal form.
-<br>- using <b>XMLHttpRequests</b> to change the encoding of a base64'd text (interpret a latin-1 text in UTF-8 and vice-versa)
+<br>- using <b>XMLHttpRequests</b> to change the encoding of a base64'd text (interpret a latin-1 text in UTF-8 and vice-versa, a.k.a mojibake)
+<li>I had some issues when I tried to submit EscApe to js1k:
+<br>- First, Chrome 71 had broken the "..." operator back in febuary, so I waited mid-march to submit the demo, hoping that enough people would have at least Chrome 72.
+<br>- Then, I realized during the submit process that js1k.com's CSP blocked all XMLHttpRequests, which broke my last two mojibake fields. Fortunately, I managed to replace them with iframes, which worked fine and even took less bytes!
+<br><pre class=code><b>// Before (update a field using XHR)</b>
+HTML: &lt;input size=99 id=C>
+JS: with(new XMLHttpRequest){open("GET","data:;charset=utf-8;base64,"+latin1_base64,!1),send(),C.value=responseText}
+
+<b>// After (update an iframe: -41 bytes)</b>
+HTML: &lt;iframe width=600 height=50 id=C>&lt;/iframe>
+JS C.src="data:;charset=utf-8;base64,"+latin1_base64</pre>
+It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough bytes to enhance the UI and labels a little.
+<br>- Finally, there was an issue not present in my local shim nor during the submission, but <a href="https://twitter.com/js1k/status/1104802479047364609">present after the demo was published</a>: one of the fields (called "d") stayed empty. Turns out, in published demos only, the global var "d" (a shortcut for "document" that I asked to kuvos a few years ago) couldn't be overwritten. So I renamed it to E and everything went back to normal.
 </ul>
 </details>
 
 <br><hr><br>
 
-<!--
-<h3></h3>
+<h3>8) MiniMandelbox</h3>
 <img src="">
 
 <ul>
@@ -444,7 +455,7 @@ reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdo
 
 <br><hr><br>
 
-<h3></h3>
+<h3>9) MiniTwo3D</h3>
 <img src="">
 
 <ul>
@@ -464,7 +475,7 @@ reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdo
 
 <br><hr><br>
 
-<h3></h3>
+<h3>10) ???</h3>
 <img src="">
 
 <ul>
@@ -481,10 +492,6 @@ reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdo
 <li>...
 </ul>
 </details>
-
--->
-
-(to be continued...)
 
 </div>
 
