@@ -435,7 +435,47 @@ It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough byt
 
 <br><hr><br>
 
-<h3>8) MiniMandelbox</h3>
+<h3>8) MiniTwo3D</h3>
+<img src="images/js1k19/two3d.gif">
+
+<ul>
+<li>Demo: <a href="https://js1k.com/2019-x/demo/4139">HERE</a>
+<li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniTwo3D/index.html">HERE</a>
+<li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniTwo3D/index.min.html">HERE</a>
+</ul>
+
+<details>
+<summary><b>Tricks and anecdotes</b></summary>
+<ul>
+<li>This demo was inspired by a real voxel drawing software called <a href="https://42bytes.itch.io/two3d">Two3D</a>, and developped in two days (one for the code, one for the golf).
+<li>Some new CSS tricks were used compared to Peach1Kastle:
+<br>- The CSS3D cubes use one less HTML element. In my previous demos, there was a cube container, plus the 4 visible faces (top, left, right, front) popping "up". Now, the container is the top face of the cube, and the 3 other faces pop "down" of it.
+<br><pre class=code><b>// Before</b>
+&lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;transform:translateY(${2*i}em)translateX(${2*j}em)translateZ(${E+2}em)>
+  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};transform:translateZ(2em)>&lt;/div>
+  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(90%);transform:rotateY(90deg)translate(-1em)translateZ(-1em)>&lt;/div>
+  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(80%);transform:rotateY(90deg)translate(-1em)translateZ(1em)>&lt;/div>
+  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:rotateX(90deg)rotateZ(180deg)translateY(1em)translateZ(-1em)>
+
+<b>// After (-111b)</b>
+&lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};transform:translateY(${2*i}em)translateX(${2*j}em)translateZ(${E+2}em)>
+  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(90%);transform:rotateY(90deg)translateX(1em)translateZ(-1em)>&lt;/div>
+  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(80%);transform:rotateY(90deg)translateX(1em)translateZ(1em)>&lt;/div>
+  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:rotateX(90deg)rotateZ(180deg)translateY(1em)translateZ(-1em)></pre>
+<br>Even with 111 less bytes of code, this enhancement only saves a few bytes after Regpack. It's still nice though.
+<br>- The closing parenthesis at the end of the style attributes are not omitted anymore, because RegPack prefers that when we maximize the "em)" substring instead of having sometimes "em)" and sometimes "em>".
+<br>- The cubes "shadows" are not represented by different colors anymore, a brightness CSS filter is used instead (90% on the left, 80% on the right and 110% on the front. At first I tried setting a brightness to the top face (the cube container), but it somehow broke the CSS3D children and the cube became flat.
+<br>- I remarked that the CSS animation (for the 3D scene) had to be applied in the &lt;style> tag that I append to the DOM using <b>document.write</b>. If I try to apply it in the inline style of the scene, the browser refuses to animate the scene even though everything appears normal in the inspector/debugger.
+<li>Peach1Kastle could probably save many bytes by reusing some of these techniques, but I lack free time to re-edit it, there are still two entries to make!
+<li>Lara's reaction was funny!
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Geez slow down, I haven&#39;t even come up with a single one yet x_x</p>&mdash; Lara Sophie 🏳️‍🌈 (@literallylara) <a href="https://twitter.com/literallylara/status/1105951477116424192?ref_src=twsrc%5Etfw">13 mars 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</ul>
+</details>
+
+<br><hr><br>
+
+<h3>9) ???</h3>
 <img src="">
 
 <ul>
@@ -455,7 +495,7 @@ It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough byt
 
 <br><hr><br>
 
-<h3>9) MiniTwo3D</h3>
+<h3>10) MiniMandelbox</h3>
 <img src="">
 
 <ul>
@@ -467,27 +507,43 @@ It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough byt
 <details>
 <summary><b>Tricks and anecdotes</b></summary>
 <ul>
-<li>...
-<li>...
-<li>...
-</ul>
-</details>
-
-<br><hr><br>
-
-<h3>10) ???</h3>
-<img src="">
-
-<ul>
-<li>Demo: <a href="">HERE</a>
-<li>Commented source code: <a href="">HERE</a>
-<li>Minified source code: <a href="">HERE</a>
-</ul>
-
-<details>
-<summary><b>Tricks and anecdotes</b></summary>
-<ul>
-<li>...
+<li>The biggest project of this edition!
+<br>I've dreamt of coding a Mandelbox for as long as I've known its existence.
+<br>It even motivated the projects (and blog posts) <a href="http://xem.github.io/articles/archive.html#webgl_quest">WebGL quest</a> and <a href="http://xem.github.io/articles/archive.html#webgl_quest_2">WebGL quest 2</a>!
+<br>Though, even after reading and experimenting the WebGL setup and the WebGL raymarching, I still had close to no idea how to render a Mandelbox.
+<br>The <a href="https://fr.wikipedia.org/wiki/Mandelbox">formula on wikipedia looked pretty short</a>, but completely cryptic for me.
+<br>So, before abandoning the idea forever, I proposed a team entry to <b>Balint Csala</b>, who agreed and fortunately, knew exactly how to proceed!
+<br>He found an OpenGL implementation which, after a bit of cleanup, looked like this:
+<pre class=code>float map(vec3 pos){
+ vec4 p = vec4(pos,1);
+ vec4 p0 = p;
+ for(int i = 0; i &lt; 9; i++){
+   p.xyz = clamp(p.xyz, -1., 1.) * 2. - p.xyz;
+   float r2 = dot(p.xyz, p.xyz);
+   p *= clamp(max(.25/r2, .25), 0., 1.);
+   p = p * (vec4(2.8, 2.8, 2.8, abs(2.8)) / .25) + p0;
+ }
+ return ((length(p.xyz) - 1.) / p.w - pow(abs(2.8), -9.));
+}
+void mainImage(out vec4 o, vec2 c){
+  vec3 ro = vec3(.275, .25, -5. + iGlobalTime / 10.);
+  vec2 uv = c / iResolution.xx - iResolution.xy / iResolution.xx / 2.;
+  vec3 rd = normalize(vec3(uv, 1.));
+  vec3 p = ro;
+  vec3 col = vec3(1);
+  for (float i = .0; i &lt; 500.; i++){
+    float dist = map(p);
+    if (dist &lt; .00001){
+      col = vec3(.7 - i / 500.);
+      break;
+    }
+    p += rd * dist;
+  }
+  o.rgb = col;
+}</pre>
+<br>And it even worked fine <a href="http://xem.github.io/MiniShadertoy/js1k.html#Ly8gTWFuZGVsYm94IGRpc3RhbmNlIGZ1bmN0aW9uCmZsb2F0IG1hcCh2ZWMzIHBvcyl7dmVjNCBwPXZlYzQocG9zLDEpO3ZlYzQgcDA9cDtmb3IoaW50IGk9MDtpPDk7aSsrKXtwLnh5ej1jbGFtcChwLnh5eiwtMS4sMS4pKjIuLXAueHl6O2Zsb2F0IHIyPWRvdChwLnh5eixwLnh5eik7cCo9Y2xhbXAobWF4KC4yNS9yMiwuMjUpLDAuLDEuKTtwPXAqKHZlYzQoMi44LDIuOCwyLjgsIGFicygyLjgpKS8uMjUpK3AwO31yZXR1cm4obGVuZ3RoKHAueHl6KS0xLikvcC53LXBvdyhhYnMoMi44KSwtOS4pO30KCi8vIFJheXRyYWNlcgp2b2lkIG1haW5JbWFnZShvdXQgdmVjNCBvLHZlYzIgYyl7CiAgCiAgLy8gQWRqdXN0IGNvb3JkaW5hdGVzIHN5c3RlbQogIHZlYzIgdXYgPSBjIC8gaVJlc29sdXRpb24ueHggLSBpUmVzb2x1dGlvbi54eSAvIGlSZXNvbHV0aW9uLnh4IC8gMi47CiAgdmVjMyByZCA9IG5vcm1hbGl6ZSh2ZWMzKHV2LCAxLikpOwoKICAvLyBTdGFydGluZyBwb2ludCBmb3IgdGhlIHJheSAoZXllIHBvc2l0aW9uKQogIHZlYzMgcCA9IHZlYzMoKC0oaU1vdXNlLngpLzIuKS8xMDAuLChpTW91c2UueS8yLikvMTAwLiwgLTE1Lik7CgogIC8vIEl0ZXJhdGlvbnMKICBmbG9hdCBpdCA9IDk5LjsKICAKICAvLyBEZWZhdWx0IGNvbG9yIChibGFjaykKICB2ZWMzIGNvbCA9IHZlYzMoMCk7CiAgCiAgLy8gSXRlcmF0ZSBmb3IgZWFjaCBwaXhlbAogIGZvciAoZmxvYXQgaSA9IC4wOyBpIDwgOTkuOyBpKyspewogICAgCiAgICAvLyBDb21wdXRlIHJlbWFpbmluZyBkaXN0YW5jZSBmcm9tIHJheSB0byBNYW5kZWxib3ggCiAgICBmbG9hdCBkaXN0ID0gbWFwKHApOwoKICAgIC8vIENob29zZSBhIGRpc3RhbmNlIHdoZXJlIHRoZSByYXkgaXMgY2xvc2UgZW5vdWdoCiAgICBpZiAoZGlzdCA8IDEuIC8gaXQpewogICAgICAKICAgICAgLy8gU2V0IGNvbG9yIGFjY29yZGluZyB0byB0aGUgbnVtYmVyIG9mIGl0ZXJhdGlvbnMKICAgICAgY29sID0gdmVjMygxLiAtIGkgLyBpdCk7CgogICAgICAvLyBTdG9wCiAgICAgIGJyZWFrOwogICAgfQoKICAgIC8vIElmIHJheSBpcyBub3QgY2xvc2UgZW5vdWdoOiBhZHZhbmNlIHRoZSByYXkgYWNjb3JkaW5nIHRvIHRoZSByZW1haW5pbmcgZGlzdGFuY2UKICAgIHAgKz0gcmQgKiBkaXN0OwogIH0KCiAgLy8gQ29sb3IgdGhlIHBpeGVsCiAgby5yZ2IgPSBjb2w7Cn0=">in our MiniMandelbox js1k demo</a>! So that was very promising.
+<br><img src="images/js1k19/">
+<br>Little did we know that we'd spend most of the two month of the competition working hard on it!
 <li>...
 <li>...
 </ul>
