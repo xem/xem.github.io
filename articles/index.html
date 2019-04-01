@@ -66,7 +66,7 @@
 <style>
 #js1k19 br {margin: 2px;}
 #js1k19 summary { cursor: pointer;  }
-#js1k19 summary b { border-bottom: 2px solid #def; }
+#js1k19 summary b { border-bottom: 2px solid #def; padding: 5px; margin: 20px 0 0; font-size: 18px; }
 #js1k19 img { border: 2px solid #def; margin: 5px 0; }
 #js1k19 pre.inline { display: inline; padding: 5px; }
 #js1k19 twitter-widget { height: auto; width: 45% !important; display: inline-block !important; vertical-align: top; border: 2px solid #def; border-radius: 5px; }
@@ -139,7 +139,7 @@ c=(v,w)=>v.x*w.y-v.y*w.x    // crossproduct(v,w)
 r=(v,o,t)=>a(o,V(c(f=s(v,o),g=V(Math.sin(t),Math.cos(t))),d(f,g))) // rotate(v,origin,theta)
 n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 
-<br>...I decided to take this code and remove every line that could be removed, and clean up/comment/golf every line that remained
+<br>...I decided to take their code and remove every line that could be removed, and clean up/comment/golf every line that remained
 <br>The demo is <a href="https://xem.github.io/mini2Dphysics/">HERE</a>, the commented source code is <a href="https://github.com/xem/mini2Dphysics/blob/gh-pages/index.html">HERE</a> and the minified code is <a href="https://github.com/xem/mini2Dphysics/blob/gh-pages/index.min.js">HERE</a>.
 
 <br><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">This code contains tons of useless complexity, like tmp vars used only once, and excessive OOP<br><br>I rewrote it clean, while preserving all the physics features:<a href="https://t.co/9QeyY3vekV">https://t.co/9QeyY3vekV</a><br><br>- 518 lines of code<br>- 15.6kb<br>- 4.13kb minified<br>- 1.97kb zipped!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/l7Q2iRGvEI">pic.twitter.com/l7Q2iRGvEI</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1083854220233764869?ref_src=twsrc%5Etfw">11 janvier 2019</a></blockquote>
@@ -151,13 +151,15 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <li>Then, came the time to start working on a js1k entry. Obviously, a 2D lib that fits in 1.45kb zipped can't fit in a 1kb demo, it needed to be reduced.
 <br>After many attempts, I realized that the rectangles had to be removed, so my goal would be a circle-only entry.
 <br>I trimmed every line of code that was related to rectangles, and the minified code reached about 2kb.
-<br>I simplified many aspects of the simulation, like giving every circle the same restitution (bounciness) and friction: 0.5; or using the same value for radius, mass and inertia.
+<br>I simplified many aspects of the simulation, like giving every circle the same restitution (bounciness) and friction: 0.5; or using the same (random) value for radius, mass and inertia.
 <br>I removed every test that is normally used to optimize the simulation, like testing if the bounding circles intersect and if the shapes move towards each other before computing their collision and updating the scene in consequence.
-<br>Finally, I removed an "important" loop that made the collision solving algorithm run 15 times at every frame in order to ensure that no shapes were still intersecting.
+<br>Finally, I removed an "important" loop that made the collision-solving algorithm run 15 times at every frame in order to ensure that no shapes are still intersecting when the scene is drawn.
 <br>Instead, I replaced the loops that consider every pair of circles once:
-<pre class=code>for(i = objects.length; i--;){
-  for(j = objects.length; j-- > i;){
-    ...
+<pre class=code>for(k = 15; k--;){
+  for(i = objects.length; i--;){
+    for(j = objects.length; j-- > i;){
+      ...
+    }
   }
 }</pre>
 <br>With loops that consider every pair twice:
@@ -169,7 +171,7 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <br>This allowed to enhance the simulation precision (as if it was run twice at each frame) and save bytes at the same time.
 <li>Speaking of loops, when the code contained <pre class="code inline">j-- > i</pre>, I noticed that <a href="https://xem.github.io/terser-online/">Terser</a> minified it as <pre class="code inline">j-- >i</pre> while <pre class="code inline">j-->i</pre> would have been perfectly valid, even though it can be interpreted as an end of HTML comment in some weird situations.
 <br>I also noticed that no matter how many "top-level" options I enabled, Terser didn't want to rewrite any global variable as one char.
-<br>So I added a bunch of tricks in my online Terser minifier to fix these cases if the "js1k" option is checked:
+<br>So I added a bunch of tricks in my <a href="https://xem.github.io/terser-online/">online Terser minifier</a> to fix these cases if the "js1k" option is checked:
 <br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Terser-online (<a href="https://twitter.com/hashtag/ES6?src=hash&amp;ref_src=twsrc%5Etfw">#ES6</a> minifier) update!<a href="https://t.co/srj6BBtZmF">https://t.co/srj6BBtZmF</a><br><br>- Extra compression can now be toggled with a checkbox<br>- Output size and RegPack options are placed below the output<br><br>Here&#39;s a 4.6kb app minified in 1800b, then 1434b extra minified, then packed in 1023b<a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/NBv4UhuA5O">pic.twitter.com/NBv4UhuA5O</a></p>&mdash; xem ??? (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1079761862609260544?ref_src=twsrc%5Etfw">31 d?cembre 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -206,7 +208,7 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Challenge accepted!<br>Here&#39;s a quick draft (~700b)<a href="https://t.co/gZaUi4gYST">https://t.co/gZaUi4gYST</a><br>PS: could you allow arrow keys or ZQSD controls? not everyone has QWERTY keyboards ;) <a href="https://t.co/XZTUpBq1XE">pic.twitter.com/XZTUpBq1XE</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1061257995571617792?ref_src=twsrc%5Etfw">10 novembre 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<li>When I saw that <b>mad_maw</b> said it was hard to make a platform engine in 1kb, I realized I had never tried golfing one mefore, so I hacked a little demo in a couple hours.
+<li>When I saw that <b>mad_maw</b> said it was hard to make a platform engine in 1kb, I realized I had never tried golfing one before, so I hacked a little demo in a couple hours.
 <br>In about 700 bytes, it had a fixed map, a character that could walk and jump, and collisions in every direction.
 <br>After that, I thought it would be fun to add scrolling and destructible blocks and pipes and holes to make a demo that looked a bit like the beginning of Super Mario Bros.
 <br>It worked so well that I finally decided to put the entire SMB 1-1 map in the demo, whatever it takes! (Spoiler: it took 1206 bytes)
@@ -217,14 +219,14 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 
 <br><img src="images/js1k19/3.png">
 <br>I analyzed this map a lot and realized that there were 3 holes, 6 pipes, 7 stairs (5 to the left, 2 to the right) and interactive blocks scattered on lines 4 and 8.
-<br>So I wrote <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L58-L84">a pipe generator and a stair generator</a>, then <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L110-L146">placed everything on a 211px x 15px grid</a>.
+<br>So I wrote <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L58-L84">a pipe generator and a stair generator</a>, then <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L110-L146">placed everything on a 211 x 15px grid</a>.
 <br>The way interactive blocks work is interesting, and detailed <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L94-L102">in the collision function</a>.
 <li>After golfing it as hard as I could, and seeing that it would never fit in 1kb, I made a difficult decision: downgrade the graphics of the game.
 <br>No more borders, no more bricks, no more arms, legs and cap for Mario, every item of the game had to be reduced to a single pixel instead of a 16x16px block.
-<br>As a compensation, having Mario being just one pixel not only saved a lot of bytes in the drawing phase, but also simplified a lot the collisions tests.
-<br>Indeed, when everything around him is aligned on a pixel grid, every time I had to resolve a collision, I just had to floor or ceil his X or Y coordinates.
+<br>As a compensation, having Mario being just one pixel not only saved a lot of bytes in the drawing phase, but also simplified a lot the collisions tests:
+<br>Indeed, when everything around him is aligned on a pixel grid, every time I had to test/resolve a collision, I just had to floor or ceil Mario's X or Y coordinates.
 <li>Of course, when Mario walks and jumps, his X and Y positions at each frame are computed in subpixels. Same thing for the Gomba enemy at the beginning.
-<li>Speaking of the enemy, the collision between Mario and him istested at every frame using <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L168">a Math.hypot</a>.
+<li>Speaking of the enemy, the collision between Mario and him is tested at every frame using <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L168">Math.hypot</a>.
 <br>If the distance is smaller than 1px, Mario dies if he's on the ground, or kills it if he's in the air.
 <br>To save bytes the enemy is not "really" killed, it's just <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L172">moved at x = -1</a> so we don't see it anymore.
 <li>Finally, a lot of manual edits were necessary to make the minified code optimal for RegPack, as explained <a href="https://github.com/xem/js1k19/blob/gh-pages/SMB1-1k/index.html#L312-L318">here</a>.
@@ -268,7 +270,7 @@ n=n=>{...(synth)...},b.innerHTML=`...(ui)...`
 
 // After
 b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n=n=>{...(synth)...};b.innerHTML=`...(ui)...`&lt;\/script>\">&lt;/iframe>"</pre>
-<br>By chance, it worked and fitted exactly in 1024 bytes. We can see the borders of the iframe, but who cares?
+<br>By chance, it worked and fitted exactly in 1024 bytes. We can see the borders of the iframe, but... who cares?
 <br>
 <blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Hi, sorry if you only see a mute demo! it was supposed to play notes for real.<br>While we fix it, you can test it out of JS1K here:<a href="https://t.co/WtQhVvI2Lv">https://t.co/WtQhVvI2Lv</a><br>Cheers!</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1095946841710051328?ref_src=twsrc%5Etfw">14 février 2019</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -277,7 +279,7 @@ b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <li>As for the piano and guitar synthesizing itself, the most interesting part of the app in a way, I can't tell much about it because I still see it as black magic... though, I described it the best I could in the commented source code.
-<br>As far as I can tell, the piano is simulated by an addition of different frequencies with lower and lower volumes for each "sub-frequency", and the guitar is simulated by accumulating a random noise in a variable after each sample generation and using this variable in the computation of the next note.
+<br>As far as I can tell, the piano is simulated by an addition of different frequencies with lower and lower volumes for each "sub-frequency", and the guitar is simulated by accumulating a random noise in a variable after each sample generation and using this variable in the computation of the next sample.
 <br>Also, to have a more natural feeling, each note is made of two phases: the attack (where the volume goes steadily from 0 to 1) and the decay (where the volume decreases while being multiplied by <a href="https://github.com/xem/js1k19/blob/gh-pages/miniSynth/index.html#L76-L81">a log-ish operation</a>.
 </ul>
 </details>
@@ -285,7 +287,6 @@ b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n
 <br><hr><br>
 
 <h3>4) PERIOD1K 2019</h3>
-<img src="images/js1k19/6.png">
 
 <ul>
 <li>Demo: <a href="https://js1k.com/2019-x/demo/4062">HERE</a>
@@ -293,6 +294,7 @@ b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n
 <li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/period1k%202019/index.min.html">HERE</a>
 </ul>
 
+<img src="images/js1k19/6.png">
 <details>
 <summary><b>Tricks and anecdotes</b></summary>
 <ul>
@@ -315,21 +317,21 @@ b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n
 padding:.7vw .5vw
 
 // CSS after (vw can be replaced by % in many cases, and the space can be removed):
-padding:.7%.5%</a>
-<li>The result is a table with 10 (X) different pieces of informations for each element, which is pretty much in the theme... :p
-<li>NB: I also fixed the type of some elements that was wrong in the previous editions.
+padding:.7%.5%</pre>
+<li>The result is a table with 10 (X) different pieces of informations for each element, which is pretty much in the theme... right? ^^
+<li>NB: I also "fixed" the type of some elements that was wrong or debatable in the previous editions.
 </ul>
 </details>
 
 <br><hr><br>
 <h3>5) Peach1Kastle</h3>
-<img src="images/js1k19/peach1k.gif">
 
 <ul>
 <li>Demo: <a href="https://js1k.com/2019-x/demo/4066">HERE</a>
 <li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/peach1Kastle/index.html">HERE</a>
 <li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/peach1Kastle/index.min.html">HERE</a>
 </ul>
+<img src="images/js1k19/peach1k.gif">
 
 <details>
 <summary><b>Tricks and anecdotes</b></summary>
@@ -359,16 +361,16 @@ height:4em;width:4em;clip-path:polygon(50% 0%,0 100%,100% 100%);background:#090
 
 <b>// Final code (-22b)</b>
 height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre>
-<li>I continued improving what I had, especially by adjusting every block's height and adjusting every div to fill every gap between the cubes and in the roofs.
+<li>I continued improving what I had, especially by adjusting every block's height and adjusting every div to fill every gap I found in the cubes and the pyramids.
 <br>Also, I made all the cubes overlap on their neighbours (using "transform:scale(1.1)") to avoid seeing a "grid" on the floor.
-<br>Finally, I lightened the scene as much as I could, by removing invisible faces in the cubes and the pyramids, and using a single div for the water. Here's the castle seen from behind:
+<br>Then, I lightened the scene as much as I could, by removing invisible faces in the cubes and the pyramids, and using a single div for the water. Here's the castle seen from behind, showing that the castle is hollow and all the cubes are missing their back and bottom faces:
 <br><img src="images/js1k19/12.png">
-<br>Finally, I simulated natural lighting by coloring the right faces of my cubes and pyramids with a darker color, and added a triangle containing a princess face emoji (👸) on the castle's front wall, to hide the hole above the castle's entrance:
+<br>Finally, I simulated natural lighting by coloring the right faces of my cubes and pyramids with a darker color, and added a triangle containing a princess face emoji (👸) on the castle's front wall, to hide this hole above the castle's entrance:
 <br><img src="images/js1k19/13.png">
 <li>After adding a camera rotation and a lot of tweaking, golfing, and RegPack optimizations, I reached this result (2.8kb minified, 1025b packed), that I teased at the end of <a href="https://twitter.com/MaximeEuziere/status/1057689364111781888">#codegolfctober 2018</a>:
 <br><img src="images/js1k19/11.png">
 <li>Weeks pass, and I find more and more tricks to save bytes, down to 964 bytes with the same graphics as before.
-<br>(Most bytes were saved by organizing the CSS code in a more RegPack-friendly way and merging my loops into a single one.)
+<br>(Most bytes were saved by organizing the CSS code in a more RegPack-friendly way and merging my render loops into a single one.)
 <li>I decided to use the remaining bytes to add a colored background, and other emoji in the scene.
 <br>Unfortunately, we're in 2019 and there are still no "window" emoji to represent the castle's windows, so I abandoned them and went with a door (🚪) in the entrance, trees (🌳) on every 7th grass block, and flags (🚩) on the four lower roofs.
 <li>for the colored background, I first tried setting a green value to "b.bgColor", but out of serendipity, I realized that I could directly set it to "m" (the scene's map), and have it get parsed as a nice green.
@@ -382,14 +384,14 @@ height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre
 <br><hr><br>
 
 <h3>6) Mini Unicode Toys & 7) EscApe</h3>
-<img src="images/js1k19/15.png" width="48%">
-<img src="images/js1k19/17.png" width="48%">
 
 <ul>
 <li>Demo: <a href="https://js1k.com/2019-x/demo/4090">HERE</a> and <a href="">HERE</a>
 <li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/UnicodeToys/index.html">HERE</a> and <a href="https://github.com/xem/js1k19/blob/gh-pages/escape/script.js">HERE</a>
 <li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/UnicodeToys/index.min.html">HERE</a> and <a href="https://github.com/xem/js1k19/blob/gh-pages/escape/index.min.html">HERE</a>.
 </ul>
+<img src="images/js1k19/15.png" width="48%">
+<img src="images/js1k19/17.png" width="48%">
 
 <details>
 <summary><b>Tricks and anecdotes</b></summary>
@@ -400,18 +402,26 @@ height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre
 <li>For Mini Unicode Toys, the hard task was to find a set of 25 transforms that were visually interesting and implementable in 1kb.
 <br>I had to abandon many pseudoalphabets (not "natively" present in Unicode, but proposed by <a href="http://qaz.wtf/u/convert.cgi?text=%21%22%23%24%25%26%27%28%29*%2B%2C-.%2F0123456789%3A%3B%3C%3D%3E%3F%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D%7E">qaz.wtf</a>), because they were too incomplete and/or required too many bytes to be declared in an entry's source code.
 <br>Here are all the pseudoalphabets present in qaz.wtf, the three I included in this entry are marked in red:
-<br>><img src="images/js1k19/16.png">
+<br><img src="images/js1k19/16.png">
 <br>I used <a href="//shapecatcher.com">shapecatcher</a> to complete and fix some pseudoalphabets, in the following way:
-<pre class=code><b>//qaz.wtf</b>
-Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ
-Reversed: ~}|{zʎxʍʌnʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ`_^]\[zʎxʍ𐌡nʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ@¿>=&lt;;:9876543210/.-‘+*)(,⅋%$#"¡
+<pre class=code><b>// qaz.wtf</b>
+
+Superscript:
+ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ
+
+Reversed:
+~}|{zʎxʍʌnʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ`_^]\[zʎxʍ𐌡nʇsɹbdouɯןʞɾıɥƃɟǝpɔqɐ@¿>=&lt;;:9876543210/.-‘+*)(,⅋%$#"¡
 
 <b>// Mini Unicode toys</b>
-Superscript: ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ
-reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ@¿&lt;=>⸵:68⏌9S߈εᘔ⥝0/˙-‘+*(),⅋%$#„¡</pre>
-<br>(I didn't include uppercase superscript chars, because they were too incomplete: ᴬᴮ*ᴰᴱ*ᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾ*ᴿ*ᵀᵁⱽᵂ***, I reused the lowercase ones instead.)
-<li>For each other transform, I studied how it worked, on which Unicode subset it could apply to, and implemented a system that performs it as simply as possible. (see the source code for all the details).
-<li>For EscApe, which is a much geeker subject, I unearthed my real <a href="//xem.github.io/escape">EscApe</a> project that was aiming to give a complete list of transforms and encodings for any kind of text entered in the input textarea, and kept (and golfed) as many interesting features as I could in 1kb.
+
+Superscript:
+ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ
+
+reversed:
+~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ@¿&lt;=>⸵:68⏌9S߈εᘔ⥝0/˙-‘+*(),⅋%$#„¡</pre>
+(I didn't include uppercase superscript chars, because they were too incomplete: ᴬᴮ*ᴰᴱ*ᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾ*ᴿ*ᵀᵁⱽᵂ***, I reused the lowercase ones instead.)
+<li>For every other transform, I studied how it worked, on which Unicode subset it could apply to, and implemented a system that performs it as simply as possible. (see the source code for all the details).
+<li>For EscApe, which is a much geeker subject, I unearthed my ungolfed <a href="//xem.github.io/escape">EscApe</a> project that was aiming to give a complete list of transforms and encodings for any kind of text entered in the input textarea, and I kept (and golfed) as many interesting features as I could in 1kb.
 <br>In total, I included 21 transforms, and used many very hacky glitches such as:
 <br>- using <b>for(i of[...input.value])</b> to loop on all the glyphs (a.k.a UTF-32 BE code points).
 <br>- using <b>for(i in input.value)</b> to loop on all the JS chars (a.k.a UTF-16 BE code points).
@@ -422,27 +432,37 @@ reversed: ~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdo
 <br>- First, Chrome 71 had broken the "..." operator back in febuary, so I waited mid-march to submit the demo, hoping that enough people would have at least Chrome 72.
 <br>- Then, I realized during the submit process that js1k.com's CSP blocked all XMLHttpRequests, which broke my last two mojibake fields. Fortunately, I managed to replace them with iframes, which worked fine and even took less bytes!
 <br><pre class=code><b>// Before (update a field using XHR)</b>
-HTML: &lt;input size=99 id=C>
-JS: with(new XMLHttpRequest){open("GET","data:;charset=utf-8;base64,"+latin1_base64,!1),send(),C.value=responseText}
+
+HTML:
+&lt;input size=99 id=C>
+
+JS:
+with(new XMLHttpRequest){
+  open("GET","data:;charset=utf-8;base64,"+latin1_base64,!1),send(),C.value=responseText
+}
 
 <b>// After (update an iframe: -41 bytes)</b>
-HTML: &lt;iframe width=600 height=50 id=C>&lt;/iframe>
-JS C.src="data:;charset=utf-8;base64,"+latin1_base64</pre>
+
+HTML:
+&lt;iframe width=600 height=50 id=C>&lt;/iframe>
+
+JS:
+C.src="data:;charset=utf-8;base64,"+latin1_base64</pre>
 It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough bytes to enhance the UI and labels a little.
-<br>- Finally, there was an issue not present in my local shim nor during the submission, but <a href="https://twitter.com/js1k/status/1104802479047364609">present after the demo was published</a>: one of the fields (called "d") stayed empty. Turns out, in published demos only, the global var "d" (a shortcut for "document" that I asked to kuvos a few years ago) couldn't be overwritten. So I renamed it to E and everything went back to normal.
+<br>- Finally, there was an issue not present in my local shim nor during the submission, but <a href="https://twitter.com/js1k/status/1104802479047364609">present after the demo was published</a>: one of the fields (called "d") stayed empty. Turns out, in published demos only, the global var "d" (a shortcut for "document" that I asked to kuvos to add in the shim a few years ago) couldn't be overwritten. So I renamed it to E and everything went back to normal.
 </ul>
 </details>
 
 <br><hr><br>
 
 <h3>8) MiniTwo3D</h3>
-<img src="images/js1k19/two3d.gif">
 
 <ul>
 <li>Demo: <a href="https://js1k.com/2019-x/demo/4139">HERE</a>
 <li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniTwo3D/index.html">HERE</a>
 <li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniTwo3D/index.min.html">HERE</a>
 </ul>
+<img src="images/js1k19/two3d.gif">
 
 <details>
 <summary><b>Tricks and anecdotes</b></summary>
@@ -450,22 +470,25 @@ It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough byt
 <li>This demo was inspired by a real voxel drawing software called <a href="https://42bytes.itch.io/two3d">Two3D</a>, and developped in two days (one for the code, one for the golf).
 <li>Some new CSS tricks were used compared to Peach1Kastle:
 <br>- The CSS3D cubes use one less HTML element. In my previous demos, there was a cube container, plus the 4 visible faces (top, left, right, front) popping "up". Now, the container is the top face of the cube, and the 3 other faces pop "down" of it.
-<br><pre class=code><b>// Before</b>
+<br>
+<div style="width: 95%; overflow-x: scroll">
+<pre class=code style="width: 1000px"><b>// Before (5 divs)</b>
 &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;transform:translateY(${2*i}em)translateX(${2*j}em)translateZ(${E+2}em)>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};transform:translateZ(2em)>&lt;/div>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(90%);transform:rotateY(90deg)translate(-1em)translateZ(-1em)>&lt;/div>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(80%);transform:rotateY(90deg)translate(-1em)translateZ(1em)>&lt;/div>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:rotateX(90deg)rotateZ(180deg)translateY(1em)translateZ(-1em)>
 
-<b>// After (-111b)</b>
+<b>// After (4 divs, -111b)</b>
 &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};transform:translateY(${2*i}em)translateX(${2*j}em)translateZ(${E+2}em)>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(90%);transform:rotateY(90deg)translateX(1em)translateZ(-1em)>&lt;/div>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(80%);transform:rotateY(90deg)translateX(1em)translateZ(1em)>&lt;/div>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:rotateX(90deg)rotateZ(180deg)translateY(1em)translateZ(-1em)></pre>
-<br>Even with 111 less bytes of code, this enhancement only saves a few bytes after Regpack. It's still nice though.
-<br>- The closing parenthesis at the end of the style attributes are not omitted anymore, because RegPack prefers that when we maximize the "em)" substring instead of having sometimes "em)" and sometimes "em>".
-<br>- The cubes "shadows" are not represented by different colors anymore, a brightness CSS filter is used instead (90% on the left, 80% on the right and 110% on the front. At first I tried setting a brightness to the top face (the cube container), but it somehow broke the CSS3D children and the cube became flat.
-<br>- I remarked that the CSS animation (for the 3D scene) had to be applied in the &lt;style> tag that I append to the DOM using <b>document.write</b>. If I try to apply it in the inline style of the scene, the browser refuses to animate the scene even though everything appears normal in the inspector/debugger.
+</div>
+<br>Even with 111 less bytes of code, this enhancement only saves a couple dozen bytes after Regpack compression. It's still nice though.
+<br>- The closing parenthesis at the end of the style attributes are not omitted anymore, because RegPack prefers that when we maximize the number of occurrences of the "em)" substring instead of having sometimes "em)" and sometimes "em>".
+<br>- The cubes "shadows" are not represented by different colors anymore, a brightness CSS filter is used instead (90% on the left, 80% on the right and 110% on the front. At first I tried setting a brightness to the top face (the cube container), but it somehow broke the CSS3D children and the cube became flat. I guess filters are not compatible with 3D...
+<br>- I remarked that the CSS animation (for the 3D scene) had to be applied in the &lt;style> tag that I append to the DOM using <b>document.write</b>. If I try to apply it in the inline style of the scene div, the browser refuses to animate the scene even though everything appears normal in the inspector/debugger.
 <li>Peach1Kastle could probably save many bytes by reusing some of these techniques, but I lack free time to re-edit it, there are still two entries to make!
 <li>Lara's reaction was funny!
 <br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Geez slow down, I haven&#39;t even come up with a single one yet x_x</p>&mdash; Lara Sophie 🏳️‍🌈 (@literallylara) <a href="https://twitter.com/literallylara/status/1105951477116424192?ref_src=twsrc%5Etfw">13 mars 2019</a></blockquote>
@@ -475,34 +498,38 @@ It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough byt
 
 <br><hr><br>
 
-<h3>9) ???</h3>
-<img src="">
+<h3>9) Mini Riding Light</h3>
 
 <ul>
-<li>Demo: <a href="">HERE</a>
-<li>Commented source code: <a href="">HERE</a>
-<li>Minified source code: <a href="">HERE</a>
+<li>Demo: <a href="https://js1k.com/2019-x/demo/4269">HERE</a>
+<li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniRidingLight/index.html">HERE</a>
+<li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniRidingLight/index.min.html">HERE</a>
 </ul>
+<img src="images/js1k19/mrl.gif">
 
 <details>
 <summary><b>Tricks and anecdotes</b></summary>
 <ul>
-<li>...
-<li>...
-<li>...
+<li>This demo was made in 3 days at the end of the compo, to reach my 10 entries goal.
+<br>It is inspired by the video <a href="https://vimeo.com/117815404">Riding Light</a> showing an hypothetical travel from the Sun to Jupiter at the speed of light, assuming that the planets are aligned and the laws of physics allow to travel at this speed and see something.
+<br>It's also kind of a sequel of my previous solar system entry <a href="https://js1k.com/2017-magic/demo/2717">If the moon was 1px</a>.
+<li>Compared to this entry, Mini Riding Light is animated, in 3D, and has multicolor planets. but it also lacks natural satellites, asteroid belts, and dwarf planets further than Pluto (Haumea, Makemake and Eris).
+<li>I didn't draw the rings of Uranus and Neptune because they wouldn't really be visible if we traveled near them, contrary to the rings of Jupiter and Saturn.
+<li>I wondered a lot about rendering it in CSS3D or on a canvas, and canvas would probably have allowed a shorter code, but implementing the 3D and the gradients and the shadows in CSS3D was much quicker and straightforward.
+<li>In other terms, there's no new special trick in this demo compared to the other CSS3D ones. I just optimized my original draft for RegPack and it fitted in 970 bytes pretty easily. I used the remaining bytes to add the left menu, and make the camera move a bit more slowly after clicking a menu item, in order to make the planets details a bit more visible, because, at the speed of light, it just goes like... woosh!
 </ul>
 </details>
 
 <br><hr><br>
 
-<h3>10) MiniMandelbox</h3>
-<img src="">
+<h3>10) Team entry: Mini Mandelbox</h3>
 
 <ul>
-<li>Demo: <a href="">HERE</a>
-<li>Commented source code: <a href="">HERE</a>
-<li>Minified source code: <a href="">HERE</a>
+<li>Demo: <a href="https://js1k.com/2019-x/demo/4182">HERE</a>
+<li>Commented source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniMandelbox/index.html">HERE</a>
+<li>Minified source code: <a href="https://github.com/xem/js1k19/blob/gh-pages/miniMandelbox/index.min.html#L152-L258">HERE</a>
 </ul>
+<img src="images/js1k19/mmb.gif">
 
 <details>
 <summary><b>Tricks and anecdotes</b></summary>
@@ -512,7 +539,7 @@ It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough byt
 <br>It even motivated the projects (and blog posts) <a href="http://xem.github.io/articles/archive.html#webgl_quest">WebGL quest</a> and <a href="http://xem.github.io/articles/archive.html#webgl_quest_2">WebGL quest 2</a>!
 <br>Though, even after reading and experimenting the WebGL setup and the WebGL raymarching, I still had close to no idea how to render a Mandelbox.
 <br>The <a href="https://fr.wikipedia.org/wiki/Mandelbox">formula on wikipedia looked pretty short</a>, but completely cryptic for me.
-<br>So, before abandoning the idea forever, I proposed a team entry to <b>Balint Csala</b>, who agreed and fortunately, knew exactly how to proceed!
+<br>So, before abandoning the idea forever, I proposed a team entry to <b>Bàlint Csala</b>, who accepted and fortunately, knew exactly how to proceed!
 <br>He found an OpenGL implementation which, after a bit of cleanup, looked like this:
 <pre class=code>float map(vec3 pos){
  vec4 p = vec4(pos,1);
@@ -541,7 +568,7 @@ void mainImage(out vec4 o, vec2 c){
   }
   o.rgb = col;
 }</pre>
-<br>And it even worked fine <a href="http://xem.github.io/MiniShadertoy/js1k.html#Ly8gTWFuZGVsYm94IGRpc3RhbmNlIGZ1bmN0aW9uCmZsb2F0IG1hcCh2ZWMzIHBvcyl7dmVjNCBwPXZlYzQocG9zLDEpO3ZlYzQgcDA9cDtmb3IoaW50IGk9MDtpPDk7aSsrKXtwLnh5ej1jbGFtcChwLnh5eiwtMS4sMS4pKjIuLXAueHl6O2Zsb2F0IHIyPWRvdChwLnh5eixwLnh5eik7cCo9Y2xhbXAobWF4KC4yNS9yMiwuMjUpLDAuLDEuKTtwPXAqKHZlYzQoMi44LDIuOCwyLjgsIGFicygyLjgpKS8uMjUpK3AwO31yZXR1cm4obGVuZ3RoKHAueHl6KS0xLikvcC53LXBvdyhhYnMoMi44KSwtOS4pO30KCi8vIFJheXRyYWNlcgp2b2lkIG1haW5JbWFnZShvdXQgdmVjNCBvLHZlYzIgYyl7CiAgCiAgLy8gQWRqdXN0IGNvb3JkaW5hdGVzIHN5c3RlbQogIHZlYzIgdXYgPSBjIC8gaVJlc29sdXRpb24ueHggLSBpUmVzb2x1dGlvbi54eSAvIGlSZXNvbHV0aW9uLnh4IC8gMi47CiAgdmVjMyByZCA9IG5vcm1hbGl6ZSh2ZWMzKHV2LCAxLikpOwoKICAvLyBTdGFydGluZyBwb2ludCBmb3IgdGhlIHJheSAoZXllIHBvc2l0aW9uKQogIHZlYzMgcCA9IHZlYzMoKC0oaU1vdXNlLngpLzIuKS8xMDAuLChpTW91c2UueS8yLikvMTAwLiwgLTE1Lik7CgogIC8vIEl0ZXJhdGlvbnMKICBmbG9hdCBpdCA9IDk5LjsKICAKICAvLyBEZWZhdWx0IGNvbG9yIChibGFjaykKICB2ZWMzIGNvbCA9IHZlYzMoMCk7CiAgCiAgLy8gSXRlcmF0ZSBmb3IgZWFjaCBwaXhlbAogIGZvciAoZmxvYXQgaSA9IC4wOyBpIDwgOTkuOyBpKyspewogICAgCiAgICAvLyBDb21wdXRlIHJlbWFpbmluZyBkaXN0YW5jZSBmcm9tIHJheSB0byBNYW5kZWxib3ggCiAgICBmbG9hdCBkaXN0ID0gbWFwKHApOwoKICAgIC8vIENob29zZSBhIGRpc3RhbmNlIHdoZXJlIHRoZSByYXkgaXMgY2xvc2UgZW5vdWdoCiAgICBpZiAoZGlzdCA8IDEuIC8gaXQpewogICAgICAKICAgICAgLy8gU2V0IGNvbG9yIGFjY29yZGluZyB0byB0aGUgbnVtYmVyIG9mIGl0ZXJhdGlvbnMKICAgICAgY29sID0gdmVjMygxLiAtIGkgLyBpdCk7CgogICAgICAvLyBTdG9wCiAgICAgIGJyZWFrOwogICAgfQoKICAgIC8vIElmIHJheSBpcyBub3QgY2xvc2UgZW5vdWdoOiBhZHZhbmNlIHRoZSByYXkgYWNjb3JkaW5nIHRvIHRoZSByZW1haW5pbmcgZGlzdGFuY2UKICAgIHAgKz0gcmQgKiBkaXN0OwogIH0KCiAgLy8gQ29sb3IgdGhlIHBpeGVsCiAgby5yZ2IgPSBjb2w7Cn0=">in our MiniMandelbox js1k demo</a>! So that was very promising.
+<br>And it even worked fine <a href="http://xem.github.io/MiniShadertoy/js1k.html#Ly8gTWFuZGVsYm94IGRpc3RhbmNlIGZ1bmN0aW9uCmZsb2F0IG1hcCh2ZWMzIHBvcyl7dmVjNCBwPXZlYzQocG9zLDEpO3ZlYzQgcDA9cDtmb3IoaW50IGk9MDtpPDk7aSsrKXtwLnh5ej1jbGFtcChwLnh5eiwtMS4sMS4pKjIuLXAueHl6O2Zsb2F0IHIyPWRvdChwLnh5eixwLnh5eik7cCo9Y2xhbXAobWF4KC4yNS9yMiwuMjUpLDAuLDEuKTtwPXAqKHZlYzQoMi44LDIuOCwyLjgsIGFicygyLjgpKS8uMjUpK3AwO31yZXR1cm4obGVuZ3RoKHAueHl6KS0xLikvcC53LXBvdyhhYnMoMi44KSwtOS4pO30KCi8vIFJheXRyYWNlcgp2b2lkIG1haW5JbWFnZShvdXQgdmVjNCBvLHZlYzIgYyl7CiAgCiAgLy8gQWRqdXN0IGNvb3JkaW5hdGVzIHN5c3RlbQogIHZlYzIgdXYgPSBjIC8gaVJlc29sdXRpb24ueHggLSBpUmVzb2x1dGlvbi54eSAvIGlSZXNvbHV0aW9uLnh4IC8gMi47CiAgdmVjMyByZCA9IG5vcm1hbGl6ZSh2ZWMzKHV2LCAxLikpOwoKICAvLyBTdGFydGluZyBwb2ludCBmb3IgdGhlIHJheSAoZXllIHBvc2l0aW9uKQogIHZlYzMgcCA9IHZlYzMoKC0oaU1vdXNlLngpLzIuKS8xMDAuLChpTW91c2UueS8yLikvMTAwLiwgLTE1Lik7CgogIC8vIEl0ZXJhdGlvbnMKICBmbG9hdCBpdCA9IDk5LjsKICAKICAvLyBEZWZhdWx0IGNvbG9yIChibGFjaykKICB2ZWMzIGNvbCA9IHZlYzMoMCk7CiAgCiAgLy8gSXRlcmF0ZSBmb3IgZWFjaCBwaXhlbAogIGZvciAoZmxvYXQgaSA9IC4wOyBpIDwgOTkuOyBpKyspewogICAgCiAgICAvLyBDb21wdXRlIHJlbWFpbmluZyBkaXN0YW5jZSBmcm9tIHJheSB0byBNYW5kZWxib3ggCiAgICBmbG9hdCBkaXN0ID0gbWFwKHApOwoKICAgIC8vIENob29zZSBhIGRpc3RhbmNlIHdoZXJlIHRoZSByYXkgaXMgY2xvc2UgZW5vdWdoCiAgICBpZiAoZGlzdCA8IDEuIC8gaXQpewogICAgICAKICAgICAgLy8gU2V0IGNvbG9yIGFjY29yZGluZyB0byB0aGUgbnVtYmVyIG9mIGl0ZXJhdGlvbnMKICAgICAgY29sID0gdmVjMygxLiAtIGkgLyBpdCk7CgogICAgICAvLyBTdG9wCiAgICAgIGJyZWFrOwogICAgfQoKICAgIC8vIElmIHJheSBpcyBub3QgY2xvc2UgZW5vdWdoOiBhZHZhbmNlIHRoZSByYXkgYWNjb3JkaW5nIHRvIHRoZSByZW1haW5pbmcgZGlzdGFuY2UKICAgIHAgKz0gcmQgKiBkaXN0OwogIH0KCiAgLy8gQ29sb3IgdGhlIHBpeGVsCiAgby5yZ2IgPSBjb2w7Cn0=">in our MiniShadertoy js1k demo</a>! So that was very promising.
 <br><img src="images/js1k19/">
 <br>Little did we know that we'd spend most of the two month of the competition working hard on it!
 <li>...
