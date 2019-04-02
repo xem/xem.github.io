@@ -571,7 +571,109 @@ void mainImage(out vec4 o, vec2 c){
 <br>And it even worked fine <a href="http://xem.github.io/MiniShadertoy/js1k.html#Ly8gTWFuZGVsYm94IGRpc3RhbmNlIGZ1bmN0aW9uCmZsb2F0IG1hcCh2ZWMzIHBvcyl7dmVjNCBwPXZlYzQocG9zLDEpO3ZlYzQgcDA9cDtmb3IoaW50IGk9MDtpPDk7aSsrKXtwLnh5ej1jbGFtcChwLnh5eiwtMS4sMS4pKjIuLXAueHl6O2Zsb2F0IHIyPWRvdChwLnh5eixwLnh5eik7cCo9Y2xhbXAobWF4KC4yNS9yMiwuMjUpLDAuLDEuKTtwPXAqKHZlYzQoMi44LDIuOCwyLjgsIGFicygyLjgpKS8uMjUpK3AwO31yZXR1cm4obGVuZ3RoKHAueHl6KS0xLikvcC53LXBvdyhhYnMoMi44KSwtOS4pO30KCi8vIFJheXRyYWNlcgp2b2lkIG1haW5JbWFnZShvdXQgdmVjNCBvLHZlYzIgYyl7CiAgCiAgLy8gQWRqdXN0IGNvb3JkaW5hdGVzIHN5c3RlbQogIHZlYzIgdXYgPSBjIC8gaVJlc29sdXRpb24ueHggLSBpUmVzb2x1dGlvbi54eSAvIGlSZXNvbHV0aW9uLnh4IC8gMi47CiAgdmVjMyByZCA9IG5vcm1hbGl6ZSh2ZWMzKHV2LCAxLikpOwoKICAvLyBTdGFydGluZyBwb2ludCBmb3IgdGhlIHJheSAoZXllIHBvc2l0aW9uKQogIHZlYzMgcCA9IHZlYzMoKC0oaU1vdXNlLngpLzIuKS8xMDAuLChpTW91c2UueS8yLikvMTAwLiwgLTE1Lik7CgogIC8vIEl0ZXJhdGlvbnMKICBmbG9hdCBpdCA9IDk5LjsKICAKICAvLyBEZWZhdWx0IGNvbG9yIChibGFjaykKICB2ZWMzIGNvbCA9IHZlYzMoMCk7CiAgCiAgLy8gSXRlcmF0ZSBmb3IgZWFjaCBwaXhlbAogIGZvciAoZmxvYXQgaSA9IC4wOyBpIDwgOTkuOyBpKyspewogICAgCiAgICAvLyBDb21wdXRlIHJlbWFpbmluZyBkaXN0YW5jZSBmcm9tIHJheSB0byBNYW5kZWxib3ggCiAgICBmbG9hdCBkaXN0ID0gbWFwKHApOwoKICAgIC8vIENob29zZSBhIGRpc3RhbmNlIHdoZXJlIHRoZSByYXkgaXMgY2xvc2UgZW5vdWdoCiAgICBpZiAoZGlzdCA8IDEuIC8gaXQpewogICAgICAKICAgICAgLy8gU2V0IGNvbG9yIGFjY29yZGluZyB0byB0aGUgbnVtYmVyIG9mIGl0ZXJhdGlvbnMKICAgICAgY29sID0gdmVjMygxLiAtIGkgLyBpdCk7CgogICAgICAvLyBTdG9wCiAgICAgIGJyZWFrOwogICAgfQoKICAgIC8vIElmIHJheSBpcyBub3QgY2xvc2UgZW5vdWdoOiBhZHZhbmNlIHRoZSByYXkgYWNjb3JkaW5nIHRvIHRoZSByZW1haW5pbmcgZGlzdGFuY2UKICAgIHAgKz0gcmQgKiBkaXN0OwogIH0KCiAgLy8gQ29sb3IgdGhlIHBpeGVsCiAgby5yZ2IgPSBjb2w7Cn0=">in our MiniShadertoy js1k demo</a>! So that was very promising.
 <br><img src="images/js1k19/">
 <br>Little did we know that we'd spend most of the two month of the competition working hard on it!
-<li>...
+<br>We actually made 20 "iterations" of this demo, sometimes to add new features, sometimes to golf it further.
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/0/">DEMO 0</a>
+<br>Initial prototype, based on MiniShadertoy, with the visual on the left and the commented code on the right.
+<br>Move the camera with Arrow keys + W (or Z) + S.
+<br>The mandelbox scale is 2.8, and it's raymarched with 199 iterations and a precision level equal to 1/199.
+<br>while doing it, we (re)discovered that <a href="https://twitter.com/MaximeEuziere/status/1091639703412137984">the upper bound of a for loop can't be a variable in WebGL</a>, because loops are "unwrapped" at compilation time.
+<br>The pixels "color" is just a grey scale proportional to the number of iterations before hitting the fractal: <b>col = vec3(1. - i / it);</b>
+<img src="images/js1k19/18.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/1/">DEMO 1</a> (3.4kb)
+<br>Remove code textarea, reduce to 99 iterations.
+<br>Try another coloring method, which kinda inverts the colors: <b>col = vec3(.9 - md);</b> 
+<img src="images/js1k19/19.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/2/">DEMO 2</a> (3.5kb)
+<br>Try with 999 iterations and a precision level equal to 0.001,
+<br>and add a nice metallic look with <b>col = vec3(dot(n(p), vec3(0,0,1)));</b>.
+<img src="images/js1k19/20.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/3/">DEMO 3</a> (3.6kb)
+<br>This version introduces the automatic camera flythrough along the axis [-0.4400540540540543, 0.11305105105105107, Z]
+<br>The keyboard is still functional and stops the automatic flythrough when a key is pressed.
+<br>I found this axis by trial and error while trying to find a point where all the box is traversed without hitting any wall.
+<br>We proceeded to export this video and tweet it as our first official teaser:
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">It&#39;s still WIP but:<br><br>- Thanks to <a href="https://twitter.com/kchplr?ref_src=twsrc%5Etfw">@kchplr</a> <a href="https://twitter.com/larswillighagen?ref_src=twsrc%5Etfw">@larswillighagen</a> and <a href="https://twitter.com/literallylara?ref_src=twsrc%5Etfw">@literallylara</a> for helping us understand some WebGL quirks better<br><br>- Congrats to Tom Lowe who discovered the formula of the box, approached by this distance function (for scale = 2.8): <a href="https://t.co/rqIccD6als">pic.twitter.com/rqIccD6als</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1091967287253446656?ref_src=twsrc%5Etfw">3 février 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/4/">DEMO 4</a> (982b packed)
+<br>Golfed and packed for the first time. Still under the budget!
+<br>We remarked here that the rendering was long and shaky at the beginning (far from the box) and nicer inside the box,
+<br>So we decided to make a precision level that varies according to your distance: <b>if (d &lt; min(.01, max(1. / ((C.z) * 100.), .001))){</b>
+<br>Also, the camera axis is simplified to [-0.44, 0.11, Z]
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/5/">DEMO 5</a>
+<br>Just performance improvements, but also a <a href="https://xem.github.io/js1k19/miniMandelbox/5/slider.html">"slider" version</a> where you can choose the "scale" from -5 to 5!
+<br><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">I added a little experimental &quot;fractal scale&quot; slider to see the Mandelbox between scales -5 and 5.<br>It&#39;s pretty surprising, especially the kind of &quot;big bang&quot; around 0.<br>It&#39;s also pretty hard to navigate the box with a varying scale 😅<br>It won&#39;t be in the js1k entry, but still, fun! <a href="https://t.co/ykmKdjkgR5">pic.twitter.com/ykmKdjkgR5</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1092478587448512512?ref_src=twsrc%5Etfw">4 février 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/6/">DEMO 6</a>
+<br>Same thing, but <a href="https://xem.github.io/js1k19/miniMandelbox/6/breathe.html">a new experiment on the side</a>, where the box "breathes" (with an oscillating scale)
+<br><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Have you ever seen a breathing Mandelbox from the inside?<br>(Nausea warning)<a href="https://twitter.com/hashtag/webgl?src=hash&amp;ref_src=twsrc%5Etfw">#webgl</a> <a href="https://t.co/L7eeaMz8p8">pic.twitter.com/L7eeaMz8p8</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1092528877736509442?ref_src=twsrc%5Etfw">4 février 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/7/">DEMO 7</a>
+<br>Bàlint golfed the shader and improved perfs, then <a href="https://twitter.com/MaximeEuziere/status/1092758010202603521">we added a few colors with the help of <b>p01</b> and <b>Literallylara</b> on Twitter</a>!
+The automatic camera is disabled for now.
+<img src="images/js1k19/21.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/8/">DEMO 8</a> (1.1kb minified, 771 bytes packed)
+<br>A lot of golfing later, we also added a new control system where the camera can be rotated with the mouse!
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/9/">DEMO 9</a> (1.6kb minified)
+<br>Bàlint outperformed himself for this iteration, and added the colored matallic look that is still present in the final release, but also the first draft of the music!
+<br>At this point we're so above the budget that we're sure that we'll have to abandon the music or the metallic colored look.
+<br>but in the meantime, we did a new teaser:
+<br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Free exploration of a colored metallic Mandelbox!<br><br>cc. <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a> <a href="https://twitter.com/hashtag/WIP?src=hash&amp;ref_src=twsrc%5Etfw">#WIP</a> <a href="https://twitter.com/hashtag/JS1K?src=hash&amp;ref_src=twsrc%5Etfw">#JS1K</a> <a href="https://twitter.com/hashtag/3D?src=hash&amp;ref_src=twsrc%5Etfw">#3D</a> <a href="https://twitter.com/hashtag/fractal?src=hash&amp;ref_src=twsrc%5Etfw">#fractal</a> <a href="https://twitter.com/hashtag/WebGL?src=hash&amp;ref_src=twsrc%5Etfw">#WebGL</a> <a href="https://t.co/j3ABPqr4uW">pic.twitter.com/j3ABPqr4uW</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1095399941080522753?ref_src=twsrc%5Etfw">12 février 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<li>We made a pause at this point to do a tweetable Mandelbox shader, and with the great help of <b>Fabrice Neyret</b> it became as small as 237b!!
+<br>
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="da" dir="ltr">// Tweetable Shadertoy Mandelbox <a href="https://twitter.com/hashtag/define?src=hash&amp;ref_src=twsrc%5Etfw">#define</a> I o.rgb<a href="https://twitter.com/hashtag/define?src=hash&amp;ref_src=twsrc%5Etfw">#define</a> mainImage(F,C)vec4  p=vec4(1,-2.5,13,1),o;for(F++;F.x&gt;0.;F-=.01){o=p;for(int  j=0;++j&lt;10;o=o*clamp(2.52/dot(I,I),2.52,9.)+p)I=clamp(I,-1.,1.)*2.-I;float  d=(length(I)-1.)/o.w;if(d&lt;1e-3)break;p-=vec4(C/3e2-.9,1,0)*d;}</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1096325091254767617?ref_src=twsrc%5Etfw">15 février 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/10/">DEMO 10</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/11/">DEMO 11</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/12/">DEMO 12</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/13/">DEMO 13</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/14/">DEMO 14</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/15/">DEMO 15</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/16/">DEMO 16</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/17/">DEMO 17</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/18/">DEMO 18</a>
+<br>
+<img src="images/js1k19/.png">
+
+<li><a href="https://xem.github.io/js1k19/miniMandelbox/19/">DEMO 19</a>
+<br>
+<img src="images/js1k19/.png">
+
 <li>...
 </ul>
 </details>
