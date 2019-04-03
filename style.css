@@ -24,7 +24,7 @@ a:visited { color: #00A4E5; }
 .intro { background: #ffd; border-radius: 10px; border: 2px solid #aaa; border-right: 3px solid #aaa; border-bottom: 3px solid #aaa; padding: 20px; }
 .section { overflow-x: hidden; background: #fff; border-radius: 10px; border: 2px solid #aaa; border-right: 3px solid #aaa; border-bottom: 3px solid #aaa; padding: 20px; text-align: left; }
 .center { text-align: center; }
-pre { background: #fed; padding: 20px; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
+pre { background: #fed; padding: 10px; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
 p, div, script, style, pre { margin: 10px 0; }
 script, style, pre { font: normal 11px/16px monospace; overflow-x: auto; }
 div#twitter { margin: 0; }
