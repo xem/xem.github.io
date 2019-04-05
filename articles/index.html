@@ -70,6 +70,7 @@
 #js1k19 img { border: 2px solid #def; margin: 5px 0; }
 #js1k19 pre.inline { display: inline; padding: 5px; }
 #js1k19 twitter-widget { height: auto; width: 45% !important; display: inline-block !important; vertical-align: top; border: 2px solid #def; border-radius: 5px; }
+#js1k19 twitter-widget#twitter-widget-14 { width: auto !important }
 </style>
 
 <h2>JS1K 2019</h2>
@@ -539,7 +540,7 @@ It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough byt
 <br>It even motivated the projects (and blog posts) <a href="http://xem.github.io/articles/archive.html#webgl_quest">WebGL quest</a> and <a href="http://xem.github.io/articles/archive.html#webgl_quest_2">WebGL quest 2</a>!
 <br>Though, even after reading and experimenting the WebGL setup and the WebGL raymarching, I still had close to no idea how to render a Mandelbox.
 <br>The <a href="https://fr.wikipedia.org/wiki/Mandelbox">formula on wikipedia looked pretty short</a>, but completely cryptic for me.
-<br>So, before abandoning the idea forever, I proposed a team entry to <b>Bàlint Csala</b>, who accepted and fortunately, knew exactly how to proceed!
+<br>So, before abandoning the idea forever, I proposed a team entry to <b>Bálint Csala</b>, who accepted and fortunately, knew exactly how to proceed!
 <br>He found an OpenGL implementation which, after a bit of cleanup, looked like this:
 <pre class=code>float map(vec3 pos){
  vec4 p = vec4(pos,1);
@@ -615,15 +616,28 @@ void mainImage(out vec4 o, vec2 c){
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <li><a href="https://xem.github.io/js1k19/miniMandelbox/7/">DEMO 7</a>
-<br>Bàlint golfed the shader and improved perfs, then <a href="https://twitter.com/MaximeEuziere/status/1092758010202603521">we added a few colors with the help of <b>p01</b> and <b>Literallylara</b> on Twitter</a>!
+<br>Bálint golfed the shader and improved perfs, then <a href="https://twitter.com/MaximeEuziere/status/1092758010202603521">we added a few colors with the help of <b>p01</b> and <b>Literallylara</b> on Twitter</a>!
 The automatic camera is disabled for now.
 <img src="images/js1k19/21.png">
 
 <li><a href="https://xem.github.io/js1k19/miniMandelbox/8/">DEMO 8</a> (1.1kb minified, 771 bytes packed)
 <br>A lot of golfing later, we also added a new control system where the camera can be rotated with the mouse!
-
+<br><img src="images/js1k19/mat.jpg">
+<br>To code this rotation with very few code, Bálint took these 3 rotation matrices (used to perform rotations around the axis X, Y and Z), multiplied them together to get a single all-purpose matrix, then multiplied this matrix with a forward vector [0,0,1], and used the result to make the camera look and move towards this direction.
+<br>Translated in WebGL, this matrix-vector multiplication looks like this (to look in the right direction):
+<pre class=code>
+// d = ray direction
+// a = horizontal angle
+// A = vertical angle
+d.yz *= mat2(cos(a), -sin(a), sin(a), cos(a));
+d.xz *= mat2(cos(-A), -sin(-A), sin(-A), cos(-A));
+</pre>
+The camera position is updated in JS at each frame like this (to move towards the current direction):
+<pre class=code>m[0] += sin(A) * cos(a) / 99 / 3; // X
+m[1] -= sin(a) / 99 / 3; // Y
+m[2] += cos(a) * cos(A) / 99 / 3 // Z</pre>
 <li><a href="https://xem.github.io/js1k19/miniMandelbox/9/">DEMO 9</a> (1.6kb minified)
-<br>Bàlint outperformed himself for this iteration, and added the colored matallic look that is still present in the final release, but also the first draft of the music!
+<br>Bálint outperformed himself for this iteration, and added the colored matallic look that is still present in the final release, but also the first draft of the music!
 <br>The colored metallic look is obtained by casting tangent rays, which requires much more computing power.
 <br>The detail is explained in the commented source code.
 <br>At this point we're so above the budget that we're sure that we'll have to abandon the music or the metallic colored look.
@@ -641,7 +655,7 @@ The automatic camera is disabled for now.
 <br>The shader is being optimized for RegPack by "unwrapping" the loops (i.e. by repeating the content of the loop many times), that's why the minified code is longer.
 
 <li><a href="https://xem.github.io/js1k19/miniMandelbox/11/">DEMO 11 (2.06kb minified, 1103b packed)</a>
-<br>Bàlint added an important feature this time: the camera now moves towards the direction where the mouse is pointing.
+<br>Bálint added an important feature this time: the camera now moves towards the direction where the mouse is pointing.
 <br>The maths behind it are interesting and pretty simple (Euler rotations).
 <br>We kept golfing the demo to see how much bytes we had over the budget, and obtained this iteration, that was less than 100 bytes too big,
 <br>and in which the click triggers the camera move and the music (because autoplaying music are being abolished in browsers these days).
@@ -660,7 +674,7 @@ The automatic camera is disabled for now.
 <li><a href="https://xem.github.io/js1k19/miniMandelbox/14/index.min.html">DEMO 14</a> (5471b minified, 1024b packed)
 <br>We're now pretty close to the goal, so we get out one of our last tricks kept on the side: unwrap the main loop of the shader, by duplicating an awfully long chunk of code a dozen times, which saves around 5 bytes after RegPack compression, due to the disappearing of an entire for loop.
 <br>The packing takes nearly 30 seconds and often freezes the browser, but it works!
-<br>It is also the good moment to make a new video and a statement about :
+<br>It is also a good moment to make a new video and a statement about :
 <br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">We didn&#39;t know it was impossible to make a 5470 bytes WebGL Mandelbox fractal demo with sound fit in 1kb, so we did it!<br><br>Congrats to teammate <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a> for his crazy skills!<a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> <a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://t.co/f2e8ODDQde">pic.twitter.com/f2e8ODDQde</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1096885389791502337?ref_src=twsrc%5Etfw">16 février 2019</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
