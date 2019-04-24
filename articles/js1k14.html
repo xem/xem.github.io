@@ -1,0 +1,903 @@
+﻿<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=js1k_2pgames>
+	<h2>JS1k 2014</h2>
+	<h3>march 2014</h3>
+  
+  <br><hr><br>
+  <h3>2P Games</h3>
+  
+  <p>Welcome again, to the making-of of <a href= target=_blank>2P Games classic</a> and <a href=//js1k.com/2014-dragons/demo/1933 target=_blank>2P Games ++</a>, my team projects for <a href=//js1k.com target=_blank>JS1k</a> 2014.
+  <p>I've made these games with the awesome code golfer <b>Subzey</b>, who helped me in many code-golfing projects last year<br>(<a href=//github.com/xem/miniCodeEditor target=_blank>a JSfiddle clone</a>, <a href=//github.com/xem/chip8 target=_blank>a chip8 emulator</a>, <a href=//github.com/xem/paste target=_blank>a Pastebin clone</a>, <a href=//github.com/xem/JSciissors target=_blank>a JS packer</a>,  <a href=//gist.github.com/xem/7086007 target=_blank>a JS-to-unicode converter</a>, ...)
+  <hr>
+  <p><h3>Source code</h3>
+  <p><b>Commented (5735b)</b>
+  <br>
+  <button onclick=commented2pg.style.display='block';this.style.display='none'>Show</button>
+  <pre id=commented2pg class=code style=display:none>/** Globals **/
+// a: init function
+// b: body
+// c, d, e: board size
+// f: rules (0: reversi / 1: find 4 / 2: XnO / 3: XnO 3D)
+// g: game state (0: game over / 1: playing)
+// h: HTML
+// i, j, k, l: loop vars
+// m: model (array filled with -1/0/1)
+// p: current player(1: O / -1: X)
+// q: onclick
+
+/** Specific vars for init function **/
+// i: lines
+// j: columns
+// k: cell number
+
+/** Specific vars for play function **/
+// c,d,e: params
+
+// XnO, XnO3D, Find 4
+// r: sum of the marks that are needed to win
+
+// Reversi:
+// s: cell is playable (0: not playable / 1: playable)
+// t: direction is playable
+// u, v: loop vars
+// w: score
+
+/** Unicode space: " " **/
+
+
+// Draw function (redraw everything after each move)
+// c: reset (if == 0)
+a=function(c,d,e){
+  
+  // Init cell number, HTML
+  l=0;
+  h="&lt;center>&lt;font face=arial>&lt;p>&lt;button onclick=m=[];f=2;a(p=g=s=1)>XnO&lt;button onclick=m=[];f=3;a(p=g=s=1)>XnO3D&lt;button onclick=m=[];f=1;a(p=g=s=1)>Find4&lt;button onclick=m=[];f=w=0;m[27]=m[36]=-1;m[28]=m[35]=1;a(p=g=s=1)>Flip&lt;/button>&lt;p>";
+  
+  // Show HTML and game status
+  
+  if(c){
+
+    // Loop on tables, write table HTML
+    for(i="1113"[f];i--;){
+    
+      h+="&lt;/table>&lt;p>&lt;table border>";
+    
+      // Loop on lines
+      for(j="8633"[f];j--;)
+
+        // Write line HTML, loop on cells
+        for(h+="&lt;tr>",k="8733"[f];k--;)
+        
+          // Write cell HTML
+          h+="&lt;th width=20 onclick=q("+[l,7-j,7-k]+") id=t"+l+">"+"X.O"[1+(m[l]=m[l++]||0)];
+    }
+  
+    h+="&lt;/table>&lt;p>";
+    
+    // Board not full
+    if(~m.indexOf(0)){
+    
+      h+=(
+        g
+        ?
+          
+        // Game not over: show next
+        "XnO"[p+1]+" next&lt;p>"
+        
+        :
+        
+        // Game over (not reversi): show winner
+        "XnO"[-p+1]+" won"
+      )
+      
+      // Reversi
+      if(!f){
+      
+        // Leader, pass button
+        h+=(w?w>0?"O>X":"X>O":"O=X")+"&lt;p>&lt;button onclick=a(p=-p)>pass";
+      }
+    }
+    
+    // Board full
+    else{
+
+      h+=
+      
+      f
+      
+      ?
+      
+      // Not reversi: show winner or draw
+      (g?"draw":"XnO"[-p+1]+" won")
+      
+      :
+        
+      // Reversi: show winner or draw
+      (w?w>0?"O won":"X won":"draw")
+    }
+  }
+
+  b.innerHTML=h;
+}
+
+a();
+
+// onclick
+// c: current cell number
+// d: current cell's line
+// e: current cell's column
+q=function(c,d,e){
+  
+  // If the game is not over and the cell is empty
+  if(g&&!m[c]){
+  
+    // XnO / XnO 3D
+    if(f>1){
+    
+      // Put a mark
+      // Update model, set total
+      // Test victory
+      for(i=3;i--;)
+        for(j=3;j--;)
+          if(
+            k=i*9,
+            l=j*3,
+            ~[
+              m[k+j]+m[k+j+3]+m[k+j+6], // Columns 2D
+              m[k+l]+m[k+l+1]+m[k+l+2], // Lines 2D
+              m[k+4]+m[k+0]+m[k+8], // Diagonals 2D
+              m[k+4]+m[k+2]+m[k+6], // Diagonals 2D
+              m[l+10]+m[l]+m[l+20], // Lines 3D
+              m[l+10]+m[l+2]+m[l+18], // Lines 3D
+              m[i+12]+m[i]+m[i+24], // Columns 3D
+              m[i+12]+m[i+6]+m[i+18], // Columns 3D
+              m[13]+m[0]+m[26], // Diagonals 3D
+              m[13]+m[2]+m[24], // Diagonals 3D
+              m[13]+m[6]+m[20], // Diagonals 3D
+              m[13]+m[8]+m[18], // Diagonals 3D
+              m[l+i]+m[l+i+9]+m[l+i+18] // Same cell in all tables
+            ].indexOf((m[c]=p)*3)
+          )
+          g=0;
+    }
+    
+    // Find 4
+    if(f==1){
+    
+      // If a wrong cell is clicked, apply gravity
+      for(;35>c&&!m[c+7];c+=7);
+
+      // Test if 4 marks are aligned
+      for(i=6;i--;)
+        for(j=7;j--;)
+          if(
+            k=i*7+j,
+            ~[
+              j&lt;4&&m[k]+m[k+1]+m[k+2]+m[k+3], // Horizontally
+              i&lt;3&&m[k]+m[k+7]+m[k+14]+m[k+21], // Vertically
+              i&lt;3&&j&lt;4&&m[k]+m[k+8]+m[k+16]+m[k+24], // Diagonally 1
+              i&lt;3&&j>2&&m[k]+m[k+6]+m[k+12]+m[k+18] // Diagonally 2
+            ].indexOf((m[c]=p)*4)
+          )
+          g=0;
+    }
+
+    // Reversi
+    if(!f){
+
+      // Reset cell's playability
+      s=0;
+
+      // For each direction
+      for(i=2;~i--;){
+        for(j=2;~j--;){
+
+          // Reset that direction's playability
+          // If the neighbour is the opponent
+          if(i|j&&(t=0,m[8*(d+i)+e+j]==-p)){
+
+            // Loop on the next neighbours in that direction
+            // If current color is found, stop, good direction
+            // If an empty cell is found, stop, bad direction
+            for(
+              k=d+i,l=e+j;
+              ~k&&k&lt;9&&~l&&l&lt;9&&(m[8*k+l]!=p||!(s=t=1))&&m[8*k+l];
+              k+=i,l+=j
+            );
+
+            // If this direction is playable
+            if(t){
+
+              // Loop on the opposite neighbours
+              for(
+                u=d,v=e;
+                u!=k||v!=l;
+                u+=i,v+=j
+              ){
+
+                // Toggle them
+                m[u*8+v]=p;
+              }
+            }
+          }
+        }
+      }
+      
+      // Compute score
+      w=0;
+      for(i=64;i--;){
+        w+=m[i];
+      }
+    }
+
+    // Change player
+    if(s)p=-p;
+    
+    // Redraw board
+    a(1);
+  }
+}</pre>
+  <p><b>Minified (1613b)</b>
+  <br>
+  <button onclick=minified2pg.style.display='block';this.style.display='none'>Show</button>
+  <pre id=minified2pg class=code style=display:none>a=function(c,d,e){l=0;h="&lt;center>&lt;font face=arial>&lt;p>&lt;button onclick=m=[];f=2;a(p=g=s=1)>XnO&lt;button onclick=m=[];f=3;a(p=g=s=1)>XnO3D&lt;button onclick=m=[];f=1;a(p=g=s=1)>find4&lt;button onclick=m=[];f=w=0;m[27]=m[36]=-1;m[28]=m[35]=1;a(p=g=s=1)>flip&lt;/button>&lt;p>";if(c){for(i="1113"[f];i--;)for(h+="&lt;/table>&lt;p>&lt;table border>",j="8633"[f];j--;)for(h+="&lt;tr>",k="8733"[f];k--;)h+="&lt;th width=20 onclick=q("+[l,7-j,7-k]+") id=t"+l+">"+"X\xa0O"[1+(m[l]=m[l++]||0)];h+="&lt;/table>&lt;p>";~m.indexOf(0)?(h+=g?"XnO"[p+1]+" next&lt;p>": "XnO"[-p+1]+" won",f||(h+=(w?0&lt;w?"O>X":"X>O":"O=X")+"&lt;p>&lt;button onclick=a(p=-p)>pass")):h+=f?g?"draw":"XnO"[-p+1]+" won":w?0&lt;w?"O won":"X won":"draw"}b.innerHTML=h};a();q=function(c,d,e){if(g&&!m[c]){if(1&lt;f)for(i=3;i--;)for(j=3;j--;)if(k=9*i,l=3*j,~[m[k+j]+m[k+j+3]+m[k+j+6],m[k+l]+m[k+l+1]+m[k+l+2],m[k+4]+m[k+0]+m[k+8],m[k+4]+m[k+2]+m[k+6],m[l+10]+m[l]+m[l+20],m[l+10]+m[l+2]+m[l+18],m[i+12]+m[i]+m[i+24],m[i+12]+m[i+6]+m[i+18],m[13]+m[0]+m[26],m[13]+m[2]+m[24],m[13]+m[6]+m[20],m[13]+m[8]+m[18],m[l+i]+m[l+i+9]+m[l+i+18]].indexOf(3*(m[c]=p)))g=0;if(1==f){for(;35>c&&!m[c+7];c+=7);for(i=6;i--;)for(j=7;j--;)if(k=7*i+j,~[4>j&&m[k]+m[k+1]+m[k+2]+m[k+3],3>i&&m[k]+m[k+7]+m[k+14]+m[k+21],3>i&&4>j&&m[k]+m[k+8]+m[k+16]+m[k+24],3>i&&2&lt;j&&m[k]+m[k+6]+m[k+12]+m[k+18]].indexOf(4*(m[c]=p)))g=0}if(!f){s=0;for(i=2;~i--;)for(j=2;~j--;)if(i|j&&(t=0,m[8*(d+i)+e+j]==-p)){k=d+i;for(l=e+j;~k&&9>k&&~l&&9>l&&(m[8*k+l]!=p||!(s=t=1))&&m[8*k+l];k+=i,l+=j);if(t)for(u=d,v=e;u!=k||v!=l;u+=i,v+=j)m[8*u+v]=p}w=0;for(i=64;i--;)w+=m[i]}s&&(p=-p);a(1)}}</pre>
+  <p><b>Packed (1024b)</b>
+  <br>
+  <button onclick=packed2pg.style.display='block';this.style.display='none'>Show</button>
+  <pre id=packed2pg class=code style=display:none>for(_='+=Z];YonWhZVV"<U;a(S.indexOf(R18]]RQi+PL[K],KJ]+KIJP12IGl+FJF10IEtableC){Bif(A--;)@;H@Ak="draw"p+1]+"K8*XnO=0;=-p)k+]=w?0<w?"Ofor(i=<p>&&IHKki@H= wW"J13I],3>i3"[fY	buttW*(Kcp)))D=0U/C> Wclick==functiW(c,d,eB""[-Sp=D=s=1)><L=[Yf=alh="<center><fWt face=arial>233D1find4wK27K36-1;K28K351flip</>";AcB"111	i@<C border>",H="863	H@Utr>",k="873	k@Uth width=20M("+[l,7-H,7-k]+") id=t"+F">"+"X\\xa0O"[1+(KlKF+]||0)Y";~LR0)?(VD?""[ next": ,f||(V(>X":"X>O":"O=X")+"<a(p>pass")):Vf?D?:::"X:}b.innerHTML=h}S);MAD!Kc]BA1<f)3;39*i,l=3*H,~[KHH+3H+6JlF1F2J408J426ElIF20EF2IF18GiIP24GP6IP180I262I246I208I18JFiIFP9IFPQ3;A1==fB;35>c!Kc+7YcZ7);6;77*PH,~[4>123Kk714214>816242<612Q4}A!fBs2;~2;~H@Ai|H(t=0,(d+i)+e+HBk=d+i;l=e+H;~k9>k~l9>l(l]!=p||!(s=t=1))lY=i,F=H);At)u=d,T=e;u!=k||T!=l;uZi,TZH)u+Tp}w64;i@wZKi]}s(pS1)}}';g=/[^ -?DHLMOTX[-~]/.exec(_);)with(_.split(g))_=join(shift());eval(_)</pre>
+  <hr>
+  <p><h3>The idea</h3>
+  <p>Subzey and I code-golfed <a href=//xem.github.io/MiniSweeper/ target=_blank>a minesweeper game in 480b</a> in 2013 and it was really fun and very instructive.
+  <p>So, for JS1k 2014, I gave ourselves a big challenge: to fit as many 2-player games as possible in 1kb. Who knows, we could maybe fit three, four, five simple games in 1k...?
+  <p>People have already made awesome 2-player games for JS1k (<a href=//js1k.com/2014-dragons/demo/1720 target=_blank>1</a>, <a href=//js1k.com/2013-spring/demo/1319 target=_blank>2</a>, <a href=//js1k.com/2011-dysentery/demo/941 target=_blank>3</a>, <a href=//js1k.com/2011-dysentery/demo/947 target=_blank>4</a>, <a href=//js1k.com/2010-first/demo/679 target=_blank>5</a>, <a href=//js1k.com/2010-first/demo/430 target=_blank>6</a>, <a href=//js1k.com/2010-first/demo/41 target=_blank>7</a>, <a href=//js1k.com/2010-first/demo/23 target=_blank>8</a>, <a href=//js1k.com/2010-first/demo/430 target=_blank>9</a>), but we've never seen game compilations, and that's why I chose to try that. I chose five board games:   Tic-Tac-Toe, Tic-Tac-Toe 3D, Four in a row, Reversi and Checkers.
+  <br>
+  <br>
+  Then, we tried to implement those games separately, in good old HTML and JS (the boards are made with tables, not drawn on the canvas):
+  <img src=images/2pg1.png width=700>
+  <br>
+  We quickly (and sadly) abandoned the last two games (reversi and checkers) because the first three already needed more than 2kb.
+  <br>
+  We gathered those 3 games into one, and golfed them as much as possible, until the whole demo could fit in 1kb. This process included reducing the graphics to the strict minimum (just tables, X and O's). It actually went under 750b, and from that point, we had to decide whether to enhance the graphics or add a fourth game. We decided to make 4 games in one (because that would be impressive), and make a 2k version with great graphics.
+  <br>
+  Besides the graphics, almost all our efforts have been made on the 1k version and its 4 games. Actually, we golfed that demo on three levels!
+  <br>
+  <hr>
+  <p><b>1st level of golf: JS optimisation</b>
+  <p>The first goal is indeed to have the shortest JS code possible.<br>
+  A lot of effort has been made to fit the menu + the four playable games in 1613b.
+  <p>The games needed a lot of variables, and we had to introduce 23 global vars. Almost all the alphabet, and most of them are heavily reused.
+  <p>To save bytes and avoid any kind of DOM manipulation, all the elements on the screen are redrawn after each player's move.
+  <p>Here's the program's structure:
+  <pre class=code>// Draw function
+a=function(c,d,e){
+  
+  // Init HTML (menu)
+  // When a button of the menu is clicked, the game state is reset,
+  // and the model m (an array representing the board) is initialized.
+  h="&lt;center>&lt;font face=arial>&lt;p>&lt;button onclick=m=[];f=2;a(p=g=s=1)>XnO&lt;button onclick=m=[];f=3;a(p=g=s=1)>XnO3D&lt;button onclick=m=[];f=1;a(p=g=s=1)>Find4&lt;button onclick=m=[];f=w=0;m[27]=m[36]=-1;m[28]=m[35]=1;a(p=g=s=1)>Flip&lt;/button>&lt;p>";
+  
+  // If a game has been started
+  if(c){
+
+    // write table HTML (the board) according to the model
+    // ... snip ...
+    
+    // Write informations under the board (current player, winner, ...)
+    // ... snip ...
+
+  }
+  
+  // Update page's &lt;body>
+  b.innerHTML=h;
+}
+
+// Show the menu on load
+a();
+
+// Onclick (when a player clicks on the board to play)
+q=function(c,d,e){
+  
+  // If the game is not over and the cell is empty
+  if(g&&!m[c]){
+  
+    // Current player plays current game and updates the model
+    // ... snip ...
+
+    // Change player
+    p=-p;
+    
+    // Redraw everything
+    a(1);
+  }
+}</pre>
+  <p>The board drawing snippet is very simple, and made of three loops. One for the boards, another one for the lines, and a last one for the cells of each line, depending on the model. "f" represents the current game (0: reversi / 1: find 4 / 2: XnO / 3: XnO 3D).
+  <p>&lt;P>, &lt;TR> and &lt;TH> elements don't need to be closed.
+  <p>&lt;TH> elements have the advantage of being bold and centered, but their borders are hidden when they are empty. That's why we use the blank character \xa0 in the empty cells. (i.e. the 0's in the model.)
+  <pre class=code>// Loop on tables, write table HTML
+for(i="1113"[f];i--;){
+
+  h+="&lt;/table>&lt;p>&lt;table border>";
+
+  // Loop on lines
+  for(j="8633"[f];j--;)
+
+    // Write line HTML, loop on cells
+    for(h+="&lt;tr>",k="8733"[f];k--;)
+    
+      // Write cell HTML
+      h+="&lt;th width=20 onclick=q("+[l,7-j,7-k]+") id=t"+l+">"+"X\xa0O"[1+(m[l]=m[l++]||0)];
+}
+h+="&lt;/table>&lt;p>";</pre>
+<p>The rules of each game were reduced to their minimum after a lot of iterations. After each click, the game updates the model and checks for a victory:<p>
+<p><b>Tic-Tac-Toe, Tic-Tac-Toe 3D:</b>
+<pre class=code>for(i=3;i--;)
+  for(j=3;j--;)
+    if(
+      k=i*9,
+      l=j*3,
+
+      // In the model, the players marks are represented as 1 and -1.
+      // If 3 or -3 is found in this array representing all the possible alignments,
+      // it means that a player has won.
+      ~[
+        m[k+j]+m[k+j+3]+m[k+j+6], // Columns 2D
+        m[k+l]+m[k+l+1]+m[k+l+2], // Lines 2D
+        m[k+4]+m[k+0]+m[k+8], // Diagonals 2D
+        m[k+4]+m[k+2]+m[k+6], // Diagonals 2D
+        m[l+10]+m[l]+m[l+20], // Lines 3D
+        m[l+10]+m[l+2]+m[l+18], // Lines 3D
+        m[i+12]+m[i]+m[i+24], // Columns 3D
+        m[i+12]+m[i+6]+m[i+18], // Columns 3D
+        m[13]+m[0]+m[26], // Diagonals 3D
+        m[13]+m[2]+m[24], // Diagonals 3D
+        m[13]+m[6]+m[20], // Diagonals 3D
+        m[13]+m[8]+m[18], // Diagonals 3D
+        m[l+i]+m[l+i+9]+m[l+i+18] // Same cell in all tables
+      ].indexOf((m[c]=p)*3) // here, we update the model and test the alignments
+    )
+    g=0; // game over</pre>
+<p><b>Find four:</b>
+<pre class=code>// If a wrong cell is clicked, apply gravity
+for(;35>c&&!m[c+7];c+=7);
+
+// Test if 4 marks are aligned
+for(i=6;i--;)
+  for(j=7;j--;)
+    if(
+      k=i*7+j,
+      ~[
+        j&lt;4&&m[k]+m[k+1]+m[k+2]+m[k+3], // Horizontally
+        i&lt;3&&m[k]+m[k+7]+m[k+14]+m[k+21], // Vertically
+        i&lt;3&&j&lt;4&&m[k]+m[k+8]+m[k+16]+m[k+24], // Diagonally 1
+        i&lt;3&&j>2&&m[k]+m[k+6]+m[k+12]+m[k+18] // Diagonally 2
+      ].indexOf((m[c]=p)*4)
+    )
+    g=0;</pre>
+<p><b>Reversi:</b>
+<pre class=code>// Reset cell's playability
+s=0;
+
+// For each direction
+for(i=2;~i--;){
+  for(j=2;~j--;){
+
+    // Reset that direction's playability
+    // If the neighbour is the opponent
+    if(i|j&&(t=0,m[8*(d+i)+e+j]==-p)){
+
+      // Loop on the next neighbours in that direction
+      // If current color is found, stop, good direction
+      // If an empty cell is found, stop, bad direction
+      for(
+        k=d+i,l=e+j;
+        ~k&&k&lt;9&&~l&&l&lt;9&&(m[8*k+l]!=p||!(s=t=1))&&m[8*k+l];
+        k+=i,l+=j
+      );
+
+      // If this direction is playable
+      if(t){
+
+        // Loop on the opposite neighbours
+        for(
+          u=d,v=e;
+          u!=k||v!=l;
+          u+=i,v+=j
+        ){
+
+          // Toggle them
+          m[u*8+v]=p;
+        }
+      }
+    }
+  }
+}
+
+// Compute score
+w=0;
+for(i=64;i--;){
+  w+=m[i];
+}</pre>
+<p>After each move, all the screen is updated, including the board and the game status (leader, winner, draw, pass, etc...)<p>
+<pre class=code>// Board not full
+if(~m.indexOf(0)){
+
+  h+=(
+    g
+    ?
+      
+    // Game not over: show next
+    "XnO"[p+1]+" next&lt;p>"
+    
+    :
+    
+    // Game over (not reversi): show winner
+    "XnO"[-p+1]+" won"
+  )
+  
+  // Reversi
+  if(!f){
+  
+    // Leader, pass button
+    h+=(w?w>0?"O>X":"X>O":"O=X")+"&lt;p>&lt;button onclick=a(p=-p)>pass";
+  }
+}
+
+// Board full
+else{
+
+  h+=
+  
+  f
+  
+  ?
+  
+  // Not reversi: show winner or draw
+  (g?"draw":"XnO"[-p+1]+" won")
+  
+  :
+    
+  // Reversi: show winner or draw
+  (w?w>0?"O won":"X won":"draw")
+}</pre>
+<p>All this code was minified with Google Closure Compiler and optimized manually.
+<br>
+<hr>
+<p><b>2nd level of golf: RegPack optimization</b>
+<p>The JS source could be much smaller than that, but when you deal with JS packers, the main rule is not to be short, it is to repeat yourself as much as possible. That's why many snippets of the code are arranged (and sometimes "unoptimized" to have a better result in a JS packer.
+<br>
+<hr>
+<p><b>3rd level of golf: make the packed code smaller</b>
+<p>During the development of this game, RegPack v3 was being developed by Siorki. Subzey and I used this tool up to its limits and helped the author improving it via Github. We also tweaked the regexp in the final result to lose a few extra bytes and fit the whole thing in 1k!
+<pre class=code>for(_='/** snip **/';g=/[^ -?DHLMOTX[-~]/.exec(_);)with(_.split(g))_=join(shift());eval(_)</pre>
+<br>
+<hr>
+<p><b>The 2K version</b>
+<p>The only change in the "++" version is high-quality graphics. Here, the boards and the players marks can get the right shape, colors, borders, texts, which enhances the gaming experience a lot. Here's the code that changed in the "redraw" function:
+<pre class=code>// Reversi
+if(f==0){
+
+  h+="&lt;table border>";
+  for(j=8;j--;){
+    h+="&lt;tr>";
+    for(k=8;k--;){
+      h+="&lt;th width=20 onclick=q("+[l,7-j,7-k]+") id=t"+l+" bgcolor=#5b5>"+["&lt;table bgcolor=0 width=20 height=20 class=i>&lt;/table>","\xa0","&lt;table bgcolor=#fff width=20 height=20 class=i>&lt;/table>"][1+(m[l]=m[l++]||0)];
+    }
+  }
+  h+="&lt;/table>&lt;br>";
+
+}
+
+// 4 in a row
+if(f==1){
+  h+="&lt;table cellspacing=5 bgcolor=#aad>";
+  for(j=6;j--;){
+    h+="&lt;tr>";
+    for(k=7;k--;){
+      h+="&lt;th width=20 onclick=onclick=q("+[l,7-j,7-k]+") bgcolor=#fff style='border-radius:50%;overflow:hidden'>"+["&lt;table bgcolor=red width=20 height=20 class=i>&lt;/table>","\xa0","&lt;table bgcolor=yellow width=20 height=20 class=i>&lt;/table>"][1+(m[l]=m[l++]||0)];
+    }
+  }
+  h+="&lt;/table>&lt;br>";
+}
+
+// Tic Tac Toe
+if(f==2){
+  h+="&lt;table style=border-collapse:collapse>";
+  for(j=3;j--;){
+    h+="&lt;tr>";
+    for(k=3;k--;){
+      h+="&lt;th width=20 onclick=q("+[l,7-j,7-k]+") style='"+(j?"border-bottom:2px solid;":"")+(k?"border-right:2px solid;":"")+"'>"+"X\xa0O"[1+(m[l]=m[l++]||0)];
+    }
+  }
+  h+="&lt;/table>&lt;br>";
+}
+
+// Tic Tac Toe 3D
+if(f==3){
+  for(i=3;i--;){
+    h+="&lt;table border style=margin-left:"+(4*(1-i))+"em>";
+    for(j=3;j--;){
+      h+="&lt;tr>";
+      for(k=3;k--;){
+        h+="&lt;th width=20 onclick=q("+[l,7-j,7-k]+")>"+"X\xa0O"[1+(m[l]=m[l++]||0)];
+      }
+    }
+    h+="&lt;/table>&lt;br>";
+  }
+}
+
+// Board not full
+if(~m.indexOf(0)){
+
+  h+=(
+    g
+    ?
+      
+    // Game not over: show next
+    "Next player: &lt;b>"+
+    [
+      ["&lt;table bgcolor=0 width=20 height=20 class=i>&lt;/table>","\xa0","&lt;table bgcolor=#fff width=20 height=20 class=i>&lt;/table>"],
+      ["&lt;table bgcolor=red width=20 height=20 class=i>&lt;/table>","\xa0","&lt;table bgcolor=yellow width=20 height=20 class=i>&lt;/table>"],
+      "X\xa0O",
+      "X\xa0O"
+    ][f][p+1]+"&lt;/b>"
+    
+    :
+    
+    // Game over (not reversi): show winner
+    "&lt;b>"+[
+      ["&lt;table bgcolor=0 width=20 height=20 class=i>&lt;/table>","\xa0","&lt;table bgcolor=#fff width=20 height=20 class=i>&lt;/table>"],
+      ["&lt;table bgcolor=red width=20 height=20 class=i>&lt;/table>","\xa0","&lt;table bgcolor=yellow width=20 height=20 class=i>&lt;/table>"],
+      "X\xa0O",
+      "X\xa0O"
+    ][f][-p+1]+"&lt;/b> won!"
+  )
+  
+  // Reversi
+  if(!f){
+  
+    // Leader, pass button
+    h+="&lt;p>&lt;button onclick=a(p=-p)>Pass";
+  }
+}
+
+// Board full
+else{
+
+  h+=
+  
+  f
+  
+  ?
+  
+  // Not reversi: show winner or draw
+  (g?"draw":
+  [
+    ["&lt;table bgcolor=0 width=20 height=20 class=i>&lt;/table>","\xa0","&lt;table bgcolor=#fff width=20 height=20 class=i>&lt;/table>"],
+    ["&lt;table bgcolor=red width=20 height=20 class=i>&lt;/table>","\xa0","&lt;table bgcolor=yellow width=20 height=20 class=i>&lt;/table>"],
+    "X\xa0O",
+    "X\xa0O"
+  ][f][-p+1]
+  +" won!")
+  
+  :
+    
+  // Reversi: show winner or draw
+  (w?w>0?"&lt;table bgcolor=#fff width=20 height=20 class=i>&lt;/table> won!":"&lt;table bgcolor=0 width=20 height=20 class=i>&lt;/table> won!":"Draw!")
+}</pre>
+<p>Maxime and Anton
+
+
+<br><br><hr><br>
+<h3>Floppy dragon</h3>
+
+<p>Welcome to the making-of of <a href=//js1k.com/2014-dragons/demo/1704 target=_blank>Floppy Dragon</a>, my individual entry for <a href=//js1k.com target=_blank>JS1k</a> 2014.
+  <p>In febuary 2014, all the Internet was talking about the game Flappy Bird, so I decided (for fun) to make a mini-game inspired by that, but featuring a dragon instead of a bird, and stalactites in a cave instead of pipes. I also wanted to introduce many cool details such as responsive display, nice animated graphics, random maps, increasing speed and difficulty, textual interface, etc. And, of course, it had to fit in 1k of JavaScript.
+  <hr>
+  <p><h3>Source code</h3>
+  <p><b>Commented (2876b)</b>
+  <br>
+  <button onclick=commentedfd.style.display='block';this.style.display='none'>Show</button>
+  <pre id=commentedfd class=code style=display:none>// Variables
+// a: the canvas
+// b: the body
+// c: the canvas's 2d context
+// d: (reused) game has started (0/1)
+// e: game has ended (0/1)
+// f: score
+// g: the random map
+// h: dragon's vertical speed
+// i, j: dragon's coordinates x, y
+// k: steps already passed (1 step = 20px)
+// l: the game's framerate
+// n: the game's loop function
+// o: loop var
+// p: dragon's drawing path
+// v, w, y, z: temp vars
+
+// Initialization
+// Scale the scene as if it was 1000px high
+c.scale(a.height/1E3,a.height/1E3);
+
+// Reset
+d=e=f=h=0;
+g=[];
+for(o=0;o<1E3;o++)
+  g[o]=g[o+1E3]=8*Math.random()|1-1;
+i=j=300;
+k=20;
+l=50;
+g[20]=0;
+g[40]=1;
+g[60]=2;
+g[80]=3;
+g[100]=4;
+g[110]=5;
+g[120]=6;
+g[140]=7;
+
+// Controls (click / tap / press any key)
+ontouchstart=onmousedown=onkeydown=function(){
+  
+  // If game is over, reset
+  if(e){
+    d=e=f=h=0;
+    g=[];
+    for(o=0;o<1E3;o++)
+      g[o]=g[o+1E3]=8*Math.random()|1-1;
+    i=j=300;
+    k=20;
+    l=50;
+  }
+  
+  // If game is not over, start the game if it's not started, and jump
+  else{
+    h=45;
+    d=1;
+  }
+};
+
+// Game loop
+(n=function(){
+
+  // Background
+  c.fillStyle="#E50";
+  c.fillRect(0,0,4E4,4E4);
+  
+  // Walls
+  c.fillStyle="#920";
+  
+  // Roof
+  c.beginPath();
+  c.moveTo(-k,0);
+  for(o=2E3;o--;)
+    o%20
+    ?
+    c.lineTo(40*o-k,20+4*g[o])
+    :
+    (c.lineTo(40*o-k,100*g[o]),c.lineTo(40*o-k-4,100*g[o]));
+  c.lineTo(40*o-k,0);
+  c.fill();
+  
+  // Ceiling
+  c.beginPath();
+  c.moveTo(-k,2E3);
+  for(o=2E3;o--;)
+    o%20
+    ?
+    c.lineTo(40*o-k,980-4*g[o])
+    :
+    (c.lineTo(40*o-k,100*(g[o]+3)),c.lineTo(40*o-k-4,100*(g[o]+3)));
+  c.lineTo(40*o-k,1E3);
+  c.fill();
+  
+  // Dragon
+  p="fEFf&{{~_=,;=vviJ.jfVi/.OoyizyhkhEwf74)\n$fwwuvtU`"+(10<h?"iZ[*)yj:*im**y|Ktdww54#5Dy\iz[Kzi[Jiijk[e@1!":"zl]LfU{\lKtBUh{zzU66iigig5\n&iiyz{vfwwiyDfwiiE");
+  c.fillStyle="#000";
+  c.beginPath();
+  c.moveTo(v=i-e,w=(j-=h)-e);
+  for(o in p){
+    y=8-2*(p.charCodeAt(o)>>4);
+    z=16-2*(p.charCodeAt(o)&15);
+    c.lineTo(v+=(e?y:z),w+=(e?-z:y));
+  }
+  c.fill();
+  
+  // Apply gravity if the game has started
+  d&&(h-=6);
+  
+  // Loop on the map if we are far enough
+  d&&!e&&(k+=20,4E4<k&&(k-=4E4));
+  
+  // Increase score and game speed after each obstacle
+  !d||e||(k+280)%800||(f++,20<l&&l--);
+  
+  // Game over
+  if(50>j||950<j||!((k+300)%800)&&(j<100*g[20*~~(k/800)+20]+50||j>100*g[20*~~(k/800)+20]+250))
+    e=40;
+  
+  // Text
+  c.fillStyle="#fff";
+  c.font="6em Arial";
+  d&&c.fillText(f,a.width/(a.height/1E3)/2-30*1,500);
+  d||c.fillText("#FloppyDragon",a.width/(a.height/1E3)/2-30*11,500);
+  e&&c.fillText("score",a.width/(a.height/1E3)/2-30*4,400);
+  c.fillText(e?"restart":!d?"start":"",a.width/(a.height/1E3)/2-30*5,600);
+  
+  // Loop
+  setTimeout(n,l)
+})()</pre>
+  <p><b>Minified (1507b)</b>
+  <br>
+  <button onclick=minifiedfd.style.display='block';this.style.display='none'>Show</button>
+  <pre id=minifiedfd class=code style=display:none>c.scale(a.height/1E3,a.height/1E3);d=e=f=h=0;g=[];for(o=0;1E3>o;o++)g[o]=g[o+1E3]=8*Math.random()|0;i=j=300;k=20;l=50;ontouchstart=onmousedown=onkeydown=function(){if(e){d=e=f=h=0;g=[];for(o=0;1E3>o;o++)g[o]=g[o+1E3]=8*Math.random()|0;i=j=300;k=20;l=50}else h=45,d=1};(n=function(){c.fillStyle="#E50";c.fillRect(0,0,4E4,4E4);c.fillStyle="#920";c.beginPath();c.moveTo(-k,0);for(o=2E3;o--;)o%20?c.lineTo(40*o-k,20+4*g[o]):(c.lineTo(40*o-k,100*g[o]),c.lineTo(40*o-k-4,100*g[o]));c.lineTo(40*o-k,0);c.fill();c.beginPath();c.moveTo(-k,2E3);for(o=2E3;o--;)o%20?c.lineTo(40*o-k,980-4*g[o]):(c.lineTo(40*o-k,100*(g[o]+3)),c.lineTo(40*o-k-4,100*(g[o]+3)));c.lineTo(40*o-k,1E3);c.fill();p="fEFf&{{~_=,;=vviJ.jfVi/.OoyizyhkhEwf74)\n$fwwuvtU`"+(10<h?"iZ[*)yj:*im**y|Ktdww54#5Dy\iz[Kzi[Jiijk[e@1!":"zl]LfU{\lKtBUh{zzU66iigig5\n&iiyz{vfwwiyDfwiiE");c.fillStyle="#000";c.beginPath();c.moveTo(v=i-e,w=(j-=h)-e);for(o in p)y=8-2*(p.charCodeAt(o)>>4),z=16-2*(p.charCodeAt(o)&15),c.lineTo(v+=e?y:z,w+=e?-z:y);c.fill();d&&(h-=6);d&&!e&&(k+=20,4E4<k&&(k-=4E4));!d||e||(k+280)%800||(f++,20<l&&l--);if(50>j||950<j||!((k+300)%800)&&(j<100*g[20*~~(k/800)+20]+50||j>100*g[20*~~(k/800)+20]+250))e=40;c.fillStyle="#fff";c.font="6em Arial";d&&c.fillText(f,a.width/(a.height/1E3)/2-30,500);d||c.fillText("#FloppyDragon",a.width/(a.height/1E3)/2-330,500);e&&c.fillText("score",a.width/(a.height/1E3)/2-120,400);c.fillText(e?"restart":d?"":"start",a.width/(a.height/1E3)/2-150,600);setTimeout(n,l)})()</pre>
+  <p><b>Packed (1024b)</b>
+  <br>
+  <button onclick=packedfd.style.display='block';this.style.display='none'>Show</button>
+  <pre id=packedfd class=code style=display:none>_='c.scale(,	;ontouchH=onmousedown=onkeydowif(e){	}else h=45,d=1};(Eq";Rect(0,0,^,^9Q"-k,0Q+N),0()-k,2E3980-(+3)N(+3)),Y(p="fEFf&{{~_=,;=vviJ.jfVi/.OoyizyhkhEwf74)\\n$fwwuvtU`"+(10<h?"iZ[*)yj:*im**y|Ktdww54#5Dy\\iz[Kzi[Jiijk[e@1!":"zl]LfU{\\lKtBUh{zzU66iigig5\\n&iiyz{vfwwiyDfwiiE"0"v=i-e,w=(j-=h)-eG in p)y=8>>4),z=16&15),Iv+=e?y:z,w+=e?-z:y(dW(h-=6dW!eW(k+=Q,^<kW(k-=^)!dXeX(k+280)%8X(f++,Q<lWl--if(q>jX9q<jX!((k+3)%8)W(j<qXj>2q))e=40;fff";c.font="6em Arial";dWf1,5dX"#FloppyDragon"11,5eW"score"4,4e?"reH":d?"":"H"5,6setTimeout(n,l)})()I40*o-k,a.width/()/2-30*	d=e=f=h=0;g=[];G=0;Y>o;o++)=g[o+Y]=8*Math.random()|0;i=j=3;k=Q;l=qc.fill;c.beginPath(c.moveTo(Style="#G=2E3;o--;)o%Q?,a.height/Y1*g[Q*~~(k/8)+Q]+);g[o]-2*(p.charCodeAt(o)Text(00n=function(){4*):(,1*Gfor(oHstartIc.lineTo(N),-4,1*Q20W&&X||Y1E3^4E4q50';for(Y in $='q^YXWQNIHG	')with(_.split($[Y]))_=join(pop());eval(_)</pre>
+  <hr>
+  <p><h3>Responsive display</h3>
+  <img src=images/fd1.png width=700>
+  <p>In JS1k entries, <b>a</b> represents a fullscreen canvas, and <b>c</b> represents the 2D context of this canvas. On load, the canvas' width and height are automatically set to the innerWidth and innerHeight of the window. There are many ways to draw into this canvas, but I chose the following approach:<br>
+  First, I scale the canvas' context with this ratio:
+  <pre class=code>c.scale(a.height/1E3,a.height/1E3);</pre>
+  Then, the game just has to draw on the canvas' context as if it was 1000px high and infinitely long, and the drawing will spread on all the screen.
+  <p>For the orange background, I simply draw a huge rectangle on the canvas when I start rendering each frame:
+  <pre class=code>// Background
+c.fillStyle="#E50";
+c.fillRect(0,0,4E4,4E4);</pre>
+  <hr>
+  <p><h3>Random map</h3>
+  <img src=images/fd2.png width=700>
+  <p>In the source code of Floppy Dragon, there's a little piece of code that initializes the game. This code is executed on load, but also when the player loses and decides to try again. In this snippet, I generate an array <b>g</b> with 1000 random integers between 0 and 7, stored from index 0 and index 1000:
+  <pre class=code>g=[];
+for(o=0;o<1E3;o++)
+  g[o]=g[o+1E3]=8*Math.random()|1-1;</pre>
+  <p>In the game loop, this array is used as a heightmap to draw the upper and lower walls of the cave, and the obstacles:<br>
+  A new "step" is drawn every 40px to make the walls look less flat, and an obstacle is drawn every 20 steps. All these points depend on the heightmap values. The obstacles use these values x 100.
+  <p>To sum up, the walls are just two big polygons that are drawn with a very similar code, the only difference is that they are mirrored and show the obstacles in a complementary way (a 300px gap is kept between each pair of stalactites)
+  In the following code, k represents the horizontal offset of the scene. This rendering is performed at each frame.
+  <pre class=code>// Draw the walls
+c.fillStyle="#920";
+
+// Roof
+c.beginPath();
+c.moveTo(-k,0);
+for(o=2E3;o--;)
+  o%20
+  ?
+  // Wall
+  c.lineTo(40*o-k,20+4*g[o])
+  :
+  // Obstacle
+  (c.lineTo(40*o-k,100*g[o]),c.lineTo(40*o-k-4,100*g[o]));
+c.lineTo(40*o-k,0);
+c.fill();
+
+// Ceiling
+c.beginPath();
+c.moveTo(-k,2E3);
+for(o=2E3;o--;)
+  o%20
+  ?
+  // Wall 
+  c.lineTo(40*o-k,980-4*g[o])
+  :
+  // Obstacle
+  (c.lineTo(40*o-k,100*(g[o]+3)),c.lineTo(40*o-k-4,100*(g[o]+3)));
+c.lineTo(40*o-k,1E3);
+c.fill();</pre>
+  <p>The maps repeats itself every 1000 steps, thanks to this code that goes 4000px back as soon as the game scrolls more than 4000px:
+  <pre>// Loop on the map if we are far enough
+  d&&!e&&(k+=20,4E4&lt;k&&(k-=4E4));</pre>
+  <hr>
+  <p><h3>User interface</h3>
+  <p>The user interface is made of different texts showing the game name, the score, and a start / restart message. These texts are centered and scaled. In the following code, <b>d</b> is set if the game is started, <b>f</b> is the score, and <b>e</b> is set if the game is over.
+  <pre class=code>// Text
+  c.fillStyle="#fff";
+  c.font="6em Arial";
+  d&&c.fillText(f,a.width/(a.height/1E3)/2-30*1,500);
+  d||c.fillText("#FloppyDragon",a.width/(a.height/1E3)/2-30*11,500);
+  e&&c.fillText("score",a.width/(a.height/1E3)/2-30*4,400);
+  c.fillText(e?"restart":!d?"start":"",a.width/(a.height/1E3)/2-30*5,600);</pre>
+  <p>User interface also means controls, and the controls are simple: press any key or click or tap to start, flap, or restart. When those events are fired, the "reset sequence" is executed (if the game is over), or the dragon flaps (if the game is running, or starting). <b>h</b> represents the vertical speed of the dragon, <b>i</b> and <b>j</b> represent its coordinates, and <b>l</b> is the game's speed.
+  <pre>// Controls
+ontouchstart=onmousedown=onkeydown=function(){
+  
+  // If game is over, reset
+  if(e){
+    d=e=f=h=0;
+    g=[];
+    for(o=0;o<1E3;o++)
+      g[o]=g[o+1E3]=8*Math.random()|1-1;
+    i=j=300;
+    k=20;
+    l=50;
+  }
+  
+  // If game is not over, start the game if it's not started, and jump
+  else{
+    h=45;
+    d=1;
+  }
+};</pre>
+  <p>Talking about framerate, as I explained earlier, the game's speed is increasing. A variable (<b>l</b>) holds the number of milliseconds between each frame. It starts at 50 and is decremented after each obstacle passed, with a lower limit of 20. The rendering function is called recursively with the corresponding timeout:
+  <pre class=code>// Game loop
+(n=function(){
+
+  // ... snip ...
+  
+  // Increase score and game speed after each obstacle
+  !d||e||(k+280)%800||(f++,20&lt;l&&l--);
+  
+  // ... snip ...
+  
+  // Loop
+  setTimeout(n,l)
+})()</pre>
+  <p>At each frame, we also apply gravity (i.e. increment the vertical coordinate of the dragon)
+  <pre class=code>// Apply gravity if the game has started
+d&&(h-=6);</pre>
+  <p>Finally, we have to detect when the game is lost (when the dragon's head hits the floor or the ceiling or an obstacle. Here's how it is done:
+  <pre class=code>// Game over
+if(50>j||950<j||!((k+300)%800)&&(j<100*g[20*~~(k/800)+20]+50||j>100*g[20*~~(k/800)+20]+250))
+  e=1;</pre>
+  <hr>
+  <p><h3>Draw the dragon</h3>
+  <p>Last but not least, when all the game mechanics are ready, and the code is minified and packed, I have only 360 bytes left to draw the hero of the game: the dragon.
+  I thought I could simply use a unicode character such as <a href=//www.fileformat.info/info/unicode/char/1f409/index.htm target=_blank>U+1F409</a> or <a href=//www.fileformat.info/info/unicode/char/1f432/index.htm target=_blank>U+1F432</a>. But these models are not very good-looking, and they aren't displayed correctly on all browsers.
+  <p>I could also use pixel art (<a href=//js1k.com/2014-dragons/demo/1659 target=_blank>like this</a>) or bezier curves (<a href=//js1k.com/2014-dragons/demo/1648 target=_blank>like that</a>) but this would have used too many characters to draw what I had in mind.
+  <p>So I decided to draw a shape made of tiny lines, and compress it with a home-made technique:
+  <img src=images/fd3.png>
+  <p>The shape starts at the neck of the dragon. Each point of the shape has coordinates very close to the previous point. My goal was to store the X and Y coordinates of each point in an unique ASCII character. So I stored the X offset in the first 3 bits of each character (range: -4 to +4), and the Y offset in the last 4 bits (range: -8 to +8).
+  <p>As a result, I was able to represent the dragon's body plus the two different wings shapes in just 196 characters (most of these are invisible).
+  <pre class=code>p="fEFf&{{~_=,;=vviJ.jfVi/.OoyizyhkhEwf74)\n$fwwuvtU`"+(10&lt;h?"iZ[*)yj:*im**y|Ktdww54#5Dy\iz[Kzi[Jiijk[e@1!":"zl]LfU{\lKtBUh{zzU66iigig5\n&iiyz{vfwwiyDfwiiE");</pre>
+  <p>And here is the code that draws the full shape at the good coordinates. Note that the coordinates are inverted when the dragon dies, in order to draw the falling animation.
+  <pre class=code>
+  c.fillStyle="#000";
+  c.beginPath();
+  c.moveTo(v=i,w=(j-=h));
+  for(o in p){
+    y=8-2*(p.charCodeAt(o)>>4);
+    z=16-2*(p.charCodeAt(o)&15);
+    c.lineTo(v+=(e?y:z),w+=(e?-z:y));
+  }
+  c.fill();</pre>
+  <br>
+  <hr>
+  <p>To finish, a few final optimizations and JScrush helped me fit this game in 1024 bytes, and I submitted it two weeks after the beginning of the contest. It had the honor to be mentioned <a href=//twitter.com/js1k/status/433406361087401984 target=_blank>here</a> and <a href=//qfox.nl/weblog/312 target=_blank>here</a> by Peter van der Zee, who organizes JS1k every year.
+  <p>Cheers,<br>
+  Maxime
+  <br>
+  <br>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

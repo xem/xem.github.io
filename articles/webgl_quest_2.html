@@ -1,0 +1,283 @@
+﻿<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=webgl_quest_2>
+  <h2>WebGL quest #2: tiny raymarching bootstrap with Distance Estimation functions</h2>
+	<h3>may 2017</h3>
+  <br>
+  <hr>
+  <br>
+  <h3>TL;DR</h3>
+  <p>A simple WebGL raycasting algorithm, accepting any Distance Estimation function and rendering it with distance fog and no distorsion, can be as short as <b>135b</b>! (<a href="https://www.shadertoy.com/view/MdsfRr">DEMO</a>)
+  <pre class=code>void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;}</pre>
+  <br>
+  That's for the shader alone. For a complete demo including a WebGL bootstrap in HTML/JS and the shader input "F" as a frame counter, the total is <b>531b</b>. (<a href="demos/webgl/full.html">DEMO</a>)
+  <br>
+  <img src="images/webgl2/webgl-all.gif" width=500>
+  <br>
+  <hr>
+  <br>
+  <h3>Introduction</h3>
+  <p>This article is the sequel of <a href="#webgl_quest">our first WebGL quest</a>, that should be read first.
+  <p>After JS1k 2017 (where we presented <b><a href="#js1k2017">MiniShadertoy</a></b> based on our 349b WebGL bootstrap), we started reading many articles and tutorials explaining how to draw 3D shapes, with shadows, using raymarching algorithms and distance estimation functions, with WebGL.
+  <p>Here are some of the best resources we've found on this subject:
+  <ul>
+    <li><a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/">Distance Estimated 3D Fractals</a>
+    <li><a href="http://iquilezles.org">iquilezles.org</a> (the entire site but especially the pages about <a href="http://iquilezles.org/www/articles/distfunctions/distfunctions.htm">distance functions</a> and <a href="http://iquilezles.org/www/articles/distfunctions/distfunctions.htm">avoiding trigonometry</a>)
+    <li><a href="https://www.youtube.com/watch?v=s8nFqwOho-s">How to Create Content with Signed Distance Functions (awesome video)</a>
+    <li><a href="mercury.sexy/hg_sdf/">hg_sdf</a>, the lib used in the video above.
+    <li><a href="http://www.geeks3d.com/20130524/building-worlds-with-distance-functions-in-glsl-raymarching-glslhacker-tutorial-opengl/">Building Worlds With Distance Functions in GLSL (Raymarching)</a>
+    <li><a href="http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/">Ray Marching and Signed Distance Functions</a>
+    <li><a href="http://xoofx.com/blog/2009/10/12/potatro-and-raymarching-story-of/">Potatro, RayMarching and DistanceFields : a story of SphereTracing</a>
+    <li><a href="http://alexsimes.com/sphere-tracing-distance-fields-and-fractals.pdf">Sphere Tracing, Distance Fields, and Fractals</a>
+    <li><a href="http://www.scratchapixel.com/">Scratchapixel (Learn Computer Graphics From Scratch!)</a>
+    <li><a href="https://www.reddit.com/r/twotriangles/comments/1hy5qy/tutorial_1_writing_a_simple_distance_field/">Writing a simple distance field raymarcher</a>
+    <li><a href="https://www.shadertoy.com/view/MlGSWm">A simple shadertoy demo made by LiterallyLara</a> (uncomment line 38 to render a torus instead of a sphere)
+    <li><a href="https://www.shadertoy.com/view/XllGW4">HOWTO Get Started With Ray Marching by MysticReddit</a>
+    <li><a href="https://gist.github.com/sephirot47/f942b8c252eb7d1b7311">GLSL Raymarch ShaderToy tutorial and example code by sephirot47</a>
+    <li><a href="https://www.youtube.com/watch?v=yxNnRSefK94">ShaderToy Raymarch Tutorial video (with super short source code)</a>
+    <li><a href="https://www.shadertoy.com/view/4dfXDn">2D distance functions (interesting too!)</a>
+    <li><a href="https://www.shadertoy.com/view/4dSfRc">a tutorial about ray marching distance fields (using a ray marcher in Shadertoy)</a>
+	
+</a>
+  </ul>
+  <p>Once all that was understood, our goal was to make a WebGL raymarcher compatible with any distance estimation function, and as small as possible.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Raymarching? Distance estimation?</h3>
+  <img src="images/webgl2/spheretrace.jpg" width=350 style="float:right;margin: 10px 10px 20px 50px; box-shadow: 0 0 0 10px #fff, 0 0 10px 10px #000" title="Image from an old Nvidia documentation">
+  <p>To sum up very quickly (and not exhaustively), this rendering technique consists in sending a ray from the camera, in a 3D scene, for each pixel of the canvas...
+  <p>The scene is defined with an equation, or the combination of many equations representing each of the objects we want to draw. These equations can be translated in source code, that's what we call Distance Estimation (DE) functions. These functions have the advantage to tell you how far from the object is any point in the 3D space...
+  <p>Each ray then "marches" (advances in the scene) in many steps, by computing at the beginning, and at each step, its distance from the nearest object of the scene, and progressing that exact distance in the scene until the closest object is hit (or close enough to be considered as hit). In this case, the corresponding pixel of the canvas can be colored with the color of the hit object.
+  <p>Fog can be applied very easily, based on the hit distance, to give a sense of depth, or hide the objects that are further than the max ray distance.
+  <p>Shadows and light reflections can also be rendered quite easily by aiming for the the light source from each hit point and seeing if something is placed in-between or not.
+  <p>If a ray doesn't hit any object, it must be stopped after a certain distance to avoid an infinite loop.
+  <p><img src="images/webgl2/repetition.png" width=350 style="float:right; margin: 10px; box-shadow: 0 0 5px #000" title="modulo repetition">
+  <p>Simple operations can be applied to the DE (Distance Estimation) functions to rotate, translate, scale or twist any object.
+  <br>
+  Combining a DE function with a modulo operator allows to render a plane or a space filled with "infinite" objects.
+  <br>
+  <p>DE functions exist for most 3D shapes (and even 3D fractals), and they can be combined pretty easily to generate complex scenes. In "real" projects like video games, scenes are generally only comprised of a multitude of triangles, because triangles are the shapes for which the rendering is the easiest and the most optimizable for a computer.
+  <p>NB: The canvas can use either a 2D context or a WebGL context, the logic will be the same, but with WebGL, you'll have much better performance (because the computations for each pixel are parallelized on the GPU), and the renderer will need to be written in GLSL instead of JS.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Let's code!</h3>
+  <p>So here's an example of commented shader that does the job with very little code. On <a href="https://www.shadertoy.com/view/ldScWc">the Shadertoy version</a>, you can change the settings in the first lines of code to change the shapes to be drawn.
+  <br>
+  <pre class=code>
+<div style=float:right>
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Sphere, cube, torus,<br>oprations with cube and sphere: union, substraction, intersection,<br>and scaling.<a href="https://twitter.com/hashtag/webgl?src=hash">#webgl</a><a href="https://t.co/aLyBMBHTeb">https://t.co/aLyBMBHTeb</a> <a href="https://t.co/wIUwY3k0bf">pic.twitter.com/wIUwY3k0bf</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/861549757336100864">8 mai 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+// =========================================
+
+// SETTINGS:
+
+// Shape: 0 = sphere, 1 = box, 2 = torus, 3 = union, 4 = substraction, 5 = intersection
+int shape = 0;
+
+// Infinite: 0 = no, 1 = yes
+int infinite = 1;
+
+// =========================================
+
+// Distance Estimation function
+float DE(vec3 p){
+    
+    // Infinite
+    if(infinite == 1){
+      p = mod(p, 2.0) - 0.5 * 2.0;
+    }
+    
+    // Scaling based on a cosinus wave
+    float scale = ((cos(iGlobalTime) + 2.5) / 2.7);
+    p = p / scale;
+    
+    float r;
+    
+    // Sphere
+    if(shape == 0){
+      r = length(p) - 0.7;
+    }
+    
+    // Box
+    if(shape == 1){
+      r = length(max(abs(p) - 0.5, 0.0));
+    }
+    
+    // Torus
+    if(shape == 2){
+      vec2 q = vec2(length(p.xy) - 0.5, p.z);
+      r = length(q)-0.1;
+    }
+    
+    // Union
+    if(shape == 3){
+      r = min(length(p) - 0.7, length(max(abs(p) - 0.55, 0.0)));
+    }
+    
+    // Substraction
+    if(shape == 4){
+      r = max(-(length(p) - 0.7), length(max(abs(p) - 0.55, 0.0)));
+    }
+    
+    // Intersection
+    if(shape == 5){
+      r = max(length(p) - 0.7, length(max(abs(p) - 0.5, 0.0)));
+    }
+    
+    // End of scale
+    return r * scale;
+}
+
+// Main function (called for each pixel)
+void mainImage(out vec4 fragColor,vec2 fragCoord){
+	
+    // Adjust to canvas size
+    vec2 uv = fragCoord.xy / iResolution.xy;
+    uv = uv * 2.0 - 1.0;
+    uv.x *= iResolution.x / iResolution.y;
+    
+    // Create a ray that goes forward
+    vec3 r = normalize(vec3(uv, 1.0));
+    
+    // The origin o is the camera's position
+    vec3 o;
+    
+    // Infinite: Make the camera move
+    if(infinite == 1){
+        o = vec3(0.0, iGlobalTime, iGlobalTime);
+    }
+    
+    // Not infinite: place the camera at (0,0,-2)
+    if(infinite == 0){
+        o = vec3(0.0, 0.0, -2.0);   
+    }
+    
+    // Raymarching loop (calling DE() at each step)
+    float t = 0.0;
+    vec3 p;
+
+    for(int i = 0; i &lt; 99; i++)
+    {
+        p = (o + r * t);// * 0.3;
+    	  float d = DE(p);
+        t += d;
+    }
+    
+    // Fog
+    float fog = 1.0 / (1.0 + t * t * 0.3);
+    
+    // Color the current pixel according to the fog
+    fragColor = vec4(vec3(fog), 1.0);
+}
+</pre>
+
+
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Let's golf it!</h3>
+  <p>The following code was golfed with the help of the team plus a shadertoy user called coyote. Thanks to them! Here's a <a href="https://www.shadertoy.com/view/MdsfRr">live demo</a>.
+  <p>
+  <pre class=code>void mainImage(out vec4 r,vec2 d){
+  
+  // Direction vector
+  vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));
+  
+  // r represents the current pixel's color, which is proportional to the accumulated distance
+  r-=r;
+  
+  // Loop
+  for(int i=0;i&lt;50;i++)
+	
+  // Add the result of DE to all the components of r (flagColor) to produce a shade of grey
+  // Camera origin is implied (0,0,0).
+  r+=DE(D*r.x);
+	
+  // Fog (make the furthest points darker)
+  r=1./r;
+}
+  </pre>
+  <br>
+  <p>If we count the useful chars only, the results fits in <b>135b</b>!
+  <pre class=code>void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;}</pre>
+  
+  <br>
+  <p>It's possible to combine that with our first WebGL bootstrap (source code and demo are available at the beginning of this article)
+  
+  <br>
+  <br>
+  <hr>
+  <br>
+  
+  <h3>Further experiments</h3>
+  
+  <p>- Golfing-wise, the raymarching algorithm could have been a byte shorter by reversing the for loop: <b>for(int i=50;i-->0;)</b>. This works on Shadertoy, but it triggers a syntax error on other environments like MiniShadertoy, so we preferred not using it.
+  
+  <br>
+  <p>- It's very fun to play with the numbers and variables contained in the raymarching algorithm and the DE function. Here are some examples:
+  
+  <br>
+  <p>- If you change the normalization part, for example <b>(d+d-(r.xy=iResolution.xy))*50.</b>, the shape distorsion can be quite awesome:
+  <blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Oops. I mean, Waw!<br>This is what I get when I add edit this part: &quot;(d+d-(r.xy=iResolution.xy))*50.&quot; <a href="https://t.co/OarJH2VT6R">pic.twitter.com/OarJH2VT6R</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/864579100798853120">16 mai 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <br>
+  <p>- If you reduce the number of iterations in the loop, the image will get blurry, because the rays won't approach the surface of the scene's objects as accurately as they're supposed to.
+  <blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">And this shiny/blurry effect is made by stopping the raymarching loop too soon (ex. here: &quot;for(int i=0;i&lt;10;++i)&quot; ) <a href="https://t.co/E6zBuULFo3">pic.twitter.com/E6zBuULFo3</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/864581329903640578">16 mai 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <br>
+  <p>- You can reverse the colors in order to have black shapes and white fog. This also saves 2 bytes in the golfed raymarching algorithm.
+  
+  <blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Black shapes coming out of white fog?<br>&quot;r/=6.;&quot;<br>(golfing-wise, that&#39;s 2b shorter) <a href="https://t.co/y8khwI7IUz">pic.twitter.com/y8khwI7IUz</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/864585547884486656">16 mai 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <br>
+  <p>- Mistakes can be pretty too! (this happened when I made a typo in my raymarching loop)
+  <blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Animated scaling <a href="https://t.co/wrxHx3dcYt">pic.twitter.com/wrxHx3dcYt</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/863450569062699008">13 mai 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Conclusion</h3>
+  <p>Of course, these experiments are just scratching the surface of what can be done with raymarching, and a lot of cool stuff is still to discover (shadowing, lighting, coloring, texturing, rendering goddamn Mandelboxes...), but that's for a future episode! I'm already very proud of the team for coming up with this tweetable generic raymarching algorithm! :D
+  <p>Cheers!
+</div>
+
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,268 @@
+﻿<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=js13k2016>
+  <h2>JS13kGames 2016: Super Chrono Portal Maker</h2>
+	<h3>august-september 2016</h3>
+  <br>
+  <hr>
+  <br>
+  <h3>TL;DR:</h3>
+  <p>You can play the game <a href="http://js13kgames.com/entries/super-chrono-portal-maker">HERE</a>! (please share!)
+  <p>Try also my Codegolf Team's entry "26 games in 1" <a href="http://js13kgames.com/entries/26-games-in-1">HERE</a> (please share too)! 
+  <p>You can see all the shared levels (and share yours) <a href="https://twitter.com/search?f=tweets&q=%23SuperChronoPortalMaker">HERE</a>.
+  <p>You can follow the official account @SuperCPMaker <a href="https://twitter.com/SuperCPMaker">HERE</a>.
+  <p>The Github repo of the game is <a href="https://github.com/xem/js13k16">HERE</a>.
+  <p>The speedruns of the game are <a href="http://www.speedrun.com/Super_Chrono_Portal_Maker">HERE</a>. (warning: spoilers!)
+  <p>The game was ranked 3rd in the <a href="http://js13kgames.com/#winners">Desktop category</a>!
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Preparation</h3>
+  <p>This year, I was really into 2D platforming.
+  <p>I developed a <a href="https://github.com/xem/platform-engine">platform engine</a> during my free time.
+  <p>We also discussed on <a href="https://js13kgames.slack.com">JS13k's slack</a> about the idea of a "13kb Mario Maker". This idea made me develop <a href="https://github.com/xem/js13k-level-editor">a 1kb level editor</a> with shareable URLs, that all js13k's devs can use in their games...
+  <p><img src="images/js13keditor.jpg">
+  <p>As I was a bit rusty on 2D maths, I also made this <a href="https://gist.github.com/xem/99930986c5333125a13b0ea50600391f">trigonometry cheat-sheet for 2D games</a> that many people found very useful.
+  <p>I also made a <a href="https://github.com/xem/js13k-graphics-editor">tiny graphics editor</a>, to help devs produce line-based graphics quickly and lightly (like I did for my 2015 entry GeoQuiz).
+  <p><img src="images/polygoneditor.jpg">
+  <p>And finally, <b>@innovati</b>, <b>@p01</b> and I, made a graphical music composer called <a href="http://xem.github.io/miniPiano">miniPiano</a> that lets you draw a melody and outputs a tiny piece of JS code to play it back.
+  <p><img src="images/js13k16/piano.png">
+  <p>Everything is ready to make a cool game now!
+  <br>
+  <hr>
+  <br>
+  <h3>Week-end 1</h3>
+  <p>When JS13kGames 2016 started, I remembered this Mario Maker idea and decided to mix it with two other of my favourite games, Portal (no presentation needed) and <a href="http://www.kongregate.com/games/scarybug/chronotron">Chronotron</a> (a Flash game that lets you rewind time and collaborate with your past self to solve puzzles).
+  <p>The idea of mixing Mario and Portal also comes from <a href="files/SuperMarioPortal.zip">Super Mario Portal</a> by "Moumou" (20Mb, made with RPG Maker!) and <a href="http://stabyourself.net/mari0/">Mari0</a> by StabYourself.
+  <p>The idea of mixing Portal and time travel also comes from <a href="http://store.steampowered.com/app/286080/">Thinking with Time Machine</a>, a great Portal 2 mod.
+  <p>Some inspiration can also be found in <a href="http://braid-game.com/">Braid</a> (for time travel) and <a href="http://www.kongregate.com/games/radx/enough-plumbers">Enough Plumbers</a> (for the multiple Mario gameplay).
+  <p>And for the record, <a href="https://blog.applepinegames.com/2d-portals-e293dc41a61e?gi=fb8d223c78e9">this article</a> is a great resource about 2D portals implementation!
+  <p>So I wanted to make a game featuring most of the cool mechanics of these three games (Mario, portal gun, time travel, mechanisms, companion cube, traps, and of course a level editor), but also being something completely unseen before.
+  <p>The theme of js13k this year is "Glitch!", and to include it in my game, I decided to provoke glitches in case of time paradoxes... (and in a few other cases).
+  <p>Like previous years, my personal challenge was to make a game so big that it would be complicated to make it fit in 13kb. So with this puzzle-maker idea, I believed it would be a hard (and fun) task to achieve. I really wanted to make a game that was a complete system with a lot of interesting rules, and with a quality high enough that no player would guess that its size was limited (and make them wonder how all that can fit in 13kb).
+  <p>Unlike previous years, my source code before minification will be really readable: well commented, cut into multiple files, and with explicit variable names! I'll do all the optimizations at the end instead. I can't promise that the code will be clean and mainainable, but at least, it'll be readable.
+  <p>Last detail: last year, half of the zip was used by the game's data (the world map, the names of countries, capitols, famous places, etc), but this year, I'll really focus on filling it with a lot of code and a ton of features, instead of data. So, to sum up, I don't wanna look lazy this year...
+  <br>
+  <p>During this first week-end, I wrote the game's specs, then I drew all the images of my game into this spritesheet...
+  <p><img src="images/js13k16/1b.png" style="width:90%">
+  <p>... of course, inspired by Super Mario Maker, Chronotron and Portal, but without the copyrights:
+  <p><img src="images/js13k16/1.png" style="width:90%">
+  <p>I also developed basic menus (title screen, level selection screen...) and started to develop the main features of the level editor (select tiles, place them on the map, etc).
+  <p>All the following screenshots show the interface at the end of the week-end...
+  <p><img src="images/js13k16/2.png" style="background:#5C94FC;">
+  <p><img src="images/js13k16/3.png" style="background:#5C94FC;">
+  <p><img src="images/js13k16/4.jpg">
+  <p>Current code size: ~7kb commented, ~1.5kb minified and gzipped. (plus a 1.8kb PNG)
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Week 2</h3>
+  <p>During the first half of this week, I developed the level editor, to give it strict rules (eg. only one starting point, only one end flag, the ability to place green pipes and switches that make them go up and down, the ability to place pairs of balanced platforms, etc...).
+  <p>To do that, I had to define a precise format for saving the levels, a format that allows to store all the level's tiles in a grid of 40 * 20 ASCII characters (which is the most compressible output I could find while developing the 1k level editor), plus information about linked elements (pipes and switches, pairs of balanced platforms, etc). And all this data needs to be serializable in a string shorter than 4096 bytes, in order to be easily shareable via an URL on twitter.
+  <p>Here's what the data of a level looks like:
+  <p><pre class=code>// As a JS object:
+level_data = {
+  tiles: [
+    [0, 0, 1, 2, ...],
+    [3, 2, 0, 0, ...],
+    ...
+  ],
+  pipes: [
+    [x, height_1, height_2, switch_x, switch_y],
+    ...
+  ],
+  balances: [
+    [x1, y1, x2, y2],
+    ...
+  ]
+};</pre>
+  <p><pre>// As an URL:
+http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1,y1,x2,y2]...]}</pre>
+  <p>I also added many checks in the code of the editor to prevent to draw overlapping pipes and balances, and also to avoid overwriting important elements of the map (like the pipes or the time machine) to avoid bugs.
+  <p><img src="images/js13k16/7.gif">
+  <p>The whole code, including the menus, the complete level editor, as well as the "share", "clear" and "exit" buttons, is 19kb commented, and 2.16kb minified and gzipped. (plus the usual 1.8kb PNG)
+  <p>~
+  <p>At the end of the week, I designed the first levels of the game, which will be useful for me, to develop the game's engine in "real conditions".
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Weeks 3 &amp; 4</h3>
+  <p>During these two weeks I wrote the game's engine, little by little. Here's my TO DO list, plus some GIFs I tweeted while developing it:
+  <p><b>General stuff:</b>
+  <ul>
+  <li>✅ Load/draw a level
+  <li>✅ Restart with "R"
+  <li>✅ Quit by clicking on the black "x" 
+  <li>✅ Record all the inputs (in order to be able to play them back after time travels)
+  <li>✅ Animate the hero (use different sprites, walk, jump, die, turn left or right, etc)
+  </ul>
+  
+  <p><b>Basic controls:</b>
+  <ul>
+  <li>✅ Fall
+  <li>✅ Move left / right
+  <li>✅ Jump
+  <li>✅ Collisions in the four directions
+  <li>✅ Break brick tiles by jumping under them
+  <li>✅ Collect coins
+  <li>✅ Die by falling (<a href="https://twitter.com/SuperCPMaker/status/764910763442114560">Oops!</a>)
+  <li>✅ Die by touching a spike
+  <li>✅ Win by touching the flag if all the coins are collected
+  <li>✅ Hold/drop/throw a companion cube
+  <li>✅ Stand on companion cubes (they're only solid on the top side)
+  <li>✅ Stack cubes (<a href="https://twitter.com/SuperCPMaker/status/765800431884828672">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/774631449462964225">WOW!</a>)
+  <li>✅ Slip on ice (unless we're standing still) (<a href="https://twitter.com/SuperCPMaker/status/769540427875815424">Nice!</a>)
+  </ul>
+  <p>(at this point (and after a little refactoring session), the JS code fits in ~3.6kb minified and gzipped. The zip takes 5.4kb.)
+  <p><b>Mechanisms</b>:
+  <ul>
+  <li>✅ "!" blocks and toggle switches (<a href="https://twitter.com/SuperCPMaker/status/768152146642698242">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/766972885097324544">Nice!</a>)
+  <li>✅ Pipe elevators and switches makes them move  
+  <li>✅ The hero dies if he's crushed by a pipe or a balance (<a href="https://twitter.com/SuperCPMaker/status/769547241845645312">Nice!</a>)
+  <li>✅ Switches can be pressed by cubes (<a href="https://twitter.com/SuperCPMaker/status/766967775541669888">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/766969188405555200">Nice!</a>)
+  <li>✅ Balanced platforms (that move if more weight is on one side)
+  <li>✅ The hero can go on a platform from below (only solid on top)
+  <li>✅ Cubes can make balanced platforms move (<a href="https://twitter.com/SuperCPMaker/status/767001327369003008">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/767033151067750400">Nice!</a>)
+  </ul>
+  <p>(Little refactoring... current zip size with 5 levels: 6.5kb)
+  <p><b>Portals:</b>
+  <ul>
+  <li>✅ Portals (mouse to aim, left/right click to shoot) (<a href="https://twitter.com/SuperCPMaker/status/768511361466916864">WIP</a> <a href="https://twitter.com/SuperCPMaker/status/768879901084614656">Nice!</a>)
+  <li>✅ Portals push you out (<a href="https://twitter.com/SuperCPMaker/status/769232540934823936">Nice!</a>)
+  <li>✅ Portal ray bounces on ice (<a href="https://twitter.com/SuperCPMaker/status/769446044388233216">Nice!</a>)
+  <li>✅ The hero keeps his momentum when he goes through a portal (<a href="https://twitter.com/SuperCPMaker/status/769293696420417536">Nice!</a>)
+  <li>✅ Cubes an be dropped or carried through a portal (they keep momentum too) (<a href="https://twitter.com/SuperCPMaker/status/769533899651346432">Oops!</a>) (<a href="https://twitter.com/SuperCPMaker/status/769536708949991424">Nice!</a>)
+  </ul>
+  <p>(Huge refactoring (it took 5 days)... current zip size with 10 levels: 8.2b)
+  <p><b>Time travel:</b>
+  <ul>
+  <li>✅ Time machine (press shift to rewind time and play with your previous version(s)) (<a href="https://twitter.com/SuperCPMaker/status/772184450637656065">Nice!</a>)
+  <li>✅ Multiple time travels (<a href="https://twitter.com/SuperCPMaker/status/772399726092312576">Nice!</a>)
+  <li>✅ Show which one is the "current" hero
+  <li>✅ The hero can walk on a cube held/dropped/thrown by another version (<a href="https://twitter.com/SuperCPMaker/status/773943440518316032">Nice!</a>)
+  <li>✅ Game over if a previous version doesn't reach the time machine (a.k.a. Paradox) (<a href="https://twitter.com/SuperCPMaker/status/772893860360024064">Glitch!</a>)
+  <li>✅ Game over if a previous version dies too
+  <li>✅ Previous version can collect coins, take/drop cubes, press switches, walk on pipes, walk on balanced platforms, launch portals, go through past/present/future portals, get the flag.
+  <li>✅ Previous versions can "steal" cubes to present hero and disable his portals by firing their own portals (and vice-versa)
+  <li>✅ Clouds! (<a href="https://twitter.com/SuperCPMaker/status/774522976356237312">Nice!</a>).
+  </ul>
+  <p>(Another refactoring...current zip size with 15 levels: 10.5kb)
+  <br>
+  <br>
+  <hr>
+  <br><h3>Weeks 5 &amp; 6</h3>
+  <p>These two weeks (actually, one week plus two days) were consacred to the creation of the final levels included in the game, the music, the debugging and the polishing:
+  <ul>
+  <li>✅ Proper custom level testing and sharing (on Twitter).
+  <li>✅ 30 levels in total (most of them are actually tutorial levels). Thanks to Adrien Guéret for designing a few and beta-testing the others!
+  <li>✅ Sound (Thanks to Anders Kaare!)
+  <li>✅ Next levels unlock after clearing one.
+  <li>✅ Save progress and chronos in Local Storage
+  <li>✅ "Developer times" to beat by speedrunners (cumuled record: 9 min 55 sec)
+  <li>✅ Video record for all the dev times (for speedrun.com)
+  <li>✅ Final title screen
+  <li>✅ Inline the tileset in base64
+  </ul>
+  <p>(current zip size: 13.9kb)
+  <br>
+  <p>There's an <a href="https://twitter.com/SuperCPMaker/status/773988452903903232">important discovery</a> made a few days before the deadline: Advzip, a zip optimizer/recompressor is able to save around 1kb out of a 13kb zip. By passing my current zip through Advzip, it only takes 12.8kb. We're still below the limit! Maybe we can have some music...
+  <p>At this point, my commented source code weighs 114kb (scattered in 12 files and containing more than 3600 lines of code), and shrinks to 72.4kb when minified (including 27kb of level data)
+  <p>And yes, as incredible as it sounds, once zipped, all that code fits in less than 13kb!
+  <p><b>Golfing:</b>
+  <ul>
+  <li>✅ Just one HTML file with all the game contents
+  <li>✅ Inline the functions that are only called once
+  <li>✅ Optimize the JSON of the built-in levels
+  <li>✅ All the game variables, hero / level / cube properties and functions are renamed to 1 to 2 chars
+  <li>✅ All the function params are renamed to e,f,g,h
+  <li>✅ Explicit "window" references are removed
+  <li>✅ Shorten Twitter URL
+  <li>✅ Minification, zip, advzip
+  </ul>
+  <p>Zip size after this golfing: 11.1kb!
+  <br>
+  <br>
+  <p><b>Final touch</b>
+  <p>With 24 hours left and nearly 2kb available in my zip, I called Anders Kaare to save my life once again. He made me <a href="http://codepen.io/xem/pen/amdOQr">a great collection of sounds</a> plus <a href="http://codepen.io/xem/pen/VKZvaj">a gorgeous musical theme</a> in no time!
+  <p>I also added a hidden, super difficult level and recorded all my developer times as a challenge for speedrunners.
+  <p>All these latest details were added in a hurry, without any form of optimization or golfing.
+  <p><a href="https://twitter.com/SuperCPMaker/status/775285475691167744">Final beta-testing with my colleagues!</a> 
+  <br>
+  <br>
+  Final interface:
+  <br>
+  <img src="images/js13k16/title.jpg">
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><b>Conclusion</b>
+  <p>This project took me nearly 200h to complete, much more than any of my previous entries, and more than any of my previous personal projects!
+  <p>There's a lot more that could be done, but I ran out of time and energy... but never ran out of free space! My final zip is just 12.5kb!
+  <p>I'm still very happy with the result, and hope that a lot of people will enjoy it and create stunning levels!
+  <p>Thanks js13kgames, and Andrzej, and Anders for the music, and all the people that helped me and supported me during this compo, and see you next year for something even bigger! :D
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><b>One week later</b>:
+  <p>People play and enjoy the game, they also start <a href="https://twitter.com/hashtag/superchronoportalmaker?f=tweets&vertical=default&src=hash">making cool levels</a>, and <a href="https://twitter.com/bartaz/status/776345873659863040">they speedrun it too</a>! That's great!
+  <p>I also took the time to speedrun it as fast as I could (better than my own "dev times" in the game), and you can see the result <a href="https://www.youtube.com/embed/tPVFB0ZtQD8">here</a> (warning, spoilers!):
+  <p>But even if you create something and think you master it, <a href="https://twitter.com/bartaz/status/776461265208221696">someone will always be better than you</a>, and it's just awesome!
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><b>Two weeks later</b>:
+  <p>Publication of the <a href="http://js13kgames.com/#winners">final results</a>:
+  <p>- Super Chrono Portal Maker was ranked 2nd in Community votes. 26 games in 1 was ranked 10th! Thanks guys! 
+  <p>- Super Chrono Portal Maker was ranked 3rd in the Desktop category (and 26-games-in-1 54th)! Thanks jury!
+  <br>
+  <br>
+  <p>Also, these playtests by Jupiter Hadley:
+  <p>- <a href="https://youtu.be/HCs5G8TH1kc?t=802">Super Chrono Portal Maker</a>
+  <p>- <a href="https://youtu.be/vlpkjNJ8UmQ?t=449">26-games-in-1</a>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><b>2017 update:</b> <a href="//youtu.be/M4OpUwAvZEY">A new speedrun in 6:18.40!</a>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><b>Cheers!<br>@MaximeEuziere</b>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

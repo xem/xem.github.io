@@ -1,0 +1,168 @@
+﻿<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=jsgamesinputs>
+  <h2>Some subtleties of keyboard inputs in JS games</h2>
+	<h3>september 2016, january 2017, febuary 2018</h3>
+  <br>
+  <hr>
+  <br>
+  <p><b>TL;DR - state of the art:</b>
+  <pre class=code><b>// Update four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD inputs. (73b)</b>
+u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</pre>
+  <br>
+  <hr>
+  <br>
+  <p>After <b>JS13kGames 2016</b>, <a href="https://js13kgames.slack.com/archives/general/p1474388987001061">we realized on Slack</a> that many games were only playable with W, A, S, D keys, and many players were bothered by that.
+  <p>In this article I'll cover this point plus a few other subtleties of keyboard input in JS, and provide a tiny library that you can drop directly in your future games to get these problems out of the way.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><h3>The WASD issue</h3>
+  <p>WASD keys can be used as an alternative for arrow keys in a vast majority of keyboards worldwide. All QWERTY and QWERTZ keyboards (and some hybrid keyboards like <a href="http://cdn1.matadornetwork.com/blogs/1/2012/03/Russian-Keyboard-13-600x267.jpg">QWERTY/russian</a> for example) support this pattern just fine. But there's another layout widely used too (especially in France, Belgium and Canada): AZERTY. On this kind of keyboard, WASD becomes ZQSD. Other minor layouts exist but we can ignore them for now.
+  <p>So the idea is to teach game developpers to natively support not only WASD, but also ZQSD <b>AND</b> arrow keys! Why support only one scheme when we can please everyone with a super light overhead?
+  <p>To sum up, up arrow must be aliased with W and Z, left arrow with A and Q, right arrow with D, and down arrow by S.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><h3>The JS keyboard events issue</h3>
+  <p>As you can see on <a href="http://xem.github.io/miniKeyCode/complete.html">this page displaying the keyCodes of all your keyboard events</a>, when you press a key, two events are fired by the browser: keydown and keypress. when you release it, another event is fired: keyup. And if you keep a key pressed for a moment (depending on your OS settings), after a short pause during which nothing happens, both keydown and keypress are fired repeatedly. There's also an "input" event, but it happens only in form elements, so it's not really relevant here.
+  <p>There are many problems with this default behavior: firstly, this pause that happens after pressing a key is not good for a video game. If you play a platform game, you don't want Mario to stay idle for a few frames before running or jumping. And secondly, the keypress event is totally messed up (look at the keyCode returned by this event when you press letter keys or arrow keys, and you'll see absurd values almost everytime, and different absurd values depending on the browser you're using.
+  <p>So my advice is to avoid relying on keypress events altogther, and also to avoid relying on keydown at each frame to see if a key is down or not, because the pause will bother your players.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p><h3>The solution</h3>
+  <p>So here's a super short solution to all these issues.
+  <p>It introduces four global boolean variables to keep in memory the state of each direction.
+  <p>Of course, feel free to fork it and replace them with non-global vars if you want, but for this example, I'll just keep things simple, and who cares about global vars in code-golfing anyway? <a href="https://twitter.com/SuperCPMaker/status/769855521302151168">Okay, maybe everyone cares, but not me!</a> :p
+  <p>So here's the code:
+  <pre class=code>// Keys states (false: key is released / true: key is pressed)
+up = right = down = left = false;
+
+// Keydown listener
+onkeydown = (e) => {
+
+  // Up (up / W / Z)
+  if(e.keyCode == 38 || e.keyCode == 90 || e.keyCode == 87){
+    up = true;
+  }
+  
+  // Right (right / D)
+  if(e.keyCode == 39 || e.keyCode == 68){
+    right = true;
+  }
+  
+  // Down (down / S)
+  if(e.keyCode == 40 || e.keyCode == 83){
+    down = true;
+  }
+  
+  // Left (left / A / Q)
+  if(e.keyCode == 37 || e.keyCode == 65 ||e.keyCode == 81){
+    left = true;
+  }
+}
+
+// Keyup listener
+onkeyup = (e) => {
+    
+  // Up
+  if(e.keyCode == 38 || e.keyCode == 90 || e.keyCode == 87){
+    up = false;
+  }
+  
+  // Right
+  if(e.keyCode == 39 || e.keyCode == 68){
+    right = false;
+  }
+  
+  // Down
+  if(e.keyCode == 40 || e.keyCode == 83){
+    down = false;
+  }
+  
+  // Left
+  if(e.keyCode == 37 || e.keyCode == 65 || e.keyCode == 81){
+    left = false;
+  }
+}
+</pre>
+  <p>Then, during you game loop, you just need to rely on the state of these four variables to know if the player is currently pressing a direction (or an alias in WASD or ZQSD) or not!
+  <p>Want to see a demo? Of course! Just launch the first level of <a href="http://js13kgames.com/entries/super-chrono-portal-maker">my js13kgames entry</a>. It uses this exact technique :)
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p>P.S: if you want a minified ang golfed version, here it is: only 160b! (the four vars u,r,d,l, are not booleans but just truthy and falsy)
+<pre class=code>u=r=d=l=0;onkeydown=(e)=>t(e,1);onkeyup=(e)=>t(e);t=(e,v,l,i)=>{for(i in l={u:[38,90,87],r:[39,68],d:[40,83],l:[37,65,81]})if(l[i].includes(e.keyCode))top[i]=v}</pre>
+<p>P.P.S: Here's a 122b version by @p01, using a radically different idea: a look-up table of keyCodes represented as a string, and ".which" instead of ".keyCode" (because it's the same thing):
+<pre class=code>u=r=d=l=0;onkeyup=t=(e,v)=>top['lurd************************l**r************l*d***u**u'[e.which-37]]=v;onkeydown=e=>t(e,1)</pre>
+  <br>
+  <hr>
+  <br>
+  <p><b>january 2017 golfing</b>
+  <p>I made a new version that's only 87b, but it works if the only keys you need to support are arrows, WASD and ZQSD (most of the other keys may collide with one of the four directions):
+  <pre class=code>u=d=l=r=0;onkeyup=t=(e,v)=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=v;onkeydown=e=>t(e,1)</pre>
+  <p>It fell down to 85b with the help of <b>nderscore</b>:
+  <pre class=code>u=d=l=r=0;onkeydown=e=>(onkeyup=(e,v)=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=v)(e,1)</pre>
+  <p>then 83, by merging the two event listeners:
+  <pre class=code>u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=e.type[3]<'u'</pre>
+  <p>and finally 82 with <b>Subzey</b>'s touch:
+  <pre class=code>u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[3]<'u'</pre>
+  <p><a href="demos/arrowkeys/1.html">(DEMO)</a>
+  <br>
+  <p>Note: there's no collision with the keys "E", "R", "T" "space", "shift" and "Enter", so you can also handle them just fine with just a 100 bytes:
+  <pre class=code>E=R=T=_=s=e=u=d=l=r=0;onkeydown=onkeyup=z=>top['lurdlRdTl*urEu*_e**s'[(z.which+3)%20]]=z.type[3]<'u'</pre>
+  <p><a href="demos/arrowkeys/2.html">(DEMO)</a>
+  <br>
+  <hr>
+  <br>
+  <p><b>Febuary 2018 update, thanks to @BalintCsala and @ETHProd !</b>
+  <p>Here's how to save the state of four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD, in 78b:
+  <pre class=code>u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</pre>
+  <br>
+  <p>And here's a different approach, where keydown events directly update two variables called X and Y using the arrow keys, in 56b only!
+  <pre class=code>X=Y=0;onkeydown=e=>top["YXYX"[g=e.which%4]]-="0220"[g]-1</pre>
+  <p>Unfortunately, if you keep one key pressed, the browser will make a short pause just after firing the first event, before firing around 60 times per second.
+  <br>
+  <p>NB: if you make a JS1k or itch.io game using these techniques, you'll need to replace 'top' with 'this' to avoid escaping your iframe.
+  <br>
+  <br>
+  <hr>
+  <br>
+  <p>Cheers,
+  <p><b>@MaximeEuziere</b>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

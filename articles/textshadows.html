@@ -1,0 +1,176 @@
+﻿<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=textshadows_en>
+	<h2>The joys of text-shadow... on IE.</h2>
+	<h3>septembre 2013</h3>
+	<div id=text-shadow_en>
+		<p>We don't present <b>text-shadow</b> anymore, this CSS property allowing to set a shadow to a text.<br>(see: <a href="http://www.w3.org/TR/css3-text/#text-shadow" target=_blank>the specs</a>, <a href="https://developer.mozilla.org/fr/docs/CSS/text-shadow" target=-blank>the MDN page</a>)</p>
+		<p>Many browsers have some small implementation problems, but the worst are, of course, the old IE. More precisely, IE &lt; 10.</p>
+		<p>However, those browsers have access to proprietary "filters", created by Microsoft, and allowing to achieve a similar effect.<br>Sometimes, we have no other choice than using them. This article explains how.</p>
+		<p>Two filters allow to simulate shadows: Shadow and Glow.</p>
+		<p><b>Here is the "Shadow" version:</b></p>
+		<p>CSS:</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 2px 2px 3px #ff0000; /* IE10+, Firefox 3.5+, Opera 9.5+, Chrome, Safari, and mobile browsers */
+<br>
+&nbsp; filter:progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=135, Strength=3); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Shadowed title&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>h1.ombre1 { text-shadow: 2px 2px 3px #ff0000; filter:progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=135, Strength=3); zoom: 1; }</style>
+		<div class=demo>
+			<h1 class=ombre1>Shadowed title</h1>
+		</div>
+		<p>If you look at this wonderful demo on an old IE (or on IE10 in legacy mode) you will see a shadow. But you will also notice that the text became all pixellized, and unfortunately, there is no solution for that.</p>
+		<p>Please note that "Direction" is set in degrees (for example, 0 = up, 90 = right, 180 = bottom, 270 = left) and "Strength" vaguely corresponds to the shadow's spread. (in reality, it looks more like a perspective effect...)</p>
+		<p><b>And here is the "Glow" version</b></p>
+		<p>CSS:</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 0px 0px 1px #ff0000; /* Good browsers */
+<br>
+&nbsp; filter: glow(color=#ff0000,strength=3); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Glowing title&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>.ombre2 { text-shadow: 0px 0px 3px #ff0000; filter: glow(color=#ff0000,strength=1); zoom: 1; }</style>
+		<div class=demo>
+			<h1 class=ombre2>Glowing title</h1>
+		</div>
+		<p>The Glow filter mainly creates a halo around the text. But it's still quite ugly on IE. (you can have something less ugly if you don't exaggerate this much on the colours)</p>
+		<hr>
+		<p>Note that the filters can be combined, like the CSS3 text-shadows. It's useful, especially when we want a "text-stroke" effect.</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 1px 1px 1px #ff0000, 1px -1px 1px #00ff00, -1px -1px 1px #0000ff, 1px 1px 1px #f0000f; /* Good browsers */
+<br>
+&nbsp; filter: progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=0, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#00ff00', Direction=90, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#0000ff', Direction=180, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#f0000f', Direction=270, Strength=1); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Titre with many shadows&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>.ombre3 { text-shadow: 1px 1px 1px #ff0000, 1px -1px 1px #00ff00, -1px -1px 1px #0000ff, 1px 1px 1px #f0000f; filter: progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=0, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#00ff00', Direction=90, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#0000ff', Direction=180, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#f0000f', Direction=270, Strength=1); zoom: 1;}</style>
+		<div class=demo>
+			<h1 class=ombre3>Titre with many shadows</h1>
+		</div>
+		<p>Keep in mind that it's very verbose, and very ugly on IE, when it's not used correctly.</p>
+		<hr>
+		<p>Besides, I have an exclusive bug to show you:</p>
+		<p>These browsers only work on block elements, not on inline elements.</p>
+    <p>So if you need shadows on a &lt;span>, you'll have to write some nonsense like... <b>span { display: block }</b>.</p>
+		<br>
+		<br>
+		Cheers!
+		<br>
+		<b>@MaximeEuziere</b>
+	</div>
+</div>
+
+<div class=section id=textshadows_fr style=display:none>
+  <img src=../francais.png class=lang onclick="textshadows_fr.style.display='none';textshadows_en.style.display='block'">
+	<h2>Les joies du text-shadow... sur IE.</h2>
+	<h3>septembre 2013</h3>
+	<div id=text-shadow_fr>
+		<p>On ne présente plus <b>text-shadow</b>, cette propriété CSS3 permettant d'appliquer une ombre à un texte.<br>(voir: <a href="http://www.w3.org/TR/css3-text/#text-shadow" target=_blank>les specs</a>, <a href="https://developer.mozilla.org/fr/docs/CSS/text-shadow" target=-blank>la page MDN</a>)</p>
+		<p>Plusieurs navigateurs ont des petits soucis d'implémentation, mais les plus notables sont, bien évidemment, les vieux IE. Plus précisément, IE &lt; 10.</p>
+		<p>Ceux-ci ont toutefois accès à des "filtres" créés par Microsoft, et qui permettant de produire un effet similaire.<br>Et parfois, on n'a pas le choix, il faut s'en servir. Voici comment faire.</p>
+		<p>Deux filtres permettent de simuler des ombres: Shadow et Glow.</p>
+		<p><b>Voici la version "Shadow":</b></p>
+		<p>CSS:</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 2px 2px 3px #ff0000; /* IE10+, Firefox 3.5+, Opera 9.5+, Chrome, Safari, et tous avigateurs mobiles */
+<br>
+&nbsp; filter:progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=135, Strength=3); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Titre ombré&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>h1.ombre1 { text-shadow: 2px 2px 3px #ff0000; filter:progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=135, Strength=3); zoom: 1; }</style>
+		<div class=demo>
+			<h1 class=ombre1>Titre ombré</h1>
+		</div>
+		<p>Si vous regardez cette magnifique démo sur un vieux IE (ou sur IE10 en mode vieux IE) vous verrez bien une ombre. Mais vous verrez aussi que le texte est devenu tout pixellisé, et il n'y a hélas aucun moyen de corriger cela.</p>
+		<p>Il est à noter que "Direction" s'exprime en degrés (par exemple, 0 = haut, 90 = droite, 180 = bas, 270 = gauche) et "Strength" correspond vaguement à l'étalement de l'ombre. (en réalité, ça ressemble plus à un effet de profondeur qu'à une ombre)</p>
+		<p><b>Et voici la version "Glow"</b></p>
+		<p>CSS:</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 0px 0px 1px #ff0000; /* Bons navigateurs */
+<br>
+&nbsp; filter: glow(color=#ff0000,strength=3); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Titre entouré d'ombre&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>.ombre2 { text-shadow: 0px 0px 3px #ff0000; filter: glow(color=#ff0000,strength=1); zoom: 1; }</style>
+		<div class=demo>
+			<h1 class=ombre2>Titre entouré d'ombre</h1>
+		</div>
+		<p>Le filtre Glow permet plutôt de créer un halo autour du texte. Cela dit, c'est bien moche sur IE. (oui, j'ai un peu exégéré avec mon texte en gras et mes ombres en rouge, il y a moyen de faire quelque chose qui soit... passable.)</p>
+		<hr>
+		<p></p>Il est à noter que les filters peuvent être additionés, tout comme les text-shadow CSS3. C'est pratique, notamment pour obtenir un effet à la "text-stroke" (pour dessiner le contour des lettres).</p>
+		<pre style="white-space: nowrap; overflow: auto">h1 {
+<br>
+&nbsp; text-shadow: 1px 1px 1px #ff0000, 1px -1px 1px #00ff00, -1px -1px 1px #0000ff, 1px 1px 1px #f0000f; /* Bons navigateurs */
+<br>
+&nbsp; filter: progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=0, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#00ff00', Direction=90, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#0000ff', Direction=180, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#f0000f', Direction=270, Strength=1); zoom: 1; /* IE 6-9 */
+<br>
+}</pre>
+		<p>HTML:</p>
+		<pre>&lt;h1>Titre avec plusieurs ombres&lt;/h1></pre>
+		<p>Rendu:</p>
+  	<style class=hidden>.ombre3 { text-shadow: 1px 1px 1px #ff0000, 1px -1px 1px #00ff00, -1px -1px 1px #0000ff, 1px 1px 1px #f0000f; filter: progid:DXImageTransform.Microsoft.Shadow(color='#ff0000', Direction=0, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#00ff00', Direction=90, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#0000ff', Direction=180, Strength=1), progid:DXImageTransform.Microsoft.Shadow(color='#f0000f', Direction=270, Strength=1); zoom: 1;}</style>
+		<div class=demo>
+			<h1 class=ombre3>Titre avec plusieurs ombres</h1>
+		</div>
+		<p>Cela dit, c'est très verbeux, et également très moche sur IE si on s'en sert mal.</p>
+		<hr>
+		<p>A part ça, j'ai un petit bug bonus, en exclusivité:</p>
+		<p>Ces filtres ne marchent que sur les blocs, et pas sur les éléments inline.</p>
+		<p>Autrement dit, si on vous demande de mettre des ombres sur des <b>span</b>, la seule solution sera d'écrire le non-sens suivant: <b>span { display: block }</b> ... et prier pour que ça ne casse pas toute votre page...</p>
+		<br>
+		<br>
+		A bientôt!
+		<br>
+		<b>@MaximeEuziere</b>
+	</div>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

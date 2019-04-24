@@ -1,0 +1,112 @@
+﻿<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=contenteditable_en>
+  
+	<h2>The HTML5 contenteditable attribute</h2>
+	<h3>july 2013</h3>
+	<div id=contenteditablecontent_en>
+		<p>The <b>contenteditable</b> attribute makes any HTML element editable with the mouse and/or the keyboard.</p>
+		<p>
+		This attribute is one of the <a href="http://dev.w3.org/html5/markup/global-attributes.html">HTML5 global attributes</a>, so it can be applied to all HTML5 elements.
+		<br>
+		It's also one of those features that existed in browsers for a long time before W3C standardization.
+		<br>
+		Indeed, <a href="http://caniuse.com/contenteditable">we can use this attribute</a> on browser as old as IE 5 and Firefox 3! Microsoft created it, by the way.
+		</p>
+		<p>
+		It's easy to use: like <b>id</b> or <b>class</b>, you can use <b>contenteditable="true"</b> on any element, or simply <b>contenteditable</b>.
+		<br>
+		Note that this attribute is inherited by default. So the value <b>contenteditable="inherit"</b> is completely useless (but it exists).
+		<br>
+		However, if you want to make an element editable, but not its children, these children must have <b>contenteditable="false"</b>.
+		</p>
+		<p contenteditable><b>Example:</b> click on this paragraph to edit the text inside.</p>
+		<hr>
+		<p>Here's the list of crazy facts about <b>contenteditable</b>:</p>
+		<ul>
+			<li>
+				Like we saw earlier, we can make an element non-editable if its parent is editable. The non-editable element can still be selected, moved and deleted.
+				<p contenteditable><b>Example:</b> In this editable paragraph, <b contenteditable="false">this text in bold</b> can't be edited, but you can move and delete it with the mouse.</p>
+				On Firefox, we can't move text from an editable container to another editable container... that's a bug.
+			</li>
+			<li>
+				Firefox allows to resize images that have or inherit the <b>contenteditable</b> behavior.<br><br>
+				<b>Example:</b><br>
+				<p contenteditable> Click on this image <img src="http://placehold.it/200x50" style="vertical-align: middle"> to resize it.</p>
+			</li>
+			<li>
+				Any HTML code can be inserted in an editable element
+				<div contenteditable><b>Example:</b> You can copy-paste here<br><br>- The content of another Webpage:<br><br><br><br>- The content of a Word / Excel document:<br><br><br><br></div>
+			</li>
+			<li>
+				Thanks to this attribute, we can make complete WYSIWYG editors, like <a href="http://ckeditor.com/demo#full">CKEditor</a>.
+			</li>
+			<li>
+				You can also access to a quick notepad by typing <b>data:text/html, &lt;html contenteditable></b> in the address bar of your browser (or by clicking <a href="data:text/html, <html contenteditable>" target="_blank">here</a>).
+				This trick comes from <a href="https://coderwall.com/p/lhsrcq">Jose Jesus Perez Aguinaga</a>.
+				You can find many variations of this notepad <a href="https://news.ycombinator.com/item?id=5135194" target="_blank">here</a>. 
+			</li>
+			<li>If you make a <b>style</b> element visible and editable, this can make a crazy auto-recursive editor, in which you can edit in real time the style of the block you're writing into.<br>Try it:<br>
+				<style spellcheck="false" contenteditable>style[contenteditable] {
+	display: block;          /* make <style> blocks visible */
+	white-space: pre;        /* presentation */
+	font-family: monospace;  /* typography */
+	background: #ddeeff;     /* background color */
+	color: #112233;          /* text color */
+}</style>
+			</li>
+			<li>
+				<b>script</b> elements can also be visible and editable (here's an exemple). However, the JavaScript code isn't executed when you edit it. It's a simple text block.<br>
+				<script contenteditable>console.log("Log unique");</script>
+				<br>
+				(open your F12 console to see this message)
+				<br>
+				But JavaScript itself allows to detect changes happening in a <b>script</b> element and execute its content.<br>
+				Warning: don't do this at home (XSS attacks can occur). This example is only a proof of concept.<br> 
+				<script id="js" contenteditable>// This block has the id "js".
+var js = document.getElementById("js");
+js.onkeyup = function(){
+	eval(js.innerText);
+}
+console.log("Log at each edition");</script>
+				<br>
+				This works fine on Chrome and IE 10. Sadly, Firefox and IE9 can't listen to keystrokes events on <b>script</b> elements... But you can replace them with textareas, which are natively editable.
+			</li>
+		</ul>
+		<br>
+		<br>
+		Cheers!
+		<br>
+		<b>@MaximeEuziere</b>
+	</div>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

@@ -1,66 +1,31 @@
-* { margin: 0; padding: 0; }
-html { background: #fff; height: 100%; overflow: auto; }
-body { max-width: 1150px; min-width: 640px; min-height: 100%; overflow: visible; margin: 0 auto; font: normal 12px/18px Arial; background: #eee; background: linear-gradient(90deg, #fff 195px, #eee 205px, #eee 990px, #fff 1000px); }
-h1, h2, h3, h4 { margin: 10px 0; }
-ol, ul { padding-left: 20px; }
-.articles .section li { margin: 10px 0; }
-table { width: 100%; border-collapse: collapse; }
-textarea { width: 100%; }
-td { vertical-align: top; }
-img, iframe { max-width: 100% !important; }
-.header a, .header a:visited { display: block; width: 160px; margin: 10px auto; text-align: center; color: #456 }
-button, .header a { margin: 10px 0; cursor: pointer; padding: 5px; background: #eee; border-radius: 5px; border: 1px solid #888; box-shadow: 2px 2px 2px #888; }
-button:hover, .header a:hover { border: 1px solid #888; box-shadow: none; position: relative; top: 2px; left: 2px; }
-button.active, .header a.active { background: #888; color: #fff; border: 1px solid #666; box-shadow: none; position: relative; top: 2px; left: 2px; }
-.menu, .body, .language, .aside { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; }
-.menu { width: 190px; text-align: center; padding-right: 10px; }
-.menu h1 { font-size: 22px; margin-bottom: 5px; }
-.section button { padding: 1px 3px; }
-.body { width: 770px; width: calc(100vw - 250px); min-width: 400px; max-width: 770px; height: 100%; margin: 0; padding: 0 10px; position: relative; z-index: 2; }
-a { color: #007CAD; font-weight: 600; text-decoration: none; }
-a:visited { color: #00A4E5; }
-.accueil li { line-height: 1.7em; }
-@media screen and (max-width: 850px){ .accueil td { display: block; width: 100%; }}
-.intro { background: #ffd; border-radius: 10px; border: 2px solid #aaa; border-right: 3px solid #aaa; border-bottom: 3px solid #aaa; padding: 20px; }
-.section { overflow-x: hidden; background: #fff; border-radius: 10px; border: 2px solid #aaa; border-right: 3px solid #aaa; border-bottom: 3px solid #aaa; padding: 20px; text-align: left; }
-.center { text-align: center; }
-pre { background: #fed; padding: 10px; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
-p, div, script, style, pre { margin: 10px 0; }
-script, style, pre { font: normal 11px/16px monospace; overflow-x: auto; }
-div#twitter { margin: 0; }
-div#twitter iframe { height: 600px !important; border: 2px solid #eee !important; border-radius: 5px !important; }
-div.demo div { margin: 0; }
-div.demo { background: #def; padding: 20px }
-div.demo pre { background: #def; padding: 10px; }
-div[contenteditable], pre[contenteditable], style[contenteditable], script[contenteditable], p[contenteditable] { display: block; border: 1px dotted red; padding: 1em; }
-.tar { text-align: right; }
-.header, .footer { width: 175px; margin: 10px; position: absolute; position: fixed; }
-.header { top: 0; margin-bottom: 30px; }
-.footer { bottom: 0; }
-@-webkit-keyframes pulse { 50% { -webkit-transform: scale(1.2); transform: scale(1.2); }}
-@keyframes pulse { 50% { -webkit-transform: scale(1.2); -ms-transform: scale(1.2); transform: scale(1.2); }}
-.pulse { -webkit-animation: pulse 1s 10; -moz-animation: pulse 1s 10; -o-animation: pulse 1s 10; animation: pulse 1s 10; border: 1px solid #000; }
-#twitter-widget-0, #twitter-widget-1 { height: 750px; width: 360px!important; }
-#js13k2015 .twitter-tweet  { height: 250px!important; width: 500px!important; }
-.lang { float: right; cursor: pointer; }
-.aside { width: 300px; padding-left: 805px; position: fixed; max-height: 95vh; overflow: auto; }
-code {display: block; }
-.games a { width: 23%; display: inline-block; vertical-align: top; margin: 1% 1% 1% 0; }
-.games a img { width: 100%; }
-@media screen and (max-width: 1200px){
-  .aside { padding: 0; left: 10px; top: 380px; max-height: calc(100vh - 430px); overflow: auto; width: 190px; }
-}
-@media screen and (max-width: 650px){
-  body, .body { min-width: auto; padding: 0; }
-  body { padding-bottom: 50px; background: linear-gradient(#fff, #eee 200px); }
-  .menu, .body, .aside { display: block; width: 95%; margin: 0 auto; }
-  .header, .footer, .aside { position: static; width: 100%; }
-  .header a { display: inline-block; vertical-align: top; margin: 10px 5px 0 0; }
-  .footer { position: fixed; z-index: 3; bottom: 0; left: 0; background: #fff; margin: 0; border-top: 1px solid #ccc; }
-  .aside { padding: 30px 0; max-height: 200px }
-  .aside * { margin-left: 20px; }
-}
-@media screen and (max-height: 500px){
-  .header, .footer { position: relative; }
-  .aside { max-height: none; position: absolute; left: 10px; top: 450px; }
-}
+* { box-sizing: border-box; }
+a { text-decoration: none; color: #059; }
+ul { list-style-type: square; }
+li { line-height: 22px; margin: 5px 0 0; }
+img { max-width: 100% }
+h1, h2, h3 { margin: 0 }
+hr { border-color: #ccc }
+pre { padding: 10px; border-radius: 3px; background: #def; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
+
+body { margin: auto; font: 14px/22px arial; max-width: 1000px; padding: 30px 30px 0; min-width: 490px; }
+header { text-align: center; }
+header .logo { width: 490px; padding: 0 0; overflow: hidden; margin: 0 auto 20px; }
+header span { font-size: 10px; display: inline-block; transform: scale(1.5,1); }
+header menu { padding: 0; margin: 0 0 25px 0; }
+header h2 { font-size: 90px; line-height: 70px; margin: 20px 0 0; transform: perspective(130px)rotateX(-60deg); transform-origin: bottom center; color: #125; }
+header h3 { font-size: 13px; line-height: 20px; margin: 0 0 10px; transform: scale(1,1.5); background: -webkit-linear-gradient(#555, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+header a { background: #f1f2f3; min-width: 120px; height: 30px; line-height: 30px; border-radius: 3px; display: inline-block; margin: 0 0 5px 0; padding: 0 10px; }
+header a.home { min-width: 40px }
+header a:hover, header a.active { background: #059; color: #fff }
+.wrapper { min-height: calc(100vh - 85px) }
+
+main {  }
+#menu { margin: 0 auto 30px; columns: 3; vertical-align: top; background: #f3f3f3; border-radius: 5px; padding: 15px; }
+#menu ul { margin: 0; }
+#menu li { margin: 0; }
+#menu .active { color: #000; font-weight: bold }
+
+.section { padding: 30px 20px; margin: 0 0 20px; max-width: 1000px; overflow: hidden; border: 2px solid #eee; border-radius: 5px; }
+
+footer { text-align: center; margin: 0 0 20px }
+footer a { text-decoration: none; color: #059; }

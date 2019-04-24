@@ -1,0 +1,144 @@
+﻿<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=js1k2016>
+  <h2>JS1k 2016</h2>
+	<h3>febuary - march 2016</h3>
+  <p><a href="//js1k.com">JS1k</a> is certainly code-golfing event that makes me wait for febuary to come, during all the rest of the year.
+  <p>This year, the theme was <b>EleMental</b>, and I decided to make two chemistry-related demos with the help of my friends <b>Innovati</b> and <b>Subzey</b> (a.k.a. The Codegolf Team), plus a couple of entries by myself.
+  <p>If you're curious about how they were made or how they can fit in 1kb, take a look at the detailed source code. It's very detailed.
+  <p>If you want to support us for the "social prize", you can upvote the demos on reddit!
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>PERIOD1k</h3>
+  <p>Our first challenge was to draw a pretty periodic table of chemical elements with as much information as possible. After long efforts of data compression dead-ends and successes, we released PERIOD1k. It was the first entry of the compo.
+  <br>
+  <br>
+  <img src="http://codegolf.github.io/period1k/wallpaper.png" style=width:95%>
+  <br>
+  <br>- <a href="http://js1k.com/2016-elemental/demo/2402">The entry on js1k</a> (1024b)
+  <br>- <a href="https://www.reddit.com/r/js1k/comments/43xi81/demo_2402_period1k_by_codegolf_team_canvas_1024/">The post on reddit</a>
+  <br>- <a href="https://github.com/codegolf/period1k">The project (with bonuses) on Github</a>
+  <br>- <a href="https://github.com/codegolf/period1k/blob/gh-pages/final.html">The detailed source code</a>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>JSOTOPES</h3>
+  <p>We then gave ourselves another compression challenge: draw a complete table of isotopes (or table of nuclides). This time, there was so much data to include th the app that the JS code used to draw the chart only takes ~10% of the demo, all the rest is used for the position, number and decay types of all the known isotopes.
+  <br>
+  <br>
+  <img src="images/js1k2016/jsotopes.png" style=width:95%>
+  <br>
+  <br>- <a href="http://js1k.com/2016-elemental/demo/2420">The entry on js1k</a> (1023b)
+  <br>- <a href="https://www.reddit.com/r/js1k/comments/45pcv4/demo_2420_jsotopes_by_codegolf_team_canvas_1023/">The post on reddit</a>
+  <br>- <a href="https://github.com/codegolf/JSotopes">The project (with bonuses) on Github</a>
+  <br>- <a href="https://github.com/codegolf/JSotopes/blob/gh-pages/index.html">The detailed source code</a>
+  <br>
+  <p>PS: In febuary, researchers discovered the tetraneutron particle. I didn't manage to include it in our demo in less than 1025b. ARRGGH.
+  <br>
+  <hr>
+  <br>
+  <h3>UN1kODE</h3>
+  <p>For my first individual entry, I wanted to revisit a Unicode slideshow that I made a few months earlier, called <a href="https://github.com/xem/MiniUnicode#readme">MiniUnicode</a>. It's actually a collection of slideshows made to fit in 64b, 128b, 256b, 512b, 4kb, 512kb, including more and more details at each version. The 512b version only shows the assigned code points, but the 4kb version includes all the Unicode blocks names. I decided to do something in the middle: a demo that shows all the assigned code points, but is also aware of all the blocks sizes, and able to start the animation from any of these blocks. That required a lot of compression and transformation of the original code, but it worked!
+  <br>
+  <br>
+  <img src="images/js1k2016/un1kode.jpg" style=width:40%>
+  <br>
+  <br>- <a href="http://js1k.com/2016-elemental/demo/2440">The entry on js1k</a> (1024b)
+  <br>- <a href="https://www.reddit.com/r/js1k/comments/46e3k7/demo_2440_un1kode_by_maxime_euzi%C3%A8re_pure_1024/">The post on reddit</a>
+  <br>- <a href="https://github.com/xem/miniUnicode#readme">The project on Github</a>
+  <br>- <a href="https://github.com/xem/miniUnicode/blob/gh-pages/js1k.html">The detailed source code</a>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>MiniBeautifier</h3>
+  <p>This final challenge came as a surprise, while I was developping my <a href="http://codegolf.github.io/codegolfIDE">code-golfing IDE</a>. Subzey suggested that I add a code beautifier to see the "unminified" version of our code in real time, so I decided to develop one from scratch. Subzey also told me it was impossible to achieve this task using RegExes, so I took it as a personal challenge, and succeeded. Then I golfed my code a little and realized it could fit in 1kb with some extra compression. And that's what I did.
+  <br>
+  <br>
+  <img src="images/js1k2016/minibeautifier.png" style=width:95%>
+  <br>
+  <br>- <a href="http://js1k.com/2016-elemental/demo/2484">The entry on js1k</a> (1022b)
+  <br>- <a href="https://www.reddit.com/r/js1k/comments/47sewf/demo_2484_minibeautifier_by_maxime_euzi%C3%A8re_pure/">The post on reddit</a>
+  <br>- <a href="https://github.com/xem/miniBeautifier">The project on Github</a>
+  <br>- <a href="https://github.com/xem/miniBeautifier/blob/gh-pages/index.html#L317">The detailed source code</a>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Bonus: emulation!</h3>
+  <p>There are some other 1kb projects that I started to prepare before febuary, but they weren't good enough (or small enough) to be submitted. Here they are in exclusivity, just for you:
+  <br>
+  <br>Here's <a href="http://xem.github.io/chip8/c8.decompiler.min.pack.html">a Chip8 ROM decompiler</a> (1024b gzipped)
+  <br>
+  <br>
+  <img src="images/js1k2016/c8decompiler.png" style=width:50%>
+  <br>
+  <br>
+  <br>And <a href="https://rawgit.com/xem/chip8/js1k/emu.html">a Chip8 emulator with sound, packed in a js1k shim</a> (~1040b regpacked, but still buggy)
+  <br>
+  <br>
+  <img src="images/js1k2016/c8.png" style=width:50%>
+  <br>
+  <br>
+  (Both are inspired by my old <a href="http://xem.github.io/chip8">Chip8 emulator</a> project, where I had made a PNG-bootstrapped Chip8 emulator, without sound, in 1028b).
+  <br>
+  <br>
+  <hr>
+  <br>
+  <h3>Bonus 2: Compilations!</h3>
+  <br>I also prepared two compilations including all the tiny apps and games that I golfed with the team <br>(<b>@p01</b>, <b>@subzey</b>, <b>@aemkei</b>, <b>@0ndras</b>, <b>@maettig</b> and <b>@ilesinge</b>) during the past year.
+  <br>Sadly, none of them fits in 1kb but you can try them here!
+  <br>
+  <br><h3><a href="demos/js1k16/games.html">4 Games</a> (1230b)</h3>
+  <br>(Featuring <a href="https://github.com/xem/miniGameOfBraille">MiniGameOfBraille</a>, <a href="https://github.com/codegolf/miniFlappyBraille">MiniFlappyBraille</a>, <a href="https://github.com/codegolf/ping">Ping</a> & <a href="">Pacman</a>)
+  <br>
+  <br>
+  <img src="images/js1k2016/games.png" style=width:95%>
+  <br>
+  <br><h3><a href="demos/js1k16/apps.html">7 Apps</a> (1157b)</h3>
+  <br>(Featuring <a href="https://github.com/xem/miniMandelbrot">MiniMandelbrot</a>, <a href="https://jsbin.com/kinihavigo/edit?html,js,output">MiniMandelbrot ASCII</a>, <a href="https://github.com/xem/miniBookmarklet">MiniBookmarklet</a>, <a href="https://jsbin.com/nahegi/edit?html,output">Countdown 2017</a>, <a href="https://jsfiddle.net/subzey/oahnujcv/">Xmas trees</a>, <a href="https://github.com/xem/miniKeyCode">MiniKeyCode</a> & <a href="https://github.com/xem/miniUnicode">MiniUnicode</a>)
+  <br>
+  <br>
+  <img src="images/js1k2016/apps.png" style=width:95%>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <br>
+  Cheers,
+  <br>
+  <b>xem</b>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
