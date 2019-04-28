@@ -6,6 +6,7 @@ menus = {
   
   articles: {
     
+    projection: "3D projection",
     js1k19: "JS1K 2019",
     codegolfctober18: "Codegolfctober 2018",
     js13k18: "JS13kGames 2018",
@@ -191,15 +192,14 @@ menus = {
   
   techwatch: {
     
-    "Techwatch2018": "Tech watch 2018", 
-    "Techwatch2017": "Tech watch 2017", 
-    "Techwatch2016": "Tech watch 2016", 
-    "Techwatch2015": "Tech watch 2015", 
-    "Techwatch2014": "Tech watch 2014", 
-    "Techwatch2013": "Tech watch 2013", 
-    "Techwatch2012": "Tech watch 2012", 
-    "Techwatch2011": "Tech watch 2011", 
-    "Techwatch2010": "Tech watch 2010 (FR)", 
+    "techwatch2018": "Tech watch 2018", 
+    "techwatch2017": "Tech watch 2017", 
+    "techwatch2016": "Tech watch 2016", 
+    "techwatch2015": "Tech watch 2015", 
+    "techwatch2014": "Tech watch 2014", 
+    "techwatch2013": "Tech watch 2013", 
+    "techwatch2012": "Tech watch 2012 (FR)", 
+    "techwatch2011": "Tech watch 2011 (FR)", 
     
   }
 }
@@ -207,7 +207,8 @@ menus = {
 header = function(){
   var section = "home";
   var page = "";
-  location.pathname.replace(/.*\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
+  location.pathname.replace(/.*xem.github.io\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { console.log(b,c); if(b) section = b; if(c) page = c; });
+  console.log(section, page)
   
   $("header").innerHTML = 
   `
@@ -216,7 +217,7 @@ header = function(){
     <h3>game design <span>&</span> front-end hacking</h3>
     </div>
     <menu>
-    <a href="${section == "home" ? "." : ".."}" class="home${section == "home" ? " active" : ""}">🏠</a>
+    <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}">🏠</a>
     <a href="${section == "home" ? "" : "../"}articles"${section == "articles" ? ' class="active"' : ""}>Articles</a>
     <a href="${section == "home" ? "" : "../"}codegolf"${section == "codegolf" ? ' class="active"' : ""}>JS code golf</a>
     <a href="${section == "home" ? "" : "../"}projects"${section == "projects" ? ' class="active"' : ""}>Projects, games & experiments</a>
@@ -235,7 +236,7 @@ footer = function(){
     <a href="//github.com/xem" target=_blank>Github</a> - 
     <a href="//twitter.com/maximeeuziere" target=_blank>Twitter</a> - 
     <a href="mailto:maxime.euziere(at)gmail.com">Mail</a> - 
-    <a href="cv/cv-en.html" target=_blank>CV</a>
+    <a href="/cv" target=_blank>CV</a>
   `;
 }
 
@@ -246,7 +247,7 @@ menu = function(){
   var page = "";
   location.pathname.replace(/.*\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   
-  if(menus[section] && !page){
+  if(menus[section] && !page && section != "codegolf" && section != "projects"){
     for(var i in menus[section]){
       location = i + ".html";
       break;
@@ -258,7 +259,10 @@ menu = function(){
     var html = `<ul>`;
     var counter = menus[section].length;
     for(i in menus[section]){
-      html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html'>${menus[section][i]}</a>`;
+      if(section == "codegolf" || section == "projects")
+        html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}'>${menus[section][i]}</a>`;
+      else
+        html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html'>${menus[section][i]}</a>`;
     }
     
     $("#menu").innerHTML = html;

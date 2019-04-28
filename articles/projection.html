@@ -1,0 +1,196 @@
+﻿<!doctype html>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section>
+
+
+<h2>3D projection on a 2D canvas</h2>
+<h3>january-may 2019</h3>
+
+<br>
+<hr>
+
+<p>A very short article about a very specific topic: draw 3D points on a 2D canvas!
+<br>It's not very complex, but it puzzled me for years, until <b>C4ntelope</b> made <a href="https://cantelope.org/tiny_3D/">this handy introduction</a> based on his own intuition and computations, and <b>Román Cortés</b> helped me complete these explanations and simplify the maths and the code.
+<br>(This article is based on that <a href="https://twitter.com/MaximeEuziere/status/1086267391812739072">Twitter thread</a>).
+
+<br>
+<hr>
+
+<p><b>Ingredients</b>
+<br>- Camera position: cx, cy, cz.
+<br>- Camera rotation: yaw, pitch, roll.
+<br>- Simulated distance between the eye and the screen: perspective
+<br>- Canvas half-width and half-height: w = canvas.width/2, h = canvas.height/2.
+<br>- Points in 3D space, with coordinates [x, y, z].
+<br>- The points' size (or radius) in the "real world": realSize. 
+
+<br>
+<hr>
+
+<p><b>How to draw each point</b>
+<br>Of course, you can't just draw every point at the coordinates [X,Y] of your 2D canvas. You need a way to represent its depth, with perspective, in other terms: do a projection.
+<p>- Take the point's coordinates: x,y,z.
+<br>- Perform camera rotations using Euler's equations:
+<pre>rotate = (a, b, angle) => [
+  Math.cos(angle) * a - Math.sin(angle) * b,
+  Math.sin(angle) * a + Math.cos(angle) * b
+];
+[x,z] = rotate(x,z,yaw);
+[y,z] = rotate(y,z,pitch);
+[x,y] = rotate(x,y,roll);</pre>
+<br>- add the camera offset to the coordinates:
+<pre>x -= cx;
+y -= cy;
+z -= cz;</pre>
+<br>- Scale the point according to its depth:
+<pre>size = realSize / z * perspective;</pre>
+<br>- If Z > 0, place the point on the canvas:
+<pre>if(Z > 0){
+  X = w + x / z * perspective;
+  Y = h + y / z * perspective;
+  c.arc(x, y, size, 0, 2 * Math.PI);
+  c.fill()
+}</pre>
+
+<p><h3>>>> <a href="https://codepen.io/xem/pen/dLrpZr?editors=0010">CODEPEN DEMO</a> <<<</h3>
+<p><img src="images/projection/1.png">
+
+<br>
+<hr>
+
+<p><b>Z-ordering</b>
+
+<p>Let's go a bit further and notice that the points are drawn in the order in which they are declared, which can be problematic in case of overlap. Here's the previous demo with bigger points and colors:
+
+<p><img src="images/projection/2.png">
+
+<p>The solution is to order all the points by decreasing depth before projecting and drawing them:
+
+<pre>// Loop on all the points (like before)
+{
+  // (...)
+  
+  // Camera rotation (like before)
+  
+  // Camera offset (like before)
+  
+  // Set point color
+  // (...)
+
+  <b>// Store the point in an array
+  points.push({x, y, z, color});</b>
+}
+
+<b>// Order the points by depth
+points.sort((a,b) => b.z - a.z);</b>
+
+// Draw the points (like before)
+for(i in points){
+  x = points[i].x;
+  y = points[i].y;
+  z = points[i].z;
+  color = points[i].color;
+  size = realSize / z * perspective;
+  if(Z > 0){
+    // (...)
+  }
+}</pre>
+
+<p><h3>>>> <a href="https://codepen.io/xem/pen/VNRmww?editors=0010">CODEPEN DEMO</a> <<<</h3>
+<p><img src="images/projection/3.png">
+
+<br>
+<hr>
+
+<p><b>Animation</b>
+
+<p>You can embed this code in an animation and make the camera and/or the points move at each frame.
+
+<pre><b>setInterval(
+  () => {
+  
+    // Reset canvas
+    a.width = a.width;
+    
+    // Increase every camera angle (for example)
+    pitch += .01;
+    yaw += .01;
+    roll += .01;</b>
+  
+    // (everything like before)
+  
+  <b>}
+  , 16
+);</b>
+</pre>
+
+<p><h3>>>> <a href="https://codepen.io/xem/pen/oOVYzg?editors=0010">CODEPEN DEMO</a> <<<</h3>
+<p><img src="images/projection/4.gif">
+
+<br>
+<hr>
+
+<p><b>Polygons</b>
+
+<p>It's easy to link 3D points and make polygons, outlined and/or filled with a color.
+<br>But it's not super easy to z-order these polygons correctly.
+<br>I found <a href="https://twitter.com/MaximeEuziere/status/1086937795724226560">an approach</a> that seems to work, at least for "simple" scenes (for example, a cube made of 6 faces):
+<br>- Make an array containing all your faces, along with their center, vertices and color.
+<br>- Apply the camera rotation and offset to each face's center and vertices.
+<br>- Order the faces by decreasing center depth.
+<br>- Draw the faces from the furthest to the nearest by linking its vertices and filling the shape with the right color.
+<p>Basically:
+<pre style=font-size:10px>cube = [
+  {center: [-1, 0, 0], vertices: [[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]], color: "hsla(50, 50%, 50%, 0.5)"},
+  {center: [1, 0, 0],  vertices: [[1,-1,-1],[1,-1,1],[1,1,1],[1,1,-1]],     color: "hsla(100, 50%, 50%, 0.5)"},
+  {center: [0, -1, 0], vertices: [[-1,-1,-1],[-1,-1,1],[1,-1,1],[1,-1,-1]], color: "hsla(150, 50%, 50%, 0.5)"},
+  {center: [0, 1, 0],  vertices: [[-1,1,-1],[-1,1,1],[1,1,1],[1,1,-1]],     color: "hsla(200, 50%, 50%, 0.5)"},
+  {center: [0, 0, -1], vertices: [[-1,-1,-1],[-1,1,-1],[1,1,-1],[1,-1,-1]], color: "hsla(250, 50%, 50%, 0.5)"},
+  {center: [0, 0, 1],  vertices: [[-1,-1,1],[-1,1,1],[1,1,1],[1,-1,1]],     color: "hsla(300, 50%, 50%, 0.5)"},
+];
+centers = [];
+for(i in cube){
+  [x, y, z] = cube[i].center;
+  // (project)
+  centers.push({x, y, z});
+}
+centers.sort((a,b) => b.z - a.z);
+// (draw)</pre>
+
+
+<p><h3>>>> <a href="https://codepen.io/xem/pen/WLVYZR?editors=1000">CODEPEN DEMO</a> <<<</h3>
+<p><img src="images/projection/5.gif">
+
+
+
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
