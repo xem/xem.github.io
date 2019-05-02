@@ -20,8 +20,8 @@ header a:hover, header a.active { background: #059; color: #fff }
 .wrapper { min-height: calc(100vh - 85px) }
 
 main {  }
-#menu { margin: 0 auto 30px; columns: 3; vertical-align: top; background: #f3f3f3; border-radius: 5px; padding: 15px; }
-#menu ul { margin: 0; }
+#menu { margin: 0 auto 30px; columns: 3; vertical-align: top; background: #f3f3f3; border-radius: 5px; padding: 15px 0 15px 30px; }
+#menu ul { margin: 0; padding: 0 0 0 5px; }
 #menu li { margin: 0; }
 #menu .active { color: #000; font-weight: bold }
 
@@ -29,3 +29,4 @@ main {  }
 
 footer { text-align: center; margin: 0 0 20px }
 footer a { text-decoration: none; color: #059; }
+footer .backtotop { position: fixed; right: 0; bottom: 10px; width: 25px; height: 30px; background: #def; border-radius: 5px 0 0 5px; text-align: center; line-height: 30px; font-size: 25px; cursor: pointer; color: #246; }

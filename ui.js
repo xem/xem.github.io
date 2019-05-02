@@ -39,19 +39,27 @@ menus = {
   
   codegolf: {
     
-    intro: "Intro", 
+    intro: "Intro",
+
+    period1k19: "PERIOD1k 2019 (JS1k19)",
+    manonwire: "Man on Wire (JS13k19)",
+    envelope: "envelope (JS13k19)",
+    geoquiz2: "GEOQUIZ 2 (JS13k18)",
+    
     js13kpath: "JS13k-path",
     minifacedetection: "Mini Face Detection",
     minimusic: "Mini Music",
-    epiccycles: "Epic Cycles",
-    shaderandom: "Shaderandom",
-    minifourier: "Mini Fourier",
-    minilossst: "Mini LOSSST",
+    
+    mus1k: "MUS1K (JS1k18)",
+    epiccycles: "Epic Cycles (JS1k18)",
+    shaderandom: "Shaderandom (JS1k18)",
+    minifourier: "Mini Fourier (JS1k18)",
+    sn1ke: "SN1KE (JS1k18)",
+    
     minivideorecording: "Mini Video Recording",
     miniworld: "Mini World",
     minidwitter: "Mini Dwitter",
     miniminifier: "Mini Minifiers",
-    inilossst: "MiniLOSSST",
     minicodeeditor: "Mini Code Editor",
     asciiserpinski: "miniAsciiSerpinski",
     plot: "miniPlot",
@@ -74,8 +82,19 @@ menus = {
     miniuri: "miniURI converter",
     bookmarklet: "Mini Bookmarklet",
     arecibo: "Mini Arecibo",
+    
+    lossst: "LOSSST (JS13k17)",
+    
     minimandelbrot: "MiniMandelbrot",
-    moon1px: "If the moon was 1px",
+    
+    "1kindofmagic": "1Kind of magic (JS1k17)",
+    canihaz1karrot: "Can I haz 1Karrot? (JS1k17)",
+    
+    moon1px: "If the moon was 1px (JS1k17)",
+    
+    minishadertoy: "PERIOD1K Reloaded (JS1k17)",
+    minishadertoy: "MiniShadertoy (JS1k17)",
+    
     miniproxy: "miniProxy",
     minisplitscreen: "miniSplitScreen",
     minirgbdoodle: "miniRGBdoodle",
@@ -86,8 +105,10 @@ menus = {
     minicodeshaper: "miniCodeShaper",
     miniwebrtc: "miniWebRTC",
     minicam: "miniCam",
-    period1k: "PERIOD1k",
-    scpm: "Super Chrono Portal Maker",
+    
+    "26gamesin1": "26 games in 1 (JS13k16)",
+    
+    scpm: "SuperChronoPortalMaker (JS13k16)",
     minipi: "MiniPi",
     minisnake: "MiniSnake",
     minicosmiccall: "MiniCosmicCall",
@@ -100,15 +121,22 @@ menus = {
     minishadertoy: "MiniShadertoy",
     minibookmarklets: "MiniBookmarklets",
     miniregextester: "MiniRegexTester",
-    minibeautifier: "MiniBeautifier",
-    jsotopes: "JSotopes",
+    period1k: "PERIOD1K (JS1k16)",
+    jsotopes: "JSOTOPES (JS1k16)",
+    
+    un1kode: "UN1KODE (JS1k16)",
+    
+    minibeautifier: "MiniBeautifier (JS1k16)",
     obfuscatweet_url: "Obfusc-a-tweet reloaded",
     twitter_counter: "Twitter character counter",
-    geoquiz: "GeoQuiz",
+    geoquiz: "GeoQuiz (JS13k15)",
     minigameofbraille: "MiniGameOfBraille",
+    
+    hypercube: "hypeRcube (JS1k15)",
+    
     minijsperf: "MiniJSPerf",
     minishadowart: "MiniShadowArt",
-    alchemixer: "Alchemixer",
+    alchemixer: "Alchemixer (JS13k14)",
     minicountdown: "MiniCountdown",
     in_n_out: "In-n-out",
     minipoptiles: "MiniPopTiles",
@@ -118,10 +146,13 @@ menus = {
     postit: "Post-it",
     prettycode: "Pretty code",
     jstweet: "obfusc-a-tweet",
-    floppydragon: "Floppy dragon",
+    floppydragon: "Floppy dragon (JS1k14)",
     helloworld: "Hello World",
     chip8: "Chip8 emulator",
     hex: "Hex editor",
+    
+    "32b": "32b",
+    
     deletedlines: "Deleted lines",
     paste: "Paste",
     keypressed: "Keys pressed",
@@ -139,7 +170,7 @@ menus = {
     losssst: "LOSSST",
     envelope: "Envelope",
     responsivetouchgameframework: "miniGameFramework",
-    "../articles/js13k17": "LOSSST",
+    js13k17: "LOSSST (JS13k17)",
     shapecatcher: "MiniShapeCatcher",
     book: "MiniBook",
     leveleditor3d: "3D level editor",
@@ -150,7 +181,7 @@ menus = {
     css3dcubes: "CSS3D cubes",
     css3deditor: "CSS3D editor",
     css3dprototypes: "CSS3D prototypes",
-    "../articles/js13k16": "Super Chrono Portal Maker",
+    js13k16: "Super Chrono Portal Maker (JS13k16)",
     minipiano: "miniPiano",
     js13kgraphics: "JS13k graphics editor",
     js13kleveleditor: "JS13k level editor",
@@ -158,7 +189,7 @@ menus = {
     codegolfide: "Codegolf IDE",
     threeddoodle: "3Ddoodle",
     zpng: "Zpng: Pure JS JsExe",
-    "../articles/js13k15": "Geoquiz",
+    js13k15: "Geoquiz (JS13k15)",
     eqcss: "Element Queries CSS",
     cssslider: "CSSslider",
     windowall: "Window.all",
@@ -237,6 +268,7 @@ footer = function(){
     <a href="//twitter.com/maximeeuziere" target=_blank>Twitter</a> - 
     <a href="mailto:maxime.euziere(at)gmail.com">Mail</a> - 
     <a href="/cv" target=_blank>CV</a>
+    <div class=backtotop onclick="document.body.scrollTop = document.documentElement.scrollTop = 0">🡅</div>
   `;
 }
 
@@ -247,7 +279,7 @@ menu = function(){
   var page = "";
   location.pathname.replace(/.*\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   
-  if(menus[section] && !page && section != "codegolf" && section != "projects"){
+  if(menus[section] && !page && section == "articles"){
     for(var i in menus[section]){
       location = i + ".html";
       break;
@@ -259,7 +291,7 @@ menu = function(){
     var html = `<ul>`;
     var counter = menus[section].length;
     for(i in menus[section]){
-      if(section == "codegolf" || section == "projects")
+      if(section != "articles")
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}'>${menus[section][i]}</a>`;
       else
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html'>${menus[section][i]}</a>`;

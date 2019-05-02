@@ -125,7 +125,7 @@ n=(x,y,t)=>m(x,1/(l(x)||1));</pre>
 
 <pre class=code>with(new AudioContext)with(G=createGain())for(i in D=<b>[...Array(26).keys()]</b>)with(createOscillator())if(D[i])connect(G),G.connect(destination),start(i*.2),frequency[v="setValueAtTime"](440*1.06**(13-D[i]),i*.2),gain[v](1,i*.2),gain.setTargetAtTime(.001,i*.2+.18,.005),stop(i*.2+.19)</pre>
 
-<p>A tiny music player, including the output of MiniMusic (golfed during js13kgames <a href="#js13k17">2017</a> and <a href="#js13k18">2018</a> and regolfed here in 262 bytes) combined with the smallest code that generates an array from 1 to N (gorfed during the day 10 of <a href="archive.html#golfctober_2017">golfctober 2017</a>, 20 bytes).
+<p>A tiny music player, including the output of MiniMusic (golfed during js13kgames <a href="#js13k17">2017</a> and <a href="#js13k18">2018</a> and regolfed here in 262 bytes) combined with the smallest code that generates an array from 1 to N (gorfed during the day 10 of <a href="archive.html#golfctober17">golfctober 2017</a>, 20 bytes).
 <p>The result is a 280b script playing 2 octaves in decrescendo, while avoiding to make a "click" at the end of each note, that Oscillators do by default when we stop them abruptly.
 <p><button onclick='with(new AudioContext)with(G=createGain())for(i in D=[...Array(26).keys()])with(createOscillator())if(D[i])connect(G),G.connect(destination),start(i*.2),frequency[v="setValueAtTime"](440*1.06**(13-D[i]),i*.2),gain[v](1,i*.2),gain.setTargetAtTime(.001,i*.2+.18,.005),stop(i*.2+.19)'>Demo</button>  (warning, the volume is loud by default)
 
