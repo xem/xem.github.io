@@ -108,7 +108,7 @@ menus = {
     
     "26gamesin1": "26 games in 1 (JS13k16)",
     
-    scpm: "SuperChronoPortalMaker (JS13k16)",
+    scpm: "SCPM (JS13k16)",
     minipi: "MiniPi",
     minisnake: "MiniSnake",
     minicosmiccall: "MiniCosmicCall",
@@ -165,35 +165,51 @@ menus = {
   
   projects: {
     
+    intro: "Intro",
+
+    lol: "LOL",
+    inktober18: "inktober 2018",
+
     twitterdigest: "Twitter-digest",
+
+    gameaudiobundle: "Game Audio Bundle MP3",
+
     nes: "NES",
     losssst: "LOSSST",
-    envelope: "Envelope",
     responsivetouchgameframework: "miniGameFramework",
-    js13k17: "LOSSST (JS13k17)",
     shapecatcher: "MiniShapeCatcher",
     book: "MiniBook",
     leveleditor3d: "3D level editor",
     minix86: "minix86",
+    
+    ama: "Ask me anything",
+    
     math: "Maths cheat sheet",
     points: "3D points",
     raycast: "Raycasting experiments",
     css3dcubes: "CSS3D cubes",
     css3deditor: "CSS3D editor",
     css3dprototypes: "CSS3D prototypes",
-    js13k16: "Super Chrono Portal Maker (JS13k16)",
     minipiano: "miniPiano",
     js13kgraphics: "JS13k graphics editor",
     js13kleveleditor: "JS13k level editor",
     cellularandom: "Random cellular automata",
     codegolfide: "Codegolf IDE",
-    threeddoodle: "3Ddoodle",
+    "3ddoodle": "3Ddoodle",
     zpng: "Zpng: Pure JS JsExe",
-    js13k15: "Geoquiz (JS13k15)",
     eqcss: "Element Queries CSS",
+
+    talks: "talks",
+    "3DShomebrew": "3DShomebrew",
+
     cssslider: "CSSslider",
+
     windowall: "Window.all",
     escape: "EscApe, Unicode converter",
+
+    fruitcarving: "Fruit carving",
+    wiiufps: "WiiU FPS",
+
     charsets: "Charsets experiments",
     stfrtime: "Date formatter",
     ellipsis: "Simple multiline ellipsis",
@@ -209,28 +225,26 @@ menus = {
     video: "HTML5 video experiments",
     lazy: "Lazy, JS library",
     gba: "GBA emulator",
-    gameaudiobundle: "Game Audio Bundle MP3",
-    ama: "Ask me anything",
-    lol: "LOL",
-    "3DShomebrew": "3DShomebrew",
-    wiiufps: "WiiU FPS",
-    fruitcarving: "Fruit carving",
+    
     karoshids: "Karoshi DS",
     easy: "Easy classic flash game",
     scan: "Polytech-o-scan",
     lipdub: "Lipdub",
+
   },
   
   techwatch: {
     
-    "techwatch2018": "Tech watch 2018", 
-    "techwatch2017": "Tech watch 2017", 
-    "techwatch2016": "Tech watch 2016", 
-    "techwatch2015": "Tech watch 2015", 
-    "techwatch2014": "Tech watch 2014", 
-    "techwatch2013": "Tech watch 2013", 
-    "techwatch2012": "Tech watch 2012 (FR)", 
-    "techwatch2011": "Tech watch 2011 (FR)", 
+    "intro": "intro",
+    "techwatch2019": "2019",
+    "techwatch2018": "2018",
+    "techwatch2017": "2017", 
+    "techwatch2016": "2016", 
+    "techwatch2015": "2015", 
+    "techwatch2014": "2014", 
+    "techwatch2013": "2013", 
+    "techwatch2012": "2012 (FR)", 
+    "techwatch2011": "2011 (FR)", 
     
   }
 }
@@ -238,8 +252,7 @@ menus = {
 header = function(){
   var section = "home";
   var page = "";
-  location.pathname.replace(/.*xem.github.io\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { console.log(b,c); if(b) section = b; if(c) page = c; });
-  console.log(section, page)
+  location.pathname.replace(/.*xem.github.io\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   
   $("header").innerHTML = 
   `
@@ -260,16 +273,34 @@ header = function(){
 
 
 footer = function(){
-  $("footer").innerHTML = 
-  `
+
+  $("footer").insertAdjacentHTML("beforeEnd", 
+  ` 
     © ${new Date().getFullYear()} Maxime EUZIERE
     <br>
     <a href="//github.com/xem" target=_blank>Github</a> - 
     <a href="//twitter.com/maximeeuziere" target=_blank>Twitter</a> - 
+    <a href="//www.dwitter.net/u/xem" target=_blank>Dwitter</a> - 
+    <a href=//maximeeuziere.itch.io/" target=_blank>Itch</a> - 
     <a href="mailto:maxime.euziere(at)gmail.com">Mail</a> - 
     <a href="/cv" target=_blank>CV</a>
     <div class=backtotop onclick="document.body.scrollTop = document.documentElement.scrollTop = 0">🡅</div>
-  `;
+  `);
+  
+  var section = "home";
+  var page = "";
+  location.pathname.replace(/.*xem.github.io\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
+  
+  if(section != "home"){    
+    s = document.createElement("SCRIPT");
+    s.src = "https://utteranc.es/client.js";
+    s.setAttribute("repo","xem/xem.github.io");
+    s.setAttribute("issue-term","pathname");
+    s.setAttribute("theme","github-light");
+    s.setAttribute("crossorigin","anonymous");
+    s.setAttribute("async","");
+    $("main .section:last-child").appendChild(s);
+  }
 }
 
 
@@ -298,6 +329,7 @@ menu = function(){
     }
     
     $("#menu").innerHTML = html;
+    $("#menu").className = section;
   }
     
 }

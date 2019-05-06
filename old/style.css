@@ -45,8 +45,7 @@ div[contenteditable], pre[contenteditable], style[contenteditable], script[conte
 .lang { float: right; cursor: pointer; }
 .aside { width: 300px; padding-left: 805px; position: fixed; max-height: 95vh; overflow: auto; }
 code {display: block; }
-.games a { width: 23%; display: inline-block; vertical-align: top; margin: 1% 1% 1% 0; }
-.games a img { width: 100%; }
+
 @media screen and (max-width: 1200px){
   .aside { padding: 0; left: 10px; top: 380px; max-height: calc(100vh - 430px); overflow: auto; width: 190px; }
 }

@@ -149,18 +149,18 @@ for(i in points){
 <p>It's easy to link 3D points and make polygons, outlined and/or filled with a color.
 <br>But it's not super easy to z-order these polygons correctly.
 <br>I found <a href="https://twitter.com/MaximeEuziere/status/1086937795724226560">an approach</a> that seems to work, at least for "simple" scenes (for example, a cube made of 6 faces):
-<br>- Make an array containing all your faces, along with their center, vertices and color.
+<br>- Make an array containing all your faces, along with their center, vertices and color (rgba colors are possible!).
 <br>- Apply the camera rotation and offset to each face's center and vertices.
 <br>- Order the faces by decreasing center depth.
 <br>- Draw the faces from the furthest to the nearest by linking its vertices and filling the shape with the right color.
 <p>Basically:
-<pre style=font-size:10px>cube = [
-  {center: [-1, 0, 0], vertices: [[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]], color: "hsla(50, 50%, 50%, 0.5)"},
-  {center: [1, 0, 0],  vertices: [[1,-1,-1],[1,-1,1],[1,1,1],[1,1,-1]],     color: "hsla(100, 50%, 50%, 0.5)"},
-  {center: [0, -1, 0], vertices: [[-1,-1,-1],[-1,-1,1],[1,-1,1],[1,-1,-1]], color: "hsla(150, 50%, 50%, 0.5)"},
-  {center: [0, 1, 0],  vertices: [[-1,1,-1],[-1,1,1],[1,1,1],[1,1,-1]],     color: "hsla(200, 50%, 50%, 0.5)"},
-  {center: [0, 0, -1], vertices: [[-1,-1,-1],[-1,1,-1],[1,1,-1],[1,-1,-1]], color: "hsla(250, 50%, 50%, 0.5)"},
-  {center: [0, 0, 1],  vertices: [[-1,-1,1],[-1,1,1],[1,1,1],[1,-1,1]],     color: "hsla(300, 50%, 50%, 0.5)"},
+<pre style=font-size:12px>cube = [
+{center:[-1,0,0],vertices:[[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]],color:"hsla(50, 50%,50%,.5)"},
+{center:[1,0,0], vertices:[[1,-1,-1],[1,-1,1],[1,1,1],[1,1,-1]],    color:"hsla(100,50%,50%,.5)"},
+{center:[0,-1,0],vertices:[[-1,-1,-1],[-1,-1,1],[1,-1,1],[1,-1,-1]],color:"hsla(150,50%,50%,.5)"},
+{center:[0,1,0], vertices:[[-1,1,-1],[-1,1,1],[1,1,1],[1,1,-1]],    color:"hsla(200,50%,50%,.5)"},
+{center:[0,0,-1],vertices:[[-1,-1,-1],[-1,1,-1],[1,1,-1],[1,-1,-1]],color:"hsla(250,50%,50%,.5)"},
+{center:[0,0,1], vertices:[[-1,-1,1],[-1,1,1],[1,1,1],[1,-1,1]],    color:"hsla(300,50%,50%,.5)"},
 ];
 centers = [];
 for(i in cube){
@@ -175,7 +175,7 @@ centers.sort((a,b) => b.z - a.z);
 <p><h3>>>> <a href="https://codepen.io/xem/pen/WLVYZR?editors=1000">CODEPEN DEMO</a> <<<</h3>
 <p><img src="images/projection/5.gif">
 
-
+<p>Cheers!
 
 </div>
 
