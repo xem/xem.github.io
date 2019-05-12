@@ -17,8 +17,8 @@
 <div class=section id=intro style="background:#ffe">
 	<h1 style="margin:0 0 20px 0;">Tech watch?</h1>
   <p>This page contains all the interesting links and quotes I find online everyday.
-  <br>It's a curated summary of <a href="https://twitter.com/MaximeEuziere">my Twitter timeline</a>.
-  <br>Jump to 
+  <p>It's a curated summary of <a href="https://twitter.com/MaximeEuziere">my Twitter timeline</a>.
+  <p>Jump to 
   <a href="#techwatch2019">2019</a> -
   <a href="#techwatch2018">2018</a> -
   <a href="#techwatch2017">2017</a> -
@@ -28,6 +28,24 @@
   <a href="#techwatch2013">2013</a> -
   <a href="#techwatch2012">2012</a> -
   <a href="#techwatch2011">2011</a>.
+  <p>
+  Search: <input id=search>
+  <p><div id=results></div>
+  
+  <script>
+  search.oninput = function(){
+  
+    var html = "<ul>";
+    var lis = document.querySelectorAll("#intro ~ * li");
+    for(var li in lis){
+      if(lis[li].innerHTML && lis[li].innerHTML.toLowerCase().includes(search.value.toLowerCase())){
+        html += lis[li].outerHTML;
+      }
+    }
+    results.innerHTML = html;
+  
+  }
+  </script>
 </div>
 
 <div class=section id=techwatch2019>

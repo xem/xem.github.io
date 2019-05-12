@@ -40,8 +40,9 @@ menus = {
   codegolf: {
     
     intro: "Intro",
+    minisoundeditor: "Mini Sound Editor",
 
-    period1k19: "PERIOD1k 2019 (JS1k19)",
+    period1k19: "PERIOD1k (JS1k16/17/19)",
     manonwire: "Man on Wire (JS13k19)",
     envelope: "envelope (JS13k19)",
     geoquiz2: "GEOQUIZ 2 (JS13k18)",
@@ -61,9 +62,8 @@ menus = {
     minidwitter: "Mini Dwitter",
     miniminifier: "Mini Minifiers",
     minicodeeditor: "Mini Code Editor",
-    asciiserpinski: "miniAsciiSerpinski",
-    plot: "miniPlot",
-    minigameoflife2: "miniGameOfLife 2",
+    miniasciiserpinski: "miniAsciiSerpinski",
+    miniplot: "miniPlot",
     minigameoflife: "MiniGameOfLife",
     minipeterdejongattractor: "MiniPeterDeJongAttractor",
     minicliffordattractor: "MiniCliffordAttractor",
@@ -72,16 +72,16 @@ menus = {
     atree: "Atree",
     attractorandom: "Random attractors",
     sheet: "Sheet",
-    burrowswheeler: "MiniBurrowsWheeler",
-    tetris: "MiniTetris",
+    miniburrowswheeler: "MiniBurrowsWheeler",
+    minitetris: "MiniTetris",
     miniunicode: "MiniUnicode",
-    serpinskitriangle: "MiniSerpinskiTriangle",
-    pixelfont: "MiniPixelFont",
-    dragoncurve: "MiniDragonCurve",
+    miniserpinskitriangle: "MiniSerpinskiTriangle",
+    minipixelfont: "MiniPixelFont",
+    minidragoncurve: "MiniDragonCurve",
     minikeycode: "MiniKeyCode",
     miniuri: "miniURI converter",
-    bookmarklet: "Mini Bookmarklet",
-    arecibo: "Mini Arecibo",
+    minibookmarklet: "Mini Bookmarklet",
+    miniarecibo: "Mini Arecibo",
     
     lossst: "LOSSST (JS13k17)",
     
@@ -92,16 +92,13 @@ menus = {
     
     moon1px: "If the moon was 1px (JS1k17)",
     
-    minishadertoy: "PERIOD1K Reloaded (JS1k17)",
     minishadertoy: "MiniShadertoy (JS1k17)",
     
     miniproxy: "miniProxy",
     minisplitscreen: "miniSplitScreen",
     minirgbdoodle: "miniRGBdoodle",
     miniconwayserpinski: "miniConwaySerpinski",
-    minispeechrecognitionsynthesis: "miniSpeechRecoAndSynth",
-    minispeechrecognition: "miniSpeechRecognition",
-    minispeechsynthesis: "miniSpeechSynthesis",
+    minispeechrecognitionandsynthesis: "miniSpeechRecoAndSynth",
     minicodeshaper: "miniCodeShaper",
     miniwebrtc: "miniWebRTC",
     minicam: "miniCam",
@@ -118,19 +115,15 @@ menus = {
     minilangtonloops: "MiniLangtonLoops",
     minilangtonant: "MiniLangtonAnt",
     minishadertoylite: "MiniShadertoy Lite",
-    minishadertoy: "MiniShadertoy",
-    minibookmarklets: "MiniBookmarklets",
     miniregextester: "MiniRegexTester",
-    period1k: "PERIOD1K (JS1k16)",
     jsotopes: "JSOTOPES (JS1k16)",
     
     un1kode: "UN1KODE (JS1k16)",
     
     minibeautifier: "MiniBeautifier (JS1k16)",
-    obfuscatweet_url: "Obfusc-a-tweet reloaded",
-    twitter_counter: "Twitter character counter",
+    obfuscatweetreloaded: "Obfusc-a-tweet reloaded",
+    twittercounter: "Twitter character counter",
     geoquiz: "GeoQuiz (JS13k15)",
-    minigameofbraille: "MiniGameOfBraille",
     
     hypercube: "hypeRcube (JS1k15)",
     
@@ -138,14 +131,14 @@ menus = {
     minishadowart: "MiniShadowArt",
     alchemixer: "Alchemixer (JS13k14)",
     minicountdown: "MiniCountdown",
-    in_n_out: "In-n-out",
+    innout: "In-n-out",
     minipoptiles: "MiniPopTiles",
     minisimon: "MiniSimon",
     golfer: "ASCII-art golfer",
     cssprite: "CSSprite",
     postit: "Post-it",
     prettycode: "Pretty code",
-    jstweet: "obfusc-a-tweet",
+    obfuscatweet: "obfusc-a-tweet",
     floppydragon: "Floppy dragon (JS1k14)",
     helloworld: "Hello World",
     chip8: "Chip8 emulator",
@@ -166,7 +159,7 @@ menus = {
   projects: {
     
     intro: "Intro",
-
+    
     lol: "LOL",
     inktober18: "inktober 2018",
 
@@ -291,7 +284,7 @@ footer = function(){
   var page = "";
   location.pathname.replace(/.*xem.github.io\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   
-  if(section != "home"){    
+  if(section != "home" && page != ""){    
     s = document.createElement("SCRIPT");
     s.src = "https://utteranc.es/client.js";
     s.setAttribute("repo","xem/xem.github.io");

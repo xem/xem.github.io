@@ -241,7 +241,7 @@ By chance, it worked and fitted exactly in 1024 bytes. We can see the borders of
 <li>As for the piano and guitar synthesizing itself, the most interesting part of the app in a way, I can't tell much about it because I still see it as black magic... though, I described it the best I could in the commented source code.
 <br>As far as I can tell, the piano is simulated by an addition of different frequencies with lower and lower volumes for each "sub-frequency", and the guitar is simulated by accumulating a random noise in a variable after each sample generation and using this variable in the computation of the next sample.
 <br>Also, to have a more natural feeling, each note is made of two phases: the attack (where the volume goes steadily from 0 to 1) and the decay (where the volume decreases while being multiplied by <a href="https://github.com/xem/js1k19/blob/gh-pages/miniSynth/index.html#L76-L81">a log-ish operation</a>.
-<br>PS: here's a <a href="https://twitter.com/maximeeuziere/status/1071433309664755715">Twitter discussion</a> about how to play a JS array full of numbers as if it was a sound buffer. Thanks to Kevin <b>Chapelier</b> and <b>p01</b> for <a href="https://codepen.io/KChplr/pen/BvBgXb">this solution</a>, implemented in the final demo!
+<br>PS: here's a <a href="https://twitter.com/maximeeuziere/status/1071433309664755715">Twitter discussion</a> about how to play a JS array full of numbers as if it was a sound buffer. Thanks to <b>Kevin Chapelier</b> and <b>p01</b> for <a href="https://codepen.io/KChplr/pen/BvBgXb">this solution</a>, implemented in the final demo!
 </ul>
 
 <br><hr><br>
