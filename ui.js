@@ -284,7 +284,7 @@ footer = function(){
   var page = "";
   location.pathname.replace(/.*xem.github.io\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   
-  if(section != "home" && page != ""){    
+  if(section != "home" && page != "" && page != "intro"){    
     s = document.createElement("SCRIPT");
     s.src = "https://utteranc.es/client.js";
     s.setAttribute("repo","xem/xem.github.io");
@@ -292,7 +292,8 @@ footer = function(){
     s.setAttribute("theme","github-light");
     s.setAttribute("crossorigin","anonymous");
     s.setAttribute("async","");
-    $("main .section:last-child").appendChild(s);
+    if($("main .section:last-child"))
+      $("main .section:last-child").appendChild(s);
   }
 }
 
@@ -303,7 +304,7 @@ menu = function(){
   var page = "";
   location.pathname.replace(/.*\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   
-  if(menus[section] && !page && section == "articles"){
+  if(menus[section] && !page && (section == "articles" || section == "codegolf")){
     for(var i in menus[section]){
       location = i + ".html";
       break;
@@ -315,7 +316,7 @@ menu = function(){
     var html = `<ul>`;
     var counter = menus[section].length;
     for(i in menus[section]){
-      if(section != "articles")
+      if(section != "articles" && section != "codegolf")
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}'>${menus[section][i]}</a>`;
       else
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html'>${menus[section][i]}</a>`;
