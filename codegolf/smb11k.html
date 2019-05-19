@@ -1,0 +1,320 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body id=b>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=smb11k>
+  <h2>SMB 1-1k</h2>
+	<h3>febuary 2019</h3>
+	<p>A demake of the first level of Super Mario Bros, made in 1Kb for JS1k 2019.
+  <p>Every sprite is reduced to a single colored pixel.
+  <p>Play with arrow keys.
+  <p>- <a href="https://github.com/xem/js1k19/tree/gh-pages/SMB1-1k">Github</a>
+  <p>- <a href="https://xem.github.io/js1k19/SMB1-1k/">Commented demo</a>
+  (+ <a href="../articles/js1k19.html">making-of</a>)
+  
+  <pre><code class="lang-js">&lt;canvas id=a>
+&lt;script>
+c = a.getContext(`2d`);
+for(_='o=-.2NonkeyZ,1YY2XY0W=.V=1Uc.fillT][Hf[GGiHj]FTStyle=`#E==F?(ED]=C)GMHICG10H198C1B--Afor(@;iA;)@@I=i;I),a(2Y99Y,2,TRect(`9*])G,n~~,o=0=(l,iS(g(d&&1)j=999;jA;),9`0,09999-9*e	,8;@i oG)=>{@MU1;MA>l;)HiCa(6Y(GiHl]j	*i)f=[l=u=r=e=o=t=0],d=n=2,y=R=24,SGMGMHi+1C4},a,eif(e)&lt;i+M-l;I++B;else A>i-M+l;B},g,e)=>{if(Gi])return e2!=A};@iU5GiC[],GiHjCi>10![69,70678Y53Y54].includes(j)224W23033801234567123X1X2X3X8Y3131813,78W6W12Y70732024,77,794W0Y18X308717G10H198C1;S(988,387,467,5793793852530140Y55,,Zdown=Zup=(l=>selG`lur`[l.which-37]Cl.type[5]setInterval("@R-V02,Math.hypot(R-dW-n)&lt;1z?(R=-1,N):t=,ld>e-V1)dU+drg((d+V+1)?d=d-.1:d>e+7e+Vu!zN5)+=o+V012,o&lt;0+=o,|+.9,nU+n(n>14||d>198)t=,z=u=!(+|+.5+z||(n=nE59fiU34D8d11784	):3Df93):FEc40);Ea00R	0Ed20d	*nttop.reload(yE000yA)")';G=/[-@-HT-ZN]/.exec(_);)with(_.split(G))_=join(shift());eval(_)
+&lt;/script></code></pre>
+  
+  <p><hr>
+  <p><canvas id=a>
+<script>
+z = 0;
+smb = function(){
+if(z) clearInterval(z);
+c = a.getContext(`2d`);
+
+a.width = 15 * 9;
+a.height = 13 * 9;
+// SMB 1-1k
+// ========
+// Introduction
+// ------------
+// This demo is a 1kb demake of the first stage of Super Mario Bros on NES.
+// To fit in the budget, there's no decoration (mountains, clouds, bushes, castle, hub), no sub-areas and no power-ups.
+// There's just one enemy, and no music (it should be playing in your head anyway).
+// Besides that, the map and gameplay are as accurate as possible.
+// I used this map/grid for reference: https://goo.gl/nju6DR
+// The idea / challenge came from this tweet: https://twitter.com/mad_maw/status/1060775962185392128
+// A 1260 bytes wip version with more detailed graphics is visible here: https://twitter.com/MaximeEuziere/status/1063763918756163585
+// Every sprite of the game is reduced to a colored pixel.
+// The game features a 211*15px map, and shown on a 15*13px viewport, but it is scaled up 9 times to be easier to watch.
+// All the map's pixels are represented with different numbers, or "id"'s, and drawn with different colors:
+// - 0: sky
+// - 1: ground block / stairs / flag basis
+// - 2: disabled question block
+// - 3: question block
+// - 4: pipe
+// It was minified with Terser-online: https://xem.github.io/terser-online/
+// and packed with RegPack: https://siorki.github.io/regPack.html
+// Global vars
+// -----------
+// The global vars `l`, `u` and `r` indicate if the left, up and right arrow keys are pressed or released.
+// They're declared without "var" to prevent the minifier from renaming them.
+l = u = r = 0;
+// The following vars are allowed to be renamed by the minifier to save bytes.
+var
+map = [],      // Map
+scroll = 0,    // Horizontal map scroll
+vy = 0,        // Mario's vertical speed
+end = 0,       // Game over
+n = 9,         // Pixels zoom
+x = 2,         // Mario's X position
+y = 2,         // Mario's Y position
+intro = 24,    // Frames of introduction (black screen)
+enemy = 24,    // The first enemy's X position (Y is constant: 10)
+//grounded = 0 // Is Mario touching the ground? (doesn't need to be initialized)
+// Helpers
+// -------
+// This function adds a pipe (id = 4) on the map at a given top-left position.
+// The pipe will be 2px wide and as high as needed to touch the ground at y = 11.
+pipe = (y,x) => {
+  for(Y = 11; Y-- > y;){
+    map[Y][x] = map[Y][x+1] = 4;
+  }
+},
+// This function adds a "stair" of ground pixels (id = 1) at a given position.
+// If the `right` parameter is set, the stair will face right (𝆲), otherwise it will face left (𝆱).
+// Also, set the flag basis (x = 198, y = 10).
+stair = (y, x, right) => {
+  for(Y = 11; Y-- > y;){
+    if(right){
+      for(X = x; X < x + Y - y; X++){
+        map[Y][X] = map[10][198] = 1;
+      }
+    }
+    else {
+      for(X = x; X-- > x - Y + y;){
+        map[Y][X] = map[10][198] = 1;
+      }
+    }
+  }
+},
+// This function detects and responds to collisions between a corner of Mario's pixel and other blocks of the map.
+// The `up` parameter is set if Mario is jumping, and means that the collision that is being checked is between Mario's "top" and a block above him.
+collision = (x, y, up) => {
+  // If the map actually has a line at the given Y coordinate.
+  // This must be checked because Mario can jump above and fall below the map.
+  if(map[~~y]){
+    // Test if:
+    // - Mario is jumping.
+    // - and the map contains a solid block at these coordinates.
+    // - and this block is not already a disabled question block (id = 2).
+    // In that case, cancel Mario's vertical speed and decrease the value of that block:
+    // - A question block (id = 3) will become a disabled question block (id = 2).
+    // - A brick block (id = 1) will become sky (id = 0).
+    // - Sky (0), ground (1) and pipes (4) can't be hit from below, so they're not concerned here.
+    if(up && map[~~y][~~x] && map[~~y][~~x] != 2) map[~~y][~~x]--, vy = 0;
+    // Then, return the id of the block at these coordinates.
+    return map[~~y][~~x];
+  }
+};
+// MAP
+// ---
+// Define a 211 * 15 grid with 10 lines of sky (id = 0), and 5 lines of ground (id = 1).
+// The ground has 3 holes (id = 0) at coordinates x = 69 & 70, x = 86 & 87 & 88, and x = 153 & 154.
+// 211 is replaced by 999 to save bytes
+for(i = 15; i--;){
+  map[i] = [];
+  for(j = 999; j--;){
+    map[i][j] = (i > 10 && ![69, 70, 86, 87, 88, 153, 154].includes(j));
+  }
+}
+// Set all the question blocks (id = 3) and brick blocks (id = 1) on the 4th and 8th lines.
+for(i of[22,94,109,129,130]) map[3][i] = 3;
+for(i of[80,81,82,83,84,85,86,87,91,92,93,121,122,123,128,131]) map[3][i] = 1;
+for(i of[8,21,23,78,106,109,112,170]) map[7][i] = 3;
+for(i of[20,22,24,77,79,94,100,118,129,130,88,89,171]) map[7][i] = map[10][198] = 1;
+// Set all the pipes.
+pipe(9, 28);
+pipe(8, 38);
+pipe(7, 46);
+pipe(7, 57);
+pipe(9, 83);
+pipe(9, 179);
+// Set all the stairs
+// After the first stair, two pair of stairs have a 1px difference (x = 152 & 153, x = 190 & 191).
+// This is because those those stairs have a 2px-wide platform on top.
+// It was simpler to overlap two stairs than adding a column of pixels.
+stair(6, 138);
+stair(6, 152);
+stair(6, 153);
+stair(2, 190);
+stair(2, 191);
+stair(6, 140, 1);
+stair(6, 155, 1);
+// Input
+// -----
+// Every time a key is pressed (onkeydown), the corresponding flag is set to "w" (the 5th char of e.type = "keydown")
+// Every time a key is released (onkeyup), it is set to "undefined" (the 5th char of e.type = "keyup")
+// Those flags can be tested as if they were booleans because "w" is truthy and undefined is falsy.
+onkeydown = onkeyup = e => {self['lur'[e.which - 37]] = e.type[5]; e.preventDefault() }
+// Game loop
+// ---------
+z = setInterval(
+  // The game is updated and the canvas is redrawn every 9ms:
+  e => {
+    // Move the enemy to the left.
+    enemy -= .02;
+    // If the distance between the enemy and Mario is smaller than 1px:
+    if(Math.hypot(enemy - x, 10 - y) < 1){
+      // If Mario is jumping, "kill" the enemy by moving it at x=-1px, out of the viewport.
+      if(grounded){
+        enemy = -1;
+        vy = -.2;
+      }
+      // If mario is grounded, game over.
+      else {
+        end = 1;
+      }
+    }
+    // Mario goes left if `l` is set and if his position on the map is larger than the map scroll.
+    if(l && x > scroll){
+      x -= .1;
+      // Stop Mario if he hits a solid block on the left.
+      // To stop Mario precisely against the wall, his x coordinate is floored and incremented (i.e. set to the block's x + 1).
+      if(collision(x, y)){
+        x = ~~x + 1;
+      }
+    }
+    // Mario goes right if `r` is set.
+    if(r){
+      x += .1;
+      // Stop Mario if he hits a solid block on the right.
+      // his x coordinate is set to the block's x - 1.1 (if it was just 1, it would continue to collide and cause bugs on the next frame).
+      if(collision(x + 1, y)){
+        x = ~~x - .1;
+      }
+      // Make the map scroll if Mario goes further than the current scroll value + 7px.
+      else if(x > scroll + 7){
+        scroll += .1;
+      }
+    }
+    // Mario jumps if `u` is set and if Mario is currently touching the ground.
+    // The jump is made by setting his vertical speed to -.25 pixels/frame.
+    if(u && !grounded){
+      vy = -.25;
+    }
+    // Add gravity (.012px/frame) to Mario's vertical speed and the vertical speed to the vertical position.
+    vy += .012;
+    y += vy;
+    // During a jump (if the vertical speed has been set to a negative value):
+    if(vy < 0){
+      // Add vertical speed to y position
+      y += vy;
+      // If a solid block is hit by Mario's top-left corner or top-right corner:
+      if(collision(x, y, 1) | collision(x + .9, y, 1)){
+        // Place Mario just below the solid block.
+        y = ~~y + 1;
+        // Cancel his vertical speed.
+        vy = 0;
+      }
+    }
+    // If Mario dies by falling in a hole, or wins by touching the flag, game over
+    if(y > 14 || x > 198) end = 1;
+    // Stop Mario's fall when his bottom-left corner or bottom-right corner touches a solid block.
+    // He is considered "grounded" and the "up" flag is unset to avoid jumping again immediately.
+    // Though, Mario will continue jumping as long as no other key is pressed because the onkeydown event will be fired continuously.
+    grounded = u = !(collision(x, y + 1) | collision(x + .5, y + 1));
+    if(!grounded) y = ~~y, vy = 0;
+    // Draw the scene:
+    // Sky
+    c.fillStyle = `#59f`;
+    c.fillRect(0, 0, 999, 999);
+    // Map
+    for(i = 13; i--;){
+      for(j = 999; j--;){
+        // This commented code would have drawn all the clouds in white if there were enough bytes left.
+        /*
+        if(j%48 == 9){
+          c.fillStyle=`#fff`;
+          c.fillRect(j*n-scroll*n,2*n,n,n);
+          c.fillRect((j+19)*n-scroll*n,2*n,3*n,n);
+          c.fillRect((j+11)*n-scroll*n,n,n,n);
+          c.fillRect((j+26)*n-scroll*n,n,2*n,n);
+        }
+        */
+        // Pipes
+        if(map[i][j] == 4){
+          c.fillStyle = `#8d1`;
+          c.fillRect(j * n - scroll * n, i * n, n, n);
+          // Reuse the pipes' color to draw the flag between the lines 2 and 11 at x = 198.
+          c.fillRect(198 * n + 2 - scroll * n, n, 2, 9 * n);
+        }
+        // Question blocks
+        else if(map[i][j] == 3){
+          c.fillStyle = `#f93`;
+          c.fillRect(j * n - scroll * n, i * n, n, n);
+        }
+        // Ground / brick / stairs
+        else if(map[i][j]){
+          c.fillStyle = `#c40`;
+          c.fillRect(j * n - scroll * n, i * n, n, n);
+        }
+      }
+    }
+    // Enemy
+    c.fillStyle = `#a00`;
+    c.fillRect(enemy * n - scroll * n, 10 * n, n, n);
+    // Mario
+    c.fillStyle = `#d20`;
+    c.fillRect(x * n - scroll * n, y * n, n, n);
+    // Reload the page after a game over (win / lose)
+    if(end){
+      setTimeout(smb, 200);
+    }
+    // Draw a black screen during the intro (24 frames)
+    // (It also serves as a transition after a game over)
+    if(intro){
+      c.fillStyle = `#000`;
+      c.fillRect(0, 0, 999, 999);
+      intro--;
+    }
+  }, 9
+)
+// After minification, some manual optimizations were added:
+// - l=u=r=0;var f=[],e=0,o=0,t=0,n=2,R=2,S=24,a=24 => f=[l=u=r=e=o=t=0],n=R=2,S=a=24
+// - grounded => z
+// - " => `
+// - replace the function in setInterval with a string
+// The minified size is 1507b.
+// After RegPacking with the score 1/0/0 and the vars a and c ignored, the size is 1018b.
+
+}
+
+smb();
+
+</script>
+
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
