@@ -342,6 +342,9 @@ menu = function(){
     $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hidemenu class=mobileonly onclick=hidemenu()>≡</div>");
     $("#menu").className = section;
   }
+  
+  // prev/next 
+  //$(".section").insertAdjacentHTML("afterBegin","&larr; &rarr;")  
     
 }
 
