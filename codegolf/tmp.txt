@@ -1,0 +1,14 @@
+  <p>- <a href="">Github</a>
+  <p>- <a href="">Demo</a>
+  <p>- <a href="">Commented source code</a>
+  <p>- <a href="../articles/js1k19.html">making-of</a>
+  
+  <pre><code class="lang-html">
+  
+  </code></pre>
+  
+  <p><hr>
+  <p>
+  <div class="iframe-wrapper" style="padding-bottom: 55%;">
+    <iframe src="" height=500></iframe>
+  </div>

@@ -15,6 +15,29 @@
 
 <main>
 
+<div class=section id=deletedlines>
+	<h2>A JavaScript function that tells which of its line(s) have been deleted</h2>
+	<h3>december 2013</h3>
+	<p>A stackexchange challenge</p>
+  <p>Best JS solution for 0 or 1 deleted line: 78 bytes</p>
+  <pre>(function(n){
+a=n-=1
+n-=2
++3
++4;if(this.a)return 5
+return n;var a
+})(10)</pre>
+	<a href=//codegolf.stackexchange.com/questions/16349/write-a-function-that-tells-you-which-of-its-lines-has-been-removed/16424#16424 target=_blank>link</a>
+  <p>Best JS solution for 0 / 1 / 2 deleted lines: 213 bytes</p>
+  <pre>(function(r){
+r.shift();
+r.splice(r.indexOf(2),1)
+r.splice(r.indexOf(3),1);a=b=1;if(this.a&&this.b)return r
+var a;r.splice(r.indexOf(4),1);b=1;if(this.b)return r
+var b;r.pop();return r[0]?r:0
+})([1,2,3,4,5])</pre>
+	<a href=//codegolf.stackexchange.com/questions/16810/write-a-function-that-tells-you-which-two-of-its-lines-has-been-removed/16823#16823 target=_blank>link</a>
+</div>
 
 </main>
 

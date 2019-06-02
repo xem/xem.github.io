@@ -38,7 +38,8 @@ menus = {
     textshadows: "Text-shadows",
     lists: "Lists", 
     contenteditable: "Contenteditable",
-    doctype: "Doctype (FR)",  
+    doctype: "Doctype (FR)",
+    hexadecimalweirdness: "Hexadecimal weirdness",
   },
   
   codegolf: {
@@ -61,18 +62,16 @@ menus = {
     
     mini2Dphysics: "mini2Dphysics",
     minifacedetection: "Mini Face Detection",
-    minimusic: "Mini Music",
-    
-    mus1k: "MUS1K (JS1k18)",
+    minimusic: "Mini Music (JS1k18)",
     epiccycles: "Epic Cycles (JS1k18)",
-    shaderandom: "Shaderandom (JS1k18)",
+    shaderandom: "ShaderRndom (JS1k18)",
     minifourier: "Mini Fourier (JS1k18)",
     sn1ke: "SN1KE (JS1k18)",
     
     minivideorecording: "Mini Video Recording",
     miniworld: "Mini World",
     minidwitter: "Mini Dwitter",
-    miniminifier: "Mini Minifiers",
+    miniminifier: "Mini Minifier",
     minicodeeditor: "Mini Code Editor",
     miniasciiserpinski: "miniAsciiSerpinski",
     miniplot: "miniPlot",
@@ -82,7 +81,7 @@ menus = {
     tetristheme: "TetrisTheme",
     audioviz: "MiniAudioViz",
     atree: "Atree",
-    attractorandom: "Random attractors",
+    attractorandom: "AttractoRandom",
     sheet: "Sheet",
     miniburrowswheeler: "MiniBurrowsWheeler",
     minitetris: "MiniTetris",
@@ -105,15 +104,15 @@ menus = {
     moon1px: "If the moon was 1px (JS1k17)",
     
     minishadertoy: "MiniShadertoy (JS1k17)",
+    minishadertoylite: "MiniShadertoyLite",
     
-    miniproxy: "miniProxy",
+    miniproxy: "MiniProxy",
     minisplitscreen: "miniSplitScreen",
-    minirgbdoodle: "miniRGBdoodle",
-    miniconwayserpinski: "miniConwaySerpinski",
-    minispeechrecognitionandsynthesis: "miniSpeechRecoAndSynth",
-    minicodeshaper: "miniCodeShaper",
-    miniwebrtc: "miniWebRTC",
-    minicam: "miniCam",
+    miniconwayserpinski: "MiniConwaySerpinski",
+    minispeechrecognitionandsynthesis: "MiniSpeechRecognition/Synth",
+    minicodeshaper: "MiniCodeShaper",
+    miniwebrtc: "MiniWebRTC",
+    minicam: "MiniCam",
     
     "26gamesin1": "26 games in 1 (JS13k16)",
     
@@ -126,14 +125,13 @@ menus = {
     miniburningship: "MiniBurningShip",
     minilangtonloops: "MiniLangtonLoops",
     minilangtonant: "MiniLangtonAnt",
-    minishadertoylite: "MiniShadertoy Lite",
     miniregextester: "MiniRegexTester",
     jsotopes: "JSOTOPES (JS1k16)",
     
     un1kode: "UN1KODE (JS1k16)",
     
     minibeautifier: "MiniBeautifier (JS1k16)",
-    obfuscatweetreloaded: "Obfusc-a-tweet reloaded",
+    obfuscatweet: "Obfusc-a-tweet",
     twittercounter: "Twitter character counter",
     geoquiz: "GeoQuiz (JS13k15)",
     
@@ -150,7 +148,6 @@ menus = {
     cssprite: "CSSprite",
     postit: "Post-it",
     prettycode: "Pretty code",
-    obfuscatweet: "obfusc-a-tweet",
     floppydragon: "Floppy dragon (JS1k14)",
     helloworld: "Hello World",
     chip8: "Chip8 emulator",
@@ -315,6 +312,7 @@ menu = function(){
   
   var section = "home";
   var page = "";
+  var scroll = 0;
   location.pathname.replace(/.*\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   
   if(menus[section] && !page && (section == "articles" || section == "codegolf")){
@@ -326,6 +324,8 @@ menu = function(){
   
   if(menus[section]){
     
+    var nb = 0;
+    
     var html = `
     <input id=menusearch placeholder="Search..." oninput="filtermenu(value)">
     <ul>`;
@@ -335,12 +335,20 @@ menu = function(){
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}'>${menus[section][i]}</a>`;
       else
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html'>${menus[section][i]}</a>`;
+      
+      if(page == i){
+        scroll = nb * 22;
+      }
+      
+      nb++;
     }
     
     $("#menu").innerHTML = html;
     $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hamburger class=mobileonly onclick=showmenu()>≡</div>");
     $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hidemenu class=mobileonly onclick=hidemenu()>≡</div>");
     $("#menu").className = section;
+    console.log(scroll);
+    $("#menu").scrollTop = scroll;
   }
   
   // prev/next 

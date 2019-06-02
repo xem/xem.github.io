@@ -15,6 +15,16 @@
 
 <main>
 
+<div class=section id=helloworld>
+  
+	<h2>Hello World in ASCII-art</h2>
+	<h3>febuary 2014</h3>
+	<p>A stackexchange challenge. Best JS solution: 117 bytes (to execute in a JS console):</p>
+  <pre>for(i=s="";l=[43117609029,64070269789,46349920852,46890400349][i++];)for(j=0,s+="\n";c=l.toString(2)[j++];)s+=" #"[c]</pre>
+  <p>Best ES6 solution (works on Firefox): 108 bytes:</p>
+  <pre>[,0xa0a028045,0xeeae2bb5d,0xacaabaa54,0xaeae2ba5d].map(a=>a.toString(2).replace(/./g,b=>' #'[b])).join('\n')</pre>
+	<a href=//codegolf.stackexchange.com/questions/20209/ascii-art-hello-world/20568#20568 target=_blank>link</a>
+</div>
 
 </main>
 
