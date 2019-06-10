@@ -18,10 +18,15 @@
 <div class=section id=miniworld>
 	<h2>MiniWorld</h2>
 	<h3>january 2018</h3>
-	<p>A 256+ bytes world inspired by p01's dweet and golfed with the Codegolf Team</p>
-  <p><img src="images/miniworld.png">
-  <p>Github: <a href="https://github.com/xem/miniWorld">here</a>
-  <p>Demo: <a href="http://xem.github.io/miniWorld/svg.html">here</a>
+  <p>A 256+ bytes 3D world inspired by <a href="https://www.dwitter.net/d/5600">p01's dweet</a> and golfed with the Codegolf Team</p>
+	<p>- <a href="https://github.com/xem/miniWorld">Github</a>
+  <p>- <a href="http://xem.github.io/miniWorld/svg.html">Demo</a>
+  
+  <pre><code class="lang-html">&lt;svg onload="t=setInterval(V=>{for(innerHTML=t+=.1,i=h=400;i--;)if(Math.cos(t-i)>0&&'榁翻꺿듻ퟝ믭󫥤큰삗⢠挎ᩐ肦䰠椉䠊ᑒꊐࢀင'.charCodeAt(i/16)>>i%16&1)innerHTML+=`&lt;text x=${99+(i*h-i*i)**.5*Math.sin(t-i)/3} y=${9+i/3}>.`},9)"></code></pre>
+  
+  <p><hr>
+  <p>
+  <iframe src="http://xem.github.io/miniWorld/svg.html" height=200></iframe>
 </div>
 
 </main>

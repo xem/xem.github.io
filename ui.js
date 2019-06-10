@@ -45,6 +45,8 @@ menus = {
   codegolf: {
     
     intro: "Intro",
+    miniphotobooth: "Mini Photo Booth",
+    minicamrecording: "Mini Cam Recording",
     minisoundeditor: "Mini Sound Editor",
     minimandelbox: "Mini Mandelbox (JS1k19)",
     miniridinglight: "Mini Riding Light (JS1k19)",
@@ -68,7 +70,6 @@ menus = {
     minifourier: "Mini Fourier (JS1k18)",
     sn1ke: "SN1KE (JS1k18)",
     
-    minivideorecording: "Mini Video Recording",
     miniworld: "Mini World",
     minidwitter: "Mini Dwitter",
     miniminifier: "Mini Minifier",

@@ -18,11 +18,28 @@
 <div class=section id=miniminifier>
 	<h2>MiniMinifier</h2>
 	<h3>march 2013 - december 2017</h3>
-	<p>HTML & CSS in 128+ bytes, and actually much more efficient than most of the other online minifiers.</p>
-  <p><img src="images/cssminifier.jpg">
-  <p>Github: <a href="//github.com/xem/miniMinifier">here</a>
-  <p>Demo: <a href="http://xem.github.io/miniMinifier/css.html">CSS 128b</a> / <a href="http://xem.github.io/miniMinifier/css">CSS 1kb</a> / <a href="http://xem.github.io/miniMinifier/html.html">HTML 128b</a>
-  <p>Old website: <a href="//xem.github.io/miniMinifier/old">here</a>
+	<p>HTML & CSS minifiers in 128+ bytes, and actually much more efficient than most of the other online minifiers.</p>
+  <p>Paste HTML / CSS code in the textarea to have it instantly minified.
+  <p>The <a href="https://github.com/xem/miniMinifier">Github repo</a> also include test files and a WIP full-featured CSS minifier.
+
+  <p><hr>
+  <p><a href="http://xem.github.io/miniMinifier/html.html">HTML minifier demo</a>
+  <pre><code class="lang-html">&lt;textarea oninput='value=value.replace(/(&lt;!--[^]+?->|\s)+/g," ").replace(/ (?=&lt;|$)|&lt;\/[tl].>|&lt;.p> *(&lt;[p/])| ?\/?(>)/gi,"$1$2")'></code></pre>
+  <p>
+  <h3>128b HTML minifier</h3>
+<textarea oninput='value=value.replace(/(<!--[^]+?->|\s)+/g," ").replace(/ (?=<|$)|<\/[tl].>|<.p> *(<[p/])| ?\/?(>)/gi,"$1$2")' cols=50 rows=9 placeholder="Paste HTML code here"></textarea>
+  
+  <p><hr>
+  
+  <p><a href="http://xem.github.io/miniMinifier/css.html">CSS minifier demo</a>
+  
+  <pre><code class="lang-html">&lt;textarea oninput='value=value.replace(/(\/\*[^]+?\*\/|\s)+/g," ").replace(/^ |([ ;]*)([^\w:*.#% -])([ ;]*)|\*?(:) */g,"$2$4")'></code></pre>
+  <p>
+  <h3>128b CSS minifier</h3>
+<textarea oninput='value=value.replace(/(\/\*[^]+?\*\/|\s)+/g," ").replace(/^ |([ ;]*)([^\w:*.#% -])([ ;]*)|\*?(:) */g,"$2$4")' cols=50 rows=9 placeholder="Paste CSS code here"></textarea>
+
+  <p><hr>
+  
 </div>
 
 

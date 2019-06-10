@@ -18,10 +18,20 @@
 <div class=section id=plot>
   <h2>Mini Plot</h2>
   <h3>october 2017</h3>
-  <p>A mini 2D function plotter (<a href="../articles/golfctober17">#golfctober 2017</a>)
-  <p><img src="images/plot.png">
-  <p>Github: <a href="https://github.com/xem/miniPlot">here</a>
-  <p>Demo: <a href="http://xem.github.io/miniPlot">here</a>
+  <p>A mini interactive 2D function plotter (golfed during <a href="../articles/golfctober17">#golfctober 2017</a>)
+  
+  
+  <p>- <a href="https://github.com/xem/miniPlot">Github</a>
+  <p>- <a href="http://xem.github.io/miniPlot">Demo</a>
+  
+  <pre><code class="lang-html">&lt;input oninput=with(c=a.getContext`2d`)for(c.z=fillRect,c.Z=fillText,z(0,75,W=a.width|=0,1),z(u=150,0,1,W),Z(0,155,70),Z(u,280,70),Z(75,155,9),x=-u;x&lt;u;x+=.01)z(u+x,75-eval(value),1,1) value=y=99/x id=f>&lt;p>&lt;canvas id=a>&lt;svg onload=f.oninput()></code></pre>
+
+  <p><hr>
+  
+  <p>
+  <iframe src="http://xem.github.io/miniPlot" height=300></iframe>
+
+  <p><hr>
 </div>
 
 </main>

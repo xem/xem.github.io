@@ -1,0 +1,48 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=minicamrecording>
+	<h2>MiniCamRecording</h2>
+	<h3>january 2018 - june 2019</h3>
+	<p>A <s>432b</s> 345b webcam recording app</p>
+  
+  <p>- <a href="https://github.com/xem/miniCamRecording">Github</a>
+  <p>- <a href="http://xem.github.io/miniCamRecording">Demo</a>
+  
+  <pre><code class="lang-html">&lt;button onclick="B=[];M=new MediaRecorder(S,x={type:'video/webm'});M.ondataavailable=e=>B.push(e.data);M.start(9)">rec&lt;button onclick="M.stop();a.href=window.URL.createObjectURL(new Blob(B,x))">stop&lt;/button>&lt;a id=a download>DL&lt;p>&lt;video autoplay src onerror="navigator.mediaDevices.getUserMedia({audio:1,video:1}).then(s=>S=srcObject=s)"muted></code></pre>
+  
+  <p><hr>
+  <p>
+  <iframe src="http://xem.github.io/miniCamRecording" height=580></iframe>
+
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
