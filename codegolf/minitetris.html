@@ -18,10 +18,33 @@
 <div class=section id=tetris>
   <h2>Mini Tetris</h2>
   <h3>october 2017</h3>
-  <p>Two mini tetris games golfed by veubeke and corruptio with the help of all the team (<a href="../articles/golfctober17">#golfctober 2017</a>)
+  <p>Two mini tetris games mainly golfed by veubeke and justecorruptio with the help of all the team (during <a href="../articles/golfctober17.html">#golfctober 2017</a>)
   <p><img src="images/tetris.png">
-  <p>Github: <a href="https://github.com/veu/mini-tetris">veubeke</a> / <a href="https://github.com/justecorruptio/golf">corruptio</a>
-  <p>Demo: <a href="https://veu.github.io/mini-tetris/dist/tetris.html">veubeke</a> / <a href="https://justecorruptio.github.io/golf/tetris.html">corruptio</a>
+  
+  <p>Veubeke's version: <a href="https://github.com/veu/mini-tetris">Github</a> / 
+  <a href="https://veu.github.io/mini-tetris/dist/tetris.html">Demo</a>
+  <br><pre><code class="lang-html">&lt;body id=Z onload="M=e=>P&&(h=0,b=[...B],p=P.map((v,i)=>(E=~i%2,x=eval(e[0]),E?0:b[h|=x&lt;0|x>9|b[y]>>x&1|y>17,y]|=1&lt;&lt;x,y=x)),h),b=C=Array(9),(onkeydown=_=s=>(s?(k=s.which-38)%2-k||M`k?v-!E*k:P[2]-(P[i^1]-P[3])*(E|1)`&&M`v`:G||(P=P||[...'02121303040506161715'.substr(new Date%7*2,8,B=[...C,...b].filter(v=>v^1023||!(S+=s+=100)).slice(-18))],M`v-E`?k=p&=G=M`v`:0,setTimeout(_,k-2?200:20,0)),P=p,S|=b.map(v=>{S+=`
+`;for(x=10;x--;)Z.innerText=S+='□■'[G^(v^1023+P&&v>>x&1)]})))(S=P=k=G=0)"style=font:2em/.6'></code></pre>
+  
+  <p><hr>
+  
+  <p>Justecorruptio's version: <a href="https://github.com/justecorruptio/golf">Github</a>
+  / <a href="https://justecorruptio.github.io/golf/tetris.html">Demo</a> 
+  <br><pre><code class="lang-html">&lt;body onload="
+v=c=>(h=37461+c%2*36703>>i%4*2+(i&2)*t&3,c&2?3-t/5-h:h);
+C=[S=u=0];
+setInterval(onkeyup=e=>{
+C=[...B=u?B:C.filter(_=>_-2046?x=y=4:!++S,t=r%7)];
+u=[x,y,i=r+4,e];
+
+for(e&&(g=e.which-38)-2?g?x-=g:r++:y++;--i;
+~B[b=~v(r)+26-y]-2049&k&&~b?
+i&lt;T?Z.innerText=z+=`_#
+`[C[b]|=k,i%11?C[i/11|0]>>i%11&1:2]+`| `:z=S
+:[x,y,r,u]=u
+)k=1&lt;&lt;v(r+1)+x
+},r=T=210)"id=Z></code></pre>
+  
 </div>
 
 </main>

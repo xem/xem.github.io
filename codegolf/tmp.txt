@@ -28,11 +28,7 @@
 <p>- <a href="">Github</a>
   <p>- <a href="">Demo</a>
   
-  <pre><code class="lang-html">
-  
-  </code></pre>
-
-  <p><hr>
+  <pre><code class="lang-html"> </code></pre>
   
   <p>
   <iframe src="" height=500></iframe>

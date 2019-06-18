@@ -18,10 +18,24 @@
 <div class=section id=minicliffordattractor>
   <h2>Mini Clifford Attractor</h2>
 	<h3>june 2016 - october 2017</h3>
-	<p>A Clifford attractor simulator in 220b/279b. (<a href="../articles/golfctober17">#golfctober 2017</a>)
-  <p><img src="images/clifford.png">
-  <p>Github: <a href="https://github.com/xem/miniCliffordAttractor">here</a>
-  <p>Demo: <a href="http://xem.github.io/miniCliffordAttractor">SD</a> / <a href="http://xem.github.io/miniCliffordAttractor/big.html">HD</a>
+	<p>A Clifford attractor simulator in 220b/279b, enhanced during <a href="../articles/golfctober17.html">
+ #golfctober 2017</a>).
+  <p>You can edit the 4 parameters A/B/C/D at the beginning, or keep the ones by default.
+  
+  <p>- <a href="https://github.com/xem/miniCliffordAttractor">Github</a>
+  <p>- Demo: <a href="http://xem.github.io/miniCliffordAttractor">SD</a> (svg) / <a href="http://xem.github.io/miniCliffordAttractor/big.html">HD</a> (canvas)
+  
+  <pre><code class="lang-html">&lt;canvas id=c>&lt;svg onload=c.width=c.height=999;z=c.getContext`2d`;[A,B,C,D]=prompt('A,B,C,D','-1.8,-2,-.5,-.9').split`,`;setInterval`with(Math)for(i=1e4;i--;)z.fillStyle='rgba(0,0,0,.01)',z.fillRect(500+199*(X=sin(A*Y)+C*cos(A*U)),500+199*(Y=sin(B*U)+D*cos(B*Y)),1,1${U=Y=1}U=X)`></code></pre>
+  
+  <p>
+  <iframe src="demos/clifford.html" height=600></iframe>
+
+  <p><hr>
+  
+  
+  
+  <p>Github: <a href="">here</a>
+  
 </div>
 
 </main>

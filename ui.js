@@ -9,7 +9,6 @@ $$ = function(i){
 menus = {
   
   articles: {
-    
     projection: "3D projection",
     js1k19: "JS1K 2019",
     codegolfctober18: "Codegolfctober 2018",
@@ -43,7 +42,6 @@ menus = {
   },
   
   codegolf: {
-    
     intro: "Intro",
     miniphotobooth: "Mini Photo Booth",
     minicamrecording: "Mini Cam Recording",
@@ -61,7 +59,6 @@ menus = {
     manonwire: "Man on Wire (JS13k19)",
     envelope: "envelope (JS13k19)",
     geoquiz2: "GEOQUIZ 2 (JS13k18)",
-    
     mini2Dphysics: "mini2Dphysics",
     minifacedetection: "Mini Face Detection",
     minimusic: "Mini Music (JS1k18)",
@@ -69,7 +66,6 @@ menus = {
     shaderandom: "ShaderRndom (JS1k18)",
     minifourier: "Mini Fourier (JS1k18)",
     sn1ke: "SN1KE (JS1k18)",
-    
     miniworld: "Mini World",
     minidwitter: "Mini Dwitter",
     miniminifier: "Mini Minifier",
@@ -79,10 +75,10 @@ menus = {
     minigameoflife: "MiniGameOfLife",
     minipeterdejongattractor: "MiniPeterDeJongAttractor",
     minicliffordattractor: "MiniCliffordAttractor",
+    attractorandom: "AttractoRandom",
     tetristheme: "TetrisTheme",
     audioviz: "MiniAudioViz",
-    atree: "Atree",
-    attractorandom: "AttractoRandom",
+    atree: "Atree reloaded",
     sheet: "Sheet",
     miniburrowswheeler: "MiniBurrowsWheeler",
     minitetris: "MiniTetris",
@@ -94,19 +90,13 @@ menus = {
     miniuri: "miniURI converter",
     minibookmarklet: "Mini Bookmarklet",
     miniarecibo: "Mini Arecibo",
-    
     lossst: "LOSSST (JS13k17)",
-    
     minimandelbrot: "MiniMandelbrot",
-    
     "1kindofmagic": "1Kind of magic (JS1k17)",
     canihaz1karrot: "Can I haz 1Karrot? (JS1k17)",
-    
     moon1px: "If the moon was 1px (JS1k17)",
-    
     minishadertoy: "MiniShadertoy (JS1k17)",
     minishadertoylite: "MiniShadertoyLite",
-    
     miniproxy: "MiniProxy",
     minisplitscreen: "miniSplitScreen",
     miniconwayserpinski: "MiniConwaySerpinski",
@@ -114,9 +104,7 @@ menus = {
     minicodeshaper: "MiniCodeShaper",
     miniwebrtc: "MiniWebRTC",
     minicam: "MiniCam",
-    
     "26gamesin1": "26 games in 1 (JS13k16)",
-    
     scpm: "SCPM (JS13k16)",
     minipi: "MiniPi",
     minisnake: "MiniSnake",
@@ -128,16 +116,12 @@ menus = {
     minilangtonant: "MiniLangtonAnt",
     miniregextester: "MiniRegexTester",
     jsotopes: "JSOTOPES (JS1k16)",
-    
     un1kode: "UN1KODE (JS1k16)",
-    
     minibeautifier: "MiniBeautifier (JS1k16)",
     obfuscatweet: "Obfusc-a-tweet",
     twittercounter: "Twitter character counter",
     geoquiz: "GeoQuiz (JS13k15)",
-    
     hypercube: "hypeRcube (JS1k15)",
-    
     minijsperf: "MiniJSPerf",
     minishadowart: "MiniShadowArt",
     alchemixer: "Alchemixer (JS13k14)",
@@ -153,9 +137,7 @@ menus = {
     helloworld: "Hello World",
     chip8: "Chip8 emulator",
     hex: "Hex editor",
-    
     "32b": "32b",
-    
     deletedlines: "Deleted lines",
     paste: "Paste",
     keypressed: "Keys pressed",
@@ -167,73 +149,55 @@ menus = {
   
   
   projects: {
-    
     intro: "Intro",
-    
     lol: "LOL",
+    miniorchestra: "Mini Orchestra",
     inktober18: "inktober 2018",
-
     twitterdigest: "Twitter-digest",
-
     gameaudiobundle: "Game Audio Bundle MP3",
-
     nes: "NES",
     losssst: "LOSSST",
-    responsivetouchgameframework: "miniGameFramework",
+    responsivetouchgameframework: "Mini Game Framework",
     shapecatcher: "MiniShapeCatcher",
     book: "MiniBook",
     leveleditor3d: "3D level editor",
     minix86: "minix86",
-    
     ama: "Ask me anything",
-    
     math: "Maths cheat sheet",
     points: "3D points",
     raycast: "Raycasting experiments",
     css3dcubes: "CSS3D cubes",
     css3deditor: "CSS3D editor",
     css3dprototypes: "CSS3D prototypes",
-    minipiano: "miniPiano",
     js13kgraphics: "JS13k graphics editor",
     js13kleveleditor: "JS13k level editor",
     cellularandom: "Random cellular automata",
     codegolfide: "Codegolf IDE",
     "3ddoodle": "3Ddoodle",
     zpng: "Zpng: Pure JS JsExe",
-    eqcss: "Element Queries CSS",
-
+    eqcss: "EQCSS Element Queries",
     talks: "talks",
     "3DShomebrew": "3DShomebrew",
-
     cssslider: "CSSslider",
-
     windowall: "Window.all",
-    escape: "EscApe, Unicode converter",
-
-    fruitcarving: "Fruit carving",
+    escape: "EscApe Unicode converter",
     wiiufps: "WiiU FPS",
-
     charsets: "Charsets experiments",
     stfrtime: "Date formatter",
-    ellipsis: "Simple multiline ellipsis",
     braille_art: "Braille Art generator",
     arrayduce: "Arrayduce",
     drawcircles: "DrawCircles",
     events: "JS Events monitoring",
     swipe: "Swipe, touchable slider",
-    basis: "Basis, HTML5 boilerplate",
-    text_alignment: "Text alignments with CSS",
-    heylisten: "HeyListen!, MVC framework",
-    lightml: "LigHTML, page compressor",
     video: "HTML5 video experiments",
-    lazy: "Lazy, JS library",
     gba: "GBA emulator",
-    
     karoshids: "Karoshi DS",
     easy: "Easy classic flash game",
     scan: "Polytech-o-scan",
     lipdub: "Lipdub",
 
+    //ellipsis: "Simple multiline ellipsis",
+    //text_alignment: "Text alignments with CSS",
   },
   
   techwatch: {
@@ -316,7 +280,7 @@ menu = function(){
   var scroll = 0;
   location.pathname.replace(/.*\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   
-  if(menus[section] && !page && (section == "articles" || section == "codegolf")){
+  if(menus[section] && !page && (section == "articles" || section == "projects" || section == "codegolf")){
     for(var i in menus[section]){
       location = i + ".html";
       break;
@@ -332,7 +296,7 @@ menu = function(){
     <ul>`;
     var counter = menus[section].length;
     for(i in menus[section]){
-      if(section != "articles" && section != "codegolf")
+      if(section != "articles" && section != "projects" && section != "codegolf")
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}'>${menus[section][i]}</a>`;
       else
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html'>${menus[section][i]}</a>`;
@@ -349,7 +313,7 @@ menu = function(){
     $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hidemenu class=mobileonly onclick=hidemenu()>≡</div>");
     $("#menu").className = section;
     console.log(scroll);
-    $("#menu").scrollTop = scroll;
+    if(scroll > 100) $("#menu").scrollTop = scroll;
   }
   
   // prev/next 

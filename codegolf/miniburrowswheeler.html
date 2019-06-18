@@ -18,9 +18,20 @@
 <div class=section id=burrowswheeler>
   <h2>Mini Burrows Wheeler</h2>
   <h3>october 2017</h3>
-  <p>Burrows-wheeler transform/untransform functions in less than 128b (<a href="../articles/golfctober17">#golfctober 2017</a>)
-  <p>Github: <a href="https://github.com/xem/miniBurrowsWheeler">here</a>
-  <p>Demo: <a href="http://xem.github.io/miniBurrowsWheeler/transform.html">transform</a> / <a href="http://xem.github.io/miniBurrowsWheeler/untransform.html">untransform</a>
+  <p>Burrows-wheeler transform/untransform functions in less than 128b (golfed during <a href="../articles/golfctober17.html">#golfctober 2017</a>)
+  <p>(The character "ÿ" is used by both functions as the end of line delimiter)
+  <p>This transformation is often used in data compression.
+  <p>- <a href="https://github.com/xem/miniBurrowsWheeler">Github</a>
+  <p>- Demo: <a href="http://xem.github.io/miniBurrowsWheeler/transform.html">transform</a> / <a href="http://xem.github.io/miniBurrowsWheeler/untransform.html">untransform</a>
+
+  <pre><code class="lang-js">// Transform
+s=>[...s+='ÿ'].map((_,i)=>s[S='slice'](i)+s[S](0,i)).sort().map(x=>x[S](-1)).join``
+
+// Untransform
+(d,t=d.indexOf`ÿ`)=>[...[...d].keys()].sort((x,y)=>d[a='charCodeAt'](x)-d[a](y)||x-y).map((m,_,i)=>d[t=i[t]]).join``.slice(0,-1)</code></pre>
+
+  <p><hr>
+  
 </div>
 
 </main>
