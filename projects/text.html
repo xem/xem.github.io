@@ -1,0 +1,168 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=ellipsis_en>
+	<h2>Text experiments</h2>
+	<h3>june 2013 - january 2014</h3>
+  
+  
+  <p><hr>
+  
+  <p><b>Multiline ellipsis</b>
+  
+	<p>CSS ellipsis are handy but they only work with one line of text.
+  <p>Multiline ellipsis can be achieved with <a href=//www.mobify.com/blog/multiline-ellipsis-in-pure-css/ target=_blank>this CSS hack</a>, but it's hard to set up and it doesn't work very well on old IE versions.
+  <p>Here's an alternative written in just 10 lines of JS code, plus a bit of CSS.</p>
+  <pre>// Detect if the ellipsis is necessary and set the "overflow" class accordingly
+function toggleEllipsis(p){
+  
+  // Try to scroll 1px inside the element
+  p.scrollTop = 1;
+  
+  // Measure the element's scroll
+  // If it's 1, it means that the elements has an overflow
+  if(p.scrollTop){
+    p.scrollTop = 0;
+    p.className = "overflow";
+  }
+  
+  // Else, no overflow
+  else{
+    p.className = "";
+  }
+}</pre>
+	<p> <a href=//codepen.io/xem/pen/aogxL target=_blank>DEMO</a>
+
+  <p><hr>
+  
+  <p><b>Smart text alignment</b>
+  
+	<p>I developed a pure CSS solution that allows to have some text centered inside a container when it's short (less than one line), and aligns it to the left when it's long (2+ lines). It works on all browsers, including IE6.</p>
+	<div id=centregauche2_en>
+		<u>Simple case: text "center-left"</u>
+		<p><b>HTML code:</b></p>
+		<pre>&lt;div class=align-outer>
+  &lt;div class=align-inner>
+    Text text text
+  &lt;/div>
+&lt;/div></pre>
+		<p><b>CSS code:</b></p>
+		<pre>.align-outer {
+  text-align: center;
+}
+.align-inner {
+  margin: 0 auto;
+  text-align: left;
+  display: inline-block;
+  *display: inline; *zoom: 1; /* IE < 8 */
+}</pre>
+		<p><b>Demo:</b>
+		<style>
+			.align-outer {
+				text-align: center;
+			}
+			div.align-inner {
+				margin: 0 auto;
+				text-align: left;
+				display: inline-block;
+				*display: inline!important; *zoom: 1; /* IE < 8 */
+				border: 1px dotted red;
+				padding: 2px;
+			}
+		</style>
+		<div class=demo style="min-height: 120px">
+			<div class=align-outer>
+				<div class=align-inner id=align-inner-text_en>
+					Text text text text text
+				</div>
+			</div>
+		</div>
+		<button onclick="document.getElementById('align-inner-text_en').innerHTML += ' text text text text text'">Add text</button>
+    <br>
+		<p><hr style=width:200px>
+    <br>
+    <p><u>More complex case: text "centered-stretchable-left"</u>
+    <p>I also made a more generic solution that allows to center the text in a defined zone when it's short, and enlarging this zone when it's long (works on IE8+).</p>
+		<p><b>HTML code:</b></p>
+		<pre>&lt;div class=align-stretch-outer>
+  &lt;div class=align-stretch-inner-1>
+    &lt;div class=align-stretch-inner-2>
+      Text text
+    &lt;/div>
+  &lt;/div>
+&lt;/div></pre>
+		<p><b>CSS code:</b></p>
+		<pre>.align-stretch-outer {
+  text-align: left;
+}
+.align-stretch-inner-1 {
+  display: inline-block;
+  text-align: center;
+  min-width: 60%;
+}
+.align-stretch-inner-2 {
+  display: inline-block;
+  text-align: left;
+}
+</pre>
+		<p><b>Demo:</b><br></p>
+		<style>
+			.align-stretch-outer {
+				text-align: left;
+			}
+			.align-stretch-inner-1 {
+				display: inline-block;
+				text-align: center;
+				min-width: 60%;
+				border: 1px dotted red;
+				padding: 2px;
+			}
+			.align-stretch-inner-2 {
+				display: inline-block;
+				text-align: left;
+				border: 1px dotted red;
+				padding: 2px;
+			}
+		</style>
+		<div class="align-stretch-outer demo" style="min-height: 120px">
+			<div class=align-stretch-inner-1>
+				<div class=align-stretch-inner-2 id=align-stretch-inner-text_en>
+					Text text
+				</div>
+			</div>
+		</div>
+		<button onclick="document.getElementById('align-stretch-inner-text_en').innerHTML += ' text text text text text'">Add text</button>
+		<br>
+		<p>NB: of course, you can replace left by "right" or "justified" in the first CSS rule.</p>
+	</div>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
