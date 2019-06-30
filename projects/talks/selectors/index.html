@@ -62,11 +62,11 @@ September 2014
 <div>
 <div>
 <h2>CSS rules</h2>
-<br><pre>selector {
+<br><pre><code class="lang-css">selector {
   property: value;
   property: value;
   ...
-}
+}</code></pre>
 </div>
 </div>
 <a class=→ href=#slide3>&rarr;</a>
@@ -77,20 +77,20 @@ September 2014
 <div>
 <div>
 <h2>CSS at-rules</h2>
-<br><pre>@media XYZ {
+<br><pre><code class="lang-css">@media XYZ {
   /* CSS rules for the media XYZ */
-}</pre>
+}</code></pre>
 <br>
-<pre>@font-face {
+<pre><code class="lang-css">@font-face {
   font-family: XYZ;
   /* CSS properties for the custom font XYZ */
-}</pre>
+}</code></pre>
 <br>
-<pre>@keyframes XYZ {
+<pre><code class="lang-css">@keyframes XYZ {
   0% { /* CSS properties for the animation XYZ's start */ }
   50% { /* CSS properties for the animation XYZ's middle */ }
   100% { /* CSS properties for the animation XYZ's end */ }
-}</pre><br>
+}</code></pre><br>
 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule">etc.</a>
 </div>
 </div>
@@ -113,13 +113,13 @@ September 2014
 <div>
 <h2>In a CSS file referenced in the page's head</h2>
 <br>style.css:
-<br><pre>selector {
+<br><pre><code class="lang-css">selector {
 property: value;
 property: value
-}</pre><br>
+}</code></pre><br>
 <br>
 HTML file:
-<br><pre>&lt;link rel=stylesheet href=style.css>
+<br><pre><code class="lang-html">&lt;link rel=stylesheet href=style.css>
 </div>
 </div>
 <a class=→ href=#slide6>&rarr;</a>
@@ -130,12 +130,12 @@ HTML file:
 <div>
 <div>
 <h2>In a &lt;style> element (in the page's head or body)</h2>
-<br><pre>&lt;style>
+<br><pre><code class="lang-html">&lt;style>
 selector {
   property: value;
   property: value
 }
-&lt;/style></pre>
+&lt;/style></code></pre>
 </div>
 </div>
 <a class=→ href=#slide7>&rarr;</a>
@@ -146,9 +146,9 @@ selector {
 <div>
 <div>
 <h2>Directly on a HTML element, using a style attribute (and no selector)</h2>
-<br><pre>&lt;div style="property: value; property: value;">
+<br><pre><code class="lang-html">&lt;div style="property: value; property: value;">
 Hello World
-&lt;/div></pre>
+&lt;/div></code></pre>
 </div>
 </div>
 <a class=→ href=#slide8>&rarr;</a>
@@ -271,10 +271,10 @@ h2 { ... }
 <div>
 <h2>attribute selectors (IE7+)</h2>
 HTML:
-<br><pre>&lt;div attr=foo> Hi! &lt;/div></pre><br>
+<br><pre><code class="lang-html">&lt;div attr=foo> Hi! &lt;/div></code></pre><br>
 CSS:
-<br><pre>[attr] { color: red }      /* "attr" attribute is present */
-[attr=foo] { color: red }  /* attr has the value "foo" */</pre>
+<br><pre><code class="lang-css">[attr] { color: red }      /* "attr" attribute is present */
+[attr=foo] { color: red }  /* attr has the value "foo" */</code></pre>
 </div>
 </div>
 <a class=→ href=#slide17>&rarr;</a>
@@ -326,8 +326,8 @@ CSS:
 <div>
 <h2>:link, :visited</h2>
 CSS:
-<br><pre>a:link { color: green }
-a:visited { color: green }</pre><br>
+<br><pre><code class="lang-css">a:link { color: green }
+a:visited { color: green }</code></pre><br>
 
 Demo:
 <br>
@@ -348,7 +348,7 @@ Demo:
 <br>
 <br>
 CSS:
-<br><pre>a:hover { color: red }</pre><br>
+<br><pre><code class="lang-js">a:hover { color: red }</code></pre><br>
 
 Demo:
 <br>
@@ -369,7 +369,7 @@ Demo:
 <br>
 <br>
 CSS:
-<br><pre>input:active { color: red }</pre><br>
+<br><pre><code class="lang-js">input:active { color: red }</code></pre><br>
 
 Demo:
 <br>
@@ -390,7 +390,7 @@ Demo:
 <br>
 <br>
 CSS:
-<br><pre>input:focus { color: red }</pre><br>
+<br><pre><code class="lang-js">input:focus { color: red }</code></pre><br>
 
 Demo:
 <br>
@@ -411,7 +411,7 @@ Demo:
 <br>
 <br>
 CSS:
-<br><pre>input:checked { outline: 5px solid red }</pre><br>
+<br><pre><code class="lang-js">input:checked { outline: 5px solid red }</code></pre><br>
 
 Demo:
 <br>
@@ -432,11 +432,11 @@ Demo:
 <br>
 <br>
 HTML:
-<br><pre>&lt;input>
-&lt;input disabled></pre><br>
+<br><pre><code class="lang-html">&lt;input>
+&lt;input disabled></code></pre><br>
 CSS:
-<br><pre>input:enabled { color: green }
-input:disabled { color: red }</pre><br>
+<br><pre><code class="lang-js">input:enabled { color: green }
+input:disabled { color: red }</code></pre><br>
 
 Demo:
 <br>
@@ -458,7 +458,7 @@ Demo:
 <br>
 <br>
 CSS:
-<br><pre>div:target { background: red }</pre><br>
+<br><pre><code class="lang-js">div:target { background: red }</code></pre><br>
 
 Demo:
 <br>
@@ -485,13 +485,13 @@ Demo:
 <div>
 <h2>descendant combinator</h2>
 HTML:
-<br><pre>&lt;div class=foo>
+<br><pre><code class="lang-html">&lt;div class=foo>
 &lt;div>
 &lt;div> Hi! &lt;/div>
 &lt;/div>
-&lt;/div></pre><br>
+&lt;/div></code></pre><br>
 CSS:
-<br><pre>.foo div { border-color: red }</pre><br>
+<br><pre><code class="lang-js">.foo div { border-color: red }</code></pre><br>
 Demo:
 <br>
 <br>
@@ -511,13 +511,13 @@ Demo:
 <div>
 <h2>child combinator (IE7+)</h2>
 HTML:
-<br><pre>&lt;div class=foo>
+<br><pre><code class="lang-html">&lt;div class=foo>
 &lt;div>
 &lt;div> Hi! &lt;/div>
 &lt;/div>
-&lt;/div></pre><br>
+&lt;/div></code></pre><br>
 CSS:
-<br><pre>.foo > div { border-color: red }</pre><br>
+<br><pre><code class="lang-js">.foo > div { border-color: red }</code></pre><br>
 Demo:
 <br>
 <br>
@@ -538,12 +538,12 @@ Demo:
 <div>
 <h2>Next-sibling combinator (IE7+)</h2>
 HTML:
-<br><pre>&lt;div> A &lt;/div>
+<br><pre><code class="lang-html">&lt;div> A &lt;/div>
 &lt;div class=foo> B &lt;/div>
 &lt;div> C &lt;/div>
-&lt;div> D &lt;/div></pre><br>
+&lt;div> D &lt;/div></code></pre><br>
 CSS:
-<br><pre>.foo ~ div { border-color: red }</pre><br>
+<br><pre><code class="lang-js">.foo ~ div { border-color: red }</code></pre><br>
 Demo:
 <br>
 <br>
@@ -564,11 +564,11 @@ Demo:
 <div>
 <h2>Following-sibling combinator (IE7+)</h2>
 HTML:
-<br><pre>&lt;div class=foo> A &lt;/div>
+<br><pre><code class="lang-html">&lt;div class=foo> A &lt;/div>
 &lt;div> B &lt;/div>
-&lt;div> C &lt;/div></pre><br>
+&lt;div> C &lt;/div></code></pre><br>
 CSS:
-<br><pre>.foo + div { border-color: red }</pre><br>
+<br><pre><code class="lang-js">.foo + div { border-color: red }</code></pre><br>
 Demo:
 <br>
 <br>
@@ -589,10 +589,10 @@ Demo:
 <div>
 <h2>selector list</h2>
 HTML:
-<br><pre>&lt;div id=foo>&lt;/div>
-&lt;div id=bar>&lt;/div></pre><br>
+<br><pre><code class="lang-html">&lt;div id=foo>&lt;/div>
+&lt;div id=bar>&lt;/div></code></pre><br>
 CSS:
-<br><pre>#foo, #bar { color: red }</pre><br>
+<br><pre><code class="lang-js">#foo, #bar { color: red }</code></pre><br>
 </div>
 </div>
 <a class=→ href=#slide33>&rarr;</a>
@@ -604,9 +604,9 @@ CSS:
 <div>
 <h2>multiple selectors (IE7+)</h2>
 HTML:
-<br><pre>&lt;div id=foo class="bar baz">&lt;/div></pre><br>
+<br><pre><code class="lang-html">&lt;div id=foo class="bar baz">&lt;/div></code></pre><br>
 CSS:
-<br><pre>#foo.bar.baz { color: red }</pre><br>
+<br><pre><code class="lang-js">#foo.bar.baz { color: red }</code></pre><br>
 </div>
 </div>
 <a class=→ href=#slide34>&rarr;</a>
@@ -620,7 +620,7 @@ CSS:
 <br>
 <a href="http://dev.w3.org/csswg/selectors4/">Link</a>
 <br><br>
-<pre>
+<pre><code class="lang-js">
 :not(X) { ... }
 
 :matches(X) { ... }
@@ -719,7 +719,7 @@ X || Y { ... }
 
 [foo|="bar"] { ... }
 
-</pre>
+</code></pre>
 </div>
 </div>
 <a class=→ href=#slide35>&rarr;</a>
@@ -731,7 +731,7 @@ X || Y { ... }
 <div>
 <h2>Also, pseudo-elements</h2>
 
-<pre>
+<pre><code class="lang-js">
 X:before { /* dummy element at the beginning of X (IE8+) */ }
 
 X:after { /* dummy element at the end of X (IE8+) */ }
@@ -741,7 +741,7 @@ X::first-letter { /* targets only the first letter of X (IE5+) */ }
 X::first-line { /* targets only the first line of X (IE5+) */ }
 
 X::selection { /* targets user-selected text (IE9+) */ }
-</pre>
+</code></pre>
 </div>
 </div>
 <a class=→ href=#slide36>&rarr;</a>
@@ -764,7 +764,7 @@ X::selection { /* targets user-selected text (IE9+) */ }
 <h3>If you use the same selector:
 <br>
 lowest priority on "top", highest priority on "bottom"</h3>
-<pre>
+<pre><code class="lang-js">
 &lt;style>
 
 .class { color: green; }
@@ -774,7 +774,7 @@ lowest priority on "top", highest priority on "bottom"</h3>
 .class { color: red; }
 
 &lt;/style>
-</pre>
+</code></pre>
 <br><br>
 color will be red.
 </div>
@@ -788,7 +788,7 @@ color will be red.
 <div>
 <h3>If you use different selectors...</h3>
 
-<pre>
+<pre><code class="lang-js">
 &lt;style>
 
 body div#id span a.class { color: blue }
@@ -796,7 +796,7 @@ body div#id span a.class { color: blue }
 body.bodyclass div.divclass span[name=foo] a.class { color: red }
 
 &lt;/style>
-</pre>
+</code></pre>
 <br><br>
 color will be ... ???
 </div>
@@ -951,12 +951,12 @@ Menu items are elements of the Menu block
 <br>
 <b>HTML</b>:
 <br>
-<pre>
+<pre><code class="lang-js">
 &lt;ul class="menu">
   &lt;li class="menu__item">…&lt;/li>
   &lt;li class="menu__item">…&lt;/li>
 &lt;/ul>
-</pre>
+</code></pre>
 </div>
 </div>
 <a class=→ href=#slide48>&rarr;</a>
@@ -979,7 +979,7 @@ Header menu / Footer menu
 <br><br>
 <b>HTML</b>
 <br>
-<pre>
+<pre><code class="lang-js">
 &lt;ul class="menu menu--tabs">
   ...
 &lt;/ul>
@@ -987,9 +987,9 @@ Header menu / Footer menu
 &lt;ul class="menu menu--buttons">
   ...
 &lt;/ul>
-</pre>
+</code></pre>
 <br><br>
-<pre>
+<pre><code class="lang-js">
 .menu {
   // Common style
 }
@@ -1005,7 +1005,7 @@ Header menu / Footer menu
 .menu--buttons {
   // Specific style
 }
-</pre>
+</code></pre>
 </div>
 </div>
 <a class=→ href=#slide49>&rarr;</a>
@@ -1022,15 +1022,15 @@ Element Modifiers:
 <br>
 Current menu item
 <br>
-<pre>
+<pre><code class="lang-js">
 &lt;ul class="menu">
   &lt;li class="menu__item">...&lt;/li>
   &lt;li class="menu__item menu__item--current">...&lt;/li>
   &lt;li class="menu__item">...&lt;/li>
 &lt;/ul>
-</pre>
+</code></pre>
 <br><br>
-<pre>
+<pre><code class="lang-js">
 .menu__item {
   // Items style
 }
@@ -1038,7 +1038,7 @@ Current menu item
 .menu__item--current {
   // Current item style
 }
-</pre>
+</code></pre>
 </div>
 </div>
 <a class=→ href=#slide50>&rarr;</a>
@@ -1067,7 +1067,7 @@ It's W3C valid and it works on IE6+ !
 .&#9749; { color: #C0FFEE }
 .&#128170; { color: #BADA55 }
 .&#128169; { color: brown }
-</pre>
+</code></pre>
 <br><br>
 More details in <a href="https://mathiasbynens.be/notes/css-escapes">this website</a> and <a href="http://vimeo.com/100264064">this video</a>!
 

@@ -312,13 +312,13 @@ Yes, they include the padding and border inside the width and height... *
 <h1>So all browsers have the same default box model?</h1>
 <br>
 Yes, and it's a bad one.<br>
-It's called <pre>box-sizing: content-box</pre>
+It's called <pre><code class="lang-css">box-sizing: content-box</code></pre>
 <br><br>That's why CSS resets include this:
 <br>
-<pre>*, *:before, *:after {
+<pre><code class="lang-js">*, *:before, *:after {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-}</pre>
+}</code></pre>
 <br>
 Compatible IE8+
 <br>
@@ -345,7 +345,7 @@ It includes paddings and borders inside the width and the height.
 <br><br>
 Example:
 <br>
-<pre>/* Default behavior */
+<pre><code class="lang-css">/* Default behavior */
 div {
   width: 100px;
   height: 100px;
@@ -353,13 +353,13 @@ div {
   padding: 20px;
   border: 10px;
 }
-</pre>
+</code></pre>
 <br>
 => Displayed box will be 160px x 160px
 <br>
 <br>
 <br>
-<pre>/* Border-box behavior */
+<pre><code class="lang-css">/* Border-box behavior */
 div {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -369,7 +369,7 @@ div {
   padding: 20px;
   border: 10px;
 }
-</pre>
+</code></pre>
 <br>
 => Displayed box will really be 100px x 100px
 
@@ -516,12 +516,11 @@ Example: 200x200px + 20px padding + 10px border + 30px margin.
 <div style="margin:30px auto;background:blue;width:200px;height:200px;color:#fff;text-align:left;border:10px solid orange;padding:20px;">Hi!</div>
 <br>
 <br>
-<pre>
-.width()          => 140
+<pre><code class="lang-js">.width()          => 140
 .innerWidth()     => 180
 .outerWidth()     => 200
 .outerWidth(true) => 260
-</pre>
+</code></pre>
 <br><br><br><br><br><br>
 <a href="http://jsfiddle.net/vnsq2apr/">On a box without box-sizing: border-box</a>
 <br>
@@ -531,12 +530,11 @@ Example: 200x200px + 20px padding + 10px border + 30px margin.
 <div style="margin:30px auto;background:blue;width:200px;height:200px;color:#fff;text-align:left;border:10px solid orange;padding:20px;box-sizing:content-box">Hi!</div>
 <br>
 <br>
-<pre>
-.width()          => 200
+<pre><code class="lang-js">.width()          => 200
 .innerWidth()     => 240
 .outerWidth()     => 260
 .outerWidth(true) => 320
-</pre>
+</code></pre>
 
 
 </div>

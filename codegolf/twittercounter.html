@@ -20,7 +20,7 @@
 	<h3>november 2015</h3>
 	<p>A tiny Twitter char counter in 78b, inspired by and golfed with <a href="//twitter.com/innovati">Tommy Hodgins</a> and <a href="//twitter.com/subzey">Subzey</a>.
 	<br>
-  <pre class=code>&lt;input onkeyup=c.color=(c.innerHTML=140-value.length)&lt;0?"red":0>&lt;font id=c>140</pre>
+  <pre><code class="lang-html">&lt;input onkeyup=c.color=(c.innerHTML=140-value.length)&lt;0?"red":0>&lt;font id=c>140</code></pre>
 	<br>
   <b>Demo:</b>
   <br>
@@ -32,7 +32,7 @@
   <br>
   With this counter, astral Unicode glyphs (like "&#128169;") count as two characters. Here's a more precise version that counts each Unicode character as 1 char, in 104 bytes:
   <br>
-  <pre class=code>&lt;input onkeyup=c.color=(c.innerHTML=141-value.split(/[^\udc00-\udfff]/).length)&lt;0?"red":0>&lt;font id=c>140</pre>
+  <pre><code class="lang-html">&lt;input onkeyup=c.color=(c.innerHTML=141-value.split(/[^\udc00-\udfff]/).length)&lt;0?"red":0>&lt;font id=c>140</code></pre>
   <br>
   <b>Demo:</b>
   <br>

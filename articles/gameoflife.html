@@ -27,7 +27,7 @@
   <p>Aemkei golfed a <a href="http://aem1k.com/life/">pure HTML version in 176b</a> and he presented <a href="https://youtu.be/1uvIw7X0u48?t=1104">many</a>... <a href="https://youtu.be/T3xMyZH93i8?t=1184">obfuscated</a>... <a href="https://youtu.be/ET3iKgqPzjw?t=1437">versions</a>... <a href="https://youtu.be/-QZSJx8oXus?t=1136">on stage</a>;
   <p>We made <a href="http://xem.github.io/miniGameOfBraille/">MiniGameOfBraille</a> in 389b;
   <p>And finally, we ended up golfing <a href="http://xem.github.io/miniGameOfBraille/canvas.html">a super tiny version</a> on a 100x100px canvas inspired by aemkei's talks, in just 221b, featuring ES6 and a pseudo-random initial state.
-  <pre class="code">&lt;canvas id=a>&lt;svg onload=z=a.getContext`2d`;s=!setInterval`p=a;a=[];for(i=1e4;a[i]=s?3==k|p[i]&2==k:3&lt;i%9,k=0,i--;)for((j)of[1,97,v,99])k+=p[i+j]+p[i-j];for(s=1e4;s--;)z[a[s]?'fillRect':'clearRect'](s%v,s/v|0,1${v=98}1)`></pre>
+  <pre class="code">&lt;canvas id=a>&lt;svg onload=z=a.getContext`2d`;s=!setInterval`p=a;a=[];for(i=1e4;a[i]=s?3==k|p[i]&2==k:3&lt;i%9,k=0,i--;)for((j)of[1,97,v,99])k+=p[i+j]+p[i-j];for(s=1e4;s--;)z[a[s]?'fillRect':'clearRect'](s%v,s/v|0,1${v=98}1)`></code></pre>
   <p>During months, we really thought we couldn't do better than that. We even included this version in our js13kgames entry <a href="http://js13kgames.com/entries/26-games-in-1">26-games-in-1</a>.
   <p>We also golfed other cellular automata like <a href="https://github.com/xem/miniLangtonAnt/">miniLangtonAnt</a>, <a href="http://xem.github.io/miniLangtonLoops/">miniLangtonLoops</a> and <a href="http://xem.github.io/cellularandom/">cellularandom</a>.
   <br>
@@ -92,14 +92,14 @@
 &lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=!(d?n^(d[i]?2&n:3):i%k^49))){n=0;for(jof[1,97,k=98,99])n+=d[i+j]+d[i-j]}d=e',d=0)>
 
 <b>// Move n=0 at the beginning of the loop to get rid of two more curly braces.</b>
-&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];n=0,i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=!(d?n^(d[i]?2&n:3):i%k^49)))for(jof[1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)></pre>
+&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];n=0,i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=!(d?n^(d[i]?2&n:3):i%k^49)))for(jof[1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)></code></pre>
   </div>
   <br>
   <br>
   <hr>
   <br>
   <p>With this extremely small code, we tried to re-golf miniGameOfLife with the same principle, and got it down from 221b to 183b! The result is <a href="https://github.com/xem/miniGameOfLife2">HERE</a>!
-  <pre class=code>&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=d?d[i]+n==4||n==4:3&lt;i%9))for(jof[n=1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)></pre>
+  <pre><code class="lang-html">&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=d?d[i]+n==4||n==4:3&lt;i%9))for(jof[n=1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)></code></pre>
   <p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">New mini projects!<br>MiniconwaySerpinski golfed in 188b - <a href="https://t.co/B3a6iAlIy8">https://t.co/B3a6iAlIy8</a><br>and miniGameOfLife2 golfed in 184b - <a href="https://t.co/WAI1CdvRO9">https://t.co/WAI1CdvRO9</a> <a href="https://t.co/AVdS64MCzK">pic.twitter.com/AVdS64MCzK</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/791966802062417922">28 octobre 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   <br>(to save one extra byte, Subzey also had the idea to rewrite the rule "<b>e[i]=(d[i]&&n==2)||n==3</b>" into "<b>e[i]=d?d[i]+n==4||n==4</b>")
@@ -108,7 +108,7 @@
   <hr>
   <br>
   To conclude, I'd like to show that this model can actually be used as a bootstrap for any Game of Life variation, not only these two:
-  <pre class=code>&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=d?<b>[RULES]</b>:<b>[INITIAL STATE]</b>))for(jof[n=1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)></pre>
+  <pre><code class="lang-html">&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width&=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=d?<b>[RULES]</b>:<b>[INITIAL STATE]</b>))for(jof[n=1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)></code></pre>
   <p>Replace <b>[RULES]</b> with the conditions that make e[i] (the current cell) alive based on d[i] (the previous state of the current cell) and n (the number of live neighbours);
   <br>and replace <b>[INITIAL STATE]</b> with the code that defines the initial state of the grid, based on i (the cell counter).
   <p>For example, if you use the rules of <a href="https://en.wikipedia.org/wiki/Life_without_Death">Life without Death</a>, you can get something like this:

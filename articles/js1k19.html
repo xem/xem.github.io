@@ -99,7 +99,7 @@ t=(v,w)=>l(s(v,w))          // dist(v,w)
 d=(v,w)=>v.x*w.x+v.y*w.y    // dotproduct(v,w)
 c=(v,w)=>v.x*w.y-v.y*w.x    // crossproduct(v,w)
 r=(v,o,t)=>a(o,V(c(f=s(v,o),g=V(Math.sin(t),Math.cos(t))),d(f,g))) // rotate(v,origin,theta)
-n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
+n=v=>m(v,1/(l(v)||1))       // normalize(v)</code></pre>
 
 ...I decided to take their code and remove every line that could be removed, and clean up/comment/golf every line that remained
 <br>The demo is <a href="https://xem.github.io/mini2Dphysics/">HERE</a>, the commented source code is <a href="https://github.com/xem/mini2Dphysics/blob/gh-pages/index.html">HERE</a> and the minified code is <a href="https://github.com/xem/mini2Dphysics/blob/gh-pages/index.min.js">HERE</a>.
@@ -117,21 +117,21 @@ n=v=>m(v,1/(l(v)||1))       // normalize(v)</pre>
 <br>I removed every test that is normally used to optimize the simulation, like testing if the bounding circles intersect and if the shapes move towards each other before computing their collision and updating the scene in consequence.
 <br>Finally, I removed an "important" loop that made the collision-solving algorithm run 15 times at every frame in order to ensure that no shapes are still intersecting when the scene is drawn.
 <br>Instead, I replaced the loops that consider every pair of circles once:
-<pre class=code>for(k = 15; k--;){
+<pre><code class="lang-js">for(k = 15; k--;){
   for(i = objects.length; i--;){
     for(j = objects.length; j-- > i;){
       ...
     }
   }
-}</pre>
+}</code></pre>
 With loops that consider every pair twice:
-<pre class=code>for(i = objects.length; i--;){
+<pre><code class="lang-js">for(i = objects.length; i--;){
   for(j = objects.length; j--;){
     ...
   }
-}</pre>
+}</code></pre>
 This allowed to enhance the simulation precision (as if it was run twice at each frame) and save bytes at the same time.
-<li>Speaking of loops, when the code contained <pre class="code inline">j-- > i</pre>, I noticed that <a href="https://xem.github.io/terser-online/">Terser</a> minified it as <pre class="code inline">j-- >i</pre> while <pre class="code inline">j-->i</pre> would have been perfectly valid, even though it can be interpreted as an end of HTML comment in some weird situations.
+<li>Speaking of loops, when the code contained <pre class="code inline">j-- > i</code></pre>, I noticed that <a href="https://xem.github.io/terser-online/">Terser</a> minified it as <pre class="code inline">j-- >i</code></pre> while <pre class="code inline">j-->i</code></pre> would have been perfectly valid, even though it can be interpreted as an end of HTML comment in some weird situations.
 <br>I also noticed that no matter how many "top-level" options I enabled, Terser didn't want to rewrite any global variable as one char.
 <br>So I added a bunch of tricks in my <a href="https://xem.github.io/terser-online/">online Terser minifier</a> to fix these cases if the "js1k" option is checked:
 <br><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Terser-online (<a href="https://twitter.com/hashtag/ES6?src=hash&amp;ref_src=twsrc%5Etfw">#ES6</a> minifier) update!<a href="https://t.co/srj6BBtZmF">https://t.co/srj6BBtZmF</a><br><br>- Extra compression can now be toggled with a checkbox<br>- Output size and RegPack options are placed below the output<br><br>Here&#39;s a 4.6kb app minified in 1800b, then 1434b extra minified, then packed in 1023b<a href="https://twitter.com/hashtag/js1k?src=hash&amp;ref_src=twsrc%5Etfw">#js1k</a> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/NBv4UhuA5O">pic.twitter.com/NBv4UhuA5O</a></p>&mdash; xem ??? (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1079761862609260544?ref_src=twsrc%5Etfw">31 d?cembre 2018</a></blockquote>
@@ -141,7 +141,7 @@ This allowed to enhance the simulation precision (as if it was run twice at each
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <li>When I tried to pack this "big" demo, RegPack was crashing, which lead to <a href="https://github.com/Siorki/RegPack/issues/94">this bugfix</a>. 
 <li>After managing to golf it below 950 bytes, I decided to use circular emoji (faces) instead of circles. Of course, it didn't work as planned. I used trial-and-error to determine the right font-size and X/Y offsets to make an emoji <a href="https://github.com/xem/js1k19/blob/gh-pages/emojysics/index.html#L240">appear exactly where a circle would have been drawn</a>.
-<li>On Apple devices, the rotated emoji were too buggy, so with the help of Twitter I found <a href="https://github.com/xem/js1k19/blob/gh-pages/emojysics/index.html#L236-L237">a tiny test</a> (<pre class="code inline">navigator.userAgent.match("Ma")</pre>) that allowed me to detect them and fallback to regular circles.
+<li>On Apple devices, the rotated emoji were too buggy, so with the help of Twitter I found <a href="https://github.com/xem/js1k19/blob/gh-pages/emojysics/index.html#L236-L237">a tiny test</a> (<pre class="code inline">navigator.userAgent.match("Ma")</code></pre>) that allowed me to detect them and fallback to regular circles.
 <li>The emoji (picked randomly) are in the range U+1F600 - U+1F644 (😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃🙄)
 </ul>
 
@@ -226,11 +226,11 @@ This allowed to enhance the simulation precision (as if it was run twice at each
 <li>I submitted it to js1k mid-febuary, but no luck: the demo, once published on <a href="//js1k.com/4052">js1k.com/4052</a>, didn't play any sound.
 <br>The problem was that js1k's shim didn't like the way I generated and played the notes, and I found no way to fix it...
 <br>Then it hit me! With the 74 free bytes I had, I could put all my app inside an iframe, which would bypass completely all the shim's fixes and polyfills that made my app mute.
-<br><pre class=code>// Before
+<br><pre><code class="lang-js">// Before
 n=n=>{...(synth)...},b.innerHTML=`...(ui)...`
 
 // After
-b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n=n=>{...(synth)...};b.innerHTML=`...(ui)...`&lt;\/script>\">&lt;/iframe>"</pre>
+b.innerHTML="&lt;iframe width=999 height=999 srcdoc=\"&lt;body id=b>&lt;script>n=n=>{...(synth)...};b.innerHTML=`...(ui)...`&lt;\/script>\">&lt;/iframe>"</code></pre>
 By chance, it worked and fitted exactly in 1024 bytes. We can see the borders of the iframe, but... who cares?
 <br>
 <blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Hi, sorry if you only see a mute demo! it was supposed to play notes for real.<br>While we fix it, you can test it out of JS1K here:<a href="https://t.co/WtQhVvI2Lv">https://t.co/WtQhVvI2Lv</a><br>Cheers!</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1095946841710051328?ref_src=twsrc%5Etfw">14 février 2019</a></blockquote>
@@ -273,11 +273,11 @@ By chance, it worked and fitted exactly in 1024 bytes. We can see the borders of
 <br>For example, Aufbau(118) can be written as "[Rn] 7s2 5f14 6d10 7p6"
 <br>Unfortunately, this would have taken too many bytes to implement for js1k, so I abandoned it and found two other pieces of information that could be added in my table pretty easily: the element's natural occurrence (primordial / from decay / synthetic), and if the element's type has been observed yet.
 <li>To fit these new details, I sacrificed a couple cosmetic details (the black background and the text-shadows) and golfed the HTML and the CSS even more than it already was!
-<br><pre class=code>// CSS before:
+<br><pre><code class="lang-css">// CSS before:
 padding:.7vw .5vw
 
 // CSS after (vw can be replaced by % in many cases, and the space can be removed):
-padding:.7%.5%</pre>
+padding:.7%.5%</code></pre>
 <li>The result is a table with 10 (X) different pieces of informations for each element, which is pretty much in the theme... right? ^^
 <li>NB: I also "fixed" the type of some elements that was wrong or debatable in the previous editions.
 </ul>
@@ -311,14 +311,14 @@ padding:.7%.5%</pre>
 <br><img src="images/js1k19/10.png">
 <br>It looked great but, sadly, wasn't really doable under 1kb.
 <li>At least, Keith gave me a great tip to produce the pyramids triangles with clip-path instead of borders:
-<pre class=code><b>// Before</b>
+<pre><code class="lang-css"><b>// Before</b>
 border-left:2em solid transparent;border-right:2em solid transparent;border-bottom:2em solid #090
 
 <b>// Keith's suggestion (-18b)</b>
 height:4em;width:4em;clip-path:polygon(50% 0%,0 100%,100% 100%);background:#090
 
 <b>// Final code (-22b)</b>
-height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre>
+height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</code></pre>
 <li>I continued improving what I had, especially by adjusting every block's height and adjusting every div to fill every gap I found in the cubes and the pyramids.
 <br>Also, I made all the cubes overlap on their neighbours (using "transform:scale(1.1)") to avoid seeing a "grid" on the floor.
 <br>Then, I lightened the scene as much as I could, by removing invisible faces in the cubes and the pyramids, and using a single div for the water. Here's the castle seen from behind, showing that the castle is hollow and all the cubes are missing their back and bottom faces:
@@ -360,7 +360,7 @@ height:4em;width:4em;clip-path:polygon(2em+0,0+4em,4em+4em);background:#090</pre
 <br>Here are all the pseudoalphabets present in qaz.wtf, the three I included in this entry are marked in red:
 <br><img src="images/js1k19/16.png">
 <br>I used <a href="//shapecatcher.com">shapecatcher</a> to complete and fix some pseudoalphabets, in the following way:
-<pre class=code><b>// qaz.wtf</b>
+<pre><code class="lang-js"><b>// qaz.wtf</b>
 
 Superscript:
 ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ
@@ -374,7 +374,7 @@ Superscript:
 ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ
 
 reversed:
-~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ@¿&lt;=>⸵:68⏌9S߈εᘔ⥝0/˙-‘+*(),⅋%$#„¡</pre>
+~{|}zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ`_^[\]zʎxʍʌnʇsɹbdouɯןʞɾᵎɥƃɟǝpɔqɐ@¿&lt;=>⸵:68⏌9S߈εᘔ⥝0/˙-‘+*(),⅋%$#„¡</code></pre>
 (I didn't include uppercase superscript chars, because they were too incomplete: ᴬᴮ*ᴰᴱ*ᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾ*ᴿ*ᵀᵁⱽᵂ***, I reused the lowercase ones instead.)
 <li>For every other transform, I studied how it worked, on which Unicode subset it could apply to, and implemented a system that performs it as simply as possible. (see the source code for all the details).
 <li>For EscApe, which is a much geeker subject, I unearthed my ungolfed <a href="//xem.github.io/escape">EscApe</a> project that was aiming to give a complete list of transforms and encodings for any kind of text entered in the input textarea, and I kept (and golfed) as many interesting features as I could in 1kb.
@@ -387,7 +387,7 @@ reversed:
 <li>I had some issues when I tried to submit EscApe to js1k:
 <br>- First, Chrome 71 had broken the "..." operator back in febuary, so I waited mid-march to submit the demo, hoping that enough people would have at least Chrome 72.
 <br>- Then, I realized during the submit process that js1k.com's CSP blocked all XMLHttpRequests, which broke my last two mojibake fields. Fortunately, I managed to replace them with iframes, which worked fine and even took less bytes!
-<br><pre class=code><b>// Before (update a field using XHR)</b>
+<br><pre><code class="lang-html"><b>// Before (update a field using XHR)</b>
 
 HTML:
 &lt;input size=99 id=C>
@@ -403,7 +403,7 @@ HTML:
 &lt;iframe width=600 height=50 id=C>&lt;/iframe>
 
 JS:
-C.src="data:;charset=utf-8;base64,"+latin1_base64</pre>
+C.src="data:;charset=utf-8;base64,"+latin1_base64</code></pre>
 It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough bytes to enhance the UI and labels a little.
 <br>- Finally, there was an issue not present in my local shim nor during the submission, but <a href="https://twitter.com/js1k/status/1104802479047364609">present after the demo was published</a>: one of the fields (called "d") stayed empty. Turns out, in published demos only, the global var "d" (a shortcut for "document" that I asked to kuvos to add in the shim a few years ago) couldn't be overwritten. So I renamed it to E and everything went back to normal.
 </ul>
@@ -437,7 +437,7 @@ It didn't make my demo lose 2 x 41 bytes due to RegPack, but it saved enough byt
 &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};transform:translateY(${2*i}em)translateX(${2*j}em)translateZ(${E+2}em)>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(90%);transform:rotateY(90deg)translateX(1em)translateZ(-1em)>&lt;/div>
   &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(80%);transform:rotateY(90deg)translateX(1em)translateZ(1em)>&lt;/div>
-  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:rotateX(90deg)rotateZ(180deg)translateY(1em)translateZ(-1em)></pre>
+  &lt;div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:rotateX(90deg)rotateZ(180deg)translateY(1em)translateZ(-1em)></code></pre>
 </div>
 Even with 111 less bytes of code, this enhancement only saves a couple dozen bytes after Regpack compression. It's still nice though.
 <br>- The closing parenthesis at the end of the style attributes are not omitted anymore, because RegPack prefers that when we maximize the number of occurrences of the "em)" substring instead of having sometimes "em)" and sometimes "em>".
@@ -491,7 +491,7 @@ Even with 111 less bytes of code, this enhancement only saves a couple dozen byt
 <br>The <a href="https://fr.wikipedia.org/wiki/Mandelbox">formula on wikipedia looked pretty short</a>, but completely cryptic for me.
 <br>So, before abandoning the idea forever, I proposed a team entry to <b>Bálint Csala</b>, who accepted and fortunately, knew exactly how to proceed!
 <br>He found an OpenGL implementation which, after a bit of cleanup, looked like this:
-<pre class=code>float map(vec3 pos){
+<pre><code class="lang-js">float map(vec3 pos){
  vec4 p = vec4(pos,1);
  vec4 p0 = p;
  for(int i = 0; i &lt; 9; i++){
@@ -517,7 +517,7 @@ void mainImage(out vec4 o, vec2 c){
     p += rd * dist;
   }
   o.rgb = col;
-}</pre>
+}</code></pre>
 And it even worked fine <a href="http://xem.github.io/MiniShadertoy/js1k.html#Ly8gTWFuZGVsYm94IGRpc3RhbmNlIGZ1bmN0aW9uCmZsb2F0IG1hcCh2ZWMzIHBvcyl7dmVjNCBwPXZlYzQocG9zLDEpO3ZlYzQgcDA9cDtmb3IoaW50IGk9MDtpPDk7aSsrKXtwLnh5ej1jbGFtcChwLnh5eiwtMS4sMS4pKjIuLXAueHl6O2Zsb2F0IHIyPWRvdChwLnh5eixwLnh5eik7cCo9Y2xhbXAobWF4KC4yNS9yMiwuMjUpLDAuLDEuKTtwPXAqKHZlYzQoMi44LDIuOCwyLjgsIGFicygyLjgpKS8uMjUpK3AwO31yZXR1cm4obGVuZ3RoKHAueHl6KS0xLikvcC53LXBvdyhhYnMoMi44KSwtOS4pO30KCi8vIFJheXRyYWNlcgp2b2lkIG1haW5JbWFnZShvdXQgdmVjNCBvLHZlYzIgYyl7CiAgCiAgLy8gQWRqdXN0IGNvb3JkaW5hdGVzIHN5c3RlbQogIHZlYzIgdXYgPSBjIC8gaVJlc29sdXRpb24ueHggLSBpUmVzb2x1dGlvbi54eSAvIGlSZXNvbHV0aW9uLnh4IC8gMi47CiAgdmVjMyByZCA9IG5vcm1hbGl6ZSh2ZWMzKHV2LCAxLikpOwoKICAvLyBTdGFydGluZyBwb2ludCBmb3IgdGhlIHJheSAoZXllIHBvc2l0aW9uKQogIHZlYzMgcCA9IHZlYzMoKC0oaU1vdXNlLngpLzIuKS8xMDAuLChpTW91c2UueS8yLikvMTAwLiwgLTE1Lik7CgogIC8vIEl0ZXJhdGlvbnMKICBmbG9hdCBpdCA9IDk5LjsKICAKICAvLyBEZWZhdWx0IGNvbG9yIChibGFjaykKICB2ZWMzIGNvbCA9IHZlYzMoMCk7CiAgCiAgLy8gSXRlcmF0ZSBmb3IgZWFjaCBwaXhlbAogIGZvciAoZmxvYXQgaSA9IC4wOyBpIDwgOTkuOyBpKyspewogICAgCiAgICAvLyBDb21wdXRlIHJlbWFpbmluZyBkaXN0YW5jZSBmcm9tIHJheSB0byBNYW5kZWxib3ggCiAgICBmbG9hdCBkaXN0ID0gbWFwKHApOwoKICAgIC8vIENob29zZSBhIGRpc3RhbmNlIHdoZXJlIHRoZSByYXkgaXMgY2xvc2UgZW5vdWdoCiAgICBpZiAoZGlzdCA8IDEuIC8gaXQpewogICAgICAKICAgICAgLy8gU2V0IGNvbG9yIGFjY29yZGluZyB0byB0aGUgbnVtYmVyIG9mIGl0ZXJhdGlvbnMKICAgICAgY29sID0gdmVjMygxLiAtIGkgLyBpdCk7CgogICAgICAvLyBTdG9wCiAgICAgIGJyZWFrOwogICAgfQoKICAgIC8vIElmIHJheSBpcyBub3QgY2xvc2UgZW5vdWdoOiBhZHZhbmNlIHRoZSByYXkgYWNjb3JkaW5nIHRvIHRoZSByZW1haW5pbmcgZGlzdGFuY2UKICAgIHAgKz0gcmQgKiBkaXN0OwogIH0KCiAgLy8gQ29sb3IgdGhlIHBpeGVsCiAgby5yZ2IgPSBjb2w7Cn0=">in our MiniShadertoy js1k demo</a>! So that was very promising.
 
 <br>Little did we know that we'd spend most of the two month of the competition working hard on it!
@@ -574,17 +574,16 @@ The automatic camera is disabled for now.
 <br><img src="images/js1k19/mat.jpg">
 <br>To code this rotation with very few code, Bálint took these 3 rotation matrices (used to perform rotations around the axis X, Y and Z), multiplied them together to get a single all-purpose matrix, then multiplied this matrix with a forward vector [0,0,1], and used the result to make the camera look and move towards this direction.
 <br>Translated in WebGL, this matrix-vector multiplication looks like this (to look in the right direction):
-<pre class=code>
-// d = ray direction
+<pre><code class="lang-js">// d = ray direction
 // a = horizontal angle
 // A = vertical angle
 d.yz *= mat2(cos(a), -sin(a), sin(a), cos(a));
 d.xz *= mat2(cos(-A), -sin(-A), sin(-A), cos(-A));
-</pre>
+</code></pre>
 The camera position is updated in JS at each frame like this (to move towards the current direction):
-<pre class=code>m[0] += sin(A) * cos(a) / 99 / 3; // X
+<pre><code class="lang-js">m[0] += sin(A) * cos(a) / 99 / 3; // X
 m[1] -= sin(a) / 99 / 3; // Y
-m[2] += cos(a) * cos(A) / 99 / 3 // Z</pre>
+m[2] += cos(a) * cos(A) / 99 / 3 // Z</code></pre>
 <li><a href="https://xem.github.io/js1k19/miniMandelbox/9/">DEMO 9</a> (1.6kb minified)
 <br>Bálint outperformed himself for this iteration, and added the colored matallic look that is still present in the final release, but also the first draft of the music!
 <br>The colored metallic look is obtained by casting tangent rays, which requires much more computing power.

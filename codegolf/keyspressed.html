@@ -19,7 +19,7 @@
 	<h2>Keys pressed</h2>
 	<h3>september to december 2013</h3>
 	<p>A way to know at any moment if a key is being pressed, in just 60 bytes.</p>
-	<pre>k={};onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5]}</pre>
+	<pre><code class="lang-js">k={};onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5]}</code></pre>
 	<p>
     To use it, all you have to do is choosing "n" - a keycode - and test k[n]. This is true when the corresponding key is pressed, and false when it's not pressed anymore.
     <br>
@@ -42,13 +42,13 @@ onkeydown = onkeyup = function(e){
   // !! converts e.type[5] to a boolean. It can be removed but it's a little dirtier.
   k[e.keyCode] = !!e.type[5];
 
-}</pre>
+}</code></pre>
   <br>
   <b>Demo:</b> Here is the state of k in real time. Press any key to make it change.
     <script>
       k=[];onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5];demo_touchesfoncees.innerHTML="k = ["+k+"]"}
     </script>
-    <div class=demo><pre id=demo_touchesfoncees>k = [ ]</pre></div>
+    <div class=demo><pre id=demo_touchesfoncees>k = [ ]</code></pre></div>
   </p>
 </div>
 

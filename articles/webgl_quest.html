@@ -37,7 +37,7 @@
   <br>
   <h3>Full Story</h3>
   <p>During the last few weeks, the codegolf team (including Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, ...) has welcomed new members (LiterallyLara & HellMood, authors of JS1K 2016 winning entry <a href="http://js1k.com/2016-elemental/demo/2552">Romanesco 2.0</a>) and gave itself a nice challenge: develop the smallest possible HTML/JS (ES6) boilerplate that's able to run a WebGL fragment shader. It's currently as short as <b>349b</b>, and looks like this:
-  <pre class=code style=padding:5px>&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=<b>[SHADER]</b>}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'></pre>
+  <pre class=code style=padding:5px>&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=<b>[SHADER]</b>}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'></code></pre>
   <p>See <a href=#webgl_detailed_code>detailed source code</a> below!
   <p>With this boilerplate, you have access to a time counter <b>t.x</b> (a frame counter), the clip space coordinates <b>c</b> (representing gl_PointCoord), and all you need to do is replace <b>[SHADER]</b> with the value set by your shader to gl_FragColor, for example: <b style=background:#def>p+sin(atan(p.y,p.x)*9.)*sin(p*t.x/40.+9./dot(p,p)+t.x/40.);</b> (<a href=demos/webgl/psych.html>DEMO</a>).
   <p><u>Optional:</u>
@@ -168,7 +168,7 @@
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=[SHADER]}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'>
 
-</pre>
+</code></pre>
 
 <p>Mini WebGL boilerplate, commented:
 
@@ -245,7 +245,7 @@ with(g){                                    // Keep g into scope for future func
 }
 
 &lt;/script>
-</pre>
+</code></pre>
 
 <br>
 <br>

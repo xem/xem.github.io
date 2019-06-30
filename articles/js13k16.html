@@ -77,7 +77,7 @@
   <p>During the first half of this week, I developed the level editor, to give it strict rules (eg. only one starting point, only one end flag, the ability to place green pipes and switches that make them go up and down, the ability to place pairs of balanced platforms, etc...).
   <p>To do that, I had to define a precise format for saving the levels, a format that allows to store all the level's tiles in a grid of 40 * 20 ASCII characters (which is the most compressible output I could find while developing the 1k level editor), plus information about linked elements (pipes and switches, pairs of balanced platforms, etc). And all this data needs to be serializable in a string shorter than 4096 bytes, in order to be easily shareable via an URL on twitter.
   <p>Here's what the data of a level looks like:
-  <p><pre class=code>// As a JS object:
+  <p><pre><code class="lang-js">// As a JS object:
 level_data = {
   tiles: [
     [0, 0, 1, 2, ...],
@@ -92,9 +92,9 @@ level_data = {
     [x1, y1, x2, y2],
     ...
   ]
-};</pre>
-  <p><pre>// As an URL:
-http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1,y1,x2,y2]...]}</pre>
+};</code></pre>
+  <p><pre><code class="lang-js">// As an URL:
+http://...#{hash:"0012...",I:[[x,height_1,height_2,switch_x,switch_y]...],J:[[x1,y1,x2,y2]...]}</code></pre>
   <p>I also added many checks in the code of the editor to prevent to draw overlapping pipes and balances, and also to avoid overwriting important elements of the map (like the pipes or the time machine) to avoid bugs.
   <p><img src="images/js13k16/7.gif">
   <p>The whole code, including the menus, the complete level editor, as well as the "share", "clear" and "exit" buttons, is 19kb commented, and 2.16kb minified and gzipped. (plus the usual 1.8kb PNG)

@@ -77,20 +77,20 @@
   <p>At the center of this viewport, we place a 0x0px div called "camera". It's not REALLY the camera (more details in the next paragraph), but the point that will always be watched by the camera, something like a global transform-origin for the game.
   <p>Inside this "camera" point, we can place a scene container with a defined size and inside it, all the scene objects in their order of appearance (for a better browser support - more details at the end of the article). For example, we can put inside the kart, the tree, and finally the circuit.
   <p>Here's the template's HTML:
-  <pre class=code>&lt;div id=viewport>
+  <pre><code class="lang-html">&lt;div id=viewport>
   &lt;div id=camera>
     &lt;div id=scene>
       (...scene content...)
     &lt;/div>
   &lt;/div>
-&lt;/div></pre>
+&lt;/div></code></pre>
   <p>And CSS:</p>
-  <pre class=code>* { transform-style: preserve-3d; box-sizing: border-box; }
+  <pre><code class="lang-css">* { transform-style: preserve-3d; box-sizing: border-box; }
 #viewport { width: 600px; height: 400px; overflow: hidden; perspective: 400px; }
 #camera { width: 0px; height: 0px; position: relative; left: 300px; top: 200px; }
 #scene { width: 4000px; height: 4000px; transform-origin: 0 0; }
 /* scene content... */
-#scene { transform: rotateX(80deg) translateZ(-70px); }</pre>
+#scene { transform: rotateX(80deg) translateZ(-70px); }</code></pre>
   <p>All your scene objects can be placed in the scene the same way you'd place them in 2D on a HTML page (using left/top, or margins, or translateX/Y, etc.).
   <p>The last CSS line (rotateX and translateZ on the #scene element) enables the 3D view, exactly like in the previous Gif. The translateZ is optional, its goal is to place the camera a little above the scene, and avoid some bugs (more details later).
   <p>You can find a demo <a href="./demos/css3d/template.html">HERE</a>.
@@ -120,12 +120,12 @@
   <p>For example, you may want to look around you using the mouse or the keyboard, so you can declare a var called angle_z, and update it every time you move the mouse or press Left/Right arrows.<br>For more simplicity, this var will contain your Z rotation in radians (one turn = 2 * PI ~= 6.28 radians). It's possible to use degrees but all the JS Math functions work in radians and you'd need to convert units all the time, so I don't recommend it.
   <p>You'll probably want to move too, that's why you can declare two vars x_pos and y_pos. If you're surprised by the "Y" axis used to walk forward and backward, remember that our 3D game starts as a 2D game, and in 2D, the Y axis allows you to move up and down, which will become a forward-backward movement after passing in 3D view. These vars can be updated with keyboard inputs for example. 
   <p>Remark: naively, we can think that it's okay to move along the X axis when we press left and right keys, and move along the Y axis when we press up and down keys, but in first-person or third-person view, it's often not what we want at all. What we want is to go forward according to our current angle! So when we press "up", the right thing to do is probably something like:
-  <pre class=code>pos_x += walk_speed * Math.sin(angle_z);
-pos_y += walk_speed * Math.cos(angle_z);</pre>
+  <pre><code class="lang-js">pos_x += walk_speed * Math.sin(angle_z);
+pos_y += walk_speed * Math.cos(angle_z);</code></pre>
   <p>Finally, we want to apply these vars to our scene at each frame, and to do so, we just have to generate a CSS transform string and apply it with JS; something like:
-  <pre class=code>scene.style.transform = "rotateZ(" + angle_z + "rad) translateX(" + pos_x + "px) translateY(" + pos_y + "px)";</pre>
+  <pre><code class="lang-js">scene.style.transform = "rotateZ(" + angle_z + "rad) translateX(" + pos_x + "px) translateY(" + pos_y + "px)";</code></pre>
   <p>All the rest is just a slight variation of this principle. For example, to place the kart at the right position and the right angle, in front of the camera, you have to do something like:
-  <pre class=code>kart.style.transform = "translateX(" + (-pos_x - kart_width / 2) + "px) translateY(" + (-pos_y - kart_width / 2) + "px) translateZ(" + kart_height + "px) rotateZ(" + (-angle_z) + "rad)";</pre>
+  <pre><code class="lang-js">kart.style.transform = "translateX(" + (-pos_x - kart_width / 2) + "px) translateY(" + (-pos_y - kart_width / 2) + "px) translateZ(" + kart_height + "px) rotateZ(" + (-angle_z) + "rad)";</code></pre>
   <p>It takes a few fails and retries to get the right values and the right order for all the transforms, but with practice it becomes more and more logical and natural.
   <p><b>Hack:</b> if you're super lazy, your third-person sprite (for example the kart) can be placed over the viewport! You can see a demo <a href="https://xem.github.io/CSS3Dprototypes/2/">HERE</a>. The illusion is perfect... until something passes between the subject and the camera...
   <p><img src="./images/css3d/hack.png">

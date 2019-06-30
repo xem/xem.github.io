@@ -19,7 +19,7 @@
 	<h2>Snail</h2>
 	<h3>october 2013</h3>
 	<p>A snail matrix generator in 133 bytes</p>
-	<pre>s=function(e,c,d,b,f,h,g){c=[[]];d=1;b=h=0;for(f=-1;e;e--){for(g=1;g<2*e;g++)g>e?b+=d:f+=d,c[b]||(c[b]=[]),c[b][f]=++h;d=-d}return c}</pre>
+	<pre><code class="lang-js">s=function(e,c,d,b,f,h,g){c=[[]];d=1;b=h=0;for(f=-1;e;e--){for(g=1;g<2*e;g++)g>e?b+=d:f+=d,c[b]||(c[b]=[]),c[b][f]=++h;d=-d}return c}</code></pre>
   <button onclick="source_escargot.style.display='block';this.style.display='none'">See the source code</button>
   <br>
   <pre id=source_escargot style="display:none">/**
@@ -70,7 +70,7 @@ s = function(n,a,d,x,y,c,i){
   }
   
   return a;
-}</pre>
+}</code></pre>
   <br>
   <b>Demo</b>:
   <br>

@@ -183,24 +183,23 @@ blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radiu
 
 <p>The names of the items in each category are concatenated in CamelCase and retrieved using a regex. For example the places:
 
-<pre class=code>places = `Cape canaveralChrist the redeemerGreat wall of chinaSphinxEiffel towerPisa towerSagrada familiaBig ben...`.split(/(?=[A-Z])/)
+<pre><code class="lang-js">places = `Cape canaveralChrist the redeemerGreat wall of chinaSphinxEiffel towerPisa towerSagrada familiaBig ben...`.split(/(?=[A-Z])/)
 
-// ["Cape canaveral", "Christ the redeemer", "Great wall of china", "Sphinx","Eiffel tower", "Pisa tower", "Sagrada familia", "Big ben", ...]</pre>
+// ["Cape canaveral", "Christ the redeemer", "Great wall of china", "Sphinx","Eiffel tower", "Pisa tower", "Sagrada familia", "Big ben", ...]</code></pre>
 
 <p>The binary data is also concatenated.
 <br>When it represents fixed-size items like places (encoded on 2 bytes), it looks like this: 
 
-<pre class=code>places_binary = `HacªÓN—]‚?ˆG‚K€9LMÓN...`.match(/.{2}/g);
+<pre><code class="lang-js">places_binary = `HacªÓN—]‚?ˆG‚K€9LMÓN...`.match(/.{2}/g);
 
-// ["Ha", "cª", "ÓN", "—]", "‚?", "ˆG", "‚K", "€9", "LM", "ÓN", ...]</pre>
+// ["Ha", "cª", "ÓN", "—]", "‚?", "ˆG", "‚K", "€9", "LM", "ÓN", ...]</code></pre>
 
 <p>When the data represents polygons (countries, US states, territories, forests, deserts or lakes), the "reserved" character (i.e. not present in the rest of the data) "DEL" (U+127) is used to separate islands, while ~ (U+126), also reserved, is used to separate items.
 <br>For items with capitals (countries and US states), the capital coordinates are placed at the beginning of each item. For example, the US states and capitals are encoded like this:
 
-<pre class=code>
-us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~7X5Ur+~9l:eKjzs	+X=~:k:k},M~GrJpMm\n\n~\\}X}sa:2Q~WhYclY;0~]i[k*ia~hghg(...`.split`~`,
+<pre><code class="lang-js">us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~7X5Ur+~9l:eKjzs	+X=~:k:k},M~GrJpMm\n\n~\\}X}sa:2Q~WhYclY;0~]i[k*ia~hghg(...`.split`~`,
 
-// ["0X“P)", "+=&OOWMrUsbW↵a})>K9;Zx/PAHS8p", "7X5Ur+", "9l:eKjzs	+X=", ":k:k},M", "GrJpMm↵↵", "\}X}sa:2Q", "WhYclY;0", "]i[k*ia", "hghg(", ...]</pre>
+// ["0X“P)", "+=&OOWMrUsbW↵a})>K9;Zx/PAHS8p", "7X5Ur+", "9l:eKjzs	+X=", ":k:k},M", "GrJpMm↵↵", "\}X}sa:2Q", "WhYclY;0", "]i[k*ia", "hghg(", ...]</code></pre>
 
 <p>The second US state of this list (Alaska) is encoded like this:
 
@@ -223,16 +222,14 @@ us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~
 <p>That feature was missing in the first game: a canvas that resizes depending on your screen size.
 <br>This is always boring to do because all mouse/finger coordinates have to be translated to canvas coordinates, which is not doable natively.
 <br>Here's the shortest coordinate converter I managed to do (for a 1024 x 768px canvas):
-<pre class=code>
-<b>/* CSS */</b>
+<pre><code class="lang-css"><b>/* CSS */</b>
 canvas { max-width: calc(100vh * 1.35) }
-</pre>
+</code></pre>
 
 <p>Note: 1.35 is the canvas ratio: 1024/768.
 <br>Also, to save a few bytes, the max-width can be simplified to "135vh"!
 
-<pre class=code>
-<b>/* JS */</b>
+<pre><code class="lang-js"><b>/* JS */</b>
 
 xy = function(e){
   w = a.offsetWidth;
@@ -253,7 +250,7 @@ xy = function(e){
 onmouseup = function(e){
   xy(); // saves the pointer coordinates in the vars x and y
 }
-</pre>
+</code></pre>
 
 <p><b>The flags problem</b>
 
@@ -278,17 +275,15 @@ You can read the detail in these two Twitter threads:
 
 Long story short, on Windows and Linux, the fonts Twemoji and Noto Color Emoji are hosted on my Github repo and loaded like this:
 
-<pre class=code>
-<b>/* CSS */</b>
+<pre><code class="lang-css"><b>/* CSS */</b>
 @font-face{font-family:f;src:url(//xem.github.io/geoquiz2/n.ttf),url(//xem.github.io/geoquiz2/t.ttf)}
-</pre>
+</code></pre>
 
-<pre class=code>
-<b>/* JS */</b>
+<pre><code class="lang-js"><b>/* JS */</b>
 if(WindowsorLinux){
   body.style.fontFamily = `f`;
 }
-</pre>
+</code></pre>
 
 <p><b>Game modes</b>
 
@@ -331,7 +326,7 @@ if(WindowsorLinux){
 <br>I also had to convert ASCII country codes like "US" into Flag emoji and make sure that all the long names get written on two lines, which is never easy on a JS canvas (we can't use \r, \n or &lt;br>, we have to cut the string in two parts and call fillText() twice with different Y coordinates...
 <br>To split the names on two lines, I first used this regex: 
 
-<pre class=code>nameparts = itemname.match(/.{1,15}( |$)/g);</pre>
+<pre><code class="lang-js">nameparts = itemname.match(/.{1,15}( |$)/g);</code></pre>
 
 <br>The first line could take as long 1 to 15 chars + 1 space or 1 end-of-string, and the second line (if any) could take the remaining 1-15 chars + 1 end-of-string.
 <br>It worked fine, until the volcano <b>Eyjafjallajokull</b> popped up in the game.
@@ -354,8 +349,7 @@ As there are no spaces, the regex only took the 15 last chars + the end-of-strin
 <br>The more points a polygon had, the more distorted it became, and that's why the problem is more visible in Canada, Russia and Asia (these countries are very large).
 <p>I thought I was condemned to render my game on a huge canvas, then it hit me!
 <br>Instead of dividing every offset by 2 inside the coordinates computation like this:
-<pre class=code>
-<b>// Draw a polygon with a 0.5 scale (buggy)</b>
+<pre><code class="lang-js"><b>// Draw a polygon with a 0.5 scale (buggy)</b>
 c.beginPath();
 c.moveTo(x = startX/2, y = startY/2);
 for(i in points){
@@ -365,12 +359,11 @@ for(i in points){
   );
 }
 c.closePath();
-</pre>
+</code></pre>
 
 <p>The trick is to compute every point of the polygon as if it was in normal size, and only perform the downscale inside the moveTo() and lineTo() calls.
 
-<pre class=code>
-<b>// Draw a polygon with a 0.5 scale (fixed)</b>
+<pre><code class="lang-js"><b>// Draw a polygon with a 0.5 scale (fixed)</b>
 c.beginPath();
 x = startX;
 y = startY;
@@ -381,7 +374,7 @@ for(i in points){
   c.lineTo(x/2, y/2);
 }
 c.closePath();
-</pre>
+</code></pre>
 
 <p>The difference is very subtle, but it's enough to fix everything! Oof!
 
@@ -450,8 +443,7 @@ c.closePath();
 <p>I put these numbers inside <b>int2binary2html</b> and ended up having all the melody fitting in this little function.
 <br>
 
-<pre class=code>
-music = function(){
+<pre><code class="lang-js">music = function(){
 var audio = new AudioContext,
 gain = audio.createGain(),
 note,
@@ -468,7 +460,7 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
   oscillator.stop(note * .2 + .19);
 }
 }
-</pre>
+</code></pre>
 
 <br>(The string "notes" contains a lot of non-printable chars. It's actually 150 chars long)
 
@@ -632,7 +624,7 @@ for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\ncc
 
 <p>Very few code was necessary:
 
-<pre class=code>w = new Image();
+<pre><code class="lang-js">w = new Image();
 c = a.getContext("2d");
 w2 = new Image();
 w.src = "data:image/svg+xml;base64," + btoa(makewood("#96642c", "#8c5829")); // light palette
@@ -660,7 +652,7 @@ function draw(w,xo,yo) {
   c.lineTo(x+20+xo, y+75+yo);
   c.lineTo(x-20+xo, y+100+yo);
   c.fill();
-}</pre>
+}</code></pre>
 
 <p>Then I tried to rotate the text/triangle texture and discovered a Firefox bug: fill() supports rotated textures but fillText() doesn't!
 
@@ -679,7 +671,7 @@ function draw(w,xo,yo) {
 
 <p>The result (a 15-second loop) can be heard in the final game and its source code is available below (2.3kb minified, 520 bytes zipped).
 
-<pre class=code>music=function(){with(new AudioContext)with(G=createGain())for(i in D=[13,,9,,,,16,,11,,3,,,,,,13,,9,,,13,16,,11,,3,,,,,,13,,9,,,,16,,11,,3,,,,,,13,,9,,,13,16,,11,,3,,,,,])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(880*1.06**(13-D[i]),.23*i),gain.setValueAtTime(.01,.23*i),gain.setTargetAtTime(1e-4,.23*i+(i%16==2?.3:i%16==10?.4:.2),i%16==2?.3:i%16==10?.3:.05),stop(.23*i+(i%16==2?.7:i%16==10?.7:.23)));
+<pre><code class="lang-js">music=function(){with(new AudioContext)with(G=createGain())for(i in D=[13,,9,,,,16,,11,,3,,,,,,13,,9,,,13,16,,11,,3,,,,,,13,,9,,,,16,,11,,3,,,,,,13,,9,,,13,16,,11,,3,,,,,])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(880*1.06**(13-D[i]),.23*i),gain.setValueAtTime(.01,.23*i),gain.setTargetAtTime(1e-4,.23*i+(i%16==2?.3:i%16==10?.4:.2),i%16==2?.3:i%16==10?.3:.05),stop(.23*i+(i%16==2?.7:i%16==10?.7:.23)));
 
 with(new AudioContext)with(G=createGain())for(i in D=[,,,,,,,,,,6,,,,,15,,,,,,,,,,,6,,,,,,16,,,,,,,,,,6,,,,,,18,,,,,,,,,,6])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(880*1.06**(13-D[i]),.23*i),gain.setValueAtTime(.01,.23*i),gain.setTargetAtTime(1e-4,.23*i+(i%16==2?.3:i%16==10?.4:.23),i%16==2?.3:i%16==10?.3:.005),stop(.23*i+(i%16==2?9:i%16==10?.9:.24)));with(new AudioContext)with(G=createGain())for(i in D=[,,20,,,20,,,20,,,20,,,20,,,20,,,20,,,20,13,,,13,,,18,,,18,,,18,,,18,,,18,,,18,,,9,,,9,,,9,,,9,,,9,,,9])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(440*1.06**(13-D[i]),.23*i),gain.setValueAtTime([,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.002,,,.0015,.005,,,.0045,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025][i],.23*i),gain.setTargetAtTime(1e-4,.23*i+.21,.005),stop(.23*i+.22));
 
@@ -689,7 +681,7 @@ with(new AudioContext)with(G=createGain())for(i in D=[,,13,,,13,,,13,,,13,,,13,,
 
 music(),
 
-setInterval(music,14990);</pre>
+setInterval(music,14990);</code></pre>
 
 <br>Note: the code above contain some little tweaks allowing some notes to be played longer than the others, while the channels 3, 4 and 5 are altered to play the repeated notes with a decreasing volume (this is actually done by setting manually a specific volume to each note)
 
@@ -717,10 +709,10 @@ setInterval(music,14990);</pre>
 <br>And in order to have a nice layout on desktop, on tablet and on mobile (vertically and horizontally), all the items drawn on screen have positions relative to the center of the canvas, and all their sizes are not in pixels but in multiples of 1 "vmin", or 1 "vh"
 <br>vmin is a CSS unit representing a hundredth of the smallest side of the screen, and vh is a hundredth of the screen height. I polyfilled them in JS like this:
 
-<pre class=code>w = a.width = innerWidth;
+<pre><code class="lang-js">w = a.width = innerWidth;
 h = a.height = innerHeight;
 vmin = Math.min(w, h) / 100; // used in title screen and menu
-vh = h / 100; // used in the puzzles</pre>
+vh = h / 100; // used in the puzzles</code></pre>
 
 <p>As a bonus, I reset the canvas, recompute vmin and redraw the screen as soon as the browser gets resized.
 
@@ -793,9 +785,9 @@ So I tried something else, I removed the "position:fixed" of my canvas and final
 
 <p>So I made a <a href="https://xem.github.io/envelope/bug.html">reduced version</a> of my problem and tried every solution suggested by <b>gheja</b>, <b>@Ox000000</b>, <b>potasmic</b>, <b>madmarcel</b> and <b>LDOC</b>, until it finally worked. The trick was to use <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L2-L7">these meta tags</a>, plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L21">preventDefault()</a> on every event, plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L44-L45">clientX/Y</a> (and not pageX/Y), plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L59">a fixed canvas wrapper</a>, plus these very specific and not super well-known <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L71-L73">CSS rules</a>:
 
-<pre class=code>-webkit-overflow-scrolling: touch;
+<pre><code class="lang-css">-webkit-overflow-scrolling: touch;
 overflow: hidden;
-overscroll-behavior: none;</pre>
+overscroll-behavior: none;</code></pre>
 
 <p>The combination of all these factors finally disabled the elastic scroll and let the points follow my finger:
 

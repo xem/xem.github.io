@@ -22,7 +22,7 @@
 		<p>HTML lists... we all know them by heart: they exist since the first versions of HTML and XHTML, and they almost didn't change since then. They also work on all browsers.</p>
 		<p>Let's study their HTML.<br><b>&lt;ul></b> means "unordered list", <b>&lt;ol></b> means "ordered list", et <b>&lt;li></b> means "list item".<br>Here is their simplest form (note that the &lt;/li> are optionals)</p>
 		<p><b>Demo:</b></p>
-		<pre>&lt;ul>
+		<pre><code class="lang-html">&lt;ul>
   &lt;li>Element 1
   &lt;li>Element 2
   &lt;li>Element 3
@@ -32,7 +32,7 @@
   &lt;li>Element 1
   &lt;li>Element 2
   &lt;li>Element 3
-&lt;/ol></pre>
+&lt;/ol></code></pre>
 		Result:
 		<div class=demo>
 			<ul>
@@ -56,7 +56,7 @@
 			<li><b>&lt;ol></b> can have a "start" attribute telling where the numbering should begin, and its <b>&lt;li></b>s can have a "value" attribute to change their default number, and the following ones. (This works on IE6+)</li>
 		</ul>
 		<p><b>Démo:</b></p>
-		<pre>&lt;ol start="10">
+		<pre><code class="lang-html">&lt;ol start="10">
   &lt;li>Element 10
   &lt;li>Element 11
   &lt;li>Element 12
@@ -66,7 +66,7 @@
   &lt;li value="5">Element 5
   &lt;li>Element 6
   &lt;li>Element 7
-&lt;/ol></pre>
+&lt;/ol></code></pre>
 		Ce qui donne:
 		<div class=demo>
 			<ol start="10">
@@ -104,17 +104,17 @@
 			If you apply a <a href="http://meyerweb.com/eric/tools/css/reset/" target=_blank>CSS reset</a> to your page, it will delete the paddings on <b>ul</b> and <b>ol</b> elements, and their ticks will be hidden.
 			<br>
 			<b>Solution 1</b>: put the ticks inside the <b>li</b> with this rule:
-			<pre>ul, ol { list-style-position: inside }</pre>
+			<pre><code class="lang-css">ul, ol { list-style-position: inside }</code></pre>
 			The ticks reappear, but we still lose the indentation of nested lists.
 			<br>
-			<pre>&lt;ul>
+			<pre><code class="lang-html">&lt;ul>
   &lt;li>list
   &lt;li>list
     &lt;ol>
       &lt;li>sub-list
       &lt;li>sub-list
     &lt;/ol>
-&lt;/ul></pre>
+&lt;/ul></code></pre>
 			<div class=demo>
 				<ul style="list-style-position: inside; margin: 0; padding: 0;">
 				<li style="margin: 0; padding: 0;">list
@@ -128,7 +128,7 @@
 
 			<b>Solution 2 (the good one)</b>: don't change the ticks position, but re-set a padding-left to the lists, like this:
 			<br>
-			<pre>ul, ol { padding-left: 2em }</pre>
+			<pre><code class="lang-css">ul, ol { padding-left: 2em }</code></pre>
 			Result:
 			<div class=demo>
 				<ul>
@@ -144,10 +144,10 @@
 		</p>
 		<p>
 		&nbsp;&bull; If we nest ordered lists, their numbers will stay the same (decimal notation). A good typographic practice is to do this:
-			<pre>ol { list-style-type: decimal }
+			<pre><code class="lang-css">ol { list-style-type: decimal }
 ol ol { list-style: upper-alpha }
 ol ol ol { list-style:  lower-roman }
-ol ol ol ol { list-style: lower-alpha }</pre>
+ol ol ol ol { list-style: lower-alpha }</code></pre>
 			<br>
 			Which allows nested lists as pretty as this, with up to four levels:
 			<div class=demo>
@@ -202,7 +202,7 @@ ol ol ol ol { list-style: lower-alpha }</pre>
 				</ol>
 			</div>
 			<p>To fix the "falling" ticks, use this CSS dode:</p>
-			<pre>ol, ul, li { vertical-align: top }</pre>
+			<pre><code class="lang-css">ol, ul, li { vertical-align: top }</code></pre>
 			<p>To fix the alignment between the ticks and the text, there is no miracle solution, but five possible approaches:</p>
 			<ul>
 				<li>Consider that an offset of a few pixels is not a big deal on IE &lt; 8, and do nothing.</li>
@@ -211,7 +211,7 @@ ol ol ol ol { list-style: lower-alpha }</pre>
 				<li>Replace the default tick with an image that looks like a tick, but with a few pixels of vertical offset.</li>
 				<li>
 					Or... (and this is the solution I recommend) put an element (like a &lt;span>) in each &lt;li>, and apply this style:
-					<pre>li span { *position: relative; *top: -0.5em }</pre>
+					<pre><code class="lang-css">li span { *position: relative; *top: -0.5em }</code></pre>
 					Result:
 					<div class=demo>
 						<ul>
@@ -246,7 +246,7 @@ ol ol ol ol { list-style: lower-alpha }</pre>
 			</ol>
 			</div>
 			<p>Each sub-list has a huge gap on top. It's not a margin or a padding, it's an IE bug. To get rid of it, you can set float: left to the lists (but it could lead to flow issues), or put them in display: inline-block (that's what I recommend):</p>
-			<pre>li ul, li ol { display: inline-block }</pre>
+			<pre><code class="lang-css">li ul, li ol { display: inline-block }</code></pre>
 			<p>So, everything is correct now.</p>
 			<p>Other list-related bugs and their solutions are described <a href="http://stylisticweb.com/design-tutorials/15-ie6-bugs-and-simple-solutions" target=_blank>here</a>, but I won't talk about them because they are too much specific.</p>
 			<hr>
@@ -266,8 +266,8 @@ ol ol ol ol { list-style: lower-alpha }</pre>
 				</li>
 				<li>
 					The &lt;li> elements can use one (or many) unicode character(s) as their ticks, thanks to CSS3 (and it works on IE8+):
-					<pre>li { list-style: none }
-li:before { content: ">>"; margin:0 1em 0 -3em;  }</pre>
+					<pre><code class="lang-css">li { list-style: none }
+li:before { content: ">>"; margin:0 1em 0 -3em;  }</code></pre>
           Result:
 					<style style="display: none">
 					.custombullet li { list-style: none }
@@ -290,284 +290,6 @@ li:before { content: ">>"; margin:0 1em 0 -3em;  }</pre>
 			<b>@MaximeEuziere</b>
 	</div>
 </div>
-
-<div class=section id=lists_fr style=display:none>
-  <img src=../francais.png class=lang onclick="lists_fr.style.display='none';lists_en.style.display='block'">
-	<h2>Les listes ordonnées et non-ordonnées</h2>
-	<h3>août 2013</h3>
-	<div id=listscontent_fr>
-		<p>Les listes HTML... tout le monde les connaît par coeur: elles existent depuis les toutes premières versions d'HTML et XHTML, et sont restées quasiment inchangées jusqu'à aujourd'hui. Elles fonctionnent d'ailleurs sur tous les navigateurs.</p>
-		<p>Etudions tout d'abord leur HTML.<br><b>&lt;ul></b> signifie "unordered list", <b>&lt;ol></b> signifie "ordered list", et <b>&lt;li></b> signifie "list item".<br>Voici leur écriture la plus simple: (vous noterez que les &lt;/li> sont optionnels)</p>
-		<p><b>Démo:</b></p>
-		<pre>&lt;ul>
-  &lt;li>Element 1
-  &lt;li>Element 2
-  &lt;li>Element 3
-&lt;/ul>
-
-&lt;ol>
-  &lt;li>Element 1
-  &lt;li>Element 2
-  &lt;li>Element 3
-&lt;/ol></pre>
-		Ce qui donne:
-		<div class=demo>
-			<ul>
-				<li>Element 1
-				<li>Element 2
-				<li>Element 3
-			</ul>
-			<br>
-			<ol>
-				<li>Element 1
-				<li>Element 2
-				<li>Element 3
-			<ol>
-		</div>
-		<p>Les <b>li</b> peuvent à leur tour contenir des sous-listes <b>ul</b> ou <b>ol</b>. (mais nous en reparlerons plus tard)</p>
-		<p>Les listes ont également des attributs spécifiques:</p>
-		<ul>
-			<li>L'<b>&lt;ul></b> (et ses <b>&lt;li></b>) peuvent avoir un attribut type, ayant comme valeur "circle", "square" ou "disc". Cela permet de changer leurs puces (par défaut à "circle").</li>
-			<li>L'<b>&lt;ol></b> (et ses <b>&lt;li></b>) peuvent aussi avoir un attribut type, ayant comme valeur "A", "a", "I", "i", "1". Cela permet de changer leurs numérotations (par défaut à "1").</li>
-			<li>L'attribut type est toutefois à éviter, il vaut mieux faire ces modifications avec du CSS. (on va en reparler)</li>
-			<li>L'<b>&lt;ol></b> peut avoir un attribut "start" disant où doit commencer la numérotation, et ses <b>&lt;li></b> peuvent avoir un attribut "value" changeant le numéro de l'élément courant, et de ceux qui suivent. (et c'est compatible IE6+)</li>
-		</ul>
-		<p><b>Démo:</b></p>
-		<pre>&lt;ol start="10">
-  &lt;li>Element 10
-  &lt;li>Element 11
-  &lt;li>Element 12
-  &lt;li value="20">Element 20
-  &lt;li>Element 21
-  &lt;li>Element 22
-  &lt;li value="5">Element 5
-  &lt;li>Element 6
-  &lt;li>Element 7
-&lt;/ol></pre>
-		Ce qui donne:
-		<div class=demo>
-			<ol start="10">
-				<li>Element 10
-				<li>Element 11
-				<li>Element 12
-				<li value="20">Element 20
-				<li>Element 21
-				<li>Element 22
-				<li value="5">Element 5
-				<li>Element 6
-				<li>Element 7
-			</ol>
-		</div>
-		<ul>
-			<li>Et enfin, <b>&lt;ol></b> peut avoir un attribut "reversed" (apparu en HTML5) servant à compter à l'envers (de bas en haut). Mais vu qu'il ne fonctionne pas sur IE &lt; 11, il est préférable de mettre directement des "value" décroissantes à chaque <b>&lt;li></b> pour obtenir cet effet.</li>
-		</ul>
-		<hr>
-		<p>Voyons maintenant leur code CSS par défaut, et les propriétés CSS qui leurs sont dédiées:</p>
-		<p><b>&lt;ul></b> et <b>&lt;ol></b> sont des blocs classiques (display: block). Ils ont un padding-left qui varie selon les navigateurs (environ 40px). Les puces sont incluses dans ce padding et ne peuvent pas être sélectionnées à la souris, en tant que texte.</p>
-		<p>L'<b>&lt;ul></b> a des puces en forme de disque (list-style: disc outside none).</p>
-		<p>L'<b>&lt;ol></b> a des numéros en face de chaque élément (list-style: decimal outside none).</p>
-		<p>Les <b>&lt;li></b> ont un affichage particulier (display: list-item), quasiment identique à du display: block. Ils ont également un list-style hérité de leur parent, mais qui peut être surchargé individuellement.</p>
-		<p>
-		La propriété CSS <b>list-style</b> est une écriture shorthand qui peut être utilisée pour fixer trois paramètres:<br>
-		<ul>
-			<li><b>list-style-type</b> (pouvant avoir <a href="https://developer.mozilla.org/fr/docs/CSS/list-style-type" target=_blank>une multitude de valeurs</a>),</li>
-			<li><b>list-style-position</b> (qui peut avoir comme valeur "inside", "outside" et "inherit", inside leur permettant de contenir leurs puces, au lieu de les laisser dans le padding du parent.)</li>
-			<li><b>list-style-image</b>, qui est par défaut à "none", mais qu'on peut remplacer par l'url d'une image. Si l'URL est invalide (ou si l'image est absente), c'est le list-style-type (disque, décimal, ...) qui sera utilisé comme fallback.</li>
-		</ul>
-		</p>
-		<hr>
-		<p>Voyons maintenant les différents problèmes que les listes peuvent nous poser:</p>
-		<p>&nbsp;&bull;
-			Si vous appliquez un <a href="http://meyerweb.com/eric/tools/css/reset/" target=_blank>CSS reset</a> à votre page, celui-ci va supprimer les paddings des <b>ul</b> et des <b>ol</b>, ce qui cachera leurs puces.
-			<br>
-			<b>Solution 1</b>: mettre les puces dans les <b>li</b> grâce à cette règle:
-			<pre>ul, ol { list-style-position: inside }</pre>
-			Les puces réapparaissent, mais on perd l'indentation des listes imbriquées.
-			<br>
-			<pre>&lt;ul>
-  &lt;li>liste
-  &lt;li>liste
-    &lt;ol>
-      &lt;li>sous-liste
-      &lt;li>sous-liste
-    &lt;/ol>
-&lt;/ul></pre>
-			<div class=demo>
-				<ul style="list-style-position: inside; margin: 0; padding: 0;">
-				<li style="margin: 0; padding: 0;">liste
-				<li style="margin: 0; padding: 0;">liste
-					<ol style="list-style-position: inside; margin: 0; padding: 0; display: block">
-						<li style="margin: 0; padding: 0;">sous-liste
-						<li style="margin: 0; padding: 0;">sous-liste
-					</ol>
-				</ul>
-			</div>
-
-			<b>Solution 2 (la bonne)</b>: ne pas toucher à la position des puces, mais remettre un padding-left aux listes, comme ceci:
-			<br>
-			<pre>ul, ol { padding-left: 2em }</pre>
-			Ce qui donne:
-			<div class=demo>
-				<ul>
-				<li>liste
-				<li>liste
-					<ol style="display:block">
-						<li>sous-liste</li>
-						<li>sous-liste</li>
-					</ol>
-				</ul>
-			</div>
-			En effet, les padding-left s'additionnent, ce qui permet à la sous-liste d'être plus indentée que sa liste parente. 
-		</p>
-		<p>
-		&nbsp;&bull; Si on imbrique plusieurs listes ordonnées, leurs numérotations seront identiques (notation décimale). Une bonne pratique typographique consiste à faire ceci:
-			<pre>ol { list-style-type: decimal }
-ol ol { list-style: upper-alpha }
-ol ol ol { list-style:  lower-roman }
-ol ol ol ol { list-style: lower-alpha }</pre>
-			<br>
-			Ce qui permet d'avoir des listes imbriquées aussi jolies que ceci, quand quatre listes ordonnées sont imbriquées:
-			<div class=demo>
-			<ol>
-				<li>level 1</li>
-				<li>item</li>
-				<li>item</li>
-				<li><ol>
-						<li>level 2</li>
-						<li>item</li>
-						<li>item</li>
-						<li><ol>
-								<li>level 3</li>
-								<li>item</li>
-								<li>item</li>
-								<li><ol>
-										<li>level 4</li>
-										<li>item</li>
-										<li>item</li>
-									</ol>
-							</ol>
-					</ol>
-			</ol>
-			</div>
-		</p>
-		<p>
-		&nbsp;&bull;
-				Les CSS resets mettent généralement un vertical-align: baseline et un line-height: 1.5em à tous les éléments de la page, et ça pose problème sur IE &lt; 8 dans le cas où on a des listes imbriquées.
-				<br>
-				En effet, en regardant la liste suivante sur IE &lt; 8, vous verrez les numéros "tomber" tout en bas des sous-listes, et les puces seront mal alignées avec les textes en face.
-				<br>
-				<div class=demo>
-				<ol>
-					<li>level 1</li>
-					<li>item</li>
-					<li>item</li>
-					<li style="vertical-align: baseline"><ol>
-							<li>level 2</li>
-							<li>item</li>
-							<li>item</li>
-							<li style="vertical-align: baseline"><ol>
-									<li>level 3</li>
-									<li>item</li>
-									<li>item</li>
-									<li style="vertical-align: baseline"><ol>
-											<li>level 4</li>
-											<li>item</li>
-											<li>item</li>
-										</ol>
-								</ol>
-						</ol>
-				</ol>
-			</div>
-			<p>Pour corriger les puces qui "tombent", utilisez ce CSS:</p>
-			<pre>ol, ul, li { vertical-align: top }</pre>
-			<p>Pour corriger l'alignement entre les puces et le texte, il n'y a pas de solution miracle, mais cinq approches possibles:</p>
-			<ul>
-				<li>Soit considérer que quelques pixels de décalage sur IE &lt; 8, c'est pas grave, et ne rien faire.</li>
-				<li>Soit mettre un line-height à "1em" sur toute la page.</li>
-				<li>Soit laisser le line-height par défaut à "1.5em", mais mettre le line-height des &lt;li> à "1em" et leur padding à "0.25em 0", ce qui fera quasiment le même effet qu'un line-height: 1.5em, l'inconvénient étant que si le texte d'un &lt;li> s'étale sur deux lignes, ces lignes seront très collées.</li>
-				<li>Soit remplacer la puce par une image qui a l'apparence d'une puce, mais décalée de quelques pixels vers le bas.</li>
-				<li>
-					Soit (et c'est la solution que je préconise) mettre un élément (par exemple &lt;span>) dans chaque &lt;li>, et appliquer ce style:
-					<pre>li span { *position: relative; *top: -0.5em }</pre>
-					Ce qui donne:
-					<div class=demo>
-						<ul>
-							<li><span style="*position: relative; *top: -0.5em">Item 1</span></li>
-							<li><span style="*position: relative; *top: -0.5em">Item 2</span></li>
-							<li><span style="*position: relative; *top: -0.5em">Item 3</span></li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-			<p>Il y a par contre un bug présent sur tous les derniers IE parus (sauf IE6 et 7!), et que vous pouvez observer ici:</p>
-			<div class=demo>
-			<ol>
-				<li>level 1</li>
-				<li>item</li>
-				<li>item</li>
-				<li><ol style="display: block">
-						<li>level 2</li>
-						<li>item</li>
-						<li>item</li>
-						<li><ol style="display: block">
-								<li>level 3</li>
-								<li>item</li>
-								<li>item</li>
-								<li><ol style="display: block">
-										<li>level 4</li>
-										<li>item</li>
-										<li>item</li>
-									</ol>
-							</ol>
-					</ol>
-			</ol>
-			</div>
-			<p>Chaque sous-liste est décalée vers le bas. Ce n'est pas une marge ni un padding, c'est un bug d'IE. Pour s'en débarasser, vous pouvez soit mettre les sous-listes en float:left (ce qui pose des problèmes de flot), soit (et c'est la bonne solution) les mettre en inline-block:</p>
-			<pre>li ul, li ol { display: inline-block }</pre>
-			<p>Avec ça, tout rentre dans l'ordre.</p>
-			<p>D'autres bugs IE6/7 relatfs aux listes, et leurs solutions, sont détaillés <a href="http://stylisticweb.com/design-tutorials/15-ie6-bugs-and-simple-solutions" target=_blank>ici</a>, mais je n'en parlerai pas car ils apparaissent dans des cas trop spécifiques.</p>
-			<hr>
-			<p>Parlons plutôt des choses originales qu'on peut faire avec des listes HTML:</p>
-			<ul>
-				<li>
-					Un &lt;li> peut ne pas avoir d'&lt;ol> ou d'&lt;ul> autour. Il sera alors précédé d'un cercle (et ce, sur tous les navigateurs).
-				</li>
-				<li>
-					Un &lt;ul> / &lt;ol> peut contenir autre choses que des &lt;li>. (des éléments HTML ou du texte). Ceux-ci seront dénués de puces ou de numéros.
-				</li>
-				<li>
-					Il existe des moyens simples pour faire en sorte qu'une liste s'affiche sur plusieurs colonnes.<br><a href="http://alistapart.com/article/multicolumnlists" target=_blank>Cet article</a> traite ce sujet de façon exhaustive.
-				</li>
-				<li>
-					Une liste peut ressembler à une arborescence avec une image de 1px et du CSS ingénieux: <a href="http://css-tricks.com/style-a-list-with-one-pixel/" target=_blank>voyez plutôt</a>.
-				</li>
-				<li>
-					Les &lt;li> peuvent avoir des caractères unicode comme puces, grâce au CSS3 (et ça marche sur IE8+):
-					<pre>li { list-style: none }
-li:before { content: ">>"; margin:0 1em 0 -3em;  }</pre>
-				Ce qui donne:
-					<style style="display: none">
-					.custombullet li { list-style: none }
-					.custombullet li:before { content: ">>"; margin: 0 1em 0 -3em; }
-					</style>
-					<div class=demo>
-						<ul class=custombullet>
-							<li>Item 1</li>
-							<li>Item 2</li>
-							<li>Item 3</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-			<p>Sur ce, je m'arrête là, et je vous invite à jeter un oeil à <a href="//xem.github.io/Blog" target="_blank">mon dernier projet, Basis</a>: un point de départ (ou "boilerplate", comme on dit outre-France) pour faire des pages HTML/CSS/JS, avec un CSS reset maison qui inclut toutes ces techniques pour bien gérer les listes (imbriquées) sur tous les navigateurs.</p>
-			<br>
-			<br>
-			A bientôt!
-			<br>
-			<b>@MaximeEuziere</b>
-	</div>
-</div>
-
 
 </main>
 

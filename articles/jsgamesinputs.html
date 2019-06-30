@@ -22,8 +22,8 @@
   <hr>
   <br>
   <p><b>TL;DR - state of the art:</b>
-  <pre class=code><b>// Update four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD inputs. (73b)</b>
-u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</pre>
+  <pre><code class="lang-js"><b>// Update four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD inputs. (73b)</b>
+u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</code></pre>
   <br>
   <hr>
   <br>
@@ -54,7 +54,7 @@ u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</pre>
   <p>It introduces four global boolean variables to keep in memory the state of each direction.
   <p>Of course, feel free to fork it and replace them with non-global vars if you want, but for this example, I'll just keep things simple, and who cares about global vars in code-golfing anyway? <a href="https://twitter.com/SuperCPMaker/status/769855521302151168">Okay, maybe everyone cares, but not me!</a> :p
   <p>So here's the code:
-  <pre class=code>// Keys states (false: key is released / true: key is pressed)
+  <pre><code class="lang-js">// Keys states (false: key is released / true: key is pressed)
 up = right = down = left = false;
 
 // Keydown listener
@@ -104,7 +104,7 @@ onkeyup = (e) => {
     left = false;
   }
 }
-</pre>
+</code></pre>
   <p>Then, during you game loop, you just need to rely on the state of these four variables to know if the player is currently pressing a direction (or an alias in WASD or ZQSD) or not!
   <p>Want to see a demo? Of course! Just launch the first level of <a href="http://js13kgames.com/entries/super-chrono-portal-maker">my js13kgames entry</a>. It uses this exact technique :)
   <br>
@@ -112,35 +112,35 @@ onkeyup = (e) => {
   <hr>
   <br>
   <p>P.S: if you want a minified ang golfed version, here it is: only 160b! (the four vars u,r,d,l, are not booleans but just truthy and falsy)
-<pre class=code>u=r=d=l=0;onkeydown=(e)=>t(e,1);onkeyup=(e)=>t(e);t=(e,v,l,i)=>{for(i in l={u:[38,90,87],r:[39,68],d:[40,83],l:[37,65,81]})if(l[i].includes(e.keyCode))top[i]=v}</pre>
+<pre><code class="lang-js">u=r=d=l=0;onkeydown=(e)=>t(e,1);onkeyup=(e)=>t(e);t=(e,v,l,i)=>{for(i in l={u:[38,90,87],r:[39,68],d:[40,83],l:[37,65,81]})if(l[i].includes(e.keyCode))top[i]=v}</code></pre>
 <p>P.P.S: Here's a 122b version by @p01, using a radically different idea: a look-up table of keyCodes represented as a string, and ".which" instead of ".keyCode" (because it's the same thing):
-<pre class=code>u=r=d=l=0;onkeyup=t=(e,v)=>top['lurd************************l**r************l*d***u**u'[e.which-37]]=v;onkeydown=e=>t(e,1)</pre>
+<pre><code class="lang-js">u=r=d=l=0;onkeyup=t=(e,v)=>top['lurd************************l**r************l*d***u**u'[e.which-37]]=v;onkeydown=e=>t(e,1)</code></pre>
   <br>
   <hr>
   <br>
   <p><b>january 2017 golfing</b>
   <p>I made a new version that's only 87b, but it works if the only keys you need to support are arrows, WASD and ZQSD (most of the other keys may collide with one of the four directions):
-  <pre class=code>u=d=l=r=0;onkeyup=t=(e,v)=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=v;onkeydown=e=>t(e,1)</pre>
+  <pre><code class="lang-js">u=d=l=r=0;onkeyup=t=(e,v)=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=v;onkeydown=e=>t(e,1)</code></pre>
   <p>It fell down to 85b with the help of <b>nderscore</b>:
-  <pre class=code>u=d=l=r=0;onkeydown=e=>(onkeyup=(e,v)=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=v)(e,1)</pre>
+  <pre><code class="lang-js">u=d=l=r=0;onkeydown=e=>(onkeyup=(e,v)=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=v)(e,1)</code></pre>
   <p>then 83, by merging the two event listeners:
-  <pre class=code>u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=e.type[3]<'u'</pre>
+  <pre><code class="lang-js">u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=e.type[3]<'u'</code></pre>
   <p>and finally 82 with <b>Subzey</b>'s touch:
-  <pre class=code>u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[3]<'u'</pre>
+  <pre><code class="lang-js">u=d=l=r=0;onkeydown=onkeyup=e=>top['lurdl*d*l*ur*u'[(e.which+3)%20]]=e.type[3]<'u'</code></pre>
   <p><a href="demos/arrowkeys/1.html">(DEMO)</a>
   <br>
   <p>Note: there's no collision with the keys "E", "R", "T" "space", "shift" and "Enter", so you can also handle them just fine with just a 100 bytes:
-  <pre class=code>E=R=T=_=s=e=u=d=l=r=0;onkeydown=onkeyup=z=>top['lurdlRdTl*urEu*_e**s'[(z.which+3)%20]]=z.type[3]<'u'</pre>
+  <pre><code class="lang-js">E=R=T=_=s=e=u=d=l=r=0;onkeydown=onkeyup=z=>top['lurdlRdTl*urEu*_e**s'[(z.which+3)%20]]=z.type[3]<'u'</code></pre>
   <p><a href="demos/arrowkeys/2.html">(DEMO)</a>
   <br>
   <hr>
   <br>
   <p><b>Febuary 2018 update, thanks to @BalintCsala and @ETHProd !</b>
   <p>Here's how to save the state of four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD, in 78b:
-  <pre class=code>u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</pre>
+  <pre><code class="lang-js">u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</code></pre>
   <br>
   <p>And here's a different approach, where keydown events directly update two variables called X and Y using the arrow keys, in 56b only!
-  <pre class=code>X=Y=0;onkeydown=e=>top["YXYX"[g=e.which%4]]-="0220"[g]-1</pre>
+  <pre><code class="lang-js">X=Y=0;onkeydown=e=>top["YXYX"[g=e.which%4]]-="0220"[g]-1</code></pre>
   <p>Unfortunately, if you keep one key pressed, the browser will make a short pause just after firing the first event, before firing around 60 times per second.
   <br>
   <p>NB: if you make a JS1k or itch.io game using these techniques, you'll need to replace 'top' with 'this' to avoid escaping your iframe.

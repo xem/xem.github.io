@@ -46,26 +46,26 @@
 <br>Of course, you can't just draw every point at the coordinates [X,Y] of your 2D canvas. You need a way to represent its depth, with perspective, in other terms: do a projection.
 <p>- Take the point's coordinates: x,y,z.
 <br>- Perform camera rotations using Euler's equations:
-<pre>rotate = (a, b, angle) => [
+<pre><code class="lang-js">rotate = (a, b, angle) => [
   Math.cos(angle) * a - Math.sin(angle) * b,
   Math.sin(angle) * a + Math.cos(angle) * b
 ];
 [x,z] = rotate(x,z,yaw);
 [y,z] = rotate(y,z,pitch);
-[x,y] = rotate(x,y,roll);</pre>
+[x,y] = rotate(x,y,roll);</code></pre>
 <br>- add the camera offset to the coordinates:
-<pre>x -= cx;
+<pre><code class="lang-js">x -= cx;
 y -= cy;
-z -= cz;</pre>
+z -= cz;</code></pre>
 <br>- Scale the point according to its depth:
-<pre>size = realSize / z * perspective;</pre>
+<pre><code class="lang-js">size = realSize / z * perspective;</code></pre>
 <br>- If Z > 0, place the point on the canvas:
-<pre>if(Z > 0){
+<pre><code class="lang-js">if(Z > 0){
   X = w + x / z * perspective;
   Y = h + y / z * perspective;
   c.arc(x, y, size, 0, 2 * Math.PI);
   c.fill()
-}</pre>
+}</code></pre>
 
 <p><h3>>>> <a href="https://codepen.io/xem/pen/dLrpZr?editors=0010">CODEPEN DEMO</a> <<<</h3>
 <p><img src="images/projection/1.png">
@@ -81,7 +81,7 @@ z -= cz;</pre>
 
 <p>The solution is to order all the points by decreasing depth before projecting and drawing them:
 
-<pre>// Loop on all the points (like before)
+<pre><code class="lang-js">// Loop on all the points (like before)
 {
   // (...)
   
@@ -109,7 +109,7 @@ for(i in points){
   if(Z > 0){
     // (...)
   }
-}</pre>
+}</code></pre>
 
 <p><h3>>>> <a href="https://codepen.io/xem/pen/VNRmww?editors=0010">CODEPEN DEMO</a> <<<</h3>
 <p><img src="images/projection/3.png">
@@ -121,7 +121,7 @@ for(i in points){
 
 <p>You can embed this code in an animation and make the camera and/or the points move at each frame.
 
-<pre><b>setInterval(
+<pre><code class="lang-js"><b>setInterval(
   () => {
   
     // Reset canvas
@@ -137,7 +137,7 @@ for(i in points){
   <b>}
   , 16
 );</b>
-</pre>
+</code></pre>
 
 <p><h3>>>> <a href="https://codepen.io/xem/pen/oOVYzg?editors=0010">CODEPEN DEMO</a> <<<</h3>
 <p><img src="images/projection/4.gif">
@@ -170,7 +170,7 @@ for(i in cube){
   centers.push({x, y, z});
 }
 centers.sort((a,b) => b.z - a.z);
-// (draw)</pre>
+// (draw)</code></pre>
 
 
 <p><h3>>>> <a href="https://codepen.io/xem/pen/WLVYZR?editors=1000">CODEPEN DEMO</a> <<<</h3>

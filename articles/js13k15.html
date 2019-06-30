@@ -50,7 +50,7 @@
     'Chile,Santiago': '7ë4È6¹2±4Ý7ï=õ;ï7ëÿ4Ì',
     'China,Beijing': '©7¢I¨W°^·\\ºj¾gÂkÈdÉXÄHËBË8Ã2ÄB¼MÿÁmÃlÂpÁoÿÂI',
     ...
-}</pre>
+}</code></pre>
   <br>
   <p><i>You can try the editor <a href="http://xem.github.io/JS13k15/old/editor.html">here</a>. (use left click to place a point, right click to start a new island and spacebar to start a new country. The coordinates are appended to the text under the map)</i>
   <br>
@@ -75,7 +75,7 @@
   <br>
   <p>These tests confirmed that this project was possible. Indeed, the names, shapes and capitols of all the countries on Earth can fit in just 6.2kb in JSON. Now I'm sure there is plenty of room left for a more detailed map, plus the game's code, the music and even more data!
   <p>But I didn't stop there. I used the unused char U+254 ("þ") as a separator, and made a big string with all my JSON's data...
-  <pre class="code">Algeria,AlgiersþtfpRqLiOjVc]noÿmNþArgentina,Buenos Airesþ6¸?Ã>Ï@Ö<Ù;ï7ë4Èÿ<ñ=õ@õÿ>Ðþ ... </pre>
+  <pre class="code">Algeria,AlgiersþtfpRqLiOjVc]noÿmNþArgentina,Buenos Airesþ6¸?Ã>Ï@Ö<Ù;ï7ë4Èÿ<ñ=õ@õÿ>Ðþ ... </code></pre>
   <p>Then I made a tool that converts this string in a binary file. After gzipping, I saw my data fell from 6.2kb to 5.6kb! 600 bytes saved, <a href="https://twitter.com/MaximeEuziere/status/630818472608534528">that's a great news</a>! If you're wondering why this conversion is so efficient, it's for two main reasons. First, the JSON contained some escape sequences ("\\" instead of "\", "\r" and "\n" instead of line breaks, \' instead of quotes) that became a single byte in binary (the escape was no longer necessary). But most of the savings come from the "code point-to-binary" conversion for all the characters between U+80 and U+FF (these characters take 2 bytes each in UTF-8, as opposed to just 1 byte if we store their code points in binary). You can find more info about how many bytes are used for each character in each charset on <a href="http://xem.github.io/charsets">this page</a>.
   
   <p>Here's a golfed encoder that does this conversion in about 230b:
@@ -83,16 +83,16 @@
 // Unicode to binary encoder
 // Input (m) can contain chars between U+0 and U+255
 // Output (download) is a binary file
-m=m.replace(/\\\\/g,"\\").replace(/\\r/g,"\r").replace(/\\n/g,"\n").replace(/\\'/g,"'");y=[];for(i in m)y.push(m.charCodeAt(i));location="data:application/octet-stream;base64,"+btoa(String.fromCharCode.apply(!1,new Uint8Array(y)))</pre>
+m=m.replace(/\\\\/g,"\\").replace(/\\r/g,"\r").replace(/\\n/g,"\n").replace(/\\'/g,"'");y=[];for(i in m)y.push(m.charCodeAt(i));location="data:application/octet-stream;base64,"+btoa(String.fromCharCode.apply(!1,new Uint8Array(y)))</code></pre>
 
   <p>Of course, at some point, this binary data needs to be read and converted back as a long Unicode string. I made a little JS program that does it in about 160bytes. It's totally worth the overhead, considered the hundreds of bytes that can be saved through binary.
   
   <pre class="code">
 // Binary to Unicode decoder
 // After execution, h contains the decoded string.
-with(new XMLHttpRequest)open("GET","data.bin"),responseType='arraybuffer',send(),onload=function(){h="";for(i in u=new Uint8Array(response))h+=String.fromCharCode(u[i])}</pre>
+with(new XMLHttpRequest)open("GET","data.bin"),responseType='arraybuffer',send(),onload=function(){h="";for(i in u=new Uint8Array(response))h+=String.fromCharCode(u[i])}</code></pre>
   <p><b>Golf tip:</b> instead of data.bin, you can name your binary file "0" (or any number), without extension. It will reduce the name used in open() but also make the quotes unnecessary:
-<pre class="code">with(new XMLHttpRequest)open("GET",0), ... </pre>
+<pre class="code">with(new XMLHttpRequest)open("GET",0), ... </code></pre>
   <br>
   <br>
   <hr>
@@ -105,7 +105,7 @@ with(new XMLHttpRequest)open("GET","data.bin"),responseType='arraybuffer',send()
   <pre class="code">
 // map_x and map_y placed in the interval [-1:1]
 globe_x = Math.sin(map_x * Math.PI) * Math.cos(map_y * Math.PI / 2);
-globe_y = Math.sin(map_y * Math.PI/2);</pre>
+globe_y = Math.sin(map_y * Math.PI/2);</code></pre>
   <br>
   <img src="images/js13k15/4.png" style="width: 250px; border: 1px solid; float: right; margin: 0 0 20px 20px">
   For more info, tke a look at <a href="http://codepen.io/subzey/pen/rVoXQx">this demo by Subzey</a>.
@@ -185,7 +185,7 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
   "The Great Sphinx": "Z",
   "The Eiffel Tower", "m9"
   ...
-}</pre>
+}</code></pre>
 
   <br>
   <hr>
@@ -200,7 +200,7 @@ globe_y = Math.sin(map_y * Math.PI/2);</pre>
     <li>First, I separated the text (the places' names) and the binary data. Having all my names stored in the JS code and all the coordinates stored in a binary file will reduce the effort to retrieve the data I need from the binary file, and will help the compression too (because "just text" or "just random bytes" compresses better than if all is mixed up).
     <li>I also changed the order of the data to put all the places first, then all the capitols, then all the US capitols, then all the countries, then all the US states. The advantage of this is that I don't need any separators in the first three datasets. I just have to store all the places/capitols/US capitols coordinates sequencially and I'll just read them two by two when I'll try to retrieve the data.
     <li>Finally, I gathered all my names in a big JS tring, but without any separators: to distinguish them, I'll just use the uppercase letters at the beginning of each name. So the names now look like this:
-    <pre class=code>Cape canaveralChrist the redeemerThe great chinese wallThe great sphinxThe eiffel towerTower of pisaMount everestSagrada familiaBig benThe statue of libertyForbidden cityThe pyramids of gizaThe palace of versailles...</pre>
+    <pre><code class="lang-js">Cape canaveralChrist the redeemerThe great chinese wallThe great sphinxThe eiffel towerTower of pisaMount everestSagrada familiaBig benThe statue of libertyForbidden cityThe pyramids of gizaThe palace of versailles...</code></pre>
     
     <p>After zipping, I discovered that this overhaul made me lose (I mean, earn) 800 bytes of data, so that's a great news!
     

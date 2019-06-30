@@ -32,25 +32,25 @@
 				Le <b>doctype</b> et l'élément <b>title</b> sont les deux seuls éléments obligatoires dans un document HTML5 valide.
 				<br>
 				Voici le plus petit valide document HTML5:
-				<pre>&lt;!doctype html>
-&lt;title>&lt;/title></pre>
+				<pre><code class="lang-html">&lt;!doctype html>
+&lt;title>&lt;/title></code></pre>
 			</li>
 			<li>
 				Le doctype ne peut pas être lu, ni modifié en JavaScript, mais on peut tout de même savoir si le navigateur est en mode quirks ou en mode compatibilité comme ceci:
-				<pre>if(document.compatMode === 'CSS1Compat'){
+				<pre><code class="lang-js">if(document.compatMode === 'CSS1Compat'){
 	// On est pas en mode quirks!
 }
 if(document.compatMode === 'BackCompat'){
 	// On est en mode compatibilité!
-}</pre>
+}</code></pre>
 				<button onclick="alert(document.compatMode!=='CSS1Compat')">Est-on en mode quirks?</button>
 				<button onclick="alert(document.compatMode!=='BackCompat')">Est-on en mode compatibilité?</button> (si les deux sont "false", tout va bien)
 			</li>
 			<li>A propos du "mode compatibilité", qui pousse IE7, IE8, IE9 et IE10 à afficher les pages Web avec le moteur de rendu de leur prédécésseur (E6, IE7, IE8 et IE9, respectivement), de nombreuses raisons font que ce mode s'active sur IE, mais le plus souvent, c'est dû au fait qu'on visionne une page HTML qui se trouve sur son PC, ou sur un réseau local. Pour éviter ce désagrément, ouvrez IE, faites "alt" pour que le menu du haut apparaisse, allez sur "outils > paramètres d'affichage de compatibilité" et décochez "Afficher les sites intranet dans Affichage de compatibilité". Faites "OK" et redémarrez IE. C'est réglé!</li>
 			<li>
 				Sur IE < 9, le <b>doctype</b>, du fait qu'il commence par un <b>!</b>, est considéré comme un <b>commentaire HTML</b>. En voici la preuve:
-				<pre>// Récupérons le nom du premier élément HTML de cette page dans le DOM
-var premier_element = document.getElementsByTagName("*")[0].tagName;</pre>
+				<pre><code class="lang-js">// Récupérons le nom du premier élément HTML de cette page dans le DOM
+var premier_element = document.getElementsByTagName("*")[0].tagName;</code></pre>
 				<button onclick="alert(document.getElementsByTagName('*')[0].tagName)">Quel est le nom du premier élément du DOM?</button> ("!" sur IE < 9, "HTML" ailleurs)
 				<br>
 				<br>

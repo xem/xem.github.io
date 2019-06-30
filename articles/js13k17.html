@@ -130,7 +130,7 @@
 
 <p>The checkboxes interactions (to enable or disable the ground, the wall or the wraps) are made in pure CSS, with rules like that:
 
-<pre class=code>/* Hide all cells */
+<pre><code class="lang-css">/* Hide all cells */
 .cell {
   opacity: 0;
 }
@@ -145,7 +145,7 @@
 #wrap:checked ~ .puzzle .wrap > div {
   background: rgba(200,200,200,.25);
 }
-</pre>
+</code></pre>
 
 <p>Wrap surfaces have the CSS property <b>pointer-events: none</b>, allowing to draw the puzzles even if they're in the middle.
 
@@ -323,21 +323,21 @@
 <p><img src="images/js13k17/hint.png">
 
 <p>When I added these hints in the game, I realized something with CSS3D sprites (eg. the trees, and apples, and now the hints). They won't appear at the right place if you set this in their CSS: (imagine that W, H, L and T represent respectively a width, a height, a left offset and a top offset in vh)
-<pre class=code>width: W;
+<pre><code class="lang-js">width: W;
 height: H;
 left: L;
 top: T;
 transform-origin: 50% 100%;
-transform: rotateX(-90deg);</pre>
+transform: rotateX(-90deg);</code></pre>
 
 <p>This doesn't work fine because the "top" property will set an Y offset to the top of the sprite before it's rotated along the X axis. After fiddling a little, I discovered that the good way to do it is:
 
-<pre class=code>width: W;
+<pre><code class="lang-js">width: W;
 height: H;
 left: L;
 bottom: 0;
 transform-origin: 50% 100%;
-transform: translateY(T) rotateX(-90deg);</pre>
+transform: translateY(T) rotateX(-90deg);</code></pre>
 
 <p>When you do it this way, the point at the bottom center of the sprite is moved at the exact coordinates L:T in the scene, thanks to the "bottom: 0" that makes it start exactly from the top of the scene!
 
@@ -449,23 +449,23 @@ transform: translateY(T) rotateX(-90deg);</pre>
 
 <p>While I was working on the last puzzle editor and hints improvements, I happened to write two interesting tests, which I had fun trying to simplify with a friend. They looked like this:
 
-<pre class=code>if((f && mousedown) || !f){ ... }
+<pre><code class="lang-js">if((f && mousedown) || !f){ ... }
 
-if((son && hints[i][5]) || (!son && !hints[i][5])){ ... }</pre>
+if((son && hints[i][5]) || (!son && !hints[i][5])){ ... }</code></pre>
 
 <p>Which can be simplified to:
 
-<pre class=code>if((A & B) || !A) { ... }
+<pre><code class="lang-js">if((A & B) || !A) { ... }
 
-if((A & B) || (!A && !B) { ... }</pre>
+if((A & B) || (!A && !B) { ... }</code></pre>
 
 <p>For the first one we had no idea, but we drew a truth table before realizing that if A is false, it's okay, and otherwise it's necessarily true so we don't have to repeat it when we test B. So, the golfed version is: 
 
-<pre class=code>if(!A || B){ ... }</pre>
+<pre><code class="lang-js">if(!A || B){ ... }</code></pre>
 
 <p>For the second one, it was a bit harder. When we drew the truth table, nothing was obvious, except that it was basically the opposite of a XOR. So I tried an assumption: what if it was a XAND? After a quick check on Stack Overflow, it appeared that there's actually no such thing as "XAND" (ha ha! silly me), and what we were looking for was actually a NXOR. Hey, not far! How to do a NXOR in JS, you ask? Easy!
 
-<pre class=code>if(!(A ^ B)){ ... }</pre>
+<pre><code class="lang-js">if(!(A ^ B)){ ... }</code></pre>
 
 <p>That was a fun pause! Let's go back to work.
 
@@ -488,21 +488,20 @@ At least it respects the theme, and it's a reference to the snakes in the game!
 <p>Here are some traps that made me lose quite a lot of time:
 <ul>
 <li>Disable pinch-zoom, and other history-related touch events, with this meta tag:
-<pre class=code>&lt;meta name=viewport content="width=device-width, user-scalable=no"></pre>
+<pre><code class="lang-html">&lt;meta name=viewport content="width=device-width, user-scalable=no"></code></pre>
 <lu>Disable tap-highlight (making the whole screen blue after each touch event) with the help of a bunch of annoying CSS rules:
-<pre class=code>* {
+<pre><code class="lang-css">* {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0); /* old webkit hack */
   -webkit-tap-highlight-color: transparent; /* new webkit hack */
-}</pre>
+}</code></pre>
 <li>Mobile fullscreen: with the help of Twitter friends, I <a href="https://twitter.com/MaximeEuziere/status/903222067490955265">found a way to do it</a>, but finally I abandoned the idea of forcing fullscreen display on mobile because of the lack of iOS support for the fullscreen API, and the need to save bytes. 
 <li>localStorage does not write or delete entries instantly. If you create or delete a localStorage key, always have local variables updated at the same time, because when you need them later, localStorage may not have updated itself yet, and there are chances it won't contain what you think it contains.
 <li>When you press a button on mobile, there's no recurrent event being fired, telling you that the button is still being pressed, contrary to keyboard keys, firing keypress events all the time. To make long presses on directional buttons behave like long presses on real keys, the trick is to start a setInterval on touchstart, calling the desired function at each loop, and stop it on touchend. But on touchend, it must be stopped after a certain delay, or else it won't loop once if you just tap quiclky the button! And finally, to avoid having many uncancellable intervals by tapping the buttons too fast, we have to cancel any previous loop when a button is touched. Here's how it looks in my code (pro tip: touchstart and touchend trigger the real keyboard events):
-<pre class=code>
-touchstart = (n) => {
+<pre><code class="lang-js">touchstart = (n) => {
 
   // Cancel previous loop (if any)
   if(touchintervals[n])clearInterval(touchintervals[n]);
@@ -518,7 +517,7 @@ touchend = (n) => {
   // Clear loop after 150ms
   setTimeout("clearInterval(touchintervals["+n+"]);onkeyup()",150);
 }
-</pre>
+</code></pre>
 
 </ul>
 
@@ -636,8 +635,7 @@ touchend = (n) => {
 
 <p>Of course, all these values are not stored in the game's code, but are computed procedurally, placed in a wav file that is created out of thin air, converted in base64'd and played on-the-fly with an Audio tag.
 
-<pre class=code>
-// mkaudio generates samples based on a function passed in parameter, creates a wav file and exposes a "play" method
+<pre><code class="lang-js">// mkaudio generates samples based on a function passed in parameter, creates a wav file and exposes a "play" method
 function mkaudio(fn) {
 	var data = [];
 	for (var i = 0;;i++) {
@@ -678,7 +676,7 @@ function win(i) {
 	if (i > n) return null;
 	var q=P(t(i,n),2.1);
 	return (i < c ? ((i+S(-i/900)*10)&16) : i&13) ?q :-q;
-}</pre>
+}</code></pre>
 
 <br>
 <p>Demo:
@@ -741,16 +739,15 @@ mkaudio(win).play();
 <p>After adding the music and sound effects, and compressing everything, I realized that my zip had reached a size of 13.4kb plus a few bytes. Pretty cool! The music and sounds really create an ambiance in the game and end up taking less than 1/2kb zipped!
 
 <p>However, something less cool occurred. My minified JS code was all buggy, because when Closure Compiler minified my code and renamed all my vars, it didn't rename them in my 44 setTimeout's and 7 setInterval's, in which the JS code was stringified. Ex:
-<pre class=code>
-var Song = () => { /*...*/ } // This function gets renamed as "A"
+<pre><code class="lang-js">var Song = () => { /*...*/ } // This function gets renamed as "A"
 
-setInterval("Song.forward()",500); // After minification, the browsers throw an error saying "Song is not defined"</pre>
+setInterval("Song.forward()",500); // After minification, the browsers throw an error saying "Song is not defined"</code></pre>
 
 <p>Closure Compiler transpiles ES6 to ES5 but doesn't interpret strings passed to setTimeout and setInterval. I didn't know that and it was pretty annoying.
 
 <p>Even if it was a bit late, the solution was to spend a few hours rewriting all my intervals and timeouts using functions instead of strings... The most boring task was to use closures to be able to pass vars to the delayed/repeated functions when they're in for loops. Ex:
 
-<pre class=code>// Before
+<pre><code class="lang-js">// Before
 for(var i in apples){
   if(applecanappear[i]){
     setTimeout('top["apple"'+i+'].className="emoji apple"',800);
@@ -768,7 +765,7 @@ for(var i in apples){
       }(f),90
     );
   }
-}</pre>
+}</code></pre>
 
 <P>Then, with the kind help of @kuvos, @veubeke, @AdrienGueret and @salvan13, I was able to gather 3 different ways to rewrite a "string interval" as a "non-string" interval. They're listed <a href="//jsfiddle.net/f0mbessr/">here</a>.
 <br>After a pass in Closure Compiler, two of them are transformed to the same code. The last one becomes a closure. <a href="https://twitter.com/MaximeEuziere/status/907124053802143744">weird</a>. But good to know.
@@ -779,15 +776,14 @@ for(var i in apples){
 <br>
 Closure Compiler renames all vars, even if they're global, and even if they're declared as "top.varname = 1234;". But I still had dozens of places in my code where I had to call a variable by its id in the top object (ex: top["u"]), but Closure Compiler also didn't interpret that correctly. It renamed the original "u" but kept the top["u"] as-is. The solution was to "force" it to not rename these vars that are required in strings, by being more silly than it:
 
-<pre class=code>
-// Before
+<pre><code class="lang-js">// Before
 u=r=d=l=s=c=B=0;
 
 // After
 window["u"]=window["r"]=window["d"]=window["l"]=window["s"]=window["c"]=window["B"]=0
 
 // Then after mnification, I paste the result in my min.html file, and replace the "after" snippet by the "before" one to save bytes.
-</pre>
+</code></pre>
 
 <p>Last warning: Closure Compiler adds line breaks in minified JS code. This is a good practice for real-life JS code, but for js13kgames, all these line breaks (75 in my case) can and must be removed.
 

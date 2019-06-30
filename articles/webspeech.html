@@ -26,22 +26,22 @@
   <ul>
   <li>ES6 template literals allow to get rid of parenthesis in functions accepting a string or a string + other parameters. Examples:
   <pre class="code">document.write`Hi`;
-setTimeout`foo=1,bar=2${99}baz=3`;</pre>
+setTimeout`foo=1,bar=2${99}baz=3`;</code></pre>
   The last snippet may look a little cryptic, but yes, you can replace one comma in the template literal with an invokation of the next parameter (here, it's 99). The browser splits the template literal into an array (["foo=1,bar=2","baz=3"]), which is transformed into a string ("foo=1,bar=2,baz=3") which in turn, is passed to setInterval, along with the second parameter (99).
   <br>
   <br>
   <li>The obsolete HTML attribute bgColor (that we generally set to the body) can also be set to "document":
-  <pre class=code>document.bgColor=0</pre>
+  <pre><code class="lang-js">document.bgColor=0</code></pre>
   And remember that bgColor is much more permissive than CSS. <a href="http://stackoverflow.com/questions/8318911/why-does-html-think-chucknorris-is-a-color">You can even use "chucknorris" inside</a>!
   <br>
   <br>
   <li>The code we put inside &lt;svg onload=...> is interpreted with two implied scopes: "this" and "document". So it's totally possible to write things like:
-  <pre class=code>&lt;svg onload=outerHTML="Hi!">
+  <pre><code class="lang-html">&lt;svg onload=outerHTML="Hi!">
 &lt;svg onload=write`Hi!`>
-&lt;svg onload=bgColor=123456></pre>
+&lt;svg onload=bgColor=123456></code></pre>
   <br>
   <li>The "Vertical Tab" control character (U+000B), a.k.a VT, is interpreted as a space in JS but not in HTML. As a result, we can write this kind of attributes with no quotes:
-  <pre class="code">&lt;svg onload=alert(newDate)></pre>
+  <pre class="code">&lt;svg onload=alert(newDate)></code></pre>
   (there's a VT between "new" and "Date").
   <br>Sadly, you can't replace spaces in strings with this character because it won't show up in your page.
   </ul>
@@ -80,7 +80,7 @@ setTimeout`foo=1,bar=2${99}baz=3`;</pre>
 &lt;input onblur=speechSynthesis.speak(new(SpeechSynthesisUtterance)(value))>
 
 <b>// Use a VT character between "new" and "SpeechSynthesisUtterance"</b>
-&lt;input onblur=speechSynthesis.speak(newSpeechSynthesisUtterance(value))></pre>
+&lt;input onblur=speechSynthesis.speak(newSpeechSynthesisUtterance(value))></code></pre>
   </div>
   <br><b>Demo:</b>
   <br><input onblur=speechSynthesis.speak(newSpeechSynthesisUtterance(value)) size=50 placeholder="Type anything then click outside!">
@@ -88,11 +88,11 @@ setTimeout`foo=1,bar=2${99}baz=3`;</pre>
   <br>
   <hr>
   <br><p>The other apps use very similar techniques as you can see for example in the source code of miniSpeechRecognition (webkit only):
-  <pre class=code>&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>write(e.results[0][0].transcript))'></pre>
+  <pre><code class="lang-html">&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>write(e.results[0][0].transcript))'></code></pre>
   <br>...or its bgColor variant, using the trick described at the beginning of this article:
-  <pre class=code>&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>bgColor=e.results[0][0].transcript)'></pre>
+  <pre><code class="lang-html">&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>bgColor=e.results[0][0].transcript)'></code></pre>
   <br>... and as a bonus, an app that repeats with Speech Synthesis what you say in the microphone, interpreted by Speech Recognition! The lite version is only 146b (webkit only)
-  <pre class=code>&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>speechSynthesis.speak(new SpeechSynthesisUtterance(e.results[0][0].transcript)))'></pre>
+  <pre><code class="lang-html">&lt;svg onload='with(new webkitSpeechRecognition)start(onresult=e=>speechSynthesis.speak(new SpeechSynthesisUtterance(e.results[0][0].transcript)))'></code></pre>
   <p>Cheers!
   <br>
   <br>

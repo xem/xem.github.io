@@ -22,7 +22,7 @@
 		<p>What is the most useful JavaScript function, but also the most annoying to write? <b>document.getElementById()</b>, of course! It is so useful, and so long, that every decent JS library contains an alias to call it easily (generally <b>$()</b>).</p>
     <p>But did you know that we often don't even need to call it? Indeed, all the modern browsers (including IE6+) allow to access any element by calling directly its <b>id</b> as a global var! Surprisingly, <a href="https://html.spec.whatwg.org/multipage/browsers.html#named-access-on-the-window-object">it's even in the specs</a>!
     <p>Examples:
-    <pre>&lt;div id="myId">&lt;/div>
+    <pre><code class="lang-html">&lt;div id="myId">&lt;/div>
 &lt;script>
   alert(myId);                            // --> [object HTMLDivElement]
   alert(myId.id);                         // --> "myId"
@@ -32,11 +32,11 @@
   alert(top.myId.id);                     // --> "myId"
   alert('myId' in window);                // --> true
   alert(window.hasOwnProperty("myId"));   // --> true
-&lt;/script></pre>
+&lt;/script></code></pre>
     <p>So "myId" is clearly a property of window! However, it's not "enumerable", so we can't see it if we loop or make a console.dir() on the window object:</p>
-    <pre>
+    <pre><code class="lang-js">
 // Display the content of window:
-console.dir(window);                      // myId is not présent.
+console.dir(window);                      // myId is not present.
 
 // Loop through the properties of window:
 var present = false;
@@ -46,24 +46,24 @@ for(var i in window){
   }
 }
 alert(present);                           // --> false
-    </pre>
+    </code></pre>
     <p>It's also important to note that if an id is not a valid JS identifier (for example if it contains a "-" or starts with a number), you can't access it directly, but you can still access it with <b>window["invalid-identifier"]</b>.
     <p>For the record, Mathias Bynens wrote <a href="https://mathiasbynens.be/notes/html5-id-class">a very interesting article about ids and Unicode</a>. Crazy!
     <p>On my side, I experimented with this "feature" and found some funny things:</p>
     <p><b>An implicit id can't have the same name as a protected JS keyword:</b></p>
-    <pre>&lt;div id=function>&lt;/div>
-&lt;script>alert(function) // SyntaxError: Unexpected token )&lt;/script></pre>
+    <pre><code class="lang-html">&lt;div id=function>&lt;/div>
+&lt;script>alert(function) // SyntaxError: Unexpected token )&lt;/script></code></pre>
 		<br>
     <p><b>An implicit getElementById can't overload a native global var, such as window.screen:</b></p>
-    <pre>&lt;div id=screen>&lt;/div>
+    <pre><code class="lang-html">&lt;div id=screen>&lt;/div>
 
 &lt;script>
   screen.innerHTML = "screen";          // --> nothing happens
   alert(screen);                        // --> [object Screen]
-&lt;/script></pre>
+&lt;/script></code></pre>
 		<br>
     <p><b>Also, it can't redefine a global var defined earlier</b></p>
-    <pre>&lt;script>
+    <pre><code class="lang-html">&lt;script>
   global0 = 1;
 &lt;/script>
 
@@ -72,139 +72,43 @@ alert(present);                           // --> false
 &lt;script>
   global0.innerHTML = "global0"; // --> nothing happens
   alert(global0);                // --> 1
-&lt;/script></pre>
+&lt;/script></code></pre>
 		<br>
     <p><b>A global var defined with the "window." prefix can overload an implicit getElementById</b></p>
-    <pre>&lt;div id=global1>&lt;/div>
+    <pre><code class="lang-html">&lt;div id=global1>&lt;/div>
 
 &lt;script>
   global1.innerHTML = "global1"; // --> the div contains the text "global1" 
   console.log(global1);          // --> [object HTMLDivElement]
   window.global1 = 1;            // overload global1
   console.log(global1);          // --> 1
-&lt;/script></pre>
+&lt;/script></code></pre>
     <br>
     <p><b>If we try to overload an implicit getElementById with a global var defined without any prefix, this is what happens (the results differ according to the browser used):</b></p>
-    <pre>&lt;div id=global2>&lt;/div>
+    <pre><code class="lang-html">&lt;div id=global2>&lt;/div>
 
 &lt;script>
   global2.innerHTML = "global2"; // --> the div contains the text "global2" 
   try{global2 = 1}               // Try to overload global2
   catch(e){alert(e)}             // --> TypeError on IE < 9 / no error on other browsers
   console.log(global2);          // --> [object HTMLDivElement] on IE < 9 / 1 on other browsers
-&lt;/script></pre>
+&lt;/script></code></pre>
     <br>
     <p><b>Finally, if we try to overload an implicit getElementById with a global var defined with a "var", this is what happens:</b></p>
-    <pre>&lt;div id=global3>&lt;/div>
+    <pre><code class="lang-html">&lt;div id=global3>&lt;/div>
 
 &lt;script>
   global3.innerHTML = "global3"; // --> TypeError: Can't set property 'innerHTML' of undefined
   console.log(global3);          // --> undefined
   var global3 = 1;               // --> Try to overload global3
   console.log(global3);          // --> 1
-&lt;/script></pre>
+&lt;/script></code></pre>
     <br>
     <p>As you can see, even if the var global3 is defined later in the code, <a href="https://developer.mozilla.org/en-US/docs/Glossary/Hoisting">browsers hoist variable definitions at the beginning of their scopes</a>, and that's why it still breaks the lines 1 and 2.</p>
     <hr>
     <p>To conclude, this technique is useful in some particular cases where we don't want to use a heavy library nor call the long function <b>document.getElementById()</b>, especially in code golfing contests. But in real life, it's safer to use the good old native methods because the implicit <b>document.getElementById</b> comes with several traps, and can lead to hours of debugging...</p>
 		<br>
 		Cheers!
-		<br>
-		<b>@MaximeEuziere</b>
-	</div>
-</div>
-
-<div class=section id=implicitgetelementbyid_fr style=display:none>
-  <img src=../francais.png class=lang onclick="implicitgetelementbyid_fr.style.display='none';implicitgetelementbyid_en.style.display='block'">
-	<h2>Les "getElementById" implicites</h2>
-	<h3>octobre 2013</h3>
-	<div id=getelementbyid_fr>
-		<p>Quelle fonction JavaScript est la plus utile, et la plus embêtante à écrire? <b>document.getElementById()</b>, bien sûr! C'est tellement utile, et tellement long que toute librairie JS digne de ce nom crée un alias (généralement <b>$()</b>) pour pouvoir l'appeler facilement.</p>
-    <p>Mais saviez-vous qu'on n'a, bien souvent, même pas besoin de l'appeler? En effet, tous les navigateurs qu'on peut trouver en circulation aujourd'hui (y compris IE6+) permettent d'accéder à un élément HTML en utilisant directement son <b>id</b> comme une variable globale! C'est un fonctionnement complètement non-standard, mais qui a le bon goût de marcher partout, et extrêmement bien.</p>
-    <pre>&lt;div id="monId">&lt;/div>
-&lt;script>
-  alert(monId);                           // --> [object HTMLDivElement]
-  alert(monId.id);                        // --> "monId"
-  alert(window.monId.id);                 // --> "monId"
-  alert(this.monId.id);                   // --> "monId"
-  alert(self.monId.id);                   // --> "monId"
-  alert('monId' in window);               // --> true
-  alert(window.hasOwnProperty("monId"));  // --> true
-&lt;/script></pre>
-    <p>"monId" est bien une propriété window, mais il n'est pas énumérable, autrement dit, on ne tombera pas dessus si on fait une boucle ou un console.dir():</p>
-    <pre>
-// On affiche le contenu de window:
-console.dir(window);                      // monId n'est pas présent.
-
-// On itère sur les propriétés de window:
-var present = false;
-for(var i in window){
-  if(i == 'monId'){
-    present = true;
-  }
-}
-alert(present);                           // --> false
-    </pre>
-    <p>J'ai fait quelques expériences avec cette "fonctionnalité", et j'ai découvert des choses rigolotes:</p>
-    <p><b>Un id implicite ne peut pas avoir le même nom qu'un mot-clé JavaScript protégé</b></p>
-    <pre>&lt;div id=function>&lt;/div>
-&lt;script>alert(function) // SyntaxError: Unexpected token )&lt;/script></pre>
-		<br>
-    <p><b>Un getElementById implicite ne peut pas écraser une variable globale native, par exemple window.screen:</b></p>
-    <pre>&lt;div id=screen><&lt;/div>
-
-&lt;script>
-  screen.innerHTML = "screen";          // --> rien ne se passe
-  alert(screen);                        // --> [object Screen]
-&lt;/script></pre>
-		<br>
-    <p><b>Il ne peut pas non plus écraser une variable globale définie auparavant:</b></p>
-    <pre>&lt;script>
-  global0 = 1;
-&lt;/script>
-
-&lt;div id=global0><&lt;/div>
-
-&lt;script>
-  global0.innerHTML = "global0";        // --> rien ne se passe
-  alert(global0);                       // --> 1
-&lt;/script></pre>
-		<br>
-    <p><b>Une variable globale définie avec le préfixe "window." peut écraser un getElementById implicite</b></p>
-    <pre>&lt;div id=global1>&lt;/div>
-
-&lt;script>
-  global1.innerHTML = "global1";        // --> la div contient le texte "global1" 
-  console.log(global1);                 // --> [object HTMLDivElement]
-  window.global1 = 1;                   // Essayons d'écraser global1
-  console.log(global1);                 // --> 1
-&lt;/script></pre>
-    <br>
-    <p><b>Si on essaye d'écraser un getElementById implicite avec une variable globale définie sans aucun préfixe, voici ce qui se passe:</b></p>
-    <pre>&lt;div id=global2>&lt;/div>
-
-&lt;script>
-  global2.innerHTML = "global2";        // --> la div contient le texte "global2" 
-  try{global2 = 1}                      // Essayons d'écraser global2
-  catch(e){alert(e)}                    // --> TypeError sur IE < 9 / pas d'erreur ailleurs
-  console.log(global2);                 // --> [object HTMLDivElement] sur IE < 9 / 1 ailleurs
-&lt;/script></pre>
-    <br>
-    <p><b>Et enfin, si on essaye d'écraser un getElementById implicite avec une variable globale définie avec un "var", voici ce qui se passe:</b></p>
-    <pre>&lt;div id=global3>&lt;/div>
-
-&lt;script>
-  global3.innerHTML = "global3";        // --> Uncaught TypeError: Cannot set property 'innerHTML' of undefined
-  console.log(global3);                 // --> undefined
-  var global3 = 1;                      // --> Essayons d'écraser global3
-  console.log(global3);                 // --> 1
-&lt;/script></pre>
-    <br>
-    <p>Dans ce cas-là, la présence du mot-clé "var" à la ligne 3 change l'ordre dans lequel le code JS est parsé, et ça fait bugger les lignes 1 et 2.</p>
-    <hr>
-    <p>En conclusion, cette astuce est pratique dans quelques cas particuliers où on souhaite ni installer une lourde librairie, ni appeler la longue fonction <b>document.getElementById()</b>, notamment dans des épreuves de code golfing. Mais dans le cadre professionnel, il est plus prudent de continuer à utiliser les bonnes vieilles méthodes natives car les pièges des <b>document.getElementById</b> implicites sont nombreux, et ça peut mener à des heures de débogage...</p>
-		<br>
-		A bientôt!
 		<br>
 		<b>@MaximeEuziere</b>
 	</div>

@@ -19,7 +19,7 @@
 	<h2>MiniFaceDetection</h2>
 	<h3>april 2018 - may 2019</h3>
 	<p>Mini Real Time Face Detection in 278b of HTML+JS, golfed with <b>p01</b> (Chrome only)</p>
-  <pre><code class="language-html">&lt;canvas id=a>&lt;video id=v>&lt;svg onload="navigator.getUserMedia({video:1},n=m=>{v.src=top.URL.createObjectURL(m);setInterval(async(c=a.getContext`2d`)=>{c.drawImage(v,0,0,208,150);for(i of await new FaceDetector().detect(a))with(i.boundingBox) c.strokeRect(x,y,width,height)},9)},n)"></code></pre>
+  <pre><code class="lang-html">&lt;canvas id=a>&lt;video id=v>&lt;svg onload="navigator.getUserMedia({video:1},n=m=>{v.src=top.URL.createObjectURL(m);setInterval(async(c=a.getContext`2d`)=>{c.drawImage(v,0,0,208,150);for(i of await new FaceDetector().detect(a))with(i.boundingBox) c.strokeRect(x,y,width,height)},9)},n)"></code></pre>
   <p><img src="images/minifacedetection.jpg">
   <p>- <a href="https://github.com/xem/miniFaceDetection">Github</a>
   <p>- <a href="http://xem.github.io/miniFaceDetection">Demo</a>

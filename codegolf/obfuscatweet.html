@@ -32,17 +32,17 @@
   <p>Until now, these functions were always written in "clear" ASCII characters. But a tweet can contain 140 Unicode characters, including the "astral" ones, encoded on 4 bytes.</p>
   <p>So I had the idea to use this encoding (UTF-16) to compress a long JavaScript code, and insert this encoded string in a JavaScript expression able to decode and execute it, while respecting the 140 chars limitation.</p>
   <p>Here's the binary representation of an astral UTF-16 character. It is composed of two 16-bit halves (or "surrogates"), in which the first 6 bits are fixed. The last 10 bits (shown as "x" here) can take any value.</p>
-  <pre>110110xx xxxxxxxx  110111xx xxxxxxxx</pre>
+  <pre><code class="lang-js">110110xx xxxxxxxx  110111xx xxxxxxxx</code></pre>
   <br>
   <p>Here's the binary representation of the string "ABCD" (in ASCII). Each character is encoded in 1 byte.<br>(In reality, 7 bits are enough to encode an ASCII character, but in modern charsets, the 8th bit is let at 0).</p>
-  <pre>01000001 01000010 01000011 01000100</pre>
+  <pre><code class="lang-js">01000001 01000010 01000011 01000100</code></pre>
   <br>
   <p>So the idea is to use only astral UTF-16 characters and store an ASCII character at the end of each surrogate.<br>Here's the string "ABCD" stored in 2 UTF-16 characters (2 chars in one: that's a compression ratio of 50%!):</p>
-  <pre>11011000 01000001 11011100 01000010  11011000 01000011 11011100 01000100 ==> 𠑂𠱄
-         |--A---|          |--B---|           |--C---|          |--D---|    (ABCD encoded)</pre>
+  <pre><code class="lang-js">11011000 01000001 11011100 01000010  11011000 01000011 11011100 01000100 ==> 𠑂𠱄
+         |--A---|          |--B---|           |--C---|          |--D---|    (ABCD encoded)</code></pre>
   <br>
   <p>Here's an encoder (129 bytes long) that makes this compression:</p>
-  <pre>z=function(b,c,a,f,e){c="";f=String.fromCharCode;for(a=0;190>a;a+=2)c+=f(55296+b[e="charCodeAt"](a))+f(56320+b[e](a+1));return c}</pre>
+  <pre><code class="lang-js">z=function(b,c,a,f,e){c="";f=String.fromCharCode;for(a=0;190>a;a+=2)c+=f(55296+b[e="charCodeAt"](a))+f(56320+b[e](a+1));return c}</code></pre>
   <button onclick="sourcecoder190.style.display='block';this.style.display='none'">See source code</button>
   <pre id=sourcecoder190 style="display: none">/**
 * @param b: the input string (in ASCII)
@@ -64,12 +64,12 @@ z = function(b, c, a, f){
   
   // Return
   return c
-}</pre>
+}</code></pre>
   <script>compressAscii190=function(b,c,a){c="";if(b.length%2)b+=" ";f=String.fromCharCode;for(a=0;b.length>a;a+=2)c+=f(55296+b[e="charCodeAt"](a))+f(56320+b[e](a+1));return c}</script>
   <br>
   <p>And here is the expression decoding and executing the original JavaScript code (thanks to <a href=//twitter.com/subzey target=_blank>@subzey</a> for his help):</p>
-  <pre>// replace "𠑂𠱄" with your encoded string
-eval(unescape(escape`𠑂𠱄`.replace(/uD./g,'')))</pre>
+  <pre><code class="lang-js">// replace "𠑂𠱄" with your encoded string
+eval(unescape(escape`𠑂𠱄`.replace(/uD./g,'')))</code></pre>
   <button onclick="source_decoder190.style.display='block';this.style.display='none'">See the source code</button>
   <pre id=source_decoder190 style="display: none">// First, we need to know how JavaScript handles escaped characters:
 // ASCII characters are escaped as: %XX (XX is an hexadecimal value)
@@ -90,7 +90,7 @@ var unescaped = unescape(replaced); // --> "ABCD" (the decoded string)
 
 // Eval
 eval(unescaped); // Tries to execute the decoded string.
-  </pre>
+  </code></pre>
   <br>
   <p>This decoder-executer is only 43 bytes long. So we can execute <b>194</b> ((140 - 43) x 2) JS characters in a single tweet.</p>
   <br>

@@ -23,7 +23,7 @@
   <br>
   <h3>TL;DR</h3>
   <p>A simple WebGL raycasting algorithm, accepting any Distance Estimation function and rendering it with distance fog and no distorsion, can be as short as <b>135b</b>! (<a href="https://www.shadertoy.com/view/MdsfRr">DEMO</a>)
-  <pre class=code>void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;}</pre>
+  <pre><code class="lang-js">void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;}</code></pre>
   <br>
   That's for the shader alone. For a complete demo including a WebGL bootstrap in HTML/JS and the shader input "F" as a frame counter, the total is <b>531b</b>. (<a href="demos/webgl/full.html">DEMO</a>)
   <br>
@@ -82,11 +82,12 @@
   <h3>Let's code!</h3>
   <p>So here's an example of commented shader that does the job with very little code. On <a href="https://www.shadertoy.com/view/ldScWc">the Shadertoy version</a>, you can change the settings in the first lines of code to change the shapes to be drawn.
   <br>
-  <pre class=code>
-<div style=float:right>
+
+<div>
 <p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">Sphere, cube, torus,<br>oprations with cube and sphere: union, substraction, intersection,<br>and scaling.<a href="https://twitter.com/hashtag/webgl?src=hash">#webgl</a><a href="https://t.co/aLyBMBHTeb">https://t.co/aLyBMBHTeb</a> <a href="https://t.co/wIUwY3k0bf">pic.twitter.com/wIUwY3k0bf</a></p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/861549757336100864">8 mai 2017</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>
+
+  <pre><code class="lang-js">
 // =========================================
 
 // SETTINGS:
@@ -189,7 +190,7 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
     // Color the current pixel according to the fog
     fragColor = vec4(vec3(fog), 1.0);
 }
-</pre>
+</code></pre>
 
 
   <br>
@@ -199,7 +200,7 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
   <h3>Let's golf it!</h3>
   <p>The following code was golfed with the help of the team plus a shadertoy user called coyote. Thanks to them! Here's a <a href="https://www.shadertoy.com/view/MdsfRr">live demo</a>.
   <p>
-  <pre class=code>void mainImage(out vec4 r,vec2 d){
+  <pre><code class="lang-js">void mainImage(out vec4 r,vec2 d){
   
   // Direction vector
   vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));
@@ -217,10 +218,10 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
   // Fog (make the furthest points darker)
   r=1./r;
 }
-  </pre>
+  </code></pre>
   <br>
   <p>If we count the useful chars only, the results fits in <b>135b</b>!
-  <pre class=code>void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;}</pre>
+  <pre><code class="lang-js">void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;}</code></pre>
   
   <br>
   <p>It's possible to combine that with our first WebGL bootstrap (source code and demo are available at the beginning of this article)
