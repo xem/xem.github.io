@@ -224,7 +224,7 @@ header = function(){
   var section = "home";
   var page = "";
   console.log(section, page, location.pathname);
-  location.pathname.replace(/.*xem.github.io\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
+  location.pathname.replace(/(.*xem.github.io)?\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
   console.log(section, page);
   
   $("header").innerHTML = 
