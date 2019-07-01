@@ -224,7 +224,7 @@ header = function(){
   var section = "home";
   var page = "";
   console.log(section, page, location.pathname);
-  location.pathname.replace(/(.*xem.github.io)?\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
+  location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
   console.log(section, page);
   
   $("header").innerHTML = 
@@ -264,7 +264,7 @@ footer = function(){
   
   var section = "home";
   var page = "";
-  location.pathname.replace(/.*xem.github.io\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
+  location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
   
   if(section != "home" && page != "" && page != "intro"){    
     s = document.createElement("SCRIPT");
@@ -285,7 +285,7 @@ menu = function(){
   var section = "home";
   var page = "";
   var scroll = 0;
-  location.pathname.replace(/.*\/(.*?)\/([^\/]*?)(\.html)?$/, (a,b,c) => { if(b) section = b; if(c) page = c; });
+  location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
   
   if(menus[section] && !page && (section == "articles" || section == "projects" || section == "codegolf")){
     for(var i in menus[section]){
