@@ -1,0 +1,48 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=prettycode>
+  <h2>Prettycode</h2>
+	<h3>may 2014</h3>
+	<p>This is a small app (166b) made to display minified / golfed code in a reader-friendly way. (Thanks to @subzey and @aemkei for their help)</p>
+  <b>Source code:</b>
+  <pre><code class="lang-html">&lt;input oninput=h="";for(i=99;--i;m?p.textContent=h+=v:0)m=1,v=value.replace(eval("/.{"+i+"}(?=(\\W=|.\\B.|..$)?).|.*/g"),function(v,l){m&=!l;return"\n"+v})>&lt;pre id=p></code></pre>
+    <b>Demo</b> (the same source code prettified in 28 chars/line):
+  <pre><code class="lang-html">&lt;input oninput=h="";for(i=99
+;--i;m?p.textContent=h+=v:0)
+m=1,v=value.replace(eval("/.
+{"+i+"}(?=(\\W=|.\\B.|..$)?)
+.|.*/g"),function(v,l){m&=!l
+;return"\n"+v})>&lt;pre id=p></code></pre>
+	<b>Website:</b> <a href=//xem.github.io/prettycode target=_blank>http://xem.github.io/prettycode</a>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

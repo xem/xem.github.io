@@ -1,0 +1,434 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body id=b>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=minimandelbox>
+  <h2>MiniMandelbox</h2>
+	<h3>febuary 2019</h3>
+	<p>An explorable WebGL Mandelbox with sound made in 1Kb with <b>@balintcsala</b> for JS1k 2019.
+  <p>Click to start, move with mouse.
+  <p>A random scale is chosen at each refresh.
+  <p>- <a href="https://github.com/xem/js1k19/tree/gh-pages/miniMandelbox">Github</a>
+  <p>- <a href="https://xem.github.io/js1k19/miniMandelbox/">Demo</a>
+  <p>- <a href="https://github.com/xem/js1k19/blob/gh-pages/miniMandelbox/index.html">Commented source code</a>
+  <p>- <a href="../articles/js1k19.html">making-of</a>
+  
+  <pre><code class="lang-html">&lt;body id=b>
+&lt;canvas id=a width=500 height=500>&lt;/canvas>
+&lt;script>
+g=a.getContext('webgl');
+for(_='or~f~(|1e-L512KR.JxyHecGunif~m&rocess$(ET-3,#clamp("o=p+e.!cos(a)sin(),a-avG4 =(aton/99/3,,1o.Hzlength();=",-1..)*2.-,o=o*"Jz//,Jz,Jz*4.)+p+=o.movement;void main(){=o=>{with(}`ce(saS(p,s	sS(s=cS(FN++`flo gl_FragCo(-1.)/o.w=;!y&3f(gf(p,`z*=m2(a);;|i in g)g[i[0]+i[6]]=g[i];g)Mh)p=cP(eV(a=A=B=0)prGisi lowp ;& vG3 C,R,QpCe=l~L3,0,0d~d.H/5e2-.5,0o;a=Jx;d.ya=Jy;d.x|i=1.;i>0.;i-=L2){!HyyAHyByHCyyy_;if(&lt;L3){l~i*dot(n~malize(-vG3(A,B,C)Q)-//4.);break;}p+=d*;}	tribute pgl_Positi=p;	lo(pvA(ug(p2,K0,bf#cB()),bD#new Int8Array(m=[1,-3]ET+79)top.document.title=C=2+random(clicknew AudioCtext)creeScriptP$~(K))audiop$|i=K;i--;)o.outputBuffer.getChannelDa(0)[i]=i*_.charCodeAt(B++%99)/9)},cnGt(destini(YQ`A)**A)dr(6,R`a,-A,C3C`...mm[0]+=A)*m[1]-=a)m[2]+=*A)setTimeout(Y,33)})(mousemoveAXaY/3}}';G=/[^ %(-FIM-{}]/.exec(_);)with(_.split(G))_=join(shift());eval(_)&lt;/script></code></pre>
+  
+  <p><hr>
+  <p>
+<i>Click to start, then move mouse</i>
+<br>
+<canvas id=a width=500 height=500 style="background:#222"></canvas>
+<br>
+<script>
+c = a.getContext(`webgl`);
+d = document;
+// Introduction
+// ============
+// This demo shows an explorable Mandelbox, with a colored-metallic look. Click to start, move the mouse to orientate the camera, refresh to see the box rendered with a different "scale" (random between 2 and 3)
+// Authors: Bálint Csala, Maxime Euziere
+// Fractal discovered by Tom Lowe
+// Many thanks to everyone who helped us on Twitter and Shadertoy!
+// Music
+// -----
+// The demo generates its music based on its own minified source code.
+// The RegPacked submission puts this code in the variable `_` then evaluates it.
+// For this commented version of the code, here's a copy of the RegPacked code without the final `eval(_)`,
+// just to have the string `_` correctly initialized:
+for(_='or~f~(|1e-L512KR.JxyHecGunif~m&rocess$(ET-3,#clamp("o=p+e.!cos(a)sin(),a-avG4 =(aton/99/3,,1o.Hzlength();=",-1..)*2.-,o=o*"Jz//,Jz,Jz*4.)+p+=o.movement;void main(){=o=>{with(}`ce(saS(p,s	sS(s=cS(FN++`flo gl_FragCo(-1.)/o.w=;!y&3f(gf(p,`z*=m2(a);;|i in g)g[i[0]+i[6]]=g[i];g)Mh)p=cP(eV(a=A=B=0)prGisi lowp ;& vG3 C,R,QpCe=l~L3,0,0d~d.H/5e2-.5,0o;a=Jx;d.ya=Jy;d.x|i=1.;i>0.;i-=L2){!HyyAHyByHCyyy_;if(<L3){l~i*dot(n~malize(-vG3(A,B,C)Q)-//4.);break;}p+=d*;}	tribute pgl_Positi=p;	lo(pvA(ug(p2,K0,bf#cB()),bD#new Int8Array(m=[1,-3]ET+79)top.document.title=C=2+random(clicknew AudioCtext)creeScriptP$~(K))audiop$|i=K;i--;)o.outputBuffer.getChannelDa(0)[i]=i*_.charCodeAt(B++%99)/9)},cnGt(destini(YQ`A)**A)dr(6,R`a,-A,C3C`...mm[0]+=A)*m[1]-=a)m[2]+=*A)setTimeout(Y,33)})(mousemoveAXaY/3}}';G=/[^ %(-FIM-{}]/.exec(_);)with(_.split(G))_=join(shift());//eval(_)
+// WebGL hash
+// ==========
+// Hash all the WebGL context's methods and properties we'll need by making a two-letter alias for each of them:
+// c.createProgram => c.cP
+// c.shaderSource => c.sS
+// c.createShader => c.cS
+// c.compileShader => c.ce
+// c.attachShader => c.aS
+// c.linkProgram => c.lo
+// c.useProgram => c.ug
+// c.bindBuffer => c.bf
+// c.createBuffer => c.cB
+// c.enableVertexAttribArray => c.eV
+// c.vertexAttribPointer => c.vA
+// c.bufferData => c.bD
+// c.getUniformLocation => c.gf
+// c.drawArrays => c.dr
+// c.NO_ERROR => c.NO (value = 0)
+// c.FRAGMENT_SHADER => c.FN (value: 35632)
+// c.ELEMENT_ARRAY_BUFFER_BINDING => c.ET (value: 34965)
+for(i in c){
+  c[i[0] + i[6]] = c[i];
+}
+// Three other WebGL constants are necessary, but can't be obtained with this hash:
+// c.ARRAY_BUFFER (value: 34963) => replaced by `ET - 3`
+// c.STATIC_DRAW (value: 35044) => replaced by `ET + 79`
+// c.BYTE (value: 5120) => we use directly the value 5120.
+// WebGL setup
+// ===========
+// Make the WebGL context and the Math object implicit.
+// (i.e. no need to use `c.` or `Math.` prefixes in the code)
+with(c)
+with(Math)
+// `createProgram()` creates the program `p`.
+p = cP(
+  // `enableVertexAttribArray(0)` enables the first item from the list of shader attributes.
+  eV(
+    // Different variables are initialized to 0:
+    // a: horizontal camera angle.
+    // A: vertical camera angle.
+    // O: character counter for the music.
+    a = A = O = 0
+  )
+),
+// Fragment shader
+// ===============
+// This is the part where we tell the GPU what to compute and draw for each pixel of the canvas.
+// `shader = createShader(FN++)` is similar to `shader = createShader(c.FRAGMENT_SHADER)`,
+// because c.FRAGMENT_SHADER == 35632 == FN.
+// FN is incremented to 35633 for later.
+// Then, `shaderSource(shader, "code")` associates the provided code to the shader:
+sS(
+  s = cS(FN++),
+  `
+  // Start of the shader, the space after "float" saves 2 bytes in RegPack.
+  precision lowp float ;
+  // C: camera position
+  // R: camera rotation
+  // Q: forward vector (precomputed by JavaScript, so it's more efficient)
+  uniform vec3 C, R, Q;
+  // The main function of the shader performs the Mandelbox raycasting.
+  void main(){
+    // p: Ray start position, initialized to camera position by default.
+    vec4 p = vec4(C, 1),
+    // e: error vector for normal calculation.
+    e = gl_FragColor = vec4(1e-3, 0, 0, 1),
+    // d: ray direction based on fragment coordinate.
+    d = vec4(gl_FragCoord.xy / 5e2 - .5, 1, 0),
+    // o: variable used as a copy of p in the shader, initialized here to save bytes.
+    o;
+    // "View matrix" calculation. A temporary "a" variable is used to make more repetitions.
+    float a = R.x;
+    d.yz *= mat2(cos(a), -sin(a), sin(a), cos(a));
+    a = R.y;
+    d.xz *= mat2(cos(a), -sin(a), sin(a), cos(a));
+    // Main loop, the ray gets marched 100 times.
+    for(float i = 1.; i > 0.; i -= 1e-2){
+      // Normal calculation
+      // This code is equivalent to:
+      //
+      //   float map(vec3 p) {
+      //   	vec4 o = vec4(p, 1);
+      //       for (int i = 0; i < 9; i++) {
+      //           o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p
+      //           o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz
+      //       }
+      //       return (length(o.xyz)-1.)/o.w;
+      //   }
+      //
+      //   vec3 normal(vec3 p) {
+      //       vec2 e = vec2(0.001, 0);
+      //       return normalize(vec3(
+      //           map(p) - map(p - e.xyy),
+      //           map(p) - map(p - e.yxy),
+      //           map(p) - map(p - e.yyx)
+      //       ));
+      //   }
+      //
+      //   (...)
+      //   float dist = map(p);
+      //   vec3 n = normal(p);
+      //   (...)
+      //
+      // To save bytes we first inlined the "normal" function and then the "map" function,
+      // then since we're using RegPack, we unrolled the loops. The packing part takes
+      // 10-20 seconds, but the byte saves were just enough to get the code in 1024 bytes.
+      //
+      // The code simply estimates the distance to the Mandelbox from 4 different positions.
+      // The first is p, the position of the ray at that moment. The distance is used to
+      // determine when we get "close enough" to the fractal to render it. The other 3 distances
+      // are used to calculate the normal vector of the fractal at that position for shading.
+      //
+      // Some other golfing tricks are also used here. Mainly:
+      // - using "/length(o.xyz)/length(o.xyz)" instead of "dot(o.xyz,o.xyz)" for better packing.
+      // - Putting float _; at the end to ensure better repetition for the larger chunks.
+      // - Reusing variables.
+      // - Using "(length(o.xyz)-1.)/o.w" repeatedly instead of storing it.
+      //
+      // This whole part only takes up about 200 bytes in the packed code, which is a huge
+      // improvement from this 4.5kb snippet.
+      o=p+e.xyyy;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
+      o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      float A=(length(o.xyz)-1.)/o.w;o=p+e.yxyy;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      float B=(length(o.xyz)-1.)/o.w;o=p+e.yyxy;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      float C=(length(o.xyz)-1.)/o.w;o=p+e.yyyy;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
+      float _;
+      // If distance to fractal is less than our arbitarily chosen constant (1e-3), draw:
+      if((length(o.xyz) -1.) / o.w < 1e-3){
+        // There are multiple parts in this line:
+        // - "dot(normalize((length(o.xyz)-1.)/o.w-vec3(A,B,C)),Q)" : normal-based shading (diffuse).
+        // - "-o.xyz/length(o.xyz)/4."                              : Coloring based on transformed position, courtesy of @literallylara.
+        // - "i*"                                                   : kind of "ambient occlusion" and "fog".
+        // - "vec4( ..., 1);                                        : because gl_FragColor needs a vec4.
+        gl_FragColor = vec4(
+          i *
+          dot(normalize((length(o.xyz) -1.) / o.w - vec3(A, B, C)), Q)
+          - o.xyz / length(o.xyz) / 4., 1
+        );
+        break;
+      }
+      
+      // If the fractal isn't close enough, advance the ray by the distance to the fractal. 
+      // This ensures that the ray only iterates the necessary number of times, but it doesn't overshoot either.
+      p += d * (length(o.xyz) - 1.) / o.w;
+    }
+  }
+  
+  // End of the shader
+  `
+),
+// Back to JS
+// Compile the vertex shader `s` and attach it to the program `p`.
+// `compileShader(shader)`
+ce(s),
+// `attachShader(program, shader)`
+aS(p, s),
+// Vertex shader
+// =============
+// The vertex shader prepares the call to the fragment shader.
+// Similarly to the previous vertex shader, it is created, sourced, compiled and attached to `p`.
+// Note: FN was incremented last time we used it, so it is equal to c.VERTEX_SHADER = 35633.
+sS(
+  s = cS(FN++),
+  `
+    attribute vec4 p;
+    void main(){
+      gl_Position = p;
+    }
+  `
+),
+ce(s),
+aS(p, s),
+// `linkProgram(p)` links the vertex and fragment shaders.
+lo(p),
+// In the following code, `vertexAttribPointer(0, 2, 5120, 0, 1, 0)` determines on which portion of the canvas the fragment shader will be rendered.
+// The params used are:
+// - index: 0 (returned by `useProgram(p)`)
+// - size: 2
+// - type: c.BYTE = 5120
+// - normalized: 0 (returned by `bindBuffer(ET-3, createBuffer())`)
+// - stride: 1
+// - offset: 0 (returned by `bufferData(ET-3, new Int8Array(m=[1,-3,1,1]), ET+79)`)
+//
+// The four sides of the canvas have the coordinates:
+//
+// [-1:-1]        [1:-1]
+//     ______________
+//    |              |
+//    |              |
+//    |      x       |
+//    |    [0:0]     |
+//    |______________|
+//
+// [-1:1]          [1:1]
+//
+// These coordinates could have been encoded like [-1,-1,1,-1,1,1,-1,1] and read two by two,
+// But for the sake of golfing, we used a different approach:
+// `vertexAttribPointer` takes the four values placed in `bufferData`: [1, -3, 1, 1],
+// and reads them as pairs of coordinates with a stride (overlap) equal to 1, which means:
+// 1: [1, -3]
+// 2:    [-3, 1]
+// 3:        [1, 1]
+//
+// These coordinates form a big triangle that covers the whole canvas:
+//
+//
+//                                              [1,-3]
+//
+//                                                /|
+//                                             /   |
+//                                          /      |
+//                                       /         |
+//                                    /            |
+//                                 /               |
+//                              /                  |
+//                           /                     |
+//                        /                        |
+//                     /             ______________|
+//                  /               |              |
+//               /                  |              |
+//            /                     |      x       |
+//         /                        |    [0:0]     |
+//      /___________________________|______________|
+//
+//  [-3:1]                                       [1:1]
+//
+// So, with the automatic clipping performed by the browser, all the pixels of the canvas will be rendered.
+vA(
+  ug(p),
+  2,
+  5120,
+  bf(
+    ET - 3, // ET - 3 == 34962 == c.ARRAY_BUFFER
+    cB()
+  ),
+  1,
+  bD(
+    ET - 3,
+    new Int8Array(m = [1, -3, 1, 1]), // Initialize `m`, the camera position (x = 1; y = -3; z = 1).
+    ET + 79  // ET + 79 == 35044 == c.STATIC_DRAW
+  )
+),
+// Pick `Z` (the scale of the Mandelbox) randomly between 2 and 3, and show it in the top frame's title.
+top.document.title = Z = 2 + random(),
+// Launch the demo on click (without click, the music would not start automatically)
+onclick = o => {
+  // Music
+  // =====
+  // The following code generates the demo's music based on the characters of its own source code, stored in `_` by RegPack.
+  // Create an Audio Context.
+  with(new AudioContext)
+  // Create a script processor.
+  with(createScriptProcessor(512, 1, 1))
+  // Then, when new audio data is required:
+  onaudioprocess = o => {
+    // Generate 512 new samples and place them in the audio buffer.
+    // The samples are computed from a sinusoidal function that varies with time (`i`),
+    // and with the current character of the demo's source code (`_.charCodeAt(O++/9999%99)`).
+    // The `/9999` (written as `99/99` for better compression) makes each note last for 9999 samples (about 0.22 second),
+    // and the `%99` makes the melody repeat every 99 notes (i.e. every 99 chars).
+    // The final `/99` lowers the volume (the amplitude of the sinusoid) to a reasonable value.
+    for(i = 512; i--;){
+      o.outputBuffer.getChannelData(0)[i] = sin(
+        i * _.charCodeAt(O++ / 99 / 99 % 99) / 999
+      ) / 99;
+    }
+  },
+  // Connect the buffer to the AudioContext, so it can be played.
+  connect(destination),
+  // Main loop
+  // =========
+  (
+    // The function `Y` updates the shader's variables and calls itself after  33ms
+    // (the result is an animation playing at about 30fps)
+    Y = o => {
+      // First, we update the variable `Q` with the camera's forward vector:
+      // [sin(A)*cos(a), -sin(a), cos(a)*cos(A)]
+      uniform3f(
+        gf(p, `Q`), sin(A) * cos(a), -sin(a), cos(a) * cos(A)
+      ),
+      // call `c.drawArrays()` with the following params:
+      // - mode: g.TRIANGLE_FAN == 6
+      // - first: 0 (returned by `uniform3f(gf(p,`R`),a,-A,Z)`)
+      // - count: 3
+      dr(
+        6,
+        // Update the uniform variable `R` with three values: [a, -A, Z].
+        uniform3f(
+          gf(p, `R`), a, -A, Z
+        ),
+        3
+      ),
+      // Update the uniform variable `C` with the three values of `m`: [m[0], m[1], m[2]].
+      uniform3f(
+        gf(p, `C`), ...m
+      ),
+      // Make the camera move forward automatically,
+      //and update its position `m` according to its horizontal and vertical angles (`a` and `A`)
+      m[0] += sin(A) * cos(a) / 99 / 3,
+      m[1] -= sin(a) / 99 / 3,
+      m[2] += cos(a) * cos(A) / 99 / 3,
+      // Loop
+      setTimeout(Y, 33)
+    }
+  )(),
+  // Interactivity
+  // =============
+  // At each mouse move:
+  onmousemove = o => {
+    // Update the camera's horizontal angle `A` according to the mouse's horizontal movement
+    A += o.movementX / 99 / 3,
+    // Update the camera's horizontal angle `a` according to the mouse's vertical movement
+    a += o.movementY / 99 / 3
+  }
+}
+</script>
+
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

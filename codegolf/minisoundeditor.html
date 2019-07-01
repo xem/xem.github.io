@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=minisoundeditor>
+	<h2>Mini Sound Editor</h2>
+	<h3>october 2018</h3>
+	<p>A tool allowing to edit mini sound effects with code and visual representations.</p>
+  <p>Many examples made by <b>Anders Kaare</b> are included.
+  <p>Example of sound playing code after minification:
+  <pre><code class="lang-js">for(f=(e=>{if(e>2e4)return null;var n=t(e,2e4);return 93&Math.pow(50*e,.7)?n:-n}),t=((e,t)=>(t-e)/t),A=new AudioContext,m=A.createBuffer(1,96e3,48e3),b=m.getChannelData(0),i=96e3;i--;)b[i]=f(i);s=A.createBufferSource(),s.buffer=m,s.connect(A.destination),s.start()</code></pre>
+  <p>- <a href="https://github.com/xem/MiniSoundEditor">Github</a>
+  <p>- <a href="https://xem.github.io/MiniSoundEditor/">Demo</a>
+  <p><hr>
+  <p><iframe src="https://xem.github.io/MiniSoundEditor/" height=700></iframe>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=codegolfctober18>
+<style>
+#codegolfctober18 img { border: 1px solid #000; margin: 5px 0; max-height: 400px; }
+</style>
+
+<h2>codegolfctober 2018</h2>
+<h3>october 2018</h3>
+
+<br>
+<hr>
+<br>
+
+<p>Like last year, the codegolf team and I decided to show one codegolf thing a day for the whole month of october!
+<p>Most were new, but we also showed our favourite demos from last JS1k, JS13k and Dwitter.
+
+<p>Thanks to <b>Aemkei, ETHprod, Justecorruptio, BalintCsala, Zozuar, Xen_the, Zlprp, Subzey, P01,  Keithclarkcouk, Xaotic, Veubeke, Tomxor, JS1K and Dwitter</b> for contributing to this month's awesomeness!
+
+<h2>Day 1: Nano Unicode Slideshow</h2>
+
+<img src="images/golfctober18/1.png">
+
+<pre><code class="lang-js">i=!setInterval(`document.body.innerHTML="&#"+i++`,99) // 53b
+i=!setInterval`document.write(" &#"+i++)` // 41b, Webkit only</code></pre>
+
+<p>We reduced the "nano" demo of <a href="https://github.com/xem/miniUnicode/">MiniUnicode</a> from 54b to 53b / 41b.
+<p>The 53b version just changes how i is initialized ("i=!setInterval" instead of "i=0;setInterval")
+<p>The 41b version abuses the fact that Webkit allows to call setInterval without second parameter, and to call document.write repeatedly, which makes non-Webkit browsers freeze.
+
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/Codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#Codegolfctober</a> 2018, day 1: <br><br>&lt;script&gt;<br><br>// Unicode slideshow in 53b: <br>i=!setInterval(`document.body.innerHTML=&quot;&amp;#&quot;+i++`,99)<br><br>// Unicode lister in 41b: (Webkit only)<br>i=!setInterval`document.write(&quot; &amp;#&quot;+i++)`<br><br>&lt;/script&gt;<a href="https://twitter.com/hashtag/JS?src=hash&amp;ref_src=twsrc%5Etfw">#JS</a> <a href="https://t.co/9q0UBW6U4B">pic.twitter.com/9q0UBW6U4B</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1046867078777573382?ref_src=twsrc%5Etfw">1 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 2: ASCII Game of Life</h2>
+
+<img src="images/golfctober18/2.png">
+
+<pre><code class="lang-html">&lt;body onload=b=!setInterval`for(a=b,b=[h=i=985];i--;_.innerText=h+="▁▉-"[i%42?b[i]=a?d&lt;9&7-a[i]&lt;d:i&lt;69:2])for(d=j=5;e=(2&lt;j--)*39+j;)d+=a[i+e]+a[i-e]` id=_></code></pre>
+<p>We reduced an old Game of Life drawn in ASCII down to 165 then 159b.
+<p>The bytes saved come from a new way to compute the state of a cell based on the number of alive neighbours.
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/Codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#Codegolfctober</a> day 2<br><br>165b ASCII Game of Life by <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a><a href="https://t.co/pohkq6JFCD">https://t.co/pohkq6JFCD</a><br><br>→159b with <a href="https://twitter.com/ETHprod?ref_src=twsrc%5Etfw">@ETHprod</a> &amp; <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a><br><br>&lt;body onload=b=!setInterval`for(a=b,b=[h=i=985];i--;_.innerText=h+=&quot;▁▉-&quot;[i%42?b[i]=a?d&lt;9&amp;7-a[i]&lt;d:i&lt;69:2])for(d=j=5;e=(2&lt;j--)*39+j;)d+=a[i+e]+a[i-e]` id=_&gt; <a href="https://t.co/hwBUhGfzVB">pic.twitter.com/hwBUhGfzVB</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1047211085265362944?ref_src=twsrc%5Etfw">2 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Days 3 & 4: mini 2D vector library</h2>
+
+<img src="images/golfctober18/3.png">
+
+<pre><code class="lang-js">// API
+//- vec2(x,y)
+//- length(v)
+//- add(v,w)
+//- sub(v,w)
+//- mul(v,n)
+//- dist(v,w)
+//- dotproduct(v,w)
+//- crossproduct(v,w)
+//- rotate(v,origin,theta)
+//- normalize(v)
+
+// Not regpacked version (264b)
+V=(x,y)=>({x,y})
+l=v=>d(v,v)**.5
+a=(v,w)=>V(v.x+w.x,v.y+w.y)
+s=(v,w)=>a(v,m(w,-1))
+m=(v,n)=>V(v.x*n,v.y*n)
+t=(v,w)=>l(s(v,w))
+d=(v,w)=>v.x*w.x+v.y*w.y
+c=(v,w)=>v.x*w.y-v.y*w.x
+r=(v,o,t)=>a(o,V(c(f=s(v,o),g=V(Math.sin(t),Math.cos(t))),d(f,g)))
+n=v=>m(v,1/(l(v)||1))</code></pre>
+
+<p>We had fun golfing this lib of 10 functions in 264b, by using functions inside other functions as much as possible to save bytes.
+<p>For example, the distance between two vectors is "length(sub(v,w))" instead of Math.sqrt(v.x-w.y, v.y-w.y).
+<p>And sub is also reusing add and mul instead of redoing the whole operation.
+<p>And length(v) returns the square root of dot(v, v), which corresponds to v.x² + v.y². Etc...
+<p>I'm very impressed by the solution they came up with for rotate, but I gave up trying to understand it ^^
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/Codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#Codegolfctober</a> day 3<br><br>I&#39;m working on a mini 2D rigid bodies physics library, and started with a full 2D vector toolkit in 264 bytes:<a href="https://t.co/PHS03AjJMR">https://t.co/PHS03AjJMR</a><br><br>Thanks to <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a>, <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> &amp; <a href="https://twitter.com/ETHprod?ref_src=twsrc%5Etfw">@ETHprod</a> for their great help!<br><br>(Join our slack room &gt; <a href="https://t.co/zzNoinR00N">https://t.co/zzNoinR00N</a>) <a href="https://t.co/svULT7J59Q">pic.twitter.com/svULT7J59Q</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1047545802669875200?ref_src=twsrc%5Etfw">3 octobre 2018</a></blockquote>
+
+<pre><code class="lang-js">// Regpackable version (236b regpacked)
+v=(x,y,t)=>({x,y});
+l=(x,y,t)=>d(x,x)**.5;
+a=(x,y,t)=>v(x.x+y.x,x.y+y.y);
+s=(x,y,t)=>a(x,m(y,-1));
+m=(x,y,t)=>v(x.x*y,x.y*y);
+t=(x,y,t)=>l(a(x,m(y,-1)));
+d=(x,y,t)=>x.x*y.x+x.y*y.y;
+c=(x,y,t)=>x.x*y.y-x.y*y.x;
+r=(x,y,t)=>a(y,v(c(a(x,m(y,-1)),v(Math.sin(t),Math.cos(t))),d(a(x,m(y,-1)),v(Math.sin(t),Math.cos(t)))));
+n=(x,y,t)=>m(x,1/(l(x)||1));</code></pre>
+
+<p>The next day, we optimized it to be as compressible by Regpack as possible, by repeating signatures, semicolons, and expanding some factorizations to maximize repetitions. The result fits in 236b.
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/Codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#Codegolfctober</a> day 4:<br><br>The same 2D vector lib, optimized for Regpack (335b), then Regpacked (236b)<br><br>Made with <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a>, <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> &amp; <a href="https://twitter.com/ETHprod?ref_src=twsrc%5Etfw">@ETHprod</a> &lt;3<a href="https://t.co/lmkIlGiJQ2">https://t.co/lmkIlGiJQ2</a> <a href="https://t.co/EmPvQrWHht">pic.twitter.com/EmPvQrWHht</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1047910681167757314?ref_src=twsrc%5Etfw">4 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 5: Mini Music Player</h2>
+
+<pre><code class="lang-js">with(new AudioContext)with(G=createGain())for(i in D=<b>[...Array(26).keys()]</b>)with(createOscillator())if(D[i])connect(G),G.connect(destination),start(i*.2),frequency[v="setValueAtTime"](440*1.06**(13-D[i]),i*.2),gain[v](1,i*.2),gain.setTargetAtTime(.001,i*.2+.18,.005),stop(i*.2+.19)</code></pre>
+
+<p>A tiny music player, including the output of MiniMusic (golfed during js13kgames <a href="#js13k17">2017</a> and <a href="#js13k18">2018</a> and regolfed here in 262 bytes) combined with the smallest code that generates an array from 1 to N (gorfed during the day 10 of <a href="archive.html#golfctober17">golfctober 2017</a>, 20 bytes).
+<p>The result is a 280b script playing 2 octaves in decrescendo, while avoiding to make a "click" at the end of each note, that Oscillators do by default when we stop them abruptly.
+<p><button onclick='with(new AudioContext)with(G=createGain())for(i in D=[...Array(26).keys()])with(createOscillator())if(D[i])connect(G),G.connect(destination),start(i*.2),frequency[v="setValueAtTime"](440*1.06**(13-D[i]),i*.2),gain[v](1,i*.2),gain.setTargetAtTime(.001,i*.2+.18,.005),stop(i*.2+.19)'>Demo</button>  (warning, the volume is loud by default)
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/Codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#Codegolfctober</a> day 5<br><br>A music player in 262b<a href="https://t.co/5oxaEpbcON">https://t.co/5oxaEpbcON</a><br><br>D is a list of notes (here, 0 to 26 = 2 octaves)<br><br>The rest of the code (setValueAtTime, setTargetAtTime) prevents the browser to &quot;click&quot; at the end of each note<br><br>Editor: <a href="https://t.co/KeiphbXzXM">https://t.co/KeiphbXzXM</a><br>Made for <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1048107509767188480?ref_src=twsrc%5Etfw">5 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 6: Strange Crystals v0.140b</h2>
+
+<img src="images/golfctober18/6.png">
+
+<pre><code class="lang-js">for(k=i=1e3;z=i--/6;x.fillRect(k+S(m=(k*j&-b)**4)*r-z,z+C(m)*r,s=5e3/z,s))b=i%9>0,j=(i/k+t)%1,r=8e3/z+b*k/z,x.fillStyle=R(a=S(j*9)*99+z,a,a)</code></pre>
+
+<p>@BalintCsala and @zozuar golfed a 140b demake of <a href="https://js1k.com/2013-spring/demo/1555">Strange Crystals II</a> (winning js1k 2013 entry by @ehouais).
+<p>@zozuar wrote an amazing writeup about it <a href="http://zozuar.org/txt/sc/">here</a>.
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/Codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#Codegolfctober</a> day 6<br><br>The incredible dweet by <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a> &quot;strange crystals v0.140b&quot;, and its complete deconstruction by <a href="https://twitter.com/zozuar?ref_src=twsrc%5Etfw">@zozuar</a> <br><br>Dweet: <a href="https://t.co/wkEGQXJKXo">https://t.co/wkEGQXJKXo</a><br>Writeup: <a href="https://t.co/0d6enkGDuC">https://t.co/0d6enkGDuC</a><br><a href="https://t.co/O2tybjY4eu">pic.twitter.com/O2tybjY4eu</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1048663204782657536?ref_src=twsrc%5Etfw">6 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Days 7 & 8 & 11 & 16 & 30: Mini Serpinski</h2>
+
+<img src="images/golfctober18/7.png">
+
+<p>During this month, most of the time on Slask was used to golf mini Serpinski triangles on canvas and in ASCII, straight or lopsided, centered or right-aligned. Here are the different achievements of the team:
+
+<pre><code class="lang-html">&lt;canvas onclick=for(i=2**14;i--;)getContext`2d`.fillRect(i/.996%128,j=i/128,1,!(i&j))></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/Codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#Codegolfctober</a> day 7<br><br>Our 2017 Mini Serpinski Triangle was regolfed by <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a>, <a href="https://twitter.com/zlprp?ref_src=twsrc%5Etfw">@zlprp</a>  &amp; <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> and was reduced from 118b to 86b!<br><br>&lt;canvas onclick=for(i=2**14;i--;)getContext`2d`.fillRect(i/.996%128,j=i/128,1,!(i&amp;j))&gt;<br><br>Demo (click to start): <a href="https://t.co/U4JtxIG5nH">https://t.co/U4JtxIG5nH</a> <a href="https://t.co/qDlU70GEtR">pic.twitter.com/qDlU70GEtR</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1049028067505721346?ref_src=twsrc%5Etfw">7 octobre 2018</a></blockquote>
+
+<pre><code class="lang-html">&lt;canvas onclick=for(i=2**14;i--;)getContext`2d`.fillRect(i%128,j=i/128,1,!(i&j))></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 8<br><br>Yesterday&#39;s Mini Serpinski Triangle but &quot;lopsided&quot;, made by <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> in 81b.<br><br>&lt;canvas onclick=for(i=2**14;i--;)getContext`2d`.fillRect(i%128,j=i/128,1,!(i&amp;j))&gt;<br><br>Demo: <a href="https://t.co/ZhxxaQqw3c">https://t.co/ZhxxaQqw3c</a> <a href="https://t.co/sn07BxnSbt">pic.twitter.com/sn07BxnSbt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1049366237992632320?ref_src=twsrc%5Etfw">8 octobre 2018</a></blockquote>
+
+<pre><code class="lang-html">&lt;svg onload=for(i=4096;i--;)write(i%64?i&i/64&&`_`:`-`)></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 11<br><br>56b ASCII Serpinski &quot;right-aligned&quot; by <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a>, <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a> &amp; <a href="https://twitter.com/keithclarkcouk?ref_src=twsrc%5Etfw">@keithclarkcouk</a> <br><br>&lt;svg onload=for(i=4096;i--;)write(i%64?i&amp;i/64&amp;&amp;`_`:`-`)&gt;<br><br>Demo: <a href="https://t.co/Tpuav4tDBh">https://t.co/Tpuav4tDBh</a><br><br>(requires a narrow window to show line breaks at the right places) <a href="https://t.co/i6446e1yFC">pic.twitter.com/i6446e1yFC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1050489510839156736?ref_src=twsrc%5Etfw">11 octobre 2018</a></blockquote>
+
+<pre><code class="lang-html">&lt;svg onload=for(i=2e3;i--;)write(i%63?i&i/32&&'_':x)></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 16:<br><br>The smallest (and weirdest) ASCII Serpinski Triangle by <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a>, <a href="https://twitter.com/keithclarkcouk?ref_src=twsrc%5Etfw">@keithclarkcouk</a> and <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> <br><br>53 bytes!<br><br>&lt;svg onload=for(i=2e3;i--;)write(i%63?i&amp;i/32&amp;&amp;&#39;_&#39;:x)&gt;<br><br>Demo: <a href="https://t.co/CKhOt9x9LH">https://t.co/CKhOt9x9LH</a><br>(needs a window &lt; ~1130px) <a href="https://t.co/omAs3KrJqj">pic.twitter.com/omAs3KrJqj</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1052280311541686272?ref_src=twsrc%5Etfw">16 octobre 2018</a></blockquote>
+
+<pre><code class="lang-html">&lt;canvas onclick=for(i=3e4;i--;)getContext`2d`.fillRect(i%128,j=i/128,1,!(i&j))></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 30<a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a> reduced the lopsided mini Serpinski triangle (cf. day 8) to 79b!<br><br>&lt;canvas onclick=for(i=3e4;i--;)getContext`2d`.fillRect(i%128,j=i/128,1,!(i&amp;j))&gt;<br><br>Demo: <a href="https://t.co/MQQYE8UPOD">https://t.co/MQQYE8UPOD</a><br>(click canvas to start) <a href="https://t.co/MxA2iiD5BQ">pic.twitter.com/MxA2iiD5BQ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1057354854836903936?ref_src=twsrc%5Etfw">30 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Days 9 & 10 & 12 & 13: MiniCalculator</h2>
+
+<img src="images/golfctober18/13.png">
+
+<p>A wild codegolf project appeared on day 9, based on an idea prototyped by @ETHprod: a mini calculator!
+<p>During the following week, we golfed it in two different versions: full-featured and minimalist.
+<p>It was pretty fun to golf the generation of the UI (input, buttons), while implementing each button's features, while precisely matching the behavior of a real calculator in every possible edge case. Boy, those things are weird, but our code is even weirder!
+
+<pre><code class="lang-html">&lt;!-- Full-featured calc -->
+&lt;body onload='for(s of"C/=.0 *321 -654 +987 ")i.outerHTML+=s&lt;"!"?"&lt;p>":`&lt;button onclick=F("${s}")>`+s;F=b=>i.value=z=b>"B"?(c=d=o="",a=r=p=0):1+b-0?c+=b-.1?b:d?"":d=b:(q=b&lt;"=",p?r=c:a=c||a,r=q?p&&r:r||a,a=o&&r?z=eval(a+o+s+r):a,o=q?b:o,p=q,d=c="",q?z:a);F`C`'>&lt;input id=i></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 9<br><br>A 252b calculator in HTML/JS inspired by <a href="https://twitter.com/ETHprod?ref_src=twsrc%5Etfw">@ETHprod</a> <br><br>Demo: <a href="https://t.co/vhD4kZIP7r">https://t.co/vhD4kZIP7r</a><br><br>I summon <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a> <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> and <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> to bring that below 200b :p <a href="https://t.co/WX03uCfxKP">pic.twitter.com/WX03uCfxKP</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1049749216518639619?ref_src=twsrc%5Etfw">9 octobre 2018</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 10<a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a>  successfully golfed yesterday&#39;s calculaton in 197b!<br><br>In the meantime, I made a 770b calculator in HTML/JS but this time it supports every weird edge case!<br><br>Demo: <a href="https://t.co/0BpY9ToZWx">https://t.co/0BpY9ToZWx</a><a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a> <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a>, let&#39;s golf it? <a href="https://t.co/2KF1HS6pT0">pic.twitter.com/2KF1HS6pT0</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1050100703845330950?ref_src=twsrc%5Etfw">10 octobre 2018</a></blockquote>
+
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 12<br><br>272b full-featured calculator (the one from day 10, but rewritten and corrected by <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a>)<br><br>Source: <a href="https://t.co/UJwhes0tJr">https://t.co/UJwhes0tJr</a><br><br>Demo: <a href="https://t.co/KlYqDay3JO">https://t.co/KlYqDay3JO</a> <a href="https://t.co/DrFn2jbj2A">pic.twitter.com/DrFn2jbj2A</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1050824176351760386?ref_src=twsrc%5Etfw">12 octobre 2018</a></blockquote>
+
+<pre><code class="lang-html">&lt;input id=i>&lt;script>o='';for(s of"C/=.0!*321!-654 +987!")i.outerHTML+=s&lt;"#"?"&lt;p>":`&lt;button onclick="o=i.value=${s=="="?`eval(o)`:s>"B"?`''`:`o+'${s}'`}">`+s&lt;/script> </code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 13:<br><br>165b super-basic calculator (HTML+JS)<br><br>Demo: <a href="https://t.co/XDIDI4xd8r">https://t.co/XDIDI4xd8r</a><br><br>Source code:<br><br>&lt;input id=i&gt;&lt;script&gt;o=&#39;&#39;;for(s of&quot;C/=.0!*321!-654 +987!&quot;)i.outerHTML+=s&lt;&quot;#&quot;?&quot;&lt;p&gt;&quot;:`&lt;button onclick=&quot;o=i.value=${s==&quot;=&quot;?`eval(o)`:s&gt;&quot;B&quot;?`&#39;&#39;`:`o+&#39;${s}&#39;`}&quot;&gt;`+s&lt;/script&gt; <a href="https://t.co/MVrGt05Ad4">pic.twitter.com/MVrGt05Ad4</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1051008740407828480?ref_src=twsrc%5Etfw">13 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Days 14, 15: MiniSweeper</h2>
+
+<img src="images/golfctober18/14.png">
+
+<p>My oldest codegolfed game, made in 497b with Subzey back in 2013, lost 11 bytes after I used ES6 and removed old browsers hacks.
+
+<p><a href="https://t.co/tIzxsVp4Ry">DEMO</a>
+
+<pre><code class="lang-html">&lt;table border id=t>&lt;script>b=[v=[]];f=[l=g=0];n=[];r=d=>{for(M=!l;M;l=g)for(a=M=H="";s>++a;)for(j=s,H+="&lt;tr>";~--j;H+=`&lt;th width=25 height=30 onclick=b[i=${I}]?g--:v[i]=1;r() oncontextmenu=for(f[${I}]^=g=1,a=0;a&lt;s*s;)g&=b[a]^!f[a++];return!!r() ${(v[I]|g||"bgcolor=tan")}>`+(f[I]?"⚑":b[I]&g?"💣":v[I]|g&&n[I]||""))for(I=a*s+j,T=d?b[I]=.1>Math.random():0,x=2;~x--;)for(y=2;~y--;~B&&B&lt;s?(n[C]=~~n[C]+T)||v[I]|b[I]|!v[C]?0:v[I]=M=1:0)B=j+y,C=(a+x)*s+B;t.innerHTML=H};r(s=9)&lt;/script></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 14:<br><br>My first codegolf project, made with <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> back in 2013,<br>rebooted with more ES6 and less IE hacks: 486 bytes!<br>I&#39;m sure we can enhance it.<br><br>Demo: <a href="https://t.co/tIzxsVp4Ry">https://t.co/tIzxsVp4Ry</a><br><br>Commented source code: <a href="https://t.co/zz15sVxxYm">https://t.co/zz15sVxxYm</a> <a href="https://t.co/cA8M0pyEeY">pic.twitter.com/cA8M0pyEeY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1051376167612280833?ref_src=twsrc%5Etfw">14 octobre 2018</a></blockquote>
+
+<p>Then Aemkei joined the party and brought it down to 349b while converting it to ASCII art, which means 148 bytes saved!
+
+<p><a href="https://codepen.io/xem/pen/KGyQXp">DEMO</a>
+
+<pre><code class="lang-html">&lt;pre id=t>&lt;script>b=[v=[]];l=g=0;n=[];r=d=>{for(M=!l;M;l=g)for(a=M=H="";s>++a;)for(j=s,H+=`
+`;~--j;t.innerHTML=H+=`|&lt;u onclick=b[i=${I}]?g--:v[i]=1;r()>`+(b[I]&g?"#":v[I]|g&&n[I]||(v[I]|g?" ":'.')))for(I=a*s+j,T=d?b[I]=.1>Math.random():0,x=2;~x--;)for(y=2;~y--;~B&&B&lt;s?(n[C]=~~n[C]+T)||v[I]|b[I]|!v[C]?0:v[I]=M=1:0)B=j+y,C=(a+x)*s+B};r(s=9)&lt;/script></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 15:<br><br>MiniSweeper demake in ASCII and in 349 bytes by <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a> ! <br><br>Demo: <a href="https://t.co/E0cBy0yexm">https://t.co/E0cBy0yexm</a><br>(play with left click only, this version doesn&#39;t have flags) <a href="https://t.co/I8NBMfc93H">pic.twitter.com/I8NBMfc93H</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1051921799603208193?ref_src=twsrc%5Etfw">15 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 17: Mini Keyboard</h2>
+
+<img src="images/golfctober18/17.png">
+
+<p>The smallest keyboard state manager, in 46b, adapted from <a href="http://xem.github.io/articles/archive.html#jsgamesinputs">this article</a> and previous golfed projects.
+
+<pre><code class="lang-js">k={};onkeydown=onkeyup=e=>k[e.which]=e.type[5]</code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 17:<br><br>A keydown/keyup state manager in 46 bytes (useable in a game loop)<br><br>k={};onkeydown=onkeyup=e=&gt;k[e.which]=e.type[5]<br><br>- Choose a keyCode N.<br>- if(k[N]) =&gt; key is pressed<br>- if(!k[N]) =&gt; key is released<br><br>Demo: <a href="https://t.co/Hrfpn1c1YM">https://t.co/Hrfpn1c1YM</a> <a href="https://t.co/arK781cSu7">pic.twitter.com/arK781cSu7</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1052455697047310336?ref_src=twsrc%5Etfw">17 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 18: Mini Simon</h2>
+
+<img src="images/golfctober18/18.png">
+
+<p>I regolfed our old Simon game and saved 53 bytes by removing old browser hacks and applying the new sound generation techniques from day 5, but even more simplified, because only four different beeps were required. <p>The frequencies of the buttons k=0 to k=3 are computed with "frequency.value=99+k*99". The first 99 makes the sound "0" audible, and the second 99 makes the sounds different enough from each other.
+
+<p><a href="https://t.co/09EnpgFqI3">DEMO</a>
+
+<pre><code class="lang-html">&lt;body onload="a=(k,q)=>{z=['00F','FF0','F00','080'];if(~k){with(new AudioContext)with(createOscillator())start(0,connect(destination),frequency.value=99+k*99)+stop(.2,s(a,250,-1));z[(3+k)%4]=111};p.style.borderColor='#'+z.join`#`;if(q)k^f[j]?p.outerHTML=':(':++j^g||h()};(h=e=>{for(i=g=f.push(new Date%4);j=i;s(a,500*i--,f[i]))s=setTimeout})(f=[])"onkeyup=a(event.keyCode-37,1) style="width:9em;height:9em;border-radius:50%;border:9em solid"id=p></code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolf?src=hash&amp;ref_src=twsrc%5Etfw">#codegolf</a> day 18:<br><br>A Simon game with sound in 446b<br>(the old version was 499b)<br><br>Demo: <a href="https://t.co/09EnpgFqI3">https://t.co/09EnpgFqI3</a><br>(click on the wheel then play with arrow keys) <a href="https://t.co/AI4JopBygY">pic.twitter.com/AI4JopBygY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1052977261853454336?ref_src=twsrc%5Etfw">18 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 19: Print all the chars that the program doesn't contain</h2>
+
+<p>Our <a href="http://xem.github.io/golfing/#asciinotused_en">first attempt</a> back in 2013 took 88 bytes, this tiime it's down to 74b, due to a completely different approach involving ES6 and very hacky things.
+
+<pre><code class="lang-js">eval(v="for(i=32;i&lt;127;)v.includes(e=String.fromCharCode(i++))||alert(e)")</code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 19<br><br>Old CGSE challenge<br>&quot;a program that outputs all the ASCII chars that it doesn&#39;t contain&quot;<br><br>eval(v=&quot;for(i=32;i&lt;127;)v.includes(e=String.fromCharCode(i++))||alert(e)&quot;)<br><br>// 74b, alerts the chars !&quot;#$%&amp;&#39;*,-/045689:&gt;?@ ABDEFGHIJKLMNOPQRTUVWXYZ[\]^_`bjkpqwxyz{}~</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1053328388054794241?ref_src=twsrc%5Etfw">19 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 20: Char generation</h2>
+
+<p>We explored many ways to generate a char from an integer, to improve day 19's challenge. As far as we know, there are 4 solutions below 30 bytes, but none of them beats String.fromCharCode(i)...
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 20<br><br>How to generate the i&#39;th ASCII char in JS?<br><br>var i=33;<br>eval(`&#39;\\x${i.toString(16)}&#39;`) // 30b<br>eval(`&#39;\\${i.toString(8)}&#39;`) // 28b<br>String.fromCodePoint(i) // 23b<br>String.fromCharCode(i) // 22b<br><br>Could the 28b version be used to improve yesterday&#39;s challenge? 🤔</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1053625879971184641?ref_src=twsrc%5Etfw">20 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 21: Space dweets</h2>
+
+<img src="images/golfctober18/21.png">
+
+<p>Promoting some great dweets of Tomxor:
+<br>Black Hole: <a href="https://t.co/1Sq6ClDDTQ">DEMO</a>
+<br>Saturn: <a href="https://t.co/AQ0GQg536T">DEMO</a>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 21<br><br>Here are my favourite &quot;space&quot; dweets of October,  by Tomxor<br>(I didn&#39;t contribute, but they deserves more views!)<br><br>Black Hole: <a href="https://t.co/1Sq6ClDDTQ">https://t.co/1Sq6ClDDTQ</a><br>Saturn: <a href="https://t.co/AQ0GQg536T">https://t.co/AQ0GQg536T</a> <a href="https://t.co/cjI8P5C259">pic.twitter.com/cjI8P5C259</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1054080724037500929?ref_src=twsrc%5Etfw">21 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 22: Mini Split Screen</h2>
+
+<img src="images/golfctober18/22.png">
+
+<p>I had done this little split screen browser app last year, using 2, 3, 4 or 6 iframes to avoid having many browser windows in parallel on the same screen, and preventing one of the iframes to change the URL of the parent window.
+
+<p>Now it's golfed in 225b, and with a lot of weird CSS to make it look nice on any screen size!
+
+<pre><code class="lang-html">&lt;body onbeforeunload=return!1>&lt;input oninput=c.src=value>&lt;input oninput=d.src=value>&lt;iframe id=c>&lt;/iframe>&lt;iframe id=d>&lt;/iframe>&lt;style>*{margin:0;padding:0;box-sizing:border-box}body *{width:50%}#c,#d{height:calc(100vh - 20px</code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a>  day 22<br><br>225b split screen browser<br><br>Source: <a href="https://t.co/CNGXXeANWJ">https://t.co/CNGXXeANWJ</a><br>Demo: <a href="https://t.co/JmfhGG2LZU">https://t.co/JmfhGG2LZU</a><br>(also exists in x3, x4 and x6) <a href="https://t.co/02VxSSiWZe">pic.twitter.com/02VxSSiWZe</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1054435549719814145?ref_src=twsrc%5Etfw">22 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 23: Mini Sound Player</h2>
+
+<img src="images/golfctober18/23.png">
+
+<p>I took the sound player (and sound collection) that Anders Kaare made for our js13k16 and 17 entries, and gathered them in an app that's able to edit, export, play and even draw each sound with a 2-second limit. I also golfed the player in 176b and the result is below. It needs a custom function f(i) that gives the value of each sample.
+
+<pre><code class="lang-js">t=(i,n)=>(n-i)/n;
+A=new AudioContext()
+m=A.createBuffer(1,96e3,48e3)
+b=m.getChannelData(0)
+for(i=96e3;i--;)b[i]=f(i)
+s=A.createBufferSource()
+s.buffer=m
+s.connect(A.destination)
+s.start()</code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/golfctober?src=hash&amp;ref_src=twsrc%5Etfw">#golfctober</a> day 23<br><br>176b sound player<br><br>A=new AudioContext()<br>m=A.createBuffer(1,96e3,48e3)<br>b=m.getChannelData(0)<br>for(i=96e3;i--;)b[i]=f(i)<br>s=A.createBufferSource()<br>s.buffer=m<br>s.connect(A.destination)<br>s.start()<br><br>f() generates the buffer&#39;s samples<br>More info: <a href="https://t.co/KWj5OHboHZ">https://t.co/KWj5OHboHZ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1054784164673847296?ref_src=twsrc%5Etfw">23 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 24: Mega Million Picker</h2>
+
+<p>The Mega Million lottery happened that month in the USA and people on Twitter tried to make a Mega Million number picker, with specific rules (Picks 5 unique ordered numbers between 1 and 70, then 1 number between 1 and 25).
+<p>We joined them and made this version in 88b and a lot of rarely used before ES6 features.
+
+<pre><code class="lang-js">[z,...a]=Array(71).keys(),[...(f=_=&gt;a[5]?f(a.splice(Math.random(z++)*99,1)):a)(),z%25+1]</code></pre>
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 24<br><br>88b Mega Million picking generator<br><br>[z,...a]=Array(71).keys(),[...(f=_=&gt;a[5]?f(a.splice(Math.random(z++)*99,1)):a)(),z%25+1]<br><br>(Picks 5 unique ordered numbers between 1 and 70, then 1 number between 1 and 25.)<br><br>Golfed by <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> <a href="https://twitter.com/superhoge?ref_src=twsrc%5Etfw">@superhoge</a> <a href="https://twitter.com/kchplr?ref_src=twsrc%5Etfw">@kchplr</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> &amp; me</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1055137315839008769?ref_src=twsrc%5Etfw">24 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 25: Mini LOSSST</h2>
+
+<img src="images/golfctober18/25.png">
+
+<p>A little throwback to our 1kb LOSSST demake (a.k.a. SN1KE) made during JS1K 2017.
+<p><a href="https://js1k.com/2018-coins/demo/3003">PLAY</a>
+ 
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 25<br><br>In case you missed it, here&#39;s a demake of my <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> puzzle game LOSSST, including 55 levels, golfed in 1kb with <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a>, <a href="https://twitter.com/Xaotic?ref_src=twsrc%5Etfw">@Xaotic</a>, <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a>, <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a>, <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> and <a href="https://twitter.com/veubeke?ref_src=twsrc%5Etfw">@veubeke</a> during js1k 2018<br><br>Play: <a href="https://t.co/XgtAinNfWz">https://t.co/XgtAinNfWz</a><br>Making-of <a href="https://t.co/8AS8xeikuq">https://t.co/8AS8xeikuq</a> <a href="https://t.co/kz6mdRU53Y">pic.twitter.com/kz6mdRU53Y</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1055721525096185856?ref_src=twsrc%5Etfw">26 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Days 26 and 27: Mini Fourier</h2>
+
+<img src="images/golfctober18/26.png">
+
+<p>Another js1k 2017 throwback with this instant 2D FFT tracer.
+<p><a href="https://js1k.com/2018-coins/demo/3050">PLAY</a>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 26<br><br>Another js1k 2018 entry: an interactive 2D FFT tracer golfed w/ <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a> <a href="https://twitter.com/justecorruptio?ref_src=twsrc%5Etfw">@justecorruptio</a> <br><br>play: <a href="https://t.co/16wSipTATG">https://t.co/16wSipTATG</a><br>making-of: <a href="https://t.co/8AS8xeikuq">https://t.co/8AS8xeikuq</a><br>Detailed source code, including the smallest JS FFT ever written<a href="https://t.co/FMiW1fvW6u">https://t.co/FMiW1fvW6u</a> <a href="https://t.co/5DfglgvojA">pic.twitter.com/5DfglgvojA</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1055723064640634880?ref_src=twsrc%5Etfw">26 octobre 2018</a></blockquote>
+
+<p>The next day, we isolated and golfed the 1D FFT function from this js1k entry, in 312b.
+
+<pre><code class="lang-js">F=(e,f)=>{M=Math;n=e.length;for(i=0;i&lt;n;i++){for(j=0,h=i,k=n;k>>=1;h>>=1)j=j&lt;&lt;1|h&1;j>i&&([e[j],e[i],f[j],f[i]]=[e[i],e[j],f[i],f[j]])}for(h=1;2*h&lt;=n;h*=2)for(i=0;i&lt;n;i+=2*h)for(j=i;j&lt;i+h;j++)l=M.cos(k=M.PI*(j-i)/h),m=M.sin(k),o=e[j+h]*l+f[j+h]*m,p=-e[j+h]*m+f[j+h]*l,e[j+h]=e[j]-o,f[j+h]=f[j]-p,e[j]+=o,f[j]+=p}</code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 27<br><br>Here&#39;s yesterday&#39;s JS FFT golfed in 312b<br>Demo: <a href="https://t.co/vKDitiLawZ">https://t.co/vKDitiLawZ</a><br>(leaks vars M,h,i,j,k,l,m,n,o,p)<br><br>Based on this 359b FFT by <a href="https://twitter.com/antimatter15?ref_src=twsrc%5Etfw">@antimatter15</a>:<a href="https://t.co/VCNlgbJRlS">https://t.co/VCNlgbJRlS</a><br><br>Beats this &quot;140b FFT&quot; that requires ~550b of bootstrap code:<a href="https://t.co/MoEY2SzmZG">https://t.co/MoEY2SzmZG</a> <a href="https://t.co/7i2MXcWgSS">pic.twitter.com/7i2MXcWgSS</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1056221522237554688?ref_src=twsrc%5Etfw">27 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Days 28 & 29: Epic Cycles</h2>
+
+<img src="images/golfctober18/28.png">
+
+<p>Final throwback to JS1K 2017 with our 1kb epicycloid tracer
+<p><a href="https://js1k.com/2018-coins/demo/3124">PLAY</a>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 28<br><br>A 1KB interactive epicycloid editing/tracing app golfed with <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a> during last JS1K<br><br>Play: <a href="https://t.co/YGjUpfrP1I">https://t.co/YGjUpfrP1I</a><br><br>Making-of: <a href="https://t.co/8AS8xeikuq">https://t.co/8AS8xeikuq</a><br><br>Detailed source code: <a href="https://t.co/0JkD9eB4M7">https://t.co/0JkD9eB4M7</a> <a href="https://t.co/KepkiC9DqU">pic.twitter.com/KepkiC9DqU</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1056465925065596928?ref_src=twsrc%5Etfw">28 octobre 2018</a></blockquote>
+
+<p>The next day; we isolated the 1D DFT function from this entry (simpler than a FFT, but slower), and golfed it in 161b
+
+<pre><code class="lang-js">D=n=>{for(i in _=[],M=Math,n)for(k in _[i]=[0,0],n)b=M.cos(a=-2*k*M.PI*i/n.length),c=M.sin(a),_[i][0]+=n[k][0]*b-n[k][1]*c,_[i][1]+=n[k][1]*b+n[k][0]*c;return _}</code></pre>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 29<br><br>To save bytes, EpicCycles wasn&#39;t using FFT but DFT<br>Here&#39;s the smallest (161b) DFT in JS golfed w/ <a href="https://twitter.com/BalintCsala?ref_src=twsrc%5Etfw">@BalintCsala</a>:<br>(it works on a 2D array and leaks vars _,a,b,c)<br><br>Demo: <a href="https://t.co/xm4AMF3J6o">https://t.co/xm4AMF3J6o</a><br>Tweet: <a href="https://t.co/z1k8zOzSoW">https://t.co/z1k8zOzSoW</a><br>Based on: <a href="https://t.co/tDzh46b0TW">https://t.co/tDzh46b0TW</a> <a href="https://t.co/mSgub2Tisf">pic.twitter.com/mSgub2Tisf</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1056814095582851072?ref_src=twsrc%5Etfw">29 octobre 2018</a></blockquote>
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Day 31: Mini Peach Castle</h2>
+
+<img src="images/golfctober18/31.png">
+
+<p>The first sneak peek of my WIP entry for JS1K 2019: Mario 64's Peach Castle, as complete as possible, in 1kb, and rendered with HTML and CSS3D. More details soon!
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/codegolfctober?src=hash&amp;ref_src=twsrc%5Etfw">#codegolfctober</a> day 31<br><br>A super hacky prototype of JS1K 2019 entry containing Peach Castle (from Mario 64) rendered in CSS3D and emoji, in 1026 bytes (minified and regpacked)...<br>and 3330 bytes before regpack.<br><br>Demo: <a href="https://t.co/iOkewmbPG3">https://t.co/iOkewmbPG3</a><br>(optimized for Windows + Chrome) <a href="https://t.co/aKOzuxnQS3">pic.twitter.com/aKOzuxnQS3</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1057689364111781888?ref_src=twsrc%5Etfw">31 octobre 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+</div>
+
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=mini2Dphysics>
+  <h2>Mini 2D physics</h2>
+	<h3>febuary 2019</h3>
+	<p>A tiny 2D physics engine made in JS, featuring circles and rectangles.
+  <p>Inspired by <a href="">this book</a> and the corresponding <a href="">source code</a>.
+  <p>My goal was to make it as short as possible but still readable and hackable by anyone, to add features for example.
+  <p>It weighs 1.57kb minified and zipped.
+  <p>
+  <p>- <a href="https://github.com/xem/mini2Dphysics">Github</a>
+  <p>- <a href="https://github.com/xem/mini2Dphysics/blob/gh-pages/index.html">Commented source code</a>
+  <p>- <a href="https://xem.github.io/mini2Dphysics/">Demo</a>
+  <p>- <a href="emojysics.html">emojysics JS1k entry</a> based on this project
+  
+  <pre><code class="lang-js">t=(r,a)=>({x:r,y:a}),M=r=>h(r,r)**.5,o=(r,a)=>t(r.x+a.x,r.y+a.y),n=(r,a)=>o(r,e(a,-1)),e=(r,a)=>t(r.x*a,r.y*a),h=(r,a)=>r.x*a.x+r.y*a.y,f=(r,a)=>r.x*a.y-r.y*a.x,v=(r,a,M,o=r.x-a.x,n=r.y-a.y)=>t(o*Math.cos(M)-n*Math.sin(M)+a.x,o*Math.sin(M)+n*Math.cos(M)+a.y),i=r=>e(r,1/(M(r)||1)),y=t(0,100),N=[],x={},B={},d={},m=(r,a,t,M)=>{r.D=a,r.N=t,r.S=M,r.E=o(M,e(t,a))},s=(r,a,M,o,n,e,h,f,v)=>(v={T:n,C:r,F:M,R:o,M:a?1/a:0,V:t(0,0),A:a?y:t(0,0),G:0,v:0,a:0,B:e,W:h,H:f,I:n?(Math.hypot(h,f),a>0?1/(a*(h**2+f**2)/12):0):a>0?a*e**2/12:0,N:[],X:[t(r.x-h/2,r.y-f/2),t(r.x+h/2,r.y-f/2),t(r.x+h/2,r.y+f/2),t(r.x-h/2,r.y+f/2)]},n&&T(v),N.push(v),v),C=(r,a,t)=>{if(r.C=o(r.C,a),r.T)for(t=4;t--;)r.X[t]=o(r.X[t],a)},X=(r,a,t)=>{if(r.G+=a,r.T){for(t=4;t--;)r.X[t]=v(r.X[t],r.C,a);T(r)}},V=(r,a)=>M(n(a.C,r.C))<=r.B+a.B,T=(r,a)=>{for(a=4;a--;)r.N[a]=i(n(r.X[(a+1)%4],r.X[(a+2)%4]))},l=(r,a,t)=>{var M,f,v,i,y,N,x=1e9,B=-1,d=1;for(f=4;d&&f--;){M=r.N[f];var c,s,C=e(M,-1),X=r.X[f];for(N=-1e9,y=-1,v=4;v--;)c=n(a.X[v],X),(s=h(c,C))>0&&s>N&&(y=a.X[v],N=s);(d=-1!==y)&&N<x&&(x=N,B=f,i=y)}return d&&m(t,x,r.N[B],o(i,e(r.N[B],x))),d},I=(r,a,t)=>{if(!r.T&&!a.T){var f=n(a.C,r.C),v=r.B+a.B,y=M(f);if(y<=Math.sqrt(v*v)){var N=i(e(f,-1)),c=e(N,a.B);m(x,v-y,i(f),o(a.C,c))}return 1}if(r.T&&a.T){var s,C=0;return(s=l(r,a,B))&&(C=l(a,r,d))&&(B.D<d.D?m(x,B.D,B.N,n(B.S,e(B.N,B.D))):m(x,d.D,e(d.N,-1),d.S)),s&&C}if(!r.T&&a.T&&([r,a]=[a,r]),r.T&&!a.T){var X,V,T,I,u,D,S=1,g=-1e9,E=0;for(X=4;X--;){if(T=a.C,V=n(T,r.X[X]),(I=h(V,r.N[X]))>0){g=I,E=X,S=0;break}I>g&&(g=I,E=X)}if(S)m(x,a.B-g,r.N[E],n(T,e(r.N[E],a.B)));else{var R=n(T,r.X[E]),k=n(r.X[(E+1)%4],r.X[E]),p=h(R,k);if(p<0){if((u=M(R))>a.B)return;D=i(R),m(x,a.B-u,D,o(T,e(D,-a.B)))}else if(R=n(T,r.X[(E+1)%4]),k=e(k,-1),(p=h(R,k))<0){if((u=M(R))>a.B)return;D=i(R),m(x,a.B-u,D,o(T,e(D,-a.B)))}else{if(!(g<a.B))return;m(x,a.B-g,r.N[E],n(T,e(r.N[E],a.B)))}}return 1}},u=(r,a,M)=>{if(r.M||a.M){var v=M.D/(r.M+a.M)*.8,y=e(M.N,v),N=M.N;C(r,e(y,-r.M)),C(a,e(y,a.M));var x=e(M.S,a.M/(r.M+a.M)),B=e(M.E,r.M/(r.M+a.M)),d=o(x,B),m=n(d,r.C),c=n(d,a.C),s=o(r.V,t(-1*r.v*m.y,r.v*m.x)),X=o(a.V,t(-1*a.v*c.y,a.v*c.x)),V=n(X,s),T=h(V,N);if(!(T>0)){var l=Math.min(r.R,a.R),I=Math.min(r.F,a.F),u=f(m,N),D=f(c,N),S=-(1+l)*T/(r.M+a.M+u*u*r.I+D*D*a.I),g=e(N,S);r.V=n(r.V,e(g,r.M)),a.V=o(a.V,e(g,a.M)),r.v-=u*S*r.I,a.v+=D*S*a.I;var E=e(i(n(V,e(N,h(V,N)))),-1),R=f(m,E),k=f(c,E),p=-(1+l)*h(V,E)*I/(r.M+a.M+R*R*r.I+k*k*a.I);p>S&&(p=S),g=e(E,p),r.V=n(r.V,e(g,r.M)),a.V=o(a.V,e(g,a.M)),r.v-=R*p*r.I,a.v+=k*p*a.I}}};setInterval((r,t,M)=>{for(a.width^=0,M=9;M--;)for(r=N.length;r--;)for(t=N.length;t-->r;)V(N[r],N[t])&&I(N[r],N[t])&&(h(x.N,n(N[t].C,N[r].C))<0&&(x={D:x.D,N:e(x.N,-1),S:x.E,E:x.S}),u(N[r],N[t],x));for(r=N.length;r--;)c.save(),c.translate(N[r].C.x,N[r].C.y),c.rotate(N[r].G),N[r].T?c.strokeRect(-N[r].W/2,-N[r].H/2,N[r].W,N[r].H):(c.beginPath(),c.arc(0,0,N[r].B,0,7),c.lineTo(0,0),c.closePath(),c.stroke()),c.restore(),N[r].V=o(N[r].V,e(N[r].A,1/60)),C(N[r],e(N[r].V,1/60)),N[r].v+=1*N[r].a/60,X(N[r],1*N[r].v/60)},16);var D=(r,a,t,M,o)=>s(r,t,M,o,0,a),S=(r,a,t,M,o,n)=>s(r,M,o,n,1,Math.hypot(a,t)/2,a,t)</code></pre>
+  
+  <p><hr>
+  <p>
+    <iframe src="https://xem.github.io/mini2Dphysics/" height=500></iframe>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

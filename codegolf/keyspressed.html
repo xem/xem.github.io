@@ -1,0 +1,69 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=keypressed>
+	<h2>Keys pressed</h2>
+	<h3>september to december 2013</h3>
+	<p>A way to know at any moment if a key is being pressed, in just 60 bytes.</p>
+	<pre><code class="lang-js">k={};onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5]}</code></pre>
+	<p>
+    To use it, all you have to do is choosing "n" - a keycode - and test k[n]. This is true when the corresponding key is pressed, and false when it's not pressed anymore.
+    <br>
+    (If it has never been pressed, k[n] will be undefined, which is considered false in a test.)
+    <br>
+    <button onclick="source_touchesfoncees.style.display='block';this.style.display='none'">See the source code</button>
+  <br>
+  <pre id=source_touchesfoncees style="display:none"><code class="lang-js">// Initialize the global k (the array representing the keys currently pressed).
+// Also works with k = [].
+k = {};
+
+// Add two event handlers to the window object:
+// window.onkeydown and window.onkeyup.
+// They don't need the window prefix (it's implicit)
+// And they both get the same callback function
+onkeydown = onkeyup = function(e){
+
+  // On keydown, e.type == "keydown", and e.type[5] == "w" (truthy)
+  // On keyup, e.type == "keyup", and e.type[5] == undefined (falsy)
+  // !! converts e.type[5] to a boolean. It can be removed but it's a little dirtier.
+  k[e.keyCode] = !!e.type[5];
+
+}</code></pre>
+  <br>
+  <b>Demo:</b> Here is the state of k in real time. Press any key to make it change.
+    <script>
+      k=[];onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5];demo_touchesfoncees.innerHTML="k = ["+k+"]"}
+    </script>
+    <div class=demo><pre id=demo_touchesfoncees><code class="lang-js">k = [ ]</code></pre></div>
+  </p>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

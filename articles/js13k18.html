@@ -1,0 +1,854 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=js13k18>
+<h2>JS13kGames 2018</h2>
+<h3>august-september 2018</h3>
+
+<br>
+<hr>
+<br>
+
+<h3>Intro</h3>
+
+<p><img src="images/js13k18/intro.png">
+
+<p>During this compo, I challenged myself to develop three games:
+<br>a sequel to my 2015 entry <b>Geoquiz</b>,
+<br>a reboot of the puzzle game <b>envelope</b>
+<br>and a funambulism VR mini-game called <b>Man on Wire</b>.
+
+<p>The development of these games is detailed below.
+
+<br>
+<br>
+<hr>
+<br>
+
+<p><b>TL;DR:</b>
+
+<p>
+<ul>
+<li>GeoQuiz 2 is playable <a href="http://js13kgames.com/entries/geoquiz-2">HERE</a> (source code <a href="//github.com/xem/geoquiz2">HERE</a>)
+<li>Envelope is playable <a href="http://js13kgames.com/entries/envelope">HERE</a> (source code <a href="//github.com/xem/envelope">HERE</a>)
+<li>Man on Wire is playable <a href="http://js13kgames.com/entries/man-on-wire">HERE</a> (source code <a href="//github.com/xem/funambule">HERE</a>)
+<li>Tools developed during this compo (I didn't use  all of them):
+<br>- <a href="https://github.com/xem/js13k-path">js13k-path</a>
+<br>- <a href="https://xem.github.io/int2binary2html/">int2binary2html</a>
+<br>- <a href="https://xem.github.io/miniMusic/simple.html">MiniMusic v2</a>
+<br>- <a href="https://xem.github.io/miniPixelArt/">MiniPixelArt</a> <br>- <a href=" https://github.com/xem/twemoji-webfont">twemoji-webfont</a>
+<br>- <a href="https://codepen.io/xem/pen/OoXpmM?editors=1000">SVGenerator</a>
+<br>- <a href="//github.com/xem/CSS3D">CSS3D</a>
+<br>- <a href="//github.com/xem/gyro">Gyro</a>
+<br>- <a href="https://xem.github.io/terser-online/">Terser-online</a>
+</ul>
+<p>Results:
+<ul>
+<li>Geoquiz 2 was ranked 18th on mobile, 80th on desktop, and 16th in the community vote
+<li>Envelope was ranked 6th on mobile, 45th on desktop, ad 48th in the community vote
+<li>Man on Wire was ranked 13th on WebXR and 48th in the community vote
+</ul>
+
+<br>
+<br>
+<hr>
+<br>
+
+<style>
+blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radius: 5px; padding: 0 10px 10px; }
+</style>
+
+<h2>Geoquiz 2</h2>
+
+<h4>Before the compo</h4>
+<p>This summer, I thought about my 2015 entry <a href="archive.html#js13k2015">Geoquiz</a>... especially its World map:
+<p><img src="images/js13k18/0.png">
+<p>- All the map data was stored in a binary file aside index.html, and requested with an XHR call.
+<br>- All the polygons were traced from a starting point (encoded on 2 bytes, one for X and one for Y) and for each new point, a pair of tiny, signed X and Y offsets was encoded on 1 byte (4 bits for each offset).
+<br>- The game's zip was 11.9kb (5.3kb for the binary file, 3.2kb for all the places' names and 3.4kb for the code and the music)
+<br>- I could have used the free space to redraw the map with more details and less gaps between the countries, but never found the time or motivation to do it.
+
+<p>... Anyway, I wondered if this entry could have been optimized even more.
+<p>I first tried converting the binary file to base64 and placing it directly inside index.html. The zip instantly lost nearly 200 bytes, and the XHR call wasn't necessary anymore!
+<p><b>Kids, if you need to save bytes for js13k, put all all your code and assets (images, sounds, binary, ...) inside index.html!</b>
+<p>I also recompressed the entry with <a href="https://www.advancemame.it/download">AdvanceComp</a>'s tool advzip, which removed another few hundred bytes (the total was around 11kb).
+<p><b>Kids, always recompress your entries with advzip!</b>
+<p>For the record, the magic command line is: <span style="font-family:courier">.\advzip.exe -z -4 -i 1000 .\entry.zip</span></b>
+<br>(if you need to squeeze a few extra bytes, replace 1000 by a bigger number, like 50000, but it'll take more time to process.)
+<p>Then I imagined using "polar offsets" instead of X/Y offsets for each new point of a polygon, and tried keeping the total under 7 bits (to encode each point in an ASCII char) by using 3 bits for angle and 4 bits for distance.
+<p>Here's a test with the Brazil, encoded on 38 chars, then reduced to 21 chars (for the record, it took 74 bytes in my 2015 entry):
+<p><img src="images/js13k18/1.png">
+<p>It was pretty cool, but not comfortable to draw: there was too few freedom for the angles (only 8 possible values), and the result was visibly degraded because of this limit.
+<p>So I changed that, and instead, used 4 bits for the angle and 3 bits for the distance.
+<p>This lead to the release of my tool: <a href="http://xem.github.io/js13k-path/">js13k-path</a>
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> path tracer v0.2:<br>- The canvas can be as big as 2048px * 1024px<br>- The first point of the path is encoded on 3 ASCII chars<br>- each new point is encoded on 1 ASCII char (4 bits for angle, 3 bits for distance, distance is a multiple of 4 between 4 and 32) <a href="https://t.co/xn09Ve4jpa">pic.twitter.com/xn09Ve4jpa</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1011667171431378944?ref_src=twsrc%5Etfw">26 juin 2018</a></blockquote>
+
+
+<p>As you can see in this tweet, at first, I encoded the start coordinates on 3 ASCII chars (11 bits for X and 10 bits for Y), but it was unnecessarily complicated. Instead, I encoded each coordinate on 1 byte (i.e. a number ranging from 0 to 255), and converted them in characters like the rest of the polygons.
+<br>Problem: if they were converted to (UTF-8) chars like the rest of the polygons, every value higher than 127 would bacome a non-ASCII char and take 2 bytes, which is not optimal!
+<br>Solution: either use a binary file, or encode all chars in another encoding, like Latin-1!
+
+<p>So I unearthed some compression tricks I had seen and used before (in <a href="http://codegolf.github.io/zpng/">Zpng</a> and <a href="http://xem.github.io/JSciissors/">JSciissors</a>), and I worked on a tool allowing to easily store binary code directly inside index.html. I came up with 3 different solutions, and I compiled them in a single tool: <a href="https://xem.github.io/int2binary2html/">int2binary2html</a>
+
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">🚀New tool for <a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> 2018:<br><br>𝗶𝗻𝘁𝟮𝗯𝗶𝗻𝟮𝗵𝘁𝗺𝗹<a href="https://t.co/ykXvORLC9T">https://t.co/ykXvORLC9T</a><br><br>Wanna use a lot of byte-size numbers in your game?<br>Store them in binary directly inside your index.html<br>This app proposes 3 different approaches to retrieve them:<br>Self-XHR, Latin-1 string &amp; Base64 <a href="https://t.co/fNke3UYEAI">pic.twitter.com/fNke3UYEAI</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1024628879959511040?ref_src=twsrc%5Etfw">1 août 2018</a></blockquote>
+
+
+<p>In my case, the "Latin-1" approach seemed to be the best solution to store such an amount of data, especially if I reduce to the minimum the use of chars that need to be escaped, like '\0', '\r', '\\' and "`".
+
+<p>To test the js13k-path and int2binary2html tools together, I drew a detailed USA map.
+<p>The 50 polygons (and some islands) amounted to 751 bytes of polygon data.
+<br>For comparison, the USA map in Geoquiz used 943 bytes of polygon data and didn't even include the biggest part of Alaska.
+<p><img src="images/js13k18/2.png">
+<p>Then I redrew it two more times, with less and less points, to save as many bytes as possible, while keeping every US state recognizable (it can seem crazy but it's actually pretty fun to "golf" polygons!).
+<p><img src="images/js13k18/3.png">
+<p>These iterations reduced the polygon data down to 439 and 416 bytes, respectively. (<a href="https://codepen.io/xem/pen/VBBmQm">LIVE DEMO</a>)
+
+<br>
+
+<p>Thanks to <b>@innovati</b> and <b>@alternative451</b> for their support and feedback during these tests!
+
+<br>
+
+<p>I also updated my MiniMusic tool with the help of <b>@d_nghia</b>, but we'll talk about it later!
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> starts tomorrow!<br><br>Time to update my 2017 tool MiniMusic!<a href="https://t.co/KeiphbXzXM">https://t.co/KeiphbXzXM</a><br><br>The editor now has a keyboard on the left, a functioning tempo field, and (FINALLY) no more &quot;clicking noises&quot; between each note, thanks to a new algorithm!<br><br>Thx <a href="https://twitter.com/d_nghia?ref_src=twsrc%5Etfw">@d_nghia</a> for his help! <a href="https://t.co/WTmSSNlmGw">pic.twitter.com/WTmSSNlmGw</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1028728946064584714?ref_src=twsrc%5Etfw">12 août 2018</a></blockquote>
+
+
+<p>At least, this update of MiniMusic was appreciated!
+<p><img src="images/js13k18/xem.png" style="border:1px solid">
+
+<br>
+<h1>~~~</h1>
+<h4>During the compo</h4>
+
+<p>I decided to use these new tracing techniques in a new Geoquiz game. A bigger and better game than the original!
+<br>Regarding the theme "offline", I'll try to do something involving being really offline to play the game.
+
+<p>So I put together a big world map by overlapping a public domain HD image showing all countries and capitals (the one I used for my Brazil test), and a map of the USA states ripped from Bing Maps... (because Google Maps replaced its Mercator projection with a goddamn 3D globe!):
+
+<p><img src="images/js13k18/4.jpg">
+<br><a href="images/js13k18/map.jpg" download>Download</a> (8.6MB)
+
+<p>I also made a big database of everything that I thought could be featured in the game:
+<br>- The 590 items already present in Geoquiz 1: <b>Countries, Capitals, US states, US capitals</b> and <b>Famous places</b>.
+<br>- 9 new datasets: <b>Countries flags, Territories, Seas*, Lakes*, Streams*, Deserts*, Volcanoes*, Mountains*</b> and <b>Forests*</b>
+<br>(*not all of them, just the biggest / most famous ones).
+<br>- And other sets that I didn't keep because they were less fun, too hard, or used too much extra space: Oceans, Continents, Cities, Tectonic plates, Oceanic trenches, Extreme points on Earth, Sovereign states flags / capitals, Disappeared countries (like USSR, Tchekoslovaquia or Zaïre), plus for each country: Main currency, Main language, Hymn, Name of inhabitants, Time zone, Current president/dictator, etc.
+
+<p>In total, the 14 sets I kept in the game represent 1124 questions (about twice the amount of questions present in Geoquiz!)... or 925 if we exclude flags. You can see each dataset in the entry's source code <a href="https://github.com/xem/geoquiz2/blob/gh-pages/temp.txt">HERE</a>. I also ordered each set by increasing difficulty (which is, of course, very subjective).
+
+<p>I edited my js13k-path tool to let me easily draw each item on the world map (stretched down to 2048x1024px), while avoiding all the chars that need to be escaped, and export everything as an array of numbers, ready to be fed to my other tool int2binary2html. You can try this editor <a href="https://xem.github.io/geoquiz2/editor.html">HERE</a>.
+
+<p><img src="images/js13k18/5.png">
+
+<p>It took me a few days to find the right settings and to draw everything as optimized as possible, in order to fit in my budget (around 10.5kb for all the names and the map data, the rest will be used by the title screen, the game's code and the music.)
+<br>I first reused my USA map experiment from before the compo, but ended up redrawing all the countries to let them be nicely aligned with with Canada and Mexico (and with each other).
+
+<p>Anyway, here are the 199 countries, 50 US states and 52 other territories.
+<br>Total size: 12kb uncompressed, and 6.74kb zipped (including 2.99kb of names, capitols and country code used to produce emoji flags).
+<br>That's much better than Geoquiz's map, right?
+<br>Note: contrary to Geoquiz 1 , the World map and the US map are now drawn on the same screen, but with two different levels of detail in order to make the USA zoomable without losing too much quality.
+<p><img src="images/js13k18/6.png">
+
+<p>Fast-forward a few days of drawing, and here are the 26 lakes, 76 streams, 24 deserts, 19 forests, 25 volcanoes, 37 mountains and 95 famous places. (total size: 19.3kb uncompressed, and 10.0kb zipped! Pretty unbelievable!)
+
+<p><img src="images/js13k18/7.png">
+
+<p>Here's all the data used to make this image, concatenated in the same text file. You can notice that all the names take more bytes than the actual paths (13kb vs 6.3kb), but they also compress much better, because words written with a 26-letter alphabet have much less entropy than random-ish bytes).
+
+<p><img src="images/js13k18/8.png">
+
+<p>For the record, the streams data is nearly 1kb bigger than the US map's data!<br>But that's quite normal: streams use more points than US states on average, and there are 76 of them!
+
+<p>For the final dataset (the 77 seas) I decided to not draw them using polygons, but use circles instead, which allowed to encode each sea on 3 bytes (2 bytes for the center's X and Y, and 1 byte for the radius). The sea editor can be tested <a href="https://xem.github.io/geoquiz2/seaeditor.html">HERE</a>.
+
+<p><img src="images/js13k18/9.png">
+
+<p>Total size (for the 14 datasets): 10.6kb zipped. Yay! That fits my data budget! (...give or take 100 bytes)
+
+<p><b>Organizing the data</b>
+
+<p>The names of the items in each category are concatenated in CamelCase and retrieved using a regex. For example the places:
+
+<pre><code class="lang-js">places = `Cape canaveralChrist the redeemerGreat wall of chinaSphinxEiffel towerPisa towerSagrada familiaBig ben...`.split(/(?=[A-Z])/)
+
+// ["Cape canaveral", "Christ the redeemer", "Great wall of china", "Sphinx","Eiffel tower", "Pisa tower", "Sagrada familia", "Big ben", ...]</code></pre>
+
+<p>The binary data is also concatenated.
+<br>When it represents fixed-size items like places (encoded on 2 bytes), it looks like this: 
+
+<pre><code class="lang-js">places_binary = `HacªÓN—]‚?ˆG‚K€9LMÓN...`.match(/.{2}/g);
+
+// ["Ha", "cª", "ÓN", "—]", "‚?", "ˆG", "‚K", "€9", "LM", "ÓN", ...]</code></pre>
+
+<p>When the data represents polygons (countries, US states, territories, forests, deserts or lakes), the "reserved" character (i.e. not present in the rest of the data) "DEL" (U+127) is used to separate islands, while ~ (U+126), also reserved, is used to separate items.
+<br>For items with capitals (countries and US states), the capital coordinates are placed at the beginning of each item. For example, the US states and capitals are encoded like this:
+
+<pre><code class="lang-js">us_binary = `0X“P)~+=&OOWMrUsbW\na})>K9;Zx/PAHS8p~7X5Ur+~9l:eKjzs	+X=~:k:k},M~GrJpMm\n\n~\\}X}sa:2Q~WhYclY;0~]i[k*ia~hghg(...`.split`~`,
+
+// ["0X“P)", "+=&OOWMrUsbW↵a})>K9;Zx/PAHS8p", "7X5Ur+", "9l:eKjzs	+X=", ":k:k},M", "GrJpMm↵↵", "\}X}sa:2Q", "WhYclY;0", "]i[k*ia", "hghg(", ...]</code></pre>
+
+<p>The second US state of this list (Alaska) is encoded like this:
+
+<p><img src="images/js13k18/alaska.png" style="border:1px solid">
+
+<p>Now it's time to code!
+
+<p><b>Title screen</b>
+
+<p>No rotating globe on the title screen this year (this globe took me too many bytes and hours in 2015).
+<br>Just a fixed screen and some emoji for the graphics.
+<br>For some reason, on Android, the game page needs to be reloaded in order to see the right font on the title screen.
+<br>This screen uses ~300bytes of code.
+<br>PS: in the source code <a href="https://github.com/xem/geoquiz2/blob/gh-pages/old5/game.html#L443-L470">HERE</a>, all the emoji are escaped as HTML entities because the file is encoded in Latin-1, where only ASCII and 127 other latin chars are allowed.
+
+<p><img src="images/js13k18/10.png" width=500>
+
+<p><b>Responsive canvas</b>
+
+<p>That feature was missing in the first game: a canvas that resizes depending on your screen size.
+<br>This is always boring to do because all mouse/finger coordinates have to be translated to canvas coordinates, which is not doable natively.
+<br>Here's the shortest coordinate converter I managed to do (for a 1024 x 768px canvas):
+<pre><code class="lang-css"><b>/* CSS */</b>
+canvas { max-width: calc(100vh * 1.35) }
+</code></pre>
+
+<p>Note: 1.35 is the canvas ratio: 1024/768.
+<br>Also, to save a few bytes, the max-width can be simplified to "135vh"!
+
+<pre><code class="lang-js"><b>/* JS */</b>
+
+xy = function(e){
+  w = a.offsetWidth;
+  
+  // mobile
+  if(e.changedTouches){
+    x = e.changedTouches[0].pageX * 1024 / w;
+    y = e.changedTouches[0].pageY * 1024 / w;
+  }
+  
+  // desktop
+  else{
+    x = e.pageX * 1024 / w;
+    y = e.pageY * 1024 / w;
+  }
+}
+
+onmouseup = function(e){
+  xy(); // saves the pointer coordinates in the vars x and y
+}
+</code></pre>
+
+<p><b>The flags problem</b>
+
+<p>It's 2018 and Windows 10 still has zero support for Emoji country flags, Linux may support them in some distros (but as far as I know, it doesn't), while MacOS, iOS and Android support them fine.
+<p>But this time, it won't stop me from adding a flags quiz in the game! At least, for the countries.
+<br>I negotiated with <b>@end3r</b> the right to live-load an emoji web font on OS's that don't support them, as long as the game can work without them and the player agrees.
+<p><img src="images/js13k18/font.png">
+
+<p>This authorization was almost a poisoned gift, because it took me almost two entire days to find a solution that works on Windows 10's Firefox, Chrome and Edge.
+<br>
+You can read the detail in these two Twitter threads:
+
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Nightmare of the day (<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a>):<br><br>I wanted to load a color emoji webfont, and draw emoji (especially flags but not only) on a canvas, on Windows browsers (because, of course, browsers can&#39;t display flags natively on Windows).<br><br>How hard could that be?<br><br>Thread 👇</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1030165022809448448?ref_src=twsrc%5Etfw">16 août 2018</a></blockquote>
+
+
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Web font vs. emoji flags, day 2! <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a><br>(Day 1: <a href="https://t.co/KC6GH80wVd">https://t.co/KC6GH80wVd</a>)<br>So if we load Twitter&#39;s twemoji.ttf and Google&#39;s NotoColorEmoji.ttf in cascade, we can display all 199 countries flags on Fx, and 198 flags on Chrome &amp; Edge, because Noto doesn&#39;t include Kosovo&#39;s flag.<br>(1/n) <a href="https://t.co/9BBk7DFK07">pic.twitter.com/9BBk7DFK07</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1030423890265354241?ref_src=twsrc%5Etfw">17 août 2018</a></blockquote>
+
+
+<p>But I'm happy with the result: all 199 countries flags (except Kosovo, that has never been included in Google's Noto Emoji font) can appear in the game!
+
+<p>I also made a dedicated tool to load these emoji fonts and ask the player's agreement according to the rules, you can find it <a href="https://xem.github.io/twemoji-webfont/">HERE</a>.
+
+Long story short, on Windows and Linux, the fonts Twemoji and Noto Color Emoji are hosted on my Github repo and loaded like this:
+
+<pre><code class="lang-css"><b>/* CSS */</b>
+@font-face{font-family:f;src:url(//xem.github.io/geoquiz2/n.ttf),url(//xem.github.io/geoquiz2/t.ttf)}
+</code></pre>
+
+<pre><code class="lang-js"><b>/* JS */</b>
+if(WindowsorLinux){
+  body.style.fontFamily = `f`;
+}
+</code></pre>
+
+<p><b>Game modes</b>
+
+<p>In Geoquiz 1, there was only one game mode, 13 levels of increasing difficulty, with 10 questions and a 30,000km error counter in each level.
+<br>When the error counter reached 0, the game was over. This was nice, but it could also be quite frustrating because the last levels were pretty difficult to reach without restarting the game a few times.
+<p>This time, there won't be any levels. All the datasets will be accessible at the same time and picked randomly, while the difficulty will progressively increase.
+<br>Also, I'll let the player choose between two modes, the "Least error" mode similar to the first game, and the new "Highest score" mode where a list of questions is asked entirely, and at the end, the player receives a score.
+
+<p>Here's the menu flow so far (the visuals are not definitive):
+
+<p><img src="images/js13k18/11.png">
+
+<p><b>Size check n°1</b>
+
+<p>Let's check if we're still on the 13kb track...
+
+<p>The code I've written so far use 1.9kb (minified and zipped)
+<p>And if I add all the data at the beginning of index.html, the total is 12.3kb!
+<p>Let's use the remaining space to ask the questions, draw the map(s), implement the gameplay, display the scores and play some music!
+<br>I'm not sure how I'll do it but it looks like every byte will count!
+
+<p><b>Questions</b>
+
+<p>Picking and asking the questions to the player was much less easy than it sounds.
+<br>For the visuals, I went with a full black screen and a sentence stating the item category and its name.
+<br>If flags are enabled, they will be drawn as big emoji instead of writing a country name.
+
+<p>For the picking, the game always start with a country, a capital and a place (to avoid getting a weird question at the beginning of the game, then the category is chosen randomly, but with 3 restrictions: 
+<br>1) There is a 30% chance to get a country, a capital or a place (the 3 biggest datasets) and 70% chance to get one of the 11 others sets.
+<br>2) As long as it's possible, the same category isn't picked twice in a row.
+<br>3) US states and capitals are not asked before the 20th question. These datasets are very hard for most players, and I decided to give them a bit of rest for the first questions.
+
+<p>All the sets are ordered by increasing difficulty, and all the questions are picked in the first 10 items not asked yet inside each dataset. The more you play, the harder it gets!
+
+
+<p>Here's a video showing the 1123 questions present in Geoquiz 2. (visuals are not final)
+<p><iframe width="630" height="394" src="https://www.useloom.com/embed/83056e62189e4dddbd0d89e3ed486976" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+<br>Many tests and adjustments were necessary to ensure that there is always something to ask, and that no question is asked twice... however the same country can appear many times during a game: by its name, by its capital and by its flag. I suppose it won't matter very much given all the data and all the randomness there is.
+<br>I also had to convert ASCII country codes like "US" into Flag emoji and make sure that all the long names get written on two lines, which is never easy on a JS canvas (we can't use \r, \n or &lt;br>, we have to cut the string in two parts and call fillText() twice with different Y coordinates...
+<br>To split the names on two lines, I first used this regex: 
+
+<pre><code class="lang-js">nameparts = itemname.match(/.{1,15}( |$)/g);</code></pre>
+
+<br>The first line could take as long 1 to 15 chars + 1 space or 1 end-of-string, and the second line (if any) could take the remaining 1-15 chars + 1 end-of-string.
+<br>It worked fine, until the volcano <b>Eyjafjallajokull</b> popped up in the game.
+As there are no spaces, the regex only took the 15 last chars + the end-of-string, and the initial "E" was lost.
+<br>After a bit of thinking, I fixed it by replacing the 15 with a 16 in the regex. Good enough!
+
+
+<p><b>World map</b>
+
+<p>Here, I ran into a very weird and unexpected bug:
+<br>In my map editor, I drew the World map on a 2048*1024px canvas.
+<br>Though, in the game, I want to trace the map scaled down by a factor of 2, i.e. on a 1024*512px canvas (this is important in order to have better performance on slow PCs and mobiles), so I applied a "*.5" coefficient to every polygon's start coordinates and every polygon's distance between two points.
+<br>Pretty basic, eh? But this happened:
+
+<p><img src="images/js13k18/12.png">
+
+<p>These big holes appeared around some countries (especially on the right of the map), and some islands of Canada moved in crazy places, sometimes inland!
+<br>After an afternoon of debugging, I discovered that this was not exactly an error in my code.
+<br>All these problems were caused by JS floating-point errors piling up, getting bigger, point after point, when I divided each offset by 2.
+<br>The more points a polygon had, the more distorted it became, and that's why the problem is more visible in Canada, Russia and Asia (these countries are very large).
+<p>I thought I was condemned to render my game on a huge canvas, then it hit me!
+<br>Instead of dividing every offset by 2 inside the coordinates computation like this:
+<pre><code class="lang-js"><b>// Draw a polygon with a 0.5 scale (buggy)</b>
+c.beginPath();
+c.moveTo(x = startX/2, y = startY/2);
+for(i in points){
+  c.lineTo(
+    x = x + points[i].distance/2 * Math.cos(points[i].angle),
+    y = y + points[i].distance/2 * Math.sin(points[i].angle)
+  );
+}
+c.closePath();
+</code></pre>
+
+<p>The trick is to compute every point of the polygon as if it was in normal size, and only perform the downscale inside the moveTo() and lineTo() calls.
+
+<pre><code class="lang-js"><b>// Draw a polygon with a 0.5 scale (fixed)</b>
+c.beginPath();
+x = startX;
+y = startY;
+c.moveTo(x/2, y/2);
+for(i in points){
+  x = x + points[i].distance * Math.cos(points[i].angle);
+  y = y + points[i].distance * Math.sin(points[i].angle);
+  c.lineTo(x/2, y/2);
+}
+c.closePath();
+</code></pre>
+
+<p>The difference is very subtle, but it's enough to fix everything! Oof!
+
+<p><img src="images/js13k18/13.png">
+
+<p>After a couple days where I fixed some encoding issues and wrote a generic tracer for every kind of polygon in the game, I finally obtained this map, by layering a radial gradient background, the countries (in green - or white in the poles), the lakes (in blue), the forests (in transparent black), the deserts (in transparent white), and the streams (in blue, with a 0.5px line width).
+
+<p><img src="images/js13k18/14.png">
+
+<br>Deserts, forests and streams aren't entirely opaque to allow seeing the borders of all the countries below them.
+<br>The problem is that there are two forests that overlap (in Russia), and many deserts that overlap each other (in Australia, Asia and America). I'll redraw the deserts without overlaps during the final adjustments.
+
+<p><b>Size check n°2</b>
+
+<p>The zip is now 13.2kb.
+
+<p>Time to start worrying about my byte budget...
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">It&#39;s the first time I have such a hard byte budget for a <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> game!<br><br>Data: more than 1100 items, ~10.5kb zipped<br>Music: ~400b zipped<br>Title screen: ~400b zipped<br>Menus/final score: ~500b zipped<br>HTML+CSS: ~300b zipped<br>Quiz/map/gameplay: ~900b zipped<br><br>Why do I do this to myself? 😩</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1030907904642166784?ref_src=twsrc%5Etfw">18 août 2018</a></blockquote>
+
+
+<p>I spent almost a full week-end rewriting all my code as clean, simplified and optimized as possible. Didn't touch the data.
+<br>I also made all my JS vars local (by embedding all my code in a big onload() function) so they could be renamed by the minifier
+<br>As a result, the zip fell to 12.3kb! Let's go for the final sprint!
+
+<p><b>Gameplay</b>
+
+<p>The gameplay is the same for all the questions: the players click a place on the map, and see the distance between their click and the right answer.
+<p>I've improved this part compared to Geoquiz 1: now the distance is also measured offscreen! As shown in this image, the error is measured by taking into account the Earth's curvature, and the dotted line doesn't have to go all the way through America and Africa to reach Australia.
+
+<p><img src="images/js13k18/15.png">
+
+<p>Like in the first edition, a bunch of code was necessary to compute the shortest path from the click coordinates to each polygon (especially with this new "offscreen" measurement), and I had to add a special case for the seas (encoded as circles, and highlighted underneath the countries and islands).
+
+<p><img src="images/js13k18/16.png">
+
+<p>Also, when a question is about an US state or capital, the map is zoomed on the USA.
+
+<p><img src="images/js13k18/17.png">
+
+<p>There will be no upside-down maps this year. I had done that to respect the 2015 theme "reversed", and I thought it was original, but it was annoying for most players. But from time to time, the map will become black, to hide the borders and add a bit of challenge.
+
+<p><img src="images/js13k18/18.png">
+
+<p><b>Score</b>
+
+<p>The score screen is very simple, due to the tiny remaining byte budget.
+<br>In "high score" mode, every question receives a note on 100 (100% - 1% every second lost - 1% every 100km of error) and the mean of all notes is displayed.
+<br>In "minimum errors" mode, the score is the number of questions answered before reaching 50,000km.
+<br>The "share" button redirects on a dedicated page on my Github
+
+<p><img src="images/js13k18/19.png">
+
+<p><b>Music</b>
+
+<p>I spent all this development with a single music in my head, almost 24h/24: Animaniacs - Yakko's World
+
+<p><iframe width="1106" height="513" src="https://www.youtube.com/embed/x88Z5txBc7w" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+<p>So I naturally decided to use it in the game... so it gets stuck in YOUR heads too!
+<p>My musician friend <b>Nghia</b> drew the recurring part of the melody (plus the transition) inside my newly updated MiniMusic tool.
+
+<p><img src="images/js13k18/song.png">
+
+<br>The output code was pretty light, around 450 bytes.
+<br>Though, most of the size was used by an array of little numbers... A-HA! Are you thinking what I'm thinking?
+<p>I put these numbers inside <b>int2binary2html</b> and ended up having all the melody fitting in this little function.
+<br>
+
+<pre><code class="lang-js">music = function(){
+var audio = new AudioContext,
+gain = audio.createGain(),
+note,
+notes,
+oscillator;
+for(note in notes = `\n\n\n\n\n\n\n\n\n\n\ncccc\r\nccc\n\n\n\n\n\n\n\n\n\n\ncccc\nccc\n\n\n\r\nccc\nc\rcc`){
+  oscillator = audio.createOscillator(),
+  oscillator.connect(gain),
+  gain.connect(audio.destination);
+  oscillator.start(note * .2);
+  oscillator.frequency.setValueAtTime(415 * 1.06 ** (13 - notes.charCodeAt(note)), note * .2),
+  gain.gain.setValueAtTime(.5, note * .2); 
+  gain.gain.setTargetAtTime(.001, note * .2 + .18, .005)
+  oscillator.stop(note * .2 + .19);
+}
+}
+</code></pre>
+
+<br>(The string "notes" contains a lot of non-printable chars. It's actually 150 chars long)
+
+<p>Played in an infinite loop, this music only added 204 bytes into the game's zip! I can't afford a lot of free space, but I can definitely free up 204 bytes for an entire music!
+
+<p><a href="https://codepen.io/xem/pen/KBEBPM?editors=1012">Here's an experiment</a> where the theme gets is played a little higher and a little faster after the end of the loop. It sounded nice, but I didn't know how to keep it playing long enough without getting too high or too fast, so I didn't keep it.
+
+<p><b>Golfing</b>
+
+<p>After taking care of all the little details and cross-browser issues, the zip reached 14.1kb.
+
+<p>I spent another day golfing all my code and removing every superfluous text and decoration.
+
+<br>I also simplified many items names ("Czech republic" => "Czechia", "The pyramids of Giza" => "Giza pyramids", etc.)
+<br>Finally, as suggested on slack, I switched from babelJS to <a href="https://skalman.github.io/UglifyJS-online/">Uglify-ES</a> to minify my JS code, which saved me a little more than 200 bytes before gzip.
+<p>At the end of the first week of the compo, the game's code was complete, golfed, minified, and there were "just" 855 bytes to cut in order to make the zip pass the 13kb barrier.
+
+<p>For the record, the 199 countries and their capitals use 3218 bytes of binary data, so about 16 bytes per country.
+<br>Similarly, each US state and its capital take about 559/50 = 11 bytes, each territory about 284/50 = 6 bytes, each stream about 781/76 = 10 bytes, and each desert/forest about 8 bytes, while all the other datasets have a fixed amount of bytes per item (places, volcanoes, mountains: 2 bytes, seas: 3 bytes)
+
+<p>I took the (difficult) decision to redraw all the polygons of the game with a little less points.
+
+<p>First, the streams
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">So, with the music my zip is 855 bytes too large and the code can&#39;t be compressed any more.<br>It&#39;s time to use less data!<br>First, I let&#39;s re-trace all the streams with less details and without their affluents.<br>259 bytes saved! 596 to go.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/Htrm0ANxhY">pic.twitter.com/Htrm0ANxhY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1031811080786468865?ref_src=twsrc%5Etfw">21 août 2018</a></blockquote>
+
+<img src="images/js13k18/20.png">
+
+<p>Then, all the countries!
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">These extra bytes won&#39;t go away alone.<br>I&#39;m redrawing the entire World map, again.<br>I call this &quot;polygon golfing&quot;: the goal is to make a country polygon use less points, but keep it highly recognizable.<br>Sometimes, they even look better with less points!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/kZJCCfv4AB">pic.twitter.com/kZJCCfv4AB</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1031958419996127233?ref_src=twsrc%5Etfw">21 août 2018</a></blockquote>
+
+<p><img src="images/js13k18/21.png">
+
+<p>This tweet was liked by <b>Notch</b> himself! OMG.
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> polygon golfing:<br>- 199 countries redrawn<br>- 554 bytes saved<br>- Not really degraded visually<br>- The zip now weighs 13kb + 223 bytes<br>🤞 <a href="https://t.co/QwpiCuuDvi">pic.twitter.com/QwpiCuuDvi</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1032201527761543168?ref_src=twsrc%5Etfw">22 août 2018</a></blockquote>
+
+<p><img src="images/js13k18/22.png">
+
+
+<p>(I also saved a lot of bytes by not drawing the USA as a country, but instead, considering all the USA dataset as the answer to the question "USA")
+
+<img src="images/js13k18/23.png">
+
+<p>Then the territories...
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">After redrawing all the territories (like Greenland) and the deserts, the zip finally passed below 13kb, without having to remove any of the 1123 questions of the game!<br>Let&#39;s use the extra 19 bytes for a final mini feature!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/WZuIYvPDUC">pic.twitter.com/WZuIYvPDUC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1032240997831503872?ref_src=twsrc%5Etfw">22 août 2018</a></blockquote>
+
+
+<p>At this point, the zip was finally below 13kb. But the first beta testers requested some extra features, so I also re-drew all the USA (a fifth time!)
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">In the meantime, I re-drew all the USA map, with better borders and more accuracy on the west coast, and somehow 35 bytes smaller!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/7jgfZbthNx">pic.twitter.com/7jgfZbthNx</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1032330531340476417?ref_src=twsrc%5Etfw">22 août 2018</a></blockquote>
+
+<p><img src="images/js13k18/25.png">
+
+<p><b>The big latin-1 fright</b>
+
+<p>I pushed my game on Github to let some testers try it, and they sent me this screenshot: 
+
+<p><img src="images/js13k18/26.png">
+
+<p>All the map was broken! At first I thought it only happened on MacOS, but when I visited <a href="https://xem.github.io/geoquiz2/game.html">the same URL</a> on Windows I had the same problem. Whaaaaat?!
+
+<p>Turns out, my HTML page contains a "&lt;meta charset=iso-8859-1>" to "force" the content to be parsed as latin-1, and this works fine locally. But Github pages enforces UTF-8 parsing through HTTP headers, and HTTP headers are stronger than the charset meta tag. 
+<br>If it's read as an UTF-8 string, almost all my data is corrupted! I was really panicked at this moment.
+<p>But <b>End3r</b> kindly agreed to upload my game on js13kgames' server so we could see if it enforced UTF-8 too, and by chance, it didn't! Oof again!
+
+<p><b>Last minute features</b>
+
+<p>My testers mainly asked two things: they wanted less clicks between the questions, and they wanted me to reintroduce a time limit for each question, like in the first game.
+
+<p>I solved both problems by introducing a little game loop in the game. This loop executes 30 times per second and only acts under certain conditions, to avoid forcing on the CPU.
+
+<br>On the map screen, it decrements a 20-second timer and shows a progress bar.
+
+<p><img src="images/js13k18/timer.gif">
+
+<br>Geoquiz 1 was super slow on mobile because all the map was redrawn at each frame. I avoided it this time:
+
+<br>At each frame, a new yellow rectangle is drawn on top of the last one, so the whole screen - including the map - doesn't need to be re-rendered every time
+
+<p>And on the feedback screen, another 3-second timer is used to move automatically to the next question.
+
+<p><b>The final bytes</b>
+
+<p>After another day of golfing, I was just 16 bytes over the budget, and had no more ideas to make everything fit.
+<p>I decided to remove 3 hard questions from the game:
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">After an intense golfing session, I finally managed to add a time limit, automatic screen transitions and many other enhancements in 13kb+16b.<br>I removed 3 (too hard) questions to reduce it to exactly 13kb.<br>So... Geoquiz 2 will have 1120 questions instead of 1123! 🤷‍♂️<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/2KQcAt8QFc">pic.twitter.com/2KQcAt8QFc</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1033373016321867777?ref_src=twsrc%5Etfw">25 août 2018</a></blockquote>
+
+<p>... and release it like that, at the middle of the jam.
+<br>(A mini-update was released a bit later, to fix some typos and  better cross-browser support).
+
+<p><b>Some interesting numbers</b>
+
+<p>In its final version, Geoquiz 2 represents:
+<br>- 13 days of development (half the dev time of Geoquiz 1, even though it's twice bigger)
+<br>- Only one, 1230-line <a href="https://github.com/xem/geoquiz2/blob/gh-pages/game.html">commented source file</a>.
+<br>- 33kb of <a href="https://github.com/xem/geoquiz2/blob/gh-pages/temp.txt">raw data</a> (before binary packing and names concatenation)
+<br>- Before gzip: 4948 bytes of map data, 9911 bytes of items names, 431 bytes of HTML/CSS and 6403 bytes of JS code. (<a href="https://github.com/xem/geoquiz2/blob/gh-pages/index.html">total: 21.9kb</a>)
+<br>- 14.0kb zipped
+<br>- 13kb + 10 bytes after using Advzip with the default settings
+<br>- 13.00kb after using Advzip with 100000 passes (the process takes several minutes)
+
+<p><b>How about the theme?</b>
+
+<p>To respect the theme "offline", I kinda made an "offline" version of my game by drawing and painting a World map on my room's wall.
+
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">I know it&#39;s very late, but as promised in my <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> 2018 making-of, my game <a href="https://twitter.com/hashtag/Geoquiz2?src=hash&amp;ref_src=twsrc%5Etfw">#Geoquiz2</a> has sort of an offline version, in my bedroom ! 🗺️<br>This is just the continents outline, but two black markers have died in the process. Colors soon !<br>(I foired Indonesia &amp; Australia 😩) <a href="https://t.co/qZXEeD1DNS">pic.twitter.com/qZXEeD1DNS</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1046020159926947841?ref_src=twsrc%5Etfw">29 septembre 2018</a></blockquote>
+
+<p><img src="images/js13k18/room.jpg">
+
+<br>
+<br>
+<hr>
+<br>
+
+<h2>Envelope</h2>
+
+<p>A friend of mine, <b>Olivier</b> wanted to remake <a href="https://appadvice.com/app/envelope-hd/562759664">envelope</a> (<a href="https://www.youtube.com/watch?v=KgJ86w9_cmg">trailer</a>), an iPad puzzle game he created in 2012, which is no longer present on the App Store.
+
+<p><img src="images/js13k18/ipad.png">
+
+<br>We had successfully prototyped it earlier this year...
+
+<p><img src="images/js13k18/proto.png">
+
+<br>... but didn't go any further.
+
+<br>Time to reboot it, in JS and in 13k!
+<p>The gameplay consists in modeling a network of lines to match a shape, so it fits the theme pretty well.
+<p>By the way, the original game had more than 50 levels, but this entry will be a free demo for an App Store re-release, and will only contain a selection of 12 levels.
+
+<p><b>The assets</b>
+
+<p>First, I wondered how I could imitate a wood texture within 13kb (for the game's background and shapes).
+<br>Procedural generation? Maybe, but that would take a lot of time.
+<br>Vector images? The best free svg wood textures I found online are <a href="https://openclipart.org/detail/240277/wood-texture">these ones</a> (12kb each):
+
+<p><img src="images/js13k18/a1.svg" width="49%"> <img src="images/js13k18/a2.svg" width="49%">
+
+<p>They're basically the same but with two different pairs of colors (#96642c + #8c5829 and #76440c + #6c3809)
+<br>So I wondered if I could generate SVG images on-the-fly with custom palettes, which lead to the creation of this tool: <a href="https://codepen.io/xem/pen/OoXpmM?editors=1000">SVGenerator</a>.
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">My game will use a SVG image, but it needs it to be drawn with different colors.<br>I can&#39;t recolor it with CSS &quot;fill&quot; because I want to trace this SVG on a canvas, so it needs to be in an &lt;img&gt; tag.<br>So I made a little tool to generate it on-the-fly:<a href="https://t.co/nnttYF1R2Q">https://t.co/nnttYF1R2Q</a><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/hPbtuzBFBh">pic.twitter.com/hPbtuzBFBh</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1033745589043953667?ref_src=twsrc%5Etfw">26 août 2018</a></blockquote>
+
+<p>I also tried to make this SVG smaller, by removing all the unnecessary tags and by rounding all the floating-point numbers present inside.
+
+<p>Before (12kb, 6.15kb zipped) - After (7.8kb, 2.74kb zipped)
+
+<p><img src="images/js13k18/a1.svg" width="49%"> <img src="images/js13k18/a3.svg" width="49%">
+
+<p>The difference is pretty much invisible!
+
+<p>Next challenge: use this generic texture as a background, and as a text / shape texture on a canvas.
+
+<p><img src="images/js13k18/a4.png">
+
+<p>The background uses the clear palette plus a white radial-gradient, and the text and triangle are drawn four times, with little offsets, to represent depth (3 times with the dark palette, and once with the clear palette.)
+
+<p>Very few code was necessary:
+
+<pre><code class="lang-js">w = new Image();
+c = a.getContext("2d");
+w2 = new Image();
+w.src = "data:image/svg+xml;base64," + btoa(makewood("#96642c", "#8c5829")); // light palette
+w2.src = "data:image/svg+xml;base64," + btoa(makewood("#76440c", "#6c3809")); // dark palette
+w2.onload = function() {
+  draw(w2,-.5,2); // params: image, x offset, y offset 
+  draw(w2,-1,4);
+  draw(w2,-1.5,6);
+  draw(w,0,0);
+  
+  a.style.background = "radial-gradient(rgba(255,255,255,.3), rgba(255,255,255,1) 170%) repeat center center, url('data:image/svg+xml;base64," + btoa(makewood("#96642c", "#8c5829")) + "') repeat center top";
+  a.style.backgroundSize = "99vw 99vh, auto 99vh"; 
+}
+
+function draw(w,xo,yo) {
+  c.font = "bold 120px arial";  
+  pattern = c.createPattern(w,"");
+  c.fillStyle = pattern 
+  c.textAlign = 'center';
+  var x = a.width / 2;
+  var y = a.height / 2;
+  c.fillText("test", x+xo, y+yo);
+  c.beginPath();
+  c.moveTo(x-20+xo, y+50+yo);
+  c.lineTo(x+20+xo, y+75+yo);
+  c.lineTo(x-20+xo, y+100+yo);
+  c.fill();
+}</code></pre>
+
+<p>Then I tried to rotate the text/triangle texture and discovered a Firefox bug: fill() supports rotated textures but fillText() doesn't!
+
+<p><blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr">Is there a JS canvas/SVG expert around here?<br>I&#39;m trying to create a pattern from an image, rotate it, and use it to fill some text and a triangle.<br>It works on <a href="https://twitter.com/googlechrome?ref_src=twsrc%5Etfw">@googlechrome</a>, but on <a href="https://twitter.com/firefox?ref_src=twsrc%5Etfw">@Firefox</a> the text texture refuses to rotate... ??!<br>Demo: <a href="https://t.co/B7jYay1erD">https://t.co/B7jYay1erD</a><br>cc <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/lTBv6jrKYG">pic.twitter.com/lTBv6jrKYG</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1033816997388328960?ref_src=twsrc%5Etfw">26 août 2018</a></blockquote>
+
+<p><blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">It&#39;s a bug :(<br>Just filed as <a href="https://t.co/S7aZ7T3rOD">https://t.co/S7aZ7T3rOD</a></p>&mdash; 𝔣𝔩𝔞𝔨𝔦 (@slsoftworks) <a href="https://twitter.com/slsoftworks/status/1033833933895557120?ref_src=twsrc%5Etfw">26 août 2018</a></blockquote>
+
+<p>For the game's sounds, I recompressed a little mp3 file to play after each puzzle solving (3.26kb)
+<p><audio controls src="images/js13k18/win.mp3">
+
+<p>As for the music, the original game's music was a 1.5MB MP3.
+
+<p><audio controls src="images/js13k18/theme.mp3">
+
+<p>Fortunately, my friend <b>Nghia</b> accepted to remake a part of it with MiniMusic, and moreover, with the accumulation of 5 different channels played simultaneously.
+
+<p>The result (a 15-second loop) can be heard in the final game and its source code is available below (2.3kb minified, 520 bytes zipped).
+
+<pre><code class="lang-js">music=function(){with(new AudioContext)with(G=createGain())for(i in D=[13,,9,,,,16,,11,,3,,,,,,13,,9,,,13,16,,11,,3,,,,,,13,,9,,,,16,,11,,3,,,,,,13,,9,,,13,16,,11,,3,,,,,])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(880*1.06**(13-D[i]),.23*i),gain.setValueAtTime(.01,.23*i),gain.setTargetAtTime(1e-4,.23*i+(i%16==2?.3:i%16==10?.4:.2),i%16==2?.3:i%16==10?.3:.05),stop(.23*i+(i%16==2?.7:i%16==10?.7:.23)));
+
+with(new AudioContext)with(G=createGain())for(i in D=[,,,,,,,,,,6,,,,,15,,,,,,,,,,,6,,,,,,16,,,,,,,,,,6,,,,,,18,,,,,,,,,,6])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(880*1.06**(13-D[i]),.23*i),gain.setValueAtTime(.01,.23*i),gain.setTargetAtTime(1e-4,.23*i+(i%16==2?.3:i%16==10?.4:.23),i%16==2?.3:i%16==10?.3:.005),stop(.23*i+(i%16==2?9:i%16==10?.9:.24)));with(new AudioContext)with(G=createGain())for(i in D=[,,20,,,20,,,20,,,20,,,20,,,20,,,20,,,20,13,,,13,,,18,,,18,,,18,,,18,,,18,,,18,,,9,,,9,,,9,,,9,,,9,,,9])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(440*1.06**(13-D[i]),.23*i),gain.setValueAtTime([,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.002,,,.0015,.005,,,.0045,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025][i],.23*i),gain.setTargetAtTime(1e-4,.23*i+.21,.005),stop(.23*i+.22));
+
+with(new AudioContext)with(G=createGain())for(i in D=[,,16,,,16,,,16,,,16,,,16,,,16,,,16,,,16])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(440*1.06**(13-D[i]),.23*i),gain.setValueAtTime([,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.002,,,.0015,.005,,,.0045,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025][i],.23*i),gain.setTargetAtTime(1e-4,.23*i+.21,.005),stop(.23*i+.22));
+
+with(new AudioContext)with(G=createGain())for(i in D=[,,13,,,13,,,13,,,13,,,13,,,13,,,13,,,13])with(createOscillator())D[i]&&(connect(G),G.connect(destination),start(.23*i),frequency.setValueAtTime(440*1.06**(13-D[i]),.23*i),gain.setValueAtTime([,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.002,,,.0015,.005,,,.0045,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025,,,.005,,,.0045,,,.004,,,.0035,,,.003,,,.0025][i],.23*i),gain.setTargetAtTime(1e-4,.23*i+.21,.005),stop(.23*i+.22))},
+
+music(),
+
+setInterval(music,14990);</code></pre>
+
+<br>Note: the code above contain some little tweaks allowing some notes to be played longer than the others, while the channels 3, 4 and 5 are altered to play the repeated notes with a decreasing volume (this is actually done by setting manually a specific volume to each note)
+
+<p>So, in total, that's almost 6kb of assets! The remaining space should be enough for the code!
+
+<p><b>The puzzle editor</b>
+
+<p>I already had a basic puzzle editor, that I reworked for this compo.
+<br>The size of the grid can be chosen on load, the points can be drag-and-dropped to make shapes easily, and the JSON export can be re-imported for extra edits.
+<br>You can try it <a href="http://xem.github.io/envelope/editor">HERE</a>.
+<p>I didn't have enough time to polish it and include it in the entry but I used it to encode the 12 puzzles.
+
+<p><img src="images/js13k18/a5.png">
+
+<p><b>Artistic shift</b>
+
+<p>After developing the basic menus and puzzle screens, I was not convinced by the overall look of the game.
+<p>Thankfully, <b>rybar</b> (winner of JS13kgames 2017), then <b>Alternative451</b> and <b>Olivier</b> suggested to use other wood palettes and some shadows. I find the result much better after each iteration.
+
+<p><img src="images/js13k18/a6.png">
+
+<p><b>Responsive design</b>
+
+<p>In this game, I did something unusual (at least for me): use a responsive canvas, in which the intrinsic size is the same as the size of the browser.
+<br>And in order to have a nice layout on desktop, on tablet and on mobile (vertically and horizontally), all the items drawn on screen have positions relative to the center of the canvas, and all their sizes are not in pixels but in multiples of 1 "vmin", or 1 "vh"
+<br>vmin is a CSS unit representing a hundredth of the smallest side of the screen, and vh is a hundredth of the screen height. I polyfilled them in JS like this:
+
+<pre><code class="lang-js">w = a.width = innerWidth;
+h = a.height = innerHeight;
+vmin = Math.min(w, h) / 100; // used in title screen and menu
+vh = h / 100; // used in the puzzles</code></pre>
+
+<p>As a bonus, I reset the canvas, recompute vmin and redraw the screen as soon as the browser gets resized.
+
+<p><img src="images/js13k18/a7.gif">
+
+<p>You may notice that the clear wood texture doesn't scale (I disabled it because of the Firefox bug), while the dark one stretches nicely (because it's used as a CSS background).
+
+<p><b>Gameplay</b>
+
+<p>I recoded the puzzle-solving screens from scratch, but inspired by the prototype I had done earlier.
+<br>Here are some interesting things:
+<ul>
+
+<li>On canvas, patterns (textures) behave like "position: fixed" CSS backgrounds (you can see it in the GIF above, when the puzzle appears and moves), so instead of drawing a textured shape at position (x,y), I actually need to translate my canvas context to (x,y), draw the shape at (0,0), and finally translate the canvas back to its original position (see code <a href="https://github.com/xem/envelope/blob/gh-pages/index.html#L212-L239">HERE</a>).
+
+<li>All puzzles don't have just one, but at least 8 solutions. Indeed, the interactive grid can be superimposed on the shape rotated and/or transposed and the puzzle must be considered solved in every case:
+
+<br><img src="images/js13k18/a8.png">
+
+<br>(These 8 valid grids were not obvious to me, I discovered I had to introduce rotations, then transposes, just by testing the game and by wondering why it didn't work in some cases.)
+
+<br>Note: the horizontal and vertical mirrors are also valid solutions, but can be obtained with a transpose and a rotation, so they're already in that list (2 of them are represented with grey arrows).
+
+<br>I could have determined if a puzzle was solved by checking that all the dots are placed on a target and are only connected to the good neighbors, but it was too complex, so I made two methods rotate3x3() and transpose3x3() that help me find all the variations of any puzzle solution and check each of them every time the player moves something.
+
+<li><img src="images/js13k18/a9.png" style="float: right; margin: 10px 0 10px 10px">
+I said "at least 8 solutions", because the 6th puzzle (visible here on the right) actually has 2 "unique" solutions, or a total of 16 solutions if we count all the rotates and transposes, so all of them are checked after each player movement.
+
+<br>The second "unique" solution to this puzzle was found by a beta-tester (thanks to him!) and involves some sort of horizontal mirroring mixed with the inversion of two points, but I don't wanna spoil the exact solution.  
+
+<li>The canvas is so "responsive" that every time a puzzle is initialized, the coordinates of all the points of the grid and solution are recomputed. Sadly, their positions can't adapt easily when the browser is resized, so I had to reset the current puzzle on resize.
+
+<li>The shadowBlur, the colors and the false perspective kinda makes the game look like it's in 3D, but it's just 2D.
+<br><img src="images/js13k18/a10.gif">
+
+<li>When an animal-shaped puzzle is solved, I draw them with a little decoration like eyes or a mouth.
+<br><img src="images/js13k18/a11.gif">
+
+<li>I encountered a problem where I hid the lines of the shape when a puzzle was solved. The shape, that is comprised of 4 quadrilaterals, had visible holes between them. These holes were seemingly caused by rounding errors, but fortunately, I could fill them by redrawing the same shapes 4 times at the same position, as you can see at the end of this gif: 
+<br><img src="images/js13k18/a12.gif">
+
+<li>I encounrered another bug, but this one was super annoying and cost me a week-end of debugging... at the end of which I still had no idea what was going on!
+<li>As soon as a puzzle had appeared, if the window was resized or the grid clicked by the player, the two buttons on top of the screen would just jump a few dozen pixels on the right. I searched in the resize events, the mousemove/touchmove events, the draw function, the screen transition function, couldn't find the cause of this bug.
+<br>Resigned, I finally had the idea to provoke a resize event artificially as soon as the puzzle and the top-screen buttons appear, so that no one has the time to see them at the wrong position.
+
+<br><img src="images/js13k18/a13.gif">
+
+<br>Much later, I discovered that it was just a matter of "c.textAlign = 'center'" disabled by the resize/drag function, and that "jump" we see is just the text suddenly being drawn with text-align: left. *shrug* !
+
+<br>The whole game was developed in a single, 953-line HTML file. I didn't even minify it: the commented source code plus the mp3 file ended up taking only 11.9kb zipped.
+</ul>
+
+<p>
+<h1>~~~</h1>
+
+<p><b>The last week</b>
+
+<p>I submitted Envelope 2 days before the compo, on september 11... just before noticing that despite all the appropriate meta tags and other mobile hacks, it was completely unplayable on iOS. At first I thought it was due to the retina pixel-ratio (x2) that made all the drags move less than intended:
+
+<p><img src="images/js13k18/last1.gif">
+
+<p>But even after multiplying every deltaX/Y by 2, the result was wrong.
+So I tried something else, I removed the "position:fixed" of my canvas and finally discovered the real problem:
+
+<p><img src="images/js13k18/last2.gif">
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="fr"><p lang="en" dir="ltr">After investigation, it seems that it&#39;s caused by iOS window bounce, as we can see here (i removed the canvas&#39;s position:fixed, the square follows the finger, and on touchend, everything moves due to the window&#39;s elastic scroll, which I haven&#39;t been able to disable so far)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/kMl6zSquiZ">pic.twitter.com/kMl6zSquiZ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1039438487014002690?ref_src=twsrc%5Etfw">11 septembre 2018</a></blockquote>
+
+<p>This damned elastic scroll was present (and directly impacted my touchmove measures), even though I called "e.preventDefault" on every possible JS event (ontouchstart, ontouchmove, ontouchend, ondrag, onscroll, onclick, ...) and measuring e.clientX & e.clientY instead of e.pageX & e.pageY didn't change anything.
+
+<p>So I made a <a href="https://xem.github.io/envelope/bug.html">reduced version</a> of my problem and tried every solution suggested by <b>gheja</b>, <b>@Ox000000</b>, <b>potasmic</b>, <b>madmarcel</b> and <b>LDOC</b>, until it finally worked. The trick was to use <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L2-L7">these meta tags</a>, plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L21">preventDefault()</a> on every event, plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L44-L45">clientX/Y</a> (and not pageX/Y), plus <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L59">a fixed canvas wrapper</a>, plus these very specific and not super well-known <a href="https://github.com/xem/envelope/blob/gh-pages/bug.html#L71-L73">CSS rules</a>:
+
+<pre><code class="lang-css">-webkit-overflow-scrolling: touch;
+overflow: hidden;
+overscroll-behavior: none;</code></pre>
+
+<p>The combination of all these factors finally disabled the elastic scroll and let the points follow my finger:
+
+<p><img src="images/js13k18/last3.gif">
+
+<p>So I submitted an update that works on all devices! Oof!
+
+<h3>Man on Wire</h3>
+
+<p>Then, there were about 48h left before the end of the compo, it was 9/11, and the WebXR category was empty, so I unearthed the first idea I had when the theme was announced (I even <a href="https://twitter.com/MaximeEuziere/status/1029771979061178368">wrote 3 pages of specs about it</a>), and decided to make a super-mini version of what this game could have been: just the traversal of a wire installed between the WTC twin towers (inspired by <a href="http://www.magpictures.com/manonwire/">a real story!</a>).
+
+<p>The first evening, I coded the towers using CSS3D. (the textures were made with CSS gradients), and a little intro animation, also in CSS. The same scene was shown twice on a split-screen to enable cardboard-like VR gameplay.
+
+<p><img src="images/js13k18/last4.gif">
+
+<p>The difference of scale between the super high towers, the little man and the very thin cable was quite problematic. If I made everything small (at first, the towers measured 10vmin x 10vmin x 100vmin) and zoomed on it, the texture would become very blurry, and if I made everything bigger (100vmin x 100vmin x 1000vmin, the performance became so bad on mobile that it became unplayable.
+
+<p>I readjusted the size of everything 4 times in total, and finally converged to towers measuring 25vmin x 25vmin x 250vmin, and a character measuring 4vmin x 2vmin. (as explained earlier, the vmin unit allows the game to be responsive across all screen sizes).
+
+<p>To optimize mobile performance even more, I removed  every tower facade that wasn't visible during the intro and during the game, as you can see in this picture taken from below:
+
+<p><img src="images/js13k18/last5.png">
+
+<p>I also used a real photo of Philippe Petit doing the WTC walk as the game character. 
+
+<p>During the second evening, I programmed the gyroscope controls (that was very weird, as always when JS and gyroscopes are involved), but I finally managed to have decent left/right tilt controls. (I abandoned front/back tilt controls to save time)
+
+<p><img src="images/js13k18/last6.gif">
+
+<p>I also made the game menus and added the random "unbalances" that the player has to fix by tilting their head to the left or to the right.
+
+<p>And finally, during the last morning of the compo, I programmed the game overs (if the character is too tilted for at least 5 frames, he falls), added an increading difficulty at the middle and the 3/4 of the walk, and I submitted.
+
+<h1>~~~</h1>
+
+<p><b>Conclusion</b>
+
+<p>Sadly, this wasn't my best js13k. I've had health issues, less free time than I wanted, and no great idea that fitted the theme. I can't say I was not inspired because I still released 3 games, but it was not the same thing as 2016 and 2017.
+<p>Anyway, I enjoyed creating new tools, new techniques, and releasing these games with the help of my friends.
+<p>Geoquiz 2 was a game that I wanted to make for a long time, and took the time to do it well, even though it's very niche and not super in-the-theme. I'm super happy with the amount of data I could put inside, though I couldn't include all the features and all the optimizations that I wanted, so I'll probably make a "Geoquiz 3D" in the future.
+<p>Envelope was developed in a hurry, and encountered too many annoying bugs, but we definitely want to complete it and send it on app stores, now that the demo works!
+<p>Man on Wire was a fun 48h challenge, without pretention, and I'll probably do a more complete funambulism game later, I think it has some potential.
+<p>In all cases, next year I'll focus on one big entry, and I'll do my best to have better ideas (and better tools) ready for the kick-off!
+<p>Cheers!
+
+<p><b>Xem</b>
+
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

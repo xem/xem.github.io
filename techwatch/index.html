@@ -1,35 +1,67 @@
-<!doctype html>
+﻿<!doctype html>
+<meta charset=utf-8>
 <html>
 <head>
-  <meta charset=utf-8>
-  <link rel=stylesheet href="../style.css?v=3">
-  <title>Maxime Euzière</title>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
 </head>
 <body>
-  <div class=menu>
-    <div class=header>
-      <h1>Maxime Euzière</h1>
-      Front-end experiments
-      <br>
-      & Game design
-      <br>
-      <br>
-      <a href="../index.html">Home</a>
-      <a href="../articles">Articles</a>
-      <a href="../techwatch" class=active>Tech watch</a>
-      <a href="../projects">Projects / experiments</a>
-      <a href="../talks">Talks</a>
-      <a href="../golfing">JS Code golfing</a>
-      <a href="../other">Other stuff</a>
-    </div>
-    <div class=footer>© <script type="text/javascript">document.write(new Date().getFullYear())</script> - <a href="//github.com/xem" target=_blank>Github</a> - <a href="../cv/cv-en.html" target=_blank>CV</a></div>
-  </div>
-  <div class=body>
 
-<div class=section id=techwatch_jan_jun_2018_en>
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main class=techwatch>
+
+<div class=section id=intro style="background:#ffe">
+	<h1 style="margin:0 0 20px 0;">Tech watch?</h1>
+  <p>This page contains all the interesting links and quotes I find online everyday.
+  <p>It's a curated summary of <a href="https://twitter.com/MaximeEuziere">my Twitter timeline</a>.
+  <p>Jump to 
+  <a href="#techwatch2019">2019</a> -
+  <a href="#techwatch2018">2018</a> -
+  <a href="#techwatch2017">2017</a> -
+  <a href="#techwatch2016">2016</a> -
+  <a href="#techwatch2015">2015</a> -
+  <a href="#techwatch2014">2014</a> -
+  <a href="#techwatch2013">2013</a> -
+  <a href="#techwatch2012">2012</a> -
+  <a href="#techwatch2011">2011</a>.
+  <p>
+  <input id=search placeholder="Search...">
+  <p><div id=results></div>
+  
+  <script>
+  search.oninput = function(){
+  
+    var html = "<ul>";
+    var lis = document.querySelectorAll("#intro ~ * li");
+    for(var li in lis){
+      if(lis[li].innerHTML && lis[li].innerHTML.toLowerCase().includes(search.value.toLowerCase())){
+        html += lis[li].outerHTML;
+      }
+    }
+    results.innerHTML = html;
+  
+  }
+  </script>
+  <style>.section { min-height: 0 }</style>
+</div>
+
+<div class=section id=techwatch2019>
+
+<h2>january-june 2019</h2>
+<br>
+Coming soon!
+
+</div>
+
+<div class=section id=techwatch2018>
 
 <h2>july - december 2018</h2>
-
+<br>
 
 <h3>COOL SITES</h3>
 <ul>
@@ -462,6 +494,18 @@ accessible websites</li><li>Tip: How to read an SVG path declaration:<br>Z =&gt;
 <li>A glory hole but for holding hands</li>
 <li>How to use a modern web service:<br>1) Sign up for service<br>2) Pay for service<br>3) Use the service<br>4) Finish using the service<br>5) Receive email encouraging you to use the service for the first time<br>6) get an email letting you know that they really appreciate their business, and they're really thrilled to announce they've been bought by a bigger service<br>7) Get an email letting you know that actually, they're shutting down now and here's how to save your important data</li>
 <li>By the time you turn 30 you should have at least one of the following:<br>1. A drawer full of random cords<br>2. Tupperware with half the lids missing <br>3. Anxiety<br>4. A collection of plastic bags full of other plastic bags<br>5. Sleep deprivation</li>
+<li>
+CTO as a title is near useless. It can mean ...
+<br>- engineering leader
+<br>- chief scientist
+<br>- tech talent sent to pasture
+<br>- super SE
+<br>- academic
+<br>- somone too disruptive for product
+<br>- talking head
+<br>- architect
+<br>- ....
+<br>The only commonolity is general lack of accountability ... 
 <li>1969:<br>-what're you doing with that 2KB of RAM?<br>-sending people to the moon<br>2017:<br>-what're you doing with that 1.5GB of RAM?<br>-running Slack</li><li>How I imagine bank code:<br>fn money_transfer(from: Acct,&nbsp;to: Acct,&nbsp;amount: Number) {<br>&nbsp; thread::sleep(5 days);<br>&nbsp; //...<br>}</li>
 </ul>
  
@@ -530,7 +574,7 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>Proposal to support CSS selectors in URL fragments for HTML documents: <a href="https://t.co/IYDg2qAzY5">link</a><br> Ex: https:/​/example.​com/#targetElement=#maincontent&gt;p:nth-of-type(3)</li>
 <li>Still baffled by how many things you can do wrong in one sticker. <a href="https://t.co/uohhSryKij">link</a> </li>
 <li>Never forget type=”button” on generated buttons! - <a href="https://t.co/Nqq2m5R33q">link</a></li>
-<li>Trick: put code snippets in style tags and force them to be visible<br><pre class=code>&lt;body&gt;<br>&lt;style style="display:block;white-space:pre-wrap;font-family:monospace"&gt;<br>&lt;h1&gt;Look ma, no &amp;lt;&lt;/h1&gt;<br>&lt;script&gt;alert("Hi")&lt;/script&gt;<br>&lt;style&gt;*{ ... }<br>&lt;/style&gt;</pre></li>
+<li>Trick: put code snippets in style tags and force them to be visible<br><pre><code class="lang-html">&lt;body&gt;<br>&lt;style style="display:block;white-space:pre-wrap;font-family:monospace"&gt;<br>&lt;h1&gt;Look ma, no &amp;lt;&lt;/h1&gt;<br>&lt;script&gt;alert("Hi")&lt;/script&gt;<br>&lt;style&gt;*{ ... }<br>&lt;/style&gt;</code></pre></li>
 </ul>
 
 <h3>CSS</h3>
@@ -547,7 +591,7 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>Pure Components: CSS Only Components - <a href="https://t.co/4JlKGTAOyJ">link</a></li>
 <li>Tip: Chrome can now transition between two background-images by doing a cross-fade by default <a href="https://t.co/tCJ8wyT9Pf">link</a> </li>
 <li>Tip: Wanna center text vertically? Put it in a &lt;button&gt;! <a href="https://t.co/AVMfVKlGjH">link</a></li>
-<li>Tip: Quickly see which CSS properties your browser supports:<br><pre class=code>Object.keys(document.body.style).map(p =&gt; p.replace(/[A-Z]/g, "-$&amp;").toLowerCase())</pre></li>
+<li>Tip: Quickly see which CSS properties your browser supports:<br><pre><code class="lang-js">Object.keys(document.body.style).map(p =&gt; p.replace(/[A-Z]/g, "-$&amp;").toLowerCase())</code></pre></li>
 
 </ul>
 
@@ -573,14 +617,18 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>How to write your own Virtual DOM - <a href="https://t.co/pM3dqPXRh4">link</a></li>
 <li>Write your Virtual DOM 2: Props &amp; Events - <a href="https://t.co/5GCGiuBMrA">link</a></li>
 <li>Why, JavaScript? Why? <a href="https://t.co/uDjZl2bMFb">link</a> </li>
-<li>Nice XSS vector: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">import('da\r\nta:text/\ecmascript\,alert%601%60') // Doesn't work on Edge</pre></li>
+<li>Nice XSS vector: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">import('da\r\nta:text/\ecmascript\,alert%601%60') // Doesn't work on Edge</code></pre></li>
 <li>Why 'Mapping' a Constructed Array Doesn't Work in JavaScript: <a href="https://t.co/i1UFEnFXVh">link</a> (And a way around the issue.)</li>
-<li>Tip: Wrap your log arguments in an object literal to print the variable name along with its value: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">console.log({ isLoggedIn })</pre></li>
+<li>Tip: Wrap your log arguments in an object literal to print the variable name along with its value: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">console.log({ isLoggedIn })</code></pre></li>
 <li>Tip: If you're using a custom font with a canvas animation, the first time you use `fillText` with the custom font, the font won't be ready unless you "prime" the font by using it in HTML/CSS first. Chrome/macOS.</li>
-<li>Tip: touchend events trigger click events. So if you do: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">ontouchend = e =&gt; e.preventDefault();</pre> you won't be able to listen to click events on mobile.</li>
+<li>Tip: touchend events trigger click events. So if you do: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">ontouchend = e =&gt; e.preventDefault();</code></pre> you won't be able to listen to click events on mobile.</li>
 <li>Tip: `document.getElementsByClassName()` &amp; Co return _live_ NodeLists. `document.querySelectorAll()` returns a _static_ NodeList. Use `querySelectorAll()`, people! <a href="https://t.co/s7aGuxMGgN">link</a> </li>
 <li>Tip: Cost of updating text in the DOM<br>⬛️⬛️⬛️⬛️⬛️⬛️ .innerHTML<br>⬛️⬛️⬛️⬜️⬜️⬜️ .textContent<br>⬛️⬛️⬜️⬜️⬜️⬜️ .innerText<br>⬛️⬜️⬜️⬜️⬜️⬜️ .firstChild.data<br>- Use innerText if you can't assume structure<br>- Use Text#data to update existing text</li>
-<li><pre class=code>[1,2,3].sort(()=&gt;1)<br>// Edge &amp; Safari: [1,2,3]<br>// Chrome &amp; Firefox: [3,2,1]<br>// Chrome 65, but not Firefox, gets weird after 10 elements which makes me think it's related to stable sorting.<br>[0,1,2,3,4,5,6,7,8,9,10].sort(()=&gt;1)<br>// [5,10,0,9,8,7,6,1,4,3,2]</pre></li>
+<li><pre><code class="lang-js">[1,2,3].sort(()=&gt;1)
+// Edge &amp; Safari: [1,2,3]
+// Chrome &amp; Firefox: [3,2,1]
+// Chrome 65, but not Firefox, gets weird after 10 elements which makes me think it's related to stable sorting.
+[0,1,2,3,4,5,6,7,8,9,10].sort(()=&gt;1) // [5,10,0,9,8,7,6,1,4,3,2]</code></pre></li>
 
 </ul>
 
@@ -671,7 +719,7 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>Understanding the FFT algorithm - <a href="https://t.co/HxcDiSxPsL">link</a> Plus a cool trick to check if a number is a power of 2: N &amp; (N-1) == 0</li>
 <li>3blue1brown on Fourier series <a href="https://t.co/JG2TVWR8DO">link</a></li>
 <li>Super NES Features videos (and the famous Mode 7 at the end!) - <a href="https://t.co/UKHsPOVSCt">link</a></li>
-<li>I never understood appeal of fractals. But after seeing what these two lines of code produce, I think I changed my mind: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">for (i = 0; i &lt; 32 &amp;&amp; |z| &lt; 2; ++i) z = z^9 + c^6, color = |z| * rgb(i/64, i/38, i/28)</pre> <a href="https://t.co/I8nud9Kf6l">link</a> </li>
+<li>I never understood appeal of fractals. But after seeing what these two lines of code produce, I think I changed my mind: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">for (i = 0; i &lt; 32 &amp;&amp; |z| &lt; 2; ++i) z = z^9 + c^6, color = |z| * rgb(i/64, i/38, i/28)</code></pre> <a href="https://t.co/I8nud9Kf6l">link</a> </li>
 <li>Primg: generate prime numbers whose binary representation looks like any image -  <a href="https://t.co/fHPMYgbxN1">link</a> </li>
 <li>Software Complexity Is Killing Us - <a href="https://t.co/g9nJEKXqcB">link</a></li>
 <li>A C89 compiler that produces executables that are also valid ASCII text files - <a href="https://t.co/E6cD6jiCim">link</a></li>
@@ -683,7 +731,7 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>Today I was reminded of the beauty-slash-horror that is xor-linked lists <a href="https://t.co/FPZHY9Le4y">link</a> </li>
 <li>By looking at this image, you can see how sensitive your own eyes are to contrast at different frequencies (taller apparent peaks=more sensitivity at that frequency). It's like a graph that is made by perceiving the graph itself. <a href="https://t.co/3WosnCfbX1">link</a></li>
 <li>34C3: The Ultimate Apollo Guidance Computer Talk - <a href="https://t.co/aQxD8yPVMg">link</a></li>
-<li>Million dollar idea: Smart [Bluetooth] microfiber cloth. Every time you wipe it across your monitor, it also applies <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">.normalize("NFD").replace(/[\u0300-\u036f]/g, "")</pre> to all text on screen. Removing digital and analog dust specks. <a href="https://t.co/dDa7QyJ2J3">link</a> </li>
+<li>Million dollar idea: Smart [Bluetooth] microfiber cloth. Every time you wipe it across your monitor, it also applies <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">.normalize("NFD").replace(/[\u0300-\u036f]/g, "")</code></pre> to all text on screen. Removing digital and analog dust specks. <a href="https://t.co/dDa7QyJ2J3">link</a> </li>
 <li>A video game-playing AI beat Q*bert in a way no one’s ever seen before - <a href="https://t.co/MNXyhomEKZ">link</a></li>
 <li>Deconstructing the water effect in Super Mario Sunshine - <a href="https://t.co/MvQrqMW1Tw">link</a></li>
 <li>Hacking the lottery - <a href="https://t.co/PNqT759M8s">link</a></li>
@@ -767,10 +815,10 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>Mini #HTML+#JS real-time face detector 2.0 <a href="https://t.co/TsVtpOAV0p">link</a> (needs Chrome + experimental features flag enabled)</li>
 <li>Remote Islands - 140 byte #javascript @dwitter_net demo... <a href="https://t.co/tHLsBe8xkg">link</a></li>
 <li>Here's how you do a 3D wireframe landscape in 140 bytes of #javascript. <a href="https://t.co/08cbJv7QY6">link</a></li>
-<li>Simple shim for your #js1k entry: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">&lt;body id=b style=margin:0&gt;&lt;canvas id=a&gt;&lt;/canvas&gt;&lt;script&gt;d = document; c = a.getContext("2d"); a.width = innerWidth; a.height = innerHeight; /* YOUR CODE HERE */&lt;/script&gt;</pre></li>
-<li>255b CSS3D cube:  <a href="https://t.co/rf3qcIxjwR">link</a> <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">_='&lt;divqperspective:9k;margk:40vh+40vwu}Z(2`-1`j-j1k~"&gt;~"&gt;&lt;pqborder:1px solid;width:2k;height:2k;position:fixed}_late|kurotate{(90deg)}z1k)}Z(u~;_form:q style="kinj1|X{Y(z`|Y{(-z_trans';for(i of'_`jkquz{|}~')with(_.split(i))_=join(pop());document.write(_)</pre> </li>
-<li>253b colored cube <a href="https://t.co/7munv4NgR8">link</a> <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">_='&lt;div_perspective:5j;margj:40vh+40vw^-1j^`-`1jq}Z(2j~&gt;~&gt;&lt;p_background:#777;width:2j;height:2j;position:fixed}]late|qrotate{(90deg)}z1j)}Z(q~;]form:jin`1j|X{Y(z_ style=^|Y{(-z]trans';for(i of']^_`jqz{|}~')with(_.split(i))_=join(pop());document.write(_)</pre>  </li>
-<li>21 bytes JS quine by @aemkei: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">(X=_=&gt;`(X=${X})()`)()</pre></li>
+<li>Simple shim for your #js1k entry: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-html">&lt;body id=b style=margin:0&gt;&lt;canvas id=a&gt;&lt;/canvas&gt;&lt;script&gt;d = document; c = a.getContext("2d"); a.width = innerWidth; a.height = innerHeight; /* YOUR CODE HERE */&lt;/script&gt;</code></pre></li>
+<li>255b CSS3D cube:  <a href="https://t.co/rf3qcIxjwR">link</a> <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">_='&lt;divqperspective:9k;margk:40vh+40vwu}Z(2`-1`j-j1k~"&gt;~"&gt;&lt;pqborder:1px solid;width:2k;height:2k;position:fixed}_late|kurotate{(90deg)}z1k)}Z(u~;_form:q style="kinj1|X{Y(z`|Y{(-z_trans';for(i of'_`jkquz{|}~')with(_.split(i))_=join(pop());document.write(_)</code></pre> </li>
+<li>253b colored cube <a href="https://t.co/7munv4NgR8">link</a> <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">_='&lt;div_perspective:5j;margj:40vh+40vw^-1j^`-`1jq}Z(2j~&gt;~&gt;&lt;p_background:#777;width:2j;height:2j;position:fixed}]late|qrotate{(90deg)}z1j)}Z(q~;]form:jin`1j|X{Y(z_ style=^|Y{(-z]trans';for(i of']^_`jqz{|}~')with(_.split(i))_=join(pop());document.write(_)</code></pre>  </li>
+<li>21 bytes JS quine by @aemkei: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">(X=_=&gt;`(X=${X})()`)()</code></pre></li>
 
 </ul>
 
@@ -1151,7 +1199,15 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 </div>
 
 
-<div class=section id=techwatch_jul_dec_2017_en>
+
+
+
+
+
+
+
+
+<div class=section id=techwatch2017>
 
 <h2>july - december 2017</h2>
 
@@ -1426,16 +1482,16 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>making A Tourist In Paris (it mentions LOSSST's making-of) - <a href="https://t.co/YZNqgosZhw">link</a></li>
 <li>JS 20k game jam - <a href="https://t.co/p76l91Cw6P" dir="ltr">link</a></li>
 <li>Revision 2017 demos (especially PC 64k!) - <a href="http://www.pouet.net/party.php?which=1550&when=2017">link</a>
-<li><a href="https://t.co/rpimzKZG5X">Nanoid</a> in 106b by Subzey: <pre class=code>btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(18)))) .split`+`.join`_`.split`/`.join`~`</pre></li>
+<li><a href="https://t.co/rpimzKZG5X">Nanoid</a> in 106b by Subzey: <pre><code class="lang-js">btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(18)))) .split`+`.join`_`.split`/`.join`~`</code></pre></li>
 <li>how to create the smallest possible perspective 3D engine by C4ntelope. - <a href="https://cantelope.org/tiny_3D/">link</a>
 <br>
-<pre class=code>X-=camX;
+<pre><code class="lang-js">X-=camX;
 Y-=camY;
 Z-=camZ;
 w=c.width/2;
 h=c.height/2;
 R=(X, Y, Z)=&gt;[w+X/Z*w, h+Y/Z*w];
-// Draw point if Z&gt;=0</pre></li>
+// Draw point if Z&gt;=0</code></pre></li>
 </ul>
 
 <h3>Indie gaming &amp; game dev</h3>
@@ -1650,57 +1706,57 @@ R=(X, Y, Z)=&gt;[w+X/Z*w, h+Y/Z*w];
 <h3>Code snippets</h3>
 
 <ul>
-<li><pre class=code>for(A in 
-{A󠅬󠅷󠅡󠅹󠅳󠄠󠅢󠅥󠄠󠅷󠅡󠅲󠅹󠄠󠅯󠅦󠄠󠅊󠅡󠅶󠅡󠅳󠅣󠅲󠅩󠅰󠅴󠄠󠅣󠅯󠅮󠅴󠅡󠅩󠅮󠅩󠅮󠅧󠄠󠅱󠅵󠅯󠅴󠅥󠅳󠄮󠄠󠅎󠅯󠄠󠅱󠅵󠅯󠅴󠅥󠅳󠄠󠄽󠄠󠅳󠅡󠅦󠅥󠄡:0}){alert(unescape(escape(A).replace(/u.{8}/g,[])))}; // xss by @fakeUnicode</pre></li>
-<li><pre class=code>self[0X10f8809.toString`36`]`1` // xss by @aemkei</pre></li>
-<li><pre class=code>let=[`const`];
+<li><pre><code class="lang-js">for(A in 
+{A󠅬󠅷󠅡󠅹󠅳󠄠󠅢󠅥󠄠󠅷󠅡󠅲󠅹󠄠󠅯󠅦󠄠󠅊󠅡󠅶󠅡󠅳󠅣󠅲󠅩󠅰󠅴󠄠󠅣󠅯󠅮󠅴󠅡󠅩󠅮󠅩󠅮󠅧󠄠󠅱󠅵󠅯󠅴󠅥󠅳󠄮󠄠󠅎󠅯󠄠󠅱󠅵󠅯󠅴󠅥󠅳󠄠󠄽󠄠󠅳󠅡󠅦󠅥󠄡:0}){alert(unescape(escape(A).replace(/u.{8}/g,[])))}; // xss by @fakeUnicode</code></pre></li>
+<li><pre><code class="lang-js">self[0X10f8809.toString`36`]`1` // xss by @aemkei</code></pre></li>
+<li><pre><code class="lang-js">let=[`const`];
 (_=_=&gt;let+`ructor`)
 [_`${_=`ale`}`]
-(_+`rt(let)`)`` // obfuscation by @aemkei</pre></li>
-<li><pre class=code>([,ウ,,,,ア]=[]+{},[ネ,ホ,ヌ,セ,,ミ,ハ,ヘ,,,
+(_+`rt(let)`)`` // obfuscation by @aemkei</code></pre></li>
+<li><pre><code class="lang-js">([,ウ,,,,ア]=[]+{},[ネ,ホ,ヌ,セ,,ミ,ハ,ヘ,,,
 ナ]=[!!ウ]+!ウ+ウ.ウ)[ア+=ウ+ナ+ヘ+ネ+ホ+ヌ+
-ア+ネ+ウ+ホ][ア](ミ+ハ+セ+ホ+ネ+'(-~ウ)')()</pre>
+ア+ネ+ウ+ホ][ア](ミ+ハ+セ+ホ+ネ+'(-~ウ)')()</code></pre>
 <br>
 obfuscation by @aemkei (<a href="https://github.com/aemkei/katakana.js">link</a>)</li>
-<li><pre class=code>valueOf=alert; this+1; // alert() by @aemkei</pre></li>
-<li><pre class=code>([,ㅤ,,,,ﾠ]=""+{},[ㅤㅤ,ㅤﾠ,ﾠㅤ,ﾠﾠ,,ﾠㅤㅤ,ﾠㅤﾠ,ㅤㅤㅤ,,,ㅤㅤﾠ]=[!!ㅤ]+!ㅤ+ㅤ.ㅤ)[ﾠ+=ㅤ+ㅤㅤﾠ+ㅤㅤㅤ+ㅤㅤ+ㅤﾠ+ﾠㅤ+ﾠ+ㅤㅤ+ㅤ+ㅤﾠ][ﾠ](ﾠㅤㅤ+ﾠㅤﾠ+ﾠﾠ+ㅤﾠ+ㅤㅤ+"(-~ㅤ)")() // (–_–) by @aemkei</pre></li>
-<li>Attribute debugger by @innovati (<a href="https://pic.twitter.com/IbB8x7qpEf">link</a>)<br><pre class=code>for(t of document.querySelectorAll`body *`){s='';for(a of t.attributes)s+=(s&amp;&amp;'\n')+`${<a href="http://a.name">link</a>}="${a.value}"`;t.title=s}</pre></li>
+<li><pre><code class="lang-js">valueOf=alert; this+1; // alert() by @aemkei</code></pre></li>
+<li><pre><code class="lang-js">([,ㅤ,,,,ﾠ]=""+{},[ㅤㅤ,ㅤﾠ,ﾠㅤ,ﾠﾠ,,ﾠㅤㅤ,ﾠㅤﾠ,ㅤㅤㅤ,,,ㅤㅤﾠ]=[!!ㅤ]+!ㅤ+ㅤ.ㅤ)[ﾠ+=ㅤ+ㅤㅤﾠ+ㅤㅤㅤ+ㅤㅤ+ㅤﾠ+ﾠㅤ+ﾠ+ㅤㅤ+ㅤ+ㅤﾠ][ﾠ](ﾠㅤㅤ+ﾠㅤﾠ+ﾠﾠ+ㅤﾠ+ㅤㅤ+"(-~ㅤ)")() // (–_–) by @aemkei</code></pre></li>
+<li>Attribute debugger by @innovati (<a href="https://pic.twitter.com/IbB8x7qpEf">link</a>)<br><pre><code class="lang-js">for(t of document.querySelectorAll`body *`){s='';for(a of t.attributes)s+=(s&amp;&amp;'\n')+`${<a href="http://a.name">link</a>}="${a.value}"`;t.title=s}</code></pre></li>
 <li>140b JS game framework:<br>
-<pre class=code>&lt;canvas id=a&gt;
+<pre><code class="lang-html">&lt;canvas id=a&gt;
 &lt;script&gt;
 x=a.getContext`2d`;
 screen=0;
 setInterval(e=&gt;{ /* … */ },33);
 onclick=e=&gt;{ /* … */ };
 oninput=e=&gt;{ /* … */ }
-&lt;/script&gt;</pre></li>
-<li>My smallest animated dweets (<a href="https://www.dwitter.net/d/4113">link</a>)<br><pre class=code>x.fill(x.arc(t,t,t,t))
+&lt;/script&gt;</code></pre></li>
+<li>My smallest animated dweets (<a href="https://www.dwitter.net/d/4113">link</a>)<br><pre><code class="lang-js">x.fill(x.arc(t,t,t,t))
 x.fillRect(t,t,t,t)
-x.fillText(t,t,t)</pre>
-<li><pre class=code>parseInt('null', 24) // 23
+x.fillText(t,t,t)</code></pre>
+<li><pre><code class="lang-js">parseInt('null', 24) // 23
 parseInt("twenty-nine", 30); // 29
 parseInt(31, 31) // 91
 parseInt(31/!31, 31) // 16647948474
-parseInt(31.31[31], 31) // 26231474015353 (by @aemkei)</pre></li>
-<li><pre class=code>wtf=[
+parseInt(31.31[31], 31) // 26231474015353 (by @aemkei)</code></pre></li>
+<li><pre><code class="lang-js">wtf=[
  [1,2,3]
  [4,5,6]
-]; // undefined (don't forget commas!)</pre></li>
+]; // undefined (don't forget commas!)</code></pre></li>
 <li>
 An array of N arrays containing an empty string (found by @<b>FireyFly</b>)
 <br>
-<pre class=code>Array(N).fill``</pre>
+<pre><code class="lang-js">Array(N).fill``</code></pre>
 </li>
-<li><pre class=code>-1&gt;&gt;&gt;0 // 0xFFFFFFFF, which is the max possible array length</pre></li>
-<li><pre class=code>@ media screen and (shape: path("M 0 -5 a 5 5 0 0 0 5 5 h 78 a …")) {
+<li><pre><code class="lang-js">-1&gt;&gt;&gt;0 // 0xFFFFFFFF, which is the max possible array length</code></pre></li>
+<li><pre><code class="lang-js">@ media screen and (shape: path("M 0 -5 a 5 5 0 0 0 5 5 h 78 a …")) {
  /* iPhone X specific styles :p */
-}</pre></li>
-<li><pre class=code>data:text/html,&lt;svg&gt;&lt;path 
+}</code></pre></li>
+<li><pre><code class="lang-js">data:text/html,&lt;svg&gt;&lt;path 
 d=M58,150c79-1,110-68,108-113,7-5,14-12,19-19-7,3-15,5-22,6,8-5,14-12,17-21-8,4-16,7-25,9-29-30-72,0-64,34-31-1-59-15-78-39C3,24,8,46,25,57c-6,0-12-1-18-4,0,18,13,34,31,37-6,2-12,2-17,1,5,15,19,26,35,26a75,75,0,0,1-56,16c17,11,37,17,58,17
- fill=%231da1f2&gt; // #280chars twitter logo</pre></li>
-<li><pre class=code>window+=valueOf=alert // alert</pre></li>
-<li><pre class=code>window[Symbol.hasInstance]=alert; "Hello, world!" instanceof window;</pre></li>
-<li><pre class=code>"woot@root.example.com".replace(/((?:^|[@\."+])+.)|./g,(_,s) =&gt; s || '*') // email obfuscation by Subzey</pre></li>
+ fill=%231da1f2&gt; // #280chars twitter logo</code></pre></li>
+<li><pre><code class="lang-js">window+=valueOf=alert // alert</code></pre></li>
+<li><pre><code class="lang-js">window[Symbol.hasInstance]=alert; "Hello, world!" instanceof window;</code></pre></li>
+<li><pre><code class="lang-js">"woot@root.example.com".replace(/((?:^|[@\."+])+.)|./g,(_,s) =&gt; s || '*') // email obfuscation by Subzey</code></pre></li>
 </ul>
 
 <h3>Quotes / Tweets</h3>
@@ -2314,7 +2370,10 @@ A short film based on Apollo 11's archives</li>
 </ul>
 </div>
 
-<div class=section id=techwatch_jan_jun_2016_en>
+
+
+
+<div class=section id=techwatch2016>
 <h2>july - december 2016</h2>
 
 <h3>Cool / crazy websites</h3>
@@ -3236,8 +3295,10 @@ A short film based on Apollo 11's archives</li>
   <li>STEWARDESS: omg the plane's about to crash but the SOS message can only be 140 characters! what are we going to do?? - ME: *slowly stands up*
 </ul>
 </div>
-  
-<div class=section id=techwatch_jul_dec_2015_en>
+
+
+
+<div class=section id=techwatch2015>
   <h2>july - december 2015</h2>
   <br>
 	<h3>Cool websites</h3>
@@ -3815,8 +3876,10 @@ A short film based on Apollo 11's archives</li>
     <li>TIP: undefined => 9b. void 0 => 6b. "".a => 4b
 	</ul>
 </div>
-	
-<div class=section id=techwatch_jul_dec_2014_en>
+
+
+
+<div class=section id=techwatch2014>
   <h2>july - december 2014</h2>
   
   <h3>Great websites</h3>
@@ -4379,8 +4442,8 @@ A short film based on Apollo 11's archives</li>
   </ul>
 </div>
 
+
 <div class=section id=techwatch_dec_2013_en>
-  <img src=../english.png class=lang onclick="techwatch_dec_2013_en.style.display='none';techwatch_dec_2013_fr.style.display='block'">
 	<h2>december 2013</h2>
 	
     <h3>CSS</h3>
@@ -4430,7 +4493,6 @@ A short film based on Apollo 11's archives</li>
 
 
 <div class=section id=techwatch_dec_2013_fr style=display:none>
-  <img src=../francais.png class=lang onclick="techwatch_dec_2013_fr.style.display='none';techwatch_dec_2013_en.style.display='block'">
 	<h2>décembre 2013</h2>
 	
     <h3>CSS</h3>
@@ -4480,7 +4542,6 @@ A short film based on Apollo 11's archives</li>
 
 
 <div class=section id=techwatch_nov_2013_en>
-  <img src=../english.png class=lang onclick="techwatch_nov_2013_en.style.display='none';techwatch_nov_2013_fr.style.display='block'">
 	<h2>november 2013</h2>
 	
     <h3>HTML</h3>
@@ -4561,7 +4622,6 @@ A short film based on Apollo 11's archives</li>
 
 
 <div class=section id=techwatch_nov_2013_fr style=display:none>
-  <img src=../francais.png class=lang onclick="techwatch_nov_2013_fr.style.display='none';techwatch_nov_2013_en.style.display='block'">
 	<h2>novembre 2013</h2>
 	
     <h3>HTML</h3>
@@ -4643,7 +4703,6 @@ A short film based on Apollo 11's archives</li>
 
 
 <div class=section id=techwatch_oct_2013_en>
-  <img src=../english.png class=lang onclick="techwatch_oct_2013_en.style.display='none';techwatch_oct_2013_fr.style.display='block'">
 	<h2>october 2013</h2>
 	
     <h3>HTML</h3>
@@ -4709,7 +4768,6 @@ A short film based on Apollo 11's archives</li>
 
 
 <div class=section id=techwatch_oct_2013_fr style=display:none>
-  <img src=../francais.png class=lang onclick="techwatch_oct_2013_fr.style.display='none';techwatch_oct_2013_en.style.display='block'">
 	<h2>octobre 2013</h2>
 	
     <h3>HTML</h3>
@@ -4776,7 +4834,6 @@ A short film based on Apollo 11's archives</li>
 
 
 <div class=section id=techwatch_sept_2013_en>
-  <img src=../english.png class=lang onclick="techwatch_sept_2013_en.style.display='none';techwatch_sept_2013_fr.style.display='block'">
 	<h2>september 2013</h2>
 	
 		<br>
@@ -4867,7 +4924,6 @@ A short film based on Apollo 11's archives</li>
 
 
 <div class=section id=techwatch_sept_2013_fr style=display:none>
-  <img src=../francais.png class=lang onclick="techwatch_sept_2013_fr.style.display='none';techwatch_sept_2013_en.style.display='block'">
 	<h2>septembre 2013</h2>
 	
 		<br>
@@ -5201,8 +5257,7 @@ A short film based on Apollo 11's archives</li>
 
 
 
-
-<div class=section id=techwatch_july_to_dec_2012_fr>
+<div class=section id=techwatch2012>
 	<h2>juillet à décembre 2012</h2>
 	
 		<h3>HTML</h3>
@@ -5408,7 +5463,7 @@ A short film based on Apollo 11's archives</li>
 </div>
 
 
-<div class=section id=techwatch_2011_fr>
+<div class=section id=techwatch2011>
 	<h2>2011</h2>
 	
 		<h3>HTML</h3>
@@ -5532,7 +5587,20 @@ A short film based on Apollo 11's archives</li>
 		</ul>
 </div>
 
-  </div>
-  <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
+<div class=section></div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
 </body>
 </html>

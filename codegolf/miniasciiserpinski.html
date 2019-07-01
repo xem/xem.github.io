@@ -1,0 +1,53 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=asciiserpinski>
+  <h2>Mini Ascii Serpinski</h2>
+  <h3>october 2017</h3>
+  <p>A 64b ASCII serpinski triangle inspired by p01's 96b <a href="http://www.p01.org/128b_sierpinski/">SIERPINSKI GASKET</a>
+  <br>(golfed during <a href="../articles/golfctober17">#golfctober 2017</a>)
+  
+  <p>- <a href="https://github.com/xem/miniASCIISerpinski">Github</a>
+  <p>- <a href="http://xem.github.io/miniASCIISerpinski">Demo</a>
+  <p>- <a href="http://xem.github.io/miniASCIISerpinski/big.html">Bigger demo (65b)</a>
+  
+  <pre><code class="lang-html">&lt;svg onload='for(i=1024;i--;)write(i%63&lt;32?`&lt;p>`:i&i>>5&&`_`)'></code></pre>
+
+  <p><hr>
+  
+  <p>
+  <iframe src="https://xem.github.io/miniASCIISerpinski/" height=600></iframe>
+
+  <p><hr>
+  
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

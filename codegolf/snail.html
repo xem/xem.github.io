@@ -1,0 +1,116 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=snail>
+	<h2>Snail</h2>
+	<h3>october 2013</h3>
+	<p>A snail matrix generator in 133 bytes</p>
+	<pre><code class="lang-js">s=function(e,c,d,b,f,h,g){c=[[]];d=1;b=h=0;for(f=-1;e;e--){for(g=1;g<2*e;g++)g>e?b+=d:f+=d,c[b]||(c[b]=[]),c[b][f]=++h;d=-d}return c}</code></pre>
+  <button onclick="source_escargot.style.display='block';this.style.display='none'">See the source code</button>
+  <br>
+  <pre id=source_escargot style="display:none"><code class="lang-js">/**
+* Snail
+* @param n: the size of the matrix (n*n)
+* @return: a 2D array with integers
+*/
+
+s = function(n,a,d,x,y,c,i){
+
+  // a is the result matrix
+  a = [[]];
+  
+  // d is the direction: right, bottom = 1; left, top = -1
+  d = 1;
+  
+  // c is the counter value.
+  c = 0;
+  
+  // x and y are the coordinates of the number in the matrix
+  x = 0;
+  y = -1;
+
+  // Loop while n decrements
+  for(; n; n--){
+
+    // The two following loops are merged in the minified code:
+    
+    // fill n columns
+    for(i = 0; i < n; i++){
+      
+      y += d;
+      a[x][y] = ++c;
+    }
+    
+    // fill n-1 lines 
+    for(i = 0; i < n - 1; i++){
+      
+      x += d;
+      if(!a[x]){
+        a[x] = [];
+      }
+      a[x][y] = ++c;
+    }
+
+    // change direction
+    d = -d;
+  }
+  
+  return a;
+}</code></pre>
+  <br>
+  <b>Demo</b>:
+  <br>
+  Size: <input id=taille_escargot value=8 size=2> <button id=button_escargot>Generate</button>
+  <script>
+    snail=function(e,c,d,b,f,h,g){c=[[]];d=1;b=h=0;for(f=-1;e;e--){for(g=1;g<2*e;g++)g>e?b+=d:f+=d,c[b]||(c[b]=[]),c[b][f]=++h;d=-d}return c}
+    button_escargot.onclick = function(){
+      var size = parseInt(taille_escargot.value);
+      if(size > 0){
+        demo_escargot.style.display = "block";
+        var matrix = snail(size);
+        var html = "<table style='width:auto;table-layout:fixed;background:#fff' border=rules>";
+        var i, j;
+        for(i = 0; i < size; i++){
+          html += "<tr>";
+          for(j = 0; j < size; j++){
+            html += "<td style='padding:5px;text-align:center'>" + matrix[i][j] + "</td>";
+          }
+          html += "</tr>";
+        }
+        html += "</table>";
+        demo_escargot.innerHTML = html;
+      }
+    }
+  </script>
+  <div class=demo id=demo_escargot style="display:none"></div>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

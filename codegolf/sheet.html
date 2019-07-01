@@ -1,0 +1,72 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=sheet>
+  <h2>Sheet</h2>
+	<h3>may, june 2014 - october 2017</h3>
+	<p>A mini Excel clone in 188b/253b/277b, golfed in 2014 and enhanced during <a href="../articles/golfctober17">#golfctober 2017</a>.
+  <p>Features:
+  <ul>
+  <li>supports any value: texts, numbers, floats, and formulae. Ex: "=A1+8"
+  <li>cells update in cascade, circular reference protection
+  <li>implicit Math object. Ex: "=sqrt(A1)"
+  <li>localStorage persistence 
+  </ul>
+  <p>Read the commented source code of each demo to learn how they work!
+  
+  <p>- <a href="http://github.com/xem/sheet">Github</a>
+  <p>- <a href="http://xem.github.io/sheet">Website</a>
+  
+  <p><hr>
+  <p>Full:
+  <pre><code class="lang-js">o=b=>{for(i in{}+o)with(M=Math)M[y='ABCD'[i%5]+-~(i/5%6)]=b?document.write(y&&
+i&lt;30?`&lt;input placeholder=${y} id=`+y:'&lt;br',` onfocus=value=[l[id]] onblur=l[id
+]=value,o()>`):(top[y].value=[/^=/.test(z=l[y])?eval('x'+z):x=z],x-~x?+x:x)};o
+(o(l=localStorage))</code></pre>
+  
+  <p>
+  <iframe src="http://xem.github.io/sheet/full.html" height=200></iframe>
+
+  <p><hr>
+  <p>Mini (supports numbers and formulae, no localStorage):
+  
+  <pre><code class="lang-js">(o=v=>{for(i in z='&lt;input onblur=o[id]=value;o`.value` id=')y="
+ABCD"[i%5]+-~(i/5),v?eval(y+(v+o[y]).replace(/[A-Z]\d/g," +$&"+
+v)):document.write(y||'&lt;p ',z,y,' onfocus=value=[o[id]]>')})()</code></pre>
+  
+  <p>
+  <iframe src="demos/sheetmini.html" height=350></iframe>
+  
+  <p><hr>
+  
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

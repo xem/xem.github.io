@@ -1,0 +1,1103 @@
+<meta charset=utf-8>
+
+<style>
+* { box-sizing: border-box; -moz-box-sizing: border-box; margin: 0; padding: 0 }
+body { overflow:hidden;height:100%; margin:0; counter-reset:c; font-size:2vw }
+section { background:#fff; width:100vw; height:100vh; left:-100vw; text-align:center; position:fixed; overflow-y:auto; overflow-x:hidden; transition:left 1s }
+section:after { counter-increment:c; content:counter(c); position:fixed; bottom:1em; right:1.5em }
+:target { left:0 }
+:target ~ * { left:100vw }
+section > div { display:table; width:100vw; height:100% }
+section > div > div { display:table-cell; width:100vw; vertical-align:middle }
+section > a { text-decoration:none; position:fixed; top:50% }
+.← { left:1.5em }
+.→ { right: 1.5em }
+:not(:target):after, #slide0:after { opacity:0 }
+section:not(:target) > a { display: none }
+a.start { display: block; width: 100vw; line-height: 100vh; text-align: center; position:absolute }
+
+body { font-family: arial; font-size: 1.7vw; line-height: 5vmin }
+input { font-size: 2vw; }
+section { height: 100vh; background: radial-gradient(#fff 70%, #eee); }
+section > div > div { padding: 1em 4em }
+img { width: 55% }
+h1 { font-size: 1.8em; }
+h2,h3 { font-size: 1.2em; }
+ul { text-align: left }
+pre { text-align: left; background: #def; padding: 1em; margin: 1em; font-weight: normal; font-size: .8em; line-height: 1.5em; display: inline-block }
+ul{ display:inline-block; width: 70% }
+li{ text-align: left; margin: 0.3em 0; line-height: 1.3em; }
+style[contenteditable] { display: inline-block; background: #fed; padding: 1em; }
+.←, .→ { font-weight: bold; border: 1px solid #333; border-radius: 50%; width: 1.4em; height: 1.4em; line-height: 1.2em; font-size: 1em; background: #fff; color: #555; }
+</style>
+
+<a class=start id=start href=#slide0>Start</a>
+
+<section id=slide0>
+<div>
+<div>
+<img src=intro.gif style="width: 30%; margin: 0 0 3em">
+<br>
+<h1>CSS rules and selectors</h1>
+@MaximeEuziere, Stéphane Erard
+<br>
+September 2014
+</div>
+</div>
+<a class=→ href=#slide1>&rarr;</a>
+</section>
+
+<section id=slide1>
+<a class=← href=#slide0>&larr;</a>
+<div>
+<div>
+<h1>Definitions</h1>
+</div>
+</div>
+<a class=→ href=#slide2>&rarr;</a>
+</section>
+
+<section id=slide2>
+<a class=← href=#slide1>&larr;</a>
+<div>
+<div>
+<h2>CSS rules</h2>
+<br><pre><code class="lang-css">selector {
+  property: value;
+  property: value;
+  ...
+}</code></pre>
+</div>
+</div>
+<a class=→ href=#slide3>&rarr;</a>
+</section>
+
+<section id=slide3>
+<a class=← href=#slide2>&larr;</a>
+<div>
+<div>
+<h2>CSS at-rules</h2>
+<br><pre><code class="lang-css">@media XYZ {
+  /* CSS rules for the media XYZ */
+}</code></pre>
+<br>
+<pre><code class="lang-css">@font-face {
+  font-family: XYZ;
+  /* CSS properties for the custom font XYZ */
+}</code></pre>
+<br>
+<pre><code class="lang-css">@keyframes XYZ {
+  0% { /* CSS properties for the animation XYZ's start */ }
+  50% { /* CSS properties for the animation XYZ's middle */ }
+  100% { /* CSS properties for the animation XYZ's end */ }
+}</code></pre><br>
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule">etc.</a>
+</div>
+</div>
+<a class=→ href=#slide4>&rarr;</a>
+</section>
+
+<section id=slide4>
+<a class=← href=#slide3>&larr;</a>
+<div>
+<div>
+<h1>Where can we write CSS code?</h1>
+</div>
+</div>
+<a class=→ href=#slide5>&rarr;</a>
+</section>
+
+<section id=slide5>
+<a class=← href=#slide4>&larr;</a>
+<div>
+<div>
+<h2>In a CSS file referenced in the page's head</h2>
+<br>style.css:
+<br><pre><code class="lang-css">selector {
+property: value;
+property: value
+}</code></pre><br>
+<br>
+HTML file:
+<br><pre><code class="lang-html">&lt;link rel=stylesheet href=style.css>
+</div>
+</div>
+<a class=→ href=#slide6>&rarr;</a>
+</section>
+
+<section id=slide6>
+<a class=← href=#slide5>&larr;</a>
+<div>
+<div>
+<h2>In a &lt;style> element (in the page's head or body)</h2>
+<br><pre><code class="lang-html">&lt;style>
+selector {
+  property: value;
+  property: value
+}
+&lt;/style></code></pre>
+</div>
+</div>
+<a class=→ href=#slide7>&rarr;</a>
+</section>
+
+<section id=slide7>
+<a class=← href=#slide6>&larr;</a>
+<div>
+<div>
+<h2>Directly on a HTML element, using a style attribute (and no selector)</h2>
+<br><pre><code class="lang-html">&lt;div style="property: value; property: value;">
+Hello World
+&lt;/div></code></pre>
+</div>
+</div>
+<a class=→ href=#slide8>&rarr;</a>
+</section>
+
+<section id=slide8>
+<a class=← href=#slide7>&larr;</a>
+<div>
+<div>
+<h2>You can even use CSS without any HTML code!</h2>
+<a href="http://mathiasbynens.be/demo/css-without-html" target=_blank>Demo</a>
+<br>
+<a href="http://css-tricks.com/using-css-without-html/" target=_blank>Explanation</a>
+</div>
+</div>
+<a class=→ href=#slide9>&rarr;</a>
+</section>
+
+<section id=slide9>
+<a class=← href=#slide8>&larr;</a>
+<div>
+<div>
+<h1>Where <u>should</u> we write CSS code?</h1>
+</div>
+</div>
+<a class=→ href=#slide10>&rarr;</a>
+</section>
+
+<section id=slide10>
+<a class=← href=#slide9>&larr;</a>
+<div>
+<div>
+<h3>Static CSS</h3>
+<ul>
+<li>in a CSS file referenced in the page's head
+<li>uses caching
+<li>blocks the page rendering until it's loaded (avoids FOUC)
+</ul>
+<br><br><br>
+<h3>Dynamic CSS (edited by JS)</h3>
+<ul><li>inline
+</div>
+</div>
+<a class=→ href=#slide11>&rarr;</a>
+</section>
+
+<section id=slide11>
+<a class=← href=#slide10>&larr;</a>
+<div>
+<div>
+<h1>How can we target HTML elements with CSS?</h1>
+</div>
+</div>
+<a class=→ href=#slide12>&rarr;</a>
+</section>
+
+<section id=slide12>
+<a class=← href=#slide11>&larr;</a>
+<div>
+<div>
+<h2>Universal selector</h2>
+<br>
+<br>
+<style contenteditable>
+* { ... }
+</style>
+</div>
+</div>
+<a class=→ href=#slide13>&rarr;</a>
+</section>
+
+<section id=slide13>
+<a class=← href=#slide12>&larr;</a>
+<div>
+<div>
+<h2>type (tag) selector</h2>
+<br>
+<br>
+<style contenteditable>
+h2 { ... }
+</style>
+</div>
+</div>
+<a class=→ href=#slide14>&rarr;</a>
+</section>
+
+<section id=slide14>
+<a class=← href=#slide13>&larr;</a>
+<div>
+<div>
+<h2>ID selector</h2>
+<br>
+<br>
+<style contenteditable id=id>
+#id { ... }
+</style>
+</div>
+</div>
+<a class=→ href=#slide15>&rarr;</a>
+</section>
+
+<section id=slide15>
+<a class=← href=#slide14>&larr;</a>
+<div>
+<div>
+<h2>class selector</h2>
+<br>
+<br>
+<style contenteditable class=class>
+.class { ... }
+</style>
+</div>
+</div>
+<a class=→ href=#slide16>&rarr;</a>
+</section>
+
+<section id=slide16>
+<a class=← href=#slide15>&larr;</a>
+<div>
+<div>
+<h2>attribute selectors (IE7+)</h2>
+HTML:
+<br><pre><code class="lang-html">&lt;div attr=foo> Hi! &lt;/div></code></pre><br>
+CSS:
+<br><pre><code class="lang-css">[attr] { color: red }      /* "attr" attribute is present */
+[attr=foo] { color: red }  /* attr has the value "foo" */</code></pre>
+</div>
+</div>
+<a class=→ href=#slide17>&rarr;</a>
+</section>
+
+<section id=slide17>
+<a class=← href=#slide16>&larr;</a>
+<div>
+<div>
+<h1>How <u>should</u> we target HTML elements with CSS?</h1>
+</div>
+</div>
+<a class=→ href=#slide18>&rarr;</a>
+</section>
+
+<section id=slide18>
+<a class=← href=#slide17>&larr;</a>
+<div>
+<div>
+<h3>In CSS resets</h3>
+<ul>
+<li>Universal selector
+<li>Type selector
+</ul>
+<br><br><br>
+<h3>Everywhere else</h3>
+<ul>
+<li>Class selector
+<li>Type selector (carefully)
+</ul>
+</div>
+</div>
+<a class=→ href=#slide19>&rarr;</a>
+</section>
+
+<section id=slide19>
+<a class=← href=#slide18>&larr;</a>
+<div>
+<div>
+<h1>Which pseudo-classes can we use?</h1>
+</div>
+</div>
+<a class=→ href=#slide20>&rarr;</a>
+</section>
+
+<section id=slide20>
+<a class=← href=#slide19>&larr;</a>
+<div>
+<div>
+<h2>:link, :visited</h2>
+CSS:
+<br><pre><code class="lang-css">a:link { color: green }
+a:visited { color: green }</code></pre><br>
+
+Demo:
+<br>
+<br>
+<style>.demolinkvisited:link { color: green } .demolinkvisited:visited { color: red }</style>
+<a class=demolinkvisited href="http://anything.com" target=_blank>visit me</a>
+</div>
+</div>
+<a class=→ href=#slide21>&rarr;</a>
+</section>
+
+<section id=slide21>
+<a class=← href=#slide20>&larr;</a>
+<div>
+<div>
+<h2>:hover</h2>
+(IE6+ for &lt;a>, IE7+ for all elements)
+<br>
+<br>
+CSS:
+<br><pre><code class="lang-js">a:hover { color: red }</code></pre><br>
+
+Demo:
+<br>
+<br>
+<style>#demostate1:hover { color: red }</style>
+<a id=demostate1 href="#">hover me</a>
+</div>
+</div>
+<a class=→ href=#slide22>&rarr;</a>
+</section>
+
+<section id=slide22>
+<a class=← href=#slide21>&larr;</a>
+<div>
+<div>
+<h2>:active</h2>
+(IE8+)
+<br>
+<br>
+CSS:
+<br><pre><code class="lang-js">input:active { color: red }</code></pre><br>
+
+Demo:
+<br>
+<br>
+<style>#demostate2:active { color: red }</style>
+<input id=demostate2 value="activate me">
+</div>
+</div>
+<a class=→ href=#slide23>&rarr;</a>
+</section>
+
+<section id=slide23>
+<a class=← href=#slide22>&larr;</a>
+<div>
+<div>
+<h2>:focus</h2>
+(IE8+)
+<br>
+<br>
+CSS:
+<br><pre><code class="lang-js">input:focus { color: red }</code></pre><br>
+
+Demo:
+<br>
+<br>
+<style>#demostate3:focus { color: red }</style>
+<input id=demostate3 value="focus me">
+</div>
+</div>
+<a class=→ href=#slide24>&rarr;</a>
+</section>
+
+<section id=slide24>
+<a class=← href=#slide23>&larr;</a>
+<div>
+<div>
+<h2>:checked</h2>
+(IE9+)
+<br>
+<br>
+CSS:
+<br><pre><code class="lang-js">input:checked { outline: 5px solid red }</code></pre><br>
+
+Demo:
+<br>
+<br>
+<style>#demostate4:checked { outline: 5px solid red }</style>
+<input id=demostate4 type=checkbox>
+</div>
+</div>
+<a class=→ href=#slide25>&rarr;</a>
+</section>
+
+<section id=slide25>
+<a class=← href=#slide24>&larr;</a>
+<div>
+<div>
+<h2>:enabled, :disabled</h2>
+(IE9+)
+<br>
+<br>
+HTML:
+<br><pre><code class="lang-html">&lt;input>
+&lt;input disabled></code></pre><br>
+CSS:
+<br><pre><code class="lang-js">input:enabled { color: green }
+input:disabled { color: red }</code></pre><br>
+
+Demo:
+<br>
+<br>
+<style>.demostate5:enabled { color: green } .demostate5:disabled { color: red }</style>
+<input class=demostate5 value=value>
+<input class=demostate5 disabled value=value>
+</div>
+</div>
+<a class=→ href=#slide26>&rarr;</a>
+</section>
+
+<section id=slide26>
+<a class=← href=#slide25>&larr;</a>
+<div>
+<div>
+<h2>:target</h2>
+(IE9+)
+<br>
+<br>
+CSS:
+<br><pre><code class="lang-js">div:target { background: red }</code></pre><br>
+
+Demo:
+<br>
+<br>
+<a href=demo-target.html target=_blank>Target</a>
+</div>
+</div>
+<a class=→ href=#slide27>&rarr;</a>
+</section>
+
+<section id=slide27>
+<a class=← href=#slide26>&larr;</a>
+<div>
+<div>
+<h1>Which combinators can we use?</h1>
+</div>
+</div>
+<a class=→ href=#slide28>&rarr;</a>
+</section>
+
+<section id=slide28>
+<a class=← href=#slide27>&larr;</a>
+<div>
+<div>
+<h2>descendant combinator</h2>
+HTML:
+<br><pre><code class="lang-html">&lt;div class=foo>
+&lt;div>
+&lt;div> Hi! &lt;/div>
+&lt;/div>
+&lt;/div></code></pre><br>
+CSS:
+<br><pre><code class="lang-js">.foo div { border-color: red }</code></pre><br>
+Demo:
+<br>
+<br>
+<div class=demochild> <div> <div> Hi! </div> </div> </div>
+<style>
+.demochild { border: 1px solid black; padding: 10px; display: inline-block; }
+.demochild div { border: 1px solid red; padding: 10px; display: inline-block; }
+</style>
+</div>
+</div>
+<a class=→ href=#slide29>&rarr;</a>
+</section>
+
+<section id=slide29>
+<a class=← href=#slide28>&larr;</a>
+<div>
+<div>
+<h2>child combinator (IE7+)</h2>
+HTML:
+<br><pre><code class="lang-html">&lt;div class=foo>
+&lt;div>
+&lt;div> Hi! &lt;/div>
+&lt;/div>
+&lt;/div></code></pre><br>
+CSS:
+<br><pre><code class="lang-js">.foo > div { border-color: red }</code></pre><br>
+Demo:
+<br>
+<br>
+<div class=demodirectchild> <div> <div> Hi! </div> </div> </div>
+<style>
+.demodirectchild { border: 1px solid black; padding: 10px; display: inline-block; }
+.demodirectchild div { border: 1px solid black; padding: 10px; display: inline-block; }
+.demodirectchild > div { border: 1px solid red; padding: 10px; display: inline-block; }
+</style>
+</div>
+</div>
+<a class=→ href=#slide30>&rarr;</a>
+</section>
+
+<section id=slide30>
+<a class=← href=#slide29>&larr;</a>
+<div>
+<div>
+<h2>Next-sibling combinator (IE7+)</h2>
+HTML:
+<br><pre><code class="lang-html">&lt;div> A &lt;/div>
+&lt;div class=foo> B &lt;/div>
+&lt;div> C &lt;/div>
+&lt;div> D &lt;/div></code></pre><br>
+CSS:
+<br><pre><code class="lang-js">.foo ~ div { border-color: red }</code></pre><br>
+Demo:
+<br>
+<br>
+<div class=demosiblingprevious> A </div><div class=demosibling> B </div><div> C </div><div> D </div>
+<style>
+.demosiblingprevious { border: 1px solid black; padding: 10px; display: inline-block; margin: 10px; }
+.demosibling { border: 1px solid black; padding: 10px; display: inline-block; margin: 10px; }
+.demosibling ~ div{ border: 1px solid red; padding: 10px; display: inline-block; margin: 10px; }
+</style>
+</div>
+</div>
+<a class=→ href=#slide31>&rarr;</a>
+</section>
+
+<section id=slide31>
+<a class=← href=#slide30>&larr;</a>
+<div>
+<div>
+<h2>Following-sibling combinator (IE7+)</h2>
+HTML:
+<br><pre><code class="lang-html">&lt;div class=foo> A &lt;/div>
+&lt;div> B &lt;/div>
+&lt;div> C &lt;/div></code></pre><br>
+CSS:
+<br><pre><code class="lang-js">.foo + div { border-color: red }</code></pre><br>
+Demo:
+<br>
+<br>
+<div class=demofollowingsibling> A </div><div> B </div><div> C </div>
+<style>
+.demofollowingsibling { border: 1px solid black; padding: 10px; display: inline-block; margin: 10px; }
+.demofollowingsibling ~ div { border: 1px solid black; padding: 10px; display: inline-block; margin: 10px; }
+.demofollowingsibling + div { border: 1px solid red; padding: 10px; display: inline-block; margin: 10px; }
+</style>
+</div>
+</div>
+<a class=→ href=#slide32>&rarr;</a>
+</section>
+
+<section id=slide32>
+<a class=← href=#slide31>&larr;</a>
+<div>
+<div>
+<h2>selector list</h2>
+HTML:
+<br><pre><code class="lang-html">&lt;div id=foo>&lt;/div>
+&lt;div id=bar>&lt;/div></code></pre><br>
+CSS:
+<br><pre><code class="lang-js">#foo, #bar { color: red }</code></pre><br>
+</div>
+</div>
+<a class=→ href=#slide33>&rarr;</a>
+</section>
+
+<section id=slide33>
+<a class=← href=#slide32>&larr;</a>
+<div>
+<div>
+<h2>multiple selectors (IE7+)</h2>
+HTML:
+<br><pre><code class="lang-html">&lt;div id=foo class="bar baz">&lt;/div></code></pre><br>
+CSS:
+<br><pre><code class="lang-js">#foo.bar.baz { color: red }</code></pre><br>
+</div>
+</div>
+<a class=→ href=#slide34>&rarr;</a>
+</section>
+
+<section id=slide34>
+<a class=← href=#slide33>&larr;</a>
+<div>
+<div>
+<h2>And many more!</h2>
+<br>
+<a href="http://dev.w3.org/csswg/selectors4/">Link</a>
+<br><br>
+<pre><code class="lang-js">
+:not(X) { ... }
+
+:matches(X) { ... }
+
+:has(X) { ... }
+
+:dir(X) { ... }
+
+:lang(X) { ... }
+
+:any-link { ... }
+
+:scope { ... }
+
+:current { ... }
+
+:current { ... }
+
+:past { ... }
+
+:future { ... }
+
+:active-drop { ... }
+
+:valid-drop { ... }
+
+:invalid-drop { ... }
+
+:read-only { ... }
+
+:read-write { ... }
+
+:placeholder-shown { ... }
+
+:default { ... }
+
+:indeterminate { ... }
+
+:valid { ... }
+
+:invalid { ... }
+
+:in-range { ... }
+
+:out-of-range { ... }
+
+:required { ... }
+
+:optional { ... }
+
+:root { ... }
+
+:empty { ... }
+
+:blank { ... }
+
+:nth-child(X)  { ... }
+
+:nth-child(X of Y)  { ... }
+
+:nth-last-child(X)  { ... }
+
+:nth-last-child(X of Y)  { ... }
+
+:first-child { ... }
+
+:last-child { ... }
+
+:only-child { ... }
+
+:nth-of-type(X) { ... }
+
+:nth-last-of-type(X) { ... }
+
+:first-of-type { ... }
+
+:last-of-type { ... }
+
+:only-of-type { ... }
+
+:nth-column(X) { ... }
+
+:nth-last-column(X) { ... }
+
+X || Y { ... }
+
+[foo=bar i] { ... }
+
+[foo~=bar] { ... }
+
+[foo^="bar"] { ... }
+
+[foo$="bar"] { ... }
+
+[foo*="bar"] { ... }
+
+[foo|="bar"] { ... }
+
+</code></pre>
+</div>
+</div>
+<a class=→ href=#slide35>&rarr;</a>
+</section>
+
+<section id=slide35>
+<a class=← href=#slide34>&larr;</a>
+<div>
+<div>
+<h2>Also, pseudo-elements</h2>
+
+<pre><code class="lang-js">
+X:before { /* dummy element at the beginning of X (IE8+) */ }
+
+X:after { /* dummy element at the end of X (IE8+) */ }
+
+X::first-letter { /* targets only the first letter of X (IE5+) */ }
+
+X::first-line { /* targets only the first line of X (IE5+) */ }
+
+X::selection { /* targets user-selected text (IE9+) */ }
+</code></pre>
+</div>
+</div>
+<a class=→ href=#slide36>&rarr;</a>
+</section>
+
+<section id=slide36>
+<a class=← href=#slide35>&larr;</a>
+<div>
+<div>
+<h1>How are priorized CSS rules?</h1>
+</div>
+</div>
+<a class=→ href=#slide37>&rarr;</a>
+</section>
+
+<section id=slide37>
+<a class=← href=#slide36>&larr;</a>
+<div>
+<div>
+<h3>If you use the same selector:
+<br>
+lowest priority on "top", highest priority on "bottom"</h3>
+<pre><code class="lang-js">
+&lt;style>
+
+.class { color: green; }
+
+.class { color: blue; }
+
+.class { color: red; }
+
+&lt;/style>
+</code></pre>
+<br><br>
+color will be red.
+</div>
+</div>
+<a class=→ href=#slide38>&rarr;</a>
+</section>
+
+<section id=slide38>
+<a class=← href=#slide37>&larr;</a>
+<div>
+<div>
+<h3>If you use different selectors...</h3>
+
+<pre><code class="lang-js">
+&lt;style>
+
+body div#id span a.class { color: blue }
+
+body.bodyclass div.divclass span[name=foo] a.class { color: red }
+
+&lt;/style>
+</code></pre>
+<br><br>
+color will be ... ???
+</div>
+</div>
+<a class=→ href=#slide39>&rarr;</a>
+</section>
+
+<section id=slide39>
+<a class=← href=#slide38>&larr;</a>
+<div>
+<div>
+<h3>Selectors specificity</h3>
+Selectors specificity is computed using 4 counters:
+<br>
+<br>
+<img src="specificity-calculationbase.png">
+<br>
+<ul>
+<li>If the element has inline styling, apply 1,0,0,0
+<li>For each ID value, apply 0,1,0,0 points
+<li>For each class value (or pseudo-class or attribute selector), apply 0,0,1,0 points
+<li>For each element reference, apply 0,0,0,1 point
+</div>
+</div>
+<a class=→ href=#slide40>&rarr;</a>
+</section>
+
+<section id=slide40>
+<a class=← href=#slide39>&larr;</a>
+<div>
+<div>
+<h3>Selectors specificity</h3>
+Example:
+<br><br>
+<img src="cssspecificity-calc-1.png">
+</div>
+</div>
+<a class=→ href=#slide41>&rarr;</a>
+</section>
+
+<section id=slide41>
+<a class=← href=#slide40>&larr;</a>
+<div>
+<div>
+<h3>Selectors specificity</h3>
+Example:
+<br><br>
+<img src="cssspecificity-calc-2.png">
+</div>
+</div>
+<a class=→ href=#slide42>&rarr;</a>
+</section>
+
+<section id=slide42>
+<a class=← href=#slide41>&larr;</a>
+<div>
+<div>
+<h3>Selectors specificity</h3>
+Example:
+<br><br>
+<img src="cssspecificity-calc-4.png">
+</div>
+</div>
+<a class=→ href=#slide43>&rarr;</a>
+</section>
+
+<section id=slide43>
+<a class=← href=#slide42>&larr;</a>
+<div>
+<div>
+<h3>Selectors specificity</h3>
+<ul>
+<li>
+Universal selector ( <b>*</b> ) doesn't count
+<li>
+Pseudo-elements have a score of 0,0,0,1
+<li>
+Adding <b>!important</b> after a value makes it stronger than all the others, regardless of the selector's specificity.
+</div>
+</div>
+<a class=→ href=#slide44>&rarr;</a>
+</section>
+
+<section id=slide44>
+<a class=← href=#slide43>&larr;</a>
+<div>
+<div>
+<h3>Good practices</h3>
+
+<ul>
+<li>
+Use only classes and pseudo-classes
+<li>
+Keep your selectors short (2-3 classes max)
+<li>Adopt a naming methodology...
+</div>
+</div>
+<a class=→ href=#slide45>&rarr;</a>
+</section>
+
+<section id=slide45>
+<a class=← href=#slide44>&larr;</a>
+<div>
+<div>
+<h3>The BEM methodology</h3>
+<a href="http://bem.info/">http://bem.info/</a>
+<br><br>
+BEM stands for <b>Block-Element-Modifier</b>
+<br>
+It describes how to write your HTML code and how to chose your CSS classes in a clean and maintenable way.
+</div>
+</div>
+<a class=→ href=#slide46>&rarr;</a>
+</section>
+
+<section id=slide46>
+<a class=← href=#slide45>&larr;</a>
+<div>
+<div>
+<h3>The BEM methodology: Blocks</h3>
+A block is an independent entity, a "building block" of an application.<br>A block can be either simple or compound (containing other blocks).
+<br><br>
+<b>Example:</b>
+<br>
+Search form block
+<br>
+<img src="0_babd5_c3d7b2b5_XL.png">
+</div>
+</div>
+<a class=→ href=#slide47>&rarr;</a>
+</section>
+
+<section id=slide47>
+<a class=← href=#slide46>&larr;</a>
+<div>
+<div>
+<h3>The BEM methodology: Elements</h3>
+An element is a part of a block that performs a certain function.
+<br>
+Elements are context-dependent: they only make sense in the context of the block they belong to.
+<br><br>
+<b>Example:</b>
+<br>
+An input field and a button are elements of the Search Block
+<br>
+<img src="0_babd3_d1278b96_XXL.png">
+<br><br>
+Menu items are elements of the Menu block
+<br>
+<img src="0_babd1_f14000fa_XL.png">
+<br>
+<br>
+<b>HTML</b>:
+<br>
+<pre><code class="lang-js">
+&lt;ul class="menu">
+  &lt;li class="menu__item">…&lt;/li>
+  &lt;li class="menu__item">…&lt;/li>
+&lt;/ul>
+</code></pre>
+</div>
+</div>
+<a class=→ href=#slide48>&rarr;</a>
+</section>
+
+<section id=slide48>
+<a class=← href=#slide47>&larr;</a>
+<div>
+<div>
+<h3>The BEM methodology: Modifiers</h3>
+Block Modifiers:
+<br>
+We often need to create a block very similar to an existing one, but with slightly altered its appearance or behavior.
+<br><br>
+<b>Example:</b>
+<br>
+Header menu / Footer menu
+<br><br>
+<img src="0_babd6_ec71b7f8_XXL.png">
+<br><br>
+<b>HTML</b>
+<br>
+<pre><code class="lang-js">
+&lt;ul class="menu menu--tabs">
+  ...
+&lt;/ul>
+...
+&lt;ul class="menu menu--buttons">
+  ...
+&lt;/ul>
+</code></pre>
+<br><br>
+<pre><code class="lang-js">
+.menu {
+  // Common style
+}
+
+.menu__item {
+  // Common style
+}
+
+.menu--tabs {
+  // Specific style
+}
+
+.menu--buttons {
+  // Specific style
+}
+</code></pre>
+</div>
+</div>
+<a class=→ href=#slide49>&rarr;</a>
+</section>
+
+<section id=slide49>
+<a class=← href=#slide48>&larr;</a>
+<div>
+<div>
+<h3>The BEM methodology: Modifiers</h3>
+Element Modifiers:
+<br>
+<b>Example:</b>
+<br>
+Current menu item
+<br>
+<pre><code class="lang-js">
+&lt;ul class="menu">
+  &lt;li class="menu__item">...&lt;/li>
+  &lt;li class="menu__item menu__item--current">...&lt;/li>
+  &lt;li class="menu__item">...&lt;/li>
+&lt;/ul>
+</code></pre>
+<br><br>
+<pre><code class="lang-js">
+.menu__item {
+  // Items style
+}
+
+.menu__item--current {
+  // Current item style
+}
+</code></pre>
+</div>
+</div>
+<a class=→ href=#slide50>&rarr;</a>
+</section>
+
+<section id=slide50>
+<a class=← href=#slide49>&larr;</a>
+<div>
+<div>
+<h1>Bonus</h1>
+</div>
+</div>
+<a class=→ href=#slide51>&rarr;</a>
+</section>
+
+<section id=slide51>
+<a class=← href=#slide50>&larr;</a>
+<div>
+<div>
+<h2>CSS selectors can use Unicode characters</h2>
+It's W3C valid and it works on IE6+ !
+<br>
+<pre style=font-size:2em><code class="lang-js">
+.&#10084; { color: pink }
+.&#127822; { color: red }
+.&#9749; { color: #C0FFEE }
+.&#128170; { color: #BADA55 }
+.&#128169; { color: brown }
+</code></pre>
+<br><br>
+More details in <a href="https://mathiasbynens.be/notes/css-escapes">this website</a> and <a href="http://vimeo.com/100264064">this video</a>!
+
+
+</div>
+</div>
+<a class=→ href=#slide52>&rarr;</a>
+</section>
+
+<section id=slide52>
+<a class=← href=#slide51>&larr;</a>
+<div>
+<div>
+<h2>We can make almost anything interactive with just CSS and no JS</h2>
+<b>Examples:</b>
+<br><br>
+<a href="http://labs.thecssninja.com/bootleg/">Bootleg</a>: reinventing Bootstrap components in pure CSS
+<br><br>
+<a href="http://xem.github.io/cssslider/">CSSSlider</a>, used to make this slider.
+</div>
+</div>
+<a class=→ href=#slide53>&rarr;</a>
+</section>
+
+<section id=slide53>
+<a class=← href=#slide52>&larr;</a>
+<div>
+<div>
+<h1>Thanks!</h1>
+<b>Questions?</b>
+</div>
+</div>
+</section>

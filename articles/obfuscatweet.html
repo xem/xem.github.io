@@ -1,0 +1,286 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=obfuscatweet_url_en>
+  <h2>Obfusc-a-tweet reloaded</h2>
+	<h3>november-december 2015</h3>
+  <br>
+  TL;DR - the app is here: <a href="http://xem.github.io/obfuscatweet-reloaded">xem.github.io/obfuscatweet-reloaded</a>
+  <br>
+  <br>
+  <hr>
+  <br>
+	<p>Last year, <b>Subzey</b> and I introduced <a href="../golfing/#jstweet_en">Obfusc-a-tweet</a>, allowing to fit 190 chars of JavaScript in a single 140-chars tweet, by packing a pair of ASCII chars in 95 Unicode symbols and using the other 45 chars to unpack and execute them.
+  <p>This time, the idea is to take advantage of Twitter's URL shortener!
+  <p>When you tweet an URL, Twitter currently shrinks it (or lenghtens it) into a 23-chars URL, in the form <b>https://t.co/xxxxxxxxxx</b>.
+  <p>In the final tweet, your original URL can appear truncated on the left or on the right, or both, according to <a href="https://twitter.com/MaximeEuziere/status/669865248447438849">this rule</a>.
+  <p>But when you copy-paste such a tweet from Twitter to a text editor or a JS console, you get the entire original URL (instead of the shortened URL or the truncated URL), followed by a space and an "…" ellipsis character.
+  <br>
+  <hr>
+  <br>
+  <h3>Testing the limits</h3>
+  <p>I made some experiments so find the limits of this system and here's what I found:
+  <ul>
+  <li>A tweet can contain up to 5 URLs, separated by a space or a punctuation. (5 URLs take 119 chars. If you add a 6th one, it would overflow to 143 chars)
+  <li>A tweeted URL can be up to 4096 chars long. If it's longer, <a href="images/twitter-4097-chars-url.png">an alert will tell you that your tweet is longer than 140 chars</a>, even if the counter disagrees.
+  <li>International domain names (IDN) are not well supported. For example, you can tweet "http://mañana.com" and it will work fine. If you tweet a 140-chars-long URL like "http://mañññ(...)ññññññana.com", it will appear as text instead of a link, and if you try to tweet an IDN longer than 140 chars, <a href="images/twitter-unicode-url.png">Twitter will encounter an internal server error and the char counter will go nuts</a>.
+  <li>If you stick to regular domain names (limited to letters, numbers and dashes), and if you choose a two-letter-long top-level domain like ".fr", the URL's domain name can take up to 4086 letters or numbers. The 10 remaining chars will be used by the automatic "http://" and the TLD ".fr". As you can imagine, this is not very interesting to store JS code.
+  <li>But if you choose a one letter-long domain-name and a two-letter-long top-level-domain (like "a.fr/..."), the URL can contain up to 4084 chars after the slash. (The 12 remaining chars will be used by "http://a.fr/"). This is interesting to store JS code, because these 4084 chars can include any url-encoded text... and more!
+  </ul>
+  <br>
+  <hr>
+  <br>
+  <h3>Packing JS code</h3>
+  <p>So, if we want to store a lot of text in a 140-chars tweet, the theorical limit is about 5 x 4084 url-encoded chars (stored into 5 URLs) + 4 spaces or punctuations between each URL + 21 other characters.
+  <p>But our goal is to have an executable tweet, that can be copied as-is into a JS console and run instantly. Thus, the tweet needs to contain some long URLs plus a small JS unpacker and executer. After a lot of trial and error, here is the most efficient solution I could find: (it contains only 4 URLs and uses all the other chars to unpack and execute the JS code).
+  <pre><code class="lang-js">eval(decodeURI(" 🖝http://a.fr/WWW http://a.fr/XXX http://a.fr/YYY http://a.fr/ZZZ".replace(/ .{1,14}/g,'')))</code></pre>
+  <p>... where WWW, XXX, YYY and ZZZ are url-encoded strings up to 4084 chars long.
+  <p>Note that the four URLs are placed into a long string, surrounded by JS code.
+  <p>When this message is tweeted, it takes exactly 140 characters.
+  <p>When it's copy-pasted from Twitter to a JS console, the result is almost the same thing, the only difference being the spaces and ellipsis added after each URL:
+  <pre><code class="lang-js">eval(decodeURI(" 🖝http://a.fr/WWW … http://a.fr/XXX … http://a.fr/YYY … http://a.fr/ZZZ …".replace(/ .{1,14}/g,'')))</code></pre>
+  <p>When you execute that into a JS console, here's what happens:
+  <pre><code class="lang-js">// step 0: copy-paste the tweet
+
+eval(decodeURI(" 🖝http://a.fr/WWW … http://a.fr/XXX … http://a.fr/YYY … http://a.fr/ZZZ …".replace(/ .{1,14}/g,'')))
+
+// step 1: the replace(/ .{1,14}/g,'') transforms the string to keep only the interesting parts
+// it removes the beginning: " 🖝http://a.fr/", because it's a space followed by 14 characters.
+// The "🖝" is an astral Unicode character. It counts as two chars in JS, but only one on Twitter.
+// It also removes the three occurences of " … http://a.fr/" (space + 14 chars)
+// And it also removes the end: " …" (space + 1 char).
+// After the replace, here's the remaining string:
+
+eval(decodeURI("WWWXXXYYYZZZ"))
+
+// step 2: the remaining string is url-decoded to produce the final code
+// for example, any occurrence of "%7D" will be decoded to a tilde ("~"), etc.
+
+eval("final code")
+
+// step 3: the remaining string (our final JS code) is evaluated
+  </code></pre>
+  <p>The 🖝 symbol can be replaced by any astral Unicode symbol (U+10000 - U+10FFFF).
+  <p>At this point, we can potentially store up to 4 * 4084 = 16336 chars in a single tweet! But this total includes escape sequences for many characters that can't be used into URLs (such sequences take <a href="http://xem.github.io/escape/">3 to 12 chars each</a>).
+  <hr>
+  <br>
+  <h3>A word about encoded URIs</h3>
+  <p>Here are the 95 printable ASCII chars:
+  <pre><code class="lang-js"> !"#$%&'()*+,-./0123456789:;&lt;=>?
+@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^
+_`abcdefghijklmnopqrstuvwxyz{|}~</code></pre>
+  <p>Here are the same chars after passing them through JS's encodeURI:
+  <pre><code class="lang-js">%20!%22#$%25&'()*+,-./0123456789:;%3C=%3E?
+@ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5D%5E
+_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~</code></pre>
+  <p>Basically, according to JS, the only chars that need to be escaped are <b>space, ", %, &lt;, >, [, \, ], ^, `, {, | and }</b>.
+  <p>But Twitter has some quirks: it doesn't support URLs containing empty parenthesis like "()" or unbalanced parenthesis like "a(a)a)" or "(a(a)a" and on the other hand, it supports URLs containing <b>%, [, ] and |</b>.
+  <p>We need to take that into account to build a packer as effective as possible. (We will keep parenthesis and percent signs escaped to avoid weird parsing bugs, and we will keep <b>[, ] and |</b> unescaped because they are safe enough to be used like that in our URLs).
+  <br>
+  <hr>
+  <br>
+  <h3>Building the packer</h3>
+  <p>To sum things up, if we want to make a JS packer, the mission is to take a JS string as input, URL-encode it, URL-encode the parenthesis characters that can cause problems on Twitter, decode the three chars that don't need to be encoded (<b>[, ], |</b>), split the result in 4084-char blocks, pack these blocks in URLs, surround these URLs with an unpacker/executer, and output the result as a tweetable message.
+  <p>Here's <a href="http://xem.github.io/obfuscatweet-reloaded">the packer!</a> (use the first option to test the above technique)
+  <p>And <a href="https://twitter.com/MaximeEuziere/status/671025119402270720">here's a demo tweet that alerts a 12641-char text</a>
+  <br>
+  <hr>
+  <br>
+  <h3>UPDATE #1: Go further with charcode shifting!</h3>
+  <p>After releasing the first version of this packer, I realized with <b>Anders Kaare</b> that a lot of non-ASCII chars were actually useable in Twitter's URLs. After some manual research, we discovered that there's actually a total of 483 chars that can be used safely.
+  <pre><code class="lang-js">!#$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz[]|~ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚțȜȝȞȟȠȡȢȣȤȥȦȧȨȩȪȫȬȭȮȯȰȱȲȳȴȵȶȷȸȹȺȻȼȽȾȿɀɁɂɃɄɅɆɇɈɉɊɋɌɍɎɏ</code></pre>
+  <p>This represents a subset of the Unicode blocks "Basic Latin" and "Latin-1 supplement" plus the whole blocks "Latin-extended-A" and "Latin-extended-B", containing respectively 128 and 256 characters.
+  <p>So I had the idea to "shift" all the ASCII characters present in the JS source code (U+0000 - U+007F), to represent them with Latin-extended-A characters (U+0100 - U+017F). The advantage here is to avoid all the escape sequences needed to represent the special chars of our JS code in an URL. All we need to do is to add 0x100 to each charcode. 
+  <p>With the previous version, a 14-chars string like "Hello World ^^" was URL-encoded as "Hello%20World%20%5E%5E" (which is 22 chars long). With this "shift", it's converted to "ňťŬŬůĠŗůŲŬŤĠŞŞ" (which is only 14 chars long).
+  <p>Of course, this shifted code is not directly executable, it needs to be unshifted first. Here's the unshifter I wrote with the help of <b>Subzey</b>:
+  <pre><code class="lang-js">eval(unescape(escape('...shifted code...').replace(/u../g,'')))</code></pre>
+  <p>If you're confused by this code, you can read an explanation <a href="http://xem.github.io/golfing/#jstweet_en">here</a>. (we used the same principle in the original obfusc-a-tweet app)
+  <p>We don't have room in the tweet itself to include this unshifter, because the tweet is already filled with the URLs and their unpacker and executer, so we need to place this code directly inside our URLs.
+  <p>Here's an example of a complete tweet:
+  <pre><code class="lang-js">eval(decodeURI(" 🖝http://a.fr/eval%28unescape%28escape%28'WWW … http://a.fr/XXX … http://a.fr/YYY … http://a.fr/ZZZ'%29.replace(/u../g,'')%29%29 …".replace(/ .{1,14}/g,'')))</code></pre>
+  <p>where WWW, XXX, YYY and ZZZ respectively represent shifted code up to 4056, 4084, 4084 and 4055 chars long.
+  <p>Note that the first URL starts with an URL-encoded version of <b>eval(unescape(escape('</b> and the last URL ends with an URL-encoded version of <b>').replace(/u../g,'')))</b>.
+  <p>Here's what happens when this tweet is executed:
+  <pre><code class="lang-js">// step 0: copy-paste the tweet
+
+eval(decodeURI(" 🖝http://a.fr/eval%28unescape%28escape%28'WWW … http://a.fr/XXX … http://a.fr/YYY … http://a.fr/ZZZ'%29.replace(/u../g,'')%29%29 …".replace(/ .{1,14}/g,'')))
+
+// Unpacker-side:
+
+// step 1: the replace() transforms the string to keep only the interesting parts
+// After the replace, here's the remaining string:
+
+eval(decodeURI("eval%28unescape%28escape%28'WWWXXXYYYZZZ'%29.replace(/u../g,'')%29%29"))
+
+// step 2: the remaining string is url-decoded:
+
+eval("eval(unescape(escape('WWWXXXYYYZZZ').replace(/u../g,'')))")
+
+// step 3: the remaining string is evaluated:
+
+eval(unescape(escape('WWWXXXYYYZZZ').replace(/u../g,'')))
+
+// Unshifter-side:
+
+// Step 4: the string is unshifted to produce the final code
+
+eval('final code')
+
+// Step 5: the remaining string is evaluated.
+</code></pre>
+  <p>This unshifter consumes 57 chars of our URLs, but it removes all risk of escape sequences. So we're now sure to store up to 16,279 chars of JS in a tweet.
+  <p>Here's <a href="http://xem.github.io/obfuscatweet-reloaded">the updated packer!</a> (choose the second option under the input section to use the shifter)
+  <p>And <a href="https://twitter.com/MaximeEuziere/status/671972517771354112">here's a demo tweet that alerts a 16271-char text</a>
+  <br>
+  <hr>
+  <br>
+  <h3>UPDATE #2: Go even further with shift + PNG bootstrapping</h3>
+  <p>So, if we sum up our possibilities right now, we can either execute up to 16,336 chars of JS (including the escape sequences for all the chars that are not URL-safe), or execute up to 16,279 chars of JS (shifted to avoid using any escape sequence). This works fine with minified and even RegPacked code. But what if we could gzip our JS code, embed it into our 16,279 shifted chars, and add a little bit of extra code to extract and execute it?
+  <p>Well, some people already kinda had this idea, and it's called <a href="http://creativejs.com/2012/06/jsexe-javascript-compressor/">JsExe</a>. JsExe encodes the chars of any JS code in the pixels of a greyscale PNG image. The PNG format is natively gzipped. The PNG is then saved as a HTML page that includes itself in an IMG, draws it on a canvas, and reads the pixels to retrieve and execute the original JS code. Even though the extre code takes about 200 bytes, this "PNG bootstrapping" technique is generally more efficient than RegPack, even for demos as small as 1kb.
+  <p>So we decided to try that. First, <b>Subzey</b> and I developed <a href="http://codegolf.github.io/zpng">zpng</a>, a pure JS clone of JsExe. It turned out to be even more efficient than JsExe thanks to the use of zopfli compression!
+  <p>Then I took the code that generates PNG from zpng and included it in obfuscatweet-reloaded.
+  <p>I made it encode the JS source code into a PNG, converted the PNG bytes into extended ASCII, shifted them, and it gave me something like that:
+  <pre><code class="lang-js">// Source code
+alert("Hello World ^^");
+
+// PNG as dataURI
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAABCAAAAAAOB1pJAAAAIklEQVR4AWNIzEktKtFQ8kjNyclXCM8vyklRiItT0rRmAABw4wfh
+  
+// PNG's content, as text
+
+‰PNG
+
+
+IHDRZI"IDATxcHÌI-*ÑPòHÍÉÉWÏ/ÊIQˆ‹SÒ´fpãá
+  
+// PNG's content, as shifted text
+ƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ
+</code></pre>
+  <p>Cool, so now the PNG's content is tweetable. In order to use it, we have to unshift it, convert it in dataURI, put it in an image, draw that image on a canvas, read the pixels of the canvas, transform it in JS and execute the JS.
+  <p>The principle is the following:
+  <pre><code class="lang-js">var png = "ƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ";
+var g;
+// (snip) unshift png and put the result in g
+z=new Image;
+z.src='data:image/png;base64,'+btoa(g);
+V=document.createElement('canvas');
+C=V.getContext("2d");
+for($=_=''; C.drawImage(z,$--,0), X=(q=C.getImageData(0,0,64,32)).data[0]; _+=String.fromCharCode(X)){};
+(e=eval)(_);
+  </code></pre>
+  <p>Let's golf it:
+  <pre><code class="lang-js">(z=new Image).src='data:;base64,'+btoa(g);C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)
+  </code></pre>
+  <p>204 bytes. Great! Now here's the real trick. The PNG content is stored as shifted text. This bootstrap code should also be shifted, to use as few chars as possible. So the idea is to put the two shifted blocks in the same string:
+  <pre><code class="lang-js">var tmp = 'ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩ' /*bootstrap*/ + 'ƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ' /* PNG */
+  </code></pre>
+  <p>Then unshift this string, as we already did in the previous chapter, an put the result in g:
+  <pre><code class="lang-js">g=unescape(escape('ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ').replace(/u../g,''))
+  </code></pre>
+  <p>Then we execute only the first 204 chars of g.
+  <pre><code class="lang-js">eval((g=unescape(escape('ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ').replace(/u../g,''))).slice(0,204))
+  </code></pre>
+  <p>Let's go back to the bootstrap code. Instead of creating a dataURI from g, it needs to create it from g.slice(204).
+  <pre><code class="lang-js">(z=new Image).src='data:;base64,'+btoa(g.slice(204));C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)
+  </code></pre>
+  But the ".slice(204)" adds 11 chars to the bootstrap, so we need to replace 204 to 215 everywhere:
+  <pre><code class="lang-js">// In bootstrap
+(z=new Image).src='data:;base64,'+btoa(g.slice(215));C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)
+
+// In unshifter
+eval((g=unescape(escape('ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ').replace(/u../g,''))).slice(0,215))
+  </code></pre>
+  <p>And we're done! Phew! So, here's what happens when we tweet a PNG bootstrapped code:
+  <pre><code class="lang-js">// step 0: copy-paste the tweet
+// WWW, XXX, YYY and ZZZ represent the shifted string containing the bootstrap code and the PNG
+eval(decodeURI(" 🖝http://h.ck/eval%28%28g=unescape%28escape%28'WWW … http://h.ck/XXX … http://h.ck/YYY … http://h.ck/ZZZ'%29.replace(/u../g,'')%29%29.slice(0,215)%29 …".replace(/ .{1,14}/g,'')))
+
+// Unpacker-side:
+
+// step 1: the replace() transforms the string to keep only the interesting parts
+// After the replace, here's the remaining string:
+
+eval(decodeURI("eval%28%28g=unescape%28escape%28'WWWXXXYYYZZZ'%29.replace(/u../g,'')%29%29.slice(0,215)%29"))
+
+// step 2: the remaining string is url-decoded:
+
+eval("eval((g=unescape(escape('WWWXXXYYYZZZ').replace(/u../g,''))).slice(0,215))")
+
+// step 3: the remaining string is evaluated:
+
+eval((g=unescape(escape('WWWXXXYYYZZZ').replace(/u../g,''))).slice(0,215))
+
+
+// Unshifter-side:
+
+// Step 4: unshift, g contains all the unshifted string, and the first 215 chars are evaluated
+
+g = "(z=new Image).src='data:;base64,'+btoa(g.slice(215));C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_) // +  PNG content";
+
+eval(g.slice(0,215))
+
+// PNG bootstrap side
+
+// z contains an image whose src is g.slice(215)
+// C contains a canvas context2d
+// _ contains our final JS code
+// e is a shortcut for eval
+e(_)
+
+// Step 5: the final code is evaluated.
+</code></pre>
+  <p>We successfully embedded a PNG bootstrap technique in a tweet. Now let's break some record! (The last record was 16,279b of JS executed.)
+  <p>Here's <a href="http://xem.github.io/obfuscatweet-reloaded">the updated packer!</a> (choose the third option under the input section to use the PNG bootstrap mode)
+  <p>And <a href="https://twitter.com/MaximeEuziere/status/681109264744747008">here's a demo tweet that logs 37,867 chars of Moby Dick in the browser's console!</a>
+  <p>Unfortunately, this kind of code currently doesn't work on MS Edge, nor Firefox.
+  <p>If you insist a little, Firefox agrees to execute up to 16kb of JS packed into a PNG, but not more.
+  <br>
+  <hr>
+  <br>
+  <h3>UPDATE #3: ...PAUSE... </h3>
+  <p>We have many more ideas, based on different image compressions and base-483 radix conversion, but Twitter recently announced they will extend the tweets limit to 10,000 characters. Let's wait for that "revolution" before going further!
+  <p><b>To be continued!</b>
+  <hr>
+  <br>
+  <!--h3>UPDATE #3: Go EVEN MORE FURTHER with base-483?</h3>
+  <p>Why would we stop there? We have 483 different chars that we can use in our URLs, and they all count as 1 character out of 4096.
+  <p>Our JS source code generally uses all or a subset of ASCII. (i.e. less than 95 different chars, if we count printable characters, or 128 chars if we include all control characters).
+  <p>So <b>Anders Kaare</b> had the idea to perform a radix conversion from base "95-or-so" to base 483...
+  <p><b>To be continued!</b>
+  <hr>
+  <br-->
+  
+  <p>Cheers,
+  <br>
+  <b>@MaximeEuziere</b>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

@@ -1,30 +1,86 @@
-<!doctype html>
+﻿<!doctype html>
+<meta charset=utf-8>
 <html>
 <head>
-  <meta charset=utf-8>
-  <link rel=stylesheet href="style.css?v=3">
-  <title>Maxime Euzière</title>
+<link rel=stylesheet href="style.css?v=4">
+<title>Maxime Euzière</title>
 </head>
 <body>
-  <div class=menu>
-    <div class=header>
-      <h1>Maxime Euzière</h1>
-      Front-end experiments
-      <br>
-      & Game design
-      <br>
-      <br>
-      <a href="index.html" class=active>Home</a>
-      <a href="articles">Articles</a>
-      <a href="techwatch">Tech watch</a>
-      <a href="projects">Projects / experiments</a>
-      <a href="talks">Talks</a>
-      <a href="golfing">JS Code golfing</a>
-      <a href="other">Other stuff</a>
-    </div>
-    <div class=footer>© <script type="text/javascript">document.write(new Date().getFullYear())</script> - <a href="//github.com/xem" target=_blank>Github</a> - <a href="cv/cv-en.html" target=_blank>CV</a></div>
-  </div>
-  <div class=body>
+
+<div class="wrapper">
+
+<header></header>
+
+<main class=home>
+
+<div class="section games" style="min-height:auto">
+  <h2>Featured projects</h2>
+  <a href="./articles/js1k19.html"><img src="images/minimandelbox.png"></a>
+  <a href="./articles/js1k19.html"><img src="images/smb11k.png"></a>
+  <a href="./articles/js1k19.html"><img src="images/peach1kastle.png"></a>
+  <a href="./articles/js1k19.html"><img src="images/emojysics.png"></a>
+  <a href="./articles/js13k18.html"><img src="images/geoquiz2.png"></a>
+  <a href="./articles/js13k18.html"><img src="images/envelope.png"></a>
+  <a href="./articles/js1k18.html"><img src="images/sn1ke.png"></a>
+  <a href="./articles/js1k18.html"><img src="images/epiccycles.png"></a>
+  <a href="./articles/js13k17.html"><img src="images/lossst.png"></a>
+  <a href="./articles/js1k17.html"><img src="images/1karrot.png"></a>
+  <a href="./articles/js13k16.html"><img src="images/scpm.png"></a>
+  <a href="./articles/js13k15.html"><img src="images/geoquiz.png"></a>
+</div>
+
+<div class=section id=me style="min-height:auto">
+  <h2>About me</h2>
+  
+  <table>
+    <tr>
+      <td>
+        <center>
+          <p>I'm cofounder and member of:
+          <br>
+          <br>
+          <p><h1><img src="images/logo.png" width=50> JSGOLF.club</h1>
+          <p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDNWmc1cADrsp3CXTiZwi_9jHvit5xM7kSykoFkz8WRvMKWA/viewform?c=0&w=1" target=_blank>Register</a> <br> <a href="https://jsgolf.slack.com" target=_blank>Open Slack room</a>
+          <br>
+          <a href="https://gist.github.com/xem/206db44adbdd09bac424" target=_blank>Releases</a>
+        </center>
+        <style>
+          #me { height: 300px; position: relative; }
+          #me * { font-family: arial; vertical-align: middle; }
+          #me img { margin-top: -10px }
+          #me table { width: 100%; table-layout: fixed }
+          #me table td { border-right: 1px solid #888; }
+          #me table td:last-of-type { border-right: none; padding: 0 0 0 30px; }
+          #me table td:last-of-type ul { padding: 0 0 0 15px; }
+        </style>
+      </td>
+      
+      <td>
+        <div style="width:300px; margin: 0 auto">
+        <p>I also collect a lot of things I like:
+        <ul>
+        <li><a href="https://open.spotify.com/playlist/5jDUS9BEiNaObpSPniVcT4?si=iATbJtwQSGeiWMmiA5B3bg">My favourite songs</a>
+        <li><a href="https://github.com/xem/LOL#readme">My favourite funny images</a>
+        <li><a href="https://www.youtube.com/channel/UCs3FXBpZP4mKt-CnVAst6Ag/channels?view=56&shelf_id=0">My favourite youtubers</a>
+        <li><a href="feeds.opml" download>My favourite sites / RSS feeds</a> (OPML)
+        <li><a href="https://twitter.com/MaximeEuziere/likes">My favourite tweets</a>
+        </ul>
+        </div>
+      </td>
+    </tr>
+  </table>
+  
+</div>
+
+<style>
+
+</style>
+
+
+</div>
+
+<!--  <div class=body>
     <h1 class=center style="margin:15px 0">Portfolio</h1>
     <div class=section>
       <table class=accueil>
@@ -36,41 +92,15 @@
             </center>
             <br>
             <div class=games>
-              <a href="//xem.github.io/articles/#js1k19"><img src="images/minimandelbox.png"></a>
-              <a href="//xem.github.io/articles/#js1k19"><img src="images/smb11k.png"></a>
-              <a href="//xem.github.io/articles/#js1k19"><img src="images/peach1kastle.png"></a>
-              <a href="//xem.github.io/articles/#js1k19"><img src="images/emojysics.png"></a>
-              <a href="//xem.github.io/articles/#js13k18"><img src="images/geoquiz2.png"></a>
-              <a href="//xem.github.io/articles/#js13k18"><img src="images/envelope.png"></a>
-              <a href="//xem.github.io/articles/archive.html#js1k_2018"><img src="images/sn1ke.png"></a>
-              <a href="//xem.github.io/articles/archive.html#js1k_2018"><img src="images/epiccycles.png"></a>
-              <a href="//xem.github.io/articles/archive.html#js13k17"><img src="images/lossst.png"></a>
-              <a href="//xem.github.io/articles/archive.html#js1k2017"><img src="images/1karrot.png"></a>
-              <a href="//xem.github.io/articles/archive.html#js13k2016"><img src="images/scpm.png"></a>
-              <a href="//xem.github.io/articles/archive.html#js13k2015"><img src="images/geoquiz.png"></a>
+
             </div>
-            <center>more on <a href="https://maximeeuziere.itch.io/">itch.io</a> and in the <a href="articles">articles</a>, <a href="projects">projects</a> and <a href="golfing">JS codegolf</a> pages!</center>
+            <center>more on <a href="">itch.io</a> and in the <a href="articles">articles</a>, <a href="projects">projects</a> and <a href="golfing">JS codegolf</a> pages!</center>
           </td>
         </tr>
       </table>
     </div>
     
-    <div class=section id=jsgolfclub>
-      <center>
-        <h1><img src="images/logo.png" width=50> JSGOLF.club</h1>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDNWmc1cADrsp3CXTiZwi_9jHvit5xM7kSykoFkz8WRvMKWA/viewform?c=0&w=1" target=_blank>Register</a>
-        <br>
-        <a href="https://jsgolf.slack.com" target=_blank>Open slack room</a>
-        <br>
-        <a href="https://gist.github.com/xem/206db44adbdd09bac424" target=_blank>Releases</a>
-      </center>
-      <style>
-        #jsgolfclub { height: 150px; position: relative; }
-        #jsgolfclub * { font-family: arial; vertical-align: middle; }
-        #jsgolfclub center { position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); }
-        #jsgolfclub img { margin-top: -10px }
-      </style>
-    </div>
+    
     
     <div class=section>
       <table>
@@ -161,5 +191,22 @@
     
   </div>
   <iframe src="//meuziere.free.fr/visits" width=1 height=1 hidden></iframe>
+</body>
+</html>
+-->
+
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="ui.js"></script>
+<script>
+header("home");
+footer();
+</script>
+
 </body>
 </html>

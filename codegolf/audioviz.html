@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=audioviz>
+  <h2>Mini Audio Viz</h2>
+  <h3>october 2017</h3>
+  <p>A frequency visualizer that works with any local audio file - the audio file must be called "3" instead of "something.mp3" (golfed during <a href="../articles/golfctober17.html">#golfctober 2017</a>)
+
+  <p>- <a href="https://github.com/xem/miniAudioViz">Github</a>
+  <p>- <a href="http://xem.github.io/miniAudioViz">Demo</a>
+  
+  <pre><code class="lang-html">&lt;canvas id=c>&lt;audio src=3 onplay="with(new AudioContext)with(createMediaElementSource(this))connect(destination),connect(A=createAnalyser());setInterval('A.getByteFrequencyData(D=new Uint8Array(c.width^=0));D.map((v,i)=>c.getContext`2d`.fillRect(i,150,1,-v/2))',9)"autoplay></code></pre>
+  
+  <p>
+
+<canvas id=c style="border:1px solid"><audio src="demos/3.mp3" onplay="with(new AudioContext)with(createMediaElementSource(this))connect(destination),connect(A=createAnalyser());setInterval('A.getByteFrequencyData(D=new Uint8Array(c.width^=0));D.map((v,i)=>c.getContext`2d`.fillRect(i,150,1,-v/2))',9)" id=a></audio></canvas>
+<p><button onclick=a.play()>PLAY</button>
+<p>(I added this button because browsers started blocking autoplay by default in 2019)
+
+  <p><hr>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

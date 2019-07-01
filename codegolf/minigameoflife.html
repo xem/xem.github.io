@@ -1,0 +1,72 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=minigameoflife>
+  <h2>miniGameOfLife</h2>
+	<h3>august 2015 - october 2017</h3>
+	<p>Mini Game of life simulations, developed with different styles (ASCII, canvas, braille), and enhanced during <a href="../articles/golfctober17.html">#golfctober 2017</a>.
+  <p>We also submitted a 137b version on <a href="https://www.dwitter.net/d/4188">Dwitter</a>.
+  <p>More info on <a href="https://github.com/xem/miniGameOfLife">Github</a>!
+  
+  <p><hr>
+  
+  <p>ASCII version, click cells to toggle, then press space to evolve
+  
+  <p><a href="http://xem.github.io/miniGameOfLife/golf.html">Demo</a>
+  
+  <pre><code class="lang-html">&lt;body onkeyup="a=b;b=[h='.@&lt;pre>'];for(i=2048;i--;h+=i&63?`&lt;a onclick=innerHTML=h[b[${i}]^=1]>`+h[b[i]=[1,a[i]][4-d]|0]:`
+`)for(e of[d=1,63,64,65])d+=a[i+e]+a[i-e];innerHTML=h"onload=b.onkeyup() id=b></code></pre>
+  
+  <p>
+  <iframe src="http://xem.github.io/miniGameOfLife/golf.html" height=550></iframe>
+
+  <p><hr>
+  
+  <p>Canvas version
+  <p><a href="http://xem.github.io/miniGameOfLife/2">Demo</a>
+  
+  <pre><code class="lang-html">&lt;canvas id=a>&lt;svg onload=setInterval('for(a.width=e=[i=1e4];i--;a.getContext`2d`.fillRect(i%k,i/k,1,e[i]=d?d[i]+n==4||n==4:3&lt;i%9))for(jof[n=1,97,k=98,99])n+=d[i+j]+d[i-j];d=e',d=0)></code></pre>
+  
+  <p>
+  <iframe src="http://xem.github.io/miniGameOfLife/2" height=200 id=f2></iframe>
+  <button onclick="f2.src=f2.src">Reload the demo</button>
+
+  <p><hr>
+  
+  <p>Braille version
+  <p><a href="http://xem.github.io/miniGameOfLife/braille/index.min.html">Demo</a>
+  
+  <pre><code class="lang-html">&lt;pre id=p>&lt;script>a=[];y=0;setInterval('d=[];c="";for(i=0;i&lt;x;i++)for(j=0;j&lt;x;j++)if(n=(m=(l=(k=x*i+j)+x)+x)+x,y)for(z in 0==i%4&&0==j%2&&(c+=String.fromCharCode(10240+a[k]+2*a[l]+4*a[m]+8*a[k+1]+16*a[l+1]+32*a[m+1]+64*a[n]+128*a[n+1])),j||3!=i%4||(c+="\\n"),f=0,e=[1,89,x,91])f+=a[k+e[z]]+a[k-e[z]],d[k]=3==f|a[k]&2==f;else a[k]=~~(Math.random()*2);y?a=d:y=1;p.innerHTML=c',x=90)&lt;/script></code></pre>
+  
+  <p>
+  <iframe src="http://xem.github.io/miniGameOfLife/braille/index.min.html" height=500></iframe>
+
+  <p><hr>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=minicodeeditor>
+	<h2>MiniCodeEditor</h2>
+	<h3>march 2013 - october 2017</h3>
+	<p>A HTML/CSS/JS sandbox (like codepen or jsfiddle) in just 62b/142b. (enhanced during <a href="../articles/golfctober17.html">#golfctober 2017</a>)</p>
+  <p>It's been our most successful mini app so far! (#1 on Hacker News for one day)
+  
+  <p>- <a href="//xem.github.io/miniCodeEditor">Website</a>
+  <p>- <a href="http://xem.github.io/miniCodeEditor/mini.html">62b demo</a>
+  <p>- <a href="http://xem.github.io/miniCodeEditor/full.html">142b demo</a>
+  
+  <p><hr>
+  
+  
+  <pre><code class="lang-html">&lt;iframe id=f>&lt;/iframe>&lt;textarea oninput=f.srcdoc=value rows=9></code></pre>
+  
+  <p>
+  <iframe src="http://xem.github.io/miniCodeEditor/minidemo.html" height=200></iframe>
+
+  <p><hr>
+  
+  
+  <pre><code class="lang-html">&lt;iframe onload='id++&lt;3?outerHTML+=`&lt;textarea oninput="f[${id}]=value;f.srcdoc=f[3]+\`&lt;script>\${f[1]}&lt;/script>&lt;style>\`+f[2]"rows=9>`:id="f"'></code></pre>
+  
+  <p>
+  <iframe src="demos/mce.html#//%20JavaScript%0A%0Awho.innerHTML%20%3D%20%0A%22world%22%3B%7F/*%20CSS%20*/%0A%0Abody%20{%0A%20%20background%3A%20%2326A%3B%0A%20%20color%3A%20%23fff%3B%0A%20%20font%3A%2030px%20arial%3B%0A%20%20line-height%3A%20130px%3B%0A%20%20text-align%3A%20center%3B%0A}%7F%3C!--%20HTML%20--%3E%0A%0AHello%2C%0A%3Cb%20id%3D%22who%22%3E%3C/b%3E%20!1" height=400></iframe>
+  
+  <p><hr>
+
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

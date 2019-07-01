@@ -1,0 +1,49 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=minidwitter>
+	<h2>MiniDwitter</h2>
+	<h3>december 2017</h3>
+	<p>Tiny Dwitter.net clone in 193b (with hardcoded JS demo) / 249b (with editable JS demo)</p>
+  
+  <p>- <a href="https://github.com/xem/miniDwitter">Github</a>
+  <p>- <a href="http://xem.github.io/miniDwitter">Demo (editable)</a>
+  <p>- <a href="http://xem.github.io/miniDwitter/mini.html">Demo (hardcoded)</a>
+  
+  <pre><code class="lang-html">&lt;body onload='t=0;x=c.getContext`2d`;with(Math)S=sin,C=cos,T=tan;R=(r,g,b,a=1)=>`rgba(${[r|0,g|0,b|0,a]})`;setInterval("eval(A.value);t+=.016",16)'>&lt;canvas id=c width=1920 height=1080 style=width:5in>&lt;/canvas>&lt;br>&lt;textarea id=A cols=60 oninput=t=0>
+for(i=0;i&lt;65;i++)for(j=0;j&lt;65;j++)x.fillStyle=R(i*9,j*9,C(t)*255),x.fillRect(900+400*S((i+t/9)*3)*C((j+t/9)*1.5),500+400*S((j+t/9)*1.5),5,5)</code></pre>
+  
+  <p><hr>
+  <p>
+    <iframe src="http://xem.github.io/miniDwitter/" height=400></iframe>
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=miniphotobooth>
+	<h2>MiniPhotoBooth</h2>
+	<h3>june 2019</h3>
+	<p>A 250 bytes app allowing to take a picture from your webcam.
+  <p>Click the "Pic" button to take the photo, then save it on your computer.
+  <p>- <a href="https://github.com/xem/miniPhotoBooth">Github</a>
+  <p>- <a href="https://xem.github.io/miniPhotoBooth/">Demo</a>
+  
+  <pre><code class="lang-html">&lt;button onclick=c.drawImage(v,0,0)>Pic&lt;/button>&lt;p>&lt;video id=v autoplay src onerror="navigator.mediaDevices.getUserMedia({audio:1,video:{width:640,height:480}}).then(s=>v.srcObject=s);c=a.getContext`2d`"muted>&lt;/video>&lt;canvas id=a width=640 height=480></code></pre>
+  
+  <p><hr>
+  <p>
+  <iframe src="https://xem.github.io/miniPhotoBooth/" height=1300></iframe>
+  
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>

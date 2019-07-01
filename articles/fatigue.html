@@ -1,0 +1,71 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=fatigue>
+  <h2>Shitty systems & superfluous hacking fatigue</h2>
+  <b>or: How we waste most of our lives struggling to obtain the most basic features from overly complicated and badly designed systems</b>
+	<h3>june 2016</h3>
+  <p>For once, this isn't a regular front-end blog post. It's a rant post, complaining about the fatigue of having to hack our way through the shitty systems that surround us more and more everyday. Heck, I'm an old engineer, I'm used to shitty systems. My work even consists in dealing with some of the most shitty systems out there: Web browsers. But today, I'll complain about what they call "smart" phones. Warning: curses inside.
+  <p>I won't mention my own phone, as it's a Lumia 735 that comes from a batch built with some shitty component that makes it <a href="https://www.google.com/search?q=lumia+735+reboot&ie=utf-8&oe=utf-8&client=firefox-b-ab">reboot randomly</a>, and which is not even capable of installing or updating any application since I (painfully) installed Windows 10 on it. So I'm already screwed in this domain.
+  <p>But as every engineer, I have relatives that think it's my job to "know these things" and my passion to make them work.
+  <p>Anyway, my mom has a relatively new Samsung Galaxy S5 Mini smartphone, running on Android 4.4. She makes a very basic usage of it, besides calling people: she takes a ton of pictures, "edits" them through the Google Photos app and posts them on Facebook.
+  <p>It all began when she wanted "more memory", translate: more space to store the photos on the phone, even if they're backed up in the cloud. Sure, whatever, a 64GB Samsung microSD card is less than 25€ nowadays, so let's buy one and install it.
+  <p>Rightaway, I try to use my PC to transfer all the photos from the internal 16GB memory to the microSD card... For some reason, i'm not allowed to do it, and have to use the embedded shitty file explorer to do it directly on the phone. It takes hours, and in the process, changes the creation date of every file to the present day, which results in many albums being mixed up in Google Photos. Screw you, file explorer. 
+  <p>Fast forward a few days, I get a complaint that the phone freezes every couple hours, and that Google Photos pops a write error everytime we try to edit a photo and save it. And since I'm the last one who touched it, It's my fault, obviously.
+  <p>So I take the phone back and try to figure out what the fuck is shittening... After a long search, it turns out this version of Android has a default setting that locks writes on the MicroSD card for most non-native applications, for the user's safety or some shit like that. That's why the default camera app could take pictures and save them on the card, but Google Photos, installed via the Play Store, couldn't edit them in place. And even if I have no proof, I'm pretty certain that Google Photos provoked some sort of memory leak because of this card lock, which was responsible of the freezes. But I digress. Also, I won't mention the fact that an OS made by Google forbids an application made by Google to write on my SD card for my safety, because fuck logic.
+  <p>Before going further, I take a look at the "firmware update" page of the phone settings, which tells me that a 900MB update to Android 5 is downloaded and ready to install, but every attempt to start the upgrade fails lamentably and there's no solution. WHATEVER. 
+  <p>Okay so how can I disable this default SD lock on 4.4? Turns out, it's just a matter of setting a value to "true" in a XML file stored in the system partition of the phone. But it would be too simple if this partition was visible with a file explorer or a PC. No, I have to install one of the dozens "SD unlock" apps of the Play Store, which will do that for me.
+  <p>But here's the joke, all those apps weigh a few MB and require something called "root access". Yes. All that, just to edit a fucking line in a fucking XML file. Okay whatever Google, tell me how I can root your shitty OS, I'm tired now.
+  <p>Rooting an S5 Mini, for some reason, is not as easy as any other fucking Android phone. On this one, the regular rooting solutions fail, and tell me to try somewhere else, generally redirecting me to a Windows software with better success rates.
+  <p>I plug the phone to my laptop using the mini-USB data cable of my Windows Phone (that's the only one I have on me)... Error: Unrecognized peripheral. Moving to the USB3 port... it works. ah, no. Ah, yes. Ah, no. this motherfucker blinks, and alternates between connected and disconnected every second. The fuck! Root tutorials tell me to install a fork of the Samsung USB drivers without some shitty adware that they include in every exe... impossible to find a live download link. Fuck it, I install the official drivers. It changes nothing. FUCK. Just to be sure, I borrow a genuine Samsung mini-USB data cable... oh. well, it seems to work, but I wouldn't call it stable (still makes some disconnection blinks every minute or so.) Modern Android systems don't behave like a hard drive when connected to a PC but use another shitty "multimedia storage" protocol that seem to be the reason why it's so unstable. Whatever I try, I gotta do it very quickly. I start KingoRoot (the only software that seems genuine in the middle of all the scams), and it tells me to enable the "USB debugging" feature of my phone.
+  <p>Huh? No USB debugging in the settings.
+  <p>- Me: "Google, WTF?"
+  <br>- Google: "USB debugging is in the developper settings ( ͡° ͜ʖ ͡°)".
+  <br>- Me: "Oh okay, cool... wait, Google, where are the developper settings?"
+  <br>- Google: "They're hidden, for your safety ( ͡° ͜ʖ ͡°)".
+  <br>- Me: "FUCK YOU GOOGLE, HOW DO I SHOW THEM?"
+  <br>- Google: "Go in System Settings and tap eight times the 'version number' line ( ͡° ͜ʖ ͡°)".
+  <br>- Me: "(╯°□°)╯︵ ┻━┻".
+  <br>- Google: "¯\_(ツ)_/¯"
+  <p>A few minutes later, KingoRoot agrees to start working, and at 70%, the phone restarts. Wait, what? Is that part of the process? Of course not. KingoRoot hangs, the phone reboots half-rooted, which is as useful as no rooted at all.
+  <p>Second try: plug the phone, launch KingoRoot, wait until 100%, and both KingoRoot and the phone tell me victoriously that the root has been successful... ly... removed. THE FUCK? all it did was removing the previous root attempt.
+  <p>Third try: Same process, it arrives to 100%, and this time it tells me that it seems to have worked.
+  <p>I launch the SD unlock app, it asks me the permission to request root access, I say OK, it says "processing...", then "Failed. Your phone may not be rooted.". EAT MY ASS, PHONE!
+  <p>I install and launch another 25MB (!) app called Root Checker whose only purpose is to tell me if my phone is rooted, and the answer is yes. GODDAMMIT.
+  <p>I retry the SD unlock app, allow it to ask root access, "processing...", and then it tells me that it's sorry but my XML file has already been successfully edited. GO BURN IN HELL, APP.
+  <p>I finally made it, after hours of shitty hacking. Hours of my life wasted because of shitty systems, with shitty protections, shitty drivers, shitty protocols and shitty error handling. And it's not the first time something like that happens to me or to someone I know! But apart from tiring the hell out of me, this adventure made me wonder...
+  <p>How could a non-engineer, or someone who doesn't have an entire day to waste could have resolved this problem? How could my mother could have done one percent of what I did? She doesn't even have a computer! Are non-tech-savvy people doomed to live with more and more buggy products? Will they soon be rejected by the society, where only the best hackers will be able to make modern devices work? Will we reach a point where even the best hackers, or the people who make these systems, won't event be able to use them?
+  <p>Or will there be a savior, a company that builds better systems than Google, Apple and Windows, systems that just work, without any hack? Free startup idea for you, guys! How about me? I won this battle, but the shit-hack fatigue got me. I'm gonna live in the wood and tame goats. See ya.
+  <p><b>Xem</b>
+</div>
+
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
