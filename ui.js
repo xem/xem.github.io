@@ -224,7 +224,9 @@ header = function(){
   var section = "home";
   var page = "";
   location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
-  
+  if(section == "xem.github.io" && page == ""){
+    section = "home";
+  }
   $("header").innerHTML = 
   `
     <div class=logo>
@@ -263,7 +265,9 @@ footer = function(){
   var section = "home";
   var page = "";
   location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
-  
+  if(section == "xem.github.io" && page == ""){
+    section = "home";
+  }
   if(section != "home" && page != "" && page != "intro"){    
     s = document.createElement("SCRIPT");
     s.src = "https://utteranc.es/client.js";
@@ -284,7 +288,9 @@ menu = function(){
   var page = "";
   var scroll = 0;
   location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
-  
+  if(section == "xem.github.io" && page == ""){
+    section = "home";
+  }
   if(menus[section] && !page && (section == "articles" || section == "projects" || section == "codegolf")){
     for(var i in menus[section]){
       location = i + ".html";
