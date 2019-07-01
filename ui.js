@@ -288,6 +288,11 @@ menu = function(){
   var page = "";
   var scroll = 0;
   location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
+  console.log(section, page);
+  if(section == "codegolf" && location.hash == "#jstweet_en"){
+    location = "./obfuscatweet.html";
+    return;
+  }
   if(section == "xem.github.io" && page == ""){
     section = "home";
   }
