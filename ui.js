@@ -43,6 +43,7 @@ menus = {
   
   codegolf: {
     intro: "Intro",
+    css3dframework: "CSS3D framework",
     miniphotobooth: "Mini Photo Booth",
     minicamrecording: "Mini Cam Recording",
     minisoundeditor: "Mini Sound Editor",
@@ -154,9 +155,8 @@ menus = {
   
   projects: {
     intro: "Intro",
-    lol: "LOL",
-    int2binary2html: "int2binary2html",
     terseronline: "Terser-online",
+    int2binary2html: "int2binary2html",
     miniorchestra: "Mini Orchestra",
     inktober18: "inktober 2018",
     twitterdigest: "Twitter-digest",
@@ -197,13 +197,11 @@ menus = {
     swipe: "Swipe, touchable slider",
     video: "HTML5 video experiments",
     gba: "GBA emulator",
+    lol: "LOL",
     karoshids: "Karoshi DS",
     easy: "Easy classic flash game",
     scan: "Polytech-o-scan",
     lipdub: "Lipdub",
-
-    //ellipsis: "Simple multiline ellipsis",
-    //text_alignment: "Text alignments with CSS",
   },
   
   techwatch: {
@@ -259,6 +257,7 @@ footer = function(){
     <a href="mailto:maxime.euziere(at)gmail.com">Mail</a> - 
     <a href="/cv" target=_blank>CV</a>
     <div class=backtotop onclick="document.body.scrollTop = document.documentElement.scrollTop = 0">🡅</div>
+    <iframe src="//meuziere.free.fr/visits" width=1 height=1 style="opacity:.1">
   `);
   
   var section = "home";

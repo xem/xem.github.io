@@ -44,7 +44,7 @@
   <p>Here's an encoder (129 bytes long) that makes this compression:</p>
   <pre><code class="lang-js">z=function(b,c,a,f,e){c="";f=String.fromCharCode;for(a=0;190>a;a+=2)c+=f(55296+b[e="charCodeAt"](a))+f(56320+b[e](a+1));return c}</code></pre>
   <button onclick="sourcecoder190.style.display='block';this.style.display='none'">See source code</button>
-  <pre id=sourcecoder190 style="display: none">/**
+  <pre id=sourcecoder190 style="display: none"><code class="lang-js">/**
 * @param b: the input string (in ASCII)
 * @param c, a, f: placeholders
 */
@@ -71,7 +71,7 @@ z = function(b, c, a, f){
   <pre><code class="lang-js">// replace "𠑂𠱄" with your encoded string
 eval(unescape(escape`𠑂𠱄`.replace(/uD./g,'')))</code></pre>
   <button onclick="source_decoder190.style.display='block';this.style.display='none'">See the source code</button>
-  <pre id=source_decoder190 style="display: none">// First, we need to know how JavaScript handles escaped characters:
+  <pre id=source_decoder190 style="display: none"><code class="lang-js">// First, we need to know how JavaScript handles escaped characters:
 // ASCII characters are escaped as: %XX (XX is an hexadecimal value)
 // UTF-16 surrogates are escaped as: %uYYXX (YYXX is an hexadecimal value, XX is the last byte)
 // The escape() function does this, unescape() does the opposite.

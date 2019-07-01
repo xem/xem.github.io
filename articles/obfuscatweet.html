@@ -102,21 +102,20 @@ _%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~</code></pre>
   <br>
   <h3>UPDATE #1: Go further with charcode shifting!</h3>
   <p>After releasing the first version of this packer, I realized with <b>Anders Kaare</b> that a lot of non-ASCII chars were actually useable in Twitter's URLs. After some manual research, we discovered that there's actually a total of 483 chars that can be used safely.
-  <pre class="code">!#$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz[]|~ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚțȜȝȞȟȠȡȢȣȤȥȦȧȨȩȪȫȬȭȮȯȰȱȲȳȴȵȶȷȸȹȺȻȼȽȾȿɀɁɂɃɄɅɆɇɈɉɊɋɌɍɎɏ</code></pre>
+  <pre><code class="lang-js">!#$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz[]|~ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚțȜȝȞȟȠȡȢȣȤȥȦȧȨȩȪȫȬȭȮȯȰȱȲȳȴȵȶȷȸȹȺȻȼȽȾȿɀɁɂɃɄɅɆɇɈɉɊɋɌɍɎɏ</code></pre>
   <p>This represents a subset of the Unicode blocks "Basic Latin" and "Latin-1 supplement" plus the whole blocks "Latin-extended-A" and "Latin-extended-B", containing respectively 128 and 256 characters.
   <p>So I had the idea to "shift" all the ASCII characters present in the JS source code (U+0000 - U+007F), to represent them with Latin-extended-A characters (U+0100 - U+017F). The advantage here is to avoid all the escape sequences needed to represent the special chars of our JS code in an URL. All we need to do is to add 0x100 to each charcode. 
   <p>With the previous version, a 14-chars string like "Hello World ^^" was URL-encoded as "Hello%20World%20%5E%5E" (which is 22 chars long). With this "shift", it's converted to "ňťŬŬůĠŗůŲŬŤĠŞŞ" (which is only 14 chars long).
   <p>Of course, this shifted code is not directly executable, it needs to be unshifted first. Here's the unshifter I wrote with the help of <b>Subzey</b>:
-  <pre class="code">eval(unescape(escape('...shifted code...').replace(/u../g,'')))</code></pre>
+  <pre><code class="lang-js">eval(unescape(escape('...shifted code...').replace(/u../g,'')))</code></pre>
   <p>If you're confused by this code, you can read an explanation <a href="http://xem.github.io/golfing/#jstweet_en">here</a>. (we used the same principle in the original obfusc-a-tweet app)
   <p>We don't have room in the tweet itself to include this unshifter, because the tweet is already filled with the URLs and their unpacker and executer, so we need to place this code directly inside our URLs.
   <p>Here's an example of a complete tweet:
-  <pre class="code">eval(decodeURI(" 🖝http://a.fr/eval%28unescape%28escape%28'WWW … http://a.fr/XXX … http://a.fr/YYY … http://a.fr/ZZZ'%29.replace(/u../g,'')%29%29 …".replace(/ .{1,14}/g,'')))</code></pre>
+  <pre><code class="lang-js">eval(decodeURI(" 🖝http://a.fr/eval%28unescape%28escape%28'WWW … http://a.fr/XXX … http://a.fr/YYY … http://a.fr/ZZZ'%29.replace(/u../g,'')%29%29 …".replace(/ .{1,14}/g,'')))</code></pre>
   <p>where WWW, XXX, YYY and ZZZ respectively represent shifted code up to 4056, 4084, 4084 and 4055 chars long.
   <p>Note that the first URL starts with an URL-encoded version of <b>eval(unescape(escape('</b> and the last URL ends with an URL-encoded version of <b>').replace(/u../g,'')))</b>.
   <p>Here's what happens when this tweet is executed:
-  <pre class="code">
-// step 0: copy-paste the tweet
+  <pre><code class="lang-js">// step 0: copy-paste the tweet
 
 eval(decodeURI(" 🖝http://a.fr/eval%28unescape%28escape%28'WWW … http://a.fr/XXX … http://a.fr/YYY … http://a.fr/ZZZ'%29.replace(/u../g,'')%29%29 …".replace(/ .{1,14}/g,'')))
 
@@ -173,8 +172,7 @@ IHDRZI"IDATxcHÌI-*ÑPòHÍÉÉWÏ/ÊIQˆ‹SÒ´fpãá
 </code></pre>
   <p>Cool, so now the PNG's content is tweetable. In order to use it, we have to unshift it, convert it in dataURI, put it in an image, draw that image on a canvas, read the pixels of the canvas, transform it in JS and execute the JS.
   <p>The principle is the following:
-  <pre class="code">
-var png = "ƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ";
+  <pre><code class="lang-js">var png = "ƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ";
 var g;
 // (snip) unshift png and put the result in g
 z=new Image;
@@ -185,36 +183,29 @@ for($=_=''; C.drawImage(z,$--,0), X=(q=C.getImageData(0,0,64,32)).data[0]; _+=St
 (e=eval)(_);
   </code></pre>
   <p>Let's golf it:
-  <pre class="code">
-(z=new Image).src='data:;base64,'+btoa(g);C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)
+  <pre><code class="lang-js">(z=new Image).src='data:;base64,'+btoa(g);C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)
   </code></pre>
   <p>204 bytes. Great! Now here's the real trick. The PNG content is stored as shifted text. This bootstrap code should also be shifted, to use as few chars as possible. So the idea is to put the two shifted blocks in the same string:
-  <pre class="code">
-var tmp = 'ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩ' /*bootstrap*/ + 'ƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ' /* PNG */
+  <pre><code class="lang-js">var tmp = 'ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩ' /*bootstrap*/ + 'ƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ' /* PNG */
   </code></pre>
   <p>Then unshift this string, as we already did in the previous chapter, an put the result in g:
-  <pre class="code">
-g=unescape(escape('ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ').replace(/u../g,''))
+  <pre><code class="lang-js">g=unescape(escape('ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ').replace(/u../g,''))
   </code></pre>
   <p>Then we execute only the first 204 chars of g.
-  <pre class="code">
-eval((g=unescape(escape('ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ').replace(/u../g,''))).slice(0,204))
+  <pre><code class="lang-js">eval((g=unescape(escape('ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ').replace(/u../g,''))).slice(0,204))
   </code></pre>
   <p>Let's go back to the bootstrap code. Instead of creating a dataURI from g, it needs to create it from g.slice(204).
-  <pre class="code">
-(z=new Image).src='data:;base64,'+btoa(g.slice(204));C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)
+  <pre><code class="lang-js">(z=new Image).src='data:;base64,'+btoa(g.slice(204));C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)
   </code></pre>
   But the ".slice(204)" adds 11 chars to the bootstrap, so we need to replace 204 to 215 everywhere:
-  <pre class="code">
-// In bootstrap
+  <pre><code class="lang-js">// In bootstrap
 (z=new Image).src='data:;base64,'+btoa(g.slice(215));C=document.createElement('canvas').getContext('2d');for($=_='';C.drawImage(z,$--,0),X=(q=C.getImageData(0,0,64,32)).data[0];_+=String.fromCharCode(X));(e=eval)(_)
 
 // In unshifter
 eval((g=unescape(escape('ĨźĽŮťŷĠŉŭšŧťĩĮųŲţĽħŤšŴšĺĻŢšųťĶĴĬħīŢŴůšĨŧĮųŬũţťĨĲıĵĩĩĻŃĽŤůţŵŭťŮŴĮţŲťšŴťŅŬťŭťŮŴĨħţšŮŶšųħĩĮŧťŴŃůŮŴťŸŴĨħĲŤħĩĻŦůŲĨĤĽşĽħħĻŃĮŤŲšŷŉŭšŧťĨźĬĤĭĭĬİĩĬŘĽĨűĽŃĮŧťŴŉŭšŧťńšŴšĨİĬİĬĶĴĬĳĲĩĩĮŤšŴšśİŝĻşīĽœŴŲũŮŧĮŦŲůŭŃŨšŲŃůŤťĨŘĩĩĻĨťĽťŶšŬĩĨşĩƉŐŎŇčĊĚĊĀĀĀčŉňńŒĀĀĀęĀĀĀāĈĀĀĀĀĎćŚŉĀĀĀĢŉńŁŔŸāţňǌŉĭĪǑŐǲňǍǉǉŗĈǏįǊŉőƈƋœǒƴŦĀĀŰǣćǡ').replace(/u../g,''))).slice(0,215))
   </code></pre>
   <p>And we're done! Phew! So, here's what happens when we tweet a PNG bootstrapped code:
-  <pre class="code">
-// step 0: copy-paste the tweet
+  <pre><code class="lang-js">// step 0: copy-paste the tweet
 // WWW, XXX, YYY and ZZZ represent the shifted string containing the bootstrap code and the PNG
 eval(decodeURI(" 🖝http://h.ck/eval%28%28g=unescape%28escape%28'WWW … http://h.ck/XXX … http://h.ck/YYY … http://h.ck/ZZZ'%29.replace(/u../g,'')%29%29.slice(0,215)%29 …".replace(/ .{1,14}/g,'')))
 

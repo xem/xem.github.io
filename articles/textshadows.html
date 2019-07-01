@@ -25,7 +25,7 @@
 		<p>Two filters allow to simulate shadows: Shadow and Glow.</p>
 		<p><b>Here is the "Shadow" version:</b></p>
 		<p>CSS:</p>
-		<pre style="white-space: nowrap; overflow: auto">h1 {
+		<pre style="white-space: nowrap; overflow: auto"><code class="lang-css">h1 {
 <br>
 &nbsp; text-shadow: 2px 2px 3px #ff0000; /* IE10+, Firefox 3.5+, Opera 9.5+, Chrome, Safari, and mobile browsers */
 <br>
@@ -43,7 +43,7 @@
 		<p>Please note that "Direction" is set in degrees (for example, 0 = up, 90 = right, 180 = bottom, 270 = left) and "Strength" vaguely corresponds to the shadow's spread. (in reality, it looks more like a perspective effect...)</p>
 		<p><b>And here is the "Glow" version</b></p>
 		<p>CSS:</p>
-		<pre style="white-space: nowrap; overflow: auto">h1 {
+		<pre style="white-space: nowrap; overflow: auto"><code class="lang-css">h1 {
 <br>
 &nbsp; text-shadow: 0px 0px 1px #ff0000; /* Good browsers */
 <br>
@@ -60,7 +60,7 @@
 		<p>The Glow filter mainly creates a halo around the text. But it's still quite ugly on IE. (you can have something less ugly if you don't exaggerate this much on the colours)</p>
 		<hr>
 		<p>Note that the filters can be combined, like the CSS3 text-shadows. It's useful, especially when we want a "text-stroke" effect.</p>
-		<pre style="white-space: nowrap; overflow: auto">h1 {
+		<pre style="white-space: nowrap; overflow: auto"><code class="lang-css">h1 {
 <br>
 &nbsp; text-shadow: 1px 1px 1px #ff0000, 1px -1px 1px #00ff00, -1px -1px 1px #0000ff, 1px 1px 1px #f0000f; /* Good browsers */
 <br>

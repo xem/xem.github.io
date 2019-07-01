@@ -79,18 +79,18 @@ Then, we made a new version with wraps, featuring 25 wrap puzzles in <a href="ht
 <p>p01 even made <a href="https://xem.github.io/miniLOSSST/ascii.html">a 436b demake's demake</a>, rendered in ASCII!
 <p>The size difference between both wrap and non-wrap versions is mostly due to the encoding of the puzzles:
 <p><ul><li>The no-wrap puzzles could all fit in a 6x4 grid, and after ensuring their first 4 cells were blank, the remaining 20 cells could be encoded in the bits of a single Unicode character, encoded on 3 or 4 UTF-8 bytes.
-<pre class="code">"ٯӟ൳ͷϼ໴𦙷࿟⛿ཿ濸ｳ񵝗𷝳𮻼𷝗𿹦򌻷򏿨򿦟񯽗𷿮񿧳" // the 25 no-wrap puzzles</code></pre>
+<pre><code class="lang-js">"ٯӟ൳ͷϼ໴𦙷࿟⛿ཿ濸ｳ񵝗𷝳𮻼𷝗𿹦򌻷򏿨򿦟񯽗𷿮񿧳" // the 25 no-wrap puzzles</code></pre>
 <li>The wrapping puzzles were a bit bigger and required more bits to be encoded, so we converted the long binary string representing each puzzle from base 2 to base 36 and saved the result in ASCII.
 <br>
 The wrap puzzles also needed an explicit size (4x4, 5x5, 6x6 or 7x7) to let the game handle the wrap area properly.
-<pre class="code">"1hrdfddq8y,g3t6b,2tc09uicht,1ibkfyb,pesw8s3,9jorj,j7r6m,jio5o,fv5kd,jokrj,jdyrj,b2lvj,b1asx,jopxb,9luxq,d8473,jnejl,jrkbh,e03aae4,427yw3s,im7v7p,ofbd9ip,46nskug,p2yhnzn,ofaqrjz" 
+<pre><code class="lang-js">"1hrdfddq8y,g3t6b,2tc09uicht,1ibkfyb,pesw8s3,9jorj,j7r6m,jio5o,fv5kd,jokrj,jdyrj,b2lvj,b1asx,jopxb,9luxq,d8473,jnejl,jrkbh,e03aae4,427yw3s,im7v7p,ofbd9ip,46nskug,p2yhnzn,ofaqrjz" 
 // the 25 wrap puzzles</code></pre>
 </ul>
 <p>Many great byte-saving techniques were found, including:
 <p><ul><li>Use 3ch (24px) for the squares' size, make them float to the left, and make the &lt;body> 48ch wide, in order to wrap after each line of 16 squares. Also, use &lt;a> elements for the squares, because &lt;a> tags can't contain each other, so &lt;a>&lt;a>&lt;a> produces three neighbour blocks. The "3ch" size, in particular, allows the emoji eyes to be displayed at the right size and position without any extra CSS.
-<li>Checking that the snake does not collide with itself, prepending a new head position (q) in the snake array (s), and saving this new position in a variable (p) is as short as: <pre class=code style=display:inline;padding:4px>s.includes(q)||s=[p=q,...s]</code></pre>. Thanks ES6!
-<li>Checking if a puzzle is solved is as easy as checking if every item of s is on a black square of the puzzle, basically: <pre class=code style=display:inline;padding:4px>w=s.every(p=>grid[p])}</code></pre>. Here again, thanks ES6!
-<li>Ensuring the snake never exceeds its max size after prepending a new head position is as easy as: <pre class=code style=display:inline;padding:4px>s.length=maxsize</code></pre>.
+<li>Checking that the snake does not collide with itself, prepending a new head position (q) in the snake array (s), and saving this new position in a variable (p) is as short as: <pre style="display:inline;padding:4px"><code class="lang-js">s.includes(q)||s=[p=q,...s]</code></pre>. Thanks ES6!
+<li>Checking if a puzzle is solved is as easy as checking if every item of s is on a black square of the puzzle, basically: <pre class=code style="display:inline;padding:4px"><code class="lang-js">w=s.every(p=>grid[p])}</code></pre>. Here again, thanks ES6!
+<li>Ensuring the snake never exceeds its max size after prepending a new head position is as easy as: <pre class=code style="display:inline;padding:4px"><code class="lang-js">s.length=maxsize</code></pre>.
 </ul>
 
 <p>When JS1k started, we rewrote from scratch a game that included the 25 no-wrap and the 25 wrap puzzles, with a common game engine. We first kept the no-wrap puzzles encoded in Unicode chars and the wrap puzzles encoded in base36 ASCII chars, then realized that it took less bytes to encode all the levels in base36 and use the same decoder for both types.
@@ -137,12 +137,12 @@ The wrap puzzles also needed an explicit size (4x4, 5x5, 6x6 or 7x7) to let the 
 <p><img src="images/js1k18/2b.png" width=400 style="border: 2px solid">
 
 <p>Some Math / golfing tricks to take away:
-<p><ul><li>In the JS1K shim, you can use <pre class=code style=display:inline;padding:4px>d.write`...`</code></pre> to add HTML after a canvas without breaking its 2D context (as opposed to <pre class=code style=display:inline;padding:4px>b.innerHTML+="..."</code></pre>).
-<li>If you want a reset button with free i18n, use <pre class=code style=display:inline;padding:4px>&lt;input type=reset onclick="..."></code></pre>
+<p><ul><li>In the JS1K shim, you can use <pre style="display:inline;padding:4px"><code class="lang-js">d.write`...`</code></pre> to add HTML after a canvas without breaking its 2D context (as opposed to <pre style="display:inline;padding:4px"><code class="lang-js">b.innerHTML+="..."</code></pre>).
+<li>If you want a reset button with free i18n, use <pre style="display:inline;padding:4px"><code class="lang-html">&lt;input type=reset onclick="..."></code></pre>
 <br>
 (it doesn't even need a value or a parent &lt;form> to be valid).
-<li>Computing the magnitude of a complex number in the form ai+b can be done with <pre class=code style=display:inline;padding:4px>Math.hypot(a,b)</code></pre>. (Thanks ES6!)
-<li>About the logarithmic scale: the highest magnitude of the 2D FFT is saved in a variable "max",<br>then we take its logarithm (<pre class=code style=display:inline;padding:4px>logmax = Math.log(max)</code></pre>).
+<li>Computing the magnitude of a complex number in the form ai+b can be done with <pre style="display:inline;padding:4px"><code class="lang-js">Math.hypot(a,b)</code></pre>. (Thanks ES6!)
+<li>About the logarithmic scale: the highest magnitude of the 2D FFT is saved in a variable "max",<br>then we take its logarithm (<pre style="display:inline;padding:4px"><code class="lang-js">logmax = Math.log(max)</code></pre>).
 <br>Finally, every complex number is drawn on a pixel with a greyscale value equal to its own magnitude divided by logmax.<br>It's not necessary to ensure that the values are well between 0 and 255, it just works out of the box. 🤷‍♂️
 </ul>
 

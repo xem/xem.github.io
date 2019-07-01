@@ -54,7 +54,7 @@
 
 <h2>january-june 2019</h2>
 <br>
-WIP...
+Coming soon!
 
 </div>
 
@@ -617,11 +617,11 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>How to write your own Virtual DOM - <a href="https://t.co/pM3dqPXRh4">link</a></li>
 <li>Write your Virtual DOM 2: Props &amp; Events - <a href="https://t.co/5GCGiuBMrA">link</a></li>
 <li>Why, JavaScript? Why? <a href="https://t.co/uDjZl2bMFb">link</a> </li>
-<li>Nice XSS vector: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">import('da\r\nta:text/\ecmascript\,alert%601%60') // Doesn't work on Edge</code></pre></li>
+<li>Nice XSS vector: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">import('da\r\nta:text/\ecmascript\,alert%601%60') // Doesn't work on Edge</code></pre></li>
 <li>Why 'Mapping' a Constructed Array Doesn't Work in JavaScript: <a href="https://t.co/i1UFEnFXVh">link</a> (And a way around the issue.)</li>
-<li>Tip: Wrap your log arguments in an object literal to print the variable name along with its value: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">console.log({ isLoggedIn })</code></pre></li>
+<li>Tip: Wrap your log arguments in an object literal to print the variable name along with its value: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">console.log({ isLoggedIn })</code></pre></li>
 <li>Tip: If you're using a custom font with a canvas animation, the first time you use `fillText` with the custom font, the font won't be ready unless you "prime" the font by using it in HTML/CSS first. Chrome/macOS.</li>
-<li>Tip: touchend events trigger click events. So if you do: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">ontouchend = e =&gt; e.preventDefault();</code></pre> you won't be able to listen to click events on mobile.</li>
+<li>Tip: touchend events trigger click events. So if you do: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">ontouchend = e =&gt; e.preventDefault();</code></pre> you won't be able to listen to click events on mobile.</li>
 <li>Tip: `document.getElementsByClassName()` &amp; Co return _live_ NodeLists. `document.querySelectorAll()` returns a _static_ NodeList. Use `querySelectorAll()`, people! <a href="https://t.co/s7aGuxMGgN">link</a> </li>
 <li>Tip: Cost of updating text in the DOM<br>⬛️⬛️⬛️⬛️⬛️⬛️ .innerHTML<br>⬛️⬛️⬛️⬜️⬜️⬜️ .textContent<br>⬛️⬛️⬜️⬜️⬜️⬜️ .innerText<br>⬛️⬜️⬜️⬜️⬜️⬜️ .firstChild.data<br>- Use innerText if you can't assume structure<br>- Use Text#data to update existing text</li>
 <li><pre><code class="lang-js">[1,2,3].sort(()=&gt;1)
@@ -719,7 +719,7 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>Understanding the FFT algorithm - <a href="https://t.co/HxcDiSxPsL">link</a> Plus a cool trick to check if a number is a power of 2: N &amp; (N-1) == 0</li>
 <li>3blue1brown on Fourier series <a href="https://t.co/JG2TVWR8DO">link</a></li>
 <li>Super NES Features videos (and the famous Mode 7 at the end!) - <a href="https://t.co/UKHsPOVSCt">link</a></li>
-<li>I never understood appeal of fractals. But after seeing what these two lines of code produce, I think I changed my mind: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">for (i = 0; i &lt; 32 &amp;&amp; |z| &lt; 2; ++i) z = z^9 + c^6, color = |z| * rgb(i/64, i/38, i/28)</code></pre> <a href="https://t.co/I8nud9Kf6l">link</a> </li>
+<li>I never understood appeal of fractals. But after seeing what these two lines of code produce, I think I changed my mind: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">for (i = 0; i &lt; 32 &amp;&amp; |z| &lt; 2; ++i) z = z^9 + c^6, color = |z| * rgb(i/64, i/38, i/28)</code></pre> <a href="https://t.co/I8nud9Kf6l">link</a> </li>
 <li>Primg: generate prime numbers whose binary representation looks like any image -  <a href="https://t.co/fHPMYgbxN1">link</a> </li>
 <li>Software Complexity Is Killing Us - <a href="https://t.co/g9nJEKXqcB">link</a></li>
 <li>A C89 compiler that produces executables that are also valid ASCII text files - <a href="https://t.co/E6cD6jiCim">link</a></li>
@@ -731,7 +731,7 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>Today I was reminded of the beauty-slash-horror that is xor-linked lists <a href="https://t.co/FPZHY9Le4y">link</a> </li>
 <li>By looking at this image, you can see how sensitive your own eyes are to contrast at different frequencies (taller apparent peaks=more sensitivity at that frequency). It's like a graph that is made by perceiving the graph itself. <a href="https://t.co/3WosnCfbX1">link</a></li>
 <li>34C3: The Ultimate Apollo Guidance Computer Talk - <a href="https://t.co/aQxD8yPVMg">link</a></li>
-<li>Million dollar idea: Smart [Bluetooth] microfiber cloth. Every time you wipe it across your monitor, it also applies <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">.normalize("NFD").replace(/[\u0300-\u036f]/g, "")</code></pre> to all text on screen. Removing digital and analog dust specks. <a href="https://t.co/dDa7QyJ2J3">link</a> </li>
+<li>Million dollar idea: Smart [Bluetooth] microfiber cloth. Every time you wipe it across your monitor, it also applies <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">.normalize("NFD").replace(/[\u0300-\u036f]/g, "")</code></pre> to all text on screen. Removing digital and analog dust specks. <a href="https://t.co/dDa7QyJ2J3">link</a> </li>
 <li>A video game-playing AI beat Q*bert in a way no one’s ever seen before - <a href="https://t.co/MNXyhomEKZ">link</a></li>
 <li>Deconstructing the water effect in Super Mario Sunshine - <a href="https://t.co/MvQrqMW1Tw">link</a></li>
 <li>Hacking the lottery - <a href="https://t.co/PNqT759M8s">link</a></li>
@@ -815,10 +815,10 @@ li pre { vertical-align:top; display: inline-block; position:relative; top: -3px
 <li>Mini #HTML+#JS real-time face detector 2.0 <a href="https://t.co/TsVtpOAV0p">link</a> (needs Chrome + experimental features flag enabled)</li>
 <li>Remote Islands - 140 byte #javascript @dwitter_net demo... <a href="https://t.co/tHLsBe8xkg">link</a></li>
 <li>Here's how you do a 3D wireframe landscape in 140 bytes of #javascript. <a href="https://t.co/08cbJv7QY6">link</a></li>
-<li>Simple shim for your #js1k entry: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">&lt;body id=b style=margin:0&gt;&lt;canvas id=a&gt;&lt;/canvas&gt;&lt;script&gt;d = document; c = a.getContext("2d"); a.width = innerWidth; a.height = innerHeight; /* YOUR CODE HERE */&lt;/script&gt;</code></pre></li>
-<li>255b CSS3D cube:  <a href="https://t.co/rf3qcIxjwR">link</a> <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">_='&lt;divqperspective:9k;margk:40vh+40vwu}Z(2`-1`j-j1k~"&gt;~"&gt;&lt;pqborder:1px solid;width:2k;height:2k;position:fixed}_late|kurotate{(90deg)}z1k)}Z(u~;_form:q style="kinj1|X{Y(z`|Y{(-z_trans';for(i of'_`jkquz{|}~')with(_.split(i))_=join(pop());document.write(_)</code></pre> </li>
-<li>253b colored cube <a href="https://t.co/7munv4NgR8">link</a> <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">_='&lt;div_perspective:5j;margj:40vh+40vw^-1j^`-`1jq}Z(2j~&gt;~&gt;&lt;p_background:#777;width:2j;height:2j;position:fixed}]late|qrotate{(90deg)}z1j)}Z(q~;]form:jin`1j|X{Y(z_ style=^|Y{(-z]trans';for(i of']^_`jqz{|}~')with(_.split(i))_=join(pop());document.write(_)</code></pre>  </li>
-<li>21 bytes JS quine by @aemkei: <pre class=code style="display:inline-block; padding: 0; margin: 2px 0 0">(X=_=&gt;`(X=${X})()`)()</code></pre></li>
+<li>Simple shim for your #js1k entry: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-html">&lt;body id=b style=margin:0&gt;&lt;canvas id=a&gt;&lt;/canvas&gt;&lt;script&gt;d = document; c = a.getContext("2d"); a.width = innerWidth; a.height = innerHeight; /* YOUR CODE HERE */&lt;/script&gt;</code></pre></li>
+<li>255b CSS3D cube:  <a href="https://t.co/rf3qcIxjwR">link</a> <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">_='&lt;divqperspective:9k;margk:40vh+40vwu}Z(2`-1`j-j1k~"&gt;~"&gt;&lt;pqborder:1px solid;width:2k;height:2k;position:fixed}_late|kurotate{(90deg)}z1k)}Z(u~;_form:q style="kinj1|X{Y(z`|Y{(-z_trans';for(i of'_`jkquz{|}~')with(_.split(i))_=join(pop());document.write(_)</code></pre> </li>
+<li>253b colored cube <a href="https://t.co/7munv4NgR8">link</a> <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">_='&lt;div_perspective:5j;margj:40vh+40vw^-1j^`-`1jq}Z(2j~&gt;~&gt;&lt;p_background:#777;width:2j;height:2j;position:fixed}]late|qrotate{(90deg)}z1j)}Z(q~;]form:jin`1j|X{Y(z_ style=^|Y{(-z]trans';for(i of']^_`jqz{|}~')with(_.split(i))_=join(pop());document.write(_)</code></pre>  </li>
+<li>21 bytes JS quine by @aemkei: <pre style="display:inline-block; padding: 0; margin: 2px 0 0"><code class="lang-js">(X=_=&gt;`(X=${X})()`)()</code></pre></li>
 
 </ul>
 

@@ -27,7 +27,7 @@
     <br>
     <button onclick="source_touchesfoncees.style.display='block';this.style.display='none'">See the source code</button>
   <br>
-  <pre id=source_touchesfoncees style="display:none">// Initialize the global k (the array representing the keys currently pressed).
+  <pre id=source_touchesfoncees style="display:none"><code class="lang-js">// Initialize the global k (the array representing the keys currently pressed).
 // Also works with k = [].
 k = {};
 
@@ -48,7 +48,7 @@ onkeydown = onkeyup = function(e){
     <script>
       k=[];onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5];demo_touchesfoncees.innerHTML="k = ["+k+"]"}
     </script>
-    <div class=demo><pre id=demo_touchesfoncees>k = [ ]</code></pre></div>
+    <div class=demo><pre id=demo_touchesfoncees><code class="lang-js">k = [ ]</code></pre></div>
   </p>
 </div>
 

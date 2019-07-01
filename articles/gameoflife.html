@@ -27,7 +27,7 @@
   <p>Aemkei golfed a <a href="http://aem1k.com/life/">pure HTML version in 176b</a> and he presented <a href="https://youtu.be/1uvIw7X0u48?t=1104">many</a>... <a href="https://youtu.be/T3xMyZH93i8?t=1184">obfuscated</a>... <a href="https://youtu.be/ET3iKgqPzjw?t=1437">versions</a>... <a href="https://youtu.be/-QZSJx8oXus?t=1136">on stage</a>;
   <p>We made <a href="http://xem.github.io/miniGameOfBraille/">MiniGameOfBraille</a> in 389b;
   <p>And finally, we ended up golfing <a href="http://xem.github.io/miniGameOfBraille/canvas.html">a super tiny version</a> on a 100x100px canvas inspired by aemkei's talks, in just 221b, featuring ES6 and a pseudo-random initial state.
-  <pre class="code">&lt;canvas id=a>&lt;svg onload=z=a.getContext`2d`;s=!setInterval`p=a;a=[];for(i=1e4;a[i]=s?3==k|p[i]&2==k:3&lt;i%9,k=0,i--;)for((j)of[1,97,v,99])k+=p[i+j]+p[i-j];for(s=1e4;s--;)z[a[s]?'fillRect':'clearRect'](s%v,s/v|0,1${v=98}1)`></code></pre>
+  <pre><code class="lang-html">&lt;canvas id=a>&lt;svg onload=z=a.getContext`2d`;s=!setInterval`p=a;a=[];for(i=1e4;a[i]=s?3==k|p[i]&2==k:3&lt;i%9,k=0,i--;)for((j)of[1,97,v,99])k+=p[i+j]+p[i-j];for(s=1e4;s--;)z[a[s]?'fillRect':'clearRect'](s%v,s/v|0,1${v=98}1)`></code></pre>
   <p>During months, we really thought we couldn't do better than that. We even included this version in our js13kgames entry <a href="http://js13kgames.com/entries/26-games-in-1">26-games-in-1</a>.
   <p>We also golfed other cellular automata like <a href="https://github.com/xem/miniLangtonAnt/">miniLangtonAnt</a>, <a href="http://xem.github.io/miniLangtonLoops/">miniLangtonLoops</a> and <a href="http://xem.github.io/cellularandom/">cellularandom</a>.
   <br>
@@ -40,7 +40,7 @@
   <p>Here are the different steps of this quite epic golfing session, just after we realized that the rules of this game were the same as Game of Life's, except that cells live with 0 or 3 live neighbours instead of 2 or 3 live neighbours:
   <p>The commented source code can be found <a href="https://github.com/xem/miniConwaySerpinski/blob/gh-pages/index.html">HERE</a>.
   <div style=overflow-x:auto>
-  <pre class=code style=width:1800px><b>// Just minified, not golfed yet.</b>
+  <pre style=width:1800px><code class="lang-html"><b>// Just minified, not golfed yet.</b>
 &lt;canvas id=a>&lt;script>d=[];k=0;setInterval(function(){a.width^=0;e=[];for(i=0;i&lt;98*98;i++){if(!k){d[i]=((i%98)==49)?1:0;}else{n=0;for(j of[1,97,98,99])n+=!!d[i+j]+!!d[i-j];if(e[i]=[x=d[i],,x,!x][n])a.getContext`2d`.fillRect(i%98,~~(i/98),1,1);}}if(k)d=e;k++;},9)&lt;/script>
 
 <b>// Move k (a flag telling if the game has started or not) into d (an array representing all cells' state). Pass a string to setInterval. Move the rest of the code to remove some curly braces.</b>
