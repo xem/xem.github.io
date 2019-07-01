@@ -223,9 +223,7 @@ menus = {
 header = function(){
   var section = "home";
   var page = "";
-  console.log(section, page, location.pathname);
   location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
-  console.log(section, page);
   
   $("header").innerHTML = 
   `
@@ -319,7 +317,6 @@ menu = function(){
     $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hamburger class=mobileonly onclick=showmenu()>≡</div>");
     $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hidemenu class=mobileonly onclick=hidemenu()>≡</div>");
     $("#menu").className = section;
-    console.log(scroll);
     if(scroll > 100) $("#menu").scrollTop = scroll;
   }
   
@@ -344,7 +341,6 @@ hidemenu = function(){
 
 filtermenu = function(s){
   var items = $$("#menu li");
-  console.log(items);
   for(var i in items){
     if(items[i].innerHTML && items[i].style && items[i].innerHTML.includes(s)){
       items[i].style.display = "list-item";
