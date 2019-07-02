@@ -35,16 +35,23 @@
   <p><div id=results></div>
   
   <script>
+  
+  timeout = 0;
   search.oninput = function(){
   
-    var html = "<ul>";
-    var lis = document.querySelectorAll("#intro ~ * li");
-    for(var li in lis){
-      if(lis[li].innerHTML && lis[li].innerHTML.toLowerCase().includes(search.value.toLowerCase())){
-        html += lis[li].outerHTML;
+    if(timeout) clearTimeout(timeout);
+  
+    timeout = setTimeout(()=>{
+  
+      var html = "<ul>";
+      var lis = document.querySelectorAll("#intro ~ * li");
+      for(var li in lis){
+        if(lis[li].innerHTML && lis[li].innerHTML.toLowerCase().includes(search.value.toLowerCase())){
+          html += lis[li].outerHTML;
+        }
       }
-    }
-    results.innerHTML = html;
+      results.innerHTML = html;
+    }, 300);
   
   }
   </script>

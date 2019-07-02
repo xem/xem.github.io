@@ -259,7 +259,7 @@ footer = function(){
     <a href="mailto:maxime.euziere(at)gmail.com">Mail</a> - 
     <a href="/cv" target=_blank>CV</a>
     <div class=backtotop onclick="document.body.scrollTop = document.documentElement.scrollTop = 0">🡅</div>
-    <iframe src="//meuziere.free.fr/visits" width=1 height=1 style="opacity:.1">
+    <iframe src="https://visits.xem.workers.dev/" width=1 height=1 style="opacity:.1">
   `);
   
   var section = "home";
