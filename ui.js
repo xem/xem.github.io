@@ -156,9 +156,10 @@ menus = {
   projects: {
     intro: "Intro",
     terseronline: "Terser-online",
-    int2binary2html: "int2binary2html",
     miniorchestra: "Mini Orchestra",
     inktober18: "inktober 2018",
+    int2binary2html: "int2binary2html",
+    scribblenauts: "Scribblenauts golf-play",
     twitterdigest: "Twitter-digest",
     gameaudiobundle: "Game Audio Bundle MP3",
     nes: "NES",
