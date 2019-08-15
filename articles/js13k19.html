@@ -1,0 +1,265 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=4">
+<title>Maxime Euzière</title>
+<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js" charset="UTF-8"></script></head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=js13k19>
+<h2>JS13kGames 2019</h2>
+<h3>august-september 2019</h3>
+
+<br>
+<hr>
+<br>
+
+<h3>Intro</h3>
+
+<p>Hi! This is a WIP article!
+
+<!--<p><b>TL;DR:</b>
+
+<p>
+<ul>
+<li> ... is playable <a href="">HERE</a> (source code <a href="">HERE</a>)
+<li> ... is playable <a href="">HERE</a> (source code <a href="">HERE</a>)
+<li>Tools developed before and during this compo:
+<br>- <a href="https://xem.github.io/terser-online/">Terser-online</a>
+<br>- <a href="https://github.com/xem/CSS3Dframework">CSS3Dframework</a>
+<br>- <a href="https://twitter.com/MaximeEuziere/status/1157563570823081984">MiniDragAndDrop</a>
+<br>- <a href="https://xem.github.io/miniPixelArt/">MiniPixelArt</a>
+<br>- <a href="https://xem.github.io/mini2Dphysics">Mini2Dphysics</a>
+<br>- <a href="">MiniPartition</a>
+</ul>
+
+<p>Results:
+<ul>
+<li>...
+</ul>
+-->
+<br>
+<br>
+<hr>
+<br>
+
+<style>
+blockquote { width: 450px; max-width: 100%; border: 2px solid #def; border-radius: 5px; padding: 0 10px 10px; }
+img { border: 1px solid }
+</style>
+
+<h3>Before the compo</h3>
+
+<h4>Ideas list</h4>
+
+<p>Since last JS13kGames, while waiting for the theme, I prepared a list of ideas that looked like this:
+<script src="https://gist.github.com/xem/4e0282d261bc9bf749dce741812799cc.js"></script>
+
+<h4>Tools</h4>
+<p>I also made some tools, such as:
+<br>- <a href="https://xem.github.io/terser-online/">this online ES6 minifier</a> (optimized for js1k/js13k extreme compression),
+<br>- <a href="https://xem.github.io/miniPixelArt/">this pixel-art editor</a> (with tiny JS export),
+<br>- <a href="https://github.com/xem/CSS3Dframework">this CSS3D framework</a> (that helps making CSS3D scenes super easily),
+<br>- <a href="https://twitter.com/MaximeEuziere/status/1151566587570397186">this music partition editor</a> (with the great help of @d_gnhia),
+<br>- <a href="https://github.com/xem/mini2Dphysics">this mini 2D physics engine</a> (that I submitted during JS1K 2019).
+<br>
+<p>Fun fact: @udxs made a meme about me and all the tools I've made:
+<br>
+<p><img src="./images/js13k19/1.jpg" width='80%'>
+<br>
+<p>These tools are now present in the <a href="https://js13kgames.github.io/resources/">resource page of JS13k</a>, along with 24 others tools I made last years.
+<p>@end3r even mentioned my contribution <a href="https://medium.com/js13kgames/help-promote-js13k-532616fbe217">in this "HELP PROMOTE JS13K" blog post</a>! Thanks to him!
+
+<br>
+<br>
+<h4>Storyteller?</h4>
+<p>I was VERY interested in the first idea of the list: a comics puzzle game inspired by the indie game <a href="http://www.storyteller-game.com/">Storyteller</a>.
+<br>For a better idea of the concept, take a look at this video:
+<br><iframe width="400" height="350" src="https://www.youtube.com/embed/JmKjsVHi-tM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<br>
+<br>I made <a href="https://twitter.com/MaximeEuziere/status/1157563570823081984">a mini drag&drop library</a>, just in case I'd make this game for JS13k19.
+<br>I also started coding a mini game engine prototype with emoji, because I was too curious to discover how such a system could be implemented.
+<br>
+<p><img src="images/js13k19/2.png" width=500>
+<br>
+<p>It was actually easier than I thought: the engine basically needs to know the characters' characteristics and emotions in a given frame (and sometimes the previous frame) and a list of hardcoded rules to determine the outcome of the current frame.
+<br>
+<p>Based on the video above, I was able to write a list of 44 rules (without implementing them).
+<br>Most of them consist of a single, easy test.
+<br>For example, "if someone is close to a treasure: he/she becomes rich; If someone else is closer to the treasure in the next frame: he/she stole the treasure to the other person and the other person hates him/her").
+<br>
+<p>The most important rule of the game (and the most complex one) is the one that make two people become lovers. This can happen:
+<br>- if both are alive;
+<br>- if both of them are the same species (human or vampire);
+<br>- if both are close physically (if two women are present in the scene, a man will love the closest one, and vice versa);
+<br>- if both are single (or not loyal to their lover);
+<br>- if both are straight and of different sex, or gay and same sex, or bi;
+<br>- if they're of the same social status (both poor, or both rich, or a princess and a hero);
+<br>- if none of them is mourning a lover dead at the previous frame;
+<br>- if none of them is heartbroken;
+<br>- if none of them is angry at the other;
+<br>- if none of them is shocked by a crime made by the other;
+<br>- if none of them is greedy and close to a treasure;
+<br>- if none of them is an Old Mentor (single for life);
+<br>- if none of them is a human near to a vampire (because vampires make every human ar fall in love with them).
+<br>
+<p>This can seem complicated, but with the right data structures, it's just a matter of "if" tests performed in the right order.
+<br>
+<p>In the end, I did not make this game for JS13k19, but I had a lot of fun figuring out how it worked. And I'm also glad I could develop MiniDragAndDrop while preparing it.
+<br>
+<br>
+<hr>
+<br>
+<h3>Week 1</h3>
+<h4>The theme</h4>
+<p>The theme "BACK", was very inspiring, even though it seemed very similar to a previous theme called "REVERSE"...
+<p>Fun fact: I spent all the previous year saying to @end3r that the theme of next JS13k should be "BACKSEAT", in reference to Notch's answer when I pointed at some optimizations he could add in his code.
+<br>
+<p><p><img src="images/js13k19/3.png">
+<br>
+<p>A few minutes before the start of the combo, @end3r pushed the joke a bit further by saying:
+<br>
+<p><img src="images/js13k19/4.png">
+<br>
+<h4>Ideas</h4>
+<p>I started scribbling some ideas on my notepad:
+<br><p><img src="images/js13k19/5.png">
+<br>
+<p>Three ideas from my list could easily be adapted to this theme:
+<br>- The Storyteller clone (a.k.a. "Backstory", because you have to change the comic's events to match a story's conclusion)
+<br>- The Trackmania Original demake (a.k.a. "Back on track", because it revives an old game and some of its puzzles actually require to go backward on the track to win)
+<br>- The Mario 64 demake (because replaying it today would be a long jump back in time)
+<br>
+<p>Other ideas directly inspired by the theme also included:
+<br>- "Backward": a collection of iconic video games levels that you have to play from the end to the start, with a completely inverted goal (for example, in Backwards Mario, you start from the flag and go througs the course from right to left. In backwards Pac-Man, you need to fill the area with gums. Etc!)
+<br>- "Back in time": a platform game where you have the ability to go back in time, and use your past/future selves to pass obstacles.
+<br>
+<br>
+<h4>Choosing an idea...</h4>
+<p>My choice was finally to do something like <b>Trackmania</b>.
+<br>
+<p><img src="images/js13k19/6.png" width=300>
+<br>
+<p>Adios, other ideas!
+<br>- Storyteller's author (who was okay to let me make a game inspired by his concept) told me that his game is close to an official release, so I didn't want to "steal" his level ideas...
+<br>- The Mario 64 demake would be so much work, and I won't have enough free time to do it well in one month...
+<br>- The game compiling famous levels played backwards may infrige a lot of copyrights, even if I alter the graphics and audio, and moreover, I'm not sure at all if it would be fun to play...
+<br>- The Back in time platformer would be cool, but it may be redundant with a lot of time travel entries made this year, and with my 2016 game <a href="https://js13kgames.com/entries/super-chrono-portal-maker">Super Chrono Portal Maker</a> which also used this mechanic a lot...
+<br>
+<p>Why Trackmania then?
+<br>- It fits the theme and it even fits the joke behind the theme ("backseat" is nice for a racing game...)
+<br>- Trackmania (from 2003), a.k.a. Trackmania Original (the 2005 remake), is one of my favourite games, and it's almost impossible to install it on a modern PC: It's not available on Steam/GoG/Epic, and even if you buy the CD of the game (like I did), you're forced to crack it in order to play on Windows 8 or 10.
+<br>- I have almost no idea how to implement it, even less in 13kb, and it's the kind of challenge I'm looking for.
+<br>
+<p>So I decided that a demake of this game would not only be a great programming and compression challenge, and a new type of game for me (racing), but also a good way for everyone to enjoy the good parts of this rare game 16 years after its release!
+<br>
+<br>
+<h4>Specs</h4>
+<p>Since my entry is a hommage to an abandonware (eh, it's even downloadable on archive.org for free!), I won't try to be super original, but instead, make a game that feels like the real one, with the same puzzles and races, just a lot simpler visually.
+<br>It'll still be a huge task for me because I'll have to make vehicles, dozens of connectable road blocks, a map editor, and a convincing racing simulation in 13kb, in 3D, and in 30 days. 😰
+<br>
+<h4>Technology</h4>
+<p>I know 3 ways to do 3D in a mini game: CSS3D, vanilla WebGL (with raymarching), and points projection.
+<br>I first tried to go with point projection to try to make a game that is less resource-intensive. Unfortunately, I got stuck very early, when I tried to draw a (road) polygon that moved behind the camera. At this moment, the projection becomes erratic and I have no idea how to fix it...
+<br><p><img src="images/js13k19/7.gif" width=200>
+<br>(this gif shows my attempts to make a square that goes from front to back under the camera, in perspective. As soon as Z is negative, we lose the ability to project a point.)
+<br>
+<p>WebGL would look very nice but I'm afraid I'll lose too much time trying to make it work.
+<br>So, let's go with CSS3D, and this time, with the help of my mini framework that hides most of the complexity!
+<br>Space will be tight, so I removed everything I didn't need from my framework (set_unit, set_perspective, pyramid, cylinder, all the possible shape origins, all the optional CSS...) and started the project with a ~1kb overhead (instead of 1.7kb for the full package)
+<br><h4>Baby you can drive my car</h4>
+<br>I created two red cubes for the car's body, 4 grey circles for the wheels, 4 grey rectangles perpendicular to the wheels to simulate their depth (when they're seen from behind), added two different shades of red for the back and right faces of the car (for "lighting"), plugged the famous <a href="https://xem.github.io/articles/jsgamesinputs.html">80b JS keyboard controls</a> plus a bit of trigonometryn and after a couple hours, we already have a little controllable car!
+<p>Let's go! For the record, we're on day 2.
+<br><p><img src="images/js13k19/8.gif" width=300>
+<br>Polygon count: 20 (+3 for the ground).
+<br>Byte count: 4.55kb minified, 1.69kb zipped.
+<br>Hours count: 2.
+<br><a href="http://xem.github.io/js13k19/14">DEMO</a>
+<br>
+<h4>Backseating the camera</h4>
+<p>Day 3: let's make the camera follow the car but not too rigidly:
+<br>when the car turns, we want to see it turn on itself a little. But the distance car-camera stays fixed.
+<br>
+<p>Let's do a bit of math:
+<br><p><img src="images/js13k19/9.png">
+<br>- At any given moment, the car is at a position [x:y], and rotated on the map with an angle a (here, 45° or Pi/4 radians)
+<br>- If the player presses "left" or "right", the angle a decreases or increases.
+<br>- If the player presses "up", the car moves 10px along its angle. To do that, we add (cos(a) * 10px) to x and we subtract (sin(a) * 10px) to y.
+<br>- If the player presses "down", the car moves back 10px. To do that, we subtract (cos(a) * 10px) to x and we add (sin(a) * 10px) to y.
+<br>- To keep seeing the car from behind, the camera must be centered on the new position [x:y], but with an angle equal to -a (-45°).
+<br>- The distance car-camera stays fixed "for free" because it is the perspective distance of our CSS3D scene.
+<br>- Finally, to make the camera follow the car less rigidly, add a little delay to its position and rotation changes. By chance, this can be done with a CSS transition: "#scene{transition:.25s linear}"
+<br>Repeat this 30 times per second and you have a mini racing game!<br>
+<p>Just for the record: this is not easy at all for me. I'm getting more and more used to it, but it still took me a while to figure out which numbers and trigonometric functions I had to use at each step! (and I'm pretty sure the rest will be much harder)
+<br>
+<h4>Acceleration</h4>
+<p>Let's take a moment to make the car accelerate when we press up and decelerate / goes back when we press down.
+<br>To do this, we don't update the car's position directly at each frame with a fixed amount.
+<br>Instead, we increase or decrease a variable representing the car's speed, and add this speed to the car's position at each frame.
+<br>
+<p><img src="images/js13k19/10.gif" width=300>
+<br>Polygon count: still 23.
+<br>Byte count: 4.64kb minified, 1.72kb zipped.
+<br>Hours count: 3.
+<br><a href="http://xem.github.io/js13k19/15">DEMO</a>
+<br>
+<br>
+<hr>
+<br>
+<h3>Week 2</h3>
+...
+<br>
+<br>
+<hr>
+<br>
+<h3>Week 3</h3>
+...
+<br>
+<br>
+<hr>
+<br>
+<h3>Week 4</h3>
+...
+<br>
+<br>
+<hr>
+<br>
+<h3>Week 5</h3>
+...
+<br>
+<br>
+<hr>
+<br>
+<h3>Conclusion</h3>
+
+<p>
+
+<p><b>Xem</b>
+
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
