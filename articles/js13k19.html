@@ -63,7 +63,8 @@ img { border: 1px solid }
 <h4>Ideas list</h4>
 
 <p>Since last JS13kGames, while waiting for the theme, I prepared a list of ideas that looked like this:
-<script src="https://gist.github.com/xem/4e0282d261bc9bf749dce741812799cc.js"></script>
+(hidden for now)
+<!--script src="https://gist.github.com/xem/4e0282d261bc9bf749dce741812799cc.js"></script-->
 
 <h4>Tools</h4>
 <p>I also made some tools, such as:
@@ -77,8 +78,8 @@ img { border: 1px solid }
 <br>
 <p><img src="./images/js13k19/1.jpg" width='80%'>
 <br>
-<p>These tools are now present in the <a href="https://js13kgames.github.io/resources/">resource page of JS13k</a>, along with 24 others tools I made last years.
-<p>@end3r even mentioned my contribution <a href="https://medium.com/js13kgames/help-promote-js13k-532616fbe217">in this "HELP PROMOTE JS13K" blog post</a>! Thanks to him!
+<p>These tools are now present in the <a href="https://js13kgames.github.io/resources/">resource page of JS13k</a>, along with 24 others tools I had made since 2015.
+<p>@end3r, who organizes JS13k every year, even mentioned my contribution <a href="https://medium.com/js13kgames/help-promote-js13k-532616fbe217">in his "HELP PROMOTE JS13K" blog post</a>! Thanks to him!
 
 <br>
 <br>
@@ -123,11 +124,11 @@ img { border: 1px solid }
 <h3>Week 1</h3>
 <h4>The theme</h4>
 <p>The theme "BACK", was very inspiring, even though it seemed very similar to a previous theme called "REVERSE"...
-<p>Fun fact: I spent all the previous year saying to @end3r that the theme of next JS13k should be "BACKSEAT", in reference to Notch's answer when I pointed at some optimizations he could add in his code.
+<p>Fun fact: I spent all the previous year saying to @end3r that the theme of next JS13k should be "BACKSEAT", in reference to Notch's answer when I pointed at some optimizations he could add in his code last year.
 <br>
 <p><p><img src="images/js13k19/3.png">
 <br>
-<p>A few minutes before the start of the combo, @end3r pushed the joke a bit further by saying:
+<p>A few minutes before the start of the compo, @end3r pushed the joke a bit further by hinting this:
 <br>
 <p><img src="images/js13k19/4.png">
 <br>
@@ -143,7 +144,6 @@ img { border: 1px solid }
 <p>Other ideas directly inspired by the theme also included:
 <br>- "Backward": a collection of iconic video games levels that you have to play from the end to the start, with a completely inverted goal (for example, in Backwards Mario, you start from the flag and go througs the course from right to left. In backwards Pac-Man, you need to fill the area with gums. Etc!)
 <br>- "Back in time": a platform game where you have the ability to go back in time, and use your past/future selves to pass obstacles.
-<br>
 <br>
 <h4>Choosing an idea...</h4>
 <p>My choice was finally to do something like <b>Trackmania</b>.
@@ -163,32 +163,38 @@ img { border: 1px solid }
 <br>
 <p>So I decided that a demake of this game would not only be a great programming and compression challenge, and a new type of game for me (racing), but also a good way for everyone to enjoy the good parts of this rare game 16 years after its release!
 <br>
+<h4>Choosing a game name</h4>
+<p>When I wrote this idea in my list, I thought "13Kmania" would be a good name. (Especially in french, where "treize K mania" sounds a lot like "Trackmania".
+<p>But to be more theme-friendly, I decided to use "Back on Track" instead!
 <br>
 <h4>Specs</h4>
 <p>Since my entry is a hommage to an abandonware (eh, it's even downloadable on archive.org for free!), I won't try to be super original, but instead, make a game that feels like the real one, with the same puzzles and races, just a lot simpler visually.
 <br>It'll still be a huge task for me because I'll have to make vehicles, dozens of connectable road blocks, a map editor, and a convincing racing simulation in 13kb, in 3D, and in 30 days. 😰
+<br>By the way: this project will have zero planning. I'll code what I want everyday and we'll see where it goes! (this is probably an extra challenge, but it might be fun at least)
 <br>
 <h4>Technology</h4>
 <p>I know 3 ways to do 3D in a mini game: CSS3D, vanilla WebGL (with raymarching), and points projection.
 <br>I first tried to go with point projection to try to make a game that is less resource-intensive. Unfortunately, I got stuck very early, when I tried to draw a (road) polygon that moved behind the camera. At this moment, the projection becomes erratic and I have no idea how to fix it...
 <br><p><img src="images/js13k19/7.gif" width=200>
-<br>(this gif shows my attempts to make a square that goes from front to back under the camera, in perspective. As soon as Z is negative, we lose the ability to project a point.)
+<br>(this gif shows my attempts to make a square that goes from front to back under the camera, in perspective. As soon as the distance between a point and the camera is negative, I have no way to project my polygons reliably)
 <br>
 <p>WebGL would look very nice but I'm afraid I'll lose too much time trying to make it work.
-<br>So, let's go with CSS3D, and this time, with the help of my mini framework that hides most of the complexity!
-<br>Space will be tight, so I removed everything I didn't need from my framework (set_unit, set_perspective, pyramid, cylinder, all the possible shape origins, all the optional CSS...) and started the project with a ~1kb overhead (instead of 1.7kb for the full package)
-<br><h4>Baby you can drive my car</h4>
-<br>I created two red cubes for the car's body, 4 grey circles for the wheels, 4 grey rectangles perpendicular to the wheels to simulate their depth (when they're seen from behind), added two different shades of red for the back and right faces of the car (for "lighting"), plugged the famous <a href="https://xem.github.io/articles/jsgamesinputs.html">80b JS keyboard controls</a> plus a bit of trigonometryn and after a couple hours, we already have a little controllable car!
+<br>
+<p>So, let's go with CSS3D, and this time, with the help of my mini framework that hides most of the complexity!
+<br>Space will be tight, so I removed everything I didn't need from my framework (set_unit(), set_perspective(), pyramid(), cylinder(), many "origins" and all the optional CSS...) and started the project with a ~1kb overhead (instead of 1.7kb for the full package)
+<br>
+<h4>Baby you can drive my car</h4>
+I created two red cubes for the car's body, 4 grey circles for the wheels, 4 grey rectangles perpendicular to the wheels to simulate their depth (when they're seen from behind), added two different shades of red for the back and right faces of the car (for "lighting"), plugged the famous <a href="https://xem.github.io/articles/jsgamesinputs.html">73b JS keyboard controls</a> plus a bit of trigonometry, and after a couple hours, we already have a little controllable car!
 <p>Let's go! For the record, we're on day 2.
 <br><p><img src="images/js13k19/8.gif" width=300>
 <br>Polygon count: 20 (+3 for the ground).
 <br>Byte count: 4.55kb minified, 1.69kb zipped.
-<br>Hours count: 2.
-<br><a href="http://xem.github.io/js13k19/14">DEMO</a>
+<br>Hours count: 2 (I only count the hours where I write code, not the ones where I think or scribble afk) 
+<br><a href="http://xem.github.io/js13k19/day2">DEMO</a>
 <br>
 <h4>Backseating the camera</h4>
-<p>Day 3: let's make the camera follow the car but not too rigidly:
-<br>when the car turns, we want to see it turn on itself a little. But the distance car-camera stays fixed.
+Day 3: let's make the camera follow the car but not too rigidly:
+<br>Instead of having a fixed view of the back side of the car, it's preferable to see it turn on itself a little when the player presses "left" or "right". The distance car-camera stays fixed though..
 <br>
 <p>Let's do a bit of math:
 <br><p><img src="images/js13k19/9.png">
@@ -200,10 +206,12 @@ img { border: 1px solid }
 <br>- The distance car-camera stays fixed "for free" because it is the perspective distance of our CSS3D scene.
 <br>- Finally, to make the camera follow the car less rigidly, add a little delay to its position and rotation changes. By chance, this can be done with a CSS transition: "#scene{transition:.25s linear}"
 <br>Repeat this 30 times per second and you have a mini racing game!<br>
+<br>
 <p>Just for the record: this is not easy at all for me. I'm getting more and more used to it, but it still took me a while to figure out which numbers and trigonometric functions I had to use at each step! (and I'm pretty sure the rest will be much harder)
+<br>Also, I noticed that Chrome goes crazy when we try to update elements with CSS transitions 30 times per second. So the transitions will be only be enabled on Firefox.
 <br>
 <h4>Acceleration</h4>
-<p>Let's take a moment to make the car accelerate when we press up and decelerate / goes back when we press down.
+Let's take a moment to make the car accelerate when we press up and decelerate / goes back when we press down.
 <br>To do this, we don't update the car's position directly at each frame with a fixed amount.
 <br>Instead, we increase or decrease a variable representing the car's speed, and add this speed to the car's position at each frame.
 <br>
@@ -211,8 +219,111 @@ img { border: 1px solid }
 <br>Polygon count: still 23.
 <br>Byte count: 4.64kb minified, 1.72kb zipped.
 <br>Hours count: 3.
-<br><a href="http://xem.github.io/js13k19/15">DEMO</a>
+<br><a href="http://xem.github.io/js13k19/day3">DEMO</a>
 <br>
+<h4>Where we're going, we need roads! (and barriers)</h4>
+<p>In Trackmania, all the races and puzzles are made with blocks on a 3D grid.
+<br>The most basic block is a brown square laid on the snowy ground (as you can see in the previous GIF's).
+<br>When the players place a square block next to another square block (or any other road block that accepts it), they have the possibility to link them, which creates a continuous portion of road.
+<br>The two blocks can also stay independent, and have a gutter of snow between them.
+<br>To do this, I made my scene consist of a grid of 10in * 10in (where 1in = 96px).
+<br>If an independent square block is placed in a cell, it'll be 9in * 9in, centered, and surrounded by snow.
+<br>If two square blocks are linked, the game adds a 1in-wide link between them.
+<p><img src="images/js13k19/11.png">
+<br>(my tests look like this. Yes, it's ugly, and doesn't have any curves. But we gotta start somewhere!)
+<br>
+<br>
+<p>As you can see, Trackmania also adds solid barriers on the sides of every road portion consisting of a least 2 linked square blocks.
+<br>I made an algorithm that checks the links of every block and automatically places little barriers (in the form of vertial, grey, CSS3D planes) where they are necessary.
+<br>I adapted it to extend their length in the direction of the link, in order to have a continuous barrier between two linked squares.
+<p><img src="images/js13k19/12.png">
+<p>Tadaaa! Now the (real) challenge is to make the car collide with these barriers. It may take some time.
+
+<br>Polygon count: 20 for the car, 120 for these 27 road blocks, their links and their barriers.
+<br>Byte count: 6.85kb minified, 2.28kb zipped. (wow, that's huge. I mean, for me.)
+<br>Hours count: 4.
+<br><a href="http://xem.github.io/js13k19/day4">DEMO</a>
+<br>
+<h4>Cleanup and golf #1</h4>
+<p>Every few days, I re-read my (anarchic) code base and make it clean, commented and lightly golfed.
+<br>I started this 5th day by doing this, and it was quite good, because the minified code fell down to 6.02kb and the zipped code to 2.07kb (and 2.03kb with Advzip).
+<br>For the record, to benefit from Advzip extra compression, download Advcomp <a href="https://www.advancemame.it/download">here</a>, put advzip.exe in the same folder than your zip, and execute <b>.\advzip.exe -z -4 -i 1000 .\min.zip</b> in the command line.
+<br>(To squeeze a dozen extra bytes at the end of the project, replace 1000 by a bigger number, like 100000. It will take a few minutes to complete though!)
+<br>
+<br>
+<h4>Collisions!</h4>
+
+<p>Let's start with very basic collision detection: considering that all the road blocks are square, and have 0 to 4 barriers on their sides, and considering that the car can only collide from its front side when going forward and from its back side when going backward.
+<p><img src="images/js13k19/13.png">
+<p>This can be done pretty easily, by computing on which cell the green point is placed (depending on the direction of the car - forward or backward), and if this point is further than a barrier, the car receives an inverted speed, which makes it bounce gently against the wall instead of passing through it. (In terms of code, the car behaves as if all the grey space after a barrier is an obstacle measuring 0.5in).
+<p>Two problems appeared quickly.
+<br>- The first one is that a back collision with an angle car-wall around 45 degrees will be detected too late, and the car will start clipping through before being stopped. The solution is to compute collisions on the four sides of the car and not only front and back. (I'll do that later though.)
+<p><img src="images/js13k19/14.png">
+<p>- The second one is that the car would randomly ignore certain barriers when it drives at full speed against it. But all the devs who do 2D or 3D collisions know this problem. If you have an obstacle in front of you, and your speed and alignment makes you stand before the obstacle at one frame and after the obstacle in the next frame, you'll pass through it. The solution (that I implemented) is to perform many little increments at each frame (5 in my case), and test the collisions at each increment. If one of the increments detects a collision, the car gets stopped at this frame, and this solution is effective 100% of the time. You just have to do enough increments to ensure that one increment at max speed is shorter than the size of any obstacle you can encounter on the map.
+<p><img src="images/js13k19/15.png">
+<br>
+<h4>Live debugger</h4>
+<p>Of course, all this can't really be coded blindly, nor by watching hundreds of logs in the JS console, that's why I made a textarea that's always visible on screen and that can be updated 30 times per second. It's very handy!
+<br>For example, here, the logs indicate which side of the car is tested, if it's out-of-bounds, on which cell it is, and conclude by telling if the car is driving on the snow (if out of bounds), against a barrier (if there's a collision), or nothing (if it's on the road).
+<p><img src="images/js13k19/16.gif">
+
+<br>
+
+<h4>Screenshot saturday</h4>
+<p>It's time to polish a little (by making a little circuit, adding a start line and a cinematic introduction) and present it to the world:
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 5.<br>Here are some news of my CSS3D racing game:<br>- Automatic barriers positioning<br>- Collisions with barriers are working!<br>- Many controls and camera adjustments<br>- Code cleaned up<br>- Polygons so far: 233.<br>- Zip size so far: 2.63kb!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://t.co/Q8e7A3rckb">pic.twitter.com/Q8e7A3rckb</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1162769405845155840?ref_src=twsrc%5Etfw">August 17, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br>
+<br>Polygon count: 20 + 213.
+<br>Byte count: 7.90kb minified, 2.63kb zipped.
+<br>Hours count: 6.
+<br><a href="http://xem.github.io/js13k19/day5">DEMO</a>
+
+<br>
+
+<p>Wait. 213 polygons seem huge for 31 road blocks with barriers... Upon inspection, I realized each barrier was drawn twice or more (once for each link shared with another road block).
+
+<p>Let's remove them altogether and replace them with black borders. Let's also merge every pair of orange and grey planes into a single orange plane with a grey border.
+<p>As a result, the polygon count is down to 87 in total!
+
+
+
+<br>
+<h4>Show your curves!</h4>
+<p>Day 6. My friend told me it was nice but too bit pointy... and I agree.
+<br>So let's do another algorithm that automatically rounds every road block with two consecutive road links. This is simply made with a 100% CSS border-radius applied to every corner that is opposite to links.
+
+<p><img src="images/js13k19/17.png">
+<br>(Before vs. after vs. after with automatic barriers that follow the curves of the road!)
+
+<br>
+<h4>Collisions v2</h4>
+<p>Now that all blocks are not square anymore, computing collisions is a bit trickier. Actually, it's a lot harder: it took me all the week-end to figure out how to handle collisions on both sides of every barrier, reliably.
+<br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 6. (3.17 kb)<br>It took me most of the week-end, and it&#39;s not totally finished yet, but the road now has curves. And these curves have functioning collisions. (the black lines represent solid barriers).<br><br>I also reduced my polygon budget a lot: 233 =&gt; 87 <a href="https://t.co/3XEObIjQmB">pic.twitter.com/3XEObIjQmB</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1163175569724530690?ref_src=twsrc%5Etfw">August 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>To put it simply, the game engine still needs to check straight barriers collisions like before, and allow to cross from a road block to another if they are linked, or between a road block without barrier and the outside (the snow), and vice-versa.
+<br>But once it has ensured all these conditions, it also needs to make all the rounded barriers' collisions work as intended.
+<br>To do that, each road block with a curve receives an equation (in the form of a JS function) that is able to tell if the car is on the road or outside.
+<br>The result of this equation can be used to determine if the car is trying to go from inside to outside (or the opposite) and block it.
+<br>"Block it" was the hardest part of the job: after many buggy attempts, I decided to respond to every collisions with a strong opposite force, which makes the car bounce on every wall, with an opposite speed, before being able to continue going forward in the right direction. (Trackmania kinda did that too, so it's fine! Hee hee).
+
+<br>
+<p>So, about these equations. It turns out, I couldn't find them by myself, so I asked some help on Twitter and Slack.
+<br><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Help?<br>Is there an equation that can tell me if a point [x;y] is inside the black area? (the bottom-right side of a circle with a 50px radius, where x and y are between 0 and 50)<a href="https://twitter.com/hashtag/Math?src=hash&amp;ref_src=twsrc%5Etfw">#Math</a> <a href="https://twitter.com/hashtag/Gamedev?src=hash&amp;ref_src=twsrc%5Etfw">#Gamedev</a> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/Gjhf50joxt">pic.twitter.com/Gjhf50joxt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1163006546785263616?ref_src=twsrc%5Etfw">August 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<br>A lot of people flew to help me with the same approach presented in various ways, but all of them implied to compare the distance from the car to the center of the quarter-circle and the radius. This distance can be computed with Pythagore or directly Math.hypot().
+<br>To optimize the CPU usage though, people advised me to avoid quare roots as much as I could, so I obeyed and compared the square of deltaX + the square of deltaY to the square of the radius. Perfect! 👌
+
+<br>
+
+<p>To end this week, I finally separated my project in 8 different files, and added comments everywhere so my future self (and people on Github) will be able to understand what I have been doing!
+
+<br>
+<br>Polygon count: 20 + 67.
+<br>Byte count: 10.00kb minified, 3.17kb zipped.
+<br>Hours count: 9.
+<br><a href="http://xem.github.io/js13k19/day6">DEMO</a>
+
+
 <br>
 <hr>
 <br>
