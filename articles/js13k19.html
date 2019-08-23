@@ -73,13 +73,20 @@ img { border: 1px solid }
 <br>- <a href="https://github.com/xem/CSS3Dframework">this CSS3D framework</a> (that helps making CSS3D scenes super easily),
 <br>- <a href="https://twitter.com/MaximeEuziere/status/1151566587570397186">this music partition editor</a> (with the great help of @d_gnhia),
 <br>- <a href="https://github.com/xem/mini2Dphysics">this mini 2D physics engine</a> (that I submitted during JS1K 2019).
+<br>- <a href="https://github.com/xem/miniOrchestra">this multi-instrument  music editor</a> (based on <a href="//github.com/xem/miniMusic>MiniMusic</a>, but with many more options).
 <br>
 <p>Fun fact: @udxs made a meme about me and all the tools I've made:
 <br>
 <p><img src="./images/js13k19/1.jpg" width='80%'>
 <br>
+<p>It's a running gag since:
+<p><img src="./images/js13k19/1.5.png" width='80%'>
+<br>
 <p>These tools are now present in the <a href="https://js13kgames.github.io/resources/">resource page of JS13k</a>, along with 24 others tools I had made since 2015.
 <p>@end3r, who organizes JS13k every year, even mentioned my contribution <a href="https://medium.com/js13kgames/help-promote-js13k-532616fbe217">in his "HELP PROMOTE JS13K" blog post</a>! Thanks to him!
+<br>
+<p>During all the month of the compo, I've seen a lot of people thanking me on Slack and on Twitter for my sound, art and compression tools, and telling me they're happily using them.
+<br>I'm so glad I could help them make their games look and sound better through my tools! <3
 
 <br>
 <br>
@@ -188,8 +195,8 @@ I created two red cubes for the car's body, 4 grey circles for the wheels, 4 gre
 <p>Let's go! For the record, we're on day 2.
 <br><p><img src="images/js13k19/8.gif" width=300>
 <br>Polygon count: 20 (+3 for the ground).
-<br>Byte count: 4.55kb minified, 1.69kb zipped.
-<br>Hours count: 2 (I only count the hours where I write code, not the ones where I think or scribble afk) 
+<br>Byte count: 6.59kb commented, 4.55kb minified, 1.69kb zipped.
+<br>Hours count: 2 (I only count the hours where I actively work with my pen or my code editor, not all the idle thinking in between :p) 
 <br><a href="http://xem.github.io/js13k19/day2">DEMO</a>
 <br>
 <h4>Backseating the camera</h4>
@@ -217,12 +224,12 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <br>
 <p><img src="images/js13k19/10.gif" width=300>
 <br>Polygon count: still 23.
-<br>Byte count: 4.64kb minified, 1.72kb zipped.
+<br>Byte count: 6.73kb commented, 4.64kb minified, 1.72kb zipped.
 <br>Hours count: 3.
 <br><a href="http://xem.github.io/js13k19/day3">DEMO</a>
 <br>
 <h4>Where we're going, we need roads! (and barriers)</h4>
-<p>In Trackmania, all the races and puzzles are made with blocks on a 3D grid.
+<p>Day 4. In Trackmania, all the races and puzzles are made with blocks on a 3D grid.
 <br>The most basic block is a brown square laid on the snowy ground (as you can see in the previous GIF's).
 <br>When the players place a square block next to another square block (or any other road block that accepts it), they have the possibility to link them, which creates a continuous portion of road.
 <br>The two blocks can also stay independent, and have a gutter of snow between them.
@@ -240,12 +247,12 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <p>Tadaaa! Now the (real) challenge is to make the car collide with these barriers. It may take some time.
 
 <br>Polygon count: 20 for the car, 120 for these 27 road blocks, their links and their barriers.
-<br>Byte count: 6.85kb minified, 2.28kb zipped. (wow, that's huge. I mean, for me.)
+<br>Byte count: 11.0kb commented, 6.85kb minified, 2.28kb zipped. (wow, that's huge. I mean, for me.)
 <br>Hours count: 4.
 <br><a href="http://xem.github.io/js13k19/day4">DEMO</a>
 <br>
 <h4>Cleanup and golf #1</h4>
-<p>Every few days, I re-read my (anarchic) code base and make it clean, commented and lightly golfed.
+<p>Day 5. Every few days, I re-read my (anarchic) code base and make it clean, commented and lightly golfed.
 <br>I started this 5th day by doing this, and it was quite good, because the minified code fell down to 6.02kb and the zipped code to 2.07kb (and 2.03kb with Advzip).
 <br>For the record, to benefit from Advzip extra compression, download Advcomp <a href="https://www.advancemame.it/download">here</a>, put advzip.exe in the same folder than your zip, and execute <b>.\advzip.exe -z -4 -i 1000 .\min.zip</b> in the command line.
 <br>(To squeeze a dozen extra bytes at the end of the project, replace 1000 by a bigger number, like 100000. It will take a few minutes to complete though!)
@@ -275,10 +282,11 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 
 <br>
 <br>Polygon count: 20 + 213.
-<br>Byte count: 7.90kb minified, 2.63kb zipped.
+<br>Byte count: 17.6kb commented, 7.90kb minified, 2.63kb zipped.
 <br>Hours count: 6.
 <br><a href="http://xem.github.io/js13k19/day5">DEMO</a>
 
+<br>~~~
 <br>
 
 <p>Wait. 213 polygons seem huge for 31 road blocks with barriers... Upon inspection, I realized each barrier was drawn twice or more (once for each link shared with another road block).
@@ -307,6 +315,8 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <br>The result of this equation can be used to determine if the car is trying to go from inside to outside (or the opposite) and block it.
 <br>"Block it" was the hardest part of the job: after many buggy attempts, I decided to respond to every collisions with a strong opposite force, which makes the car bounce on every wall, with an opposite speed, before being able to continue going forward in the right direction. (Trackmania kinda did that too, so it's fine! Hee hee).
 
+<br>The collision-testing function is 80 lines long, and is executed with the front side of the car as parameter when the car is going forward, and the back side if it's going backward.
+
 <br>
 <p>So, about these equations. It turns out, I couldn't find them by myself, so I asked some help on Twitter and Slack.
 <br><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Help?<br>Is there an equation that can tell me if a point [x;y] is inside the black area? (the bottom-right side of a circle with a 50px radius, where x and y are between 0 and 50)<a href="https://twitter.com/hashtag/Math?src=hash&amp;ref_src=twsrc%5Etfw">#Math</a> <a href="https://twitter.com/hashtag/Gamedev?src=hash&amp;ref_src=twsrc%5Etfw">#Gamedev</a> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/Gjhf50joxt">pic.twitter.com/Gjhf50joxt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1163006546785263616?ref_src=twsrc%5Etfw">August 18, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
@@ -319,7 +329,7 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 
 <br>
 <br>Polygon count: 20 + 67.
-<br>Byte count: 10.00kb minified, 3.17kb zipped.
+<br>Byte count: 20.0kb commented, 10.00kb minified, 3.17kb zipped.
 <br>Hours count: 9.
 <br><a href="http://xem.github.io/js13k19/day6">DEMO</a>
 
@@ -328,7 +338,111 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <hr>
 <br>
 <h3>Week 2</h3>
-...
+
+<br>
+<h4>3D barriers</h4>
+
+<p>Day 7. I used this day to finish debugging the collision detection of last week-end, then I quickly tested to copy the barriers on multiple layers to make them look less flat. It consumed a lot of bytes and polygons, and wasn't looking as nice as I wanted, because of the lack of anti-aliasing when rendering things in CSS3D on Firefox. Moreover, it was super buggy (visually) on Webkit: all the rounded blocks refused to appear at all! So I discarded this test, and without it, Webkit's display is more or less OK.
+<br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 7.<br>I wanted to make the barriers look higher by copying them on two different layers, but I&#39;m not sure it&#39;s worth it.<br>It costs many extra polygons, and the lack of anti-aliasing is kinda problematic... <a href="https://t.co/9iN4PC36zb">pic.twitter.com/9iN4PC36zb</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1163349106473033728?ref_src=twsrc%5Etfw">August 19, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<br>
+<p>Hours count: 11.
+<br><a href="http://xem.github.io/js13k19/day7">DEMO</a>
+<br>
+<h4>Track editor!</h4>
+<p>Day 8. Time to start a big and very important part of the game, the 3D track editor!
+<br>Though, very soon, a problem of size appeared: I wanted to display a grid on top of my scene, and dezoom it enough to let the player see the track from above. But when I did that, everything disappeared. The reason was that the scale of my scene was too big for the browser to show at once in CSS3D (I already had this problem when I made LOSSST in 2017: the rooms had to stay very small to avoid being cut or appear glitchy).
+<br>Indeed, my grid was comprised of 20 x 20 cells and each cell had a size of 20 x 20 in. (in total: 38400 px x 38400 px).
+<br>So the first thing to do was to resize everything: the grid, the car, the road parts, and everything in the JS code that referred to them (camera, display, collision detection).
+<br>I also put the base size (100px instead of 20in) in a variable, so it can be adjusted later more easily. With this size, the grid measures 2000px x 2000px and browsers can happily show it!
+<br>By the way, I couldn't add 400 polygons in my scene to represent each cell of the grid, it would have made the game extremely slow. Instead, all the lines and columns of the grid are drawn with a repeated linear-gradient, in CSS.
+
+<br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 8.<br><br>I was tired of writing my roads in JSON...<br>So, It seems like I&#39;m starting a circuit editor.<br>I think it&#39;ll take some days, and a lot of kilobytes, before I have something that looks nice and works! 😬<br>(but here are the first steps anyway) <a href="https://t.co/X8D0RUqtZH">pic.twitter.com/X8D0RUqtZH</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1163896639033135104?ref_src=twsrc%5Etfw">August 20, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br>As you can see in this screenshot, I also started working on the editor's UI, especially the inventory.
+<br>My goal is to make each cell of the inventory display one road block and which quantity of this block is remaining.
+<br>I could draw these blocks using SVG or PNG's, but to save bytes, I'll draw each inventory road part directly in CSS3D, by reusing the same model as the one used on the track, but rotated 45° and dezoomed to fit in about 20 x 20 px.
+<br>It'll require a good organization to make every block of the game, reusable on the track and in the inventory. But that's doable!
+<br>
+<p>Byte count: 24.3kb commented (I don't try to minify/zip as long as the code contains logs everywhere)
+<br>Hours count: 13.
+<br><a href="http://xem.github.io/js13k19/day8">DEMO</a>
+<br>
+<p>~~~
+<br>
+<p>Day 9. Today I have a better idea of what I need to do and how. I'm not stuck with CSS3D limits anymore, so I can focus on the editor's features, namely: moving and rotating the grid, moving the "cursor" (the green square) along with the camera, and place road blocks using the cursor.
+<br>
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 9.<br><br>My project is a mess, there&#39;s code to clean everywhere, but hey! The track editor has a grid that can go up and down and rotate, and a cursor that moves on the grid, and we can start building!<br><br>(you can&#39;t make stuff like that cleanly anyway, can you?) <a href="https://t.co/tXWOaxNOkx">pic.twitter.com/tXWOaxNOkx</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1164237127481253890?ref_src=twsrc%5Etfw">August 21, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<br>Note that I reused Trackmania's keyboard shortcuts: arow keys move the cursor, space key draws a block, del key deletes a removable block. All the rest can be done by clicking on the left menu.
+<br>Speaking of keyboard shortcuts: I altered the keyboard handler a little to support both space and del keys, and I doubled every variable to handle both cases: when they're pressed once, or when they're held down. It looks like this:
+<pre><code class="lang-js">var s = 0, u = 0, l = 0, d = 0, r = 0; // hold (space / up / left / down / right)
+var S = 0, U = 0, L = 0, D = 0, R = 0; // press
+var _ = 0; // suppr key
+onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s****'[(z.which+3)%20]] = top['LURDL*D*L_UR*U*S****'[(z.which+3)%20]] = z.type[5]</code></pre>
+
+<br>
+<br>Byte count: 26.0kb commented.
+<br>Hours count: 15.
+<br><a href="http://xem.github.io/js13k19/day9">DEMO</a>
+<br>
+<p>~~~
+<br>
+<p>Day 10. I added the possibility to select blocks in the inventory, rotate them and place them...
+<br>I also noticed that my game declares A LOT of global vars, and it's not finished yet!
+<br>LOSSST (2017) also had a ton of variables but it wasn't really a problem. The hardest part (for me) was the ton of different CSS variables that I had to rename to 1 char at the last minute. In Back on Track, there will be very few CSS compared to LOSSST. For example, up to now, I only wrote 19 CSS rules, using only 10 CSS classes and 8 ids, which is very few.  
+<br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 10.<br><br>I already have 58 global vars.<br>The 1-char var names A-Z a-z, $ and _ are not enough to hold them all! 😓<br><br>Besides that, the editor now features 3 blocks that can be placed and rotated on the grid. (basic road, start &amp; end flags). They&#39;re not hardcoded anymore! 🥳 <a href="https://t.co/do5V79n5aL">pic.twitter.com/do5V79n5aL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1164637709597642757?ref_src=twsrc%5Etfw">August 22, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<br>
+<br>Byte count: 28.6kb commented.
+<br>Hours count: 16.
+<br><a href="http://xem.github.io/js13k19/day10">DEMO</a>
+<br>~~~
+<br>
+<p>Day 11: I started this day by a little enhancement to my editor's menu:
+<br>
+<p><img src="images/js13k19/18.png">
+<br>All the actions that can be done with the keyboard (move cursor, add and remove road blocks) are now none exclusively with the keyboard.
+<br>
+<br>Moreover, the menu's buttons are now smaller and contain Unicode arrows to be a bit clearer!
+<br>It took some time though, because Unicode arrows are a big mess in terms of OS/browser support.
+<br>Hopefully, people on Slack helped me find a little subset of all the Unicode Arrows that can be displayed about everywhere, and I tweeted the result <a href="https://twitter.com/MaximeEuziere/status/1164810114710163456">here</a>.
+<br>
+<pre><code class="lang-js">←→↑↓↔↕↖↗↘↙⤡⤢↚↛↮⟵⟶⟷⇦⇨⇧⇩⬄⇳⬁⬀⬂⬃⬅➡⬆⬇⬉⬈⬊⬋⬌⬍⇠⇢⇡⇣⤌⤍⤎⤏⤑⤐↼⇀↽⇁↿↾⇃⇂⥊⥋⥌⥍⥎⥐⥑⥏⥒⥓⥖⥗⥔⥕⥘⥙⥚⥛⥞⥟⥜⥝⥠⥡⥢⥤⥣⥥⇋⇌⥦⥨⥧⥩⥪⥬⥫⥭⥮⥯⇈⇊⇇⇉⇆⇄⇅⇵⇐⇒⇑⇓⇔⇕⇖⇗⇘⇙⇍⇏⇎⟸⟹⟺⤂⤃⤄⤆⤇⬱⇶⇚⇛⤊⤋⭅⭆⟰⟱⇤⇥⤒↨⤝⤞⤟⤠↤↦↥↧⬶⤅⟻⟼↸⇱⇲⇜⇝⬳⟿↜↝↭⇷⇸⇹⇺⇻⇞⇟⇼↰↱↲↳⬐⬎⬑⬏↴↵↩↪⤣⤤⤥⤦↫↬⤙⤚⤛⤜⥼⥽⥾⥿🔁🔂🔃🔄⤶⤷⤴⤵➩➪➫➬➭➮➯➱⇪⇫⇬⇭⇮⇯➳➵➴➶➸➷➹➙➘➚➾⇰➛➜➔➝➞➟➠➧➨➺➻➼➽↶↷⤾⤿⤸⤺⤹⤻↺↻⟲⟳⥀⥁</code></pre>
+
+<br>Note: these arrows can have very different look across different OS's, and about half of them will break completely the layout of monospace text, but besides that, they work!
+
+<br>
+<p>I also saw that the arrow keys became all wrong when the grid (i.e. the whole scene) was rotated 90, 180 or 270°. I improvised a little hack (I mean, a coding trick) to reassign the arrow keys accordingly. It worked on the first try!
+<pre><code class="lang-js">  // Adjust arrows based on grid angle
+for(i = 0; i < gridrz/90; i++){
+  [U,R,D,L] = [R,D,L,U]
+}</code></pre>
+
+<br>
+<p>But let's get back to serious business! Let's plug in the algorithms I made last week: the one that creates links between road blocks, the one that generates the barriers, the one that makes the curves, and the one that generates the equations for every curved block.
+<br>It took some hours to have it all behave well, but I did it!
+<br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 11.<br><br>Guys! Check this out!<br><br>It took me all day and required 4kb of code, but I made this thing work at last:<br><br>My track editor now computes curves and barriers instantly and automatically when I link two road blocks AND when I delete blocks too!🤩<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a>-1 <a href="https://t.co/4V7dGar652">pic.twitter.com/4V7dGar652</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1164909253884358656?ref_src=twsrc%5Etfw">August 23, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<br>I have to admit I'm very happy of this achievement. For the first since this project started, I'm thinking that maybe, if there's no bad surprise, it could probably become something nice.
+
+<br>Fun fact: I made a random tweet explaining that I had lost 30 minutes for a stupid typo in a for loop. This tweet has had more likes and answers than any of my other #js13k tweets this year. I guess it's much more relatable than anything else I'm doing, eh? 🤷
+
+<br><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Guess who lost 30 min because of this line?<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/qLVcXqWBxa">pic.twitter.com/qLVcXqWBxa</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1164889745299824643?ref_src=twsrc%5Etfw">August 23, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br>And to finish this day very well (or not well at all), <a href="https://twitter.com/MaximeEuziere/status/1164986420198592512">I almost lost all my progress of the last 24 hours</a> because of my laptop acting super weird. Lesson learned: PUSH OFTEN, not just once per day!
+
+<br>
+<br>Byte count: 32.1kb commented.
+<br>Hours count: 19.
+<br><a href="http://xem.github.io/js13k19/day11">DEMO</a>
+
+<br>~~~
+<br>
+<p>Day 12: samedi
+
+
+<br>~~~
+<br>
+<p>Day 13: dimanche
+
+
 <br>
 <br>
 <hr>
