@@ -495,7 +495,7 @@ As I said on day 8, the parts shown in the inventory are the same "3D models" as
 
 <br>~~~
 <br>
-<p>Day 13: Today's goal is to make all these new blocks connectable with each other. All the blocks except the basic road square don't need to be manually linked to their neighbours: when you place these blocks on the scene, if a compatible block is already present and correctly oriented at one of their link points, the link will be automatic. And inversely, a new basic road block will automatically be linked to a neighbour non-basic road block if both are compatible.
+<p>Day 13: During the next days, my goal is to make all these new blocks connectable with each other. All the blocks except the basic road square don't need to be manually linked to their neighbours: when you place these blocks on the scene, if a compatible block is already present at one of their link points, and has the right orientation, the link will be automatic. And inversely, a new basic road block will automatically be linked to a neighbour non-basic road block if both are linkable together.
 
 <br>
 <p>The most annoying part here is to organize the data. each cell of the 3D world must know a ton of information:
@@ -525,13 +525,23 @@ space[x][y][z] = {
 
 <br><p>Every time a block is added or removed in the scene, all these pieces of information must be computed or updated, for that block, and for all its neighbours. (plus the neighbours on the higher level if it's a slope).
 
-<br>~~~
+<br><p>I cleaned the code and the data to be able to do this well, and since it's saturday, let's take a moment to minimize and zip what we have so far:
+
+<br>
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 13.<br>I&#39;m optimizing the organization of the editor&#39;s code and my data models.<br>It takes a while to figure out the best solution.<br>Anyway, the fun fact is that my minified JS is exactly 13kb!<br>And my zip is only 4.25kb, after all the things I&#39;ve added these past few days🤯 <a href="https://t.co/BlfRI7mTmU">pic.twitter.com/BlfRI7mTmU</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1165729472773087232?ref_src=twsrc%5Etfw">August 25, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br>Byte count: 33.9kb commented, 4.25kb zipped!
+<br>Hours count: 23.
+<br><a href="http://xem.github.io/js13k19/day13">DEMO</a>
+
+<!--br>~~~
 <br>
 <p>Day 14: lundi
 
 <br>~~~
 <br>
-<p>Day 15: mardi
+<p>Day 15: mardi-->
 
 
 <br>
