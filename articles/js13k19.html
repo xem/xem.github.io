@@ -348,7 +348,7 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <p>Hours count: 11.
 <br><a href="http://xem.github.io/js13k19/day7">DEMO</a>
 <br>
-<h4>Track editor!</h4>
+<h4>TRACK EDITOR!</h4>
 <p>Day 8. Time to start a big and very important part of the game, the 3D track editor!
 <br>Though, very soon, a problem of size appeared: I wanted to display a grid on top of my scene, and dezoom it enough to let the player see the track from above. But when I did that, everything disappeared. The reason was that the scale of my scene was too big for the browser to show at once in CSS3D (I already had this problem when I made LOSSST in 2017: the rooms had to stay very small to avoid being cut or appear glitchy).
 <br>Indeed, my grid was comprised of 20 x 20 cells and each cell had a size of 20 x 20 in. (in total: 38400 px x 38400 px).
@@ -372,12 +372,12 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <p>Day 9. Today I have a better idea of what I need to do and how. I'm not stuck with CSS3D limits anymore, so I can focus on the editor's features, namely: moving and rotating the grid, moving the "cursor" (the green square) along with the camera, and place road blocks using the cursor.
 <br>
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 9.<br><br>My project is a mess, there&#39;s code to clean everywhere, but hey! The track editor has a grid that can go up and down and rotate, and a cursor that moves on the grid, and we can start building!<br><br>(you can&#39;t make stuff like that cleanly anyway, can you?) <a href="https://t.co/tXWOaxNOkx">pic.twitter.com/tXWOaxNOkx</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1164237127481253890?ref_src=twsrc%5Etfw">August 21, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-<br>Note that I reused Trackmania's keyboard shortcuts: arow keys move the cursor, space key draws a block, del key deletes a removable block. All the rest can be done by clicking on the left menu.
-<br>Speaking of keyboard shortcuts: I altered the keyboard handler a little to support both space and del keys, and I doubled every variable to handle both cases: when they're pressed once, or when they're held down. It looks like this:
+<br>Note that I reused most of Trackmania's keyboard shortcuts: arow keys move the cursor, space key draws a block, del key deletes a removable block. All the rest can be done by clicking on the left menu.
+<br>Speaking of keyboard shortcuts: I altered the JS keyboard handler a little to support both space, del and enter keys, and I added extra variables for space and arrow keys to handle them when they're pressed once, or when they're held down, because both cases are treated differently. The pressed key flags are reset after each frame, while the other keep being set until the player releases them. It looks like this:
 <pre><code class="lang-js">var s = 0, u = 0, l = 0, d = 0, r = 0; // hold (space / up / left / down / right)
 var S = 0, U = 0, L = 0, D = 0, R = 0; // press
-var _ = 0; // suppr key
-onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s****'[(z.which+3)%20]] = top['LURDL*D*L_UR*U*S****'[(z.which+3)%20]] = z.type[5]</code></pre>
+var _ = 0, $ = 0; // press suppr key, enter key
+onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s$***'[(z.which+3)%20]] = top['LURDL*D*L_UR*U*S$***'[(z.which+3)%20]] = z.type[5]</code></pre>
 
 <br>
 <br>Byte count: 26.0kb commented.
@@ -411,7 +411,7 @@ onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s****'[(z.which+3)%20]] = top['LU
 
 <br>
 <p>I also saw that the arrow keys became all wrong when the grid (i.e. the whole scene) was rotated 90, 180 or 270°. I improvised a little hack (I mean, a coding trick) to reassign the arrow keys accordingly. It worked on the first try!
-<pre><code class="lang-js">  // Adjust arrows based on grid angle
+<pre><code class="lang-js">// Adjust arrows based on grid angle
 for(i = 0; i < gridrz/90; i++){
   [U,R,D,L] = [R,D,L,U]
 }</code></pre>
@@ -420,6 +420,7 @@ for(i = 0; i < gridrz/90; i++){
 <p>But let's get back to serious business! Let's plug in the algorithms I made last week: the one that creates links between road blocks, the one that generates the barriers, the one that makes the curves, and the one that generates the equations for every curved block.
 <br>It took some hours to have it all behave well, but I did it!
 <br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 11.<br><br>Guys! Check this out!<br><br>It took me all day and required 4kb of code, but I made this thing work at last:<br><br>My track editor now computes curves and barriers instantly and automatically when I link two road blocks AND when I delete blocks too!🤩<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a>-1 <a href="https://t.co/4V7dGar652">pic.twitter.com/4V7dGar652</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1164909253884358656?ref_src=twsrc%5Etfw">August 23, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<br>It also took some time to implement the "hold space and move the cursor" mechanic to create a link between two existing blocks, or between an existing block and a new block created at the same time.
 <br>I have to admit I'm very happy of this achievement. For the first since this project started, I'm thinking that maybe, if there's no bad surprise, it could probably become something nice.
 
 <br>Fun fact: I made a random tweet explaining that I had lost 30 minutes for a stupid typo in a for loop. This tweet has had more likes and answers than any of my other #js13k tweets this year. I guess it's much more relatable than anything else I'm doing, eh? 🤷
@@ -435,12 +436,102 @@ for(i = 0; i < gridrz/90; i++){
 
 <br>~~~
 <br>
-<p>Day 12: samedi
+<p>Day 12: Today, let's modelize new road parts! I played all the puzzles and races of the snow and desert environments and listed those:
+<ul>
+<li>start flag (OK)
+<li>end flag (OK)
+<li>checkpoint flag
+<li>flat road (OK)
+<li>accelerator
+<li>accelerator going down
+<!--li>- accelerator going up-->
+<li>jumper
+<li>short slope
+<li>long slope rounded on the bottom, like ◞
+<li>long slope rounded on the top, like ◜
+<li>road that goes slanted on the side (ignoring it for now because ugh!)
+</ul>
+
+<br>
+<p>The good news is that it's not a lot. I only have 8 new parts to make.
+<br>The less good news is that most of these blocks have special features and limitations that will require a lot of code to implement:
+<ul>
+<li>all the blocks except the flat roads will have barriers on their front and their back until they're linked to another block.
+<li>jumpers can only have one link on their back
+<li>slopes and slopes-accelerator are special because they have one link on a certain height's plane and the other link on the upper plane.
+<li>and on top of that, long slopes occupy two cells of the grid.
+<li>snow, desert and castle environments have different ways to use barriers and prop/supports when the road is higher than the ground, and different ways to link slopes, but we'll see that another day!
+</ul>
+
+<br>
+<p>But let's start by the 3D models. With CSS3Dframework, it's just a matter of 2 or 3 lines of code per block.
+<br>The checkpoint flag is similar to the start and end flags.
+
+<br><p><img src="images/js13k19/19.png">
+
+<br>
+<p>The accelerators (flat and slanted) are covered with yellow triangles. This can be done in many different ways (CSS, SVG, Unicode...), but I went with the one that seemed to require the least amount of code and resources: a repeating double linear-gradient in background.
+<br>I took an example on <a href="https://leaverou.github.io/css3patterns/#half-rombes">Lea Verou's CSS3 patterns gallery</a>, simplified the code, and applied it to a road block. TADAAA.
+
+<br><p><img src="images/js13k19/20.png">
+
+<br><p>The jumper and slopes are simply made of one or two slanted planes.
+
+<br><p><img src="images/js13k19/21.png">
+
+As I said on day 8, the parts shown in the inventory are the same "3D models" as the ones on the track, but displayed in a tiny space and with a 45° angle. Each slot of the inventory is a separate CSS3D container with a "500px" perspective, similarly to the scene. Here's how the scene and the inventory look with every block represented:
+
+<br><p><img src="images/js13k19/22.png">
+
+<br><p>There's another special place where these road blocks are rendered: the editor's cursor. But it's less tricky here because it's rendered in the scene with all the other blocks. It's just that it can be replaced with any other block instantly when clicking an inventory item.
+
+<br><p>Oh, also: as I said <a href="https://twitter.com/MaximeEuziere/status/1165311745524752387">here on Twitter</a>, this whole scene only uses 61 polygons, which is very reasonable!
+
+<br>
+<br>Byte count: 35.2kb commented.
+<br>Hours count: 21.
+<br><a href="http://xem.github.io/js13k19/day12">DEMO</a>
 
 
 <br>~~~
 <br>
-<p>Day 13: dimanche
+<p>Day 13: Today's goal is to make all these new blocks connectable with each other. All the blocks except the basic road square don't need to be manually linked to their neighbours: when you place these blocks on the scene, if a compatible block is already present and correctly oriented at one of their link points, the link will be automatic. And inversely, a new basic road block will automatically be linked to a neighbour non-basic road block if both are compatible.
+
+<br>
+<p>The most annoying part here is to organize the data. each cell of the 3D world must know a ton of information:
+<ul>
+<li>if it's free or occupied by a road block or a prop,
+<li>if it can make links on its up/right/down/left side and at which coordinates,
+<li>if it has a link on its up/right/down/left side,
+<li>if it is flat or rounded on its up/right/down/left side,
+<li>if it has a barrier on its up/right/down/left side,
+<li>the coordinates of its surrogate block in case of double block
+<li>its angle (0 90, 180 or 270),
+<li>and its out-of-bounds equation.
+
+<pre><code class="lang-js">// Example data for a basic road block (id #0) that is rounded on the bottom left and linked to other blocks on its up and right sides.
+
+space[x][y][z] = {
+  free: 0,
+  item_id: 0,
+  linkable: { u: [x, y-1, z], r: [x+1, y, z], d: [x, y+1, z], l: [x-1, y, z]},
+  links: { u: 1, r: 1, d: 0, l: 0 },
+  flat: { u: 1, r: 1, d: 0, l: 0 },
+  barriers: { u: 0, r: 0, d: 1, l: 1 },
+  surrogate: 0,
+  angle: 0,
+  equation: `Math.hypot(x-${x},y-${y},z-${z}>size*.8`
+}</code></pre>
+
+<br><p>Every time a block is added or removed in the scene, all these pieces of information must be computed or updated, for that block, and for all its neighbours. (plus the neighbours on the higher level if it's a slope).
+
+<br>~~~
+<br>
+<p>Day 14: lundi
+
+<br>~~~
+<br>
+<p>Day 15: mardi
 
 
 <br>
