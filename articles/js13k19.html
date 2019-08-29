@@ -500,6 +500,7 @@ As I said on day 8, the parts shown in the inventory are the same "3D models" as
 <br>
 <p>The most annoying part here is to organize the data. each cell of the 3D world must know a ton of information:
 <ul>
+<li>if it's fixed or deletable 
 <li>if it's free or occupied by a road block or a prop,
 <li>if it can make links on its up/right/down/left side and at which coordinates,
 <li>if it has a link on its up/right/down/left side,
@@ -512,15 +513,16 @@ As I said on day 8, the parts shown in the inventory are the same "3D models" as
 <pre><code class="lang-js">// Example data for a basic road block (id #0) that is rounded on the bottom left and linked to other blocks on its up and right sides.
 
 space[x][y][z] = {
+  fixed: 0,
   free: 0,
-  item_id: 0,
+  id: 0,
   linkable: { u: [x, y-1, z], r: [x+1, y, z], d: [x, y+1, z], l: [x-1, y, z]},
   links: { u: 1, r: 1, d: 0, l: 0 },
   flat: { u: 1, r: 1, d: 0, l: 0 },
   barriers: { u: 0, r: 0, d: 1, l: 1 },
   surrogate: 0,
   angle: 0,
-  equation: `Math.hypot(x-${x},y-${y},z-${z}>size*.8`
+  equation: `Math.hypot(x-${x},y-${y},z-${z})>size*.8`
 }</code></pre>
 
 <br><p>Every time a block is added or removed in the scene, all these pieces of information must be computed or updated, for that block, and for all its neighbours. (plus the neighbours on the higher level if it's a slope).
@@ -535,20 +537,108 @@ space[x][y][z] = {
 <br>Hours count: 23.
 <br><a href="http://xem.github.io/js13k19/day13">DEMO</a>
 
-<!--br>~~~
-<br>
-<p>Day 14: lundi
-
-<br>~~~
-<br>
-<p>Day 15: mardi-->
-
+<br><p>This zip size reminds me that I can actually write A LOT of code, even if it's dirty or copy pasted everywhere, and still, stay far below the zip limit. That's a relief!
 
 <br>
 <br>
 <hr>
 <br>
 <h3>Week 3</h3>
+
+<br>
+<p>Day 14: Today is the end of my summer holidays, so I'll have to work on my game before and after work, and of course on the weekends.
+
+<br><p>So to start gently, today I added pillars! There are pillars below every slope block, but there are also extra (or extended) pillars below every elevated block, i.e. the ones that are higher than the ground.
+<br>Each pair of pillars is a single plane, where the background is a vertical linear-gradient representing two black columns.
+<br><p>An elevated block will have a maximum of 2 extra polygons for its pillars, or 3 for the long blocks that cover two cells. So, all in all, the byte count and the polygon count didn't explode today, and that's a great news!
+
+<br><p><img src="images/js13k19/23.png">
+
+<br><p>For example, this scene contains 75 polygons. It could be reduced a little with some extra optimizations, but the count is roughly correct.
+
+<br><p>After posting the <a href="https://twitter.com/MaximeEuziere/status/1166031352199897090">obligatory WIP tweet</a>, I received many enthusiastic messages of people and friends realizing that it'll be a real 3D game, and that it could be much more fun this way!
+
+<br>
+<br>Byte count: 37.8kb commented.
+<br>Hours count: 23.
+<br><a href="http://xem.github.io/js13k19/day14">DEMO</a>
+
+<br>
+<br>~~~
+<br>
+<p>Day 15: Let's do this (slightly annoying) links thing. And to begin, the "start", "end" and "checkpoint" blocks.
+<ul>
+<li>They have barriers on the left and right sides, if they're placed on the ground.
+<li>"Start" has a third barrier on the back, and "end" on the front.
+<li>"Start" and "end" can only have one link with another block, on the front and on the back, respectively. "Checkpoint" can have both.
+<li>If the links don't exist (yet), a barrier is added on the corresponding side(s).
+<li>If there's a block on the cell placed in front (or back, or both) that is linkable at its corresponding side, the two blocks get linked.
+<li>The out-of-bounds (OOB) equation is the same as the basic square block (inbounds if 20<X<80; 20<Y<80; Z=0. Y is extended up to 0 and/or 100 if there's a link on the back or on the front).
+</ul>
+
+<br>And of course, all of this is complicated because all the blocks can be rotated. Depending on their angle, the "forward" side of a block will effectively be the one placed on its right, back or left side. It's a bit puzzling at first, especially to place barriers and rounded corners at  the right places, but I'm getting used to it.
+
+<br><p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 15.<br><br>I&#39;m (finally) making all the editor&#39;s blocks connectable with each other!<br><br>- Road blocks can be linked in all four directions.<br>- Start block can only be linked forward.<br>- End block can only be linked backward.<br>- Checkpoint can be linked forward and backward.<br><br>TBC. <a href="https://t.co/nJS0EM0iks">pic.twitter.com/nJS0EM0iks</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1166431687028482049?ref_src=twsrc%5Etfw">August 27, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br>
+<br>Byte count: 44.0kb commented!
+<br>Hours count: 25.
+<br><a href="http://xem.github.io/js13k19/day15">DEMO</a>
+
+<br>
+<br>~~~
+
+<p>Day 16: We're already at the half of the compo! Well, let's continue implementing links with the jumper (that can only have one link on its back) and the accelerator (front and back).
+<br>
+Their OOB equations are a bit different though. Accelerator has its Y value going from 0 to 100, and jumper from 50 to 100 (if their angle equals zero). Also, the jumper is not flat, so its equation will contain a Z value between 0 (on the edge) and 25px (on the middle)  
+<br>
+All the other blocks are slopes, but we'll see that later!
+
+<br><p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 16.<br><br>My editor now supports links with the (red) jumper and with the accelerator.<br><br>The commented source code is getting huge: 47kb!😨 (I abuse copy-paste a little tho...)<br><br>I&#39;m fixing the texture of the accelerator and the next step is to make the slopes work!<br><br>TBC. <a href="https://t.co/sINTs4jBku">pic.twitter.com/sINTs4jBku</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1166763652634030090?ref_src=twsrc%5Etfw">August 28, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br>Slopes are similar to checkpoint and accelerators in the sense that they can only have links on the front and back sides.
+<br>
+Of course, one thing really differs: the fact that they're linkable to a cell on the same level and a cell one level higher.
+<br>Also, they don't have barriers on the sides and on top of the slope, at least in the snow world. Some adjustments will be needed in the other worlds.
+<br>Anyway, the "linkable" object in the data model I showed on day 13 is going to come in handy here: concretely, each cell will know if it can have links in each of its four directions, but also at which coordinates the linked blocks must be placed.
+<br>For example, a slope going up at coordinates [x,y,z] will be linkable to the cell [x,y+1,z] on the back, and to the cell [x,y-1,<b>z+1</b>] on the front.
+<p><br>Oh! An extra check has to be made when placing a block: the cell directly above a slope can't be used for another block, to avoid this kind of collision:
+
+<br><p><img src="images/js13k19/24.png">
+
+<br>Inversely, a slope can't be placed on the cell directly under an existing block, for the same reason.
+<br>Finally, in the original game, the "slope up" double-block couldn't be placed on the ground, I'm not sure why but I'll also enforce it to be elevated too.
+
+<br><p><img src="images/js13k19/25.png">
+
+<br>I thought this was because these blocks HAD to be connected to a descending block, but no: we can totally have two such blocks face to face: 🤷
+
+<br><p><img src="images/js13k19/26.png">
+
+<br>I started the implementation today, but see you tomorrow!
+<br>PS: before going to bed, I'm realizing that this project is probably the most complex program I have written so far as a JS dev. The complexity is difficult to handle, but it's cool because it's the kind of challenge I wanted to have for this year's compo. 
+<br>Unfortunately (or not), this complexity won't be really visible for the players or the judges, unless they read my source code or this making-of... 
+<br>But hey, what's important is to make something fun! Invisible complexity is a good thing.
+<br>I can't really complain though, because many JS devs (and other contestants) have already told me that it's super impressive, especially for a CSS3D game, so my efforts are definitely not unnoticed. :D
+
+<br>
+<br>Byte count: 47.1kb commented!
+<br>Hours count: 26.
+<br><a href="http://xem.github.io/js13k19/day16">DEMO</a>
+
+<br>
+<br>~~~
+
+
+<br>
+<p>
+
+
+<p>Day 17: jeu
+<p>Day 18: ven
+<p>Day 19: sam
+<p>Day 20: dim
+
 ...
 <br>
 <br>
