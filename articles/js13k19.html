@@ -500,13 +500,15 @@ As I said on day 8, the parts shown in the inventory are the same "3D models" as
 <br>
 <p>The most annoying part here is to organize the data. each cell of the 3D world must know a ton of information:
 <ul>
-<li>if it's fixed or deletable 
+<li>if it's fixed or deletable
+<li>what inventory item it refers to
 <li>if it's free or occupied by a road block or a prop,
 <li>if it can make links on its up/right/down/left side and at which coordinates,
 <li>if it has a link on its up/right/down/left side,
 <li>if it is flat or rounded on its up/right/down/left side,
 <li>if it has a barrier on its up/right/down/left side,
-<li>the coordinates of its surrogate block in case of double block
+<li>the coordinates of its surrogate block(s) in case of double block or slope
+<br>the coordinate of the main block in case of surrogate
 <li>its angle (0 90, 180 or 270),
 <li>and its out-of-bounds equation.
 
@@ -516,11 +518,14 @@ space[x][y][z] = {
   fixed: 0,
   free: 0,
   id: 0,
+  inventoryid: 0,
   linkable: { u: [x, y-1, z], r: [x+1, y, z], d: [x, y+1, z], l: [x-1, y, z]},
   links: { u: 1, r: 1, d: 0, l: 0 },
   flat: { u: 1, r: 1, d: 0, l: 0 },
   barriers: { u: 0, r: 0, d: 1, l: 1 },
-  surrogate: 0,
+  surrogates 0,
+  surrogate_of: 0,
+  slope: 0,
   angle: 0,
   equation: `Math.hypot(x-${x},y-${y},z-${z})>size*.8`
 }</code></pre>
@@ -607,7 +612,7 @@ Of course, one thing really differs: the fact that they're linkable to a cell on
 <br><p><img src="images/js13k19/24.png">
 
 <br>Inversely, a slope can't be placed on the cell directly under an existing block, for the same reason.
-<br>Finally, in the original game, the "slope up" double-block couldn't be placed on the ground, I'm not sure why but I'll also enforce it to be elevated too.
+<br>Finally, in the original game, the "slope up" double-block couldn't be placed on the ground, I'm not sure why. I'll probably enforce it to be elevated too, if I have enough room.
 
 <br><p><img src="images/js13k19/25.png">
 
@@ -616,10 +621,10 @@ Of course, one thing really differs: the fact that they're linkable to a cell on
 <br><p><img src="images/js13k19/26.png">
 
 <br>I started the implementation today, but see you tomorrow!
-<br>PS: before going to bed, I'm realizing that this project is probably the most complex program I have written so far as a JS dev. The complexity is difficult to handle, but it's cool because it's the kind of challenge I wanted to have for this year's compo. 
-<br>Unfortunately (or not), this complexity won't be really visible for the players or the judges, unless they read my source code or this making-of... 
-<br>But hey, what's important is to make something fun! Invisible complexity is a good thing.
-<br>I can't really complain though, because many JS devs (and other contestants) have already told me that it's super impressive, especially for a CSS3D game, so my efforts are definitely not unnoticed. :D
+<p><br>PS: before going to bed, I'm realizing that this project is probably the most complex program I have written so far as a JS dev. The complexity of my own code is difficult to handle for me, especially with all those interconnectable pieces on a 3D grid, but it's still cool because it's the kind of challenge I wanted for this year's compo. 
+<br>Unfortunately (or not), this complexity won't be really visible for the players or the judges, unless they take a look at my source code... 
+<br>But hey, what's important is to make something fun! Invisible complexity is not a bad thing in a fun game.
+<br>I can't really complain anyway, because many JS devs (and other JS13K contestants) have already told me that it's super impressive, especially for a CSS3D game, so overall, my efforts are definitely not unnoticed. :D
 
 <br>
 <br>Byte count: 47.1kb commented!
@@ -631,11 +636,59 @@ Of course, one thing really differs: the fact that they're linkable to a cell on
 
 
 <br>
-<p>
 
+<p>Day 17: After a lot of background work to set and handle the data correctly, I finally made everything connectable! (the scene shown below uses 164 polygons)
 
-<p>Day 17: jeu
-<p>Day 18: ven
+<br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> Day 17 update.<br>YAY, I DID IT!<br>Everything is connectable, even the slopes!<br>It&#39;s rough, but all is in place. <a href="https://t.co/p6MQnLXm5K">pic.twitter.com/p6MQnLXm5K</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1167169771441446912?ref_src=twsrc%5Etfw">August 29, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br>
+
+<p>I was also mentioned in this super sweet tweet by @CarelessLabs:
+
+<br><blockquote class="twitter-tweet"><p lang="en" dir="ltr">In awe of all the <a href="https://twitter.com/hashtag/JS13k?src=hash&amp;ref_src=twsrc%5Etfw">#JS13k</a> entries progress, so many talented devs, artists and musicains. Check out <a href="https://twitter.com/js13kGames?ref_src=twsrc%5Etfw">@js13kGames</a> here are several of those taking part:<a href="https://twitter.com/femtosonic?ref_src=twsrc%5Etfw">@femtosonic</a><a href="https://twitter.com/remvst?ref_src=twsrc%5Etfw">@remvst</a><a href="https://twitter.com/KilledByAPixel?ref_src=twsrc%5Etfw">@KilledByAPixel</a><a href="https://twitter.com/dhmstark?ref_src=twsrc%5Etfw">@dhmstark</a><a href="https://twitter.com/EdJLynch?ref_src=twsrc%5Etfw">@EdJLynch</a><a href="https://twitter.com/castpixel?ref_src=twsrc%5Etfw">@castpixel</a> <a href="https://twitter.com/Calada2?ref_src=twsrc%5Etfw">@Calada2</a> <a href="https://twitter.com/MaximeEuziere?ref_src=twsrc%5Etfw">@MaximeEuziere</a> <a href="https://twitter.com/stas?ref_src=twsrc%5Etfw">@stas</a><a href="https://twitter.com/64Mega?ref_src=twsrc%5Etfw">@64Mega</a><a href="https://twitter.com/MallinsonBen?ref_src=twsrc%5Etfw">@MallinsonBen</a> <a href="https://t.co/fxb580APVo">pic.twitter.com/fxb580APVo</a></p>&mdash; Careless Coder (@CarelessLabs) <a href="https://twitter.com/CarelessLabs/status/1167214674938605569?ref_src=twsrc%5Etfw">August 29, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br>
+<br>Byte count: 59.6kb commented
+<br>Hours count: 28.
+<br><a href="http://xem.github.io/js13k19/day17">DEMO</a>
+
+<br>
+<br>~~~
+
+<br>
+
+<p>Day 18: So all the blocks are linked, that's for sure. Though, all the links on the scene are still identical to the ones between basic road blocks, and it's not ideal. Let's enable the almighty CSS debug tool: <b>*{border:1px solid red}</b> !
+
+<br><p><img src="images/js13k19/28.png">
+
+<br>
+<p>All the links represented by a blue arrow are between a slope and a flat road block. I need to detect this case and make them shorter, so that they don't go over or under the slope at all.
+<br>The green arrow (the second on the right) represents a link between two slopes. In that case, the link must not be drawn at all, because the slopes are long enough to touch each other.
+
+<br><p><img src="images/js13k19/29.png">
+
+<br>
+<p>After many tries and adjustments, All the "semi-links" between a flat block and a slope are finally okay (blue arrows), and all the links between two slopes are not rendered, as intended (green arrows)!
+
+<br>Now that this is okay, let's zoom radically and make micro adjustments to have all the parts interconnect more smoothly (when I modelized them a few days ago, it was a bit rough and imprecise, but now I have all that I need to finalize them).
+
+<br><p><img src="images/js13k19/30.png">
+
+<br>
+For example, the simple slopes had pillars that were a bit too high and went through the road, and their angle and length was a little wrong too, which is highlighted with the zoom and red borders. But why was the angle wrong in the first place? When I reduced the blocks' heights from 100 to 50px, I also reduced the angle from 45° to 45/2 = 22.5°. And that's where I was wrong.
+
+<br><blockquote class="twitter-tweet"><p lang="en" dir="ltr">I have a (dumb) Maths question for <a href="https://twitter.com/hashtag/JS13k?src=hash&amp;ref_src=twsrc%5Etfw">#JS13k</a> !<br>Each of these two slopes are placed in a virtual cell that measures 100px (width) * 100px (height) * 50px (height), represented by this roughly drawn blue box.<br>Why is the slope angle equal to 26.5° and not 45/2=23.5° ? 🤔 <a href="https://t.co/Qb8E5U7YRj">pic.twitter.com/Qb8E5U7YRj</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1167429404374573056?ref_src=twsrc%5Etfw">August 30, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br><p><img src="images/js13k19/31.png">
+
+<br>
+<p>The answer came from @remvst, @randytayler and @mmastrac (thanks to them!)
+<br>The angle I wanted is actually: <b>atan2(100,50)</b> in radians, i.e. about 26.5°.
+
+<br>
+<p>I made the same kind of adjustments for all slopes and all links. Here's a little close-up:
+<br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 18.<br><br>Yesterday, the blocks were indeed &quot;linked&quot; together, but with little gaps and overlaps everywhere. These little defects will be visible during the race.<br><br>So today, I made every connection absolutely seamless!<br>(you can see better with the red wireframe debugger) <a href="https://t.co/OpEEqVfp1O">pic.twitter.com/OpEEqVfp1O</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1167524036492038144?ref_src=twsrc%5Etfw">August 30, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+ 
 <p>Day 19: sam
 <p>Day 20: dim
 
