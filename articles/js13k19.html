@@ -520,7 +520,7 @@ space[x][y][z] = {
   id: 0,
   inventoryid: 0,
   linkable: { u: [x, y-1, z], r: [x+1, y, z], d: [x, y+1, z], l: [x-1, y, z]},
-  links: { u: 1, r: 1, d: 0, l: 0 },
+  links: { u: [x, y-1, z], r: [x+1, y, z], d: 0, l: 0 },
   flat: { u: 1, r: 1, d: 0, l: 0 },
   barriers: { u: 0, r: 0, d: 1, l: 1 },
   surrogates 0,
@@ -689,7 +689,60 @@ For example, the simple slopes had pillars that were a bit too high and went thr
 <p>I made the same kind of adjustments for all slopes and all links. Here's a little close-up:
 <br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 18.<br><br>Yesterday, the blocks were indeed &quot;linked&quot; together, but with little gaps and overlaps everywhere. These little defects will be visible during the race.<br><br>So today, I made every connection absolutely seamless!<br>(you can see better with the red wireframe debugger) <a href="https://t.co/OpEEqVfp1O">pic.twitter.com/OpEEqVfp1O</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1167524036492038144?ref_src=twsrc%5Etfw">August 30, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
  
-<p>Day 19: sam
+
+<br>
+<br>Byte count: 62.2kb commented
+<br>Hours count: 31.
+<br><a href="http://xem.github.io/js13k19/day18">DEMO</a>
+
+<br>
+<br>~~~
+
+<br>
+
+<p>Day 19: I spent the morning and a good part of the afternoon fixing all the little details in the editor that I kept for the end, (and cleaned up the code a little while doing it), such as:
+<ul>
+<li>When we link two road blocks by pressing space + arrow, don't recompute all the links / barriers / turns at each frame, but only when the block is actually added in the scene (it seems obvious said like that, but until I found it, the editor became laggy every time "space" was pressed)
+<li>When we create a slope, remember the coordinates of all its surrogates. (Note: for a slope, the cell directly above it is an invisible surrogate to avoid placing another block here. for a long slope, there are 3 surrogates: the second half of the slope, and the block above each half of the slope).
+<li>When we want to create a slope, ensure that all its surrogates are on a free spot.
+<li>When we delete a slope, also delete all its surrogates.
+<li>When we press DEL while the cursor is on a surrogate, delete the main block to which the surrogate is attached.
+<li>Automatically link a basic and a non-basic road blocks if they are neighbours (no need to press space + arrow to make these links).
+<li>Make the flags shorter.
+<li>When we delete a slope, also delete all the links it has with its neighbours.
+</ul>
+
+<br>I made another silly tweet that had more success than my usual WIP tweets:
+
+<br><p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">I just had a &quot;why doesn&#39;t it work?! (...) oh, that&#39;s why. But then, how could it have worked before?!&quot; moment.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1167715823034802176?ref_src=twsrc%5Etfw">August 31, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br>
+<p>Then, the evening, I modelized three decoration items that are also an important part of the game:
+<br>- Two kind of obstacles: the trees and the ice/rock blocks (made out of cubes)
+<br>- The ice planes, on which the car cannot brake or turn.
+<br><p>The original game also features holes, but it would require too many polygons and computations to implement, especially for jointed holes, so I'll replace them with obstacles.
+
+<br><p>I showed the trees and rocks in this #screenshotsaturday video, along with a track being builded from start to end:
+<br><br><p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 19<br><br>Track editor is officially complete, with 10 different road parts, trees (always facing the camera) &amp; mountains. Graphics are not final yet.<br><br>Project so far:<br>- 35 hours of code<br>- 2382 lines of code<br>- 78kb commented<br>- 35k minified<br>- 6.6k zipped!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://t.co/DVw4FZgFdC">pic.twitter.com/DVw4FZgFdC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1167888218324230144?ref_src=twsrc%5Etfw">August 31, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br><p>The ice is made with planes sharing the same CS linear-gradient and background-position, so they can be superposed and seem like a single piece of ice.
+
+<br><p><img src="images/js13k19/32.png">
+
+<br><p>As I said in the tweet above, even with all these hours and lines of code, I only filled half of my zip, which is great (and terrifying)! The big amounts of copy-pastes with just one little change in the middle are certainly part of this very good compression ratio.
+
+<br><p>Thanks also to everyone on Slack and on Twitter (such as <a href="https://twitter.com/______Patton/status/1167906463609540608">@______patton</a> today) for their hype and support!
+
+<br>
+<br>Byte count: 71.8kb commented, 34.4kb minified, 6.63kb advzipped.
+<br>Hours count: 35
+<br><a href="http://xem.github.io/js13k19/day19">DEMO</a>
+
+<br>
+<br>~~~
+
+<br>
+
 <p>Day 20: dim
 
 ...
