@@ -170,10 +170,10 @@ img { border: 1px solid }
 <br>
 <p>So I decided that a demake of this game would not only be a great programming and compression challenge, and a new type of game for me (racing), but also a good way for everyone to enjoy the good parts of this rare game 16 years after its release!
 <br>
-<h4>Choosing a game name</h4>
+<!--h4>Choosing a game name</h4>
 <p>When I wrote this idea in my list, I thought "13Kmania" would be a good name. (Especially in french, where "treize K mania" sounds a lot like "Trackmania".
 <p>But to be more theme-friendly, I decided to use "Back on Track" instead!
-<br>
+<br-->
 <h4>Specs</h4>
 <p>Since my entry is a hommage to an abandonware (eh, it's even downloadable on archive.org for free!), I won't try to be super original, but instead, make a game that feels like the real one, with the same puzzles and races, just a lot simpler visually.
 <br>It'll still be a huge task for me because I'll have to make vehicles, dozens of connectable road blocks, a map editor, and a convincing racing simulation in 13kb, in 3D, and in 30 days. 😰
@@ -348,7 +348,11 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <p>Hours count: 11.
 <br><a href="http://xem.github.io/js13k19/day7">DEMO</a>
 <br>
+<br>~~~
+<br>
 <h4>TRACK EDITOR!</h4>
+
+<h4>Fighting with CSS  
 <p>Day 8. Time to start a big and very important part of the game, the 3D track editor!
 <br>Though, very soon, a problem of size appeared: I wanted to display a grid on top of my scene, and dezoom it enough to let the player see the track from above. But when I did that, everything disappeared. The reason was that the scale of my scene was too big for the browser to show at once in CSS3D (I already had this problem when I made LOSSST in 2017: the rooms had to stay very small to avoid being cut or appear glitchy).
 <br>Indeed, my grid was comprised of 20 x 20 cells and each cell had a size of 20 x 20 in. (in total: 38400 px x 38400 px).
@@ -357,6 +361,9 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <br>By the way, I couldn't add 400 polygons in my scene to represent each cell of the grid, it would have made the game extremely slow. Instead, all the lines and columns of the grid are drawn with a repeated linear-gradient, in CSS.
 
 <br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 8.<br><br>I was tired of writing my roads in JSON...<br>So, It seems like I&#39;m starting a circuit editor.<br>I think it&#39;ll take some days, and a lot of kilobytes, before I have something that looks nice and works! 😬<br>(but here are the first steps anyway) <a href="https://t.co/X8D0RUqtZH">pic.twitter.com/X8D0RUqtZH</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1163896639033135104?ref_src=twsrc%5Etfw">August 20, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br>
+<h4>Inventory</h4>
 
 <br>As you can see in this screenshot, I also started working on the editor's UI, especially the inventory.
 <br>My goal is to make each cell of the inventory display one road block and which quantity of this block is remaining.
@@ -368,6 +375,8 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <br><a href="http://xem.github.io/js13k19/day8">DEMO</a>
 <br>
 <p>~~~
+
+<br><h4>Tools!</h4>
 <br>
 <p>Day 9. Today I have a better idea of what I need to do and how. I'm not stuck with CSS3D limits anymore, so I can focus on the editor's features, namely: moving and rotating the grid, moving the "cursor" (the green square) along with the camera, and place road blocks using the cursor.
 <br>
@@ -379,12 +388,13 @@ var S = 0, U = 0, L = 0, D = 0, R = 0; // press
 var _ = 0, $ = 0; // press suppr key, enter key
 onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s$***'[(z.which+3)%20]] = top['LURDL*D*L_UR*U*S$***'[(z.which+3)%20]] = z.type[5]</code></pre>
 
-<br>
 <br>Byte count: 26.0kb commented.
 <br>Hours count: 15.
 <br><a href="http://xem.github.io/js13k19/day9">DEMO</a>
 <br>
 <p>~~~
+<br>
+<h4>More blocks</h4>
 <br>
 <p>Day 10. I added the possibility to select blocks in the inventory, rotate them and place them...
 <br>I also noticed that my game declares A LOT of global vars, and it's not finished yet!
@@ -396,6 +406,7 @@ onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s$***'[(z.which+3)%20]] = top['LU
 <br><a href="http://xem.github.io/js13k19/day10">DEMO</a>
 <br>~~~
 <br>
+<h4>UI</h4>
 <p>Day 11: I started this day by a little enhancement to my editor's menu:
 <br>
 <p><img src="images/js13k19/18.png">
@@ -410,12 +421,16 @@ onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s$***'[(z.which+3)%20]] = top['LU
 <br>Note: these arrows can have very different look across different OS's, and about half of them will break completely the layout of monospace text, but besides that, they work!
 
 <br>
-<p>I also saw that the arrow keys became all wrong when the grid (i.e. the whole scene) was rotated 90, 180 or 270°. I improvised a little hack (I mean, a coding trick) to reassign the arrow keys accordingly. It worked on the first try!
+<p>I also saw that the arrow keys (making the cursor move) became all wrong when the grid (i.e. the whole scene) was rotated 90, 180 or 270°.
+<br>Indeed, if the scene is rotated 90°, top becomes left, left becomes bottom, etc.
+<br>So I improvised a little hack (I mean, a coding trick) to reassign the arrow keys according to the scene's angle. It worked on the first try!
 <pre><code class="lang-js">// Adjust arrows based on grid angle
 for(i = 0; i < gridrz/90; i++){
   [U,R,D,L] = [R,D,L,U]
 }</code></pre>
 
+<br>
+<h4>Links, barriers, turns, equations (again)</h4>
 <br>
 <p>But let's get back to serious business! Let's plug in the algorithms I made last week: the one that creates links between road blocks, the one that generates the barriers, the one that makes the curves, and the one that generates the equations for every curved block.
 <br>It took some hours to have it all behave well, but I did it!
@@ -436,6 +451,7 @@ for(i = 0; i < gridrz/90; i++){
 
 <br>~~~
 <br>
+<h4>Completing the inventory</h4>
 <p>Day 12: Today, let's modelize new road parts! I played all the puzzles and races of the snow and desert environments and listed those:
 <ul>
 <li>start flag (OK)
@@ -479,7 +495,7 @@ for(i = 0; i < gridrz/90; i++){
 
 <br><p><img src="images/js13k19/21.png">
 
-As I said on day 8, the parts shown in the inventory are the same "3D models" as the ones on the track, but displayed in a tiny space and with a 45° angle. Each slot of the inventory is a separate CSS3D container with a "500px" perspective, similarly to the scene. Here's how the scene and the inventory look with every block represented:
+<br><p>As I said on day 8, the parts shown in the inventory are the same "3D models" as the ones on the track, but displayed in a tiny space and with a 45° angle. Each slot of the inventory is a separate CSS3D container with a "500px" perspective, similarly to the scene. Here's how the scene and the inventory look with every block represented:
 
 <br><p><img src="images/js13k19/22.png">
 
@@ -494,6 +510,8 @@ As I said on day 8, the parts shown in the inventory are the same "3D models" as
 
 
 <br>~~~
+<br>
+<h4>Connect all the things!</h4>
 <br>
 <p>Day 13: During the next days, my goal is to make all these new blocks connectable with each other. All the blocks except the basic road square don't need to be manually linked to their neighbours: when you place these blocks on the scene, if a compatible block is already present at one of their link points, and has the right orientation, the link will be automatic. And inversely, a new basic road block will automatically be linked to a neighbour non-basic road block if both are linkable together.
 
@@ -511,6 +529,7 @@ As I said on day 8, the parts shown in the inventory are the same "3D models" as
 <br>the coordinate of the main block in case of surrogate
 <li>its angle (0 90, 180 or 270),
 <li>and its out-of-bounds equation.
+</ul>
 
 <pre><code class="lang-js">// Example data for a basic road block (id #0) that is rounded on the bottom left and linked to other blocks on its up and right sides.
 
@@ -656,7 +675,7 @@ Of course, one thing really differs: the fact that they're linkable to a cell on
 <br>~~~
 
 <br>
-
+<h4>Let's go pixel-perfect</h4>
 <p>Day 18: So all the blocks are linked, that's for sure. Though, all the links on the scene are still identical to the ones between basic road blocks, and it's not ideal. Let's enable the almighty CSS debug tool: <b>*{border:1px solid red}</b> !
 
 <br><p><img src="images/js13k19/28.png">
@@ -699,7 +718,8 @@ For example, the simple slopes had pillars that were a bit too high and went thr
 <br>~~~
 
 <br>
-
+<h4>Final fixes</h4>
+<br>
 <p>Day 19: I spent the morning and a good part of the afternoon fixing all the little details in the editor that I kept for the end, (and cleaned up the code a little while doing it), such as:
 <ul>
 <li>When we link two road blocks by pressing space + arrow, don't recompute all the links / barriers / turns at each frame, but only when the block is actually added in the scene (it seems obvious said like that, but until I found it, the editor became laggy every time "space" was pressed)
@@ -717,6 +737,8 @@ For example, the simple slopes had pillars that were a bit too high and went thr
 <br><p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">I just had a &quot;why doesn&#39;t it work?! (...) oh, that&#39;s why. But then, how could it have worked before?!&quot; moment.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1167715823034802176?ref_src=twsrc%5Etfw">August 31, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <br>
+<h4>Decorations</h4>
+<br>
 <p>Then, the evening, I modelized three decoration items that are also an important part of the game:
 <br>- Two kind of obstacles: the trees and the ice/rock blocks (made out of cubes)
 <br>- The ice planes, on which the car cannot brake or turn.
@@ -725,7 +747,13 @@ For example, the simple slopes had pillars that were a bit too high and went thr
 <br><p>I showed the trees and rocks in this #screenshotsaturday video, along with a track being builded from start to end:
 <br><br><p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 19<br><br>Track editor is officially complete, with 10 different road parts, trees (always facing the camera) &amp; mountains. Graphics are not final yet.<br><br>Project so far:<br>- 35 hours of code<br>- 2382 lines of code<br>- 78kb commented<br>- 35k minified<br>- 6.6k zipped!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://t.co/DVw4FZgFdC">pic.twitter.com/DVw4FZgFdC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1167888218324230144?ref_src=twsrc%5Etfw">August 31, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<br><p>The ice is made with planes sharing the same CS linear-gradient and background-position, so they can be superposed and seem like a single piece of ice.
+<br><p>The trees are made with emoji, and they're made of "billboards", i.e. planes that always face the camera. It's a feature I used in LOSSST in 2017, and implemented in CSS3Dframework.
+<br>
+To put it simply, every time the camera rotates with an angle "a", all the billboards rotate with an angle "-a" to keep facing the camera. The CSS transitions make both rotations (the scene and the trees) effortless.
+
+<br><p><img src="images/js13k19/25.gif">
+
+<br><p>The ice is made with planes sharing the same CSS linear-gradient and background-position, so they can be superposed and seem like a single piece of ice.
 
 <br><p><img src="images/js13k19/32.png">
 
@@ -743,15 +771,50 @@ For example, the simple slopes had pillars that were a bit too high and went thr
 
 <br>
 
-<p>Day 20: dim
+<h4>Export!</h4>
+<br>
+<p>Day 20: The game will feature many built-in puzzles and races, and each of these tracks will be made with the editor.
+<br>So, while I'll make all these tracks, I'm adding a temporary export button in the menu, that will give me a big, condensed JSON object containing the position and angle of all the road blocks and the list of all the useful road links.
+<br>However, the inventories of each puzzle will be edited manually, as well as the ice planes, because building an UI dedicated to make them editable would take me more time than making them manually.
+<br>I'm also adding an import button allowing me to paste JSON and build a level from a hardcoded JSON. This will allow me to edit my levels and ensure that my loading code works normally.
 
-...
+<br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 20.<br><br>Since all the tracks built in the game will be made using the editor, I needed some admin tools to export and import levels correctly. Here they are!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> + 1 <a href="https://t.co/sMeuupHtlu">pic.twitter.com/sMeuupHtlu</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1168243696678166529?ref_src=twsrc%5Etfw">September 1, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br><p>This is not super visible in the captures above, but here's the format used for export and import:
+<br>- "roads" is an array containing arrays representing each block in this form: <b>[x,y,z,id,angle]</b>
+<br>- "roadlinks" is an array containing every link between two basic blocks in this form: <b>[[x1,y1,z1][x2,y2,z2]]</b>
+<br>Note: the links between a basic and a non-basic block or two non-basic blocks are automatic, so they're not included here.
+
+<br><p>For example, for this little track containing 8 blocks and 8 links, but only 6 links between two basic blocks:
+
+<br><p><img src="images/js13k19/33.png">
+
+<br>Here is the exported JSON (it could be less verbose, but it would take a lot of time and code to decode, and it's not a priority right now):
+
+<pre><code class="lang-js">{"roads":[[3,6,0,1,0],[3,5,0,0,0],[4,5,0,0,0],[5,5,0,0,0],[5,6,0,0,0],[4,6,0,0,0],[4,4,0,0,0],[4,3,0,2,0]],"roadlinksmin":[[[3,5,0],[4,5,0]],[[4,5,0],[5,5,0]],[[5,5,0],[5,6,0]],[[5,6,0],[4,6,0]],[[4,6,0],[4,5,0]],[[4,5,0],[4,4,0]]]}</code></pre>
+
+<br><p>Of course, when I load this data, I have to reconstruct every automatic link not listed in the roadlinks array and draw everything on the scene. But that went pretty smoothly!
+
+<br>
+<br>Byte count: 73.7kb commented
+<br>Hours count: 37
+<br><a href="http://xem.github.io/js13k19/day20">DEMO</a>
+
+<br>
+<br>~~~
+
+<br>
 <br>
 <br>
 <hr>
 <br>
 <h3>Week 4</h3>
 ...
+
+
+
+
+<!-- rabbit codepen: https://codepen.io/xem/pen/LWWwYX -->
 <br>
 <br>
 <hr>
