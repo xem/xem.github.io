@@ -352,7 +352,7 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <br>
 <h4>TRACK EDITOR!</h4>
 
-<h4>Fighting with CSS  
+<h4>Fighting with CSS</h4>
 <p>Day 8. Time to start a big and very important part of the game, the 3D track editor!
 <br>Though, very soon, a problem of size appeared: I wanted to display a grid on top of my scene, and dezoom it enough to let the player see the track from above. But when I did that, everything disappeared. The reason was that the scale of my scene was too big for the browser to show at once in CSS3D (I already had this problem when I made LOSSST in 2017: the rooms had to stay very small to avoid being cut or appear glitchy).
 <br>Indeed, my grid was comprised of 20 x 20 cells and each cell had a size of 20 x 20 in. (in total: 38400 px x 38400 px).
@@ -864,7 +864,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br>
 <br>Byte count: 90.9kb commented
 <br>Hours count: 41
-<br><a href="http://xem.github.io/js13k19/day21">DEMO</a>
+<br><a href="http://xem.github.io/js13k19/day22">DEMO</a>
 
 <br>
 <br>~~~
@@ -882,7 +882,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br>
 <br>Byte count: 112kb commented
 <br>Hours count: 43
-<br><a href="http://xem.github.io/js13k19/day21">DEMO</a>
+<br><a href="http://xem.github.io/js13k19/day23">DEMO</a>
 
 <br>
 <br>~~~
@@ -897,31 +897,157 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><p> <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 14.<br><br>Today I linked the title screen (not spoiled here), the menu (with 16 puzzles/32), the editor and the race screens like that.<br><br>I&#39;m still working on enhancing the driving controls.<br>Here it&#39;s still very jerky, but you get the idea... 😁 <a href="https://t.co/JlilVWBEoH">pic.twitter.com/JlilVWBEoH</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1169709455040290823?ref_src=twsrc%5Etfw">September 5, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <br>
-<br>Byte count: 115kb commented (or 102kb with just the 16 puzzles listed in the menu)
+<br>Byte count: 115kb commented (or 102kb after keeping only the 16 puzzles shown in the menu)
 <br>Hours count: 45
-<br><a href="http://xem.github.io/js13k19/day22">DEMO</a>
+<br><a href="http://xem.github.io/js13k19/day24">DEMO</a>
 
 <br>
 <br>~~~
 <br>
 
+<h4>DRIVING SIMULATION</h4>
+<br>
+<p>Day 25: It's (more than) time to start this big part of the game: the driving simulation.
+<br>I'm very afraid to get lost in a plate of spaghetti code, so I will divide that in plenty of mini-achievements, like I did for the editor.
+
+<br>
+
+<h4>Fix the camera</h4>
+<br><p>1) At first (see "Day 3"), I thought CSS transitions were enough to create the angle delay between the car and the camera. 
+<br>Then I realized they were broken on Webkit.
+<br>Even later, I realized that it used too much CPU on Firefox, so I disabled it.
+<br>Today, I replaced it with an extra "visual" angle, that is increased or decreased when we turn left or right, and returns to zero when we stop turning.
+<br>This angle is added to the camera's angle, but not to the car's angle, which allows us to see the sides of the car when we turn. It's not a lot, but it's much more pleasing like that.
+
+<p>2) Something was annoying me since I introduced the height buttons in the editor. The camera lost its alignment with the cursor.
+<br>I can't ignore this problem anymore, because the camera will have to follow the car, at whatever height it is!
+<br>So I tried many rewrites to my CSS3D camera function (from CSS3D framework), and I finally understood what was wrong: the "Z" position was polluted with the "rx" angle, i.e. it didn't represent a vertical offset anymore but rather, a slanted vertical offset. So I introduced a new value called "el" (elevation), that moves the camera vertically, independently of its angle.
+<br>The new code looks like that:
+
+---
+C.camera = o => {
+  
+  // (...)
+ 
+  // Update scene's origin (X, Y, Z-el)
+  scene.style.transformOrigin = `${camX}px ${camY}px ${camZ-el}px`;
+ 
+  // Update camera position and angle (translate X,Y,Z, then rotate RX,RY,RZ, then elevation)
+  scene.style.transform = `translateX(${-camX}$px)translateY(${-camY}px)translateZ(${-camZ}px)rotateX(${camRX}deg)rotateY(${camRY}deg)rotateZ(${camRZ}deg)translateZ(${-el}px)`;
+}
+---
 
 
+<p>img 
 
 
-<p>Day 25: ven
-<p>Day 26: sam
-<p>Day 27: dim
+<h4>Gravity</h4>
+<br><p>At any moment, the game engine must know if the car is in the air or on the ground (or the road), and move the car accordingly.
+<br>The car undergoes Earth-like gravity, so it will fall by default, and it will stop if it hits the ground (or the road).
+<br>If the car falls on a slope, it will need to rotate accordingly in the X and Y axis... (I'll try that tomorrow).
+
+<p>tweet
+
+<br>
+
+<h4>Change the car scale</h4>
+
+<br><p>Until now, the car collided pretty much everywhere because it was almost as large as the road. So I followed the example of the original game and remade the car much smaller, and placed the camera much closer to it.
+<br>I also made the wheels more visible from behind.
+<br>Anyway: at this scale, the road suddenly appears really big and interesting to drive through!
+<br>Also, to save time and space, at this scale, it's okay to consider the car as a single point, so, for now, I'll remove both front and back collision detectors. Everything will be computed according to the center of the car.
+
+<p>img
+
+<br>
+<br>Byte count: still 102kb (many lines of code removed in the meantime)
+
+<br>Hours count: 47
+<br><a href="http://xem.github.io/js13k19/day25">DEMO</a>
+
+<br>
+<br>~~~
+<br>
+
+<h4>New collisions</h4>
+
+<br><p>Day 26: Today, let's create two different equations for every road block: one that says when the car touches the road when it falls on it from above, and another, very similar to the one we had earlier, saying if a certain point of the block is inbounds or not.
+<br>For example:
+<br>- a basic road block placed on the ground with no links will have a fall equation like "z == 0" and an inbounds equation "x > 0 && x &lt; 100 && y > 0 && y &lt; 100".
+<br>- A slope oriented to the north will have a fall equation like "50 - y / 2" (the car's Z coordinate will be compared to this value).
+<br>- A rounded block will have an inbounds equation similar to the ones we saw on day 13, but inverted ("sqrt(dx,dy)<80" instead of "sqrt(dx,dy)>80").
+<br>On top of that, all the barriers must provoke a collision, just like before.
+<br>If the car is quitting the road, it will fall until it hits the ground (or another road block), and if it lands on the ground, it will be able to drive out-of-bounds, but slower (if it's in the snow), or without being able to turn left or right (if it's on the ice).
+
+<h4>Slopes</h4>
+
+<br>Slopes are very close to the collision detection (that's why I mentioned it in the previous paragraph), but one detail still needs to be solved: how to get up or down a slope with the car?
+<br>The answer is three-fold:
+<br>- Quick solution: as long as the car's state is "not in the air", the car moves forward or backwards as usual, and at each frame, its height is updated according to the "fall" equation of the slope.
+<br>- Moreover, the car should rotate along its X and Y axis to "follow" the slope, as I said yesterday, but I'll do that later if I have enough time, as it's not a vital part of the gameplay and I'm a bit late on my schedule. (NB: I already kinda did this in this <a href="https://codepen.io/xem/pen/LWWwYX">js1k 2017 prototype</a>!)
+<br>- Ultimately, I should also prevent the car from driving through the slope if it's under it... (Note from day 26: I thought I'd skip this feature because it would have been too complex but it turns out it worked instantly when I simply checked that the car could only go on the slope if it was already higher than 5px under the slope). 
 
 
+<br>tweet
 
 
-<!-- rabbit codepen: https://codepen.io/xem/pen/LWWwYX -->
+<br>
+<br>Byte count: 106kb
+
+<br>Hours count: 50
+<br><a href="http://xem.github.io/js13k19/day26">DEMO</a>
+
+<br>
+<br>~~~
+<br>
+
+<p>Day 27: I spent this sunday morning cleaning up, debugging and completing yesterday's progress with gravity, collisions and slopes;
+<br>- make the slopes work on any of their four rotations
+<br>- handle "long slopes" and "jumpers" the same way (only changing the angles and legths)
+<br>- prevent the car from moving/turning when it's in the air
+<br>- consider the car out-of-bounds if it's under a slope (and make it collide with the "under" side of the slope)
+<br>- ensure that the car follows the slope uphill/downhill if it collides on a side of the slope.
+<br>- etc.
+
+<br>Tweet
+<br>
+
+<br>Tweet
+<br>
+
+<br>And the afternoon:
+<br>
+
+<h4>Momentum</h4>
+<br>The car must have an extra boost when passing on an accelerator, and jump when it arrives quickly on top of a slope or a jumper. (that's an important part of the game and the puzzles).
+<br>The accelerator pushes the car forward if it's oriented like the yellow arrows, and backward otherwise.
+<br>The jumps are made by including the Z offset added to the car when it goes up a slope to its vertical speed, the one that was only used for the car's gravity until now.
+
+<b><p>The whole thing took much more time than anticipated, that's why I worked on it until nearly midnight.
+
+<br>tweet
+
+<br><p>Let's do a little build to <a href="https://twitter.com/MaximeEuziere/status/1170818805863464965>check the zip size...</a>
+
+<br>
+<br>Byte count: 112kb commented, 13.1kb zipped (argh), 11.8kb advzipped (oof!)
+
+<br>Hours count: 54
+<br><a href="http://xem.github.io/js13k19/day27">DEMO</a>
+
+<br>
+<br>~~~
 <br>
 <br>
 <hr>
 <br>
 <h3>Week 5</h3>
+
+<p>Day 28: lun
+<p>Day 29: mar
+<p>Day 30: mer
+<p>Day 31: jeu
+
 ...
 <br>
 <br>
