@@ -295,7 +295,7 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <br>Hours count: 6.
 <br><a href="http://xem.github.io/js13k19/day5">DEMO</a>
 <br>
-<br>~~~
+<hr>
 <br>
 
 <p>Wait. 213 polygons seem huge for 31 road blocks with barriers... Upon inspection, I realized each barrier was drawn twice or more (once for each link shared with another road block).
@@ -344,7 +344,7 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 
 
 <br>
-<br>~~~
+<hr>
 <br>
 <h3>Week 2</h3>
 
@@ -356,7 +356,7 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <p>Hours count: 11.
 <br><a href="http://xem.github.io/js13k19/day7">DEMO</a>
 <br>
-<br>~~~
+<hr>
 <br>
 <h4>TRACK EDITOR!</h4>
 
@@ -382,9 +382,9 @@ Let's take a moment to make the car accelerate when we press up and decelerate /
 <br>Hours count: 13.
 <br><a href="http://xem.github.io/js13k19/day8">DEMO</a>
 <br>
-<p>~~~
-
-<br><h4>Tools!</h4>
+<hr>
+<br>
+<h4>Tools!</h4>
 <p>Day 9. Today I have a better idea of what I need to do and how. I'm not stuck with CSS3D limits anymore, so I can focus on the editor's features, namely: moving and rotating the grid, moving the "cursor" (the green square) along with the camera, and place road blocks using the cursor.
 <br>
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 9.<br><br>My project is a mess, there&#39;s code to clean everywhere, but hey! The track editor has a grid that can go up and down and rotate, and a cursor that moves on the grid, and we can start building!<br><br>(you can&#39;t make stuff like that cleanly anyway, can you?) <a href="https://t.co/tXWOaxNOkx">pic.twitter.com/tXWOaxNOkx</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1164237127481253890?ref_src=twsrc%5Etfw">August 21, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
@@ -399,7 +399,7 @@ onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s$***'[(z.which+3)%20]] = top['LU
 <br>Hours count: 15.
 <br><a href="http://xem.github.io/js13k19/day9">DEMO</a>
 <br>
-<p>~~~
+<hr>
 <br>
 <h4>More blocks</h4>
 <p>Day 10. I added the possibility to select blocks in the inventory, rotate them and place them...
@@ -410,7 +410,7 @@ onkeydown = onkeyup = z => top['lurdl*d*l_ur*u*s$***'[(z.which+3)%20]] = top['LU
 <br>Hours count: 16.
 <br><a href="http://xem.github.io/js13k19/day10">DEMO</a>
 <br>
-<br>~~~
+<hr>
 <br>
 <h4>UI</h4>
 <p>Day 11: I started this day by a little enhancement to my editor's menu:
@@ -454,7 +454,7 @@ for(i = 0; i < gridrz/90; i++){
 <br>Hours count: 19.
 <br><a href="http://xem.github.io/js13k19/day11">DEMO</a>
 <br>
-<br>~~~
+<hr>
 <br>
 <h4>Completing the inventory</h4>
 <p>Day 12: Today, let's modelize new road parts! I played all the puzzles and races of the snow and desert environments and listed those:
@@ -514,7 +514,7 @@ for(i = 0; i < gridrz/90; i++){
 <br><a href="http://xem.github.io/js13k19/day12">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 <h4>Connect all the things!</h4>
 <p>Day 13: During the next days, my goal is to make all these new blocks connectable with each other. All the blocks except the basic road square don't need to be manually linked to their neighbours: when you place these blocks on the scene, if a compatible block is already present at one of their link points, and has the right orientation, the link will be automatic. And inversely, a new basic road block will automatically be linked to a neighbour non-basic road block if both are linkable together.
@@ -567,7 +567,7 @@ space[x][y][z] = {
 
 <br><p>This zip size reminds me that I can actually write A LOT of code, even if it's dirty or copy pasted everywhere, and still, stay far below the zip limit. That's a relief!
 <br>
-<br>~~~
+<hr>
 <br>
 <br>
 <h3>Week 3</h3>
@@ -590,7 +590,7 @@ space[x][y][z] = {
 <br><a href="http://xem.github.io/js13k19/day14">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 <p>Day 15: Let's do this (slightly annoying) links thing. And to begin, the "start", "end" and "checkpoint" blocks.
 <ul>
@@ -612,7 +612,7 @@ space[x][y][z] = {
 <br><a href="http://xem.github.io/js13k19/day15">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 
 <p>Day 16: We're already at the half of the compo! Well, let's continue implementing links with the jumper (that can only have one link on its back) and the accelerator (front and back).
 <br>
@@ -654,7 +654,7 @@ Of course, one thing really differs: the fact that they're linkable to a cell on
 <br><a href="http://xem.github.io/js13k19/day16">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 
 <p>Day 17: After a lot of background work to set and handle the data correctly, I finally made everything connectable! (the scene shown below uses 164 polygons)
@@ -673,7 +673,7 @@ Of course, one thing really differs: the fact that they're linkable to a cell on
 <br><a href="http://xem.github.io/js13k19/day17">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 
 <br>
 <h4>Let's go pixel-perfect</h4>
@@ -716,7 +716,7 @@ For example, the simple slopes had pillars that were a bit too high and went thr
 <br><a href="http://xem.github.io/js13k19/day18">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 
 <br>
 <h4>Fixes</h4>
@@ -766,7 +766,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day19">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 
 <h4>Export!</h4>
@@ -800,7 +800,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day20">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 <h3>Week 4</h3>
 
@@ -839,7 +839,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day21">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 
 
@@ -859,7 +859,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day22">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 
 <p>Day 23: 12 new tracks added today... and more editor fixes.
@@ -877,7 +877,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day23">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 
 <h4>Menu-ing!</h4>
@@ -894,7 +894,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day24">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 
 <h4>DRIVING SIMULATION</h4>
@@ -955,7 +955,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day25">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 
 <h4>Collisions v3</h4>
@@ -988,7 +988,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day26">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 
 <p>Day 27: I spent this sunday morning cleaning up, debugging and completing yesterday's progress with gravity, collisions and slopes;
@@ -1010,7 +1010,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br>The accelerator pushes the car forward if it's oriented like the yellow arrows, and backward otherwise.
 <br>The jumps are made by including the Z offset added to the car when it goes up a slope to its vertical speed, the one that was only used for the car's gravity until now.
 
-<b><p>The whole thing took much more time than anticipated, that's why I worked on it until nearly midnight.
+<br><p>The whole thing took much more time than anticipated, that's why I worked on it until nearly midnight.
 
 <br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 27.<br>(new stuff)<br><br>Lost a lot of time and energy in trafic today...<br><br>But I managed to make accelerators and momentum (especially, jumps) work as I want!<br><br>And debugged all the rest...<br><br>Program for tomorrow: checkpoints, end flag, score screen, medals, ice sliding,... <a href="https://t.co/kuPrxXsPZp">pic.twitter.com/kuPrxXsPZp</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1170815696575574017?ref_src=twsrc%5Etfw">September 8, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -1023,7 +1023,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><a href="http://xem.github.io/js13k19/day27">DEMO</a>
 
 <br>
-<br>~~~
+<hr>
 <br>
 <h3>Week 5</h3>
 
@@ -1031,10 +1031,16 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <p>Day 28: Good news! This monday morning, I checked the calendar and realized that we had actually 24 more hours than I thought until the deadline:
 <br>More exactly, if we consider august 13th "day 1" of the compo, then September 13th is technically "day 32", even if both day 1 and day 32 are only half-days.
 
-<h4>Collisions... the end?
+<h4>Collisions... the end?</h4>
+
 <p>This morning I fixed many errors (and removed a lot of bad code) with the accelerators, and the collisions in general (I made them work in all possible angles and with or without slopes, and I capped the car speed if it went on an accelerator for too many frames).
 
-<br><p>This evening (after work hours), I finished implementing the remaining "collisions", with the jumper, the hole block and the trees.
+<br><p>I also took a look at my minified code, it was funny to see all of it fit in a screen and have all the main parts easily recognizable!
+
+<br><p><img src="images/js13k19/35.png">
+
+<br><p>This evening (after work hours), I removed the hole blocks (RIP, at least for now), finished implementing the remaining "collisions", with the jumper, and the trees, and when the car falls on rock cubes or elevated curved roads. I also fixed the bugs that happened when we went past the bounds of the grid in the editor.
+
 <br>I also finally implemented the ice layers that make the out-of-bounds car unable to change direction!
 
 tweet
