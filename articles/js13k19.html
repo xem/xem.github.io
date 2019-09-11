@@ -778,8 +778,10 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 20.<br><br>Since all the tracks built in the game will be made using the editor, I needed some admin tools to export and import levels correctly. Here they are!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> + 1 <a href="https://t.co/sMeuupHtlu">pic.twitter.com/sMeuupHtlu</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1168243696678166529?ref_src=twsrc%5Etfw">September 1, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <br><p>This is not super visible in the captures above, but here's the format used for export and import:
-<br>- "roads" is an array containing arrays representing each block in this form: <b>[x,y,z,id,angle]</b>
-<br>- "roadlinks" is an array containing every link between two basic blocks in this form: <b>[[x1,y1,z1][x2,y2,z2]]</b>
+<ul>
+<li>"roads" is an array containing arrays representing each block in this form: <b>[x,y,z,id,angle]</b>
+<li>"roadlinks" is an array containing every link between two basic blocks in this form: <b>[[x1,y1,z1][x2,y2,z2]]</b>
+</ul>
 <br>Note: the links between a basic and a non-basic block or two non-basic blocks are automatic, so they're not included here.
 
 <br><p>For example, for this little track containing 8 blocks and 8 links, but only 6 links between two basic blocks:
@@ -904,13 +906,14 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <br>
 
 <h4>Fix the camera</h4>
-<p>1) At first (see "Day 3"), I thought CSS transitions were enough to create the angle delay between the car and the camera. 
+<p>
+<ul><li>At first (see "Day 3"), I thought CSS transitions were enough to create the angle delay between the car and the camera. 
 <br>Then I realized they were broken on Webkit.
 <br>Even later, I realized that it used too much CPU on Firefox, so I disabled it.
 <br>Today, I replaced it with an extra "visual" angle, that is increased or decreased when we turn left or right, and returns to zero when we stop turning.
 <br>This angle is added to the camera's angle, but not to the car's angle, which allows us to see the sides of the car when we turn. It's not a lot, but it's much more pleasing like that.
 
-<p>2) Something was annoying me since I introduced the height buttons in the editor. The camera lost its alignment with the cursor.
+<li>Something was annoying me since I introduced the height buttons in the editor. The camera lost its alignment with the cursor.
 <br>I can't ignore this problem anymore, because the camera will have to follow the car, at whatever height it is!
 <br>So I tried many rewrites to my CSS3D camera function (from CSS3D framework), and I finally understood what was wrong: the "Z" position was polluted with the "rx" angle, i.e. it didn't represent a vertical offset anymore but rather, a slanted vertical offset. So I introduced a new value called "el" (elevation), that moves the camera vertically, independently of its angle.
 <br>The new code looks like that:
@@ -926,15 +929,12 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
   scene.style.transform = `translateX(${-camX}$px)translateY(${-camY}px)translateZ(${-camZ}px)rotateX(${camRX}deg)rotateY(${camRY}deg)rotateZ(${camRZ}deg)translateZ(${-el}px)`;
 }</code></pre>
 
-
-<p>img
-
+</ul>
 
 <h4>Gravity</h4>
 <p>At any moment, the game engine must know if the car is in the air or on the ground (or the road), and move the car accordingly.
 <br>The car undergoes Earth-like gravity, so it will fall by default, and it will stop if it hits the ground (or the road).
 <br>If the car falls on a slope, it will need to rotate accordingly in the X and Y axis... (I'll try that tomorrow).
-
 
 <p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 25.<br><br>Today I fixed all that was wrong with the camera, and started the speedometer, the fine tuning of the controls, the (3D) gravity, the slight rotation of the car in front of the camera, the new collision system...<br><br>After all that, the big challenge will be slopes! <a href="https://t.co/VusoPmF5Rx">pic.twitter.com/VusoPmF5Rx</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1170058482256687106?ref_src=twsrc%5Etfw">September 6, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -962,10 +962,12 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 
 <p>Day 26: Today, let's create two different equations for every road block: one that says when the car touches the road when it falls on it from above, and another, very similar to the one we had earlier, saying if a certain point of the block is inbounds or not.
 <br>For example:
-<br>- a basic road block placed on the ground with no links will have a fall equation like "z = 0" and an inbounds equation "x > 0 && x &lt; 100 && y > 0 && y &lt; 100".
-<br>- A slope oriented to the north will have a fall equation like "z = 50 - y / 2" (the car's Z coordinate will be compared to this value).
-<br>- A rounded block will have an inbounds equation similar to the ones we saw on day 13, but inverted ("sqrt(dx,dy)<80" instead of "sqrt(dx,dy)>80").
-<br>On top of that, all the barriers must provoke a collision, just like before.
+<ul>
+<li>A basic road block placed on the ground with no links will have a fall equation like "z = 0" and an inbounds equation "x > 0 && x &lt; 100 && y > 0 && y &lt; 100".
+<li>A slope oriented to the north will have a fall equation like "z = 50 - y / 2" (the car's Z coordinate will be compared to this value).
+<li>A rounded block will have an inbounds equation similar to the ones we saw on day 13, but inverted ("sqrt(dx,dy)<80" instead of "sqrt(dx,dy)>80").
+</ul>
+<p>On top of that, all the barriers must provoke a collision, just like before.
 <br>If the car is quitting the road, it will fall until it hits the ground (or another road block), and if it lands on the ground, it will be able to drive out-of-bounds, but slower (if it's in the snow), or without being able to turn left or right (if it's on the ice).
 
 <h4>Slopes</h4>
@@ -1039,27 +1041,98 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 
 <br><p><img src="images/js13k19/35.png">
 
-<br><p>This evening (after work hours), I removed the hole blocks (RIP, at least for now), finished implementing the remaining "collisions", with the jumper, and the trees, and when the car falls on rock cubes or elevated curved roads. I also fixed the bugs that happened when we went past the bounds of the grid in the editor.
+<br><p>This evening (after work hours), I removed the hole blocks (RIP, at least for now), finished implementing the remaining "collisions", with the jumper, and the trees, and when the car falls on rock cubes. I also fixed the bugs that happened when we went past the bounds of the grid in the editor.
 
-<br>I also finally implemented the ice layers that make the out-of-bounds car unable to change direction!
+<br><p>Unfortunately, I didn't manage to make the car fall properly when it's standing on the "empty" corner of an elevated rounded block. I'll try again later if I can.
 
 tweet
 
 
+<br>
+<br>Byte count: 115kb commented
+
+<br>Hours count: 57
+<br><a href="http://xem.github.io/js13k19/day28">DEMO</a>
+
+<br>
+<hr>
+<br>
+
+<h4>Flags</a>
+<p>Day 29: big program today! I made it so the race can't be completed if the car hasn't passed through all the blue checkpoints.
+<br>Then, when it hits half of the end flag block, the score screen appears, telling us the score (the time) and the medal we won plus the next medal we can obtain with a better time.
+
+<h4>Ice</h4>
+<p>I also made the ice blocks appear during the race, and prevent the player from constructing anything on ice in the editor.
+<br>The car detects when it's on ice, so all I have to do next is act differently in the race simulation if the car is on the ice or not.
+<br>But that's tomorrow's agenda!
+
+tweet
+
+<br><p>On other news, <a href="https://twitter.com/CarelessLabs/status/1171516453893197824">my 2016 tool "js13k-level-editor" saved another contestant, CarelessLabs, a bunch of time</a>. Coool!
+
+<br>
+<br>Byte count: 118kb commented
+
+<br>Hours count: 60
+<br><a href="http://xem.github.io/js13k19/day29">DEMO</a>
+
+<br>
+<hr>
+<br>
+
+<br>Final driving adjustments</h4>
+
+<p>Day 30: Yesterday, my beta-tester <b>@KilledByAPixel</b> tried the current implementation and gave me very good tips to make it feel more natural:
+<ul>- Drifting: the faster the car goes, the more it needs to advance forward while it turns left or right
+<br>(currently, it just rotates and continues in the new angle as if nothing happened).
+<li>Gearing: the acceleration of the car should follow a curve and/or different steps (currently, it increases linearly).
+<li>The car must turn progressively instead of a fixed angle.
+<li>The car must decelerate when it turns.
+<li>And as I said yesterday, the car must act in a certain way when it's on ice: almost no ability to accelerate, decelerate or turn
+<br>(in Trackmania, the car can rotate in any angle while it's on ice, while continuing to advance forward. I won't copy this feature to save time).
+</ul>
+
+<br><p>Here's how it looks after a few hours of variable-tweaking:
+
+tweet
 
 
+<h4>Music</h4>
+
+<p>No time to lose, it's also today that I integrate Nghia's music in the menu, editor and race sections of the game!
 
 
+<br>
+<br>Byte count: kb commented
 
+<br>Hours count: 
+<br><a href="http://xem.github.io/js13k19/day30">DEMO</a>
 
+<br>
+<hr>
+<br>
 
+<h4>Wrapping up</h4>
 
+<p>Day 31: The release is tomorrow!
 
-<p>Day 29: mar
+<br>Today's goal is to add the "desert" environment (in the form of a CSS skin and a few more barriers), freeze all the features already done and integrate a selection of 12 puzzles, plus the full level editor as a WebMonetization bonus.
+<br>Speaking of the editor, I also make it export an url instead of JSON, and if people click on this URL, the level will load and play automatically.
+<br>I'll use this system to propose bonus levels after the game's release.
+<br>Then, clean and compress my code and send a copy to the beta-testers.
 
-<p>Day 30: mer
+<br>
+<br>Byte count: kb commented
 
-<p>Day 31: jeu
+<br>Hours count: 
+<br><a href="http://xem.github.io/js13k19/day31">DEMO</a>
+
+<br>
+<hr>
+<br>
+
+<p>Day 31.5: ven
 
 ...
 <br>
