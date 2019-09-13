@@ -595,7 +595,7 @@ space[x][y][z] = {
 <li>"Start" and "end" can only have one link with another block, on the front and on the back, respectively. "Checkpoint" can have both.
 <li>If the links don't exist (yet), a barrier is added on the corresponding side(s).
 <li>If there's a block on the cell placed in front (or back, or both) that is linkable at its corresponding side, the two blocks get linked.
-<li>The out-of-bounds (OOB) equation is the same as the basic square block (inbounds if 20<X<80; 20<Y<80; Z=0. Y is extended up to 0 and/or 100 if there's a link on the back or on the front).
+<li>The out-of-bounds (OOB) equation is the same as the basic square block (inbounds if 20&lt;X&lt;80; 20&lt;Y&lt;80; Z=0. Y is extended up to 0 and/or 100 if there's a link on the back or on the front).
 </ul>
 
 <br>And of course, all of this is complicated because all the blocks can be rotated. Depending on their angle, the "forward" side of a block will effectively be the one placed on its right, back or left side. It's a bit puzzling at first, especially to place barriers and rounded corners at  the right places, but I'm getting used to it.
@@ -980,6 +980,10 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 
 <br><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> day 26.<br><br>It&#39;s still very drafty, but I have gravity and slopes that start working almost normally. And at 60fps.<br><br>Program for tomorrow: a lot of debug, implement checkpoints, end flag and accelerators, and some kind of momentum (we need jumps!)<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://t.co/w41yJXfOLf">pic.twitter.com/w41yJXfOLf</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1170409341645721601?ref_src=twsrc%5Etfw">September 7, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
+<p>Wanna see a picture of me thinking about all the remaining work? Sure!
+
+<br><p><img src="images/js13k19/me.jpg" width=300>
+
 
 <br>
 <br>Byte count: 106kb
@@ -1056,7 +1060,7 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 <hr>
 <br>
 
-<h4>Flags</a>
+<h4>Flags</h4>
 <p>Day 29: big program today! I made it so the race can't be completed if the car hasn't passed through all the blue checkpoints.
 <br>Then, when it hits half of the end flag block, the score screen appears, telling us the score (the time) and the medal we won plus the next medal we can obtain with a better time.
 
@@ -1121,11 +1125,11 @@ To put it simply, every time the camera rotates with an angle "a", all the billb
 
 <br><p><img src="images/js13k19/36.png">
 
-... made a single "long slope" block instead of two, and removed the rocks, to simplify things and lighten my code...
+<p>simplify things and lighten my code...
 
 <br><p><img src="images/js13k19/38.png">
  
-...and I made the share button point to a "share" page of my Github repo instead of simply giving a JSON output.
+<p>...and I made the share button point to a "share" page of my Github repo instead of simply giving a JSON output.
 <br>I'll finalize this "share" page tomorrow, after the end of the compo.
 <br>The idea is that, when people click on an URL generated using this page, the level they have made will load and play automatically.
 
