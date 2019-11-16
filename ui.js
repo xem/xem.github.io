@@ -9,7 +9,8 @@ $$ = function(i){
 menus = {
   
   articles: {
-    //js13k19: "JS13kGames 2019",
+    //"webgl-guide": "WebGL guide",
+    js13k19: "JS13kGames 2019",
     projection: "3D projection",
     js1k19: "JS1K 2019",
     codegolfctober18: "Codegolfctober 2018",

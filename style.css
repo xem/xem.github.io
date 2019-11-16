@@ -61,6 +61,14 @@ max-width: calc(100% - 10px); }
 }
 
 
+body.large #hamburger { position: fixed; left: 0; top: 5px; width: 45px; height: 40px; background: #def; border-radius: 0 5px 5px 0; text-align: center; font-size: 30px; line-height: 40px; cursor: pointer }
+body.large #menu { position: fixed; left: -1000px; max-height: calc(100% - 10px); top: 5px; border-radius: 0; transition: left .25s; }
+body.large main { padding-left: 0 }
+body.large .mobileonly { display: block }
+body.large br.mobileonly { display: none }
+body.large #hidemenu { display: none; position: fixed; top: 0; left: 0;  width: 100%; height: 100%; background: rgba(0,0,0,.5); cursor: pointer; }
+body.large header a { min-width: 162px; margin: 0 7px 10px 0; }
+
 
 /* PrismJS 1.16.0
 https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript+css-extras */
