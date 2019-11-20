@@ -17,7 +17,6 @@
 <main>
 
 <style>
-iframe { min-height: 800px }
 table { border-spacing: 0; border-collapse: collapse }
 th, td { padding: 3px; width: 200px }
 th { background: #eee }
@@ -48,6 +47,7 @@ th { background: #eee }
 <li>the x/y coordinates in this canvas context are in the range [-1:1]: the center is at (0:0), the top-right corner is at (1:1)
 <li>a float is a number written with at least one decimal (ex: 0.0, 0.1, 1.0, ...)
 <li>a vec4 is an array of 4 floats representing a position (x, y, z, 1.0), a color (r, g, b, alpha) or anything you want
+<li>a mat4 is a 4x4 matrix of floats
 <li>an attribute is a global variable passed by JS to the fragment shader (ex: a point's coordinates)
 <li>an uniform is a global constant passed by JS to all the shaders (ex: a color)
 <!--li>a varying is (todo)-->
@@ -70,7 +70,7 @@ th { background: #eee }
 
 <br><br><hr><br>
 
-<h4>How to draw triangles</h4>
+<h4>How to draw lines and triangles</h4>
 <i>(from chapter 3 of the book)</i>
 
 <h5>Definitions and notations</h5>
@@ -122,12 +122,273 @@ th { background: #eee }
 <img src="images/webgl-guide/modes.png" width=800 style="border:2px solid #ddd">
 </ul>
 
-<p>Here's the simplest way to draw a triangle. You can edit the mode on line 61 to render points or lines instead.
+<p>Here's the simplest way to draw a triangle. You can edit the mode on line 61 to render points or lines instead (ex: gl.LINE_LOOP)
 <br>
 <br>
 <iframe height=900 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KdmFyIGdsID0gY2FudmFzLmdldENvbnRleHQoIndlYmdsIik7CgovLyBWZXJ0ZXggc2hhZGVyOgovLyBJbiB0cmlhbmdsZSBtb2RlLCBwb2ludFNpemUgaXMgbm90IG5lY2Vzc2FyeQp2YXIgdnNoYWRlciA9IGAKYXR0cmlidXRlIHZlYzQgcG9zOwp2b2lkIG1haW4oKSB7CiAgZ2xfUG9zaXRpb24gPSBwb3M7Cn1gOwoKLy8gRnJhZ21lbnQgc2hhZGVyOgp2YXIgZnNoYWRlciA9IGAKcHJlY2lzaW9uIG1lZGl1bXAgZmxvYXQ7CnVuaWZvcm0gdmVjNCBjb2xvcjsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IGNvbG9yOwp9YDsKCi8vIENvbXBpbGUgc2hhZGVycyBhbmQgcHJvZ3JhbQp2YXIgdnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuVkVSVEVYX1NIQURFUik7CmdsLnNoYWRlclNvdXJjZSh2cywgdnNoYWRlcik7CmdsLmNvbXBpbGVTaGFkZXIodnMpOwp2YXIgZnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuRlJBR01FTlRfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKGZzLCBmc2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcihmcyk7CnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIEdldCBzaGFkZXJzIGF0dHJpYnV0ZXMgYW5kIHVuaWZvcm1zCnZhciBwb3MgPSBnbC5nZXRBdHRyaWJMb2NhdGlvbihwcm9ncmFtLCAncG9zJyk7CnZhciBjb2xvciA9IGdsLmdldFVuaWZvcm1Mb2NhdGlvbihwcm9ncmFtLCAnY29sb3InKTsKCi8vIFNldCBjb2xvcgpnbC51bmlmb3JtNGYoY29sb3IsIDEuMCwgMC4wLCAwLjAsIDEuMCk7CgovLyBGaWxsIGEgYnVmZmVyIHdpdGggcGFpcnMgb2YgeC95IGNvb3JkaW5hdGVzIGFuZCBwYXNzIHRoZW0gdG8gdGhlIHBvcyBhdHRyaWJ1dGUgb2YgdGhlIHZlcnRleCBzaGFkZXIgCnZhciB2ZXJ0aWNlcyA9IG5ldyBGbG9hdDMyQXJyYXkoWzAsIDAuNSwgICAtMC41LCAtMC41LCAgIDAuNSwgLTAuNV0pOwp2YXIgYnVmZmVyID0gZ2wuY3JlYXRlQnVmZmVyKCk7CmdsLmJpbmRCdWZmZXIoZ2wuQVJSQVlfQlVGRkVSLCBidWZmZXIpOwpnbC5idWZmZXJEYXRhKGdsLkFSUkFZX0JVRkZFUiwgdmVydGljZXMsIGdsLlNUQVRJQ19EUkFXKTsKZ2wudmVydGV4QXR0cmliUG9pbnRlcigKICBwb3MsICAgICAgLy8gdGFyZ2V0CiAgMiwgICAgICAgIC8vIHNpemUKICBnbC5GTE9BVCwgLy8gdHlwZQogIGZhbHNlLCAgICAvLyBub3JtYWxpemUKICAwLCAgICAgICAgLy8gc3RyaWRlCiAgMCAgICAgICAgIC8vIG9mZnNldAopOwpnbC5lbmFibGVWZXJ0ZXhBdHRyaWJBcnJheShwb3MpOwoKLy8gQ2xlYXIgY2FudmFzCmdsLmNsZWFyQ29sb3IoMCwgMCwgMCwgMSk7CmdsLmNsZWFyKGdsLkNPTE9SX0JVRkZFUl9CSVQpOwoKLy8gUmVuZGVyCmdsLmRyYXdBcnJheXMoZ2wuVFJJQU5HTEVTLCAwLCAzKTsgLy8gZHJhdyAzIHZlcnRpY2VzIGFzIGEgdHJpYW5nbGUKCjwvc2NyaXB0Pg=="></iframe>
 
 
+<h4>Translate, rotate, scale</h4>
+
+<p>Vertices are represented on vec4's to ease these transformations.
+
+<p>
+<ul>
+<li>To translate a vertex, you can add three offsets Tx, Ty and Tz to its coordinates:
+<br>x' = x + Tx
+<br>y' = y + Ty
+<br>z' = z + Tz
+
+<br>This can be summarized in a single matrix transformation:
+<p>
+
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+   <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+      &nbsp;=&nbsp;
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>Tx</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>Ty</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>Tz</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+      &nbsp;x&nbsp;
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+
+<li>To rotate a vertex around the Z axis with an angle β, you can use the Euler equations:
+<br>x' = x cos β – y sin β
+<br>y' = x sin β + y cos β
+<br>z' = z
+
+<br>or:
+<p>
+
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+   <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+      &nbsp;=&nbsp;
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>cos β</mn></mtd>
+            <mtd><mn>-sin β</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>sin β</mn></mtd>
+            <mtd><mn>cos β</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+      &nbsp;x&nbsp;
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+
+<li>To scale a shape, you can multiply its vertices coordinates with scale factors:
+<br>x' = Sx * x
+<br>y' = Sy * y
+<br>z' = Sz * z
+
+<br>or:
+<p>
+
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+   <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+      &nbsp;=&nbsp;
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>Sx</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>Sy</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>Sz</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+      &nbsp;x&nbsp;
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+
+<li>Multiple transformations can be accumulated by adding their matrices!
+
+</ul>
 
 </div>
 
