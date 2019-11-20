@@ -18,18 +18,19 @@
 
 <div class=section id=webgl_quest_2>
   <h2>WebGL quest #2: tiny raymarching bootstrap with Distance Estimation functions</h2>
-	<h3>may 2017</h3>
+	<h3>may 2017 - november 2019</h3>
   <br>
   <hr>
   <br>
   <h3>TL;DR</h3>
-  <p>A simple WebGL raycasting algorithm, accepting any Distance Estimation function and rendering it with distance fog and no distorsion, can be as short as <b>135b</b>! (<a href="https://www.shadertoy.com/view/MdsfRr">DEMO</a>)
+  <p>A simple WebGL raycasting algorithm, accepting any Distance Estimation function and rendering it with distance fog and no distorsion, can be as short as <b>135b</b>! (<a href="https://www.shadertoy.com/view/MdsfRr">SHADERTOY DEMO</a>)
   <pre><code class="lang-js">void mainImage(out vec4 r,vec2 d){vec3 D=normalize(vec3(d+d-(r.xy=iResolution.xy),r.y));r-=r;for(int i=0;i&lt;50;i++)r+=DE(D*r.x);r=1./r;}</code></pre>
   <br>
-  That's for the shader alone. For a complete demo including a WebGL bootstrap in HTML/JS and the shader input "F" as a frame counter, the total is <b>531b</b>. (<a href="demos/webgl/full.html">DEMO</a>)
+  That's for the shader alone. For a complete demo including a WebGL bootstrap in HTML/JS and the shader input "F" as a frame counter, the total is <b>481b</b> (<a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD1jPjxzdmcgb25sb2FkPSdmb3IoaSBpbiBnPWMuZ2V0Q29udGV4dGB3ZWJnbGApZ1tpWzBdK2lbNl1dPWdbaV07d2l0aChnKXA9Y1Aoc2V0SW50ZXJ2YWwoej0+ZHIodW5pZm9ybTFmKGdmKHAsInQiKSxOTys9LjAxKSwwLDEpLEE9cz0+c1MoUz1jUyhGTisrKSxgcHJlY2lzaW9uIGxvd3AgZmxvYXQ7dW5pZm9ybSBmbG9hdCB0O2Zsb2F0IERFKHZlYzMgcCl7cCs9dmVjMygwLix0LHQvMi4pO3A9bW9kKHAsMi4pLS41KjIuO3JldHVybiBsZW5ndGgodmVjMihsZW5ndGgocC54eSktLjYscC56KSktLjI7fXZvaWQgbWFpbigpeyR7c307fWApfGNlKFMpfGFTKHAsUykpKSxBYHZlYzQgcj1nbF9GcmFnQ29sb3I7dmVjMiBkPWdsX0ZyYWdDb29yZC54eTt2ZWMzIEQ9bm9ybWFsaXplKHZlYzMoZCtkLShyLnh5PXZlYzIoMzAwLDE1MCkpLHIueSkpO3ItPXI7Zm9yKGludCBpPTA7aTw1MDtpKyspcis9REUoRCpyLngpO3I9MS4vcjtnbF9GcmFnQ29sb3I9dmVjNChyLnh5eiwxLilgLEFgZ2xfUG9zaXRpb249dmVjNCgwLDAsMCxnbF9Qb2ludFNpemU9M2UyKWAsbG8ocCksdWcocCknPg==">DEMO</a>)
   <br>
-  <img src="images/webgl2/webgl-all.gif" width=500>
+  <img src="images/webgl2/all.jpg">
   <br>
+  <p>... or even <b>449b</b> if we get rid of the DE() function and do everything in the main function! (<a href="https://twitter.com/MaximeEuziere/status/1196860703463878656">DEMO</a>)
   <hr>
   <br>
   <h3>Introduction</h3>
@@ -264,7 +265,7 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
   <hr>
   <br>
   <h3>Conclusion</h3>
-  <p>Of course, these experiments are just scratching the surface of what can be done with raymarching, and a lot of cool stuff is still to discover (shadowing, lighting, coloring, texturing, rendering goddamn Mandelboxes...), but that's for a future episode! I'm already very proud of the team for coming up with this tweetable generic raymarching algorithm! :D
+  <p>Of course, these experiments are just scratching the surface of what can be done with raymarching, and a lot of cool stuff is still to discover (shadowing, lighting, coloring, texturing, <a href="js1k19.html">rendering Mandelboxes</a>...), but that's for a future episode! I'm already very proud of the team for coming up with this tweetable generic raymarching algorithm! :D
   <p>Cheers!
 </div>
 
