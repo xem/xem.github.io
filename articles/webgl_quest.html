@@ -6,7 +6,7 @@
 <link rel=stylesheet href="../style.css?v=4">
 <title>Maxime Euzière</title>
 </head>
-<body>
+<body class=large>
 
 <div class="wrapper">
 
@@ -18,63 +18,110 @@
 
 <div class=section id=webgl_quest>
   <h2>The quest of the 🌍🔬🕸🇬🇱🎠 (World's Smallest WebGL Playground)</h2>
-	<h3>april to june 2016, january 2017</h3>
-  
+	<br>
+  <h3>april 2016 - november 2019</h3>
+  <h4>Authors: Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, LiterallyLara, HellMood, innovati, Bálint Csala, Frank Force, Senokay</h4>
+  <hr>
   <br>
-  <hr id="webgl_quest_2017">
+  <h3>11/2019 update</h3>
+  <p>We found a way to get rid of the verbose triangle generation. Everything is now rendered <a href="https://twitter.com/MaximeEuziere/status/1196197953897140224">on a huge point</a> (basically, a square). More info on point drawing in <a href="webgl_guide.html">this tutorial</a>. Our <a href="webgl_quest_2.html">raymarching/sdf</a> post was also updated accordingly.
   <br>
   <h3>01/2017 update</h3>
-  <p>We made an entry for JS1k 2017 featuring all the tricks of this article, plus a nice UI and great compatibility with Shadertoy.com. It was ranked #7!
-  <p><img src="images/webgl/js1k.png">
+  <p>We made an entry for JS1k 2017 featuring all the tricks of this article, plus a nice UI and full Shadertoy compatibility. It was ranked #7! (<a href="http://js1k.com/2017-magic/demo/2645">ENTRY</a> / <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">COMMENTED CODE</a>).
   <br>
-  <br>
-  <p>You can find the entry <a href="http://js1k.com/2017-magic/demo/2645">HERE</a>.
-  <br>
-  <p>The commented source code is <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">HERE</a>.
+  <h3>04/2016: the origin</h3>
+  <p>After welcoming LiterallyLara and HellMood who won JS1K 2017 with a WebGL entry, the codegolf team gave itself a nice challenge: develop the smallest possible HTML/JS boilerplate that's able to run a WebGL fragment shader, à la Shadertoy. Our starting point was <a href="//xem.github.io/MiniShadertoy">MiniShadertoy</a>, that we simplified into <a href="https://xem.github.io/MiniShadertoyLite/">MiniShadertoyLite</a>, and after weeks of intense golfing, we managed reduce the code down to 349b!
   
   <br>
+  <h3>State of the art</h3>
+  <p>The tiny WebGL playground is currently as short as <b>291 bytes</b>, and looks like this:
+  <pre style=padding:5px><code class="lang-html">&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)p=cP(setInterval(z=>dr(uniform1f(gf(p,"t"),NO++),0,1),A=s=>sS(S=cS(FN++),`precision lowp float;uniform float t;void main(){${s};}`)|ce(S)|aS(p,S))),A`<b>[INSERT YOUR SHADER HERE]</b>`,A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,lo(p),ug(p)'></code></pre>
+  <p>(<a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD1jPjxzdmcgb25sb2FkPSdmb3IoaSBpbiBnPWMuZ2V0Q29udGV4dGB3ZWJnbGApZ1tpWzBdK2lbNl1dPWdbaV07d2l0aChnKXA9Y1Aoc2V0SW50ZXJ2YWwoej0+ZHIodW5pZm9ybTFmKGdmKHAsInQiKSxOTysrKSwwLDEpLEE9cz0+c1MoUz1jUyhGTisrKSxgcHJlY2lzaW9uIGxvd3AgZmxvYXQ7dW5pZm9ybSBmbG9hdCB0O3ZvaWQgbWFpbigpeyR7c307fWApfGNlKFMpfGFTKHAsUykpKSxBYHZlYzQgcD12ZWM0KGdsX0ZyYWdDb29yZC54eS92ZWMyKDE1MCw3NSktMS4sMCwxKTtnbF9GcmFnQ29sb3I9cCtzaW4oYXRhbihwLnkscC54KSo5Likqc2luKHAqdC83MC4rOS4vZG90KHAscCkrdC83MC4pYCxBYGdsX1Bvc2l0aW9uPXZlYzQoMCwwLDAsZ2xfUG9pbnRTaXplPTNlMilgLGxvKHApLHVnKHApJz4=">DEMO</a> / <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iYyIgd2lkdGg9MzAwIGhlaWdodD0zMDA+PC9jYW52YXM+CjxzY3JpcHQ+CnZhciBnbCA9IGMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpewogIGdsX1Bvc2l0aW9uPXZlYzQoMCwwLDAsMSk7Z2xfUG9pbnRTaXplPTMwMC4wOwp9YDsKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBsb3dwIGZsb2F0O3VuaWZvcm0gZmxvYXQgdDsKdm9pZCBtYWluKCl7CiB2ZWM0IHA9dmVjNChnbF9GcmFnQ29vcmQueHkvMTUwLi0xLiwwLiwxKTsKIGdsX0ZyYWdDb2xvcj1wK3NpbihhdGFuKHAueSxwLngpKjkuKSpzaW4ocCp0LzQwLjArOS4vZG90KHAscCkrdC80MC4pOyAvLyA8PSBlZGl0IHlvdXIgc2hhZGVyIGhlcmUKfWA7CnZhciB2cyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5WRVJURVhfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKHZzLCB2c2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcih2cyk7CnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKdmFyIHByb2dyYW0gPSBnbC5jcmVhdGVQcm9ncmFtKCk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCB2cyk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCBmcyk7CmdsLmxpbmtQcm9ncmFtKHByb2dyYW0pOwpnbC51c2VQcm9ncmFtKHByb2dyYW0pOwp2YXIgZnJhbWUgPSAwOwpzZXRJbnRlcnZhbCgoKSA9PiB7CiAgZ2wudW5pZm9ybTFmKGdsLmdldFVuaWZvcm1Mb2NhdGlvbihwcm9ncmFtLCAidCIpLCBmcmFtZSsrKTsKICBnbC5kcmF3QXJyYXlzKGdsLlBPSU5UUywwLDEpOwp9LDE2KQo8L3NjcmlwdD4=">UNGOLFED VERSION</a>)
+  
+  <p>When writing your shader in this boilerplate, you have access to:
+  <ul>
+  <li><b>t</b>: a frame counter
+  <li><b>gl_FragCoord</b>: the coordinates of the current pixel on the canvas (by default, x ∈ [0:300], y ∈ [0:150])
+  </ul>
+  ...and you need to set <b>gl_FragColor</b>, representing the color of each pixel.
+  
   <br>
-  <hr>
+  <p><b>Tips:</b>
+  <ul>
+  <li>You can resize the canvas by appending the html attributes: <b style=background:#def>&lt;canvas id=c width=600 height=600></b> or in js: <b style=background:#def>c.width=c.height=600</b>
+  <li>If you want to count milliseconds instead of frames by changing the way NO is incremented. Ex: <b style=background:#def>NO+=.016</b>
+  <li>you can convert gl_FragCoord into clip space coordinates (where x,y ∈ [-1:1]) by prepending your shader with: <b style=background:#def>vec4 p=vec4(gl_FragCoord.xy/vec2(150,75)-1.,0,1);</b> (150 and 75 are half the canvas's width and height. If you resize it, you'll have to change them)
+  <li>If you resize your canvas, you'll also need to change the rendering point's size (for example: <b style=background:#def>gl_PointSize=6e2</b>)
+  </ul>
+  
   <br>
-  <h3>Full Story</h3>
-  <p>During the last few weeks, the codegolf team (including Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, ...) has welcomed new members (LiterallyLara & HellMood, authors of JS1K 2016 winning entry <a href="http://js1k.com/2016-elemental/demo/2552">Romanesco 2.0</a>) and gave itself a nice challenge: develop the smallest possible HTML/JS (ES6) boilerplate that's able to run a WebGL fragment shader. It's currently as short as <b>349b</b>, and looks like this:
-  <pre style=padding:5px><code class="lang-html">&lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=<b>[SHADER]</b>}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'></code></pre>
-  <p>See <a href=#webgl_detailed_code>detailed source code</a> below!
-  <p>With this boilerplate, you have access to a time counter <b>t.x</b> (a frame counter), the clip space coordinates <b>c</b> (representing gl_PointCoord), and all you need to do is replace <b>[SHADER]</b> with the value set by your shader to gl_FragColor, for example: <b style=background:#def>p+sin(atan(p.y,p.x)*9.)*sin(p*t.x/40.+9./dot(p,p)+t.x/40.);</b> (<a href=demos/webgl/psych.html>DEMO</a>).
-  <p><u>Optional:</u>
-  <p>- You can set the size of the canvas with things like <b style=background:#def>a.width=a.height=600;</b> or <b style=background:#def>a.width=outerWidth;a.height=outerHeight;</b> at the beinning of the JS code.
-  <br>- You can change the animation speed by changing the way t is incremented, <b>NO+=.1</b> (t incremented by 0.1 at each frame) is often a better trade-off than <b>NO++</b> (t incremented by 1 at each frame).
-  <p>Here are <a href="https://rawgit.com/literallylara/7c1f8dbe2effc415c746f3684beb8530/raw/08e31826be41cf87473a6949e0885b131328f807/Tiny%2520WebGL%2520Boilerplate.html">some gorgeous demos</a> made by LiterallyLara, with this template, in less than 512b.
+  <p>Here are <a href="https://rawgit.com/literallylara/7c1f8dbe2effc415c746f3684beb8530/raw/08e31826be41cf87473a6949e0885b131328f807/Tiny%2520WebGL%2520Boilerplate.html">some gorgeous demos</a> made by LiterallyLara while we were golfing this, in less than 512b.
   <p><a href="https://rawgit.com/literallylara/7c1f8dbe2effc415c746f3684beb8530/raw/08e31826be41cf87473a6949e0885b131328f807/Tiny%2520WebGL%2520Boilerplate.html"><img src="./images/webgl/elias.jpg" width=600 style="border:1px solid"></a>
-  <p>For code-golfers and demosceners, this boilerplate offers a total of 163b dedicated to the shader in a 512b demo (or 675b in a 1kb demo, not counting the gain of RegPack or gzip): more than never before in the history of WebGL demo'ing!
+  
   <br>
+  
+  <p>Commented source code
+  
+  <div style="overflow-x:scroll"><pre style="width:1600px"><code class="lang-html">&lt;canvas id=c>
+&lt;script>
+
+// Canvas methods hashing:
+// Creates tiny shortcuts for all the WebGL methods and constants we need:
+// g.createProgram => g.cP
+// g.shaderSource => g.sS
+// g.createShader => g.cS
+// g.compileShader => g.ce
+// g.attachShader => g.aS
+// g.linkProgram => g.lo
+// g.useProgram => g.ug
+// g.getUniformLocation => g.gf
+// g.drawArrays => g.dr
+// g.NO_ERROR => g.NO (= 0)
+// g.FRAGMENT_SHADER => g.FN (= 35632)
+// g.VERTEX_SHADER => g.V_ (= 35633)
+
+for(i in g=c.getContext(`webgl`)){
+  g[i[0]+i[6]]=g[i];
+}
+
+with(g){                // Make g implicit
+  p = cP(               // Create a WebGL program, "p"
+    setInterval(        // Repeat the following code 60 times per second:
+      z => dr(          // - g.drawArrays(0,0,1) - draws a single point on the canvas (mode = g.POINTS, start = 0, count = 1)
+        uniform1f(      // - g.uniform1f(g.getUniformLocation(p, "t"), NO++) - locates the WebGL global var "t" and sets it to the current frame number (NO++)
+          gf(p, "t"),
+          NO++
+        ),
+        0,
+        1
+      ),
+      A = s => {        // The function A will be used twice. It creates, compiles and attaches a shader to the program
+        sS(             // - g.shaderSource(S=g.createShader(g.FRAGMENT_SHADER, template) creates the shader S and sets its type and source code
+          S = cS(FN++), // Note that g.FRAGMENT_SHADER (36532) is incremented, so the second time A is called, its value will be equal to g.VERTEX_SHADER (36533)
+          `precision lowp float;uniform float t;void main(){${s};}` // the template declares the global precision (lowp), the global var t and the customizable main function of each shader.
+        )
+        |ce(S)          // - g.compileShader(S)
+        |aS(p,S)        // - g.attachShader(p, S)
+      }
+    )
+  ),
+  A(`<b>[INSERT YOUR SHADER HERE]</b>`),                // call A() a first time to set up the fragment shader (your code goes here)    
+  A(`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`), // call A() a second time to set up the vertex shader (defines the point's size: 300, and position: x=0, y=0, z=0)
+  lo(p),                // g.linkProgram(p)
+  ug(p)                 // g.useProgram(p)
+}
+
+&lt;/script>
+</code></pre></div>
+  
   <br>
-  <hr>
-  <br>
-  <h3>Making-of & Interactive playground</h3>
-  <p>Between 2014 and 2015, it took us nearly 60 golfing iterations to make the Codepen clone <a href="//xem.github.io/miniCodeEditor">miniCodeEditor</a> fit in 158b. Since then, I talked with Subzey and wondered if we could do something similar with WebGL, maybe a clone of <a href="//shadertoy.com">Shadertoy</a>. I tried many times to understand / simplify the source code of shadertoy, but it was too big and too complex (694kb of JS, with 148kb really dedicated to the app's engine.)
-  <p>So I reversed the problem and decided to start from a finished, milimalist WebGL demo and try to make it editable, like on ShaderToy.
-  <p>WebGL implementation is very (very) cryptic, but by chance, Lara's post-mortem gave me all the keys to get started.
-  <blockquote class="twitter-tweet" data-lang="fr"><p lang="en" dir="ltr"><a href="https://twitter.com/elias_schuett">@elias_schuett</a> <a href="https://twitter.com/subzey">@subzey</a> well, this answers our questions about WebGL golfing. Thank for the post mortem! :)</p>&mdash; xem (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/723863692245258240">23 avril 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-  <p>As a result, we managed to release, and golf <a href="//xem.github.io/MiniShadertoy">MiniShadertoy</a>, including almost all the features of Shadertoy in less than 1kb...
-  <br>
-  <br>
-  <img src="./images/webgl/minishadertoy.jpg" width=600>
-  <br>
-  <p>and then <a href="//xem.github.io/MiniShadertoyLite">MiniShadertoyLite</a>, allowing to fiddle with just a fragment shader in less than 512b.
-  <br>
-  <br>
-  <img src="./images/webgl/minishadertoylite.jpg" width=600>
-  <br>
-  <p>While we were discussing about it, and how we could golf it even better, Aemkei had the idea to make a "static" boilerplate, basically the same thing as MiniShadertoy, but not editable. Just the strict minimum required to play a hardcoded shader.
-  <p><br><a href="https://jsbin.com/qafebosibu/edit?html,output"><img src="./images/webgl/boilerplate.png" width=400><br></a>
-  <p>You'll find below a sumary of all the golfing steps that led it to its final, almost unreadable form, and a "clean", commented version.
-  <br>
-  If you're not familiar with WebGL, you can start by reading the commented source code of MiniShadertoyLite <a href="https://github.com/xem/MiniShadertoyLite/blob/ab7a4b7f137745020d283a155b5210676055731a/index.html#L28-L92">HERE</a>. 
-<p>How we code-golfed it, step by step:
-<div style="white-space:pre;overflow-x: scroll">
-<pre style="width:3500px"><code class="lang-html"><b>// Step 1: start from MiniShadertoyLite, ignore the textarea, minify, apply RegPack's webgl method hashing, replace all the constants with their numeric value</b>
+  
+  <p><b>Golf progress</b>
+
+  <p>Here's the <a href="https://github.com/xem/MiniShadertoyLite/blob/ab7a4b7f137745020d283a155b5210676055731a/index.html#L28-L92">clean source code of MiniShadertoyLite</a>, our model.
+  
+<div  style="overflow-x:scroll">
+<pre style="width:3500px"><code class="lang-html"><b>// Step 1: start from MiniShadertoyLite, remove the textarea (hardcoded shader), minify, apply RegPack's webgl method hashing, replace all the constants with their numeric value</b>
 
 &lt;body onload='for(i in g=a.getContext(`webgl`))g[i[0]+i[7]+[i[13]]]=g[i];setInterval(`g.uniform1f(g.goa(P,"T"),T++);g.da(6,0,3)`,9);with(g)P=cr(),so(S=ch(35633),`attribute vec2 P;${V="void main(){gl_"}Position=vec4(P,0,1);}`),cS(S),ah(P,S),so(S=ch(35632),`precision lowp float;uniform float T;${V}FragColor=[SHADER]}`),cS(S),ah(P,S),lg(P),ur(P),bf(B=34962,cu()),eet(T=0),vto(0,2,5120,0,0,0),ba(B,new Int8Array([-3,1,1,-3,1,1]),35044)'>&lt;canvas id=a>
 
@@ -165,102 +212,14 @@
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(!eV(bf(B,cB(V="varying lowp vec4 p,t;void main(){gl_"))),B,A(V+`FragColor=[SHADER]}`),A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)),B+82),!lo(P),ug(P))'>
 
-<b>// Step 24: use the svg's id (which is an empty string)</b>
+<b>// Step 24: use the svg's id (which is an empty string by default)</b>
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=[SHADER]}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'>
+
+<b>// Step 25 (11/2019): replace the triangle with a single, huge point. No need to use a buffer object anymore!
+
+&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)p=cP(setInterval(z=>dr(uniform1f(gf(p,"t"),NO++),0,1),A=s=>sS(S=cS(FN++),`precision lowp float;uniform float t;void main(){${s};}`)|ce(S)|aS(p,S))),A`[SHADER]`,A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,lo(p),ug(p)'>
 </code></pre></div>
-
-<p>Mini WebGL boilerplate, commented:
-
-<div style="white-space:pre;overflow-x: scroll" id=webgl_detailed_code>
-<pre style="width:2000px"><code class="lang-html">&lt;canvas id=a>
-&lt;script>
-
-// Canvas methods hashing:
-// This loop creates tiny shortcuts for all the webgl context's methods/constants we need:
-// g.createProgram => g.cP
-// g.shaderSource => g.sS
-// g.createShader => g.cS
-// g.compileShader => g.ce
-// g.attachShader => g.aS
-// g.linkProgram => g.lo
-// g.useProgram => g.ug
-// g.bindBuffer => g.bf
-// g.createBuffer => cB
-// g.enableVertexAttribArray => g.eV
-// g.vertexAttribPointer => g.vA
-// g.bufferData => g.bD
-// g.getUniformLocation => g.gf
-// g.drawArrays => g.dr
-// g.NO_ERROR => g.NO (value = 0)
-// g.FRAGMENT_SHADER => g.FN (value: 35632)
-// g.ELEMENT_ARRAY_BUFFER_BINDING => g.ET (value: 34965)
-for(i in g=a.getContext(`webgl`)){
-  g[i[0]+i[6]]=g[i];
-}
-
-id = "";                                    // The following code is minified and placed in an &lt;svg onload="...">. The variable "id" below is therefore an empty string, until we rename it.
-
-with(g){                                    // Keep g into scope for future function calls (ex: vA == g.vA)
-  vA(                                       // Call vA (vertexAttribPointer) with the following params: vertex_index = 0, components_per_vertex_attribute = 2, vertex_attributes_type = g.BYTE = 5120, normalized = 0, stride = 1, offset = 0.
-    P=cP(                                   // Call cP (createProgram) to create the program P and return 0 as 1st param of vA
-      setInterval(                          // Start the main loop
-        x=>dr(6,vertexAttrib1f(1,NO++),3),  // Inside the loop, increase the uniform variable T (by reusing g.NO, initialized at 0) and call g.drawArrays with the params: mode = g.TRIANGLE_FAN = 6, first = 0, count = 3.
-        A=s=>{                              // Then define the function A that takes a source string s...
-          sS(                               // set the shader's source (sS = shaderSource)...
-            S=cS(FN++),                     // with a new shader (cs = createShader), increases g.FN...
-            id                              // and use as source the svg's id, plus a constant piece of code, plus s.
-            +
-            "varying lowp vec4 p,t;void main(){gl_"
-            +
-            s                               
-          )
-          |ce(S)                            // compiles the shader (ce = compileShader)...
-          |!aS(P,S)                         // attaches the shader to P (aS = attachShader), and return 1 because Firefox needs a positive integer as the 2nd param of setInterval.
-        }
-      )
-    ),                                      
-    2,                                      // 2nd param of vA
-    5120,                                   // 3rd param of vA
-    bD(                                     // Fill bD (bufferData), and return 0 as 4th param of vA
-      B=ET-3,                               // Initialize B (1st param of bD) to g.ARRAY_BUFFER = 34962 = g.ET - 3. we can't use g.AB as it's overwritten during hashing, and doesn't correspond to g.ARRAY_BUFFER anymore)
-      Int8Array.of(                         // Set the coordinates of a big triangle surrounding the canvas (x1=1, y1=x2=B, y2=x3=1, y3=1) as the 2nd param of bD. The coordinates overlap because the "stride" param of vA is set to 1.
-        A`FragColor=[SHADER]}`,             // x1 = A("FragColor=[SHADER]}") = 1. We call A() a first time to define the fragment shader (at this moment, g.FN = g.FRAGMENT_SHADER = 36532)
-        B,                                  // y1 = x2 = B = 34962
-        !eV(                                // y2 = x3 = !eV(0) = !enableVertexAttribArray(0) = 1
-          bf(                               // Use bf (bindBuffer) to bind the buffer created on-the-fly with cB and return 0
-            B,                              // g.ARRAY_BUFFER
-            cB(                             // g.createBuffer
-              id="attribute vec4 P,T;"      // set the id of the svg, as a prefix for the next time we call A()
-            )                               
-          )
-        ),
-        A`Position=p=P;t=T;}`               // y3 = A(Position=p=P;t=T;}) = 1. We call A() a second time to create the vertex shader (at this moment, g.FN = 35633 = g.VERTEX_SHADER)
-      ),
-      B+82                                  // 3rd param of bD: g.STATIC_DRAW = 35044 = 34962 + 82
-    ),
-    !lo(P),                                 // Link the program P (lo = linkProgram), return 1 as 5th param of vA
-    ug(P)                                   // Use the program P (ug = useProgram), return 0 as 6th param of vA
-  )
-}
-
-&lt;/script>
-</code></pre></div>
-
-<br>
-<br>
-<hr>
-<br>
-<p>With all this progress, MiniShadertoyLite became a little outdated... so we made a new version including all the previous improvements.
-<br>
-There's now enough space to include a fullscreen canvas and a contenteditable body and remain under 512b!
-<br>
-Here's the <a href="http://xem.github.io/MiniShadertoyLite/">last version of MiniShadertoyLite</a>:
-<br>
-<br>
-<a href="http://xem.github.io/MiniShadertoyLite/"><img src="./images/webgl/minishadertoylite2.png" width=600 style="border: 1px solid"></a>
-
-<p>And thanks to <b>@innovati</b> for the Emoji title: 🌍🔬🕸🇬🇱🎠 !
 <br>
 <br>
 <hr>
