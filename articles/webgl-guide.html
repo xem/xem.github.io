@@ -18,15 +18,17 @@
 
 <style>
 table { border-spacing: 0; border-collapse: collapse }
-th, td { padding: 3px; width: 200px }
+th, td { padding: 5px; width: 200px }
 th { background: #eee }
+h4 { margin-bottom: 0; }
+ul { padding-left: 15px }
 </style>
 
 <div class=section id=webgl_guide>
 <h2>WebGL guide</h2>
 <h3>october 2019 - WIP</h3>
   
-<h4>Intro</h4>
+<h4>Introduction</h4>
 
 <p>This page summarizes the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> with tiny, editable demos.
 <p>All the code is available <a href="https://github.com/xem/webgl-guide">on Github</a>.
@@ -37,47 +39,86 @@ th { background: #eee }
 <h4>How to draw points</h4>
 <i>(from chapter 2 of the book)</i>
 
-<h5>Definitions and notations</h5>
-
 <ul>
 <li>a vertex is a point in 3D space (coordinates: x, y, z)
-<li>a fragment is where the scene is rendered (typically, the pixels on your screen)
-<li>two programs (vertex shader and fragment shader) are written in GLSL language to represent them
-<li>these shaders are compiled and linked into a program, which is controlled by JS to render things on a WebGL canvas context
-<li>the x/y coordinates in this canvas context are in the range [-1:1]: the center is at (0:0), the top-right corner is at (1:1)
-<li>a float is a number written with at least one decimal (ex: 0.0, 0.1, 1.0, ...)
-<li>a vec4 is an array of 4 floats representing a position (x, y, z, 1.0), a color (r, g, b, alpha) or anything you want
-<li>a mat4 is a 4x4 matrix of floats
-<li>an attribute is a global variable passed by JS to the fragment shader (ex: a point's coordinates)
-<li>an uniform is a global constant passed by JS to all the shaders (ex: a color)
-<!--li>a varying is (todo)-->
+<li>a fragment is where the scene is rendered (the pixels on your screen)
+<li>in a WebGL app, two programs (vertex shader and fragment shader) are written in GLSL language and used by JS to create a 3D scene and render it on a canvas
+<li>the default x/y coordinates in a WebGL canvas context are in the range [-1:1]: the center is at (0:0), the top-right corner is at (1:1)
+<li>in HLSL, a float is a number written with at least one decimal (ex: 0.0, 0.1, 1.0, ...)
+<li>in HLSL, a vec4 is an array of 4 floats representing either vertex coordinates (x, y, z, 1.0), a color (r, g, b, alpha), or anything you want. The types vec2 and vec3 exist too
 </ul>
 
 <p>This is the simplest possible WebGL program, drawing a red point in the middle of the canvas.
 <br>
 <br>
-<iframe height=800 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg=="></iframe>
+<iframe height=720 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg=="></iframe>
 
-<p>The same demo, but the position, size and color of the point is set by JS, and not hardcoded.
-<br>
-<br>
-<iframe height=950 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KdmFyIGdsID0gY2FudmFzLmdldENvbnRleHQoIndlYmdsIik7CgovLyBWZXJ0ZXggc2hhZGVyOgovLyBhbiBhdHRyaWJ1dGUgKGxpa2UgcG9zIC8gc2l6ZSkgaXMgYSBnbG9iYWwgdmFyaWFibGUgc2V0IGJ5IEpTCi8vIG9ubHkgdGhlIHZlcnRleCBzaGFkZXIgY2FuIGFjY2VzcyBpdAp2YXIgdnNoYWRlciA9IGAKYXR0cmlidXRlIHZlYzQgcG9zOwphdHRyaWJ1dGUgZmxvYXQgc2l6ZTsKdm9pZCBtYWluKCkgewogIGdsX1Bvc2l0aW9uID0gcG9zOwogIGdsX1BvaW50U2l6ZSA9IHNpemU7Cn1gOwoKLy8gRnJhZ21lbnQgc2hhZGVyOgovLyBhbiB1bmlmb3JtIChsaWtlIGNvbG9yKSBpcyBhIGdsb2JhbCBjb25zdGFudCBzZXQgYnkgSlMKLy8gYWxsIHNoYWRlcnMgY2FuIHJlYWQgaXQKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBtZWRpdW1wIGZsb2F0Owp1bmlmb3JtIHZlYzQgY29sb3I7CnZvaWQgbWFpbigpIHsKICBnbF9GcmFnQ29sb3IgPSBjb2xvcjsKfWA7CgovLyBDb21waWxlIHNoYWRlcnMgYW5kIHByb2dyYW0KdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKdmFyIGZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLkZSQUdNRU5UX1NIQURFUik7CmdsLnNoYWRlclNvdXJjZShmcywgZnNoYWRlcik7CmdsLmNvbXBpbGVTaGFkZXIoZnMpOwp2YXIgcHJvZ3JhbSA9IGdsLmNyZWF0ZVByb2dyYW0oKTsKZ2wuYXR0YWNoU2hhZGVyKHByb2dyYW0sIHZzKTsKZ2wuYXR0YWNoU2hhZGVyKHByb2dyYW0sIGZzKTsKZ2wubGlua1Byb2dyYW0ocHJvZ3JhbSk7CmdsLnVzZVByb2dyYW0ocHJvZ3JhbSk7CgovLyBTZWxlY3QgdGhlIHBvcyBhdHRyaWJ1dGUgYW5kIHNldCBpdHMgdmFsdWUKLy8gd2UgdXNlIHZlcnRleEF0dHJpYjNmIHRvIG9ubHkgc2V0IHRoZSB2YWx1ZXMgd2UgY2FyZSBhYm91dCBpbiBwb3MgKHgsIHksIHopCi8vIHRoZSBkZWZhdWx0IHZhbHVlcyBvZiBhIHZlYzQgYXR0cmlidXRlIGFyZTogKDAuMCwgMC4wLCAwLjAsIDEuMCkKLy8gc28gYWxsIHRoZXNlIGZvcm1zIGFyZSBlcXVpdmFsZW50OgovLyAtIGdsLnZlcnRleEF0dHJpYjFmKHBvcywgMC4wKQovLyAtIGdsLnZlcnRleEF0dHJpYjJmKHBvcywgMC4wLCAwLjApCi8vIC0gZ2wudmVydGV4QXR0cmliM2YocG9zLCAwLjAsIDAuMCwgMC4wKQovLyAtIGdsLnZlcnRleEF0dHJpYjRmKHBvcywgMC4wLCAwLjAsIDAuMCwgMS4wKQp2YXIgcG9zID0gZ2wuZ2V0QXR0cmliTG9jYXRpb24ocHJvZ3JhbSwgJ3BvcycpOwpnbC52ZXJ0ZXhBdHRyaWIzZihwb3MsIDAuMCwgMC4wLCAwLjApOwoKLy8gU2VsZWN0IHRoZSBzaXplIGF0dHJpYnV0ZSBhbmQgc2V0IGl0cyB2YWx1ZQp2YXIgc2l6ZSA9IGdsLmdldEF0dHJpYkxvY2F0aW9uKHByb2dyYW0sICdzaXplJyk7CmdsLnZlcnRleEF0dHJpYjFmKHNpemUsIDEwLjApOwoKLy8gU2VsZWN0IHRoZSBjb2xvciB1bmlmb3JtIGFuZCBzZXQgaXRzIHZhbHVlCnZhciBjb2xvciA9IGdsLmdldFVuaWZvcm1Mb2NhdGlvbihwcm9ncmFtLCAiY29sb3IiKTsKZ2wudW5pZm9ybTRmKGNvbG9yLCAxLjAsIDAuMCwgMC4wLCAxLjApOwoKLy8gUmVuZGVyCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CmdsLmRyYXdBcnJheXMoZ2wuUE9JTlRTLCAwLCAxKTsKPC9zY3JpcHQ+"></iframe>
+<br><br><hr><br>
 
-<p>Add a new point with a different color everytime the canvas is clicked.
+<ul>
+<li>The main interest of a WebGL program is to send it custom values from JS. This can be done via attributes, uniforms, varyings, and buffer objects
+<li>an attribute var is a global variable passed by JS to the vertex shader. Its value can change for each vertex (ex: vertex coordinates)
+<li>an uniform var is a global variable passed by JS to all the shaders. Its value is constant for an entire draw call (ex: a color)
+<li>a varying var is a global variable writable by the vertex shader and readable by the fragment shader. Its value is automatically interpolated between the neighbour vertices
+</ul>
+<p>
+
+
+<table border style="table-layout:auto">
+<tr>
+<th style="max-width:50px">Qualifier<th style="max-width:50px">Type<th>GLSL<th style="width:55%">JS
+
+<tr>
+<td rowspan=2>attribute
+<td>float
+<td><pre>attribute float f;</pre>
+<td><pre>gl.vertexAttrib1f(gl.getAttribLocation(program, 'f'), 1.0);</pre>
+
+<tr>
+<td>vec4
+<td><pre>attribute vec4 v;</pre>
+<td><pre>gl.vertexAttrib4f(gl.getAttribLocation(program, 'f'), 1.0, 2.0, 3.0, 4.0);</pre>
+
+<tr>
+<td rowspan=3>uniform
+<td>float
+<td><pre>uniform float f;</pre>
+<td><pre>gl.uniform1f(gl.getUniformLocation(program, 'f'), 1.0);</pre>
+
+<tr>
+<td>vec4
+<td><pre>uniform vec4 v;</pre>
+<td><pre>gl.uniform4f(gl.getUniformLocation(program, 'f'), 1.0, 2.0, 3.0, 4.0);</pre>
+
+<tr>
+<td>mat4
+<td><pre>uniform mat4 m;</pre>
+<td><pre>gl.uniformMatrix4fv(
+  gl.getUniformLocation(program, 'm'), false, new Float32Array([...])
+);</pre>
+
+<!--li>a varying is a global variable writable by the vertex shader and readable by the fragment shader-->
+</table>
+
+<p>Here's the same demo as before, but the position, size and color of the point are now set by JS.
 <br>
 <br>
-<iframe height=1100 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHA+Q2xpY2sgYW55d2hlcmUgdG8gYWRkIGEgcG9pbnQKPHNjcmlwdD4KdmFyIGdsID0gY2FudmFzLmdldENvbnRleHQoIndlYmdsIik7CgovLyBWZXJ0ZXggc2hhZGVyCnZhciB2c2hhZGVyID0gYAphdHRyaWJ1dGUgdmVjNCBwb3M7CmF0dHJpYnV0ZSBmbG9hdCBzaXplOwp2b2lkIG1haW4oKSB7CiAgZ2xfUG9zaXRpb24gPSBwb3M7CiAgZ2xfUG9pbnRTaXplID0gc2l6ZTsKfWA7CgovLyBGcmFnbWVudCBzaGFkZXI6CnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdW5pZm9ybSB2ZWM0IGNvbG9yOwp2b2lkIG1haW4oKSB7CiAgZ2xfRnJhZ0NvbG9yID0gY29sb3I7Cn1gOwoKLy8gQ29tcGlsZSBzaGFkZXJzIGFuZCBwcm9ncmFtCnZhciB2cyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5WRVJURVhfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKHZzLCB2c2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcih2cyk7CnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKdmFyIHByb2dyYW0gPSBnbC5jcmVhdGVQcm9ncmFtKCk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCB2cyk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCBmcyk7CmdsLmxpbmtQcm9ncmFtKHByb2dyYW0pOwpnbC51c2VQcm9ncmFtKHByb2dyYW0pOwoKLy8gR2V0IHNoYWRlcnMgYXR0cmlidXRlcyBhbmQgdW5pZm9ybXMKdmFyIHBvcyA9IGdsLmdldEF0dHJpYkxvY2F0aW9uKHByb2dyYW0sICdwb3MnKTsKdmFyIHNpemUgPSBnbC5nZXRBdHRyaWJMb2NhdGlvbihwcm9ncmFtLCAnc2l6ZScpOwp2YXIgY29sb3IgPSBnbC5nZXRVbmlmb3JtTG9jYXRpb24ocHJvZ3JhbSwgJ2NvbG9yJyk7CgovLyBDbGVhcgpnbC5jbGVhckNvbG9yKDAuMCwgMC4wLCAwLjAsIDEuMCk7CmdsLmNsZWFyKGdsLkNPTE9SX0JVRkZFUl9CSVQpOwoKLy8gTGlzdCBvZiBwb2ludHMgdG8gZHJhdwpwb2ludHMgPSBbXTsKCi8vIENsaWNrIGxpc3RlbmVyCmNhbnZhcy5vbmNsaWNrID0gZSA9PiB7CgogIC8vIE1vdXNlIGNvb3JkaW5hdGVzIG9uIGNhbnZhcwogIHZhciB4ID0gZS5jbGllbnRYIC0gY2FudmFzLm9mZnNldExlZnQ7CiAgdmFyIHkgPSBlLmNsaWVudFkgLSBjYW52YXMub2Zmc2V0VG9wOwogIAogIC8vIE1vdXNlIGNvb3JkaW5hdGVzIGluIFstMToxXSByYW5nZQogIHggPSAoMiAqIHggLyBjYW52YXMud2lkdGgpIC0gMTsKICB5ID0gKC0yICogeSAvIGNhbnZhcy5oZWlnaHQpICsgMTsKICAKICAvLyBBZGQgcG9pbnQgaW4gbGlzdAogIHBvaW50cy5wdXNoKFt4LCB5IF0pOwogIAogIC8vIENsZWFyCiAgZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CiAgCiAgLy8gRHJhdyBhbGwgcG9pbnRzCiAgLy8gVGhlIGNvbG9yIGlzIGNvbXB1dGVkIHVzaW5nIHRoZSBwb2ludHMgY29vcmRpbmF0ZXMKICBmb3IoaSBpbiBwb2ludHMpewogICAgZ2wudmVydGV4QXR0cmliM2YocG9zLCBwb2ludHNbaV1bMF0sIHBvaW50c1tpXVsxXSwgMC4wKTsKICAgIGdsLnZlcnRleEF0dHJpYjFmKHNpemUsIDEwLjApOwogICAgZ2wudW5pZm9ybTRmKGNvbG9yLCAocG9pbnRzW2ldWzBdKzEpLzIsIChwb2ludHNbaV1bMV0rMSkvMiwgMC41LCAxLjApOwogICAgZ2wuZHJhd0FycmF5cyhnbC5QT0lOVFMsIDAsIDEpOwogIH0KfQo8L3NjcmlwdD4="></iframe>
+<iframe height=870 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KdmFyIGdsID0gY2FudmFzLmdldENvbnRleHQoIndlYmdsIik7CgovLyBWZXJ0ZXggc2hhZGVyOgovLyBhbiBhdHRyaWJ1dGUgKGxpa2UgcG9zIC8gc2l6ZSkgaXMgYSBnbG9iYWwgdmFyaWFibGUgc2V0IGJ5IEpTCi8vIG9ubHkgdGhlIHZlcnRleCBzaGFkZXIgY2FuIGFjY2VzcyBpdAp2YXIgdnNoYWRlciA9IGAKYXR0cmlidXRlIHZlYzQgcG9zOwphdHRyaWJ1dGUgZmxvYXQgc2l6ZTsKdm9pZCBtYWluKCkgewogIGdsX1Bvc2l0aW9uID0gcG9zOwogIGdsX1BvaW50U2l6ZSA9IHNpemU7Cn1gOwoKLy8gRnJhZ21lbnQgc2hhZGVyOgovLyBhbiB1bmlmb3JtIChsaWtlIGNvbG9yKSBpcyBhIGdsb2JhbCBjb25zdGFudCBzZXQgYnkgSlMKLy8gYWxsIHNoYWRlcnMgY2FuIHJlYWQgaXQKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBtZWRpdW1wIGZsb2F0Owp1bmlmb3JtIHZlYzQgY29sb3I7CnZvaWQgbWFpbigpIHsKICBnbF9GcmFnQ29sb3IgPSBjb2xvcjsKfWA7CgovLyBDb21waWxlIHNoYWRlcnMgYW5kIHByb2dyYW0KdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKdmFyIGZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLkZSQUdNRU5UX1NIQURFUik7CmdsLnNoYWRlclNvdXJjZShmcywgZnNoYWRlcik7CmdsLmNvbXBpbGVTaGFkZXIoZnMpOwp2YXIgcHJvZ3JhbSA9IGdsLmNyZWF0ZVByb2dyYW0oKTsKZ2wuYXR0YWNoU2hhZGVyKHByb2dyYW0sIHZzKTsKZ2wuYXR0YWNoU2hhZGVyKHByb2dyYW0sIGZzKTsKZ2wubGlua1Byb2dyYW0ocHJvZ3JhbSk7CmdsLnVzZVByb2dyYW0ocHJvZ3JhbSk7CgovLyBTZWxlY3QgdGhlIHBvcyBhdHRyaWJ1dGUgYW5kIHNldCBpdHMgdmFsdWUKLy8gd2UgdXNlIHZlcnRleEF0dHJpYjNmIHRvIG9ubHkgc2V0IHRoZSB2YWx1ZXMgd2UgY2FyZSBhYm91dCBpbiBwb3MgKHgsIHksIHopCi8vIHRoZSBkZWZhdWx0IHZhbHVlcyBvZiBhIHZlYzQgYXR0cmlidXRlIGFyZTogKDAuMCwgMC4wLCAwLjAsIDEuMCkKLy8gc28gYWxsIHRoZXNlIGZvcm1zIGFyZSBlcXVpdmFsZW50OgovLyAtIGdsLnZlcnRleEF0dHJpYjFmKHBvcywgMC4wKQovLyAtIGdsLnZlcnRleEF0dHJpYjJmKHBvcywgMC4wLCAwLjApCi8vIC0gZ2wudmVydGV4QXR0cmliM2YocG9zLCAwLjAsIDAuMCwgMC4wKQovLyAtIGdsLnZlcnRleEF0dHJpYjRmKHBvcywgMC4wLCAwLjAsIDAuMCwgMS4wKQp2YXIgcG9zID0gZ2wuZ2V0QXR0cmliTG9jYXRpb24ocHJvZ3JhbSwgJ3BvcycpOwpnbC52ZXJ0ZXhBdHRyaWIzZihwb3MsIDAuMCwgMC4wLCAwLjApOwoKLy8gU2VsZWN0IHRoZSBzaXplIGF0dHJpYnV0ZSBhbmQgc2V0IGl0cyB2YWx1ZQp2YXIgc2l6ZSA9IGdsLmdldEF0dHJpYkxvY2F0aW9uKHByb2dyYW0sICdzaXplJyk7CmdsLnZlcnRleEF0dHJpYjFmKHNpemUsIDEwLjApOwoKLy8gU2VsZWN0IHRoZSBjb2xvciB1bmlmb3JtIGFuZCBzZXQgaXRzIHZhbHVlCnZhciBjb2xvciA9IGdsLmdldFVuaWZvcm1Mb2NhdGlvbihwcm9ncmFtLCAiY29sb3IiKTsKZ2wudW5pZm9ybTRmKGNvbG9yLCAxLjAsIDAuMCwgMC4wLCAxLjApOwoKLy8gUmVuZGVyCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CmdsLmRyYXdBcnJheXMoZ2wuUE9JTlRTLCAwLCAxKTsKPC9zY3JpcHQ+"></iframe>
+
+<p>The next demo shows how to add a new point with a different color every time the canvas is clicked.
+<br>After each click, the only things to do are: reset canvas, set the attributes/uniforms, and call drawArrays.
+<br>
+<br>
+<iframe height=1050 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHA+Q2xpY2sgYW55d2hlcmUgdG8gYWRkIGEgcG9pbnQKPHNjcmlwdD4KdmFyIGdsID0gY2FudmFzLmdldENvbnRleHQoIndlYmdsIik7CgovLyBWZXJ0ZXggc2hhZGVyCnZhciB2c2hhZGVyID0gYAphdHRyaWJ1dGUgdmVjNCBwb3M7CmF0dHJpYnV0ZSBmbG9hdCBzaXplOwp2b2lkIG1haW4oKSB7CiAgZ2xfUG9zaXRpb24gPSBwb3M7CiAgZ2xfUG9pbnRTaXplID0gc2l6ZTsKfWA7CgovLyBGcmFnbWVudCBzaGFkZXI6CnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdW5pZm9ybSB2ZWM0IGNvbG9yOwp2b2lkIG1haW4oKSB7CiAgZ2xfRnJhZ0NvbG9yID0gY29sb3I7Cn1gOwoKLy8gQ29tcGlsZSBzaGFkZXJzIGFuZCBwcm9ncmFtCnZhciB2cyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5WRVJURVhfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKHZzLCB2c2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcih2cyk7CnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKdmFyIHByb2dyYW0gPSBnbC5jcmVhdGVQcm9ncmFtKCk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCB2cyk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCBmcyk7CmdsLmxpbmtQcm9ncmFtKHByb2dyYW0pOwpnbC51c2VQcm9ncmFtKHByb2dyYW0pOwoKLy8gR2V0IHNoYWRlcnMgYXR0cmlidXRlcyBhbmQgdW5pZm9ybXMKdmFyIHBvcyA9IGdsLmdldEF0dHJpYkxvY2F0aW9uKHByb2dyYW0sICdwb3MnKTsKdmFyIHNpemUgPSBnbC5nZXRBdHRyaWJMb2NhdGlvbihwcm9ncmFtLCAnc2l6ZScpOwp2YXIgY29sb3IgPSBnbC5nZXRVbmlmb3JtTG9jYXRpb24ocHJvZ3JhbSwgJ2NvbG9yJyk7CgovLyBDbGVhcgpnbC5jbGVhckNvbG9yKDAuMCwgMC4wLCAwLjAsIDEuMCk7CmdsLmNsZWFyKGdsLkNPTE9SX0JVRkZFUl9CSVQpOwoKLy8gTGlzdCBvZiBwb2ludHMgdG8gZHJhdwpwb2ludHMgPSBbXTsKCi8vIENsaWNrIGxpc3RlbmVyCmNhbnZhcy5vbmNsaWNrID0gZSA9PiB7CgogIC8vIE1vdXNlIGNvb3JkaW5hdGVzIG9uIGNhbnZhcwogIHZhciB4ID0gZS5jbGllbnRYIC0gY2FudmFzLm9mZnNldExlZnQ7CiAgdmFyIHkgPSBlLmNsaWVudFkgLSBjYW52YXMub2Zmc2V0VG9wOwogIAogIC8vIE1vdXNlIGNvb3JkaW5hdGVzIGluIFstMToxXSByYW5nZQogIHggPSAoMiAqIHggLyBjYW52YXMud2lkdGgpIC0gMTsKICB5ID0gKC0yICogeSAvIGNhbnZhcy5oZWlnaHQpICsgMTsKICAKICAvLyBBZGQgcG9pbnQgaW4gbGlzdAogIHBvaW50cy5wdXNoKFt4LCB5IF0pOwogIAogIC8vIENsZWFyCiAgZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CiAgCiAgLy8gRHJhdyBhbGwgcG9pbnRzCiAgLy8gVGhlIGNvbG9yIGlzIGNvbXB1dGVkIHVzaW5nIHRoZSBwb2ludHMgY29vcmRpbmF0ZXMKICBmb3IoaSBpbiBwb2ludHMpewogICAgZ2wudmVydGV4QXR0cmliM2YocG9zLCBwb2ludHNbaV1bMF0sIHBvaW50c1tpXVsxXSwgMC4wKTsKICAgIGdsLnZlcnRleEF0dHJpYjFmKHNpemUsIDEwLjApOwogICAgZ2wudW5pZm9ybTRmKGNvbG9yLCAocG9pbnRzW2ldWzBdKzEpLzIsIChwb2ludHNbaV1bMV0rMSkvMiwgMC41LCAxLjApOwogICAgZ2wuZHJhd0FycmF5cyhnbC5QT0lOVFMsIDAsIDEpOwogIH0KfQo8L3NjcmlwdD4="></iframe>
 
 <br><br><hr><br>
 
 <h4>How to draw lines and triangles</h4>
 <i>(from chapter 3 of the book)</i>
 
-<h5>Definitions and notations</h5>
-
 <ul>
 <li>a buffer object can pass binary data from JS to the shaders (ex: a list of vertices, a list of colors, a texture...)
-<li>this buffer contains a list of numbers, formatted as one of these types:
+<li>this buffer is always read as a list of numbers, formatted as one of these types:
 <br>
 <br>
 <table border>
@@ -122,26 +163,115 @@ th { background: #eee }
 <img src="images/webgl-guide/modes.png" width=800 style="border:2px solid #ddd">
 </ul>
 
-<p>Here's the simplest way to draw a triangle. You can edit the mode on line 61 to render points or lines instead (ex: gl.LINE_LOOP)
+<p>Here's the simplest way to draw a triangle. You can edit the mode on line 61 to render points or lines instead of a triangle (ex: gl.LINE_LOOP)
 <br>
 <br>
 <iframe height=900 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KdmFyIGdsID0gY2FudmFzLmdldENvbnRleHQoIndlYmdsIik7CgovLyBWZXJ0ZXggc2hhZGVyOgovLyBJbiB0cmlhbmdsZSBtb2RlLCBwb2ludFNpemUgaXMgbm90IG5lY2Vzc2FyeQp2YXIgdnNoYWRlciA9IGAKYXR0cmlidXRlIHZlYzQgcG9zOwp2b2lkIG1haW4oKSB7CiAgZ2xfUG9zaXRpb24gPSBwb3M7Cn1gOwoKLy8gRnJhZ21lbnQgc2hhZGVyOgp2YXIgZnNoYWRlciA9IGAKcHJlY2lzaW9uIG1lZGl1bXAgZmxvYXQ7CnVuaWZvcm0gdmVjNCBjb2xvcjsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IGNvbG9yOwp9YDsKCi8vIENvbXBpbGUgc2hhZGVycyBhbmQgcHJvZ3JhbQp2YXIgdnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuVkVSVEVYX1NIQURFUik7CmdsLnNoYWRlclNvdXJjZSh2cywgdnNoYWRlcik7CmdsLmNvbXBpbGVTaGFkZXIodnMpOwp2YXIgZnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuRlJBR01FTlRfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKGZzLCBmc2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcihmcyk7CnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIEdldCBzaGFkZXJzIGF0dHJpYnV0ZXMgYW5kIHVuaWZvcm1zCnZhciBwb3MgPSBnbC5nZXRBdHRyaWJMb2NhdGlvbihwcm9ncmFtLCAncG9zJyk7CnZhciBjb2xvciA9IGdsLmdldFVuaWZvcm1Mb2NhdGlvbihwcm9ncmFtLCAnY29sb3InKTsKCi8vIFNldCBjb2xvcgpnbC51bmlmb3JtNGYoY29sb3IsIDEuMCwgMC4wLCAwLjAsIDEuMCk7CgovLyBGaWxsIGEgYnVmZmVyIHdpdGggcGFpcnMgb2YgeC95IGNvb3JkaW5hdGVzIGFuZCBwYXNzIHRoZW0gdG8gdGhlIHBvcyBhdHRyaWJ1dGUgb2YgdGhlIHZlcnRleCBzaGFkZXIgCnZhciB2ZXJ0aWNlcyA9IG5ldyBGbG9hdDMyQXJyYXkoWzAsIDAuNSwgICAtMC41LCAtMC41LCAgIDAuNSwgLTAuNV0pOwp2YXIgYnVmZmVyID0gZ2wuY3JlYXRlQnVmZmVyKCk7CmdsLmJpbmRCdWZmZXIoZ2wuQVJSQVlfQlVGRkVSLCBidWZmZXIpOwpnbC5idWZmZXJEYXRhKGdsLkFSUkFZX0JVRkZFUiwgdmVydGljZXMsIGdsLlNUQVRJQ19EUkFXKTsKZ2wudmVydGV4QXR0cmliUG9pbnRlcigKICBwb3MsICAgICAgLy8gdGFyZ2V0CiAgMiwgICAgICAgIC8vIHNpemUKICBnbC5GTE9BVCwgLy8gdHlwZQogIGZhbHNlLCAgICAvLyBub3JtYWxpemUKICAwLCAgICAgICAgLy8gc3RyaWRlCiAgMCAgICAgICAgIC8vIG9mZnNldAopOwpnbC5lbmFibGVWZXJ0ZXhBdHRyaWJBcnJheShwb3MpOwoKLy8gQ2xlYXIgY2FudmFzCmdsLmNsZWFyQ29sb3IoMCwgMCwgMCwgMSk7CmdsLmNsZWFyKGdsLkNPTE9SX0JVRkZFUl9CSVQpOwoKLy8gUmVuZGVyCmdsLmRyYXdBcnJheXMoZ2wuVFJJQU5HTEVTLCAwLCAzKTsgLy8gZHJhdyAzIHZlcnRpY2VzIGFzIGEgdHJpYW5nbGUKCjwvc2NyaXB0Pg=="></iframe>
 
+<br><br><hr><br>
 
 <h4>Translate, rotate, scale</h4>
+<i>(from chapters 3 & 4 of the book)</i>
 
-<p>Vertices are represented on vec4's to ease these transformations.
+<ul>
+<li>Vertices coordinates are represented on vec4's to ease matrix-based transformations. They're called homogeneous coordinates
 
 <p>
-<ul>
-<li>To translate a vertex, you can add three offsets Tx, Ty and Tz to its coordinates:
-<br>x' = x + Tx
+
+<table border>
+<tr>
+<th>Transformation
+<th>Transformation applied to each vertex coordinates
+<th>transformation via a matrix
+
+<tr>
+<td>Identity (no change)
+<td>x' = x
+<br>y' = y
+<br>z' = z
+<td>
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+   <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z'</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+      &nbsp;=&nbsp;
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+      &nbsp;×&nbsp;
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+
+<tr>
+<td>Translation along X, Y and Z axis
+<td>x' = x + Tx
 <br>y' = y + Ty
 <br>z' = z + Tz
-
-<br>This can be summarized in a single matrix transformation:
-<p>
-
+<td>
 <math xmlns = "http://www.w3.org/1998/Math/MathML">
    <mrow>
       <mo>[</mo>
@@ -195,7 +325,7 @@ th { background: #eee }
          </mtr>
       </mtable>
       <mo>]</mo>
-      &nbsp;x&nbsp;
+      &nbsp;×&nbsp;
       <mo>[</mo>
       <mtable>
          <mtr>
@@ -218,14 +348,12 @@ th { background: #eee }
    </mrow>
 </math>
 
-<li>To rotate a vertex around the Z axis with an angle β, you can use the Euler equations:
-<br>x' = x cos β – y sin β
+<tr>
+<td>Rotation around X, Y and Z axis with an angle β (in radians)
+<td>x' = x cos β – y sin β
 <br>y' = x sin β + y cos β
 <br>z' = z
-
-<br>or:
-<p>
-
+<td>
 <math xmlns = "http://www.w3.org/1998/Math/MathML">
    <mrow>
       <mo>[</mo>
@@ -279,7 +407,7 @@ th { background: #eee }
          </mtr>
       </mtable>
       <mo>]</mo>
-      &nbsp;x&nbsp;
+      &nbsp;×&nbsp;
       <mo>[</mo>
       <mtable>
          <mtr>
@@ -302,14 +430,12 @@ th { background: #eee }
    </mrow>
 </math>
 
-<li>To scale a shape, you can multiply its vertices coordinates with scale factors:
-<br>x' = Sx * x
+<tr>
+<td>Scaling along X, Y and Z axis
+<td><br>x' = Sx * x
 <br>y' = Sy * y
 <br>z' = Sz * z
-
-<br>or:
-<p>
-
+<td>
 <math xmlns = "http://www.w3.org/1998/Math/MathML">
    <mrow>
       <mo>[</mo>
@@ -363,7 +489,7 @@ th { background: #eee }
          </mtr>
       </mtable>
       <mo>]</mo>
-      &nbsp;x&nbsp;
+      &nbsp;×&nbsp;
       <mo>[</mo>
       <mtable>
          <mtr>
@@ -386,9 +512,27 @@ th { background: #eee }
    </mrow>
 </math>
 
-<li>Multiple transformations can be accumulated by adding their matrices!
+</table>
+
+<li>Multiple transformations can be accumulated by multiplying their matrices!
+<li>To translate then rotate a point, multiply in this order: (〈 rotation matrix 〉 × 〈 translation matrix 〉) × 〈 original coordinates 〉
+<li>Matrices and vectors can be multiplied together natively in GLSL. In JS you need to compute each term separately
+<br>
+<br>
+<iframe height=1300 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KdmFyIGdsID0gY2FudmFzLmdldENvbnRleHQoIndlYmdsIik7CgovLyBWZXJ0ZXggc2hhZGVyCnZhciB2c2hhZGVyID0gYAphdHRyaWJ1dGUgdmVjNCBwb3M7CnVuaWZvcm0gbWF0NCB0cmFuc2xhdGlvbjsKdW5pZm9ybSBtYXQ0IHJvdGF0aW9uOwp1bmlmb3JtIG1hdDQgc2NhbGU7CnZvaWQgbWFpbigpIHsKICAvLyBUcmFuc2xhdGlvbiwgdGhlbiByb3RhdGlvbiwgdGhlbiBzY2FsZQogIGdsX1Bvc2l0aW9uID0gKHNjYWxlICogKHJvdGF0aW9uICogdHJhbnNsYXRpb24pKSAqIHBvczsKfWA7CgovLyBGcmFnbWVudCBzaGFkZXIKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBtZWRpdW1wIGZsb2F0Owp1bmlmb3JtIHZlYzQgY29sb3I7CnZvaWQgbWFpbigpIHsKICBnbF9GcmFnQ29sb3IgPSBjb2xvcjsKfWA7CgovLyBDb21waWxlIHNoYWRlcnMgYW5kIHByb2dyYW0KdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKdmFyIGZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLkZSQUdNRU5UX1NIQURFUik7CmdsLnNoYWRlclNvdXJjZShmcywgZnNoYWRlcik7CmdsLmNvbXBpbGVTaGFkZXIoZnMpOwp2YXIgcHJvZ3JhbSA9IGdsLmNyZWF0ZVByb2dyYW0oKTsKZ2wuYXR0YWNoU2hhZGVyKHByb2dyYW0sIHZzKTsKZ2wuYXR0YWNoU2hhZGVyKHByb2dyYW0sIGZzKTsKZ2wubGlua1Byb2dyYW0ocHJvZ3JhbSk7CmdsLnVzZVByb2dyYW0ocHJvZ3JhbSk7CgovLyBHZXQgc2hhZGVycyBhdHRyaWJ1dGVzIGFuZCB1bmlmb3Jtcwp2YXIgcG9zID0gZ2wuZ2V0QXR0cmliTG9jYXRpb24ocHJvZ3JhbSwgJ3BvcycpOwp2YXIgY29sb3IgPSBnbC5nZXRVbmlmb3JtTG9jYXRpb24ocHJvZ3JhbSwgJ2NvbG9yJyk7CnZhciB0cmFuc2xhdGlvbiA9IGdsLmdldFVuaWZvcm1Mb2NhdGlvbihwcm9ncmFtLCAndHJhbnNsYXRpb24nKTsKdmFyIHJvdGF0aW9uID0gZ2wuZ2V0VW5pZm9ybUxvY2F0aW9uKHByb2dyYW0sICdyb3RhdGlvbicpOwp2YXIgc2NhbGUgPSBnbC5nZXRVbmlmb3JtTG9jYXRpb24ocHJvZ3JhbSwgJ3NjYWxlJyk7CgovLyBTZXQgY29sb3IKZ2wudW5pZm9ybTRmKGNvbG9yLCAxLjAsIDAuMCwgMC4wLCAxLjApOwoKLy8gU2V0IHBvcwp2YXIgdmVydGljZXMgPSBuZXcgRmxvYXQzMkFycmF5KFswLCAwLjUsICAgLTAuNSwgLTAuNSwgICAwLjUsIC0wLjVdKTsKdmFyIGJ1ZmZlciA9IGdsLmNyZWF0ZUJ1ZmZlcigpOwpnbC5iaW5kQnVmZmVyKGdsLkFSUkFZX0JVRkZFUiwgYnVmZmVyKTsKZ2wuYnVmZmVyRGF0YShnbC5BUlJBWV9CVUZGRVIsIHZlcnRpY2VzLCBnbC5TVEFUSUNfRFJBVyk7CmdsLnZlcnRleEF0dHJpYlBvaW50ZXIocG9zLCAyLCBnbC5GTE9BVCwgZmFsc2UsIDAsIDApOwpnbC5lbmFibGVWZXJ0ZXhBdHRyaWJBcnJheShwb3MpOwoKLy8gU2V0IHRyYW5zbGF0aW9uIG1hdHJpeCAodHJhbnNwb3NlZCkKdmFyIFR4ID0gLjg7CnZhciBUeSA9IC0uNjsKdmFyIHRfbWF0cml4ID0gbmV3IEZsb2F0MzJBcnJheShbCiAgMS4wLCAwLjAsIDAuMCwgMC4wLAogIDAuMCwgMS4wLCAwLjAsIDAuMCwKICAwLjAsIDAuMCwgMS4wLCAwLjAsCiAgVHgsIFR5LCAwLjAsIDEuMApdKTsKZ2wudW5pZm9ybU1hdHJpeDRmdih0cmFuc2xhdGlvbiwgZmFsc2UsIHRfbWF0cml4KTsKCi8vIFNldCByb3RhdGlvbiBtYXRyaXggKHRyYW5zcG9zZWQpCnZhciBCID0gLjc7CnZhciBjb3NCID0gTWF0aC5jb3MoQik7CnZhciBzaW5CID0gTWF0aC5zaW4oQik7CnZhciByX21hdHJpeCA9IG5ldyBGbG9hdDMyQXJyYXkoWwogIGNvc0IsICBzaW5CLCAwLjAsIDAuMCwKICAtc2luQiwgY29zQiwgMC4wLCAwLjAsCiAgMC4wLCAgIDAuMCwgIDEuMCwgMC4wLAogIDAuMCwgICAwLjAsICAwLjAsIDEuMApdKTsKZ2wudW5pZm9ybU1hdHJpeDRmdihyb3RhdGlvbiwgZmFsc2UsIHJfbWF0cml4KTsKCi8vIFNldCBzY2FsZSBtYXRyaXggKHRyYW5zcG9zZWQpCnZhciBTID0gLjQ7CnZhciBzX21hdHJpeCA9IG5ldyBGbG9hdDMyQXJyYXkoWwogIFMsICAgMC4wLCAwLjAsIDAuMCwKICAwLjAsIFMsICAgMC4wLCAwLjAsCiAgMC4wLCAwLjAsIFMsICAgMC4wLAogIDAuMCwgMC4wLCAwLjAsIDEuMApdKTsKZ2wudW5pZm9ybU1hdHJpeDRmdihzY2FsZSwgZmFsc2UsIHNfbWF0cml4KTsKCi8vIENsZWFyIGNhbnZhcwpnbC5jbGVhckNvbG9yKDAsIDAsIDAsIDEpOwpnbC5jbGVhcihnbC5DT0xPUl9CVUZGRVJfQklUKTsKCi8vIFJlbmRlcgpnbC5kcmF3QXJyYXlzKGdsLlRSSUFOR0xFUywgMCwgMyk7Cjwvc2NyaXB0Pg=="></iframe>
 
 </ul>
+
+
+<br><br><hr><br>
+
+<h4>Multi-attribute buffer and varying color</h4>
+<i>(from chapter 5 of the book)</i>
+
+<p>A single buffer can hold interleaved data, for example X/Y/R/G/B values, recurring every 5 floats
+<p>Moreover, every fragment (pixel) inside the triangle, if it's bound to a varying variable, will be interpolated from the color of each vertex around it:
+
+<iframe height=950 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KdmFyIGdsID0gY2FudmFzLmdldENvbnRleHQoIndlYmdsIik7CgovLyBWZXJ0ZXggc2hhZGVyCnZhciB2c2hhZGVyID0gYAphdHRyaWJ1dGUgdmVjNCBwb3M7CmF0dHJpYnV0ZSB2ZWM0IGNvbG9yOwp2YXJ5aW5nIHZlYzQgdl9jb2xvcjsKdm9pZCBtYWluKCkgewogIGdsX1Bvc2l0aW9uID0gcG9zOwogIHZfY29sb3IgPSBjb2xvcjsKfWA7CgovLyBGcmFnbWVudCBzaGFkZXIKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBtZWRpdW1wIGZsb2F0Owp2YXJ5aW5nIHZlYzQgdl9jb2xvcjsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZfY29sb3I7Cn1gOwoKLy8gQ29tcGlsZSBzaGFkZXJzIGFuZCBwcm9ncmFtCnZhciB2cyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5WRVJURVhfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKHZzLCB2c2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcih2cyk7CnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKdmFyIHByb2dyYW0gPSBnbC5jcmVhdGVQcm9ncmFtKCk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCB2cyk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCBmcyk7CmdsLmxpbmtQcm9ncmFtKHByb2dyYW0pOwpnbC51c2VQcm9ncmFtKHByb2dyYW0pOwoKLy8gRGVmaW5lIHZlcnRpY2VzIGFuZCBjb2xvcnMKdmFyIHZlcnRpY2VzQ29sb3JzID0gbmV3IEZsb2F0MzJBcnJheShbCiAgLy94ICwgIHksICAgIHIsICAgIGcsICAgIGIKICAwLjAsICAgMC41LCAgMS4wLCAgMC4wLCAgMC4wLCAKICAtMC41LCAgLTAuNSwgMC4wLCAgMS4wLCAgMC4wLCAKICAwLjUsICAtMC41LCAwLjAsICAwLjAsICAxLjAsIApdKTsKICAKLy8gUmV0cmlldmUgdGhlIHNpemUgb2YgZWFjaCBmbG9hdCBpbiBieXRlcyAoNCkKdmFyIEZTSVpFID0gdmVydGljZXNDb2xvcnMuQllURVNfUEVSX0VMRU1FTlQ7CgovLyBDcmVhdGUgYSBidWZmZXIgb2JqZWN0CmdsLmJpbmRCdWZmZXIoZ2wuQVJSQVlfQlVGRkVSLCBnbC5jcmVhdGVCdWZmZXIoKSk7CmdsLmJ1ZmZlckRhdGEoZ2wuQVJSQVlfQlVGRkVSLCB2ZXJ0aWNlc0NvbG9ycywgZ2wuU1RBVElDX0RSQVcpOwoKLy8gQmluZCB0aGUgYXR0cmlidXRlIHBvcyB0byB0aGUgMXN0IGFuZCAybmQgZmxvYXRzIGluIGV2ZXJ5IGNodW5rIG9mIDUgZmxvYXRzIGluIHRoZSBidWZmZXIKdmFyIHBvcyA9IGdsLmdldEF0dHJpYkxvY2F0aW9uKHByb2dyYW0sICdwb3MnKTsKZ2wudmVydGV4QXR0cmliUG9pbnRlcihwb3MsIDIsIGdsLkZMT0FULCBmYWxzZSwgRlNJWkUgKiA1LCAwKTsKZ2wuZW5hYmxlVmVydGV4QXR0cmliQXJyYXkocG9zKTsKICAKLy8gQmluZCB0aGUgYXR0cmlidXRlIGNvbG9yIHRvIHRoZSAzcmQsIDR0aCBhbmQgNXRoIGZsb2F0IGluIGV2ZXJ5IGNodW5rCnZhciBjb2xvciA9IGdsLmdldEF0dHJpYkxvY2F0aW9uKHByb2dyYW0sICdjb2xvcicpOwpnbC52ZXJ0ZXhBdHRyaWJQb2ludGVyKGNvbG9yLCAzLCBnbC5GTE9BVCwgZmFsc2UsIEZTSVpFICogNSwgRlNJWkUgKiAyKTsKZ2wuZW5hYmxlVmVydGV4QXR0cmliQXJyYXkoY29sb3IpOwoKLy8gQ2xlYXIgY2FudmFzCmdsLmNsZWFyQ29sb3IoMCwgMCwgMCwgMSk7CmdsLmNsZWFyKGdsLkNPTE9SX0JVRkZFUl9CSVQpOwoKLy8gUmVuZGVyCmdsLmRyYXdBcnJheXMoZ2wuVFJJQU5HTEVTLCAwLCAzKTsKPC9zY3JpcHQ+"></iframe>
 
 </div>
 
