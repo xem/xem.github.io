@@ -271,7 +271,7 @@ footer = function(){
   if(section == "xem.github.io" && page == ""){
     section = "home";
   }
-  if(section != "home" && page != "" && page != "intro"){    
+  /*if(section != "home" && page != "" && page != "intro"){    
     s = document.createElement("SCRIPT");
     s.src = "https://utteranc.es/client.js";
     s.setAttribute("repo","xem/xem.github.io");
@@ -281,7 +281,7 @@ footer = function(){
     s.setAttribute("async","");
     if($("main .section:last-child"))
       $("main .section:last-child").appendChild(s);
-  }
+  }*/
 }
 
 
