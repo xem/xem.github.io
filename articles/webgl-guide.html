@@ -32,7 +32,7 @@ pre { margin: 3px; font-size: 12px; }
   
 <h4>Introduction</h4>
 
-<p>This page summarizes the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> with tiny, editable demos. 
+<p>This page summarizes the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> with tiny, simplified, editable demos. 
 <p>The playground is available <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg==">here</a> and all the code is available <a href="https://github.com/xem/webgl-guide">on Github</a>.
 <p>If you're interested in Shadertoy, WebGL raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2</a>.
 
@@ -114,7 +114,9 @@ pre { margin: 3px; font-size: 12px; }
 <tr>
 <td>vec4
 <td><pre>attribute vec4 v;</pre>
-<td><pre>gl.vertexAttrib4f(gl.getAttribLocation(program, 'f'), 1.0, 2.0, 3.0, 4.0);</pre>
+<td><pre>gl.vertexAttrib4f(gl.getAttribLocation(program, 'f'), 1.0, 2.0, 3.0, 4.0);
+// or
+gl.vertexAttrib4fv(gl.getAttribLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 
 <tr>
 <td rowspan=3>uniform
@@ -125,7 +127,9 @@ pre { margin: 3px; font-size: 12px; }
 <tr>
 <td>vec4
 <td><pre>uniform vec4 v;</pre>
-<td><pre>gl.uniform4f(gl.getUniformLocation(program, 'f'), 1.0, 2.0, 3.0, 4.0);</pre>
+<td><pre>gl.uniform4f(gl.getUniformLocation(program, 'f'), 1.0, 2.0, 3.0, 4.0);
+// or
+gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 
 <tr>
 <td>mat4
@@ -925,13 +929,23 @@ camera = (mat, options) => {
 
 <br><br><hr><br>
 
-<h4>Lighting, shading, shadowing</h4>
+<h4>Lighting and shading</h4>
+
+<i>(from chapter 8 of the book)</i>
+
+<ul>
+<li>First, we can make <b>diffuse light reflexion</b>. To do that, we need to define a light with a color (for example, white), and a direction (for example, vec3(0.5,3.0,4.0))
+<li>Each face has <b>normal</b>: a vec3 pointing to the outside of the cube, with a length of 1, i.e. "normalized")
+<li>In the fragment shader, we perform a <b>dot product</b> between the light vector and the face normal, to determine how much the light is diffused
+<br><blockquote class="twitter-tweet"><p lang="en" dir="ltr">dot product - visualized ⚪<br><br>the dot of two normalized vectors, as shown here, can say how similar they are<br><br>a • b = 1, same direction<br>a • b = 0, perpendicular<br>a • b = -1, opposite directions<br><br>you might also be able to see why it&#39;s sometimes called scalar projection~ <a href="https://t.co/vg8TwNZ8qs">pic.twitter.com/vg8TwNZ8qs</a></p>&mdash; Freya Holmér (@FreyaHolmer) <a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw">November 30, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<li>If the dot product is negative, we keep it at "0" (there can't be a negative amount of light)
+<li>The color sent to the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light
+<li>The color's alpha is set to 1.0
+</ul>
 
 
 
-
-
-
+<iframe height=1650 src="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdCBzcmM9Ii4uL21lL3dlYmdsLmpzIj48L3NjcmlwdD4KPHNjcmlwdCBzcmM9Ii4uL21lL21hdHJpeC5qcyI+PC9zY3JpcHQ+CjxzY3JpcHQ+CgovLyBDb252ZXJ0IGRlZyBpbiByYWRpYW5zCmRlZzJyYWQgPSBhbmdsZSA9PiBNYXRoLlBJICogYW5nbGUgLyAxODA7CgovLyBXZWJHTCBjYW52YXMgY29udGV4dAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCnZhciB2c2hhZGVyID0gYAphdHRyaWJ1dGUgdmVjNCBwb3M7IAphdHRyaWJ1dGUgdmVjNCBjb2w7CmF0dHJpYnV0ZSB2ZWM0IG5vcm1hbDsKdW5pZm9ybSBtYXQ0IG12cDsKdW5pZm9ybSB2ZWMzIGxpZ2h0Q29sb3I7CnVuaWZvcm0gdmVjMyBsaWdodERpcmVjdGlvbjsKdmFyeWluZyB2ZWM0IHZfQ29sb3I7CnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IG12cCAqIHBvczsKICB2ZWMzIG5vcm1hbCA9IG5vcm1hbGl6ZShub3JtYWwueHl6KTsKICBmbG9hdCBuRG90TCA9IG1heChkb3QobGlnaHREaXJlY3Rpb24sIG5vcm1hbCksIDAuMCk7CiAgdmVjMyBkaWZmdXNlID0gbGlnaHRDb2xvciAqIGNvbC5yZ2IgKiBuRG90TDsKICB2X0NvbG9yID0gdmVjNChkaWZmdXNlLCAxLjApOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlciBwcm9ncmFtCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdmFyeWluZyB2ZWM0IHZfQ29sb3I7CnZvaWQgbWFpbigpIHsKICBnbF9GcmFnQ29sb3IgPSB2X0NvbG9yOwp9YDsKCi8vIENvbXBpbGUgcHJvZ3JhbQp2YXIgcHJvZ3JhbSA9IGNvbXBpbGUoZ2wsIHZzaGFkZXIsIGZzaGFkZXIpOwoKLy8gQ3JlYXRlIGEgY3ViZQovLyAgICB2Ni0tLS0tIHY1Ci8vICAgL3wgICAgICAvfAovLyAgdjEtLS0tLS12MHwKLy8gIHwgfCAgICAgfCB8Ci8vICB8IHx2Ny0tLXwtfHY0Ci8vICB8LyAgICAgIHwvCi8vICB2Mi0tLS0tLXYzCgp2YXIgdmVydGljZXMgPSBuZXcgRmxvYXQzMkFycmF5KFsgICAvLyBDb29yZGluYXRlcwogICAxLjAsIDEuMCwgMS4wLCAgLTEuMCwgMS4wLCAxLjAsICAtMS4wLC0xLjAsIDEuMCwgICAxLjAsLTEuMCwgMS4wLCAvLyBmcm9udAogICAxLjAsIDEuMCwgMS4wLCAgIDEuMCwtMS4wLCAxLjAsICAgMS4wLC0xLjAsLTEuMCwgICAxLjAsIDEuMCwtMS4wLCAvLyByaWdodAogICAxLjAsIDEuMCwgMS4wLCAgIDEuMCwgMS4wLC0xLjAsICAtMS4wLCAxLjAsLTEuMCwgIC0xLjAsIDEuMCwgMS4wLCAvLyB1cAogIC0xLjAsIDEuMCwgMS4wLCAgLTEuMCwgMS4wLC0xLjAsICAtMS4wLC0xLjAsLTEuMCwgIC0xLjAsLTEuMCwgMS4wLCAvLyBsZWZ0CiAgLTEuMCwtMS4wLC0xLjAsICAgMS4wLC0xLjAsLTEuMCwgICAxLjAsLTEuMCwgMS4wLCAgLTEuMCwtMS4wLCAxLjAsIC8vIGRvd24KICAgMS4wLC0xLjAsLTEuMCwgIC0xLjAsLTEuMCwtMS4wLCAgLTEuMCwgMS4wLC0xLjAsICAgMS4wLCAxLjAsLTEuMCAgLy8gYmFjawpdKTsKCnZhciBjb2xvcnMgPSBuZXcgRmxvYXQzMkFycmF5KFsgICAgLy8gQ29sb3JzIChyZWQpCiAgMSwgMCwgMCwgICAxLCAwLCAwLCAgIDEsIDAsIDAsICAxLCAwLCAwLCAvLyBmcm9udAogIDEsIDAsIDAsICAgMSwgMCwgMCwgICAxLCAwLCAwLCAgMSwgMCwgMCwgLy8gcmlnaHQKICAxLCAwLCAwLCAgIDEsIDAsIDAsICAgMSwgMCwgMCwgIDEsIDAsIDAsIC8vIHVwCiAgMSwgMCwgMCwgICAxLCAwLCAwLCAgIDEsIDAsIDAsICAxLCAwLCAwLCAvLyBsZWZ0CiAgMSwgMCwgMCwgICAxLCAwLCAwLCAgIDEsIDAsIDAsICAxLCAwLCAwLCAvLyBkb3duCiAgMSwgMCwgMCwgICAxLCAwLCAwLCAgIDEsIDAsIDAsICAxLCAwLCAwLCAvLyBiYWNrCl0pOwoKdmFyIG5vcm1hbHMgPSBuZXcgRmxvYXQzMkFycmF5KFsgICAgLy8gTm9ybWFsCiAgMC4wLCAwLjAsIDEuMCwgICAwLjAsIDAuMCwgMS4wLCAgIDAuMCwgMC4wLCAxLjAsICAgMC4wLCAwLjAsIDEuMCwgIC8vIGZyb250CiAgMS4wLCAwLjAsIDAuMCwgICAxLjAsIDAuMCwgMC4wLCAgIDEuMCwgMC4wLCAwLjAsICAgMS4wLCAwLjAsIDAuMCwgIC8vIHJpZ2h0CiAgMC4wLCAxLjAsIDAuMCwgICAwLjAsIDEuMCwgMC4wLCAgIDAuMCwgMS4wLCAwLjAsICAgMC4wLCAxLjAsIDAuMCwgIC8vIHVwCiAtMS4wLCAwLjAsIDAuMCwgIC0xLjAsIDAuMCwgMC4wLCAgLTEuMCwgMC4wLCAwLjAsICAtMS4wLCAwLjAsIDAuMCwgIC8vIGxlZnQKICAwLjAsLTEuMCwgMC4wLCAgIDAuMCwtMS4wLCAwLjAsICAgMC4wLC0xLjAsIDAuMCwgICAwLjAsLTEuMCwgMC4wLCAgLy8gZG93bgogIDAuMCwgMC4wLC0xLjAsICAgMC4wLCAwLjAsLTEuMCwgICAwLjAsIDAuMCwtMS4wLCAgIDAuMCwgMC4wLC0xLjAgICAvLyBiYWNrCl0pOwoKdmFyIGluZGljZXMgPSBuZXcgVWludDhBcnJheShbCiAgIDAsIDEsIDIsICAgMCwgMiwgMywgLy8gZnJvbnQKICAgNCwgNSwgNiwgICA0LCA2LCA3LCAvLyByaWdodAogICA4LCA5LDEwLCAgIDgsMTAsMTEsIC8vIHVwCiAgMTIsMTMsMTQsICAxMiwxNCwxNSwgLy8gbGVmdAogIDE2LDE3LDE4LCAgMTYsMTgsMTksIC8vIGRvd24KICAyMCwyMSwyMiwgIDIwLDIyLDIzICAvLyBiYWNrCl0pOwoKdmFyIG4gPSAzNjsKCi8vIFNldCBwb3NpdGlvbiwgY29sb3IsIG5vcm1hbCBidWZmZXJzCmFycmF5YnVmZmVyKGdsLCB2ZXJ0aWNlcywgcHJvZ3JhbSwgJ3BvcycsIDMsIGdsLkZMT0FUKQphcnJheWJ1ZmZlcihnbCwgY29sb3JzLCBwcm9ncmFtLCAnY29sJywgMywgZ2wuRkxPQVQpCmFycmF5YnVmZmVyKGdsLCBub3JtYWxzLCBwcm9ncmFtLCAnbm9ybWFsJywgMywgZ2wuRkxPQVQpCgovLyBTZXQgaW5kaWNlcwp2YXIgaW5kZXhCdWZmZXIgPSBnbC5jcmVhdGVCdWZmZXIoKTsKZ2wuYmluZEJ1ZmZlcihnbC5FTEVNRU5UX0FSUkFZX0JVRkZFUiwgaW5kZXhCdWZmZXIpOwpnbC5idWZmZXJEYXRhKGdsLkVMRU1FTlRfQVJSQVlfQlVGRkVSLCBpbmRpY2VzLCBnbC5TVEFUSUNfRFJBVyk7CgovLyBTZXQgdGhlIGNsZWFyIGNvbG9yIGFuZCBlbmFibGUgdGhlIGRlcHRoIHRlc3QKZ2wuY2xlYXJDb2xvcigwLCAwLCAwLCAxKTsKZ2wuZW5hYmxlKGdsLkRFUFRIX1RFU1QpOwoKLy8gU2V0IHRoZSBjYW1lcmEKdmFyIG12cE1hdHJpeCA9IG5ldyBGbG9hdDMyQXJyYXkoMTYpOwpwZXJzcGVjdGl2ZShtdnBNYXRyaXgsIHtmb3Z5OiBkZWcycmFkKDMwKSwgYXNwZWN0OiAxLCBuZWFyOiAxLCBmYXI6IDEwMH0pOwpjYW1lcmEobXZwTWF0cml4LCB7ejogLTUsIHJ4OiAuNywgcnk6IC0uOH0pOwp2YXIgbXZwID0gZ2wuZ2V0VW5pZm9ybUxvY2F0aW9uKHByb2dyYW0sICdtdnAnKTsKZ2wudW5pZm9ybU1hdHJpeDRmdihtdnAsIGZhbHNlLCBtdnBNYXRyaXgpOwoKLy8gU2V0IHRoZSBsaWdodCBjb2xvciAod2hpdGUpIGFuZCBkaXJlY3Rpb24KdmFyIGxpZ2h0Q29sb3IgPSBnbC5nZXRVbmlmb3JtTG9jYXRpb24ocHJvZ3JhbSwgJ2xpZ2h0Q29sb3InKTsKZ2wudW5pZm9ybTNmKGxpZ2h0Q29sb3IsIDEuMCwgMS4wLCAxLjApOwoKdmFyIGxpZ2h0RGlyZWN0aW9uID0gZ2wuZ2V0VW5pZm9ybUxvY2F0aW9uKHByb2dyYW0sICdsaWdodERpcmVjdGlvbicpOwp2YXIgbGlnaHREaXIgPSBub3JtYWxpemUobmV3IEZsb2F0MzJBcnJheShbMC41LCAzLjAsIDQuMF0pKTsKZ2wudW5pZm9ybTNmdihsaWdodERpcmVjdGlvbiwgbGlnaHREaXIpOwoKLy8gUmVuZGVyCmdsLmNsZWFyKGdsLkNPTE9SX0JVRkZFUl9CSVQgfCBnbC5ERVBUSF9CVUZGRVJfQklUKTsKZ2wuZHJhd0VsZW1lbnRzKGdsLlRSSUFOR0xFUywgbiwgZ2wuVU5TSUdORURfQllURSwgMCk7Cjwvc2NyaXB0Pg=="></iframe>
 
 
 
