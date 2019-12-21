@@ -204,7 +204,7 @@ gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 <img src="images/webgl-guide/modes.png" width=800 style="border:2px solid #ddd">
 </ul>
 
-<p>Here's the simplest way to draw a triangle. You can edit the mode on line 61 to render points or lines instead of a triangle (ex: gl.POINTS / gl.LINE_LOOP)
+<p>Here's the simplest way to draw a triangle. You can edit the mode on line 53 to render points or lines instead of a triangle (ex: gl.POINTS / gl.LINE_LOOP)
 <br>
 <br>
 <iframe height=800 src="https://xem.github.io/webgl-guide/visualizer/?url=4-hello triangle.html"></iframe>
@@ -850,7 +850,7 @@ transform = (mat, options) => {
 <p>
 <iframe height=1200 src="https://xem.github.io/webgl-guide/visualizer/?url=7-texture.html"></iframe>
 
-<p>Similarly, multiple textures can be used at once. For example, initialize two samplers, and multiply them in the fragment shader (<a href="https://xem.github.io/webgl_guide/book/ch05/MultiTexture.html">DEMO</a>)
+<p>Similarly, multiple textures can be used at once. For example, initialize two samplers, and multiply them in the fragment shader (<a href="https://xem.github.io/webgl-guide/book/ch05/MultiTexture.html">DEMO</a>)
 <pre class="language-js"><code>vec4 color0 = texture2D(sampler0, v_TexCoord);
 vec4 color1 = texture2D(sampler1, v_TexCoord);
 gl_FragColor = color0 * color1;</code></pre>
