@@ -53,7 +53,7 @@
   <li>You can resize the canvas by appending the html attributes: <b style=background:#def>&lt;canvas id=c width=600 height=600></b> or in js: <b style=background:#def>c.width=c.height=600</b>
   <li>If you want to count milliseconds instead of frames by changing the way NO is incremented. Ex: <b style=background:#def>NO+=.016</b>
   <li>you can convert gl_FragCoord into clip space coordinates (where x,y ∈ [-1:1]) by prepending your shader with: <b style=background:#def>vec4 p=vec4(gl_FragCoord.xy/vec2(150,75)-1.,0,1);</b> (150 and 75 are half the canvas's width and height. If you resize it, you'll have to change them)
-  <li>If you resize your canvas, you'll also need to change the rendering point's size (for example: <b style=background:#def>gl_PointSize=6e2</b>)
+  <li>If you resize your canvas, you'll also need to change the rendering point's size (for example: <b style=background:#def>gl_PointSize=9e2</b>)
   </ul>
   
   <br>
