@@ -18,13 +18,15 @@
 
 <div class=section id=webgl_quest>
   <h2>The quest of the 🌍🔬🕸🇬🇱🎠 (World's Smallest WebGL Playground)</h2>
-	<br>
+  <br>
   <h3>april 2016 - november 2019</h3>
-  <h4>Authors: Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, LiterallyLara, HellMood, innovati, Bálint Csala, Frank Force, Senokay</h4>
+  <h4>Authors: Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, LiterallyLara, HellMood, innovati, Bálint Csala, Frank Force, Senokay, Román Cortés</h4>
   <hr>
   <br>
-  <h3>11/2019 update</h3>
-  <p>We found a way to get rid of the verbose triangle generation. Everything is now rendered <a href="https://twitter.com/MaximeEuziere/status/1196197953897140224">on a huge point</a> (basically, a square). More info on point drawing in <a href="webgl_guide.html">this tutorial</a>. Our <a href="webgl_quest_2.html">raymarching/sdf</a> post was also updated accordingly.
+  <h3>12/2019 update</h3>
+  <p>We managed to remove the uniform time variable (by recompiling the program at each frame with a new value).
+  <br>We also got rid of the verbose triangle generation (by rendering everything <a href="https://twitter.com/MaximeEuziere/status/1196197953897140224">on a big square point</a>). You can find more info about drawing points in <a href="webgl_guide.html">this tutorial</a>.
+  <br>Our <a href="webgl_quest_2.html">raymarching / sdf</a> post has been updated accordingly.
   <br>
   <h3>01/2017 update</h3>
   <p>We made an entry for JS1k 2017 featuring all the tricks of this article, plus a nice UI and full Shadertoy compatibility. It was ranked #7! (<a href="http://js1k.com/2017-magic/demo/2645">ENTRY</a> / <a href="https://github.com/xem/MiniShadertoy/blob/gh-pages/js1k.html">COMMENTED CODE</a>).
@@ -34,8 +36,8 @@
   
   <br>
   <h3>State of the art</h3>
-  <p>The tiny WebGL playground is currently as short as <b>291 bytes</b>, and looks like this:
-  <pre style=padding:5px><code class="lang-html">&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)p=cP(setInterval(z=>dr(uniform1f(gf(p,"t"),NO++),0,1),A=s=>sS(S=cS(FN++),`precision lowp float;uniform float t;void main(){${s};}`)|ce(S)|aS(p,S))),A`<b>[INSERT YOUR SHADER HERE]</b>`,A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,lo(p),ug(p)'></code></pre>
+  <p>The tiny WebGL playground is currently as short as <b>266 bytes</b>, and looks like this:
+  <pre style=padding:5px><code class="lang-html">&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)A=s=>sS(S=cS(h++),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S),p=cP(h=FN),A`<b>[INSERT YOUR SHADER HERE]</b>`,A`gl_Position=vec4(gl_PointSize=6e2)`,dr(lo(p),ug(p),1),dP(p)")'></code></pre>
   <p>(<a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD1jPjxzdmcgb25sb2FkPSdmb3IoaSBpbiBnPWMuZ2V0Q29udGV4dGB3ZWJnbGApZ1tpWzBdK2lbNl1dPWdbaV07d2l0aChnKXA9Y1Aoc2V0SW50ZXJ2YWwoej0+ZHIodW5pZm9ybTFmKGdmKHAsInQiKSxOTysrKSwwLDEpLEE9cz0+c1MoUz1jUyhGTisrKSxgcHJlY2lzaW9uIGxvd3AgZmxvYXQ7dW5pZm9ybSBmbG9hdCB0O3ZvaWQgbWFpbigpeyR7c307fWApfGNlKFMpfGFTKHAsUykpKSxBYHZlYzQgcD12ZWM0KGdsX0ZyYWdDb29yZC54eS92ZWMyKDE1MCw3NSktMS4sMCwxKTtnbF9GcmFnQ29sb3I9cCtzaW4oYXRhbihwLnkscC54KSo5Likqc2luKHAqdC83MC4rOS4vZG90KHAscCkrdC83MC4pYCxBYGdsX1Bvc2l0aW9uPXZlYzQoMCwwLDAsZ2xfUG9pbnRTaXplPTNlMilgLGxvKHApLHVnKHApJz4=">DEMO</a> / <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iYyIgd2lkdGg9MzAwIGhlaWdodD0zMDA+PC9jYW52YXM+CjxzY3JpcHQ+CnZhciBnbCA9IGMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpewogIGdsX1Bvc2l0aW9uPXZlYzQoMCwwLDAsMSk7Z2xfUG9pbnRTaXplPTMwMC4wOwp9YDsKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBsb3dwIGZsb2F0O3VuaWZvcm0gZmxvYXQgdDsKdm9pZCBtYWluKCl7CiB2ZWM0IHA9dmVjNChnbF9GcmFnQ29vcmQueHkvMTUwLi0xLiwwLiwxKTsKIGdsX0ZyYWdDb2xvcj1wK3NpbihhdGFuKHAueSxwLngpKjkuKSpzaW4ocCp0LzQwLjArOS4vZG90KHAscCkrdC80MC4pOyAvLyA8PSBlZGl0IHlvdXIgc2hhZGVyIGhlcmUKfWA7CnZhciB2cyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5WRVJURVhfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKHZzLCB2c2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcih2cyk7CnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKdmFyIHByb2dyYW0gPSBnbC5jcmVhdGVQcm9ncmFtKCk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCB2cyk7CmdsLmF0dGFjaFNoYWRlcihwcm9ncmFtLCBmcyk7CmdsLmxpbmtQcm9ncmFtKHByb2dyYW0pOwpnbC51c2VQcm9ncmFtKHByb2dyYW0pOwp2YXIgZnJhbWUgPSAwOwpzZXRJbnRlcnZhbCgoKSA9PiB7CiAgZ2wudW5pZm9ybTFmKGdsLmdldFVuaWZvcm1Mb2NhdGlvbihwcm9ncmFtLCAidCIpLCBmcmFtZSsrKTsKICBnbC5kcmF3QXJyYXlzKGdsLlBPSU5UUywwLDEpOwp9LDE2KQo8L3NjcmlwdD4=">UNGOLFED VERSION</a>)
   
   <p>When writing your shader in this boilerplate, you have access to:
@@ -62,7 +64,7 @@
   
   <p>Commented source code
   
-  <div style="overflow-x:scroll"><pre style="width:1600px"><code class="lang-html">&lt;canvas id=c>
+  <div style="overflow-x:scroll"><pre style="width:1200px"><code class="lang-html">&lt;canvas id=c>
 &lt;script>
 
 // Canvas methods hashing:
@@ -74,6 +76,7 @@
 // g.attachShader => g.aS
 // g.linkProgram => g.lo
 // g.useProgram => g.ug
+// g.deleteProgram => g.dP
 // g.getUniformLocation => g.gf
 // g.drawArrays => g.dr
 // g.NO_ERROR => g.NO (= 0)
@@ -84,33 +87,50 @@ for(i in g=c.getContext(`webgl`)){
   g[i[0]+i[6]]=g[i];
 }
 
-with(g){                // Make g implicit
-  p = cP(               // Create a WebGL program, "p"
-    setInterval(        // Repeat the following code 60 times per second:
-      z => dr(          // - g.drawArrays(0,0,1) - draws a single point on the canvas (mode = g.POINTS, start = 0, count = 1)
-        uniform1f(      // - g.uniform1f(g.getUniformLocation(p, "t"), NO++) - locates the WebGL global var "t" and sets it to the current frame number (NO++)
-          gf(p, "t"),
-          NO++
-        ),
-        0,
-        1
-      ),
-      A = s => {        // The function A will be used twice. It creates, compiles and attaches a shader to the program
-        sS(             // - g.shaderSource(S=g.createShader(g.FRAGMENT_SHADER, template) creates the shader S and sets its type and source code
-          S = cS(FN++), // Note that g.FRAGMENT_SHADER (36532) is incremented, so the second time A is called, its value will be equal to g.VERTEX_SHADER (36533)
-          `precision lowp float;uniform float t;void main(){${s};}` // the template declares the global precision (lowp), the global var t and the customizable main function of each shader.
-        )
-        |ce(S)          // - g.compileShader(S)
-        |aS(p,S)        // - g.attachShader(p, S)
-      }
+setInterval(() => {             // Repeat the following code 60 times per second:
+                                // In the golfed code, the function is replaced with a string: setInterval("with(g)...")
+                                // Also, the second parameter of setInterval is omitted. It defaults to ~60fps on modern browsers
+                                
+  with(g){                      // Make g implicit (no need to use the prefix "g.")
+                                // In the golfed code, the curly braces are removed
+                                // This is possible because all the following statements are separated by "," instead of ";"
+                                
+    A = s => {                  // Declare the function A that will be used twice per frame. It creates, compiles and attaches a shader to the program
+                                // In the golfed code, the curly braces are removed.
+                                // This is possible because all the following statements are separated by "|" instead of ";"
+                                
+      sS(                       // - g.shaderSource(S = g.createShader(h++, template)) creates the shader "S" and sets its type and source code
+        S = cS(h++),            //   The first time A() is called, h (the type) is equal to g.FRAGMENT_SHADER (36532), then it is incremented
+                                //   The second time A() is called h is equal to g.VERTEX_SHADER (36533)
+        
+        `                       // This template is common to both vertex and fragment shaders:
+          precision lowp float; // * Set the global float precision (lowp)
+          void main(){          // * Declare the main function of the shader
+            float t=${NO++}.;   // * Declare the time variable "t", increased by JS at each frame. g.NO is used because its value on load is 0
+            ${s};               // * Append the code of the current shader
+          }
+        `
+      )
+      | ce(S)                   // - g.compileShader(S)
+      | aS(p, S)                // - g.attachShader(p, S)
+    },
+    
+    p = cP(                     // Create a WebGL program "p"
+      h = FN                    // Set the variable "h" equal to g.FRAGMENT_SHADER. It will be used in A()
+    ),
+    
+    A(`<b>[SHADER]</b>`),              // call A() a first time to set up the fragment shader (your code goes here)    
+    A(`                         // call A() a second time to set up the vertex shader (defines the point's size: 600, and position: x = y = z = 600)
+      gl_Position = vec4(gl_PointSize = 6e2)
+    `),
+    
+    dr(                         // g.drawArrays(0,0,1) - draws a single point on the canvas (mode = g.POINTS, start = 0, count = 1)
+      lo(p),                    // - g.linkProgram(p) returns "undefined", which is equivalent to "0"
+      ug(p),                    // - g.useProgram(p) returns "undefined", which is equivalent to "0"
+      !dP(p)                    // - g.deleteProgram(p) returns "undefined". It becomes "true" with a "!" at the beginning, which is equivalent to "1"
     )
-  ),
-  A(`<b>[INSERT YOUR SHADER HERE]</b>`),                // call A() a first time to set up the fragment shader (your code goes here)    
-  A(`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`), // call A() a second time to set up the vertex shader (defines the point's size: 300, and position: x=0, y=0, z=0)
-  lo(p),                // g.linkProgram(p)
-  ug(p)                 // g.useProgram(p)
+  }
 }
-
 &lt;/script>
 </code></pre></div>
   
@@ -212,13 +232,28 @@ with(g){                // Make g implicit
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(!eV(bf(B,cB(V="varying lowp vec4 p,t;void main(){gl_"))),B,A(V+`FragColor=[SHADER]}`),A(`attribute vec4 P,T;${V}Position=p=P;t=T;}`)),B+82),!lo(P),ug(P))'>
 
-<b>// Step 24: use the svg's id (which is an empty string by default)</b>
+<b>// Step 24: Use the svg's id (which is an empty string by default)</b>
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=[SHADER]}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'>
 
-<b>// Step 25 (11/2019): replace the triangle with a single, huge point. No need to use a buffer object anymore!
+<b>// Step 25 (11/2019): Replace the triangle with a single, huge point. No need to use a buffer object anymore! (we lose Safari compatibility here)
 
 &lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)p=cP(setInterval(z=>dr(uniform1f(gf(p,"t"),NO++),0,1),A=s=>sS(S=cS(FN++),`precision lowp float;uniform float t;void main(){${s};}`)|ce(S)|aS(p,S))),A`[SHADER]`,A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,lo(p),ug(p)'>
+
+<b>// Step 26 (12/2019): Get rid of the zeros in gl_Position, use "vec4(6e2)" instead
+
+&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)p=cP(setInterval(z=>dr(uniform1f(gf(p,"t"),NO++),0,1),A=s=>sS(S=cS(FN++),`precision lowp float;uniform float t;void main(){${s};}`)|ce(S)|aS(p,S))),A`[SHADER]`,A`gl_Position=vec4(gl_PointSize=6e2)`,lo(p),ug(p)'>
+
+<b>// Step 27 (12/2019): Get rid of the uniform time variable by recompiling the program at each frame. Also, replace the parameters of drawArrays (0,0,1) with "lo(),ug(p),!dp(p)"
+
+&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)A=s=>sS(S=cS(h++),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S),setInterval(z=>{p=cP(h=FN),A`[SHADER]`,A`gl_Position=vec4(gl_PointSize=6e2)`,dr(lo(p),ug(p),!dP(p))})'>
+
+<b>// Step 28 (12/2019): Use a string parameter for setInterval instead of a function
+
+&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)A=s=>sS(S=cS(h++),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S),p=cP(h=FN),A`[SHADER]`,A`gl_Position=vec4(gl_PointSize=6e2)`,dr(lo(p),ug(p),!dP(p))")'>
+
+
+
 </code></pre></div>
 <br>
 <br>
