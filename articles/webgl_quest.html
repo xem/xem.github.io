@@ -20,9 +20,12 @@
   <h2>The quest of the 🌍🔬🕸🇬🇱🎠 (World's Smallest WebGL Playground)</h2>
   <br>
   <h3>april 2016 - november 2019</h3>
-  <h4>Authors: Mathieu 'p01' Henri, Martin 'Aemkei' Kleppe, Subzey, Anders Kaare, LiterallyLara, HellMood, innovati, Bálint Csala, Frank Force, Senokay, Román Cortés</h4>
+  <h4>Co-authors: Mathieu Henri, Martin Kleppe, Subzey, Anders Kaare, LiterallyLara, HellMood, innovati, Bálint Csala, Frank Force, Senokay, Román Cortés</h4>
   <hr>
   <br>
+  <h3>Introduction</h3>
+  <p>This page presents the world's smallest WebGL shader playground and all the golfing steps that led us to it!
+  <br><br>
   <h3>12/2019 update</h3>
   <p>We managed to remove the uniform time variable (by recompiling the program at each frame with a new value).
   <br>We also got rid of the verbose triangle generation (by rendering everything <a href="https://twitter.com/MaximeEuziere/status/1196197953897140224">on a big square point</a>). You can find more info about drawing points in <a href="webgl_guide.html">this tutorial</a>.
@@ -33,12 +36,11 @@
   <br>
   <h3>04/2016: the origin</h3>
   <p>After welcoming LiterallyLara and HellMood who won JS1K 2017 with a WebGL entry, the codegolf team gave itself a nice challenge: develop the smallest possible HTML/JS boilerplate that's able to run a WebGL fragment shader, à la Shadertoy. Our starting point was <a href="//xem.github.io/MiniShadertoy">MiniShadertoy</a>, that we simplified into <a href="https://xem.github.io/MiniShadertoyLite/">MiniShadertoyLite</a>, and after weeks of intense golfing, we managed reduce the code down to 349b!
-  
-  <br>
+  <br><br><hr><br>
   <h3>State of the art</h3>
-  <p>The tiny WebGL playground is currently as short as <b>263 bytes</b>, and looks like this:
-  <pre style=padding:5px><code class="lang-html">&lt;canvas id=c>&lt;svg onload='svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)p=cP(A=s=>sS(S=cS(FN^=1),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(gl_PointSize=6e2)`,A`<b>[INSERT YOUR SHADER HERE]</b>`,dr(lo(p),ug(p),!dP(p))")'></code></pre>
-  <p>(<a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD1jPjxzdmcgb25sb2FkPSdmb3IoaSBpbiBnPWMuZ2V0Q29udGV4dGB3ZWJnbGApZ1tpWzBdK2lbNl1dPWdbaV07c2V0SW50ZXJ2YWwoIndpdGgoZylwPWNQKEE9cz0+c1MoUz1jUyhGTl49MSksYHByZWNpc2lvbiBsb3dwIGZsb2F0O3ZvaWQgbWFpbigpe2Zsb2F0IHQ9JHtOTysrfS47JHtzfTt9YCl8Y2UoUyl8YVMocCxTKSksQWBnbF9Qb3NpdGlvbj12ZWM0KGdsX1BvaW50U2l6ZT02ZTIpYCxBYHZlYzQgcD12ZWM0KGdsX0ZyYWdDb29yZC54eS92ZWMyKDE1MCw3NSktMS4sMCwxKTtnbF9GcmFnQ29sb3I9cCtzaW4oYXRhbihwLnkscC54KSo5Likqc2luKHAqdC83MC4rOS4vZG90KHAscCkrdC83MC4pYCxkcihsbyhwKSx1ZyhwKSwhZFAocCkpIiknPg==">DEMO</a> / <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iYyIgd2lkdGg9MzAwIGhlaWdodD0zMDA+PC9jYW52YXM+CjxzY3JpcHQ+CnZhciBnbCA9IGMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpewogIGdsX1Bvc2l0aW9uPXZlYzQoMCwwLDAsMSk7Z2xfUG9pbnRTaXplPTMwMC4wOwp9YDsKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBsb3dwIGZsb2F0O3VuaWZvcm0gZmxvYXQgdDsKdm9pZCBtYWluKCl7CiB2ZWM0IHA9dmVjNChnbF9GcmFnQ29vcmQueHkvMTUwLi0xLiwwLiwxKTsKIGdsX0ZyYWdDb2xvcj1wK3NpbihhdGFuKHAueSxwLngpKjkuKSpzaW4ocCp0LzQwLjArOS4vZG90KHAscCkrdC80MC4pOyAvLyA8PSB5b3VyIHNoYWRlciBoZXJlCn1gOwp2YXIgdnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuVkVSVEVYX1NIQURFUik7CmdsLnNoYWRlclNvdXJjZSh2cywgdnNoYWRlcik7CmdsLmNvbXBpbGVTaGFkZXIodnMpOwp2YXIgZnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuRlJBR01FTlRfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKGZzLCBmc2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcihmcyk7CnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKdmFyIGZyYW1lID0gMDsKc2V0SW50ZXJ2YWwoKCkgPT4gewogIGdsLnVuaWZvcm0xZihnbC5nZXRVbmlmb3JtTG9jYXRpb24ocHJvZ3JhbSwgInQiKSwgZnJhbWUrKyk7CiAgZ2wuZHJhd0FycmF5cyhnbC5QT0lOVFMsMCwxKTsKfSwxNikKPC9zY3JpcHQ+">UNGOLFED VERSION</a>)
+  <p>The tiniest WebGL playground is currently as short as <b>261 bytes</b>, and looks like this:
+  <pre style=padding:5px><code class="lang-html">&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(gl_PointSize=6e2)`,A`[YOUR SHADER HERE]`),ug(p),!dP(p))")'></code></pre>
+  <p>(<a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD1jPjxzdmcgb25sb2FkPSdmb3IoaSBpbiBnPWMuZ2V0Q29udGV4dGB3ZWJnbGApZ1tpWzBdK2lbNl1dPWdbaV07c2V0SW50ZXJ2YWwoIndpdGgoZylkcihsbyhwPWNQKEE9cz0+c1MoUz1jUyhGTl49MSksYHByZWNpc2lvbiBsb3dwIGZsb2F0O3ZvaWQgbWFpbigpe2Zsb2F0IHQ9JHtOTysrfS47JHtzfTt9YCl8Y2UoUyl8YVMocCxTKSksQWBnbF9Qb3NpdGlvbj12ZWM0KGdsX1BvaW50U2l6ZT02ZTIpYCxBYHZlYzQgcD12ZWM0KGdsX0ZyYWdDb29yZC54eS92ZWMyKDE1MCw3NSktMS4sMCwxKTtnbF9GcmFnQ29sb3I9cCtzaW4oYXRhbihwLnkscC54KSo5Likqc2luKHAqdC83MC4rOS4vZG90KHAscCkrdC83MC4pYCksdWcocCksIWRQKHApKSIpJz4=">DEMO</a> / <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iYyIgd2lkdGg9MzAwIGhlaWdodD0zMDA+PC9jYW52YXM+CjxzY3JpcHQ+CnZhciBnbCA9IGMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpewogIGdsX1Bvc2l0aW9uPXZlYzQoMCwwLDAsMSk7Z2xfUG9pbnRTaXplPTMwMC4wOwp9YDsKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBsb3dwIGZsb2F0O3VuaWZvcm0gZmxvYXQgdDsKdm9pZCBtYWluKCl7CiB2ZWM0IHA9dmVjNChnbF9GcmFnQ29vcmQueHkvMTUwLi0xLiwwLiwxKTsKIGdsX0ZyYWdDb2xvcj1wK3NpbihhdGFuKHAueSxwLngpKjkuKSpzaW4ocCp0LzQwLjArOS4vZG90KHAscCkrdC80MC4pOyAvLyA8PSB5b3VyIHNoYWRlciBoZXJlCn1gOwp2YXIgdnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuVkVSVEVYX1NIQURFUik7CmdsLnNoYWRlclNvdXJjZSh2cywgdnNoYWRlcik7CmdsLmNvbXBpbGVTaGFkZXIodnMpOwp2YXIgZnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuRlJBR01FTlRfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKGZzLCBmc2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcihmcyk7CnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKdmFyIGZyYW1lID0gMDsKc2V0SW50ZXJ2YWwoKCkgPT4gewogIGdsLnVuaWZvcm0xZihnbC5nZXRVbmlmb3JtTG9jYXRpb24ocHJvZ3JhbSwgInQiKSwgZnJhbWUrKyk7CiAgZ2wuZHJhd0FycmF5cyhnbC5QT0lOVFMsMCwxKTsKfSwxNikKPC9zY3JpcHQ+">UNGOLFED VERSION</a>)
   
   <p>When writing your shader in this boilerplate, you have access to:
   <ul>
@@ -50,10 +52,13 @@
   <br>
   <p><b>Tips:</b>
   <ul>
-  <li>You can resize the canvas by appending the html attributes: <b style=background:#def>&lt;canvas id=c width=600 height=600></b> or in js: <b style=background:#def>c.width=c.height=600</b>
-  <li>If you want to count milliseconds instead of frames by changing the way NO is incremented. Ex: <b style=background:#def>NO+=.016</b>
-  <li>you can convert gl_FragCoord into clip space coordinates (where x,y ∈ [-1:1]) by prepending your shader with: <b style=background:#def>vec4 p=vec4(gl_FragCoord.xy/vec2(150,75)-1.,0,1);</b> (150 and 75 are half the canvas's width and height. If you resize it, you'll have to change them)
-  <li>If you resize your canvas, you'll also need to change the rendering point's size (for example: <b style=background:#def>gl_PointSize=9e2</b>)
+  <li>You can resize the canvas by editing its width and height attributes (in HTML: <b style=background:#def>&lt;canvas id=c width=600 height=600></b> / in JS: <b style=background:#def>c.width=c.height=600</b>)
+  <li>You can make the time variable "t" count the run time in milliseconds instead of the number of frames by changing the way "NO" is incremented. Ex: <b style=background:#def>NO+=.016</b>
+  <li>you can convert gl_FragCoord into clip space coordinates (where x,y ∈ [-1:1]) by prepending your shader with: <b style=background:#def>vec4 p=vec4(gl_FragCoord.xy/vec2(150,75)-1.,0,1);</b>
+  <br>(150 and 75 are half the canvas's width and height. If you resize the canvas, you'll have to change them)
+  <li>If you resize your canvas, you'll also need to change the size of the point where everything is rendered (for example: <b style=background:#def>gl_PointSize=9e2</b>)
+  <li>You can save up to 21 bytes by removing the statement <b style=background:#def>precision lowp float;</b> and instead, writing <b style=background:#def>lowp</b> before each float or vec2/3/4 present in your shaders (ex: t, p)
+  <li>On some devices/browsers, you can even remove <b style=background:#def>gl_Position=vec4(</b> ... <b style=background:#def>)</b> in the fragment buffer, saving an extra 18 bytes. We don't recommend it though, as most people will just see a blank screen
   </ul>
   
   <br>
@@ -90,53 +95,61 @@ for(i in g=c.getContext(`webgl`)){
 setInterval(() => {             // Repeat the following code 60 times per second:
                                 // In the golfed code, the function is replaced with a string: setInterval("with(g)...")
                                 // Also, the second parameter of setInterval is omitted. It defaults to ~60fps on modern browsers
+                                
 
   with(g){                      // Make g implicit (no need to use the prefix "g.")
                                 // In the golfed code, the curly braces are removed
                                 // This is possible because all the following statements are separated by "," instead of ";"
 
-    p = cP(                     // Create a WebGL program "p"
-      A = s => {                // Declare the function A that will be used twice per frame. It creates, compiles and attaches a shader to the program
+    dr(                         // g.drawArrays(0,0,1): draws a single point on the canvas (mode = g.POINTS, start = 0, count = 1)
+    
+      lo(                       // - g.linkProgram(p): links the program p and returns "undefined", which is equivalent to "0"
+
+        p = cP(                 // -- p = createProgram(): creates the WebGL program "p"
+        
+        
+        
+          A = s => {            // --- Declare the function A that will be used twice per frame. It creates, compiles and attaches a shader to the program
                                 // In the golfed code, the curly braces are removed
                                 // This is possible because all the following statements are separated by "|" instead of ";"
                                 
-        sS(                     // - g.shaderSource(S = g.createShader(FN^=1), template) creates the shader "S" and sets its type and source code
-          S = cS(FN ^= 1),      //   The first time A() is called, FN is equal to g.FRAGMENT_SHADER (36532), then it is XOR'd with 1 to become 35633
-                                //   The second time A() is called, FN is equal to g.VERTEX_SHADER (36533), then it is XOR'd with 1 to become 35632
+            sS(                 // g.shaderSource(S = g.createShader(FN ^= 1), template) creates the shader "S" and sets its type and source code
+              S = cS(FN ^= 1),  // The first time A() is called, FN is equal to g.FRAGMENT_SHADER (36532), then it is XOR'd with 1 to become 35633
+                                // The second time A() is called, FN is equal to g.VERTEX_SHADER (36533), then it is XOR'd with 1 to become 35632
         
-          `                     // This template is common to both vertex and fragment shaders:
-          precision lowp float; // * Set the global float precision (lowp)
-          void main(){          // * Declare the main function of the shader
-            float t=${NO++}.;   // * Declare the time variable "t", increased by JS at each frame. g.NO is used because its value on load is 0
-            ${s};               // * Append the code of the current shader
+              `                     // This template is common to both vertex and fragment shaders:
+              precision lowp float; // * Set the global float precision to lowp. Other possible values are "mediump" and "highp"
+                                    //   This statement is OPTIONAL: you can remove it and add "lowp" before each float or vec2/3/4 in your shaders
+              void main(){          // * Declare the main function of the shader
+                float t=${NO++}.;   // * Declare the time variable "t", increased by JS at each frame. g.NO is used because its value on load is 0
+                ${s};               // * Append the code of the current shader
+              }
+              `
+            )
+            | ce(S)             // - g.compileShader(S)
+            | aS(p, S)          // - g.attachShader(p, S)
           }
-        `)
-        | ce(S)                 // - g.compileShader(S)
-        | aS(p, S)              // - g.attachShader(p, S)
-      }
-    ),
+        ),
     
-    A(`                         // call A() a first time to set up the vertex shader (it sets the point's size: 600, and position: x = y = z = 600)
-      gl_Position = vec4(gl_PointSize = 6e2)
-    `),
+        A(`                     // call A() a first time to set up the vertex shader (it sets the point's size: 600, and position: x = y = z = 600)
+          gl_Position = vec4(gl_PointSize = 6e2)
+        `),
 
-    A(`<b>[SHADER]</b>`),              // call A() a second time to set up the fragment shader (your code goes here)    
-    
-    dr(                         // g.drawArrays(0,0,1) - draws a single point on the canvas (mode = g.POINTS, start = 0, count = 1)
-      lo(p),                    // - g.linkProgram(p) returns "undefined", which is equivalent to "0"
+        A(`<b>[SHADER]</b>`),   // call A() a second time to set up the fragment shader (your code goes here)    
+      ),
+      
       ug(p),                    // - g.useProgram(p) returns "undefined", which is equivalent to "0"
       !dP(p)                    // - g.deleteProgram(p) returns "undefined". It becomes "true" with a "!" at the beginning, which is equivalent to "1"
     )
   }
 }
-&lt;/script>
-</code></pre></div>
+&lt;/script></code></pre></div>
   
   <br>
   
   <p><b>Golf progress</b>
 
-  <p>Here's the <a href="https://github.com/xem/MiniShadertoyLite/blob/ab7a4b7f137745020d283a155b5210676055731a/index.html#L28-L92">clean source code of MiniShadertoyLite</a>, our model.
+  <p>Here are all our golfing steps, based on the <a href="https://github.com/xem/MiniShadertoyLite/blob/ab7a4b7f137745020d283a155b5210676055731a/index.html#L28-L92">source code of MiniShadertoyLite</a>:
   
 <div  style="overflow-x:scroll">
 <pre style="width:3500px"><code class="lang-html"><b>// Step 1: start from MiniShadertoyLite, remove the textarea (hardcoded shader), minify, apply RegPack's webgl method hashing, replace all the constants with their numeric value</b>
@@ -234,28 +247,28 @@ setInterval(() => {             // Repeat the following code 60 times per second
 
 &lt;canvas id=a>&lt;svg onload='for(i in g=a.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)vA(P=cP(setInterval(x=>dr(6,vertexAttrib1f(1,NO++),3),A=s=>sS(S=cS(FN++),id+"varying lowp vec4 p,t;void main(){gl_"+s)|ce(S)|!aS(P,S))),2,5120,bD(B=ET-3,Int8Array.of(A`FragColor=[SHADER]}`,B,!eV(bf(B,cB(id="attribute vec4 P,T;"))),A`Position=p=P;t=T;}`),B+82),!lo(P),ug(P))'>
 
-<b>// Step 25 (11/2019): Replace the triangle with a single, huge point. No need to use a buffer object anymore! (we lose Safari compatibility here)
+<b>// Step 25 (11/2019): Replace the triangle with a single, huge point. No need to use a buffer object anymore! (we lose Safari compatibility here)</b>
 
 &lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)p=cP(setInterval(z=>dr(uniform1f(gf(p,"t"),NO++),0,1),A=s=>sS(S=cS(FN++),`precision lowp float;uniform float t;void main(){${s};}`)|ce(S)|aS(p,S))),A`[SHADER]`,A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,lo(p),ug(p)'>
 
-<b>// Step 26 (12/2019): Get rid of the zeros in gl_Position, use "vec4(6e2)" instead
+<b>// Step 26 (12/2019): Get rid of the zeros in gl_Position, use "vec4(6e2)" instead</b>
 
 &lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)p=cP(setInterval(z=>dr(uniform1f(gf(p,"t"),NO++),0,1),A=s=>sS(S=cS(FN++),`precision lowp float;uniform float t;void main(){${s};}`)|ce(S)|aS(p,S))),A`[SHADER]`,A`gl_Position=vec4(gl_PointSize=6e2)`,lo(p),ug(p)'>
 
-<b>// Step 27 (12/2019): Get rid of the uniform time variable by recompiling the program at each frame. Also, replace the parameters of drawArrays (0,0,1) with "lo(),ug(p),!dp(p)" (perf drom may happen at this point)
+<b>// Step 27: Get rid of the uniform time variable by recompiling the program at each frame. Also, replace the parameters of drawArrays (0,0,1) with "lo(),ug(p),!dp(p)" (perf drom may happen at this point)</b>
 
 &lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];with(g)A=s=>sS(S=cS(h++),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S),setInterval(z=>{p=cP(h=FN),A`[SHADER]`,A`gl_Position=vec4(gl_PointSize=6e2)`,dr(lo(p),ug(p),!dP(p))})'>
 
-<b>// Step 28 (12/2019): Use a string parameter for setInterval instead of a function
+<b>// Step 28: Use a string parameter for setInterval instead of a function</b>
 
 &lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)A=s=>sS(S=cS(h++),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S),p=cP(h=FN),A`[SHADER]`,A`gl_Position=vec4(gl_PointSize=6e2)`,dr(lo(p),ug(p),!dP(p))")'>
 
-<b>// Step 29 (12/2019): Remove h, use FN^=1 to alternate between 35632 and 35633 at each frame instead. Put A into cP().
-&lt;canvas id=c>&lt;svg onload='svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)p=cP(A=s=>sS(S=cS(FN^=1),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(gl_PointSize=6e2)`,A`[SHADER]`,dr(lo(p),ug(p),!dP(p))")'>
+<b>// Step 29: Remove h, use FN^=1 to alternate between 35632 and 35633 at each frame instead. Put A into cP().</b>
+&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)p=cP(A=s=>sS(S=cS(FN^=1),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(gl_PointSize=6e2)`,A`[SHADER]`,dr(lo(p),ug(p),!dP(p))")'>
 
+<b>// Step 30: Rearrange the code: "dr(lo(p=cP(A=...),A(...),A(...)),ug(p),!dP(p)" instead of "p=cP(A=...),A(...),A(...),dr(lo(p),ug(p),!dP(p)))"</b>
+&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(gl_PointSize=6e2)`,A`[SHADER]`),ug(p),!dP(p))")'>
 </code></pre></div>
-
-<p>NB: on some devices/browsers, you can even remove "gl_Position=vec4(" and ")" in the fragment buffer, saving an extra 18 bytes. We don't recommend it though, as a lot of people will just see a blank screen.
 
 <br>
 <br>
