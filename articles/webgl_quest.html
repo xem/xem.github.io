@@ -69,7 +69,7 @@
   
   <p>Commented source code
   
-  <div style="overflow-x:scroll"><pre style="width:1200px"><code class="lang-xxx">&lt;canvas id=c>
+  <div style="overflow-x:scroll"><pre style="width:1300px"><code class="lang-xxx">&lt;canvas id=c>
 &lt;script>
 
 // Canvas methods hashing:
@@ -131,18 +131,18 @@ setInterval(() => {             // Repeat the following code 60 times per second
           }
         ),
     
-        A(`                     // call A() a first time to set up the vertex shader (it sets the point's size: 600, and position: x = y = z = 600)
+        A(`                     // Call A() a first time to set up the vertex shader (it sets the point's size: 600, and position: x = y = z = 600)
           gl_Position = vec4(gl_PointSize = 6e2)
         `),
 
-        A(`<b>[SHADER]</b>`),   // call A() a second time to set up the fragment shader (your code goes here)    
+        A(`[SHADER]`),          // Call A() a second time to set up the fragment shader (your code goes here)    
       ),
       
       ug(p),                    // - g.useProgram(p) returns "undefined", which is equivalent to "0"
       !dP(p)                    // - g.deleteProgram(p) returns "undefined". It becomes "true" with a "!" at the beginning, which is equivalent to "1"
     )
   }
-}
+}                               // The content of this script tag is placed in the onload attribute of a &lt;svg> element to save bytes
 &lt;/script></code></pre></div>
   
   <br>
