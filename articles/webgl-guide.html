@@ -33,7 +33,7 @@ pre { margin: 3px; font-size: 12px; }
 <h4>Introduction</h4>
 
 <p>This page summarizes the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> with my own tiny, simplified, editable demos. 
-<p>The playground is available <a href="//localhost/webgl_guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg==">here</a> and all the code is available <a href="https://github.com/xem/webgl-guide">on Github</a>.
+<p>The playground is available <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg==">here</a> and all the code is available <a href="https://github.com/xem/webgl-guide">on Github</a>.
 <p>Helper files created while making this: <a href=https://github.com/xem/webgl-guide/blob/gh-pages/me/webgl.js">webgl.js</a>, <a href=https://github.com/xem/webgl-guide/blob/gh-pages/me/matrix.js">matrix.js</a> and <a href=https://github.com/xem/webgl-guide/blob/gh-pages/me/shapes.js">shapes.js</a>.
 <p>If you're interested in Shadertoy, WebGL raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2</a>.
 
@@ -59,7 +59,7 @@ pre { margin: 3px; font-size: 12px; }
 <p>Here's the simplest possible WebGL program, drawing a red point in the middle of the canvas.
 <br>
 <br>
-<iframe id=i1 height=770 loading=lazy src="//localhost/webgl_guide/visualizer/?url=1-hello%20point.html&id=i1"></iframe>
+<iframe id=i1 height=770 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?url=1-hello%20point.html&id=i1"></iframe>
 
 <p>The program compilation is always the same, so I've put it in a compile() function that will be used in the next chapters (see webgl.js):
 
@@ -145,13 +145,13 @@ gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 <p>Here's the same demo as before, but the position, size and color of the point are now set by the JS code.
 <br>
 <br>
-<iframe id=i2 loading=lazy height=650 src="//localhost/webgl_guide/visualizer/?url=2-point%20defined%20with%20js.html&id=i2"></iframe>
+<iframe id=i2 loading=lazy height=650 src="https://xem.github.io/webgl-guide/visualizer/?url=2-point%20defined%20with%20js.html&id=i2"></iframe>
 
 <p>The next demo shows how to add a new point with a different color every time the canvas is clicked.
 <br>After each click, the only things to do are: reset canvas, set the attributes/uniforms, and call drawArrays.
 <br>
 <br>
-<iframe id=i3 loading=lazy height=980 src="//localhost/webgl_guide/visualizer/?url=3-points added on click.html&id=i3"></iframe>
+<iframe id=i3 loading=lazy height=980 src="https://xem.github.io/webgl-guide/visualizer/?url=3-points added on click.html&id=i3"></iframe>
 
 <br><br><hr><br>
 
@@ -208,7 +208,7 @@ gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 <p>Here's the simplest way to draw a triangle. You can edit the mode on line 53 to render points or lines instead of a triangle (ex: gl.POINTS / gl.LINE_LOOP)
 <br>
 <br>
-<iframe id=i4 loading=lazy height=800 src="//localhost/webgl_guide/visualizer/?url=4-hello triangle.html&id=i4"></iframe>
+<iframe id=i4 loading=lazy height=800 src="https://xem.github.io/webgl-guide/visualizer/?url=4-hello triangle.html&id=i4"></iframe>
 
 <p>The "basic" array buffer setup is always the same, so I included it in webgl.js:
 <pre style="font-size:11px"><code class="lang-js">// Bind an array buffer to an attribute and enable it
@@ -737,7 +737,7 @@ arraybuffer = (gl, data, program, attribute, size, type) => {
 <li>Matrices and vectors can be multiplied together natively in GLSL. In JS, each term must be computed separately
 <br>
 <br>
-<iframe id=i5 loading=lazy height=1150 src="//localhost/webgl_guide/visualizer/?url=5-transformed triangle.html&id=i5"></iframe>
+<iframe id=i5 loading=lazy height=1150 src="https://xem.github.io/webgl-guide/visualizer/?url=5-transformed triangle.html&id=i5"></iframe>
 
 <p>Note: in this example, the transformation matrix (translation x rotation x scale) is computed in the fragment shader.
 <br>This is easy to code, but it's not efficient in real conditions, as the computation is performed for every fragment of the program.
@@ -832,7 +832,7 @@ transform = (mat, options) => {
 <li>A varying is a global variable writable by the vertex shader and readable by the fragment shader
 <li>Every fragment (pixel) inside the triangle, if it's bound to a varying color variable, will be interpolated from the color of each vertex around it
 </ul>
-<iframe id=i6 loading=lazy height=920 src="//localhost/webgl_guide/visualizer/?url=6-multi attribute and varying.html&id=i6"></iframe>
+<iframe id=i6 loading=lazy height=920 src="https://xem.github.io/webgl-guide/visualizer/?url=6-multi attribute and varying.html&id=i6"></iframe>
 
 <br><br><hr><br>
 
@@ -849,9 +849,9 @@ transform = (mat, options) => {
 
 <p>Here's an example of textured quad (a square made of two triangles). Play with the numbers to change the way the vertices and texture are mapped:
 <p>
-<iframe id=i7 loading=lazy height=1200 src="//localhost/webgl_guide/visualizer/?url=7-texture.html&id=i7"></iframe>
+<iframe id=i7 loading=lazy height=1200 src="https://xem.github.io/webgl-guide/visualizer/?url=7-texture.html&id=i7"></iframe>
 
-<p>Similarly, multiple textures can be used at once. For example, initialize two samplers, and multiply them in the fragment shader (<a href="//localhost/webgl_guide/book/ch05/MultiTexture.html">DEMO</a>)
+<p>Similarly, multiple textures can be used at once. For example, initialize two samplers, and multiply them in the fragment shader (<a href="https://xem.github.io/webgl-guide/book/ch05/MultiTexture.html">DEMO</a>)
 <pre class="language-js"><code>vec4 color0 = texture2D(sampler0, v_TexCoord);
 vec4 color1 = texture2D(sampler1, v_TexCoord);
 gl_FragColor = color0 * color1;</code></pre>
@@ -943,7 +943,7 @@ perspective = (mat, options) => {
 <li>Also, gl.drawArrays is replaced with <b>gl.drawElements</b>
 </ul>
 
-<iframe id=i8 loading=lazy height=1530 src="//localhost/webgl_guide/visualizer/?url=8-cube.html&id=i8"></iframe>
+<iframe id=i8 loading=lazy height=1530 src="https://xem.github.io/webgl-guide/visualizer/?url=8-cube.html&id=i8"></iframe>
 
 <br><br><hr><br>
 
@@ -955,7 +955,7 @@ perspective = (mat, options) => {
 <li>The indices have small integer values, so we represent them with a Uint8Array. For more than 256 values, use Uint16Array. For more than 65536 values, use Uint32Array
 </ul>
 
-<iframe id=i9 loading=lazy height=1330 src="//localhost/webgl_guide/visualizer/?url=9-cube faces.html&id=i9"></iframe>
+<iframe id=i9 loading=lazy height=1330 src="https://xem.github.io/webgl-guide/visualizer/?url=9-cube faces.html&id=i9"></iframe>
 
 <p>I've added the cube declaration in the cube() function of shapes.js to avoid repeating it in the next demos
 
@@ -976,21 +976,21 @@ perspective = (mat, options) => {
 <li>In HLSL, the composants of a vec4 can be accessed with .x/y/z/t (if it's a position) or .r/g/b/a (if it's a color). Composants can be composed too (ex: <b>vec3 rgb = col.rgb</b>).
 </ul>
 
-<iframe id=i10 loading=lazy height=1180 src="//localhost/webgl_guide/visualizer/?url=10-diffuse lighting.html&id=i10"></iframe>
+<iframe id=i10 loading=lazy height=1180 src="https://xem.github.io/webgl-guide/visualizer/?url=10-diffuse lighting.html&id=i10"></iframe>
 
 <p>With diffuse lighting alone, some faces are too dark, like the rightmost one here. To fix that, we can add an <b>ambient light</b> (added equally to every vertex's color):
 <br>
 <br>
-<iframe id=i11 loading=lazy height=1280 src="//localhost/webgl_guide/visualizer/?url=11-diffuse ambient lighting.html&id=i11"></iframe>
+<iframe id=i11 loading=lazy height=1280 src="https://xem.github.io/webgl-guide/visualizer/?url=11-diffuse ambient lighting.html&id=i11"></iframe>
 
 <p>With these two techniques, the color is computed per-face, which doesn't look super natural (each face has a flat color).
 <p>This can be improved using a <b>point light</b>, that has a specific position and color. The shading will vary with the distance between each point of the cube and the point light
-<p>It can be computed per-vertex, which looks better but still doesn't look perfect due to imprecise linear color interpolation (see the book's demos: <a href="//localhost/webgl_guide/book/ch08/PointLightedCube.html">cube</a> / <a href="//localhost/webgl_guide/book/ch08/PointLightedSphere.html">sphere</a>)...
+<p>It can be computed per-vertex, which looks better but still doesn't look perfect due to imprecise linear color interpolation (see the book's demos: <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedCube.html">cube</a> / <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedSphere.html">sphere</a>)...
 <p><img src="images/webgl-guide/per_vertex.png">
 <p>... so the best solution is to compute point light shading for every fragment of the cube (i.e. every pixel), and that's exactly what the fragment shader is here for:
 <br><br>
 
-<iframe id=i12 loading=lazy height=1460 src="//localhost/webgl_guide/visualizer/?url=12-point light per fragment.html&id=i12"></iframe>
+<iframe id=i12 loading=lazy height=1460 src="https://xem.github.io/webgl-guide/visualizer/?url=12-point light per fragment.html&id=i12"></iframe>
 
 <p>You can also see a sphere shaded per-fragment in <a href="http://xem.github.io/webgl-guide/book/ch08/PointLightedSphere_perFragment.html">this example from the book</a>.
 
@@ -1058,7 +1058,7 @@ inverse = m => {
 <br>
 <br>
 
-<iframe id=i13 loading=lazy height=1850 src="//localhost/webgl_guide/visualizer/?url=13-inverse transpose.html&id=i13"></iframe>
+<iframe id=i13 loading=lazy height=1850 src="https://xem.github.io/webgl-guide/visualizer/?url=13-inverse transpose.html&id=i13"></iframe>
 
 <p>Note: if the model matrix is only a rotation or an uniform scaling, the inverse transpose matrix will be equal to the model matrix. But in any other transformation or combination of transformations, it will have a specific value that will let the shader compute the new normals with a simple multiplication (more info <a href="https://stackoverflow.com/questions/13654401/why-transforming-normals-with-the-transpose-of-the-inverse-of-the-modelview-matr">here</a>)
 
@@ -1075,7 +1075,7 @@ inverse = m => {
 
 <br><p>Here's a demo with 3 red cuboids (deformed cubes)
 <br><br>
-<iframe id=i14 loading=lazy height=2400 src="//localhost/webgl_guide/visualizer/?url=14-many cubes.html&id=i14"></iframe>
+<iframe id=i14 loading=lazy height=2400 src="https://xem.github.io/webgl-guide/visualizer/?url=14-many cubes.html&id=i14"></iframe>
 
 <p>To avoid repetitions, I added a drawShape function in shapes.js:
 
