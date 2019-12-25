@@ -59,7 +59,7 @@ pre { margin: 3px; font-size: 12px; }
 <p>Here's the simplest possible WebGL program, drawing a red point in the middle of the canvas.
 <br>
 <br>
-<iframe id=i1 height=770 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?url=1-hello%20point.html&id=i1"></iframe>
+<iframe id=i1 height=820 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?url=1-hello%20point.html&id=i1"></iframe>
 
 <p>The program compilation is always the same, so I've put it in a compile() function that will be used in the next chapters (see webgl.js):
 
@@ -145,13 +145,13 @@ gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 <p>Here's the same demo as before, but the position, size and color of the point are now set by the JS code.
 <br>
 <br>
-<iframe id=i2 loading=lazy height=650 src="https://xem.github.io/webgl-guide/visualizer/?url=2-point%20defined%20with%20js.html&id=i2"></iframe>
+<iframe id=i2 loading=lazy height=700 src="https://xem.github.io/webgl-guide/visualizer/?url=2-point%20defined%20with%20js.html&id=i2"></iframe>
 
 <p>The next demo shows how to add a new point with a different color every time the canvas is clicked.
 <br>After each click, the only things to do are: reset canvas, set the attributes/uniforms, and call drawArrays.
 <br>
 <br>
-<iframe id=i3 loading=lazy height=980 src="https://xem.github.io/webgl-guide/visualizer/?url=3-points added on click.html&id=i3"></iframe>
+<iframe id=i3 loading=lazy height=1050 src="https://xem.github.io/webgl-guide/visualizer/?url=3-points added on click.html&id=i3"></iframe>
 
 <br><br><hr><br>
 
@@ -208,7 +208,7 @@ gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 <p>Here's the simplest way to draw a triangle. You can edit the mode on line 53 to render points or lines instead of a triangle (ex: gl.POINTS / gl.LINE_LOOP)
 <br>
 <br>
-<iframe id=i4 loading=lazy height=800 src="https://xem.github.io/webgl-guide/visualizer/?url=4-hello triangle.html&id=i4"></iframe>
+<iframe id=i4 loading=lazy height=850 src="https://xem.github.io/webgl-guide/visualizer/?url=4-hello triangle.html&id=i4"></iframe>
 
 <p>The "basic" array buffer setup is always the same, so I included it in webgl.js:
 <pre style="font-size:11px"><code class="lang-js">// Bind an array buffer to an attribute and enable it
@@ -737,7 +737,7 @@ arraybuffer = (gl, data, program, attribute, size, type) => {
 <li>Matrices and vectors can be multiplied together natively in GLSL. In JS, each term must be computed separately
 <br>
 <br>
-<iframe id=i5 loading=lazy height=1150 src="https://xem.github.io/webgl-guide/visualizer/?url=5-transformed triangle.html&id=i5"></iframe>
+<iframe id=i5 loading=lazy height=1220 src="https://xem.github.io/webgl-guide/visualizer/?url=5-transformed triangle.html&id=i5"></iframe>
 
 <p>Note: in this example, the transformation matrix (translation x rotation x scale) is computed in the fragment shader.
 <br>This is easy to code, but it's not efficient in real conditions, as the computation is performed for every fragment of the program.
@@ -832,7 +832,7 @@ transform = (mat, options) => {
 <li>A varying is a global variable writable by the vertex shader and readable by the fragment shader
 <li>Every fragment (pixel) inside the triangle, if it's bound to a varying color variable, will be interpolated from the color of each vertex around it
 </ul>
-<iframe id=i6 loading=lazy height=920 src="https://xem.github.io/webgl-guide/visualizer/?url=6-multi attribute and varying.html&id=i6"></iframe>
+<iframe id=i6 loading=lazy height=970 src="https://xem.github.io/webgl-guide/visualizer/?url=6-multi attribute and varying.html&id=i6"></iframe>
 
 <br><br><hr><br>
 
@@ -849,7 +849,7 @@ transform = (mat, options) => {
 
 <p>Here's an example of textured quad (a square made of two triangles). Play with the numbers to change the way the vertices and texture are mapped:
 <p>
-<iframe id=i7 loading=lazy height=1200 src="https://xem.github.io/webgl-guide/visualizer/?url=7-texture.html&id=i7"></iframe>
+<iframe id=i7 loading=lazy height=1250 src="https://xem.github.io/webgl-guide/visualizer/?url=7-texture.html&id=i7"></iframe>
 
 <p>Similarly, multiple textures can be used at once. For example, initialize two samplers, and multiply them in the fragment shader (<a href="https://xem.github.io/webgl-guide/book/ch05/MultiTexture.html">DEMO</a>)
 <pre class="language-js"><code>vec4 color0 = texture2D(sampler0, v_TexCoord);
@@ -943,7 +943,7 @@ perspective = (mat, options) => {
 <li>Also, gl.drawArrays is replaced with <b>gl.drawElements</b>
 </ul>
 
-<iframe id=i8 loading=lazy height=1530 src="https://xem.github.io/webgl-guide/visualizer/?url=8-cube.html&id=i8"></iframe>
+<iframe id=i8 loading=lazy height=1620 src="https://xem.github.io/webgl-guide/visualizer/?url=8-cube.html&id=i8"></iframe>
 
 <br><br><hr><br>
 
@@ -955,7 +955,7 @@ perspective = (mat, options) => {
 <li>The indices have small integer values, so we represent them with a Uint8Array. For more than 256 values, use Uint16Array. For more than 65536 values, use Uint32Array
 </ul>
 
-<iframe id=i9 loading=lazy height=1330 src="https://xem.github.io/webgl-guide/visualizer/?url=9-cube faces.html&id=i9"></iframe>
+<iframe id=i9 loading=lazy height=1400 src="https://xem.github.io/webgl-guide/visualizer/?url=9-cube faces.html&id=i9"></iframe>
 
 <p>I've added the cube declaration in the cube() function of shapes.js to avoid repeating it in the next demos
 
@@ -976,12 +976,12 @@ perspective = (mat, options) => {
 <li>In HLSL, the composants of a vec4 can be accessed with .x/y/z/t (if it's a position) or .r/g/b/a (if it's a color). Composants can be composed too (ex: <b>vec3 rgb = col.rgb</b>).
 </ul>
 
-<iframe id=i10 loading=lazy height=1180 src="https://xem.github.io/webgl-guide/visualizer/?url=10-diffuse lighting.html&id=i10"></iframe>
+<iframe id=i10 loading=lazy height=1230 src="https://xem.github.io/webgl-guide/visualizer/?url=10-diffuse lighting.html&id=i10"></iframe>
 
 <p>With diffuse lighting alone, some faces are too dark, like the rightmost one here. To fix that, we can add an <b>ambient light</b> (added equally to every vertex's color):
 <br>
 <br>
-<iframe id=i11 loading=lazy height=1280 src="https://xem.github.io/webgl-guide/visualizer/?url=11-diffuse ambient lighting.html&id=i11"></iframe>
+<iframe id=i11 loading=lazy height=1330 src="https://xem.github.io/webgl-guide/visualizer/?url=11-diffuse ambient lighting.html&id=i11"></iframe>
 
 <p>With these two techniques, the color is computed per-face, which doesn't look super natural (each face has a flat color).
 <p>This can be improved using a <b>point light</b>, that has a specific position and color. The shading will vary with the distance between each point of the cube and the point light
@@ -990,7 +990,7 @@ perspective = (mat, options) => {
 <p>... so the best solution is to compute point light shading for every fragment of the cube (i.e. every pixel), and that's exactly what the fragment shader is here for:
 <br><br>
 
-<iframe id=i12 loading=lazy height=1460 src="https://xem.github.io/webgl-guide/visualizer/?url=12-point light per fragment.html&id=i12"></iframe>
+<iframe id=i12 loading=lazy height=1530 src="https://xem.github.io/webgl-guide/visualizer/?url=12-point light per fragment.html&id=i12"></iframe>
 
 <p>You can also see a sphere shaded per-fragment in <a href="http://xem.github.io/webgl-guide/book/ch08/PointLightedSphere_perFragment.html">this example from the book</a>.
 
@@ -1058,7 +1058,7 @@ inverse = m => {
 <br>
 <br>
 
-<iframe id=i13 loading=lazy height=1850 src="https://xem.github.io/webgl-guide/visualizer/?url=13-inverse transpose.html&id=i13"></iframe>
+<iframe id=i13 loading=lazy height=1950 src="https://xem.github.io/webgl-guide/visualizer/?url=13-inverse transpose.html&id=i13"></iframe>
 
 <p>Note: if the model matrix is only a rotation or an uniform scaling, the inverse transpose matrix will be equal to the model matrix. But in any other transformation or combination of transformations, it will have a specific value that will let the shader compute the new normals with a simple multiplication (more info <a href="https://stackoverflow.com/questions/13654401/why-transforming-normals-with-the-transpose-of-the-inverse-of-the-modelview-matr">here</a>)
 
@@ -1075,7 +1075,7 @@ inverse = m => {
 
 <br><p>Here's a demo with 3 red cuboids (deformed cubes)
 <br><br>
-<iframe id=i14 loading=lazy height=2400 src="https://xem.github.io/webgl-guide/visualizer/?url=14-many cubes.html&id=i14"></iframe>
+<iframe id=i14 loading=lazy height=2490 src="https://xem.github.io/webgl-guide/visualizer/?url=14-many cubes.html&id=i14"></iframe>
 
 <p>To avoid repetitions, I added a drawShape function in shapes.js:
 
