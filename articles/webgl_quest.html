@@ -27,11 +27,11 @@
   <br>
   <h3>Introduction</h3>
   <p>This page presents the world's smallest WebGL shader playground and all the golfing steps that led us to it!
-  <p>It is currently as short as <b>251 bytes</b>, and looks like this:
+  <p>It is currently as short as <b>242 bytes</b>, and looks like this:
   <pre style=padding:5px><code class="lang-html">&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`void
-main(){lowp float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,A`[YOUR SHADER HERE]`),ug(p),!dP(p))")'></code></pre>
+main(){lowp float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position.w=gl_PointSize=3e2`,A`[YOUR SHADER HERE]`),ug(p),!dP(p))")'></code></pre>
   <p>
-  <canvas id=c><svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`void main(){lowp float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(gl_PointSize=6e2)`,A`lowp vec4 p=vec4(gl_FragCoord.xy/vec2(150,75)-1.,0,1);gl_FragColor=p+sin(atan(p.y,p.x)*9.)*sin(p*t/70.+9./dot(p,p)+t/70.)`),ug(p),!dP(p))")'>
+  <canvas id=c><svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`void main(){lowp float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position.w=gl_PointSize=3e2`,A`lowp vec4 p=vec4(gl_FragCoord.xy/vec2(150,75)-1.,0,1);gl_FragColor=p+sin(atan(p.y,p.x)*9.)*sin(p*t/70.+9./dot(p,p)+t/70.)`),ug(p),!dP(p))")'>
   </canvas>
   <p>(<a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD1jPjxzdmcgb25sb2FkPSdmb3IoaSBpbiBnPWMuZ2V0Q29udGV4dGB3ZWJnbGApZ1tpWzBdK2lbNl1dPWdbaV07c2V0SW50ZXJ2YWwoIndpdGgoZylkcihsbyhwPWNQKEE9cz0+c1MoUz1jUyhGTl49MSksYHZvaWQgbWFpbigpe2xvd3AgZmxvYXQgdD0ke05PKyt9Ljske3N9O31gKXxjZShTKXxhUyhwLFMpKSxBYGdsX1Bvc2l0aW9uPXZlYzQoMCwwLDAsZ2xfUG9pbnRTaXplPTNlMilgLEFgbG93cCB2ZWM0IHA9dmVjNChnbF9GcmFnQ29vcmQueHkvdmVjMigxNTAsNzUpLTEuLDAsMSk7Z2xfRnJhZ0NvbG9yPXArc2luKGF0YW4ocC55LHAueCkqOS4pKnNpbihwKnQvNzAuKzkuL2RvdChwLHApK3QvNzAuKWApLHVnKHApLCFkUChwKSkiKSc+">DEMO</a> / <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iYyIgd2lkdGg9MzAwIGhlaWdodD0zMDA+PC9jYW52YXM+CjxzY3JpcHQ+CnZhciBnbCA9IGMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpewogIGdsX1Bvc2l0aW9uPXZlYzQoMCwwLDAsMSk7Z2xfUG9pbnRTaXplPTMwMC4wOwp9YDsKdmFyIGZzaGFkZXIgPSBgCnByZWNpc2lvbiBsb3dwIGZsb2F0O3VuaWZvcm0gZmxvYXQgdDsKdm9pZCBtYWluKCl7CiB2ZWM0IHA9dmVjNChnbF9GcmFnQ29vcmQueHkvMTUwLi0xLiwwLiwxKTsKIGdsX0ZyYWdDb2xvcj1wK3NpbihhdGFuKHAueSxwLngpKjkuKSpzaW4ocCp0LzQwLjArOS4vZG90KHAscCkrdC80MC4pOyAvLyA8PSB5b3VyIHNoYWRlciBoZXJlCn1gOwp2YXIgdnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuVkVSVEVYX1NIQURFUik7CmdsLnNoYWRlclNvdXJjZSh2cywgdnNoYWRlcik7CmdsLmNvbXBpbGVTaGFkZXIodnMpOwp2YXIgZnMgPSBnbC5jcmVhdGVTaGFkZXIoZ2wuRlJBR01FTlRfU0hBREVSKTsKZ2wuc2hhZGVyU291cmNlKGZzLCBmc2hhZGVyKTsKZ2wuY29tcGlsZVNoYWRlcihmcyk7CnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKdmFyIGZyYW1lID0gMDsKc2V0SW50ZXJ2YWwoKCkgPT4gewogIGdsLnVuaWZvcm0xZihnbC5nZXRVbmlmb3JtTG9jYXRpb24ocHJvZ3JhbSwgInQiKSwgZnJhbWUrKyk7CiAgZ2wuZHJhd0FycmF5cyhnbC5QT0lOVFMsMCwxKTsKfSwxNikKPC9zY3JpcHQ+">UNGOLFED VERSION</a>)
   
@@ -58,8 +58,7 @@ main(){lowp float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(0,0,0,gl
   <br>(150 and 75 are half the canvas's width and height. If you resize the canvas, you'll have to change them)
   <li>If you resize your canvas, you'll also need to change the size of the point where everything is rendered (for example: <b style=background:#def>gl_PointSize=6e2</b>)
   <li>If your code contains more than 4 floats or vec2/3/4 vars (like p and t), it's shorter to remove "lowp" before each var and write <b style=background:#def>precision lowp float;</b> before "void main()"
-  <li>On some devices/browsers, you can save 18 more bytes by removing <b style=background:#def>gl_Position=vec4(</b> ... <b style=background:#def>)</b>. But we don't recommend it, as most people will just see a blank screen
-  <li>Similarly, you can save 6 bytes by removing <b style=background:#def>0,0,0,</b> in the gl_Position vec4. But we don't recommend it, as some browsers/devices will only render one half of the canvas
+  <li>On some devices/browsers, you can save 14 more bytes by removing <b style=background:#def>gl_Position.w=</b>. But we don't recommend it, as most people will just see a blank screen
   </ul>
   
   <br><hr><br>
@@ -138,8 +137,11 @@ setInterval(() => {             // Repeat the following code 60 times per second
           }
         ),
     
-        A(`                     // Call A() a first time to set up the vertex shader (it sets the point's size: 600, and position: x = y = z = 0)
-          gl_Position = vec4(0,0,0,gl_PointSize = 6e2)
+        A(`                     // Call A() a first time to set up the vertex shader
+							    // the point's size is set to 300px (the size of the canvas)
+								// At the same time, the 4th value of the point's position is set to 300
+								// This 300 is not important, but it forces the three values x, y and z to default to 0, so the point is centered
+          gl_Position.w = gl_PointSize = 3e2
         `),
 
         A(`[SHADER]`),          // Call A() a second time to set up the fragment shader (your code goes here)    
@@ -273,7 +275,10 @@ setInterval(() => {             // Repeat the following code 60 times per second
 &lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`precision lowp float;void main(){float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,A`[SHADER]`),ug(p),!dP(p))")'>
 
 <b>// Step 30: Remove "precision lowp float", and write "lowp" before each float/vec2/vec3/vec4 instead</b>
-&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`void main(){lowp float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,A`[SHADER]`),ug(p),!dP(p))")'>  
+&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`void main(){lowp float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position=vec4(0,0,0,gl_PointSize=3e2)`,A`[SHADER]`),ug(p),!dP(p))")'>
+
+<b>// Step 31: Only set gl_Position.w to 300, which makes the values x, y and z default to 0</b>
+&lt;canvas id=c>&lt;svg onload='for(i in g=c.getContext`webgl`)g[i[0]+i[6]]=g[i];setInterval("with(g)dr(lo(p=cP(A=s=>sS(S=cS(FN^=1),`void main(){lowp float t=${NO++}.;${s};}`)|ce(S)|aS(p,S)),A`gl_Position.w=gl_PointSize=3e2`,A`[SHADER]`),ug(p),!dP(p))")'>
 </code></pre></div>
 
 <br>
