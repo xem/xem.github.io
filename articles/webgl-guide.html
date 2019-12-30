@@ -753,7 +753,7 @@ identity = () => {
     0, 0, 1, 0,
     0, 0, 0, 1
   ]);
-}
+};
 
 // Compute the multiplication of two mat4
 multMat4Mat4 = (a, b) => {
@@ -775,6 +775,9 @@ multMat4Mat4 = (a, b) => {
 // Transform a mat4
 // options: x/y/z (translate), rx/ry/rz (rotate), sx/sy/sz (scale)
 transform = (mat, options) => {
+  
+  var out = new Float32Array(mat);
+  
   var x = options.x || 0;
   var y = options.y || 0;
   var z = options.z || 0;
@@ -789,36 +792,38 @@ transform = (mat, options) => {
   
   // translate
   if(x || y || z){
-    mat[12] += mat[0] * x + mat[4] * y + mat[8]  * z;
-    mat[13] += mat[1] * x + mat[5] * y + mat[9]  * z;
-    mat[14] += mat[2] * x + mat[6] * y + mat[10] * z;
-    mat[15] += mat[3] * x + mat[7] * y + mat[11] * z;
+    out[12] += out[0] * x + out[4] * y + out[8]  * z;
+    out[13] += out[1] * x + out[5] * y + out[9]  * z;
+    out[14] += out[2] * x + out[6] * y + out[10] * z;
+    out[15] += out[3] * x + out[7] * y + out[11] * z;
   }
   
   // Rotate
-  if(rx) mat.set(multMat4Mat4(mat, new Float32Array([1, 0, 0, 0, 0, Math.cos(rx), Math.sin(rx), 0, 0, -Math.sin(rx), Math.cos(rx), 0, 0, 0, 0, 1])));
-  if(ry) mat.set(multMat4Mat4(mat, new Float32Array([Math.cos(ry), 0, -Math.sin(ry), 0, 0, 1, 0, 0, Math.sin(ry), 0, Math.cos(ry), 0, 0, 0, 0, 1])));
-  if(rz) mat.set(multMat4Mat4(mat, new Float32Array([Math.cos(rz), Math.sin(rz), 0, 0, -Math.sin(rz), Math.cos(rz), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])));
+  if(rx) out.set(multMat4Mat4(out, new Float32Array([1, 0, 0, 0, 0, Math.cos(rx), Math.sin(rx), 0, 0, -Math.sin(rx), Math.cos(rx), 0, 0, 0, 0, 1])));
+  if(ry) out.set(multMat4Mat4(out, new Float32Array([Math.cos(ry), 0, -Math.sin(ry), 0, 0, 1, 0, 0, Math.sin(ry), 0, Math.cos(ry), 0, 0, 0, 0, 1])));
+  if(rz) out.set(multMat4Mat4(out, new Float32Array([Math.cos(rz), Math.sin(rz), 0, 0, -Math.sin(rz), Math.cos(rz), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])));
   
   // Scale
   if(sx !== 1){
-    mat[0] *= sx;  
-    mat[1] *= sx;
-    mat[2] *= sx;
-    mat[3] *= sx;
+    out[0] *= sx;  
+    out[1] *= sx;
+    out[2] *= sx;
+    out[3] *= sx;
   }
   if(sy !== 1){
-    mat[4] *= sy;
-    mat[5] *= sy;
-    mat[6] *= sy;
-    mat[7] *= sy;
+    out[4] *= sy;
+    out[5] *= sy;
+    out[6] *= sy;
+    out[7] *= sy;
   }
   if(sz !== 1){
-    mat[8] *= sz;
-    mat[9] *= sz;
-    mat[10] *= sz;
-    mat[11] *= sz;
+    out[8] *= sz;
+    out[9] *= sz;
+    out[10] *= sz;
+    out[11] *= sz;
   }
+  
+  return out;
 };</code>
 </pre>
 
@@ -1019,7 +1024,7 @@ transpose = m => {
     m[2], m[6], m[10], m[14],
     m[3], m[7], m[11], m[15]
   ]);
-}
+};
 
 // Get the inverse of a mat4
 // The mat4 is not modified, a new mat4 is returned
@@ -1049,7 +1054,7 @@ inverse = m => {
     inv[i] *= det;
   }
   return inv;
-}</code></pre>
+};</code></pre>
 
 <li>We also pass a "mvp" (model view projection) matrix to the vertex shader, which is the multiplication of the camera matrix and the model matrix
 </ul>
@@ -1080,8 +1085,11 @@ inverse = m => {
 <p>To avoid repetitions, I added a drawShape function in shapes.js:
 
 <pre><code class="lang-js">// Draw the current shape
-drawShape = (gl, program, cameraMatrix, modelMatrix) => {
+drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => {
+  
+  // Set the model matrix (add the custom scale if any)
   var model = gl.getUniformLocation(program, 'model');
+  modelMatrix = transform(modelMatrix, {sx, sy, sz});
   gl.uniformMatrix4fv(model, false, modelMatrix);
 
   // Set the cube's mvp matrix (camera x model)
@@ -1096,20 +1104,26 @@ drawShape = (gl, program, cameraMatrix, modelMatrix) => {
 
   // Render
   gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
-}</code></pre>
+};</code></pre>
 
 <br><br><hr><br>
 
-<h4>Hierarchical objects</h4>
+<h1>To be continued</h1>
+
+<!--h4>Hierarchical objects (wip)</h4>
 <i>(from chapter 9 of the book)</i>
 
 <ul>
 <li>A hierarchical object is a model made of several basic objects (called segments), like a robotic arm made of many cuboids
 <li>Joints represent how the segments are linked and rotate relatively to each other, like an elbow and a forearm
-<li>These transformations are done by combining model and rotation matrices
+<li>These transformations are done by chaining model matrices from segment to segment
 </ul>
 
-<p>This simple demo represents a robotic arm made of two cuboids:
+<p>This simple demo represents a robotic arm made of three cuboids (click the buttons to make the "arm" and the "hands" parts move):
+
+<br><br>
+
+<iframe id=i15 loading=lazy height=2490 src="https://xem.github.io/webgl-guide/visualizer/?url=15-hierarchical%20object.html&id=i15"></iframe-->
 
 
 
