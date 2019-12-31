@@ -1082,7 +1082,7 @@ inverse = m => {
 <br><br>
 <iframe id=i14 loading=lazy height=2490 src="https://xem.github.io/webgl-guide/visualizer/?url=14-many cubes.html&id=i14"></iframe>
 
-<p>To avoid repetitions, I added a drawShape function in shapes.js:
+<p>To avoid repetitions, I added a drawShape function in shapes.js, with optional scaling along X/Y/Z:
 
 <pre><code class="lang-js">// Draw the current shape
 drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => {
@@ -1108,24 +1108,30 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => 
 
 <br><br><hr><br>
 
-<h1>To be continued</h1>
 
-<!--h4>Hierarchical objects (wip)</h4>
+<h4>Hierarchical objects</h4>
 <i>(from chapter 9 of the book)</i>
 
 <ul>
-<li>A hierarchical object is a model made of several basic objects (called segments), like a robotic arm made of many cuboids
-<li>Joints represent how the segments are linked and rotate relatively to each other, like an elbow and a forearm
-<li>These transformations are done by chaining model matrices from segment to segment
+<li>A hierarchical object is a model made of several basic objects (called "segments"), like a robotic arm made of many cuboids
+<li>Joints are where the segments are linked and rotate relatively to each other, like an elbow
+<li>To keep the segments linked to each other, the matrix transformation is inherited from segment to segment
+<li>The following demo shows an robotic arm made of three cuboids (click the buttons to make it move)
+<li>You can see from line 142 that the vertical "arm" cuboid can rotate around X, and once it's rotated, we perform a negative translation along Y.<br>The result is that the cuboid doesn't rotate around its center, but around a point that is placed 2 units higher: where the arm is attached to the shoulder
+<li>Then from line 148, the hand cuboid, which is attached at the end of the arm cuboid, inherits its model matrix, and extends it to add its own rotation and translation.
+<br>(The hand rotates along the Y axis, around its own center, but it also has a Y translation, not to change its rotation center but to place it at the end of the arm)
+<li>This process can be repeated many times to make a multi-joint object, like an entire robot or a rope!
+<li>If many segments are attached to the same parent (for example, the fingers of a hand), they must all reuse the hand's matrix.
+<br>This is done in the book's example called <a href="https://xem.github.io/webgl-guide/book/ch09/MultiJointModel.html">MultiJointModel</a>
 </ul>
 
-<p>This simple demo represents a robotic arm made of three cuboids (click the buttons to make the "arm" and the "hands" parts move):
+<br>
+
+<iframe id=i15 loading=lazy height=2350 src="https://xem.github.io/webgl-guide/visualizer/?url=15-hierarchical%20object.html&id=i15"></iframe>
 
 <br><br>
 
-<iframe id=i15 loading=lazy height=2490 src="https://xem.github.io/webgl-guide/visualizer/?url=15-hierarchical%20object.html&id=i15"></iframe-->
-
-
+<h1>To be continued</h1>
 
 
 </div>
