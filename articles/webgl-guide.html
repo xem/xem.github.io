@@ -17,13 +17,24 @@
 <main>
 
 <style>
-table { border-spacing: 0; border-collapse: collapse }
+table { border-spacing: 0; border-collapse: collapse; width: 100% }
 th, td { padding: 5px; width: 200px }
 th { background: #eee }
 h4 { margin-bottom: 0; }
+h1 { font-size: 30px }
+h2 { font-size: 26px }
+h3 { font-size: 22px }
+h4 { font-size: 18px }
+h5 { font-size: 14px }
 ul { padding-left: 15px }
 pre { margin: 3px; font-size: 12px; }
 .math { margin: 15px 0 }
+iframe { max-height: 90vh }
+.ch10 { border: 1px solid #000 }
+.ch10 * { border: none }
+.ch10 td { max-width: 430px; width: auto; vertical-align: top }
+.ch10 td + td { max-width: 450px; }
+
 </style>
 
 <div class=section id=webgl_guide>
@@ -121,7 +132,13 @@ compile = (gl, vshader, fshader) => {
 gl.vertexAttrib4fv(gl.getAttribLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 
 <tr>
-<td rowspan=3>uniform
+<td rowspan=4>uniform
+
+<td>int
+<td><pre>uniform int i;</pre>
+<td><pre>gl.uniform1i(gl.getUniformLocation(program, 'f'), 1);</pre>
+
+<tr>
 <td>float
 <td><pre>uniform float f;</pre>
 <td><pre>gl.uniform1f(gl.getUniformLocation(program, 'f'), 1.0);</pre>
@@ -1129,7 +1146,145 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => 
 
 <iframe id=i15 loading=lazy height=2350 src="https://xem.github.io/webgl-guide/visualizer/?url=15-hierarchical%20object.html&id=i15"></iframe>
 
+<br><br><hr><br>
+
+<h4>Advanced techniques</h4>
+<i>(from chapter 10 of the book)</i>
+
+<p>This section will only show the relevant code snippets for each technique
+
+<h5>Rotate a cube with the mouse</h5>
+<ul>
+<li>Detect when the mouse is clicked
+<li>Detect in which direction the mouse moves when clicked
+<li>Update the cube's Y angle when the mouse moves horizontally
+<li>Update the cube's X angle when the mouse moves vertically
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+
+<pre><code class="lang-js">var dragging = false;
+var lastX = -1;
+var lastY = -1;
+var dx = 0;
+var dy = 0;
+
+canvas.onmousedown = e => {
+  lastX = e.clientX
+  lastY = e.clientY;
+  dragging = true;
+};
+
+canvas.onmouseup = e => {
+  dragging = false;
+};
+
+canvas.onmousemove = (e) {
+  var x = e.clientX;
+  var y = e.clientY;
+  if(dragging){
+    dx = (x - lastX) * 100 / canvas.width;
+    dy = (y - lastY) * 100 / canvas.height;
+  }
+  lastX = x;
+  lastY = y;
+};</code></pre>
+
+<td>
+
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/RotateObject.html"></iframe>
+
+<br>Move the cube with the mouse
+
+</table>
+
 <br><br>
+
+<h5>Select a 3D item with the mouse</h5>
+
+<p>The simple (and hacky) way:
+<ul>
+<li>When the canvas is clicked, color each object in the scene with a different flat color (for example, a different shade of red)
+<li>Then read the pixel color where the mouse is clicked and find the corresponding object
+<li>Then, immediately repaint every object with their correct color / texture / lighting so that the hack doesn't have time to appear on screen
+<li>This technique can be used for an object (like a cube), or a face, or a single triangle, depending on your needs
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+
+var vshader = `
+// (...)
+uniform float objectNumber; // 1.0 - 255.0
+void main() {
+  gl_Position = mvp * pos;
+  
+  // (...)
+  
+  // On click, draw the shape with a flat color
+  if(objectNumber){
+    v_col = vec4(objectNumber, 0.0, 0.0, 1.0);
+  }
+  
+  // Else, draw normally
+  else {
+    v_col = col;
+  }
+}`;
+
+// (...)
+
+canvas.onclick = e => {
+  var x = e.clientX - canvas.offsetLeft;
+  var y = e.clientY - canvas.offsetTop;
+  var picked = false;
+  
+  // Draw each object with a different shade of red
+  for(var i in myObjects){
+    gl.uniform1f(objectNumber, i);
+    draw(...);
+  }
+  
+  // Read pixel at the clicked position
+  var pixel = new Uint8Array(4);
+  gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+
+  // Do something with the red value of the pixel
+  console.log("object " + pixels[0] + " clicked");
+  
+  // Disable hack and rerender everything normally
+  gl.uniform1f(objectNumber, 0);
+  for(i in myObjects){
+    draw(...);
+  }
+}</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/PickObject.html"></iframe>
+<br>Click the cube
+
+<br><br>
+
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/PickFace.html"></iframe>
+<br>Click a face
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <h1>To be continued</h1>
 
