@@ -1273,8 +1273,97 @@ canvas.onclick = e => {
 
 </table>
 
+<p>For more precision, you can compute the intersection between the camera's sight vector and the triangles in your scene (in other words, raycasting! More info <a href="http://www.3dkingdoms.com/selection.html#ray">here</a>)
 
 
+<h5>HUD</h5>
+
+<ul>
+<li>HUD, or head-up display, represents the info displayed over a 3D scene
+<li>Since it's not easy to display text with WebGL, a good idea is to use a 2D canvas overlay with a transparent background
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">&lt;!-- HTML -->
+&lt;canvas id="webgl" width="400" height="400" style="position: absolute; z-index: 0">&lt;/canvas>
+&lt;canvas id="hud" width="400" height="400" style="position: absolute; z-index: 1">&lt;/canvas>
+
+(...)
+
+// On load
+var ctx = hud.getContext('2d');
+
+// In the render loop
+ctx.beginPath();
+ctx.moveTo(...);
+ctx.lineTo(...);
+ctx.stroke();
+ctx.fillText(...);</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/HUD.html"></iframe>
+</table>
+
+
+
+
+
+<h5>a</h5>
+
+<p>a
+<ul>
+<li>a
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+a</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
+</table>
+
+
+
+
+
+<h5>a</h5>
+
+<p>a
+<ul>
+<li>a
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+a</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
+</table>
+
+
+
+
+
+<h5>a</h5>
+
+<p>a
+<ul>
+<li>a
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+a</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
+</table>
 
 
 
