@@ -1215,9 +1215,7 @@ canvas.onmousemove = (e) {
 <table class=ch10>
 <tr>
 <td>
-<pre><code class="lang-js">
-
-var vshader = `
+<pre><code class="lang-js">var vshader = `
 // (...)
 uniform float objectNumber; // 1.0 - 255.0
 void main() {
@@ -1306,23 +1304,144 @@ ctx.fillText(...);</code></pre>
 </table>
 
 
+<h5>Fog</h5>
 
-
-
-<h5>a</h5>
-
-<p>a
 <ul>
-<li>a
+<li>The fog will apply linearly between a near point (where the fog is transparent) and a far point (where the fog is opaque)
+<li>The vertex shader must know the position of the camera to compute a varying distance between the camera and each vertex
+<li>Using this varying distance, the fragment shader knows the distance between the camera and each fragment
+<br>
+<img src="images/webgl-guide/fog.png">
+<br>Fortunately, the native GLSL methods <b>distance()</b>, <b>clamp()</b> and <b>mix()</b> simplify the shader's implementation
+<li>The WebGL canvas context's clear color is equal to the fog's color
 </ul>
 
 <table class=ch10>
 <tr>
 <td>
-<pre><code class="lang-js">
-a</code></pre>
+<pre><code class="lang-js">var vshader = `
+// (...)
+uniform vec4 camera;
+varying float v_dist;
+void main() {
+
+  // (...)
+  
+  v_dist = distance(modelMatrix * pos, camera);
+}`;
+
+var fshader = `
+// (...)
+uniform vec3 fogColor;
+uniform vec2 fogDist; // near / far
+void main() {
+
+  // (...)
+  
+  // Compute fog factor
+  float fogFactor = clamp((fogDist.y - v_dist) / (fogDist.y - fogDist.x), 0.0, 1.0);
+  
+  // Include fog factor in the color
+  gl_FragColor = vec4(mix(fogColor, vec3(col), fogFactor), 1.0);
+}`;
+
+var fogColor = [0.137, 0.231, 0.423];
+gl.uniform3fv(gl.getUniformLocation(gl.program, 'fogColor'), fogColor);
+gl.uniform2fv(gl.getUniformLocation(gl.program, 'fogDist'), [55, 80]);
+gl.uniform4fv(gl.getUniformLocation(gl.program, 'u_Eye'), [25, 65, 35, 1.0]);
+
+(...)
+
+gl.clearColor(fogColor[0], fogColor[1], fogColor[2], 1.0);
+
+</code></pre>
 <td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
+<iframe width=430 height=500 style="max-width:420px;min-height:500px;" src="https://xem.github.io/webgl-guide/book/ch10/Fog.html"></iframe>
+</table>
+
+<p>To simplify, you can also use <b>v_dist = gl_Position.w;</b> in the vertex shader, as it is a nice approximation of the distance between camera and vertex. (see <a href="https://xem.github.io/webgl-guide/book/ch10/Fog_w.html">the book's "fog_w" demo</a>
+
+
+<h5>Rounded points</h5>
+
+<ul>
+<li>You can prevent a fragment from being drawn with the <b>discard</b> statement
+<li>If you discard the fragments of a point outside a given radius, it renders a circle
+<li>Whatever the value of gl_PointSize and gl_Position, for the fragment shader the point has a radius of 0.5 and coordinates <b>gl_PointCoord = vec2(0.5, 0.5)</b>   
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">var vshader = `
+attribute vec4 pos;
+void main() {
+  gl_Position = pos;
+  gl_PointSize = 30.0;
+}`;
+
+var fshader = `
+precision mediump float;
+void main() {
+  float d = distance(gl_PointCoord, vec2(0.5, 0.5));
+  if(d &lt; .5) {
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+  } else { discard; }
+}`;</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="//xem.github.io/webgl-guide/book/ch10/RoundedPoints.html"></iframe>
+</table>
+
+
+
+
+
+<h5>Alpha blending</h5>
+
+<ul>
+<li>You can add transparency to a triangle or a whole object very easily:
+<li>First, assign RGBA colors (vec4) to each vertex, 
+<li>Then, enable WegGL's alpha blending with <b>gl.enable(gl.BLEND);</b> and <b>gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);</b>
+<li>If you're drawing an object (like a cube) with transparency, you also need to disable <b>gl.DEPTH_TEST</b>, so that the front faces don't block the other faces from being drawn
+<li>If your scene contains a mix of opaque and transparent objects, you'll need to disable the depth test (<b>gl.disable(gl.DEPTH_TEST)</b>) before drawing each transparent object and re-enable it afterwards
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">// Cube faces colors
+var colors = new Float32Array([
+  0.5, 0.5, 1.0, 0.3,  0.5, 0.5, 1.0, 0.3,
+  0.5, 0.5, 1.0, 0.3,  0.5, 0.5, 1.0, 0.3, // v0-v1-v2-v3 front
+  0.5, 1.0, 0.5, 0.3,  0.5, 1.0, 0.5, 0.3,
+  0.5, 1.0, 0.5, 0.3,  0.5, 1.0, 0.5, 0.3, // v0-v3-v4-v5 right
+  1.0, 0.5, 0.5, 0.3,  1.0, 0.5, 0.5, 0.3,
+  1.0, 0.5, 0.5, 0.3,  1.0, 0.5, 0.5, 0.3, // v0-v5-v6-v1 up
+  1.0, 1.0, 0.5, 0.3,  1.0, 1.0, 0.5, 0.3,
+  1.0, 1.0, 0.5, 0.3,  1.0, 1.0, 0.5, 0.3, // v1-v6-v7-v2 left
+  1.0, 1.0, 1.0, 0.3,  1.0, 1.0, 1.0, 0.3,
+  1.0, 1.0, 1.0, 0.3,  1.0, 1.0, 1.0, 0.3, // v7-v4-v3-v2 down
+  0.5, 1.0, 1.0, 0.3,  0.5, 1.0, 1.0, 0.3,
+  0.5, 1.0, 1.0, 0.3,  0.5, 1.0, 1.0, 0.3  // v4-v7-v6-v5 back
+]);
+
+(...)
+
+// Pass 4 values (RGBA) to the color attribute instead of 3
+gl.vertexAttribPointer(color, 4, gl.FLOAT, false, 0, 0);
+
+(...)
+
+// Draw a transparent object
+gl.clearColor(0.0, 0.0, 0.0, 1.0);
+gl.disable(gl.DEPTH_TEST);
+gl.enable(gl.BLEND);
+gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+gl.enable(gl.DEPTH_TEST);</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/BlendedCube.html"></iframe>
 </table>
 
 
@@ -1349,6 +1468,7 @@ a</code></pre>
 
 
 
+
 <h5>a</h5>
 
 <p>a
@@ -1365,6 +1485,69 @@ a</code></pre>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
 </table>
 
+
+
+
+
+
+
+<h5>a</h5>
+
+<p>a
+<ul>
+<li>a
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+a</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
+</table>
+
+
+
+
+
+
+<h5>a</h5>
+
+<p>a
+<ul>
+<li>a
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+a</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
+</table>
+
+
+
+
+
+
+<h5>a</h5>
+
+<p>a
+<ul>
+<li>a
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+a</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
+</table>
 
 
 
