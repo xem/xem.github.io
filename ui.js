@@ -9,7 +9,8 @@ $$ = function(i){
 menus = {
   
   articles: {
-    "webgl-guide": "WebGL guide",
+    "webgl-guide": "WebGL guide part 1",
+    "webgl-guide-part-2": "WebGL guide part 2",
     obfuscatweet: "Obfusc-a-tweet reloaded",
     js13k19: "JS13kGames 2019",
     projection: "3D projection",

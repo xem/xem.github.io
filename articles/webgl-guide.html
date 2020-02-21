@@ -22,8 +22,8 @@ th, td { padding: 5px; width: 200px }
 th { background: #eee }
 h4 { margin-bottom: 0; }
 h1 { font-size: 30px }
-h2 { font-size: 26px }
-h3 { font-size: 22px }
+h2 { font-size: 24px }
+h3 { font-size: 20px }
 h4 { font-size: 18px }
 h5 { font-size: 14px }
 ul { padding-left: 15px }
@@ -39,7 +39,7 @@ iframe { max-height: 90vh }
 
 <div class=section id=webgl_guide>
 <h2>WebGL guide</h2>
-<h3>october 2019 - WIP</h3>
+<h3>october 2019 - february 2020</h3>
   
 <h4>Introduction</h4>
 
@@ -928,8 +928,8 @@ gl_FragColor = color0 * color1;</code></pre>
 </div>
 
 <li>Then, the camera can be translated, rotated and scaled (zoomed) by multiplying the corresponding matrices (see "Translate, rotate, scale" above)
-<li>A LookAt() function is often used by developers to set the camera's position, angle and target all at once. It's included in the book's file <a href="https://github.com/xem/webgl-guide/blob/gh-pages/book/lib/cuon-matrix.js">cuon-matrix.js</a>
-<li>I find the lookAt function too heavy though, so I only added the perspective function in matrix.js:
+<li>A LookAt() function is often used by developers to set the camera's position, angle and target all at once.
+<li>I added the perspective and lookAt functions in matrix.js:
 
 <pre><code class="lang-js">// Set perspective
 // options: fovy, aspect, near, far
@@ -947,6 +947,37 @@ perspective = (mat, options) => {
     0, 0, -(far + near) * rd, -1,
     0, 0, -2 * near * far * rd, 0
   ]);
+}
+
+
+// LookAt
+lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
+  var e, fx, fy, fz, rlf, sx, sy, sz, rls, ux, uy, uz;
+  fx = centerX - eyeX;
+  fy = centerY - eyeY;
+  fz = centerZ - eyeZ;
+  rlf = 1 / Math.sqrt(fx*fx + fy*fy + fz*fz);
+  fx *= rlf;
+  fy *= rlf;
+  fz *= rlf;
+  sx = fy * upZ - fz * upY;
+  sy = fz * upX - fx * upZ;
+  sz = fx * upY - fy * upX;
+  rls = 1 / Math.sqrt(sx*sx + sy*sy + sz*sz);
+  sx *= rls;
+  sy *= rls;
+  sz *= rls;
+  ux = sy * fz - sz * fy;
+  uy = sz * fx - sx * fz;
+  uz = sx * fy - sy * fx;
+  var l = new Float32Array(
+    sx, ux, -fx, 0,
+    sy, uy, -fy, 0,
+    sz, uz, -fz, 0,
+    0,  0,  0,   1
+  );
+  l = transform(l, {x: -eyeX, y: -eyeY, z: -eyeZ});
+  return multMat4Mat4(mat, l); 
 }</code>
 </pre>
 
@@ -1148,419 +1179,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => 
 
 <br><br><hr><br>
 
-<h4>Advanced techniques</h4>
-<i>(from chapter 10 of the book)</i>
-
-<p>This section will only show the relevant code snippets for each technique
-
-<h5>Rotate a cube with the mouse</h5>
-<ul>
-<li>Detect when the mouse is clicked
-<li>Detect in which direction the mouse moves when clicked
-<li>Update the cube's Y angle when the mouse moves horizontally
-<li>Update the cube's X angle when the mouse moves vertically
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-
-<pre><code class="lang-js">var dragging = false;
-var lastX = -1;
-var lastY = -1;
-var dx = 0;
-var dy = 0;
-
-canvas.onmousedown = e => {
-  lastX = e.clientX
-  lastY = e.clientY;
-  dragging = true;
-};
-
-canvas.onmouseup = e => {
-  dragging = false;
-};
-
-canvas.onmousemove = (e) {
-  var x = e.clientX;
-  var y = e.clientY;
-  if(dragging){
-    dx = (x - lastX) * 100 / canvas.width;
-    dy = (y - lastY) * 100 / canvas.height;
-  }
-  lastX = x;
-  lastY = y;
-};</code></pre>
-
-<td>
-
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/RotateObject.html"></iframe>
-
-<br>Move the cube with the mouse
-
-</table>
-
-<br><br>
-
-<h5>Select a 3D item with the mouse</h5>
-
-<p>The simple (and hacky) way:
-<ul>
-<li>When the canvas is clicked, color each object in the scene with a different flat color (for example, a different shade of red)
-<li>Then read the pixel color where the mouse is clicked and find the corresponding object
-<li>Then, immediately repaint every object with their correct color / texture / lighting so that the hack doesn't have time to appear on screen
-<li>This technique can be used for an object (like a cube), or a face, or a single triangle, depending on your needs
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">var vshader = `
-// (...)
-uniform float objectNumber; // 1.0 - 255.0
-void main() {
-  gl_Position = mvp * pos;
-  
-  // (...)
-  
-  // On click, draw the shape with a flat color
-  if(objectNumber){
-    v_col = vec4(objectNumber, 0.0, 0.0, 1.0);
-  }
-  
-  // Else, draw normally
-  else {
-    v_col = col;
-  }
-}`;
-
-// (...)
-
-canvas.onclick = e => {
-  var x = e.clientX - canvas.offsetLeft;
-  var y = e.clientY - canvas.offsetTop;
-  var picked = false;
-  
-  // Draw each object with a different shade of red
-  for(var i in myObjects){
-    gl.uniform1f(objectNumber, i);
-    draw(...);
-  }
-  
-  // Read pixel at the clicked position
-  var pixel = new Uint8Array(4);
-  gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-
-  // Do something with the red value of the pixel
-  console.log("object " + pixels[0] + " clicked");
-  
-  // Disable hack and rerender everything normally
-  gl.uniform1f(objectNumber, 0);
-  for(i in myObjects){
-    draw(...);
-  }
-}</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/PickObject.html"></iframe>
-<br>Click the cube
-
-<br><br>
-
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/PickFace.html"></iframe>
-<br>Click a face
-
-</table>
-
-<p>For more precision, you can compute the intersection between the camera's sight vector and the triangles in your scene (in other words, raycasting! More info <a href="http://www.3dkingdoms.com/selection.html#ray">here</a>)
-
-
-<h5>HUD</h5>
-
-<ul>
-<li>HUD, or head-up display, represents the info displayed over a 3D scene
-<li>Since it's not easy to display text with WebGL, a good idea is to use a 2D canvas overlay with a transparent background
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">&lt;!-- HTML -->
-&lt;canvas id="webgl" width="400" height="400" style="position: absolute; z-index: 0">&lt;/canvas>
-&lt;canvas id="hud" width="400" height="400" style="position: absolute; z-index: 1">&lt;/canvas>
-
-(...)
-
-// On load
-var ctx = hud.getContext('2d');
-
-// In the render loop
-ctx.beginPath();
-ctx.moveTo(...);
-ctx.lineTo(...);
-ctx.stroke();
-ctx.fillText(...);</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/HUD.html"></iframe>
-</table>
-
-
-<h5>Fog</h5>
-
-<ul>
-<li>The fog will apply linearly between a near point (where the fog is transparent) and a far point (where the fog is opaque)
-<li>The vertex shader must know the position of the camera to compute a varying distance between the camera and each vertex
-<li>Using this varying distance, the fragment shader knows the distance between the camera and each fragment
-<br>
-<img src="images/webgl-guide/fog.png">
-<br>Fortunately, the native GLSL methods <b>distance()</b>, <b>clamp()</b> and <b>mix()</b> simplify the shader's implementation
-<li>The WebGL canvas context's clear color is equal to the fog's color
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">var vshader = `
-// (...)
-uniform vec4 camera;
-varying float v_dist;
-void main() {
-
-  // (...)
-  
-  v_dist = distance(modelMatrix * pos, camera);
-}`;
-
-var fshader = `
-// (...)
-uniform vec3 fogColor;
-uniform vec2 fogDist; // near / far
-void main() {
-
-  // (...)
-  
-  // Compute fog factor
-  float fogFactor = clamp((fogDist.y - v_dist) / (fogDist.y - fogDist.x), 0.0, 1.0);
-  
-  // Include fog factor in the color
-  gl_FragColor = vec4(mix(fogColor, vec3(col), fogFactor), 1.0);
-}`;
-
-var fogColor = [0.137, 0.231, 0.423];
-gl.uniform3fv(gl.getUniformLocation(gl.program, 'fogColor'), fogColor);
-gl.uniform2fv(gl.getUniformLocation(gl.program, 'fogDist'), [55, 80]);
-gl.uniform4fv(gl.getUniformLocation(gl.program, 'u_Eye'), [25, 65, 35, 1.0]);
-
-(...)
-
-gl.clearColor(fogColor[0], fogColor[1], fogColor[2], 1.0);
-
-</code></pre>
-<td>
-<iframe width=430 height=500 style="max-width:420px;min-height:500px;" src="https://xem.github.io/webgl-guide/book/ch10/Fog.html"></iframe>
-</table>
-
-<p>To simplify, you can also use <b>v_dist = gl_Position.w;</b> in the vertex shader, as it is a nice approximation of the distance between camera and vertex. (see <a href="https://xem.github.io/webgl-guide/book/ch10/Fog_w.html">the book's "fog_w" demo</a>
-
-
-<h5>Rounded points</h5>
-
-<ul>
-<li>You can prevent a fragment from being drawn with the <b>discard</b> statement
-<li>If you discard the fragments of a point outside a given radius, it renders a circle
-<li>Whatever the value of gl_PointSize and gl_Position, for the fragment shader the point has a radius of 0.5 and coordinates <b>gl_PointCoord = vec2(0.5, 0.5)</b>   
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">var vshader = `
-attribute vec4 pos;
-void main() {
-  gl_Position = pos;
-  gl_PointSize = 30.0;
-}`;
-
-var fshader = `
-precision mediump float;
-void main() {
-  float d = distance(gl_PointCoord, vec2(0.5, 0.5));
-  if(d &lt; .5) {
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-  } else { discard; }
-}`;</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="//xem.github.io/webgl-guide/book/ch10/RoundedPoints.html"></iframe>
-</table>
-
-
-
-
-
-<h5>Alpha blending</h5>
-
-<ul>
-<li>You can add transparency to a triangle or a whole object very easily:
-<li>First, assign RGBA colors (vec4) to each vertex, 
-<li>Then, enable WegGL's alpha blending with <b>gl.enable(gl.BLEND);</b> and <b>gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);</b>
-<li>If you're drawing an object (like a cube) with transparency, you also need to disable <b>gl.DEPTH_TEST</b>, so that the front faces don't block the other faces from being drawn
-<li>If your scene contains a mix of opaque and transparent objects, you'll need to disable the depth test (<b>gl.disable(gl.DEPTH_TEST)</b>) before drawing each transparent object and re-enable it afterwards
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">// Cube faces colors
-var colors = new Float32Array([
-  0.5, 0.5, 1.0, 0.3,  0.5, 0.5, 1.0, 0.3,
-  0.5, 0.5, 1.0, 0.3,  0.5, 0.5, 1.0, 0.3, // v0-v1-v2-v3 front
-  0.5, 1.0, 0.5, 0.3,  0.5, 1.0, 0.5, 0.3,
-  0.5, 1.0, 0.5, 0.3,  0.5, 1.0, 0.5, 0.3, // v0-v3-v4-v5 right
-  1.0, 0.5, 0.5, 0.3,  1.0, 0.5, 0.5, 0.3,
-  1.0, 0.5, 0.5, 0.3,  1.0, 0.5, 0.5, 0.3, // v0-v5-v6-v1 up
-  1.0, 1.0, 0.5, 0.3,  1.0, 1.0, 0.5, 0.3,
-  1.0, 1.0, 0.5, 0.3,  1.0, 1.0, 0.5, 0.3, // v1-v6-v7-v2 left
-  1.0, 1.0, 1.0, 0.3,  1.0, 1.0, 1.0, 0.3,
-  1.0, 1.0, 1.0, 0.3,  1.0, 1.0, 1.0, 0.3, // v7-v4-v3-v2 down
-  0.5, 1.0, 1.0, 0.3,  0.5, 1.0, 1.0, 0.3,
-  0.5, 1.0, 1.0, 0.3,  0.5, 1.0, 1.0, 0.3  // v4-v7-v6-v5 back
-]);
-
-(...)
-
-// Pass 4 values (RGBA) to the color attribute instead of 3
-gl.vertexAttribPointer(color, 4, gl.FLOAT, false, 0, 0);
-
-(...)
-
-// Draw a transparent object
-gl.clearColor(0.0, 0.0, 0.0, 1.0);
-gl.disable(gl.DEPTH_TEST);
-gl.enable(gl.BLEND);
-gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
-gl.enable(gl.DEPTH_TEST);</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/BlendedCube.html"></iframe>
-</table>
-
-
-
-
-
-<h5>a</h5>
-
-<p>a
-<ul>
-<li>a
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">
-a</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>
-
-
-
-
-
-
-<h5>a</h5>
-
-<p>a
-<ul>
-<li>a
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">
-a</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>
-
-
-
-
-
-
-
-<h5>a</h5>
-
-<p>a
-<ul>
-<li>a
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">
-a</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>
-
-
-
-
-
-
-<h5>a</h5>
-
-<p>a
-<ul>
-<li>a
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">
-a</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>
-
-
-
-
-
-
-<h5>a</h5>
-
-<p>a
-<ul>
-<li>a
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">
-a</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>
-
-
-
-
-
-
-
-
-
-
-<h1>To be continued</h1>
-
-
+See <a href="webgl-guide-part-2.html">PART 2</a> for the advanced techniques! :)
 </div>
 
 </main>
