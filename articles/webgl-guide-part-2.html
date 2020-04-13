@@ -29,7 +29,8 @@ h5 { font-size: 14px }
 ul { padding-left: 15px }
 pre { margin: 3px; font-size: 12px; }
 .math { margin: 15px 0 }
-iframe { max-height: 90vh }
+iframe, pre { max-height: 90vh }
+pre { overflow: auto }
 .ch10 { border: 1px solid #000 }
 .ch10 * { border: none }
 .ch10 td { max-width: 430px; width: auto; vertical-align: top }
@@ -177,7 +178,7 @@ canvas.onclick = e => {
 <h5>HUD</h5>
 
 <ul>
-<li>HUD, or head-up display, represents the info displayed over a 3D scene
+<li>HUD, or head-up display, is how the developers call the info displayed over a 3D scene
 <li>Since it's not easy to display text with WebGL, a good idea is to use a 2D canvas overlay with a transparent background
 </ul>
 
@@ -185,8 +186,11 @@ canvas.onclick = e => {
 <tr>
 <td>
 <pre><code class="lang-js">&lt;!-- HTML -->
-&lt;canvas id="webgl" width="400" height="400" style="position: absolute; z-index: 0">&lt;/canvas>
-&lt;canvas id="hud" width="400" height="400" style="position: absolute; z-index: 1">&lt;/canvas>
+&lt;canvas id="webgl" width="400" height="400" 
+style="position: absolute; z-index: 0">&lt;/canvas>
+
+&lt;canvas id="hud" width="400" height="400" 
+style="position: absolute; z-index: 1">&lt;/canvas>
 
 (...)
 
@@ -207,13 +211,13 @@ ctx.fillText(...);</code></pre>
 <h5>Fog</h5>
 
 <ul>
-<li>The fog will apply linearly between a near point (where the fog is transparent) and a far point (where the fog is opaque)
+<li>The fog will take effect linearly between a near point (where the fog is fully transparent) and a far point (where the fog is fully opaque)
 <li>The vertex shader must know the position of the camera to compute a varying distance between the camera and each vertex
 <li>Using this varying distance, the fragment shader knows the distance between the camera and each fragment
 <br>
 <img src="images/webgl-guide/fog.png">
 <br>Fortunately, the native GLSL methods <b>distance()</b>, <b>clamp()</b> and <b>mix()</b> simplify the shader's implementation
-<li>The WebGL canvas context's clear color is equal to the fog's color
+<li>The WebGL canvas context's clear color is equal to the fog's color when it's fully opaque.
 </ul>
 
 <table class=ch10>
@@ -269,7 +273,7 @@ gl.clearColor(fogColor[0], fogColor[1], fogColor[2], 1.0);
 <ul>
 <li>You can prevent a fragment from being drawn with the <b>discard</b> statement in the fragment shader
 <li>If you discard the fragments of a point outside a given radius, it renders a circle
-<li>Whatever the value of gl_PointSize and gl_Position, for the fragment shader the point has a radius of 0.5 and coordinates <b>gl_PointCoord = vec2(0.5, 0.5)</b>   
+<li>Whatever the value of gl_PointSize and gl_Position, the fragment shader considers that the point has a <b>radius = 0.5</b> and these coordinates: <b>gl_PointCoord = vec2(0.5, 0.5)</b>   
 </ul>
 
 <table class=ch10>
@@ -303,14 +307,14 @@ void main() {
 You can add transparency to a triangle or a whole object very easily:
 <ul>
 <li>First, assign RGBA colors (vec4) to each vertex, 
-<li>Then, enable WegGL's alpha blending with <b>gl.enable(gl.BLEND);</b> and <b>gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);</b> (*shrug*)
+<li>Then, enable WegGL's alpha blending with <b>gl.enable(gl.BLEND);</b> and <b>gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);</b> (... *shrug*)
 <li>If you're drawing an object (like a cube) with transparency, you also need to disable <b>gl.DEPTH_TEST</b>, so that the front faces don't block the other faces from being drawn
 <li>If your scene contains a mix of opaque and transparent objects, you'll need to draw all your opaque objects first, then disable depth test with <b>gl.depthMask(false)</b>, then draw all your objects with transparency, then re-enable depth test with <b>gl.depthMask(true)</b></ul>
 
 <table class=ch10>
 <tr>
 <td>
-<pre><code class="lang-js">// Cube faces colors
+<pre><code class="lang-js">// Cube faces rgba colors
 var colors = new Float32Array([
   0.5, 0.5, 1.0, 0.3,  0.5, 0.5, 1.0, 0.3,
   0.5, 0.5, 1.0, 0.3,  0.5, 0.5, 1.0, 0.3, // v0-v1-v2-v3 front
@@ -379,9 +383,9 @@ gl.useProgram(p2);
 <h5>Use what has been drawn as a texture image</h5>
 
 <ul>
-<li>Instead of the depth and color buffers, you can draw content in a <b>render buffer</b> and a <b>framebuffer</b>
-<li>The scene won't be rendered on the canvas, but saved in an image that you can modify and use as a texture.
-<li>The framebuffer object has its own shaders and perspective / camera matrices
+<li>Instead of the depth and color buffers we've used so far, you can draw content in a <b>render buffer</b> and a <b>framebuffer</b>
+<li>The scene won't be rendered on the canvas, but saved in an image that you can modify and/or use as a texture
+<li>The framebuffer object has its own shaders and perspective / camera matrices, independent from the global ones
 </ul>
 
 <table class=ch10>
@@ -424,8 +428,8 @@ cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN
 <li>To pass data between the two pairs of shaders, a texture can be used. In this context, it's called a <b>shadow map</b>
 <li>For now, the depth will be stored in the R value of the shadow map's pixels, which is a 8 bit integer
 <li>All the depths between the near and far clipping planes are normalized (placed in the range [0:1]), and will be multiplied by 256 to be stored in a 8-bit value
-<li>These shadow map's depth values will be compared to real-world distances, so a small offset a bit higher than 1/256 (0.005) is added to avoid rounding errors
-<li>Fragments that are not the closest to the light source will be drawn with 70% of the values of their RGB colors instead of 100%.
+<li>These shadow map's depth values will be compared to real-world distances, so a small offset a bit higher than 1/256 (0.005) is added to avoid rounding errors's <a href="images/webgl-guide/bands.jpg">Mach bands</a>
+<li>In this example, fragments that are not the closest to the light source (i.e. in the shadow) will be drawn with 70% of their RGB colors instead of 100%
 </ul>
 
 <table class=ch10>
@@ -514,13 +518,48 @@ setInterval(() => {
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/Shadow.html"></iframe>
 </table>
 
+<ul>
+<li>This 8-bit shadow only works for small scenes where the light is close to the scene's objects
+<li>The solution is to use the four RGBA components of the texture map to store the distance, instead of just R, for a 32-bit precision
+<br><img src="images/webgl-guide/rgba.jpg" width=550>
+<li>The rounding offset can now be lowered to 0.0015 (a bit above 1/(2<sup>32</sup>)) 
+</ul>
 
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+var shadow_fshader = `
+  (...)
+  const vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);
+  const vec4 bitMask = vec4(1.0/256.0, 1.0/256.0, 1.0/256.0, 0.0);
+  vec4 rgbaDepth = fract(gl_FragCoord.z * bitShift);
+  rgbaDepth -= rgbaDepth.gbaa * bitMask;
+  gl_FragColor = rgbaDepth;
+`;
+var fshader = `
+  (...)
+  float unpackDepth(const in vec4 rgbaDepth) {
+    const vec4 bitShift = vec4(1.0, 1.0/256.0, 1.0/(256.0 * 256.0), 1.0/(256.0 * 256.0 * 256.0));
+    float depth = dot(rgbaDepth, bitShift);
+    return depth;
+  }
+  void main() {
+    vec3 shadowCoord = (v_PositionFromLight.xyz / v_PositionFromLight.w)/2.0 + 0.5;
+    vec4 rgbaDepth = texture2D(u_ShadowMap, shadowCoord.xy);
+    float depth = unpackDepth(rgbaDepth);
+    float visibility = (shadowCoord.z > depth + 0.0015)? 0.7:1.0;
+    gl_FragColor = vec4(v_Color.rgb * visibility, v_Color.a);
+  };
+`
+</code></pre>
+</table>
 
+<h5>Bump mapping</h5>
 
+(from https://apoorvaj.io/exploring-bump-mapping-with-webgl/)
 
-
-<h5>a</h5>
-
+<!--
 <p>a
 <ul>
 <li>a
@@ -533,16 +572,121 @@ setInterval(() => {
 a</code></pre>
 <td>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>
+</table>-->
+TODO
 
+<h5>Load and display 3D models (.obj files)</h5>
 
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">Wavefront OBJ</a> is a popular and simple 3D model file format, it contains text and can be exported by free tools like Blender
+<li>It contains the definitions of vertices, vertex normals (optional, if missing you need to compute them), texture UV coordinates for each vertex (if textures are used), and faces
+<li>A companion MTL file is used to define the material properties of each object or face (color, opacity, lighting, ...)
+</ul>
+<p>OBJ file content:
+<pre style="max-height:none"># List of geometric vertices (x, y, z, [w], [r], [g], [b]).
+# w is optional and defaults to 1.0. r,g,b are optional.
+# Some 3D softwares may export the vertices RGB colors after the x/y/z or x/y/z/w coordinates,
+# so if a line contains 6 floats, it's x/y/z/r/g/b. If it contains 7, it's x/y/z/w/r/g/b.
+# It's the only way to declare per-vertex coloring, as materials can only be used on faces.
+v 0.123 0.234 0.345
+v 0.123 0.234 0.345 1.0
+v 0.123 0.234 0.345 0.456 0.567 0.678
+v 0.123 0.234 0.345 1.0 0.456 0.567 0.678
+v ...
 
+# List of texture coordinates (u, [v], [w]), between 0 and 1. v, w are optional and default to 0.
+vt 0.500 1 0
+vt ...
 
+# List of vertex normals (x, y, z) form. Might not be normalized.
+vn 0.707 0.000 0.707
+vn ...
 
+# Parameter space vertices (u, [v], [w]). I don't know what they are for.
+vp 0.310000 3.210000 2.100000
+vp ...
 
-<h5>a</h5>
+# Polygonal faces (triangles, but also quads / polygons).
+# Allowed forms:
+# - "vertex" indices
+# - "vertex/texture" indices
+# - "vertex/texture/normal" indices
+# - "vertex//normal" indices
+# When parsed, quads and polygons should be converted to triangles: ([0, i, i+1] for i in 1..n-2, see <a href="https://stackoverflow.com/a/23724231">here</a>)
 
-<p>a
+f 1 2 3
+f 1 2 3 4
+f 3/1 4/2 5/3
+f 6/4/1 3/5/3 7/6/5
+f 7//1 8//2 9//3
+f ...
+
+# Faces can be gathered in objects and groups (both are optional).
+# Objects can contain groups, but groups can also exist without parent object.
+# Everything that follows an object definition belongs to this object until a new object starts.
+# Everything that follows a group definition belongs to this group until a new object or group starts.
+
+o myObject
+g myGroup1
+f 1 2 3
+...
+g myGroup2
+f 4 5 6
+...
+
+# Smooth shading can be enabled or disabled per group.
+s 1
+...
+s off
+
+# Load a material file and use one or many materials defined inside it.
+mtllib material.mtl
+usemtl material1
+# all the following elements will use material1 until another usemtl is reached.
+...
+ 
+usemtl material2
+# all the following elements will use material2.
+...</pre>
+
+<p>MTL file content:
+<pre style="max-height:none">
+# Define a material named material1
+newmtl material1
+
+# Ambient color (RGB, each channel between 0 and 1).
+Ka 1.000 1.000 1.000
+
+# Diffuse color.
+Kd 1.000 1.000 1.000
+
+# Specular color + specular exponent.
+Ks 0.000 0.000 0.000     # black (off)
+Ns 10.000                # shininess, between 0 and 1000
+
+# Transparency (or its opposite, dissolving = 1 / Tr).
+d 0.9
+Tr 0.1
+
+# Illumination model (see <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file#Basic_materials">here</a>)
+illum 0 # Color on and Ambient off
+illum 1 # Color on and Ambient on
+illum 2 # Specular highlight on
+...     # The other models are not covered here (raytracing, etc)
+
+# Texture map (see <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file#Texture_maps">here</a>)
+map_Ka ambient.png # ambient texture
+map_Kd diffuse.png # diffuse texture, very often only this one is set, sometimes both are set but use the same file
+map_Ks specular.png # specular texture
+...
+</pre>
+
+<p>Obj and mtl files may contain other statements not detailed here, see <a href="http://www.hodge.net.au/sam/blog/wp-content/uploads/obj_format.txt">OBJ specs</a> and <a href="https://www.fileformat.info/format/material/index.htm">MTL specs</a>
+
+<h5>Handling lost context</h5>
+
+TODO
+<!--<p>a
 <ul>
 <li>a
 </ul>
@@ -554,18 +698,35 @@ a</code></pre>
 a</code></pre>
 <td>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>
+</table-->
+
+<h5>WebGL2</h5>
+
+<!--p>a
+<ul>
+<li>a
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+a</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
+</table-->
+TODO
 
 
 
+<h5>Conclusion</h5>
+
+TODO
+
+<br>
 
 
 
-
-
-
-
-<h1>To be continued</h1>
 
 
 </div>
