@@ -992,8 +992,10 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 <li>As seen before, buffer objects with the type gl.ARRAY_BUFFER can hold vertex properties (position, color)
 <li>Though, in 3D models, vertices are often shared between multiple triangles
 <li>Instead of repeating the same vertices many times, we can write each vertex once, and use another buffer object with the type <b>gl.ELEMENT_ARRAY_BUFFER</b> that makes triangles simply by using indices of the first object
+<li>The indices have small integer values, so we represent them with a Uint8Array. For more than 256 vertices, use Uint16Array. For more than 65536 vertices, use Uint32Array
 <li>In 3D, depth-sorting must be enabled with <b>gl.enable(gl.DEPTH_TEST);</b> and the screen is cleaned with <b>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</b>
-<li>Also, gl.drawArrays is replaced with <b>gl.drawElements</b>
+<li>Also, gl.drawArrays is replaced with <b>gl.drawElements(type, count, type, offset)</b>. For 8-bits indices, use the type gl.UNSIGNED_BYTE. For 16-bits, use gl.UNSIGNED_SHORT. For 32-bits, use gl.UNSIGNED_INT
+<li>In WebGL 1.0, an extension must be enabled before using the type UNSIGNED_INT: <b>gl.getExtension('OES_element_index_uint');</b>. In WebGL 2.0, it's enabled by default
 </ul>
 
 <iframe id=i8 loading=lazy height=1620 src="https://xem.github.io/webgl-guide/visualizer/?url=8-cube.html&id=i8"></iframe>
@@ -1005,7 +1007,6 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 <ul>
 <li>In this case, each vertex doesn't have a single color: it has a different color depending on which face is rendered
 <li>Thus, we need to declare the vertices of each face separately in an array buffer, then the colors of each vertex of each face in another array buffer, and finally, use an index buffer that references both vertices and colors
-<li>The indices have small integer values, so we represent them with a Uint8Array. For more than 256 values, use Uint16Array. For more than 65536 values, use Uint32Array
 </ul>
 
 <iframe id=i9 loading=lazy height=1400 src="https://xem.github.io/webgl-guide/visualizer/?url=9-cube faces.html&id=i9"></iframe>
@@ -1026,7 +1027,7 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 <br><blockquote class="twitter-tweet"><p lang="en" dir="ltr">dot product - visualized ⚪<br><br>the dot of two normalized vectors, as shown here, can say how similar they are<br><br>a • b = 1, same direction<br>a • b = 0, perpendicular<br>a • b = -1, opposite directions<br><br>you might also be able to see why it&#39;s sometimes called scalar projection~ <a href="https://t.co/vg8TwNZ8qs">pic.twitter.com/vg8TwNZ8qs</a></p>&mdash; Freya Holmér (@FreyaHolmer) <a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw">November 30, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 <li>If the dot product is negative, we set it to "0" (there can't be a negative amount of light). This is done with <b>max(dot(light, normal), 0.0);</b>
 <li>The color sent to the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light, and the color's alpha is set to 1.0
-<li>In HLSL, the composants of a vec4 can be accessed with .x/y/z/t (if it's a position) or .r/g/b/a (if it's a color). Composants can be composed too (ex: <b>vec3 rgb = col.rgb</b>).
+<li>In HLSL, the composants of a vec4 can be accessed with .x/y/z/t (if it's a position) or .r/g/b/a (if it's a color). Composants can be composed too (ex: <b>vec3 rgb = col.rgb</b>)
 </ul>
 
 <iframe id=i10 loading=lazy height=1230 src="https://xem.github.io/webgl-guide/visualizer/?url=10-diffuse lighting.html&id=i10"></iframe>
@@ -1036,19 +1037,29 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 <br>
 <iframe id=i11 loading=lazy height=1330 src="https://xem.github.io/webgl-guide/visualizer/?url=11-diffuse ambient lighting.html&id=i11"></iframe>
 
-<p>With these two techniques, the color is computed per-face, which doesn't look very natural (each face has a flat color)
-<p>This can be improved using a <b>point light</b>, that has a specific position and color. The shading will vary with the distance between each point of the cube and the point light
-<p>It can be computed per-vertex, which looks better but still has imprecise shading due to linear color interpolation (see the book's demos: <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedCube.html">cube</a> / <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedSphere.html">sphere</a>)...
- (see the book's demos: <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedCube.html">cube</a> / <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedSphere.html">sphere</a>)...
-<p><img src="images/webgl-guide/per_vertex.png">
-<p>... so the best solution is to compute point light shading for every fragment of the cube (i.e. every pixel), and that's exactly what the fragment shader is here for:
-<br><br>
+<h5>A few words about smooth shading</h5>
 
-<iframe id=i12 loading=lazy height=1530 src="https://xem.github.io/webgl-guide/visualizer/?url=12-point light per fragment.html&id=i12"></iframe>
-
-<p>It's also called "smooth shading". You can see how a smooth-shaded sphere looks in <a href="http://xem.github.io/webgl-guide/book/ch08/PointLightedSphere_perFragment.html">this example from the book</a>:
-<br><br><img src="images/webgl-guide/sphere.png">
+<p>With diffuse and ambient lights alone, each face gets a flat color. It's called polygonal or facetted rendering, and isn't realistic (it's great for retro-looking games though)  
+<p>For a better result, many techniques can be used.
+<ul>
+<li>The first thing to do is to use a <b>point light</b> representing the sun or a light bulb, with a specific position and color
+<li>With such a point light in the scene, the shading will be able to vary according to the distance between each point of the cube and the point light
+<li>Let's see how it looks when it's computed per vertex (see the book's demos: <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedCube.html">cube</a> / <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedSphere.html">sphere</a>):
 <br>
+<br><img src="images/webgl-guide/per_vertex.png" width=500>
+<br>
+<br>It looks a bit nicer but still not super smooth due to the imprecise color interpolation between vertices
+<li>A better solution consists in computing the right color for every fragment of the cube (i.e. every pixel),<br>and that's exactly what the fragment shader is here for! (see the book's demos: <a href="https://xem.github.io/webgl-guide/visualizer/?url=12-point">cube</a> / <a href="http://xem.github.io/webgl-guide/book/ch08/PointLightedSphere_perFragment.html">sphere</a>)
+<br><br><img src="images/webgl-guide/sphere.png" width=500>
+<br>
+<br>
+The detailed source code:
+<iframe id=i12 loading=lazy height=1530 src="https://xem.github.io/webgl-guide/visualizer/?url=12-point light per fragment.html&id=i12"></iframe>
+<li>On top of that, enabling "smooth shading" in 3D softwares consists in computing a different normal for each vertex, averaged from the normals/areas of its neighbour faces
+<br>Vertex normals are usually computed and exported by 3D softwares like Blender, but if they're missing, <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">an elegant algorithm exists to compute them</a>!
+<br>Example: a dodecahedron with the right vertex normals
+<br><br><img src="images/webgl-guide/dode.png" width=300>
+</ul>
 <br>
 <h5>Other types of lighting</h5>
 <ul>
@@ -1074,6 +1085,13 @@ color.rgb += specular * specularLightColor;
 (...)
 `;</code></pre>
 
+<h5>Lighting and coloring are the same</h5>
+
+<p>You may find documents talking about ambient/diffuse/specular colors. It's the same thing as ambient/diffuse/specular lighting
+<br>And it makes sense: in CG, like in the real world, the colors emitted by an object depend entirely on its lighting
+
+<h5>Lighting and shading are not the same</h5>
+<p>The two terms are often mixed but lighting is really a physics notion (how the light affects an object) while shading is purely CG-related (how a pixel is rendered) 
 <br><br><hr><br>
 
 <h4>Transforming the shaded cube</h4>
