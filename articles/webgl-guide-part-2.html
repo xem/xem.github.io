@@ -631,6 +631,7 @@ f ...
 
 <b># Faces can be gathered in objects and groups (both are optional).
 # Objects can contain groups, but groups can also exist without parent object.
+# It may be a good idea to always force the creation of a default object and group when parsing an OBJ file, for consistency.
 # Everything that follows an object definition belongs to this object until a new object starts.
 # Everything that follows a group definition belongs to this group until a new object or group starts.
 # Each group generally requires a new pair of shaders to be rendered, as they generally use different colors, textures, shininess, transparency, etc)</b>
@@ -646,7 +647,7 @@ f 4 5 6
 # When enabled, shading may be computed per fragment. When disabled, it may be computed per vertex or per face.
 # It's enabled by default for every object, and inherited by default for every group.
 # 1 / on, and 0 / off are equivalent.
-# if the value of s changes inside a group, a new group should be created, to compute normals separately.
+# If the value of s changes inside a group, a new group should be created, to compute normals separately.
 # 's' can also be used by some 3D softwares to define smoothing groups, with numbers > 0.
 # All the groups with the same value should be smoothed together when the vertex normals are recomputed.
 # It's quite rare though, so you can consider that anything different than '0' or 'off' is 'on'.</b>
@@ -763,6 +764,22 @@ TODO
 <footer></footer>
 
 <script src="../ui.js"></script>
+
+<script>
+if(navigator.userAgent.includes("WebKit")){
+
+scr = document.createElement("SCRIPT");
+scr.src = 'https://polyfill.io/v3/polyfill.min.js?features=es6';
+document.body.appendChild(scr);
+
+scr = document.createElement("SCRIPT");
+scr.id = 'MathJax-script';
+scr.setAttribute('async', true); 
+scr.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+document.body.appendChild(scr);
+}
+</script>
+
 <script>
 header();
 footer();
