@@ -5,6 +5,7 @@
 <head>
 <link rel=stylesheet href="../style.css?v=4">
 <title>Maxime Euzière</title>
+<base target=_blank>
 </head>
 <body class=large>
 
@@ -39,22 +40,18 @@ pre { overflow: auto }
 </style>
 
 <div class=section id=webgl_guide>
-<h2>WebGL guide</h2>
-<h3>october 2019 - february 2020</h3>
+<h2>WebGL guide part 2: Advanced techniques</h2>
+<h3>october 2019 - may 2020</h3>
 
 <br><hr><br>
 
 This is the second part of my <a href="webgl-guide.html">WebGL guide</a>!
-<br>(Browsers have a hard time displaying a lot of WebGL contexts on the same page, so I splitted the tutorial in two)
+<br>(Browsers have a hard time displaying 16 or more WebGL contexts on the same page, so I splitted the tutorial in two)
+<p>This page will only show the relevant code snippets for each technique instead of the whole source code.
 
 <br><br><hr><br>
 
-<h4>Advanced techniques</h4>
-<i>(from chapter 10 of the book)</i>
-
-<p>This section will only show the relevant code snippets for each technique
-
-<h5>Rotate a cube with the mouse</h5>
+<h4>Rotate a cube with the mouse</h4>
 <ul>
 <li>Detect when the mouse is clicked
 <li>Detect in which direction the mouse moves when clicked
@@ -101,9 +98,9 @@ canvas.onmousemove = (e) {
 
 </table>
 
-<br><br>
+<br><br><hr><br>
 
-<h5>Select a 3D item with the mouse</h5>
+<h4>Select a 3D item with the mouse</h4>
 
 <p>The simple (and hacky) way:
 <ul>
@@ -174,8 +171,9 @@ canvas.onclick = e => {
 
 <p>For more precision, you can compute the intersection between the camera's sight vector and the triangles in your scene (in other words, raycasting! More info <a href="http://www.3dkingdoms.com/selection.html#ray">here</a>)
 
+<br><br><hr><br>
 
-<h5>HUD</h5>
+<h4>HUD</h4>
 
 <ul>
 <li>HUD, or head-up display, is how the developers call the info displayed over a 3D scene
@@ -207,8 +205,9 @@ ctx.fillText(...);</code></pre>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/HUD.html"></iframe>
 </table>
 
+<br><br><hr><br>
 
-<h5>Fog</h5>
+<h4>Fog</h4>
 
 <ul>
 <li>The fog will take effect linearly between a near point (where the fog is fully transparent) and a far point (where the fog is fully opaque)
@@ -267,8 +266,9 @@ gl.clearColor(fogColor[0], fogColor[1], fogColor[2], 1.0);
 <br>
 (see <a href="https://xem.github.io/webgl-guide/book/ch10/Fog_w.html">the book's "fog_w" demo</a> for more info)
 
+<br><br><hr><br>
 
-<h5>Rounded points</h5>
+<h4>Rounded points</h4>
 
 <ul>
 <li>You can prevent a fragment from being drawn with the <b>discard</b> statement in the fragment shader
@@ -298,11 +298,9 @@ void main() {
 <iframe width=430 height=430 style="max-width:420px;" src="//xem.github.io/webgl-guide/book/ch10/RoundedPoints.html"></iframe>
 </table>
 
+<br><br><hr><br>
 
-
-
-
-<h5>Alpha blending</h5>
+<h4>Alpha blending</h4>
 
 You can add transparency to a triangle or a whole object very easily:
 <ul>
@@ -349,11 +347,9 @@ gl.enable(gl.DEPTH_TEST);</code></pre>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/BlendedCube.html"></iframe>
 </table>
 
+<br><br><hr><br>
 
-
-
-
-<h5>Use multiple shaders</h5>
+<h4>Use multiple shaders</h4>
 
 <ul>
 <li>If your scene contains many objects rendered differently (colored, textured, alpha, etc), you may want to use many shaders instead of a single, long shader
@@ -379,8 +375,9 @@ gl.useProgram(p2);
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/ProgramObject.html"></iframe>
 </table>
 
+<br><br><hr><br>
 
-<h5>Use what has been drawn as a texture image</h5>
+<h4>Use what has been drawn as a texture image</h4>
 
 <ul>
 <li>Instead of the depth and color buffers we've used so far, you can draw content in a <b>render buffer</b> and a <b>framebuffer</b>
@@ -417,8 +414,9 @@ cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/FramebufferObject.html"></iframe>
 </table>
 
+<br><br><hr><br>
 
-<h5>Shadows!</h5>
+<h4>Shadows!</h4>
 
 <p>Displaying shadows consists in rendering with a darker color the objects that are hidden from the light source by another object.
 <p>It's a bit tricky because it involves many concepts introduced in the previous chapters (shading, depth buffer, multiple shaders, ...)
@@ -555,7 +553,21 @@ var fshader = `
 </code></pre>
 </table>
 
-<h5>Bump mapping</h5>
+<br><br><hr><br>
+
+<h4>360° shadows</h4>
+
+TODO
+
+<br><br><hr><br>
+
+<h4>Bump mapping</h4>
+
+TODO
+
+<br><br><hr><br>
+
+<h4>Bump mapping</h4>
 
 (from https://apoorvaj.io/exploring-bump-mapping-with-webgl/)
 
@@ -575,7 +587,17 @@ a</code></pre>
 </table>-->
 TODO
 
-<h5>Load and display 3D models (.obj files)</h5>
+
+<br><br><hr><br>
+
+<h4>Particles</h4>
+
+TODO
+
+
+<br><br><hr><br>
+
+<h4>Load and display 3D models (.obj files)</h4>
 
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">Wavefront OBJ</a> is a popular and simple 3D model file format, it contains text and can be exported by free tools like Blender
@@ -709,7 +731,27 @@ map_Ks specular.png # specular texture
 <p>When parsed, all the v, ft, vn, f floats should be concatenated in big 1D arrays and converted to Float32Arrays, as it's the format in which WebGL expects to receive data buffers
 <p>You can see my mini OBJ/MTL parser and viewer <a href="//xem.github.io/webgl-guide/obj">here</a>. It supports all the features listed above.
 
-<h5>Handling lost context</h5>
+<br><br><hr><br>
+
+<h4>Loading .ply 3D files</h4>
+
+TODO
+
+<br><br><hr><br>
+
+<h4>Cel-shading</h4>
+
+TODO
+
+<br><br><hr><br>
+
+<h4>Rigged animation</h4>
+
+TODO
+
+<br><br><hr><br>
+
+<h4>Handling lost context</h4>
 
 TODO
 <!--<p>a
@@ -726,7 +768,9 @@ a</code></pre>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
 </table-->
 
-<h5>WebGL2</h5>
+<br><br><hr><br>
+
+<h4>WebGL2</h4>
 
 <!--p>a
 <ul>
@@ -743,9 +787,16 @@ a</code></pre>
 </table-->
 TODO
 
+<br><br><hr><br>
+
+<h4>A word about 3D physics</h4>
+
+TODO
 
 
-<h5>Conclusion</h5>
+<br><br><hr><br>
+
+<h4>Conclusion</h4>
 
 TODO
 

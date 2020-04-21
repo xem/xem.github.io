@@ -5,6 +5,7 @@
 <head>
 <link rel=stylesheet href="../style.css?v=4">
 <title>Maxime Euzière</title>
+<base target=_blank>
 </head>
 <body class=large>
 
@@ -39,33 +40,35 @@ iframe { max-height: 90vh }
 
 <div class=section id=webgl_guide>
 <h2>WebGL guide</h2>
-<h3>october 2019 - february 2020</h3>
+<h3>october 2019 - may 2020</h3>
   
 <h4>Introduction</h4>
 
-<p>This page summarizes the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a>, the website <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals.org</a> and my own research,
-<br>in the form of a full WebGL tutorial with tiny, embedded, editable demos 
-<p>The playground (used for the demos present in this page) is available <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg==">here</a>, my 3D OBJ file parser/viewer is <a href="https://xem.github.io/webgl-guide/">here</a>, and all the source code is available <a href="https://github.com/xem/webgl-guide">on Github</a>
-<p>Helper files created while making this: <a href="https://github.com/xem/webgl-guide/blob/gh-pages/me/webgl.js">webgl.js</a>, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/me/matrix.js">matrix.js</a> and <a href="https://github.com/xem/webgl-guide/blob/gh-pages/me/shapes.js">shapes.js</a>
-<p>If you're interested in Shadertoy, WebGL raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2</a>
+<p>This page is a summarized WebGL tutorial, inspired by the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a>, the website <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals.org</a> and my own research, including tiny, embedded, editable demos.
+<p>Starting nearly from scratch, you'll be able to create your own 3D interactive scenes without needing to use any <a href="https://fr.wikipedia.org/wiki/Liste_de_frameworks_WebGL">library or framework</a>: only vanilla JS &amp; WebGL.
+<p>My goal was to gather in a single place, all the information and tricks about WebGL I found scattered in many places, and present them in a short and helpful way. I hope you'll enjoy it!
+<p>The live playground (used for the demos) is available <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg==">here</a>, my 3D OBJ file parser/viewer is <a href="https://xem.github.io/webgl-guide/">here</a>, and all the source code is available <a href="https://github.com/xem/webgl-guide">on Github</a>.
+<p>Helper files created while making this guide: <a href="https://github.com/xem/webgl-guide/blob/gh-pages/me/webgl.js">webgl.js</a>, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/me/matrix.js">matrix.js</a> and <a href="https://github.com/xem/webgl-guide/blob/gh-pages/me/shapes.js">shapes.js</a>.
+<p>If you're interested in Shadertoy, WebGL raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2.</a>
+
+<p>Thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a> and <a href="">Kevin Chapelier</a> for their knowledge and extra tricks!
 
 <br><br><hr><br>
 <h2>2D graphics</h2>
 <br>
 <h4>How to draw points</h4>
-<i>(from chapter 2 of the book)</i>
 
 <ul>
-<li>A vertex is a point in 3D space (coordinates: X, Y, Z)
-<li>A fragment is where the scene is rendered (the pixels on your screen)
-<li>In a WebGL app, two programs (vertex shader and fragment shader) are written in HLSL language and controlled by JS to render a scene on a canvas
-<li>The vertex shader is executed for every vertex, and sets the variable <b>gl_Position</b> (and gl_PointSize, if we want to draw points)
-<li>The fragment shader is executed for every fragment, and sets the variable <b>gl_FragColor</b>
-<li>The X and Y coordinates in a WebGL canvas context go from -1 to 1, whatever the size of the canvas
+<li>A vertex is a point in 3D space (coordinates: X, Y, Z).
+<li>A fragment is where the scene is rendered (the pixels on your screen).
+<li>In a WebGL app, two programs (vertex shader and fragment shader) are written in HLSL language and controlled by JS to render a scene on a canvas.
+<li>The vertex shader is executed for every vertex, and sets two variables called <b>gl_Position</b> and <b>gl_PointSize</b>.
+<li>The fragment shader is executed for every fragment, and sets the variable <b>gl_FragColor</b>.
+<li>The X and Y coordinates in a WebGL canvas context go from -1 to 1, whatever the size of the canvas.
 <br><img src="images/webgl-guide/webgl.png">
-<li>In HLSL, a float is a number written with at least one decimal (ex: 0.0, 0.1, 1.0, ...)
-<li>A vec4 is an array of 4 floats representing either vertex coordinates (x, y, z, 1.0), a color (r, g, b, alpha), or anything you want. (vec2 and vec3 exist too)
-<li>A mat4 is a matrix (a grid) of 4 x 4 floats. (mat2 and mat3 exist too)
+<li>In HLSL, a float is a number written with at least one decimal (ex: 0.0, 0.1, 1.0, ...).
+<li>A vec4 is an array of 4 floats representing either vertex coordinates (x, y, z, 1.0), a color (r, g, b, alpha), or anything you want. (vec2 and vec3 exist too).
+<li>A mat4 is a matrix (a grid) of 4 x 4 floats. (mat2 and mat3 exist too).
 </ul>
 
 <p>Here's the simplest possible WebGL program, drawing a red point in the middle of the canvas.
@@ -101,19 +104,20 @@ compile = (gl, vshader, fshader) => {
 </pre>
 
 
-
 <br><br><hr><br>
 
 <h4>Attributes and uniforms</h4>
 
 <ul>
-<li>Of course, WebGL is not just for drawing hardcoded points. There are many ways to send it custom values: attributes, uniforms, and buffer objects (we'll see them later)
-<li>An attribute is a global variable passed by JS to the vertex shader. Its value can change for each vertex (ex: vertex coordinates)
-<li>An uniform is a global variable passed by JS to all the shaders. Its value is constant for an entire draw call (ex: a color)
-<li>For the record, some browsers (like Safari) can only draw points that are set by JS, and can't run the previous demo at all
+<li>Of course, WebGL is not just for drawing hard-coded points. There are many ways to send it custom values: attributes, uniforms, and buffer objects (we'll see them later).
+<li>An attribute is a global variable passed by JS to the vertex shader. Its value can change for each vertex (ex: vertex coordinates).
+<li>An uniform is a global variable passed by JS to all the shaders. Its value is constant for an entire draw call (ex: a color).
+<li>For the record, some browsers (like Safari) can only draw points that are set by JS, and can't run the previous demo at all.
 </ul>
-<p>
 
+
+<p>Here are the different types of attributes and uniforms that can be set by JS:
+<br>
 
 <table border style="table-layout:auto">
 <tr>
@@ -155,18 +159,24 @@ gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 <td>mat4
 <td><pre>uniform mat4 m;</pre>
 <td><pre>gl.uniformMatrix4fv(
-  gl.getUniformLocation(program, 'm'), false, new Float32Array([...])
+  gl.getUniformLocation(program, 'm'), false, new Float32Array([
+    1.0, 2.0, 3.0, 4.0,
+    5.0, 6.0, 7.0, 8.0,
+    9.0, 10.0, 11.0, 12.0,
+    13.0, 14.0, 15.0, 16.0
+  ])
 );</pre>
 
 </table>
 <br>
-<p>Here's the same demo as before, but the position, size and color of the point are now set by the JS code.
+<p>Here's the same demo as before, but the position, size and color of the point are now set by the JS code:
 <br>
 <br>
 <iframe id=i2 loading=lazy height=700 src="https://xem.github.io/webgl-guide/visualizer/?url=2-point%20defined%20with%20js.html&id=i2"></iframe>
 
 <p>The next demo shows how to add a new point with a different color every time the canvas is clicked.
-<br>After each click, the only things to do are: reset canvas, set the attributes/uniforms, and call drawArrays.
+<br>After each click, the only things to do are: save click coordinates in a list, reset the  canvas, set the attributes/uniforms, and call drawArrays for each point.
+<br>The new points can not be drawn over existing points: the scene needs to be cleared (in black) and redrawn entirely, because a new call to gl.drawArrays resets the canvas and every pixel it contains
 <br>
 <br>
 <iframe id=i3 loading=lazy height=1050 src="https://xem.github.io/webgl-guide/visualizer/?url=3-points added on click.html&id=i3"></iframe>
@@ -174,7 +184,6 @@ gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 <br><br><hr><br>
 
 <h4>How to draw lines and triangles</h4>
-<i>(from chapter 3 of the book)</i>
 
 <ul>
 <li>An array buffer can be used to pass binary data from JS to the shaders (ex: a list of vertices, a list of colors, ...)
@@ -217,18 +226,18 @@ gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
 <td>gl.FLOAT
 </table>
 <br>
-<li>drawArrays can render points, lines and triangles in 7 different ways:
+<li>gl.drawArrays can render points, lines and triangles in 7 different ways:
 <br>
 <br>
 <img src="images/webgl-guide/modes.png" width=800 style="border:2px solid #ddd">
 </ul>
 
-<p>Here's the simplest way to draw a triangle. You can edit the mode on line 53 to render points or lines instead of a triangle (ex: gl.POINTS / gl.LINE_LOOP)
+<p>Here's the simplest way to draw a triangle. You can edit the mode on line 53 to render points or lines instead of a triangle (ex: <mark style="background: #def;padding:3px;">gl.POINTS</mark> / <mark style="background: #def;padding:3px;">gl.LINE_LOOP</mark>)
 <br>
 <br>
 <iframe id=i4 loading=lazy height=850 src="https://xem.github.io/webgl-guide/visualizer/?url=4-hello triangle.html&id=i4"></iframe>
 
-<p>The "basic" array buffer setup is always the same, so I included it in webgl.js:
+<p>The "basic" array buffer setup is always the same, so I included it in the function arraybuffer (see webgl.js):
 <pre style="font-size:11px"><code class="lang-js">// Bind an array buffer to an attribute and enable it
 arraybuffer = (gl, data, program, attribute, size, type) => {
   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
@@ -239,13 +248,12 @@ arraybuffer = (gl, data, program, attribute, size, type) => {
 }</code>
 </pre>
 
-<br><br><hr><br>
+<br><hr><br>
 
 <h4>Translate, rotate, scale</h4>
-<i>(from chapters 3 & 4 of the book)</i>
 
 <ul>
-<li>Vertices coordinates are represented on vec4's (x, y, z, 1.0) to ease matrix-based transformations. They're called homogeneous coordinates
+<li>Vertices coordinates can represented on vec4's (x, y, z, 1.0) to ease matrix-based transformations. They're called homogeneous coordinates
 
 <p>
 <table border>
@@ -797,18 +805,19 @@ arraybuffer = (gl, data, program, attribute, size, type) => {
 
 </table>
 
+<br>
 <li>Multiple transformations can be accumulated by multiplying their matrices
-<li>To translate then rotate a point, multiply in this order: (〈 rotation matrix 〉 × 〈 translation matrix 〉) × 〈 original coordinates 〉
-<li>Matrices and vectors can be multiplied together natively in GLSL. In JS, each term must be computed separately
+<br>For example, to translate then rotate a point, multiply in this order: (〈 rotation matrix 〉 × 〈 translation matrix 〉) × 〈 original coordinates 〉
+<li>Matrices and vectors can be multiplied together natively in GLSL:
 <br>
 <br>
 <iframe id=i5 loading=lazy height=1220 src="https://xem.github.io/webgl-guide/visualizer/?url=5-transformed triangle.html&id=i5"></iframe>
 
-<p>Note: in this example, the transformation matrix (translation x rotation x scale) is computed in the fragment shader.
-<br>This is easy to code, but it's not efficient in real conditions, as the computation is performed for every fragment of the program.
-<br>In the next examples, it will be computed once (in JS) and passed to the shader.
+<li>On line 14, the transformation matrix (translation x rotation x scale) is computed in the fragment shader
+<br>This is easy to code, but it's not efficient in real conditions, as the computation must done again and again for every fragment of the program
+<br>In the next examples, it will be computed once (in JS) and passed to the shader
 </ul>
-
+<br>
 <p>Functions added in matrix.js:
 <pre style="font-size:11px"><code class="lang-js">// Create an identity mat4
 identity = () => {
@@ -892,11 +901,9 @@ transform = (mat, options) => {
 };</code>
 </pre>
 
-
-<br><br><hr><br>
+<br><hr><br>
 
 <h4>Multi-attribute buffer and varying color</h4>
-<i>(from chapter 5 of the book)</i>
 
 <p><ul><li>A single array buffer can hold interleaved data, for example X/Y/R/G/B values, recurring every 5 floats
 <li>A varying is a global variable writable by the vertex shader and readable by the fragment shader
@@ -907,12 +914,11 @@ transform = (mat, options) => {
 <br><br><hr><br>
 
 <h4>Texturing</h4>
-<i>(from chapter 5 of the book)</i>
 
 <ul>
 <li>Fragment interpolation can be done on a set of colors, but also on a texture image (it's called sampling in this case)
 <li>Any texture (square or rectangle) has a local coordinates system (U,V) that goes from 0 to 1, and every associated vertex will have texture coordinates in this system
-<li>An Image object can be bound to an <b>uniform sampler2D</b> to create a texture, which is applied to the current fragment using <b>gl_FragColor = texture2D(sampler,coord);</b>
+<li>An Image object can be bound to an <b>uniform sampler2D</b> to create a texture, which is applied to the current fragment using <b>gl_FragColor = texture2D(sampler, coord);</b>
 <li>The "pixels" of the texture are called texels
 <br><img src="images/webgl-guide/texture.png">
 </ul>
@@ -921,7 +927,7 @@ transform = (mat, options) => {
 <p>
 <iframe id=i7 loading=lazy height=1250 src="https://xem.github.io/webgl-guide/visualizer/?url=7-texture.html&id=i7"></iframe>
 
-<p>Similarly, multiple textures can be used at once. For example, initialize two samplers, and multiply them in the fragment shader (<a href="https://xem.github.io/webgl-guide/book/ch05/MultiTexture.html">DEMO</a>)
+<p>Similarly, multiple textures can be used at once. For example, you can initialize two samplers, and multiply them in the fragment shader (<a href="https://xem.github.io/webgl-guide/book/ch05/MultiTexture.html">DEMO</a>)
 <pre class="language-js"><code>vec4 color0 = texture2D(sampler0, v_TexCoord);
 vec4 color1 = texture2D(sampler1, v_TexCoord);
 gl_FragColor = color0 * color1;</code></pre>
@@ -930,16 +936,16 @@ gl_FragColor = color0 * color1;</code></pre>
 
 <h2>3D graphics</h2>
 <br>
-<p>Keep in mind that a graphics card doesn't do 3D natively
-<br>It's just very efficient to multiply vectors and matrices in order to render a large number of polygons at once, and it's your code that tricks it into transforming and drawing these polygons that in such a way that the scene seems to be in 3D
-<br>In other words, you (or your 3D framework) will have to do all the computing to simulate the camera, the perspective and how they affect the polygons
-<br>The API we use (WebGL) provides very helpful tools (especially buffers) to help rendering complex scenes with a reasonable amount of code
+<p>You need to keep in mind that a PC graphics card doesn't do 3D natively
+<br>It's just very efficient to multiply vectors and matrices in order to render a large number of polygons at once,
+<br>and it's your code that tricks it into transforming and drawing these polygons in such a way that the scene seems to be in 3D
+<br>In other words, you (or your 3D framework) will have to do all the computing to simulate the camera, the perspective and how they affect each polygon
+<br>Fortunately, he API we use (WebGL) provides very helpful tools (especially data and depth buffers) to help rendering complex scenes without too much effort
 <br>
 <h4>3D camera</h4>
-<i>(from chapter 7 of the book)</i>
 <ul>
-<li>In WebGL (and 3D graphics in general), the "camera" is abstract: its position, angle and perspective are defined by a matrix
-<li>On render, every vertex in the scene is multiplied by this matrix to simulate these camera properties
+<li>In WebGL (and 3D graphics in general), the "camera", with its position, angle and perspective, is defined by nothing more than a 4x4 matrix
+<li>During render, every vertex in the scene is multiplied by this matrix to simulate these camera properties and appear at the right position
 <li>First, the camera's perspective (including field of view, aspect ratio, near clip plane and far clip plane) can be set with:
 
 <div class=math>
@@ -981,8 +987,8 @@ gl_FragColor = color0 * color1;</code></pre>
 </div>
 
 <li>Then, the camera can be translated, rotated and scaled (zoomed) by multiplying the corresponding matrices (see "Translate, rotate, scale" above)
-<li>A LookAt() function is often used by developers to set the camera's position, angle and target all at once.
-<li>I added the perspective and lookAt functions in matrix.js:
+<li>A LookAt() function is often used by developers to set the camera's position, angle and target all at once
+<li>Here are the perspective and lookAt functions I added in matrix.js:
 
 <pre><code class="lang-js">// Set perspective
 // options: fovy, aspect, near, far
@@ -1001,7 +1007,6 @@ perspective = (mat, options) => {
     0, 0, -2 * near * far * rd, 0
   ]);
 }
-
 
 // LookAt
 lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
@@ -1036,17 +1041,17 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 
 </ul>
 
-<br>
 <h5>Indexed vertices</h5>
 
 <ul>
-<li>As we have seen before, buffer objects of the type gl.ARRAY_BUFFER can hold vertex properties (position, color...)
+<li>As we have seen before, buffer objects of the type gl.ARRAY_BUFFER can hold vertex properties (position, color, texture coordinates...)
 <li>These properties can be placed into multiple buffers or interleaved into a single one
 <li>In CG, especially in 3D, vertices are often shared between multiple triangles
-<li>Instead of repeating the same vertices many times in the same buffer, it's possible to write each vertex only once, and use another buffer object with the type <b>gl.ELEMENT_ARRAY_BUFFER</b> that declares the triangles from indices of the first object
-<li>If many data buffers exist in your program, only one index buffer can be used, and it will reference all the data buffers at once
-<br>Finally, to draw indexed vertices, you need you replace gl.drawArrays with <b>gl.drawElements(type, count, type, offset)</b>
-<li>The indices stored in this index buffer have integer values (0, 1, 2...), and their size depends on the number of vertices in the vertex buffer:
+<li>Instead of repeating the same vertices many times in the same buffer, it's possible to write each vertex only once in a data buffer,<br>and use a second buffer with the type <b>gl.ELEMENT_ARRAY_BUFFER</b> that declares all the triangles by using indices of the first object
+<li>Even if many data buffers exist in your program, only one index buffer can be used, and it will reference items of all the data buffers at once,<br>so they all need to be stored in the same order (the Nth items of every buffer must belong to the same vertex N)
+<li>Finally, to draw indexed vertices, you need you replace gl.drawArrays with <b>gl.drawElements(type, count, type, offset)</b>
+<br>Warning: the second parameter is the number of polygons, not the number of vertices! (Firefox will refuse to draw anything if the count parameter is too big)
+<li>The indices stored in the index buffer have integer values (N = 0, 1, 2...), and their size in bytes depends on the number of vertices in the vertex buffer:
 <br>
 <br>
 <table border>
@@ -1060,7 +1065,7 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 <td>gl.UNSIGNED_BYTE
 <tr>
 <td>&lt;= 65536
-<td>Uint8Array([...])
+<td>Uint16Array([...])
 <td>gl.UNSIGNED_SHORT
 <tr>
 <td>&lt;= 4294967296
@@ -1068,19 +1073,20 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 <td>gl.UNSIGNED_INT (*)
 </table>
 
-<p>(*) In WebGL 1.0, an extension must be enabled before using the type UNSIGNED_INT: <b>gl.getExtension('OES_element_index_uint');</b>. In WebGL 2.0, it's enabled by default
+<p>(*) In WebGL1, an extension must be enabled before using the type UNSIGNED_INT: <b>gl.getExtension('OES_element_index_uint');</b>. In WebGL2, it's enabled by default
 
-<p>You can see indexed buffers in action in the following demos
+<li>You can see indexed buffers in action in the following demos
 </ul>
 
 <br><hr><br>
 
 <h3>Hello cube</h3>
-<i>(from chapter 7 of the book)</i>
 
-<p>In 3D, depth-sorting must be enabled with <b>gl.enable(gl.DEPTH_TEST);</b> and the screen is cleaned with <b>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</b>
-
-<br>
+<p>The easiest 3D shape to render is a cube. But to make WebGL draw triangles in 3D, two new settings must be used:
+<ul>
+<li>In order to make each triangle appear at the right depth (the front ones in front, the back ones in the back), depth-sorting must be enabled with <b>gl.enable(gl.DEPTH_TEST);</b>
+<li>The clear code is also updated to take this depth test into account: <b>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</b>
+</ul>
 
 <iframe id=i8 loading=lazy height=1620 src="https://xem.github.io/webgl-guide/visualizer/?url=8-cube.html&id=i8"></iframe>
 
@@ -1089,8 +1095,8 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 <h3>Color each face of the cube</h3>
 
 <ul>
-<li>In this case, each vertex doesn't have a single color: it has a different color depending on which face is rendered
-<li>Thus, we need to declare the vertices of each face separately in an array buffer, then the colors of each vertex of each face in another array buffer, and finally, use an index buffer that references both vertices and colors
+<li>In this case, each vertex doesn't have a single color: it has a different color depending on which face is being rendered
+<li>Thus, we need to declare the vertices of each face separately in an array buffer, then the colors of each vertex of each face in another array buffer, and finally, use an index buffer that references both vertices and colors:
 </ul>
 
 <iframe id=i9 loading=lazy height=1400 src="https://xem.github.io/webgl-guide/visualizer/?url=9-cube faces.html&id=i9"></iframe>
@@ -1100,8 +1106,6 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
 <br><br><hr><br>
 
 <h4>Lighting and shading</h4>
-
-<i>(from chapter 8 of the book)</i>
 
 <h5>Diffuse light</h5>
 <ul>
@@ -1294,7 +1298,6 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => 
 
 
 <h4>Hierarchical objects</h4>
-<i>(from chapter 9 of the book)</i>
 
 <ul>
 <li>A hierarchical object is a model made of several basic objects (called "segments"), like a robotic arm made of many cuboids
@@ -1315,7 +1318,8 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => 
 
 <br><br><hr><br>
 
-See <a href="webgl-guide-part-2.html">PART 2</a> for the advanced techniques! :)
+<p>At this point we've covered all the basis of 2D and 3D rendering.
+<p>See <a href="webgl-guide-part-2.html">PART 2</a> for the advanced techniques! :)
 </div>
 
 </main>
