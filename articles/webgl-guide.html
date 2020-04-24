@@ -30,7 +30,7 @@ h5 { font-size: 14px }
 ul { padding-left: 15px }
 pre { margin: 3px; font-size: 12px; }
 .math { margin: 15px 0 }
-.section iframe { height: 90vh }
+.section iframe { height: 40vw; min-height: 400px; }
 .ch10 { border: 1px solid #000 }
 .ch10 * { border: none }
 .ch10 td { max-width: 430px; width: auto; vertical-align: top }
@@ -45,7 +45,7 @@ pre { margin: 3px; font-size: 12px; }
 <h4>Introduction</h4>
 
 <p>This page is a complete, summarized WebGL tutorial, including tiny, embedded, editable demos in each chapter.
-<p>It's mainly inspired by the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a>, the websites <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals.org</a> &amp, <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">mdn.io</a>. 
+<p>It's mainly inspired by the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> and the websites <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals.org</a>, <a href="http://learnwebgl.brown37.net/index.html">LearnWebgl</a> &amp, <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">mdn.io</a>. 
 <p>Starting nearly from scratch, you'll be able to create your own 3D interactive scenes without needing to use any <a href="https://fr.wikipedia.org/wiki/Liste_de_frameworks_WebGL">library or framework</a>: only vanilla JS &amp; WebGL.
 <p>My goal was to gather all the information and tricks about WebGL I found scattered everywhere, and present them in a short and helpful way. I hope you'll enjoy it!
 <p>The live playground (used for the demos) is available <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg==">here</a>, my 3D OBJ file parser/viewer is <a href="https://xem.github.io/webgl-guide/">here</a>, and all the source code is available <a href="https://github.com/xem/webgl-guide">on Github</a>.
@@ -123,57 +123,61 @@ compile = (gl, vshader, fshader) => {
 
 <table border style="table-layout:auto">
 <tr>
-<th style="max-width:50px">Qualifier<th style="max-width:50px">Type<th>GLSL<th style="width:55%">How to set its value in JS
+<th>Qualifier<th style="min-width:100px">Type<th>GLSL<th style="min-width:460px">How to set its value in JS
 
 <tr>
 <td rowspan=2>attribute
 <td>float
-<td><pre>attribute float f;</pre>
-<td><pre>gl.vertexAttrib1f(gl.getAttribLocation(program, 'f'), 1.0);</pre>
+<td><pre><code class="lang-js">attribute float f;</code></pre>
+<td><pre><code class="lang-js">var f = gl.getAttribLocation(program, 'f');
+gl.vertexAttrib1f(f, 1.0);</code></pre>
 
 <tr>
 <td>vec4
-<td><pre>attribute vec4 v;</pre>
-<td><pre>// As a list:
-gl.vertexAttrib4f(gl.getAttribLocation(program, 'f'), 1.0, 2.0, 3.0, 4.0);
-
-// or as an Array:
-gl.vertexAttrib4fv(gl.getAttribLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
-
+<td><pre><code class="lang-js">attribute vec4 v;</code></pre>
+<td><pre><code class="lang-js">var f = gl.getAttribLocation(program, 'f');
+gl.vertexAttrib4f(f, 1.0, 2.0, 3.0, 4.0); // list
+gl.vertexAttrib4fv(f, [1.0, 2.0, 3.0, 4.0]); // or array</code></pre>
 <tr>
 <td rowspan=4>uniform
 
 <td>int
-<td><pre>uniform int i;</pre>
-<td><pre>gl.uniform1i(gl.getUniformLocation(program, 'f'), 1);</pre>
+<td><pre><code class="lang-js">uniform int i;</code></pre>
+<td><pre><code class="lang-js">var i = gl.getUniformLocation(program, 'f');
+gl.uniform1i(i, 1);</code></pre>
 
 <tr>
 <td>float
-<td><pre>uniform float f;</pre>
-<td><pre>gl.uniform1f(gl.getUniformLocation(program, 'f'), 1.0);</pre>
+<td><pre><code class="lang-js">uniform float f;</code></pre>
+<td><pre><code class="lang-js">var f = gl.getUniformLocation(program, 'f'):
+gl.uniform1f(f, 1.0);</code></pre>
 
 <tr>
 <td>vec4
-<td><pre>uniform vec4 v;</pre>
-<td><pre>// As a list:
-gl.uniform4f(gl.getUniformLocation(program, 'f'), 1.0, 2.0, 3.0, 4.0);
-
-// or as an Array:
-gl.uniform4fv(gl.getUniformLocation(program, 'f'), [1.0, 2.0, 3.0, 4.0]);</pre>
+<td><pre><code class="lang-js">uniform vec4 v;</code></pre>
+<td><pre><code class="lang-js">var f = gl.getUniformLocation(program, 'f');
+gl.uniform4f(f, 1.0, 2.0, 3.0, 4.0); // list
+gl.uniform4fv(f, [1.0, 2.0, 3.0, 4.0]); // or array</code></pre>
 
 <tr>
 <td>mat4
-<td><pre>uniform mat4 m;</pre>
-<td><pre>gl.uniformMatrix4fv(
-  gl.getUniformLocation(program, 'm'), false, new Float32Array([
+<td><pre><code class="lang-js">uniform mat4 m;</code></pre>
+<td><pre><code class="lang-js">var m = gl.getUniformLocation(program, 'm');
+gl.uniformMatrix4fv(
+  m,
+  false, // transpose (always false)
+  new Float32Array([
     1.0, 2.0, 3.0, 4.0,
     5.0, 6.0, 7.0, 8.0,
     9.0, 10.0, 11.0, 12.0,
     13.0, 14.0, 15.0, 16.0
   ])
-);</pre>
+);</code></pre>
 
 </table>
+
+<br>(vec2 andvec3 are declared similarly to vec4, mat2 and mat3 similarly to mat4).
+
 <br>
 <p>Here's the same demo as before, but this time the position, size and color of the point are set by the JS code:
 <br>
@@ -1195,15 +1199,14 @@ transpose = m => {
 <h4>Reduce repetitions with indexed vertices</h4>
 
 <ul>
+<li>Before starting to draw 3D objects (that require a lot of triangles), we need to learn an optimized way to write our buffers.
 <li>As we have seen before, data buffers (with the type gl.ARRAY_BUFFER) can hold vertex properties (position, color, texture coordinates...).
 <li>These properties can be placed into multiple buffers or interleaved into a single one.
 <li>In 3D, vertices are often shared between multiple triangles.
 <li>Instead of repeating the same vertices many times in the same buffer, it's possible to write each vertex only once in a data buffer,<br>and use a second buffer with the type <b>gl.ELEMENT_ARRAY_BUFFER</b> that declares all our triangles by using indices of the first object.
 <li>Even if many data buffers exist in your program, only one index buffer can be used, and it will list indices from all the data buffers at once,<br>so they all need to be stored in the same order (the N'th item of every buffer must belong to the same N'th vertex).
-<li>Finally, to draw indexed vertices, you need you replace gl.drawArrays with <b>gl.drawElements(type, count, type, offset)</b>
-<br>Warning: contrary to drawArrays(), the second parameter is the number of polygons, not the number of vertices!
-<br>Firefox will refuse to draw anything if the count parameter is too big, but Webkit browsers will work without any warning.
-<li>The indices stored in the index buffer have integer values (N = 0, 1, 2...), and you can choose their size in bytes depending on the number of indices:
+<li>Finally, to draw indexed vertices, you need you replace gl.drawArrays with <b>gl.drawElements(type, count, type, offset)</b>.
+<li>The indices stored in the index buffer have integer values (N = 0, 1, 2...), and you can choose their size in bytes depending on the number of vertices you want to index:
 <br>
 <br>
 <table border>
@@ -1212,15 +1215,15 @@ transpose = m => {
 <th>Index buffer type
 <th>drawElements type
 <tr>
-<td>&lt;= 256
+<td>0 ... 256
 <td>Uint8Array([...])
 <td>gl.UNSIGNED_BYTE
 <tr>
-<td>&lt;= 65536
+<td>0 ... 65,536
 <td>Uint16Array([...])
 <td>gl.UNSIGNED_SHORT
 <tr>
-<td>&lt;= 4294967296
+<td>0 ... 4,294,967,296
 <td>Uint32Array([...])
 <td>gl.UNSIGNED_INT (*)
 </table>
@@ -1228,33 +1231,87 @@ transpose = m => {
 <p>(*) In WebGL1, an extension must be enabled before using the type UNSIGNED_INT: <b>gl.getExtension('OES_element_index_uint');</b>. In WebGL2, it's enabled by default.
 </ul>
 
-<p>The following demos will use indexed buffers to render 3D objects.
+<br>
+<p>You can see indexed buffers in action in the following demos...
 
 
 <br><br><hr><br>
 
 <h3>Hello cube</h3>
 
-<p>The easiest 3D shape to render is a cube. But to make WebGL draw triangles in 3D, two new settings must be used:
+<p>The easiest 3D shape to render is a cube. But to render it correctly, two new settings must be used:
 <ul>
 <li>In order to make each triangle appear at the right depth (the front ones in front, the back ones in the back), depth-sorting must be enabled with <b>gl.enable(gl.DEPTH_TEST);</b>
-<li>The clear code is also updated to take this depth test into account: <b>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</b>
+<li>The clear code is also updated to take this depth test into account: <b>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</b> (see lines 95 and 106).
 </ul>
 
 <iframe id=i8 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=8"></iframe>
+
+<p>You can notice that the cube appears to rotate on itself, but it's actually the camera that rotates around it (see lines 97-100 + 104).
 
 <br><br><hr><br>
 
 <h3>Color each face of the cube</h3>
 
 <ul>
-<li>In this case, each vertex doesn't have a single color: it has a different color depending on which face is being rendered
-<li>Thus, we need to declare the vertices of each face separately in an array buffer, then the colors of each vertex of each face in another array buffer, and finally, use an index buffer that references both vertices and colors:
+<li>To color each face individually, each vertex can't have an unique color like before. Its color needs to vary depending on which face is being rendered.
+<li>The solution is to declare all the possible combinations of vertices positions and colors in two data buffers, and use an index buffer to create the corresponding triangles.
+<li>The same principle will apply if you want to make a cube with different textures on each face.
 </ul>
 
 <iframe id=i9 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=9"></iframe>
 
-<p>I've added the cube declaration in the cube() function of <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> to avoid repeating it in the next demos
+<p>I've added the cube declaration in the cube() function of <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> to avoid repeating it in the next demos:
+
+<pre><code class="lang-js">// Declare a cube (2x2x2)
+// Returns [vertices (Float32Array), normals (Float32Array), indices (Uint16Array)] 
+//
+//    v6----- v5
+//   /|      /|
+//  v1------v0|
+//  | |     | |
+//  | |v7---|-|v4
+//  |/      |/
+//  v2------v3
+
+cube = (r = 1, g = 1, b = 1) => {
+
+  var vertices = new Float32Array([
+     1.0, 1.0, 1.0,  -1.0, 1.0, 1.0,  -1.0,-1.0, 1.0,   1.0,-1.0, 1.0, // front
+     1.0, 1.0, 1.0,   1.0,-1.0, 1.0,   1.0,-1.0,-1.0,   1.0, 1.0,-1.0, // right
+     1.0, 1.0, 1.0,   1.0, 1.0,-1.0,  -1.0, 1.0,-1.0,  -1.0, 1.0, 1.0, // up
+    -1.0, 1.0, 1.0,  -1.0, 1.0,-1.0,  -1.0,-1.0,-1.0,  -1.0,-1.0, 1.0, // left
+    -1.0,-1.0,-1.0,   1.0,-1.0,-1.0,   1.0,-1.0, 1.0,  -1.0,-1.0, 1.0, // down
+     1.0,-1.0,-1.0,  -1.0,-1.0,-1.0,  -1.0, 1.0,-1.0,   1.0, 1.0,-1.0  // back
+  ]);
+
+  var normals = new Float32Array([
+    0.0, 0.0, 1.0,   0.0, 0.0, 1.0,   0.0, 0.0, 1.0,   0.0, 0.0, 1.0,  // front
+    1.0, 0.0, 0.0,   1.0, 0.0, 0.0,   1.0, 0.0, 0.0,   1.0, 0.0, 0.0,  // right
+    0.0, 1.0, 0.0,   0.0, 1.0, 0.0,   0.0, 1.0, 0.0,   0.0, 1.0, 0.0,  // up
+   -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  // left
+    0.0,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,  // down
+    0.0, 0.0,-1.0,   0.0, 0.0,-1.0,   0.0, 0.0,-1.0,   0.0, 0.0,-1.0   // back
+  ]);
+
+  var indices = new Uint16Array([
+    0, 1, 2,   0, 2, 3,  // front
+    4, 5, 6,   4, 6, 7,  // right
+    8, 9, 10,  8, 10,11, // up
+    12,13,14,  12,14,15, // left
+    16,17,18,  16,18,19, // down
+    20,21,22,  20,22,23  // back
+  ]);
+  
+  return [vertices, normals, indices];
+};</code></pre>
+
+<p>In bonus, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> also contains the models for a sphere and a pyramid.
+<br>You can test them in all the following demos by replacing cube() with <b>sphere()</b> or <b>pyramid()</b>.
+
+<br><br><img src="images/webgl-guide/othershapes.png">
+
+<br><br>NB: all the shapes in this file use Uint16Array's for indices, so remember to use <b>gl.UNSIGNED_SHORT</b> in drawArrays().
 
 <br><br><hr><br>
 
@@ -1262,21 +1319,24 @@ transpose = m => {
 
 <h5>Diffuse light</h5>
 <ul>
-<li>Diffuse light reflexion is visible when the light is reflected in all directions as it hits a face of the cube
-<li>To do that, we need to define a light with a color (for example, white), and a direction (for example, vec3(0.5, 3.0, 4.0))
-<li>Each face has <b>normal</b>: a vec3 pointing to the outside of the cube, with a length of 1, i.e. "normalized"
-<li>In the fragment shader, we perform a <b>dot product</b> between the light vector and the face normal, to determine how much the light is diffused
-<br><blockquote class="twitter-tweet"><p lang="en" dir="ltr">dot product - visualized ⚪<br><br>the dot of two normalized vectors, as shown here, can say how similar they are<br><br>a • b = 1, same direction<br>a • b = 0, perpendicular<br>a • b = -1, opposite directions<br><br>you might also be able to see why it&#39;s sometimes called scalar projection~ <a href="https://t.co/vg8TwNZ8qs">pic.twitter.com/vg8TwNZ8qs</a></p>&mdash; Freya Holmér (@FreyaHolmer) <a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw">November 30, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<li>Diffuse light reflexion is visible when the light is reflected in all directions as it hits a surface, with an intensity that decreases with the surface's relative angle.
+<br><img src="images/webgl-guide/diffuse.png">
+<li>To simulate that, we need to define a light source with a color (for example, white), and a direction (for example, vec3(0.5, 3.0, 4.0)).
+<li>Each triangle has <b>normal</b>: a vec3 that points to the outside, and <b>normalized</b> (with a length equal to 1).
+<li>In the fragment shader, we perform a <b>dot product</b> between the light vector and the face normal, to determine how much the light is diffused:
+<br><br><img src="images/webgl-guide/dot.gif" width=250 style="border: 1px solid #ddd; position: relative;top: 5px;margin: 0 10px 0 0;">
+ (gif by <a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw">@FreyaHolmer</a>)<br><br>
 <li>If the dot product is negative, we set it to "0" (there can't be a negative amount of light). This is done with <b>max(dot(light, normal), 0.0);</b>
-<li>The color sent to the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light, and the color's alpha is set to 1.0
-<li>In HLSL, the composants of a vec4 can be accessed with .x/y/z/t (if it's a position) or .r/g/b/a (if it's a color). Composants can be composed too (ex: <b>vec3 rgb = col.rgb</b>)
+<li>The color sent to the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light. The color's alpha is set to 1.0.
+<li>NB: The components of a vec4 can be accessed with .x/y/z/t (for a position) or .r/g/b/a (for a color). They can also be composed into a new vector (ex: <b>vec3 rgb = col.rgb</b>).
 </ul>
 
 <iframe id=i10 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=10"></iframe>
 
 <br><h5>Ambient light</h5>
 
-<p>With diffuse lighting alone, some faces are too dark, like the rightmost one here. To fix that, we can add an <b>ambient light</b> (added equally to every vertex's color):
+<p>With diffuse lighting alone, some faces are too dark, like the rightmost one here. To fix that, we can add an ambient light reflexion.
+<p>To simulate it, we need to set a light color (not too bright, for example: vec3(0.2, 0.2, 0.2)), apply it to the surface color (with a multiplication), and add it to the diffuse light:
 <br>
 <br>
 <iframe id=i11 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=11"></iframe>
@@ -1288,33 +1348,38 @@ transpose = m => {
 <ul>
 <li>To enhance that, we can use a <b>point light</b> representing the sun or a light bulb, with a specific position and color
 <li>With such a point light in the scene, the shading will be able to vary according to the distance between each point of the cube and the point light
-<li>When it's computed per vertex (see the book's demos: <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedCube.html">cube</a> / <a href="https://xem.github.io/webgl-guide/book/ch08/PointLightedSphere.html">sphere</a>), it looks a bit nicer but still not great due to the imprecise color interpolation
+<li>When it's computed per vertex, it looks a bit nicer but still not great due to the imprecise color interpolation (the triangles are visible):
 <br>
 <br><img src="images/webgl-guide/per_vertex.png" width=500>
-<li>A better solution consists in computing the right color for every fragment of the cube (i.e. every pixel),<br>and that's exactly what the fragment shader is here for! (see the book's demos: <a href="https://xem.github.io/webgl-guide/visualizer/?url=12-point">cube</a> / <a href="http://xem.github.io/webgl-guide/book/ch08/PointLightedSphere_perFragment.html">sphere</a>)
-<br><img src="images/webgl-guide/sphere.png" width=500>
+<br>
+<br>
+<li>A better solution consists in computing the right color for every fragment of the cube (i.e. every pixel),<br>and that's exactly what the fragment shader is here for:
+<br><br><img src="images/webgl-guide/sphere.png" width=500>
 </ul>
 <br>
 <iframe id=i12 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=12"></iframe>
+<p>As you can see, the vertex shader sends the verices positions, colors and normals to the fragment shader using varyings, and the fragment shader computes everything. 
 
 <h5>Smooth shading</h5>
 
 <ul>
-<li>With the lighting methods we've seen before, a complex shape will always have "hard edges" (abrupt changes of lighting between two faces)
-<li>This is because each face has an unique normal vector, shared between all its vertices
-<li>Smooth shading consists in computing a different normal for each vertex, equal to the sum of the normals of all the faces it belongs to (as explained <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">here</a>!)
-<br>(in the end, the shaders normalize the normals, so it's equivalent to computing a mean of the face normals)
-<li>Example: a 3D model with smooth shading disabled / enabled
-<br><br><img src="images/webgl-guide/w5.gif" width=600>
+<li>With the lighting methods we've seen before, a complex 3D model will always have "hard edges" (abrupt changes of lighting between two faces).
+<br>This is because each face has an unique normal vector, which is shared between all its vertices.
+<li>Smooth shading consists in computing a different normal for each vertex, equal to the mean of the normals of all the faces it belongs to.
+<br>But no need to use divisions! Just add all the normals together and the mean will simply appear when the shaders will normalize the result (more info <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">here</a>).
+<li>Example: a complex 3D model with smooth shading disabled / enabled.
+<br><br><img src="images/webgl-guide/w5.gif" width=650>
 </ul>
 
-<br>
 <h5>Other types of lighting</h5>
 <ul>
-<li>Emissive lighting: when an object is self-illuminated - this can be easy if you just want to make the fragments lighter (multiply the color with a value higher than 1), or very complicated if you want the surface to illuminate surrounding objects (this will not be covered here :p )
-<li>Specular lighting: when an object is more or less shiny, it can reflect a point light like a mirror under a certain angle (more info <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-3d-lighting-point.html">here</a>)
-<br>The idea is to compute the half-vector between the camera, the fragment and the light, and compare this with the surface normal using a dot product
-<br><img src="images/webgl-guide/specular.png">
+<li>Emissive lighting: when an object is self-illuminated - this can be easy if you just want to make the fragments lighter (multiply their rgb color with a number higher than 1),
+<br>or very complicated if you want the surface to illuminate surrounding objects (this will not be covered here :p ).
+<li>Specular lighting: when an object is shiny, it can reflect a point light like a mirror under a certain angle (more info <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-3d-lighting-point.html">here</a>).
+<br>To simulate it, we can compute the half-vector between the camera, the fragment and the light, and compare this with the surface normal using a dot product.
+<br>This dot product is then powered to a number that represents the surface's "shininess", and added to the other (ambient / diffuse / emmisive) lights in the fragment shader:
+</ul>
+<img src="images/webgl-guide/specular.png">
 
 <pre><code class=lang-js>var fshader = `
 (...)
@@ -1333,41 +1398,37 @@ color.rgb += specular * specularLightColor;
 (...)
 `;</code></pre>
 
-<h5>Lighting and coloring are the same</h5>
+<h5>A bit of vocabulary</h5>
 
-<p>You may find documents talking about ambient/diffuse/specular colors. It's the same thing as ambient/diffuse/specular lighting
-<br>And it makes sense: in CG, like in the real world, the colors emitted by an object depend entirely on its lighting
+<ul>
+<li>You may find documents talking about ambient / diffuse / specular <b>colors</b>. It's the same thing as ambient / diffuse / specular <b>lighting</b>.
+<br>And it kind of makes sense: in CG, like in the real world, the colors emitted by an object depend entirely on its lighting.
 
-<h5>Lighting and shading are not the same</h5>
-<p>The two terms are often mixed but lighting is really a physics notion (how the light affects an object) while shading is purely CG-related (how a pixel is rendered) 
-<br><br><hr><br>
+<li>However, <b>lighting</b> and <b>shading</b> are not the same thing, even though the two terms are often mixed.
+<br>Lighting is actually a physics notion (how the light affects an object) while shading is purely CG-related (how a pixel is rendered on a screen).
+</ul>
+
+<br><hr><br>
 
 <h4>Transforming the shaded cube</h4>
 
 <ul>
-<li>So far, we've only transformed the camera matrix, to make it revolve around the cube
-<li>Due to the lack of light or other cubes in the scene, it was equivalent to having the cube rotate on itself
-<li>Now that we have a fixed point light in the scene, if we want to rotate, translate or scale the cube, we need to do two things:<br>- introduce a <b>model matrix</b> (the transformation matrix of the cube),<br>- recompute the 6 cube's normals and the lighting of every fragment when the model matrix is updated
-<li>Computing a face normal from scratch can be done using a cross-product of two face vectors respecting the right hand rule (AB × BC if the points A, B and C are arranged counterclockwise)
-<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">cross product - visualized ⚔<br><br>the cross product A × B is a super useful way to take two 3D vectors, and get a third vector *perpendicular to both*, shown in blue (with its length shown in gray)! <a href="https://t.co/d3NZoLEUtq">pic.twitter.com/d3NZoLEUtq</a></p>&mdash; Freya Holmér (@FreyaHolmer) <a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw">December 6, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<li>Though, it's simpler to only compute the normals once, on load, and pass them to the vertex shader, along with the vertex position and the face color
-<br>
-Then, when the model matrix changes, the trick is compute its inverse transpose (in JS) and pass it to the vertex shader
-<br>
-In the vertex shader, the original normal just needs to be multiplied by this matrix to obtain its new value: <b>vec3 newNormal = oldNormal * inverseTranspose</b>
-<li>Here are the functions I added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a> to compute the inverse transpose:
+<li>So far, we've only transformed the camera matrix, to make it revolve around the cube to create an illusion of cube rotation.
+<li>Now that we have a fixed point light in the scene, if we want to rotate, translate or scale the cube without touching the rest of the scene, we need to do two things:<br>- introduce a <b>model matrix</b> (the transformation matrix of the cube),<br>- recompute the cube's normals and the lighting of every fragment every time the model matrix is updated.
+<li>Computing a triangle normal can be done using a <b>cross-product</b> of two edge's vectors respecting the-right hand rule (AB × BC if A, B and C are in counterclockwise order).
 
-<pre><code class="lang-js">// Get the transposed of a mat4
-transpose = m => {
-  return new Float32Array([
-    m[0], m[4], m[8],  m[12],
-    m[1], m[5], m[9],  m[13],
-    m[2], m[6], m[10], m[14],
-    m[3], m[7], m[11], m[15]
-  ]);
-};
+<br><br><img src="images/webgl-guide/cross.gif" width=300 style="border: 1px solid #ddd; position: relative;top: 5px;margin: 0 10px 0 0;">
+ (gif by <a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw">@FreyaHolmer</a>)
+<br><br>
 
-// Get the inverse of a mat4
+<li>In practice, the best method is to only compute the normals once, on load, in JS, and pass them to the vertex shader, along with the vertex position and color.
+<br>
+Then, when the model matrix changes, the trick is compute its <b>inverse transpose</b> and pass it to the vertex shader in the form of an uniform mat4.
+<br>
+In the vertex shader, simply multiply the original normal with this inverse transpose matrix to obtain its updated value: <b>vec3 newNormal = oldNormal * inverseTranspose</b>.
+<li>Here are the inverse() and inverseTranspose() functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
+
+<pre><code class="lang-js">// Get the inverse of a mat4
 inverse = m => {
   var inv = new Float32Array([
      m[5]*m[10]*m[15] - m[5]*m[11]*m[14] - m[9]*m[6]*m[15] + m[9]*m[7]*m[14] + m[13]*m[6]*m[11] - m[13]*m[7]*m[10],
@@ -1394,38 +1455,43 @@ inverse = m => {
     inv[i] *= det;
   }
   return inv;
-};</code></pre>
+};
 
-<li>We also pass a "mvp" (model view projection) matrix to the vertex shader, which is the multiplication of the camera matrix and the model matrix
+// Get the inverse transpose of a mat4
+inverseTranspose = m => transpose(inverse(m));</code></pre>
+<br>
+<li>We also pass a "mvp" (<b>model view projection</b>) matrix to the vertex shader, which is the multiplication of the camera matrix and the model matrix.
+<br>These two matrices are multiplied in JS instead of the vertex buffer, for the same reason as before: avoid the effort of recomputing it for each vertex, at each frame.
 </ul>
-
+<br>
 <p>Here's a cube rotating on itself with a fixed camera and a fixed point light:
 <br>
 <br>
 
 <iframe id=i13 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=13"></iframe>
 
-<p>Note: if the model matrix is only a rotation or an uniform scaling, the inverse transpose matrix will be equal to the model matrix. But in any other transformation or combination of transformations, it will have a specific value that will let the shader compute the new normals with a simple multiplication (more info <a href="https://stackoverflow.com/questions/13654401/why-transforming-normals-with-the-transpose-of-the-inverse-of-the-modelview-matr">here</a>)
-
+<p>You may remark that in certain cases (simple rotation or scaling), the inverse transpose matrix will be equal to the model matrix.
+<br>But for translations or any combination of transformations, it will actually have a different value.
+<br>As I said earlier, this value is useful in order to update the face normals with a simple multiplication, instead of recomputing them from scratch (more info <a href="https://stackoverflow.com/questions/13654401/why-transforming-normals-with-the-transpose-of-the-inverse-of-the-modelview-matr">here</a>).
 
 <br><br><hr><br>
 
 <h4>Drawing many cubes</h4>
 
 <ul>
-<li>Of course, it's possible to declare the vertices coordinates, colors and normals of each cube, but that would be very verbose
-<li>Instead, we can consider the cube we already declared at the center of the scene as a model
-<li>For each cube we want to draw, we simply need to transform this model (by setting the model matrix, mvp matrix and inverse transpose matrix) and render it
+<li>To draw many cubes at once, it's of course possible to declare the vertices coordinates, colors and normals of each cube separately, but that would be very verbose.
+<li>Instead, we can consider the cube we already declared as a reusable model.
+<li>For each cube we want to draw, we simply need to transform it (by giving it a new model matrix, mvp matrix and inverse transpose matrix), and render it.
 </ul>
 
-<br><p>Here's a demo with 3 red cuboids (deformed cubes)
+<p>Here's a demo with 3 red cuboids (deformed cubes)
 <br><br>
 <iframe id=i14 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=14"></iframe>
 
-<p>To avoid repetitions, I added a drawShape function in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a>, with optional scaling along X/Y/Z:
+<p>To avoid repetitions, I added a drawShape() function in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a>, with optional scaling along X/Y/Z. Its role is to (re)render the current model as many times as necessary.
 
 <pre><code class="lang-js">// Draw the current shape
-drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => {
+drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) => {
   
   // Set the model matrix (add the custom scale if any)
   var model = gl.getUniformLocation(program, 'model');
@@ -1443,7 +1509,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => 
   gl.uniformMatrix4fv(inverseTranspose, false, inverseTransposeMatrix);
 
   // Render
-  gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+  gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
 };</code></pre>
 
 <br><br><hr><br>
@@ -1452,26 +1518,28 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, sx = 1, sy = 1, sz = 1) => 
 <h4>Hierarchical objects</h4>
 
 <ul>
-<li>A hierarchical object is a model made of several basic objects (called "segments"), like a robotic arm made of many cuboids
-<li>Joints are where the segments are linked and rotate relatively to each other, like an elbow
-<li>To keep the segments linked to each other, the matrix transformation is inherited from segment to segment
-<li>The following demo shows an robotic arm made of three cuboids (click the buttons to make it move)
-<li>You can see from line 142 that the vertical "arm" cuboid can rotate around X, and once it's rotated, we perform a negative translation along Y.<br>The result is that the cuboid doesn't rotate around its center, but around a point that is placed 2 units higher: where the arm is attached to the shoulder
-<li>Then from line 148, the hand cuboid, which is attached at the end of the arm cuboid, inherits its model matrix, and extends it to add its own rotation and translation.
-<br>(The hand rotates along the Y axis, around its own center, but it also has a Y translation, not to change its rotation center but to place it at the end of the arm)
-<li>This process can be repeated many times to make a multi-joint object, like an entire robot or a rope!
-<li>If many segments are attached to the same parent (for example, the fingers of a hand), they must all reuse the hand's matrix.
-<br>This is done in the book's example called <a href="https://xem.github.io/webgl-guide/book/ch09/MultiJointModel.html">MultiJointModel</a>
+<li>A <b>hierarchical object</b> is a model made of several basic objects (called <b>segments</b>), for example a robotic arm.
+<li><b>Joints</b> are where the segments are linked and rotate relatively to each other, like an elbow or a wrist.
+<li>To keep the segments linked to each other, the transformation matrix is inherited from segment to segment (ex: a hand will add its own transformation matrix to the arm's one). 
 </ul>
-
-<br>
+<p>The following demo shows an robotic arm made of three cuboids (click the buttons below to make it move).
+<br><br>
 
 <iframe id=i15 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=15"></iframe>
+<ul>
+<li>You can see from line 146 that the vertical "arm" cuboid can rotate around X, and once it's rotated, we perform a "-2" translation along Y.
+<br>As described in the "transformations" chapter, this allows to make the cuboid to rotate around a pivot point placed at its extremity (the "elbow") instead of its center.
+<li>Then from line 152, the hand cuboid, which is attached at the end of the arm cuboid, inherits its model matrix, and extends it to add its own rotation and translation.
+<br>(the rotation happens along the Y axis, and the translation places it at the end of the arm)
+<li>This process can be repeated many times to make a multi-joint object, like an entire robot or a rope made of many segments!
+<li>Also, if many segments are attached to the same parent (for example, the fingers of a hand), they must all reuse their parent's matrix (see demo <a href="https://xem.github.io/webgl-guide/book/ch09/MultiJointModel.html">here</a>).
+
+<br><br><img src="images/webgl-guide/6cubes.gif" width=250> 
 
 <br><br><hr><br>
 
 <p>At this point we've covered all the basis of 2D and 3D rendering.
-<p>See <a href="webgl-guide-part-2.html">PART 2</a> for the advanced techniques! :)
+<br>Unfortunately, browsers don't accept more than 16 WebGL contexts in the same page, so check out the <a href="webgl-guide-part-2.html">PART 2</a> for advanced techniques! :)
 </div>
 </div>
 
