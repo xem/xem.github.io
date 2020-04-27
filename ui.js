@@ -9,8 +9,7 @@ $$ = function(i){
 menus = {
   
   articles: {
-    "webgl-guide": "WebGL guide part 1",
-    "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
+    "webgl-guide": "WebGL guide",
     obfuscatweet: "Obfusc-a-tweet reloaded",
     js13k19: "JS13kGames 2019",
     projection: "3D projection",
@@ -262,7 +261,7 @@ footer = function(){
     <a href="//maximeeuziere.itch.io/" target=_blank>Itch</a> - 
     <a href="mailto:maxime.euziere(at)gmail.com">Mail</a> - 
     <a href="/cv" target=_blank>CV</a>
-    <div class=backtotop onclick="document.body.scrollTop = document.documentElement.scrollTop = 0">🡅</div>
+    <div class=backtotop onclick="document.body.scrollTop = document.documentElement.scrollTop = 0">⤊</div>
     <iframe src="https://visits.xem.workers.dev/" width=1 height=1 style="opacity:.1">
   `);
   

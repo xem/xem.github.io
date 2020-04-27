@@ -27,98 +27,167 @@ h2 { font-size: 24px }
 h3 { font-size: 20px }
 h4 { font-size: 18px }
 h5 { font-size: 14px }
-ul { padding-left: 15px }
+ul, ol { padding-left: 15px }
 pre { margin: 3px; font-size: 12px; }
+pre.inline, pre.inline code { display: inline; padding: 2px; background: #444; font-size: 11px;}
 .math { margin: 15px 0 }
 .section iframe { height: 40vw; min-height: 400px; }
 .ch10 { border: 1px solid #000 }
 .ch10 * { border: none }
 .ch10 td { max-width: 430px; width: auto; vertical-align: top }
 .ch10 td + td { max-width: 450px; }
-
+.newWindow { float: right; margin-top: -60px; left: -10px; position: relative; z-index: 2; padding: 5px; border: 1px solid #555; border-radius: 5px; color: #000; font-size: 20px; width: 40px; height: 40px; background: url('images/new_window.svg') no-repeat center center #def; }
+.section p {line-height: 30px; }
 </style>
 
 <div class=section id=webgl_guide>
 <h2>WebGL guide</h2>
 <h3>october 2019 - may 2020</h3>
-  
+
+<br><hr>
+
 <h4>Introduction</h4>
 
-<p>This page is a complete, summarized WebGL tutorial, including tiny, embedded, editable demos in each chapter.
-<p>It's mainly inspired by the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> and the websites <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals.org</a>, <a href="http://learnwebgl.brown37.net/index.html">LearnWebgl</a> &amp, <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">mdn.io</a>. 
-<p>Starting nearly from scratch, you'll be able to create your own 3D interactive scenes without needing to use any <a href="https://fr.wikipedia.org/wiki/Liste_de_frameworks_WebGL">library or framework</a>: only vanilla JS &amp; WebGL.
-<p>My goal was to gather all the information and tricks about WebGL I found scattered everywhere, and present them in a short and helpful way. I hope you'll enjoy it!
-<p>The live playground (used for the demos) is available <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg==">here</a>, my 3D OBJ file parser/viewer is <a href="https://xem.github.io/webgl-guide/">here</a>, and all the source code is available <a href="https://github.com/xem/webgl-guide">on Github</a>.
-<p>Helper files created while making this guide: <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a> and <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a>.
-<p>If you're interested in Shadertoy, WebGL raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2.</a>
-<p>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a> and <a href="https://twitter.com/kchplr">Kevin Chapelier</a> for their knowledge and tips!
+<p>This guide is a complete, summarized WebGL tutorial, with tiny interactive demos in each chapter.
+<br>It's mainly inspired by the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> and the websites <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals</a>, <a href="http://learnwebgl.brown37.net/index.html">LearnWebgl</a> &amp, <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">MDN</a>. 
+<br>Starting nearly from scratch, you'll be able to create your own 3D interactive scenes without needing to use any <a href="https://fr.wikipedia.org/wiki/Liste_de_frameworks_WebGL">library or framework</a>: only vanilla JS &amp; WebGL.
+<br>My goal was to gather all the information and tricks about WebGL I found scattered everywhere, and present them in a short and helpful way. I hope you'll enjoy it!
+<br>The live playground (used for the demos) is available <a href="https://xem.github.io/webgl-guide/visualizer/#PGNhbnZhcyBpZD0iY2FudmFzIiB3aWR0aD00MDAgaGVpZ2h0PTQwMD48L2NhbnZhcz4KPHNjcmlwdD4KLy8gR2V0IHRoZSBXZWJHTCByZW5kZXJpbmcgY29udGV4dAovLyBUaGUgWCBhbmQgWSBjb29yZGluYXRlcyBhcmUgZGVmaW5lZCBiZXR3ZWVuIC0xLjAgYW5kIDEuMAp2YXIgZ2wgPSBjYW52YXMuZ2V0Q29udGV4dCgid2ViZ2wiKTsKCi8vIFZlcnRleCBzaGFkZXI6Ci8vIERlc2NyaWJlcyB0aGUgYXR0cmlidXRlcyBvZiBwb2ludHMgaW4gc3BhY2VzIChwb3NpdGlvbiwgc2l6ZSwgLi4uKQovLyAtIGdsX1Bvc2l0aW9uOiB2ZWM0KHgsIHksIHosIDEuMCkKLy8gLSBnbF9Qb2ludFNpemUgZmxvYXQKdmFyIHZzaGFkZXIgPSBgCnZvaWQgbWFpbigpIHsKICBnbF9Qb3NpdGlvbiA9IHZlYzQoMC4wLCAwLjAsIDAuMCwgMS4wKTsKICBnbF9Qb2ludFNpemUgPSAxMC4wOwp9YDsKCi8vIEZyYWdtZW50IHNoYWRlcjoKLy8gRGVzY3JpYmVzIGhvdyBlYWNoIHBpeGVsIGlzIHJlbmRlcmVkIChjb2xvciwgbGlnaHRpbmcsIC4uLikKLy8gLSBnbF9mcmFnQ29sb3I6IHZlYzQociwgZywgYiwgYWxwaGEpCnZhciBmc2hhZGVyID0gYApwcmVjaXNpb24gbWVkaXVtcCBmbG9hdDsKdm9pZCBtYWluKCkgewogIGdsX0ZyYWdDb2xvciA9IHZlYzQoMS4wLCAwLjAsIDAuMCwgMS4wKTsKfWA7CgovLyBNYWtlIGEgcHJvZ3JhbSBmcm9tIHRoZXNlIHNoYWRlcnMgYW5kIHVzZSBpdCAKdmFyIHZzID0gZ2wuY3JlYXRlU2hhZGVyKGdsLlZFUlRFWF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UodnMsIHZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKHZzKTsKCnZhciBmcyA9IGdsLmNyZWF0ZVNoYWRlcihnbC5GUkFHTUVOVF9TSEFERVIpOwpnbC5zaGFkZXJTb3VyY2UoZnMsIGZzaGFkZXIpOwpnbC5jb21waWxlU2hhZGVyKGZzKTsKCnZhciBwcm9ncmFtID0gZ2wuY3JlYXRlUHJvZ3JhbSgpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgdnMpOwpnbC5hdHRhY2hTaGFkZXIocHJvZ3JhbSwgZnMpOwpnbC5saW5rUHJvZ3JhbShwcm9ncmFtKTsKZ2wudXNlUHJvZ3JhbShwcm9ncmFtKTsKCi8vIENsZWFyIHRoZSBjYW52YXMncyBjb2xvciBidWZmZXIsIGluIGJsYWNrCmdsLmNsZWFyQ29sb3IoMC4wLCAwLjAsIDAuMCwgMS4wKTsKZ2wuY2xlYXIoZ2wuQ09MT1JfQlVGRkVSX0JJVCk7CgovLyBEcmF3IHBvaW50cyBvbiB0aGUgY2FudmFzJ3MgY29sb3IgYnVmZmVyCmdsLmRyYXdBcnJheXMoCiAgZ2wuUE9JTlRTLCAvLyBtb2RlCiAgMCwgICAgICAgICAvLyBzdGFydGluZyBwb2ludAogIDEsICAgICAgICAgLy8gbnVtYmVyIG9mIHBvaW50cyB0byBkcmF3Cik7Cjwvc2NyaXB0Pg==">here</a>, my 3D OBJ file parser/viewer is <a href="https://xem.github.io/webgl-guide/">here</a>, and all the source code is available <a href="https://github.com/xem/webgl-guide">on Github</a>.
+<br>Helper files created while making this guide: <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a> and <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a>.
+<br>If you're interested in Shadertoy, WebGL raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2.</a>
+<br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a> and <a href="https://twitter.com/adriengueret">Adrien Guéret</a> for their knowledge, tips and proofreading!
+
+
+<br><br><hr><br>
+<h2>What is WebGL?</h2>
+
+<h4>Presentation</h4>
+
+<p>WebGL is a JavaScript API designed to compute and draw 2D and 3D graphics very fast in a Web browser, by using the processing power of the GPU.
+<br>It's based on <b>OpenGL ES</b> and is programmed using <b>shaders</b> coded in <b>GLSL</b>, a language similar to C and C++.
+<br>A scene rendered by WebGL is made of <b>vertices</b> (points in 3D space, with coordinates X, Y, Z), which can be rendered as points, lines or triangles (colored, shaded or textured).
+<p>The workflow of a WebGL program is pretty complex, and can be summarized like this:
+<ul>
+<li>The JavaScript code initializes the WebGL program and pilots it to draw a 2D or 3D scene on the <b>webgl context</b> of a <b>HTML5 canvas</b>.
+<li>A first GLSL script called <b>vertex shader</b> is executed for every vertex of the scene. It computes an abstract, mathematical model of the scene and hands it to...
+<li>A second GLSL script called <b>fragment shader</b>, executed for every visible fragment (pixel) of the canvas. It computes each fragment's color, in a process called <b>rasterization</b>.
+<li>The fragments constitute a bitmap image stored in a <b>color buffer</b>, which is finally displayed on the canvas.
+<br><br><img src="images/webgl-guide/workflow.png" width=800>
+</ul>
+<br>
+
+<h4>The GLSL language</h4>
+
+<p>The shaders source code can be placed in a string or loaded from a separate file. Their syntax can be summarized like this:
+
+<ul>
+<li>An <b>int</b> is a whole number: <pre class=inline><code class="lang-js">0</code></pre>, <pre class=inline><code class="lang-js">1</code></pre>, <pre class=inline><code class="lang-js">2</code></pre>, ...
+<li>A <b>float</b> is a number written with at least one decimal: <pre class=inline><code class="lang-js">0.0</code></pre>, <pre class=inline><code class="lang-js">0.1</code></pre>, <pre class=inline><code class="lang-js">1.0</code></pre>, ...
+<li>A <b>vec4</b> is an array of 4 floats representing vertex coordinates or a 3D vector (x, y, z, w), or a color (r, g, b, alpha). The types vec2 and vec3 exist too.
+<li>A <b>mat4</b> is a matrix (a grid) of 4 x 4 floats, useful for transforming coordinates and vectors in 3D. The types mat2 (2x2) and mat3 (3x3) exist too.
+<li>A <b>variable</b> is declared with its type, for example: <pre class=inline><code class="lang-js">int i = -1</code></pre>, <pre class=inline><code class="lang-js">float f = 2.0</code></pre> or <pre class=inline><code class="lang-js">vec4 v = vec4(1.0, 2.0, 3.0, 4.0)</code></pre>.
+<li>A <b>constant</b> is a variable with a fixed value: <pre class=inline><code class="lang-js">const int c = 100;</code></pre>.
+<li>The xyzw / rgba components of a vec4 can be extracted and recomposed, for example: <pre class=inline><code class="lang-js">float f = v.x</code></pre>, <pre class=inline><code class="lang-js">vec3 rgb = v.rgb</code></pre>.
+<li><b>Math functions</b>: cos, sin, tan, pow, exp, log, log2, sqrt, abs, sign, floor, ceil, round, trunc, fract, mod, min, max, clamp, mix, step, length, distance, dot, cross, normalize...
+<li>All the usual <b>operators</b> are available (+ - * / &amp;&amp; || % ! ~ &amp; | >> &lt;&lt; == != ++ += ...) but only between variables of the same type (and matrices can be multiplied with vectors).
+<li><b>Tests and loops</b> are also available (if, else, switch, for, while), but loops must have a constant limit. (you can't do <pre class=inline><code class="lang-js">for(i=0; i&lt;j; i++){...}</code></pre> if j is variable).
+<li>The <b>entry point</b> of each shader is a <pre class=inline><code class="lang-js">void main(){...}</code></pre> function. (<a href="https://relativity.net.au/gaming/glsl/Functions.html">custom functions</a> can also be created and called by main() ).
+<li>The <b>precision</b> of ints & floats (lowp/mediump/highp, resp. 8/16/32 bits) of each shader can be set with a directive, like <pre class=inline><code class="lang-js">precision highp int;</code></pre> or <pre class=inline><code class="lang-js">precision mediump float;</code></pre>
+<br>These directives must be at the beginning of the shader's code, however only the float precision is mandatory in the fragment buffer, all the others have values by default.
+<li>The vertex shader must set a global variable <b>gl_Position</b> containing the coordinates of the current vertex. <b>gl_PointSize</b> is also mandatory when rendering individual points.
+<li>The fragment shader must set a global variable <b>gl_FragColor</b> containing the color of the current fragment.
+<br>It can also read 3 global variables: <b>gl_FragCoord</b> (window coordinates),  <b>gl_PointCoord</b> (coordinates inside a point) and <b>gl_FrontFacing</b> (current triangle orientation).
+</ul>
+
+<br>
+<h4>Communication between JavaScript and WebGL</h4>
+<p>Four main mechanisms exist to send data between the different scripts:
+<ul>
+<li><b>Attributes</b> are global variable passed by JS to the vertex shader. Their value can change for each vertex (ex: vertex coordinates).
+<li><b>Uniforms</b> are global variables passed by JS to both vertex and fragment shaders (ex: a color). Their value stays constant for an entire frame.
+<li><b>Varyings</b> are not accessible by JavaScript. They can only be set by the vertex shader and read by the fragment shader.
+<li><b>buffer objects</b> are big arrays of floats passed by JS to the vertex shader in chunks of 1 to 4 items.
+<br>For example, if a long list of vertex coordinates (X,Y,Z, X,Y,Z, ...) is sent to the vertex buffer 3 by 3, the shader will receive each chunk in the form of an <pre class=inline><code class="lang-js">attribute vec3</code></pre>.
+<li>Each attribute, uniform and varying must be declared before main() in the shaders that uses them.
+<li>JS can also send commands to the WebGL program to clear the screen, render the scene, etc... and this can be done many times per second to create an animation.
+</ul>
+
+<br><img src="images/webgl-guide/schema2.png" width=750>
+
+<br><br>
+<p>Don't worry, all these features will be explained and illustrated in the next chapters.
 
 <br><br><hr><br>
 <h2>2D graphics</h2>
-<h4>How to draw a point</h4>
+<br><hr><br>
+
+
+<h4>Hello, point</h4>
 
 <ul>
-<li>A <b>vertex</b> is a point in 3D space (coordinates: X, Y, Z).
-<li>A <b>fragment</b> is where the scene is rendered (the pixels on your screen).
-<li>In a WebGL app, two scripts (vertex shader and fragment shader) are written in GLSL language and controlled by JS to render a scene on a canvas:
-<li>The <b>vertex shader</b> is executed for every vertex of your scene, and must set two variables called <b>gl_Position</b> and <b>gl_PointSize</b>
-<li>The <b>fragment shader</b> is executed for every fragment, and must set the variable <b>gl_FragColor</b> (the color of each pixel).
-<li>The source code of both shaders is placed inside a <b>void main(){...}</b> function.
-<li>The X and Y coordinates in a WebGL canvas context go from -1 to 1, whatever the size of the canvas.
-<br><img src="images/webgl-guide/webgl.png">
-<li>In the language GLSL, an <b>int</b> is a whole number (0, 1, 2, ...). A <b>float</b> is a number written with at least one decimal (ex: 0.0, 0.1, 1.0, ...).
-<li>A <b>vec4</b> is an array of 4 floats representing either vertex coordinates (x, y, z, 1.0), a color (r, g, b, alpha), or anything you want. (vec2 and vec3 exist too, but are rarely used).
-<li>A <b>mat4</b> is a matrix (a grid) of 4 x 4 floats. (mat2 and mat3 exist too, but are also rarely used).
+
 </ul>
 
-<p>Here's the simplest possible WebGL program, drawing a red point in the middle of the canvas. It's a live demo, feel free to play with the code!
-<br>
-<br>
+<p>Here's the simplest possible WebGL program, drawing a red, square point in the middle of the canvas.
+
+<p>It's a live demo, feel free to play with the code and change some values!
+
+
+<h5>Demo</h5>
 <iframe id=i1 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=1"></iframe>
 
-<p>The program compilation (lines 30 to 42) is always the same, so I've put it in a compile() function that will be used in the next chapters (see <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>):
+<h5>What happens here?</h5>
+<ul>
+<li>Two JavaScript objects are essential in a WebGL app: the canvas context <b>gl</b>, returned by <pre class=inline><code class="lang-js">canvas.getContext('webgl')</code></pre>, and <b>program</b>, returned by <pre class=inline><code class="lang-js">gl.createProgram()</code></pre>.
+<li>JavaScript also uses the functions <b>createShader</b>, <b>shaderSource</b>, <b>compileShader</b>, <b>attachShader</b>, <b>linkProgram</b> and <b>useProgram</b> to set up and run the app,
+<br>and the functions <b>clearColor</b>, <b>clear</b> and <b>drawArrays</b> to set the default background color, clear the canvas and draw a point on it.
+<li>The vertex shader sets the vec4 <b>gl_Position</b> (x, y, z, 1.0), and <b>gl_PointSize</b> (in pixels). It is executed once, as there's only one vertex.
+<li>Since we're drawing in 2D, the point's Z coordinate is 0.0, while X and Y are in the range [-1 : 1]: within the bounds of the canvas's viewport.
+<br>The 4th coordinate of the point is fixed to 1.0, this will be useful to compute transformations in the next chapters.
+<li>The fragment shader sets the vec4 <b>gl_Fragolor</b> (r, g, b, alpha), where the four values are in the range [0 : 1]. It is executed 100 times (once for each pixel inside the point).
+<br>It starts with a mandatory directive, used to define the precision of its floating numbers: <pre class=inline><code class="lang-js">precision mediump float;</code></pre> (lowp and highp are also available). 
+<li>If an error occurs during the compilation, it is caught by <b>getShaderInfoLog</b> or <b>getProgramInfoLog</b> and logged in the browser's JS console.
+</ul>
+
+<h5>Tips & tricks</h5>
+<p>The program creation (lines 26 to 46) is always the same and pretty verbose, so we can put it in a <b>compile()</b> function and reuse it in the next chapters (see <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>):
 
 <pre style="font-size:11px"><code class="lang-js">// Compile a WebGL program from a vertex shader and a fragment shader
 compile = (gl, vshader, fshader) => {
+  
+  // Compile vertex shader
   var vs = gl.createShader(gl.VERTEX_SHADER);
   gl.shaderSource(vs, vshader);
   gl.compileShader(vs);
+  
+  // Compile fragment shader
   var fs = gl.createShader(gl.FRAGMENT_SHADER);
   gl.shaderSource(fs, fshader);
   gl.compileShader(fs);
+  
+  // Create and launch the WebGL program
   var program = gl.createProgram();
   gl.attachShader(program, vs);
   gl.attachShader(program, fs);
   gl.linkProgram(program);
   gl.useProgram(program);
+  
+  // Log errors
   console.log('vertex shader:', gl.getShaderInfoLog(vs) || 'OK');
   console.log('fragment shader:', gl.getShaderInfoLog(fs) || 'OK');
   console.log('program:', gl.getProgramInfoLog(program) || 'OK');
+  
   return program;
 }</code>
 </pre>
-
-<p>Shaders can also contain <a href="https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)#Functions">custom C-like functions</a>, that can be called inside main().
-<p>You may have noticed that the fragment shader starts with a directive that says <b>precision mediump float;</b>:
-<br>this is due to the language's specs, which made it mandatory to specify how precise the floats are in this shader.
-<br>The possible precisions are "lowp" (less precise but faster), "mediump" and "highp" (more precise but slower), "mediump" is largely enough to compute colors.
-<br>The vertex shader can also start with this directive, but defaults to "highp", which is nice (vertex positions need to be very precise).
 
 <br><br><hr><br>
 
 <h4>Custom values: attributes and uniforms</h4>
 
-<ul>
-<li>Of course, WebGL wouldn't be interesting if it could just draw one hard-coded point.
-<br>It becomes interesting when we give it custom values. This can be done through attributes, uniforms, and buffer objects (we'll see these ones later).
-<li>An <b>attribute</b> is a global variable passed by JS to the vertex shader. Its value can change for each vertex (ex: coordinates, position).
-<li>An <b>uniform</b> is a global variable passed by JS to both vertex and fragment shaders  (ex: a color). Its value stays constant for an entire draw call.
-<li>All the attributes and uniforms received from the JS program must be declared before main() in each shader.
-<!--li>For the record, some browsers (like Safari) only accept to draw points that are set by JS, and won't run the previous demo at all.-->
-</ul>
-
-
-<p>Here are the different types of attributes and uniforms that can be set by JS:
+<p>Of course, WebGL wouldn't be interesting if it could just draw one hard-coded point.
+<br>To make it less rigid, we can give it custom values. This can be done with <b>attributes</b> (variable, readable by the vertex buffer) and <b>uniforms</b> (constant, readable by both buffers).
+<br>Here are the different types of attributes and uniforms that can be set by JS:
 <br>
 
 <table border style="table-layout:auto">
@@ -176,44 +245,56 @@ gl.uniformMatrix4fv(
 
 </table>
 
-<br>(vec2 andvec3 are declared similarly to vec4, mat2 and mat3 similarly to mat4).
+<br>(the types vec2 and vec3 can be declared similarly to vec4, and the types mat2 and mat3 similarly to mat4).
 
-<br>
-<p>Here's the same demo as before, but this time the position, size and color of the point are set by the JS code:
-<br>
-<br>
+
+<h5>Demo</h5>
 <iframe id=i2 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=2"></iframe>
 
-<br><br><hr><br>
-<h4>How to draw many points, a matter of continuity</h4>
+<h5>What happens here?</h5>
 
-<p>First, let's try to edit the previous demo to display other points: for example, you'll see this if you uncomment the lines 47 to 53! (beautiful, isn't it?)
+<ul>
+<li>Position is declared with <pre class=inline><code class="lang-js">attribute vec4 position;</code></pre>, targeted with <pre class=inline><code class="lang-js">position = gl.getAttribLocation(program,'position')</code></pre> and set with <pre class=inline><code class="lang-js">gl.vertexAttrib4f(position,0,0,0,1)</code></pre>.
+<li>Point size is declared with <pre class=inline><code class="lang-js">attribute float size;</code></pre>, targeted with <pre class=inline><code class="lang-js">size = gl.getAttribLocation(program,'size')</code></pre> and set with <pre class=inline><code class="lang-js">gl.vertexAttrib1f(size,10)</code></pre>.
+<li>Point color is declared with <pre class=inline><code class="lang-js">uniform float color;</code></pre>, targeted with <pre class=inline><code class="lang-js">color = gl.getUniformLocation(program,'color')</code></pre> and set with <pre class=inline><code class="lang-js">gl.uniform1f(color,1,0,0,1)</code></pre>.
+</ul>
+
+<h5>Tips & tricks</h5>
+<ul>
+<li>The fourth value of a vec4 attribute is 1.0 by default, so it's frequent to encounter some code that only sets x, y and z with <pre class=inline><code class="lang-js">gl.vertexAttrib3f(position, 0, 0, 0)</code></pre>.
+<li>You can draw as many points as you want by setting new attributes / uniforms and calling <pre class=inline><code class="lang-js">gl.drawArrays(gl.POINTS,0,1)</code></pre> again.
+<br>The same shaders will be executed each time but with different inputs.
+<br>For example, here's the result if you uncomment the lines 45 to 52:
 <br><br><img src="images/webgl-guide/rgb.jpg">
+</ul>
+
+<br><br><hr><br>
+<h4>Drawing many points, a matter of continuity</h4>
 
 <p>WebGL has no problem calling gl.drawArrays many times in a row, but only if it is in the same timeframe.
+<br>Here's a program that tries to draw a new random point every 500ms:
 
-<p>Here's what happens if we make a program that tries to draw a new random point every 500ms:
+<h5>Demo</h5>
 
-<br>
-<br>
 <iframe id=i3 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=3"></iframe>
 
+<h5>What happens here?</h5>
 <p>As you can see, the canvas is not only cleared, but completely reset each time drawArrays() is called. This is because the draws happen at different moments.
 <br>To solve this, there are two solutions:
-<br>1) Remember the positions and colors of every point and redraw them all every 500ms;
-<br>2) Force <b>{ preserveDrawingBuffer: true }</b>, as you can see by removing the commented code on line 4 (if this is enabled, you can still gl.clear() the canvas manually).
+<ol>
+<li>Remember the positions and colors of every new point. Then every 500ms, clear the canvas and draw them all;
+<li>Force <pre class=inline><code class="lang-js">{ preserveDrawingBuffer: true }</code></pre> when creating the WebGL context, as you can see by removing the commented code on line 4.
+</ol>
 
 <br><br><img src="images/webgl-guide/points.gif" width=300 loading=lazy>
 
 <br><br><hr><br>
 
-<h4>How to draw lines and triangles</h4>
+<h4>Drawing lines and triangles</h4>
 
-<ul>
-<li>The next step consists in declaring many points at once, and telling WebGL how to display them: as points, as lines or as triangles.
-<li>To do this, we'll use an <b>array buffer</b> (an array of numbers) to transmit a list of vertex properties from JS to the fragment shader, via an attribute.
-<li>This buffer is encoded in binary, and is interpreted as a list of numbers, formatted as one of these types:
-<br>
+<p>The next step consists in declaring many points at once, and telling WebGL how to display them: as points, as lines or as triangles.
+<br>To do this, we'll use a <b>data buffer</b> (an array of binary numbers) to send vertex properties from JS to the fragment shader, via an attribute. The following types are supported:
+</ul>
 <br>
 <table border>
 <tr>
@@ -254,29 +335,38 @@ gl.uniformMatrix4fv(
 
 <tr>
 <td>Floating point number
-<td>none
+<td>(32-bit float precision)
 <td>new Float32Array([...])
 <td>gl.FLOAT
 </table>
 <br>
-<li>gl.drawArrays can render points, lines and triangles in 7 different ways, by simply changing its first parameter:
+<p>Then, <b>gl.drawArrays</b> can render these vertices as points, lines and triangles in 7 different ways, by changing its first parameter:
 <br>
 <br>
 <img src="images/webgl-guide/modes.png" width=800 style="border:2px solid #ddd">
-<br>
-<li>gl.POINTS is the only mode that supports gl_PointSize in the fragment shader.
-<li>In lines mode, the lines width is 1 pixel wide. This width can't be changed reliably in current implementations (more info <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/lineWidth">here</a>)
-</ul>
 
-<p>Here's the simplest way to draw a triangle. You can edit the mode on line 59 to render points or lines instead of a triangle (ex: <mark style="background: #def;padding:3px;">gl.POINTS</mark> or <mark style="background: #def;padding:3px;">gl.LINE_LOOP</mark>).
-<p>After binding the data buffer to the WebGL program, we specify the type and the number of values to read for each vertex, in this example it's 2 floats: X and Y (lines 43/44).
+<h5>Demo</h5>
+<p>Here's the simplest way to draw a triangle:
 <br>
 <br>
 <iframe id=i4 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=4"></iframe>
 
-<p>You can draw as many triangles as you want by adding vertices on line 33 and updating count on line 61.
+<h5>What happens here?</h5>
+<ul>
+<li>A buffer is filled with 3 points coordinates and bound to the <b>position</b> attribute using <b>createBuffer</b>, <b>bindBuffer</b>, <b>bufferData</b>, <b>vertexAttribPointer</b> &amp; <b>enableVertexAttribArray</b>.
+<li>The last instruction tells <b>gl.drawArrays</b> to render these points as a triangle.<br>As a result, every fragment placed between these points will be filled with the color present in the "color" uniform variable (red).
+<li>If you replace <b>gl.TRIANGLES</b> with <b>gl.LINE_LOOP</b>, only the lines between points 0-1, 1-2, and 2-0 will be rendered, with a <b>line width</b> of 1px (1 fragment).
+<br>You can also try <b>gl.LINE_STRIP</b> to trace lines between points 0-1 and 1-2, and <b>gl.LINES</b> to draw   line between points 0 and 1, as it only works on successive pairs of points.
+<br>Unfortunately, the line width can't be changed reliably in current WebGL implementations (more info <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/lineWidth">here</a>).
+<li>Lines and triangles do not need or use <b>gl_PointSize</b>. If you replace <b>gl.TRIANGLES</b> with <b>gl.POINTS</b>, you'll have to set gl_PointSize again.
+</ul>
 
-<p>The array buffer creation and binding is always the same, so I included it in the function arraybuffer (in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>):
+<h5>Tips &amp; tricks</h5>
+
+<ul>
+<li>You can draw as many triangles as you want by adding vertices on line 33 and updating count on line 61.
+<li>In all the following chapters' demos, you can replace <b>gl.TRIANGLES</b> with <b>gl.LINE_LOOP</b> to see the scene in <b>wireframe</b>.
+<li>The array buffer creation and binding is also quite verbose, so let's put it in the function <b>arraybuffer()</b>, in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>:
 <pre style="font-size:11px"><code class="lang-js">// Bind an array buffer to an attribute and enable it
 arraybuffer = (gl, data, program, attribute, size, type) => {
   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
@@ -286,8 +376,9 @@ arraybuffer = (gl, data, program, attribute, size, type) => {
   gl.enableVertexAttribArray(a);
 }</code>
 </pre>
+</ul>
 
-<br><hr><br>
+<!--<br><hr><br>
 
 <h4>Multi-attribute buffer and varying color</h4>
 
@@ -1005,15 +1096,16 @@ gl_FragColor = color0 * color1;</code></pre>
 
 <br><img src="images/webgl-guide/textures.png" width=600>
 
-<p>Or blend them together:
+<p>Or blend them together, using the <b>mix()</b> function:
 
-<pre class="language-js"><code>gl_FragColor = color0 * 0.25 + color1 * 0.75;</code></pre>
+<pre class="language-js"><code>gl_FragColor = mix(color0, color1, 0.25); // color0 * 0.25 + color1 * 0.75;</code></pre>
 
 <br><img src="images/webgl-guide/textures2.png" width=600>
 
 <br><br><hr><br>
-
 <h2>3D graphics</h2>
+<br><hr><br>
+
 <br>You should know by now that computers don't do "3D" natively.
 <br>You (or your 3D framework) will have to do all the computing to simulate the camera, the perspective and how they affect each polygon, so the scene can seem to be in 3D.
 <br>Fortunately, the API we use (WebGL) provides very helpful tools (especially data and depth buffers) to help rendering complex scenes without too much effort.
@@ -1023,7 +1115,8 @@ gl_FragColor = color0 * color1;</code></pre>
 <ul>
 <li>In 3D, the "camera", with its position, angle and perspective, is defined by nothing more than a 4x4 matrix.
 <li>During render, every vertex in the scene is multiplied by this matrix to simulate these camera properties and appear at the right position.
-<li>First, the camera's frustum (field of view angle, aspect ratio, near clip plane and far clip plane) can be set with:
+<li>The camera's frustum, also called "clipping volume", defines an area in which the scene will be rendered.
+<br>For a camera with perspective, it is defined by a field of view angle, an aspect ratio, a near clip plane and a far clip plane, and can be set with this matrix:
 
 <div class=math>
 <math xmlns = "http://www.w3.org/1998/Math/MathML">
@@ -1085,12 +1178,13 @@ orthogonal = options => {
   ]);
 }
 
-// LookAt
-lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
+// Place a camera at the position [cameraX, cameraY, cameraZ], make it look at the point [targetX, targetY, targetZ].
+// Optional: a "up" vector can be defined to tilt the camera on one side (vertical by default).  
+lookAt = (mat, cameraX, cameraY, cameraZ, targetX, targetY, targetZ, upX = 0, upY = 1, upZ = 0) => {
   var e, fx, fy, fz, rlf, sx, sy, sz, rls, ux, uy, uz;
-  fx = centerX - eyeX;
-  fy = centerY - eyeY;
-  fz = centerZ - eyeZ;
+  fx = targetX - cameraX;
+  fy = targetY - cameraY;
+  fz = targetZ - cameraZ;
   rlf = 1 / Math.sqrt(fx*fx + fy*fy + fz*fz);
   fx *= rlf;
   fy *= rlf;
@@ -1111,15 +1205,17 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
     sz, uz, -fz, 0,
     0,  0,  0,   1
   );
-  l = transform(l, {x: -eyeX, y: -eyeY, z: -eyeZ});
+  l = transform(l, {x: -cameraX, y: -cameraY, z: -cameraZ});
   return multMat4Mat4(mat, l); 
 }</code>
 </pre>
 
 <br>
-<p>It's also possible to make an orthogonal camera with no perspective, also called "orthographic", "isometric" or "2.5D" view.
+<p>It's also possible to make a camera with no perspective, also called "orthogonal", "orthographic", "isometric" or "2.5D" view.
 <br>In this case, the frustum is a box:
 <br><img src="images/webgl-guide/orthogonal.png">
+<br>
+<p>Here are the matrix and the corresponding source code:
 
 <div class=math>
 <math xmlns = "http://www.w3.org/1998/Math/MathML">
@@ -1158,8 +1254,7 @@ lookat = (mat, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ) => {
    </mrow>
 </math>
 </div>
-
-<p>And the source code:
+<br>
 
 <pre><code class="lang-js">// Create an orthogonal matrix
 // options: top, bottom, left, right, near, far
@@ -1326,17 +1421,59 @@ cube = (r = 1, g = 1, b = 1) => {
 
 <h4>Lighting and shading</h4>
 
+<h5>Normals and cross-products</h5>
+
+<img src="images/webgl-guide/normal.png" width=300>
+<br>
+
+<ul>
+<li>Each triangle has a <b>normal</b>: it's a vec3 perpendicular to its surface, and <b>normalized</b> (with a length equal to 1).
+<li>A normal can be computed using a <b>cross-product</b> of two edge's vectors: AB × BC if the points A, B and C are in counterclockwise order.
+
+<br><br><a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/cross.gif" width=300 style="border: 1px solid #ddd;"></a>
+<br><br>
+
+<li>A cross-product can be computed natively in GLSL: <b>cross(AB, BC)</b>.
+
+<br>However, the normals of a 3D model are generally hard-coded or computed in JS when the page loads. Here's the source code:
+</ul>
+<pre><code class="lang-js">// Cross-product of three points a, b, c.
+// Returns the coordinates of a normal vector perpendicular to the side where these points are counter-clockwise.
+cross = (a0, a1, a2, b0, b1, b2, c0, c1, c2) => {
+  var xAB = b0 - a0, yAB = b1 - a1, zAB = b2 - a2; // AB vector
+  var xBC = c0 - b0, yBC = c1 - b1, zBC = c2 - b2; // BC vector
+  return [yAB * zBC - zAB * yBC, zAB * xBC - xAB * zBC, xAB * yBC - yAB * xBC]; // cross product
+}</code></pre>
+
+
+
+<h5>Dot product</h5>
+
+<a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/dot.gif" width=250 style="border: 1px solid #ddd;"></a>
+
+<ul>
+<li>The dot product is another interesting function: it compares two vectors and tells how perpendicular they are. (1: parallel, 0: perpendicular, -1: opposite of each other).
+<br>In our case, it is useful to check if a triangle is facing a light source, and render it accordingly.
+<li>This operation is generally done inside the shader, using the native function <b>dot(lightDirection, normmal)</b>.
+<li>If you need to do it in JS, here's the corresponding code:
+</ul>
+
+<pre><code class="lang-js">// Dot-product of two vec3: v and w
+dot = (v0, v1, v2, w0, w1, w2) => {
+  return v0 * w0 + v1 * w1 + v2 * w2;
+}</code></pre>
+
+
+
 <h5>Diffuse light</h5>
 <ul>
-<li>Diffuse light reflexion is visible when the light is reflected in all directions as it hits a surface, with an intensity that decreases with the surface's relative angle.
+<li>Diffuse light (also called <b>directional light</b>) is the equivalent of the sun's light on Earth: all the rays are parallel and have the same intensity everywhere in the scene.
+<li>When it hits a surface, it is reflected in all directions, but the intensity of the reflexion decreases proportionally to the angles in which the light hits the surface:
 <br><img src="images/webgl-guide/diffuse.png">
-<li>To simulate that, we need to define a light source with a color (for example, white), and a direction (for example, vec3(0.5, 3.0, 4.0)).
-<li>Each triangle has <b>normal</b>: a vec3 that points to the outside, and <b>normalized</b> (with a length equal to 1).
-<li>In the fragment shader, we perform a <b>dot product</b> between the light vector and the face normal, to determine how much the light is diffused:
-<br><br><img src="images/webgl-guide/dot.gif" width=250 style="border: 1px solid #ddd; position: relative;top: 5px;margin: 0 10px 0 0;">
- (gif by <a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw">@FreyaHolmer</a>)<br><br>
-<li>If the dot product is negative, we set it to "0" (there can't be a negative amount of light). This is done with <b>max(dot(light, normal), 0.0);</b>
+<li>To simulate it, we need to define a light source with a color (for example, white), and a direction (for example, vec3(0.5, 3.0, 4.0)).
+
 <li>The color sent to the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light. The color's alpha is set to 1.0.
+<li>If the dot product is negative, we set it to "0" (there can't be a negative amount of light). This is done with <b>max(dot(light, normal), 0.0);</b>
 <li>NB: The components of a vec4 can be accessed with .x/y/z/t (for a position) or .r/g/b/a (for a color). They can also be composed into a new vector (ex: <b>vec3 rgb = col.rgb</b>).
 </ul>
 
@@ -1345,7 +1482,8 @@ cube = (r = 1, g = 1, b = 1) => {
 <br><h5>Ambient light</h5>
 
 <p>With diffuse lighting alone, some faces are too dark, like the rightmost one here. To fix that, we can add an ambient light reflexion.
-<p>To simulate it, we need to set a light color (not too bright, for example: vec3(0.2, 0.2, 0.2)), apply it to the surface color (with a multiplication), and add it to the diffuse light:
+<br>It corresponds to a light that is applied equally to all the faces of a model, regardless to their normal vector.
+<br>To simulate it, we need to set a light color (not too bright, for example: vec3(0.2, 0.2, 0.2)), multiply it to the surface color, and add it to the diffuse light:
 <br>
 <br>
 <iframe id=i11 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=11"></iframe>
@@ -1353,30 +1491,33 @@ cube = (r = 1, g = 1, b = 1) => {
 <br>
 <h5>Point light</h5>
 
-<p>With diffuse and ambient lights alone, each face gets a flat color. It's called polygonal or facetted rendering, and isn't realistic (it's great for retro-looking games though)  
 <ul>
-<li>To enhance that, we can use a <b>point light</b> representing the sun or a light bulb, with a specific position and color
-<li>With such a point light in the scene, the shading will be able to vary according to the distance between each point of the cube and the point light
-<li>When it's computed per vertex, it looks a bit nicer but still not great due to the imprecise color interpolation (the triangles are visible):
+<li>We can also have a <b>point light</b> representing a light bulb, with a specific position and color.
+<li>It's a kind of diffuse light, except that the light rays are not parallel, because the light source is not infinitely far away.
+<li>With such a point light in the scene, the shading intensity will vary according to the distance from the light source, but also with the angle of the light rays.
+<li>In the real world, the light <b>attenuation</b> is proportional to the distance squared, but in CGI, it's more often proportional to the distance (not squared).
+<li>When a point light reflexion is computed per vertex, it looks a bit nicer but the triangles are still visible:
 <br>
 <br><img src="images/webgl-guide/per_vertex.png" width=500>
 <br>
 <br>
-<li>A better solution consists in computing the right color for every fragment of the cube (i.e. every pixel),<br>and that's exactly what the fragment shader is here for:
+<li>The best solution consists in computing the right color for every fragment of the cube (i.e. every pixel) according to its distance from the light source,<br>and that's exactly what the fragment shader is here for:
 <br><br><img src="images/webgl-guide/sphere.png" width=500>
 </ul>
+<p>The following demo shows how a point light can be computed per fragment. You can play with the numbers to change how it looks.
+<br>The vertex shader sends the vertices positions, colors and normals to the fragment shader using varyings, and the fragment shader computes everything. 
+<br>
 <br>
 <iframe id=i12 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=12"></iframe>
-<p>As you can see, the vertex shader sends the verices positions, colors and normals to the fragment shader using varyings, and the fragment shader computes everything. 
 
 <h5>Smooth shading</h5>
 
 <ul>
-<li>With the lighting methods we've seen before, a complex 3D model will always have "hard edges" (abrupt changes of lighting between two faces).
-<br>This is because each face has an unique normal vector, which is shared between all its vertices.
-<li>Smooth shading consists in computing a different normal for each vertex, equal to the mean of the normals of all the faces it belongs to.
-<br>But no need to use divisions! Just add all the normals together and the mean will simply appear when the shaders will normalize the result (more info <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">here</a>).
-<li>Example: a complex 3D model with smooth shading disabled / enabled.
+<li>With the current implementation, each face has an unique normal vector, which is used by all its vertices.
+<br>This provokes a <b>facetted</b> (or "polygonal") rendering, with "hard edges" between the triangles.
+<li><b>Smooth shading</b>, also called Phong shading, consists in computing a different normal for each vertex, equal to the mean of the normals of all the triangles around it.
+<br>But no need to use divisions to obtain this mean value! Just add all the normals together and the mean will appear when the shaders will normalize the result (more info <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">here</a>).
+<br>Example: the same 3D model with smooth shading disabled / enabled:
 <br><br><img src="images/webgl-guide/w5.gif" width=650>
 </ul>
 
@@ -1424,13 +1565,6 @@ color.rgb += specular * specularLightColor;
 <ul>
 <li>So far, we've only transformed the camera matrix, to make it revolve around the cube to create an illusion of cube rotation.
 <li>Now that we have a fixed point light in the scene, if we want to rotate, translate or scale the cube without touching the rest of the scene, we need to do two things:<br>- introduce a <b>model matrix</b> (the transformation matrix of the cube),<br>- recompute the cube's normals and the lighting of every fragment every time the model matrix is updated.
-<li>Computing a triangle normal can be done using a <b>cross-product</b> of two edge's vectors respecting the-right hand rule (AB × BC if A, B and C are in counterclockwise order).
-
-<br><br><img src="images/webgl-guide/cross.gif" width=300 style="border: 1px solid #ddd; position: relative;top: 5px;margin: 0 10px 0 0;">
- (gif by <a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw">@FreyaHolmer</a>)
-<br><br>
-
-<li>A cross-product can be computed natively in WebGL: <b>cross(vec3 AB, vec3 BC)</b>.
 
 <li>In practice, the best method is to keep the original normals unchanged, and pass them to the vertex shader, along with the vertex position and color.
 <br>
@@ -1473,13 +1607,6 @@ inverseTranspose = m => transpose(inverse(m));</code></pre>
 <br>
 <li>We also pass a "mvp" (<b>model view projection</b>) matrix to the vertex shader, which is the multiplication of the camera matrix and the model matrix.
 <br>These two matrices are multiplied in JS instead of the vertex buffer, for the same reason as before: avoid the effort of recomputing it for each vertex, at each frame.
-<li>Normals are generally hardcoded, but if you need to compute one in JS, here's the code:
-<pre><code class="lang-js">// Cross-product of three points a, b, c, arranged counter-clockwise.
-// Returns the coordinates of a normal vector that points to the side where these points are counter-clockwise.
-cross = (a0, a1, a2, b0, b1, b2, c0, c1, c2) => {
-	var xAB = b0 - a0, yAB = b1 - a1, zAB = b2 - a2, xBC = c0 - b0, yBC = c1 - b1, zBC = c2 - b2;
-  return [yAB * zBC - zAB * yBC, zAB * xBC - xAB * zBC, xAB * yBC - yAB * xBC];
-}</code></pre>
 
 </ul>
 <p>Here's a cube rotating on itself with a fixed camera and a fixed point light:
@@ -1561,7 +1688,11 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <p>Syntax errors present in your fragment shaders are logged during their compilation. The most frequent are:
 <ul>
 <li>Missing semicolon at the end of a line.
+<li>Missing decimal part in a float number (1 is an int, 1.0 is a float).
+<li>Trying to change the value of a const variable.
 <li>Trying to set a value already set by an uniform (uniforms are read-only).
+<li>Trying to set a variable upper limit in a for-loop.
+<li>Mismatching int or float precision for a variable read by both shaders.
 </ul>
 <br>
 <p>Other errors can be made in the JS program, and can sometimes fail silently. especially:
@@ -1574,7 +1705,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <p>Finally, if no syntax errors were made but nothing appears, check that:
 <ul>
 <li>The camera looks in the right direction (and with a decent fov angle, around 0.9 rad or 50 degrees).
-<li>The light source is not trapped inside your 3D object
+<li>The light source is not too dark or trapped inside your 3D object.
 <li>Your normals are not inverted (they must point "outside" to let the object reflect the light correctly).
 <li>You didn't accidentally set any color's alpha to 0.0.
 </ul>
@@ -1584,8 +1715,8 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <h4>To be continued...</h4>
 
 <p>At this point we've covered all the basis of 2D and 3D rendering.
-<br>Unfortunately, browsers don't accept more than 16 WebGL contexts in the same page, so check out the <a href="webgl-guide-part-2.html">PART 2</a> for advanced techniques! :)
-</div>
+<br>Unfortunately, most browsers don't accept more than 16 WebGL contexts in the same page, so all the advanced techniques will be in the upcoming PART 2! :)
+</div>-->
 </div>
 
 </main>
@@ -1616,7 +1747,22 @@ scr.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
 document.body.appendChild(scr);
 }
 
+ifrs = document.querySelectorAll(".section iframe");
+for(ifr of ifrs){
+  ifr.insertAdjacentHTML('afterEnd', '<a class=newWindow title="Open in a new window" href="'+ifr.src+'"> </a>');
+}
 </script>
 
 </body>
 </html>
+<!--
+TODO:
+- texture coordinates: dessin de gauche pas clair
+- demo multiple points = un clear de trop
+- a un moment je suggere d'utiliser gl.POINTS mais ça n'affiche rien car pointSize est pas défini
+- un mot sur ourquoi create/link/use program
+- mieux expliciter que les couleurs rgba ça va de 0 à 1
+- parler de l'atténuation de lumière via pointLight
+- faire un normalize dans le f buffer car v_normal est pas forcément normalisé
+- "mesh"
+-->
