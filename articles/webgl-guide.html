@@ -410,7 +410,7 @@ buffer = (gl, data, program, attribute, size, type) => {
 <br>- <pre class=inline><code class="lang-js">gl.vertexAttribPointer(position, 3, gl.FLOAT, false, FSIZE*6, 0);</code></pre> binds the first 3 values to the attribute <b>position</b>,
 <br>- <pre class=inline><code class="lang-js">gl.vertexAttribPointer(color, 3, gl.FLOAT, false, FSIZE*6, FSIZE*3);</code></pre> binds the last 3 values to the attribute <b>color</b>.
 <br>The last two parameters (stride and offset) are counted in bytes. 
-<li>The varying v_color is declared in both shaders.
+<li>The varying <b>v_color</b> is declared in both shaders.
 <br>- In the vertex shader, it receives the color of the current vertex.
 <br>- In the fragment shader, its value is automatically interpolated from the three vertices around it:
 </ul>
@@ -427,23 +427,22 @@ buffer = (gl, data, program, attribute, size, type) => {
 </ul>
 
 <br><br><hr><br>
-<!--
 
 <h4>Translate, rotate, scale</h4>
 
+<p>If we want to move, rotate or scale a triangle, we need to know how to transform each of its vertices.
 <ul>
-<li>If we want to move, rotate or scale a triangle, we need to know how to transform each of its vertices.
-<li><b>Translation</b> consists in moving all the vertices in a given direction (increase or decrease its X/Y/Z coordinates).
+<li><b>Translation</b> consists in moving all the vertices in a given direction (by increasing or decreasing their X/Y/Z coordinates).
 <li><b>Rotation</b> consists in moving the vertices around a <b>pivot point</b>, with a given angle (a full turn clockwise is 360 degrees or 2 * Pi radians).
 <li><b>Scaling</b> consists in making the triangle smaller or bigger by bringing the vertices closer or further from a pivot point.
-<li>These operations can be done component per component (compute X, then Y, then Z), but we generally use a much powerful tool: <b>matrix transformations</b>.
-<li>Each transformations can be written as a mat4 (a matrix of 4x4 floats), and applied to a vertex's <b>homogeneous coordinates</b> (vec4(X, Y, Z, 1.0)) with a multiplication.
 </ul>
+<p>These operations can be done component per component (compute the new value of X, then Y, then Z), but we generally use a much powerful tool: <b>matrix transformations</b>:
+<br>Each transformation can be written as a mat4 (a matrix of 4x4 floats), and applied to a vertex's <b>homogeneous coordinates</b> (vec4(X, Y, Z, 1.0)) with a multiplication.
 
 <p>
-<table border>
+<table border style='max-width:700px'>
 <tr>
-<th>Transformation
+<th style="min-width:300px">Transformation
 <th style=min-width:250px>Transformation applied to each vertex coordinates
 <th><div style="min-width: 260px">transformation via a matrix</div>
 
@@ -991,21 +990,24 @@ buffer = (gl, data, program, attribute, size, type) => {
 
 </table>
 
-<ul>
-<li>Multiple transformations can be accumulated by multiplying their matrices from right to left.
-<br>For example, to translate then rotate a point, multiply in this order: (〈 rotation matrix 〉 × 〈 translation matrix 〉) × 〈 coordinates vector 〉
-<li>Matrices and vectors can be multiplied together natively in GLSL:
-</ul>
+<h5>Demo</h5>
 
 <iframe id=i5 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=6"></iframe>
 
-<ul>
-<li>As you can see on line 14 and 41 to 72, the 3 matrices are declared in JS and sent to the fragment shader, which multiplies them with each vertex position.
-<br>This is easy to code, but unfortunately not optimal in real conditions, as the multiplications must be hardcoded in glsl and repeated for every fragment of the program.
-<br>In the following examples, the compound transformation matrix will be computed only once (in JS) and passed to the shader.
-</ul>
+<h5>What happens here?</h5>
+<p>This demo performs 3 transformations on the same triangle: translate, then rotate, then scale.
+<br>These transformations can be done in this order by multiplying their matrices from right to left, and multiplying the resulting <b>matrix product</b> with the vertex coordinates (see line 14).
+<br>These 3 matrices are declared in JS and sent to the fragment shader using uniforms (see lines 41 to 72).
+<br>WebGL only accepts uniform matrices that are <b>transposed</b> (matrices with the horizontal and vertical axis inverted), so we transpose them manually in the JS code.
+<br>In the following chapters, the matrix product will be computed only once (in JS) and passed to the vertex shader, to avoid recomputing it for each vertex.
 
-<p>Helper functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a> (because matrices multiplications are not native in JS):
+<h5>Tips and tricks</h5>
+
+<ul>
+<li>Matrices and vectors with the same size can be multiplied together natively in GLSL (ex: mat4 * vec4).
+<li>In JS, it must be done term by term.
+<li>Helper functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
+</ul>
 <pre style="font-size:11px"><code class="lang-js">// Create an identity mat4
 identity = () => {
   return new Float32Array([
@@ -1060,9 +1062,30 @@ transform = (mat, options) => {
   }
   
   // Rotate
-  if(rx) out.set(multMat4Mat4(out, new Float32Array([1, 0, 0, 0, 0, Math.cos(rx), Math.sin(rx), 0, 0, -Math.sin(rx), Math.cos(rx), 0, 0, 0, 0, 1])));
-  if(ry) out.set(multMat4Mat4(out, new Float32Array([Math.cos(ry), 0, -Math.sin(ry), 0, 0, 1, 0, 0, Math.sin(ry), 0, Math.cos(ry), 0, 0, 0, 0, 1])));
-  if(rz) out.set(multMat4Mat4(out, new Float32Array([Math.cos(rz), Math.sin(rz), 0, 0, -Math.sin(rz), Math.cos(rz), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])));
+  if(rx){
+    out.set(multMat4Mat4(out, new Float32Array([
+      1, 0, 0, 0,
+      0, Math.cos(rx), Math.sin(rx), 0,
+      0, -Math.sin(rx), Math.cos(rx), 0,
+      0, 0, 0, 1
+    ])));
+  }
+  if(ry){
+    out.set(multMat4Mat4(out, new Float32Array([
+      Math.cos(ry), 0, -Math.sin(ry), 0,
+      0, 1, 0, 0,
+      Math.sin(ry), 0, Math.cos(ry), 0,
+      0, 0, 0, 1
+    ])));
+  }
+  if(rz){
+    out.set(multMat4Mat4(out, new Float32Array([
+      Math.cos(rz), Math.sin(rz), 0, 0,
+      -Math.sin(rz), Math.cos(rz), 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1
+    ])));
+  }
   
   // Scale
   if(sx !== 1){
@@ -1085,17 +1108,35 @@ transform = (mat, options) => {
   }
   
   return out;
+};
+
+// Get the transposed of a mat4
+transpose = m => {
+  return new Float32Array([
+    m[0], m[4], m[8],  m[12],
+    m[1], m[5], m[9],  m[13],
+    m[2], m[6], m[10], m[14],
+    m[3], m[7], m[11], m[15]
+  ]);
 };</code>
 </pre>
 
 <h5>How to change the pivot point</h5>
 
-<p>The rotations and scaling matrices, as described above, only allow to use the world's origin (0,0,0) as pivot point.
-<br>Imagine a triangle that is not centered on the origin, and needing to rotate 90 degrees (Pi / 2 radins) around its center, for example the point (2,2,0).
-<br>The solution is to apply 3 transformation matrices to this triangle's vertices: translate to (0,0,0), then rotate 90 degrees, then translate back to (2,2,0)!
+<p>The rotation and scaling matrices, as described above, only allow to use the world's origin [0, 0, 0] as pivot point.
+<br>Imagine a triangle that is not centered on the origin, that you need to rotate 90 degrees (Pi/2 radians) around its center, for example the point [0.5, 0.5, 0].
+<br>The solution is to apply 3 transformation matrices to this triangle's vertices:
+<ul>
+<li>Translate them around the origin [0, 0, 0]
+<li>Apply a 90 degrees rotation
+<li>Translate them back to around the [0.5, 0.5, 0].
+</ul>
+
+<img src="images/webgl-guide/pivot.png" width=850>
 
 <br><br><hr><br>
 
+<!--
 <h4>Texturing</h4>
 
 <ul>
@@ -1315,15 +1356,7 @@ orthogonal = options => {
 <br>This is because WebGL requires that all the matrices used in the shaders are transposed (i.e. X and Y axis are inversed).
 <br>You don't need to worry about it when using the functions in  <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>, but otherwise, you can either write your matrices already transposed, or use this function:
 
-<pre><code class="lang-js">// Get the transposed of a mat4
-transpose = m => {
-  return new Float32Array([
-    m[0], m[4], m[8],  m[12],
-    m[1], m[5], m[9],  m[13],
-    m[2], m[6], m[10], m[14],
-    m[3], m[7], m[11], m[15]
-  ]);
-};</code>
+<pre><code class="lang-js"></code>
 </pre>
 
 <br><br><hr><br>
