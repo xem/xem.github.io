@@ -146,16 +146,16 @@ pre.inline, pre.inline code { display: inline; padding: 2px; background: #444; f
 <li>JavaScript also uses the functions <b>createShader</b>, <b>shaderSource</b>, <b>compileShader</b>, <b>attachShader</b>, <b>linkProgram</b> and <b>useProgram</b> to set up and run the app,
 <br>and the functions <b>clearColor</b>, <b>clear</b> and <b>drawArrays</b> to set the default background color, clear the canvas and draw a point on it.
 <li>The vertex shader sets the vec4 <b>gl_Position</b> (x, y, z, 1.0), and <b>gl_PointSize</b> (in pixels). It is executed once, as there's only one vertex.
-<li>Since we're drawing in 2D, the point's Z coordinate is 0.0, while X and Y are in the range [-1 : 1]: within the bounds of the canvas's viewport.
-<br>The 4th coordinate of the point is fixed to 1.0, this will be useful to compute transformations in the next chapters.
-<li>The fragment shader sets the vec4 <b>gl_Fragolor</b> (r, g, b, alpha), where the four values are in the range [0 : 1]. It is executed 100 times (once for each pixel inside the point).
-<br>It starts with a mandatory directive, used to define the precision of its floating numbers: <pre class=inline><code class="lang-js">precision mediump float;</code></pre> (lowp and highp are also available). 
-<li>If an error occurs during the compilation, it can be caught by <b>getShaderInfoLog</b> or <b>getProgramInfoLog</b> and logged in the browser's JS console.
+<br>Since we're drawing in 2D, the point's Z coordinate is 0.0, while X and Y are in the range [-1 : 1]: within the bounds of the canvas.
+<br>The 4th vertex coordinate is fixed to 1.0, this will be useful to compute transformations in the next chapters.
+<li>The fragment shader sets the vec4 <b>gl_Fragolor</b> (r, g, b, alpha), in which the four components are in the range [0 : 1]. It is executed 100 times (once for each pixel inside the point).
+<br>It starts with a mandatory directive, used to define the precision of its floating numbers: <pre class=inline><code class="lang-js">precision mediump float;</code></pre> (lowp and highp are also available, but less useful). 
+<li>If an error occurs during the compilation, it's caught by <b>getShaderInfoLog</b> or <b>getProgramInfoLog</b> and logged in the browser's JS console.
 </ul>
 
 <h5>Tips & tricks</h5>
 <ul>
-<li>Depending on your device, the points larger than 62px may not be supported (<a href="http://webglstats.com/webgl/parameter/ALIASED_POINT_SIZE_RANGE">source</a>), and the points may disappear if their center is slightly outside of the canvas (<a href="https://webglfundamentals.org/webgl/lessons/webgl-drawing-without-data.html#pointsissues">source</a>).
+<li>Depending on your device, the points larger than 62px may not be supported (<a href="http://webglstats.com/webgl/parameter/ALIASED_POINT_SIZE_RANGE">source</a>), and the point may disappear entirely if its center is slightly outside of the canvas (<a href="https://webglfundamentals.org/webgl/lessons/webgl-drawing-without-data.html#pointsissues">source</a>).
 <li>The program creation (lines 26 to 46) is always the same and pretty verbose, so we can put it in a <b>compile()</b> function and reuse it in the next chapters (see <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>):
 </ul>
 <pre style="font-size:11px"><code class="lang-js">// Compile a WebGL program from a vertex shader and a fragment shader
@@ -196,9 +196,9 @@ compile = (gl, vshader, fshader) => {
 <br>Here are the different types of attributes and uniforms that can be set by JS:
 <br>
 
-<table border style="table-layout:fixed;max-width:800px">
+<table border style="table-layout:fixed;max-width:900px">
 <tr>
-<th style="max-width:100px">Qualifier<th style="max-width:100px">Type<th style="max-width:150px">GLSL<th style="min-width:460px">How to set its value in JS
+<th style="max-width:100px">Qualifier<th style="max-width:100px">Type<th style="max-width:200px">GLSL<th style="min-width:460px">How to set its value in JS
 
 <tr>
 <td rowspan=2>attribute
@@ -260,9 +260,9 @@ gl.uniformMatrix4fv(
 <h5>What happens here?</h5>
 
 <ul>
-<li>Position is declared with <pre class=inline><code class="lang-js">attribute vec4 position;</code></pre>, targeted with <pre class=inline><code class="lang-js">position = gl.getAttribLocation(program,'position')</code></pre> and set with <pre class=inline><code class="lang-js">gl.vertexAttrib4f(position,0,0,0,1)</code></pre>.
-<li>Point size is declared with <pre class=inline><code class="lang-js">attribute float size;</code></pre>, targeted with <pre class=inline><code class="lang-js">size = gl.getAttribLocation(program,'size')</code></pre> and set with <pre class=inline><code class="lang-js">gl.vertexAttrib1f(size,10)</code></pre>.
-<li>Point color is declared with <pre class=inline><code class="lang-js">uniform float color;</code></pre>, targeted with <pre class=inline><code class="lang-js">color = gl.getUniformLocation(program,'color')</code></pre> and set with <pre class=inline><code class="lang-js">gl.uniform1f(color,1,0,0,1)</code></pre>.
+<li>Position is declared with <pre class=inline><code class="lang-js">attribute vec4 position;</code></pre>, targeted with <pre class=inline><code class="lang-js">position = gl.getAttribLocation(program, 'position')</code></pre> and set with <pre class=inline><code class="lang-js">gl.vertexAttrib4f(position, 0, 0, 0, 1)</code></pre>.
+<li>Point size is declared with <pre class=inline><code class="lang-js">attribute float size;</code></pre>, targeted with <pre class=inline><code class="lang-js">size = gl.getAttribLocation(program, 'size')</code></pre> and set with <pre class=inline><code class="lang-js">gl.vertexAttrib1f(size, 10)</code></pre>.
+<li>Point color is declared with <pre class=inline><code class="lang-js">uniform float color;</code></pre>, targeted with <pre class=inline><code class="lang-js">color = gl.getUniformLocation(program, 'color')</code></pre> and set with <pre class=inline><code class="lang-js">gl.uniform1f(color, 1, 0, 0, 1)</code></pre>.
 </ul>
 
 <h5>Tips & tricks</h5>
@@ -277,7 +277,7 @@ gl.uniformMatrix4fv(
 <br><br><hr><br>
 <h4>Drawing many points, a matter of continuity</h4>
 
-<p>WebGL has no problem calling gl.drawArrays many times in a row, but only if it is in the same timeframe.
+<p>By default, WebGL has no problem calling gl.drawArrays many times in a row, but only if these calls happen in the same timeframe.
 <br>Here's a program that tries to draw a new random point every 500ms:
 
 <h5>Demo</h5>
@@ -285,12 +285,14 @@ gl.uniformMatrix4fv(
 <iframe id=i3 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=3"></iframe>
 
 <h5>What happens here?</h5>
-<p>As you can see, the canvas is not only cleared, but completely reset each time drawArrays() is called. This is because the draws happen at different moments.
+<p>As you can see, the canvas is not cleared (in black), but completely reset each time drawArrays() is called. This is the standard behavior when the draws happen at different moments.
 <br>To solve this, there are two solutions:
 <ol>
-<li>Save the positions and colors of every new point. Then every 500ms, clear the canvas and redraw them all;
+<li>Save the positions and colors of every new point in a JS array or object. Then every 500ms, clear the canvas and redraw them all;
 <li>Force <pre class=inline><code class="lang-js">{ preserveDrawingBuffer: true }</code></pre> when creating the WebGL context, as you can see by removing the commented code on line 4.
 </ol>
+
+<p>In both cases, the result will look like this:
 
 <br><br><img src="images/webgl-guide/points.gif" width=300 loading=lazy>
 
@@ -359,7 +361,7 @@ gl.uniformMatrix4fv(
 <img src="images/webgl-guide/modes.png" width=800 style="border:2px solid #ddd">
 
 <h5>Demo</h5>
-<p>Here's the simplest way to draw a triangle:
+<p>Here's the simplest way to draw a colored triangle:
 <br>
 <br>
 <iframe id=i4 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=4"></iframe>
@@ -367,10 +369,10 @@ gl.uniformMatrix4fv(
 <h5>What happens here?</h5>
 <ul>
 <li>A data buffer is filled with 3 points coordinates and bound to the <b>position</b> attribute using <b>createBuffer</b>, <b>bindBuffer</b>, <b>bufferData</b>, <b>vertexAttribPointer</b> &amp; <b>enableVertexAttribArray</b>.
-<li>The last instruction tells <b>gl.drawArrays</b> to render these points as a triangle.<br>As a result, every fragment placed between these points will be filled with the color present in the "color" uniform variable (red).
+<li>The last instruction tells <b>gl.drawArrays</b> to render these points as a triangle.<br>As a result, every fragment placed inside the triangle will be filled with the color present in the "color" uniform variable (red).
 <li>If you replace <b>gl.TRIANGLES</b> with <b>gl.LINE_LOOP</b>, only the lines between points 0-1, 1-2, and 2-0 will be rendered, with a <b>line width</b> of 1px (1 fragment).
-<br>You can also try <b>gl.LINE_STRIP</b> to trace lines between points 0-1 and 1-2, and <b>gl.LINES</b> to draw   line between points 0 and 1, as it only works on successive pairs of points.
-<br>Unfortunately, the line width can't be changed reliably in current WebGL implementations (more info <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/lineWidth">here</a>).
+<br>You can also try <b>gl.LINE_STRIP</b> to trace lines between points 0-1 and 1-2, and <b>gl.LINES</b> to draw a line between points 0 and 1, as it only works on consecutive pairs of points.
+<br>Unfortunately, the line width can't be changed reliably in current WebGL implementations, so we'll have to stick with a 1px line width or cheat with triangles (more info <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/lineWidth">here</a> and <a href="https://mattdesl.svbtle.com/drawing-lines-is-hard">here</a>).
 <li>Lines and triangles do not need or use <b>gl_PointSize</b>. If you replace <b>gl.TRIANGLES</b> with <b>gl.POINTS</b>, you'll have to set gl_PointSize again.
 </ul>
 
