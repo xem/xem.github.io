@@ -7,7 +7,7 @@ h1, h2, h3 { margin: 0 }
 hr { border-color: #ccc }
 pre { padding: 10px; border-radius: 3px; background: #def; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
 
-body { margin: auto; font: 14px/22px arial; max-width: 1200px; padding: 30px 30px 0; min-width: 490px; }
+body { margin: auto; font: 14px/22px arial, helvetica, sans serif; max-width: 1200px; padding: 30px 30px 0; min-width: 490px; }
 body.large { max-width: 1900px; }
 header { text-align: center; }
 header .logo { width: 490px; padding: 0 0; overflow: hidden; margin: 0 auto 20px; }
@@ -20,7 +20,7 @@ header a.home { min-width: 40px }
 header a:hover, header a.active { background: #059; color: #fff }
 .wrapper { min-height: calc(100vh - 85px) }
 
-main { padding-left: 320px; }
+main { padding-left: 270px; }
 main.home { padding-left: 0 }
 main.techwatch { padding-left: 0 }
 main.techwatch li { line-height: 20px; }
@@ -31,7 +31,7 @@ main a { font-weight: bold }
 #menu li { margin: 0; line-height: 22px; }
 #menu .active { color: #000; font-weight: bold }
 #menu.techwatch { columns: 2; display: none; }
-#menu { z-index: 10; position: sticky; top: 10px; left: 0; float: left; width: 300px; max-height: calc(100vh - 90px); overflow: auto; background: #f8f8f8; border: 2px solid #ddd; padding: 15px; border-radius: 5px; }
+#menu { z-index: 10; position: sticky; top: 10px; left: 0; float: left; width: 250px; max-height: calc(100vh - 90px); overflow: auto; background: #f8f8f8; border: 2px solid #ddd; padding: 15px; border-radius: 5px; }
 #menusearch { border: 1px solid #aaa; margin: 10px 0 10px 5px; }
 .section { padding: 30px 20px; margin: 0 0 20px; max-width: 100%; overflow: hidden; border: 2px solid #ddd; border-radius: 5px; min-height: 90vh; }
 .section#intro { padding-bottom: 10px; }

@@ -78,21 +78,22 @@ pre.inline, pre.inline code { display: inline; padding: 2px; background: #444; f
 
 <h4>The GLSL language</h4>
 
-<p>The shaders source code can be placed in a string or loaded from a separate file. Their syntax can be summarized like this:
+<p>The shaders source code can be placed in a string or loaded from a separate file. In WebGL 1.0, their syntax can be summarized like this:
 
 <ul>
 <li>An <b>int</b> is a whole number: <pre class=inline><code class="lang-js">0</code></pre>, <pre class=inline><code class="lang-js">1</code></pre>, <pre class=inline><code class="lang-js">2</code></pre>, ...
 <li>A <b>float</b> is a number written with at least one decimal: <pre class=inline><code class="lang-js">0.0</code></pre>, <pre class=inline><code class="lang-js">0.1</code></pre>, <pre class=inline><code class="lang-js">1.0</code></pre>, ...
 <li>A <b>vec4</b> is an array of 4 floats representing vertex coordinates or a 3D vector (x, y, z, w), or a color (r, g, b, alpha). The types vec2 and vec3 exist too.
 <li>A <b>mat4</b> is a matrix (a grid) of 4 x 4 floats, useful for transforming coordinates and vectors in 3D. The types mat2 (2x2) and mat3 (3x3) exist too.
+<li>A <b>sampler2D</b> is a reference to a texture image; a <b>samplerCube</b> is a reference to a "3D texture" (a set of 6 textures mapped on a cube).
 <li>A <b>variable</b> is declared with its type, for example: <pre class=inline><code class="lang-js">int i = -1</code></pre>, <pre class=inline><code class="lang-js">float f = 2.0</code></pre> or <pre class=inline><code class="lang-js">vec4 v = vec4(1.0, 2.0, 3.0, 4.0)</code></pre>.
 <li>A <b>constant</b> is a variable with a fixed value: <pre class=inline><code class="lang-js">const int c = 100;</code></pre>.
 <li>The xyzw / rgba components of a vec4 can be extracted and recomposed, for example: <pre class=inline><code class="lang-js">float f = v.x</code></pre>, <pre class=inline><code class="lang-js">vec3 rgb = v.rgb</code></pre>.
 <li><b>Math functions</b>: cos, sin, tan, pow, exp, log, log2, sqrt, abs, sign, floor, ceil, round, trunc, fract, mod, min, max, clamp, mix, step, length, distance, dot, cross, normalize...
-<li>All the usual <b>operators</b> are available (+ - * / &amp;&amp; || % ! ~ &amp; | >> &lt;&lt; == != ++ += ...) but only between variables of the same type (and matrices can be multiplied with vectors).
+<li>All the usual <b>operators</b> are available (+ - * / &amp;&amp; || == != > >= &lt; &lt;= ++ -- += ...) but only between variables of the same type (and matrices can be multiplied with vectors of same size).
 <li><b>Tests and loops</b> are also available (if, else, switch, for, while), but loops must have a constant limit. (you can't do <pre class=inline><code class="lang-js">for(i=0; i&lt;j; i++){...}</code></pre> if j is variable).
 <li>The <b>entry point</b> of each shader is a <pre class=inline><code class="lang-js">void main(){...}</code></pre> function. (<a href="https://relativity.net.au/gaming/glsl/Functions.html">custom functions</a> can also be created and called by main() ).
-<li>The <b>precision</b> of ints & floats (lowp/mediump/highp, resp. 8/16/32 bits) of each shader can be set with a directive, like <pre class=inline><code class="lang-js">precision highp int;</code></pre> or <pre class=inline><code class="lang-js">precision mediump float;</code></pre>
+<li>The <b>precision</b> of ints, floats and Sampler2Ds (lowp / mediump / highp) can be set in each shader with a directive, like <pre class=inline><code class="lang-js">precision highp int;</code></pre> or <pre class=inline><code class="lang-js">precision mediump float;</code></pre>
 <br>These directives must be at the beginning of the shader's code, however only the float precision is mandatory in the fragment buffer, all the others have values by default.
 <li>The vertex shader must set a global variable <b>gl_Position</b> containing the coordinates of the current vertex. <b>gl_PointSize</b> is also mandatory when rendering individual points.
 <li>The fragment shader must set a global variable <b>gl_FragColor</b> containing the color of the current fragment.
@@ -146,12 +147,14 @@ pre.inline, pre.inline code { display: inline; padding: 2px; background: #444; f
 <br>The 4th coordinate of the point is fixed to 1.0, this will be useful to compute transformations in the next chapters.
 <li>The fragment shader sets the vec4 <b>gl_Fragolor</b> (r, g, b, alpha), where the four values are in the range [0 : 1]. It is executed 100 times (once for each pixel inside the point).
 <br>It starts with a mandatory directive, used to define the precision of its floating numbers: <pre class=inline><code class="lang-js">precision mediump float;</code></pre> (lowp and highp are also available). 
-<li>If an error occurs during the compilation, it is caught by <b>getShaderInfoLog</b> or <b>getProgramInfoLog</b> and logged in the browser's JS console.
+<li>If an error occurs during the compilation, it can be caught by <b>getShaderInfoLog</b> or <b>getProgramInfoLog</b> and logged in the browser's JS console.
 </ul>
 
 <h5>Tips & tricks</h5>
-<p>The program creation (lines 26 to 46) is always the same and pretty verbose, so we can put it in a <b>compile()</b> function and reuse it in the next chapters (see <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>):
-
+<ul>
+<li>Depending on your device, the points larger than 62px may not be supported (<a href="http://webglstats.com/webgl/parameter/ALIASED_POINT_SIZE_RANGE">source</a>), and the points may disappear if their center is slightly outside of the canvas (<a href="https://webglfundamentals.org/webgl/lessons/webgl-drawing-without-data.html#pointsissues">source</a>).
+<li>The program creation (lines 26 to 46) is always the same and pretty verbose, so we can put it in a <b>compile()</b> function and reuse it in the next chapters (see <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>):
+</ul>
 <pre style="font-size:11px"><code class="lang-js">// Compile a WebGL program from a vertex shader and a fragment shader
 compile = (gl, vshader, fshader) => {
   
@@ -172,7 +175,7 @@ compile = (gl, vshader, fshader) => {
   gl.linkProgram(program);
   gl.useProgram(program);
   
-  // Log errors
+  // Log errors (optional)
   console.log('vertex shader:', gl.getShaderInfoLog(vs) || 'OK');
   console.log('fragment shader:', gl.getShaderInfoLog(fs) || 'OK');
   console.log('program:', gl.getProgramInfoLog(program) || 'OK');
@@ -282,7 +285,7 @@ gl.uniformMatrix4fv(
 <p>As you can see, the canvas is not only cleared, but completely reset each time drawArrays() is called. This is because the draws happen at different moments.
 <br>To solve this, there are two solutions:
 <ol>
-<li>Remember the positions and colors of every new point. Then every 500ms, clear the canvas and draw them all;
+<li>Save the positions and colors of every new point. Then every 500ms, clear the canvas and redraw them all;
 <li>Force <pre class=inline><code class="lang-js">{ preserveDrawingBuffer: true }</code></pre> when creating the WebGL context, as you can see by removing the commented code on line 4.
 </ol>
 
@@ -353,7 +356,7 @@ gl.uniformMatrix4fv(
 
 <h5>What happens here?</h5>
 <ul>
-<li>A buffer is filled with 3 points coordinates and bound to the <b>position</b> attribute using <b>createBuffer</b>, <b>bindBuffer</b>, <b>bufferData</b>, <b>vertexAttribPointer</b> &amp; <b>enableVertexAttribArray</b>.
+<li>A data buffer is filled with 3 points coordinates and bound to the <b>position</b> attribute using <b>createBuffer</b>, <b>bindBuffer</b>, <b>bufferData</b>, <b>vertexAttribPointer</b> &amp; <b>enableVertexAttribArray</b>.
 <li>The last instruction tells <b>gl.drawArrays</b> to render these points as a triangle.<br>As a result, every fragment placed between these points will be filled with the color present in the "color" uniform variable (red).
 <li>If you replace <b>gl.TRIANGLES</b> with <b>gl.LINE_LOOP</b>, only the lines between points 0-1, 1-2, and 2-0 will be rendered, with a <b>line width</b> of 1px (1 fragment).
 <br>You can also try <b>gl.LINE_STRIP</b> to trace lines between points 0-1 and 1-2, and <b>gl.LINES</b> to draw   line between points 0 and 1, as it only works on successive pairs of points.
@@ -366,9 +369,10 @@ gl.uniformMatrix4fv(
 <ul>
 <li>You can draw as many triangles as you want by adding vertices on line 33 and updating count on line 61.
 <li>In all the following chapters' demos, you can replace <b>gl.TRIANGLES</b> with <b>gl.LINE_LOOP</b> to see the scene in <b>wireframe</b>.
-<li>The array buffer creation and binding is also quite verbose, so let's put it in the function <b>arraybuffer()</b>, in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>:
-<pre style="font-size:11px"><code class="lang-js">// Bind an array buffer to an attribute and enable it
-arraybuffer = (gl, data, program, attribute, size, type) => {
+<li>The buffer creation and binding is also quite verbose, so let's put it in the function <b>buffer()</b>, in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>:
+</ul>
+<pre style="font-size:11px"><code class="lang-js">// Bind a data buffer to an attribute, fill it with data and enable it
+buffer = (gl, data, program, attribute, size, type) => {
   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
   gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
   var a = gl.getAttribLocation(program, attribute);
@@ -376,24 +380,45 @@ arraybuffer = (gl, data, program, attribute, size, type) => {
   gl.enableVertexAttribArray(a);
 }</code>
 </pre>
-</ul>
 
-<!--<br><hr><br>
+<br><hr><br>
 
 <h4>Multi-attribute buffer and varying color</h4>
 
+<p>Now, we want to give a different color to our three vertices, and draw a triangle with them.
+<br>The vertex colors can be transmitted to the fragment buffer via a <b>varying</b> variable, to produce a gradient (this process is called <b>color interpolation</b>).
+<br>The X/Y/Z and R/G/B values for each vertex can be stored in two data buffers, or in an <b>interleaved data buffer</b>, like here:
+<h5>Demo</h5>
+
+<iframe id=i6 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=5"></iframe>
+
+<h5>What happens here?</h5>
 <ul>
-<li>Now imagine that we want to give a specific color to three vertices, and draw a triangle with them.
-<li>We can do that by binding two data buffers (one for the vertex positions, another one for the vertex colors), which is totally fine,
-<br>but we can also save a bit of resources by using a single data buffer with interleaved data, for example the values X/Y/R/G/B, recurring every 5 floats (see demo below).
-<li>The vertex buffer will receive the positions and colors for each vertex and will need to transmit the colors to the fragment buffer.
+<li>For every chunk of 6 floats in the data buffer,
+<br>- <pre class=inline><code class="lang-js">gl.vertexAttribPointer(position,3,gl.FLOAT,false,FSIZE*6,0);</code></pre> binds the first 3 values to the attribute <b>position</b>,
+<br>- <pre class=inline><code class="lang-js">gl.vertexAttribPointer(color,3,gl.FLOAT,false,FSIZE*6,FSIZE*3);</code></pre> binds the last 3 values to the attribute <b>color</b>.
+<li>The varying v_color is declared in both shaders.
+<br>- In the vertex shader, it receives the color of the current vertex.
+<br>- In the fragment shader, its value is automatically interpolated from the three vertices around it:
+<!--<li>The vertex buffer will receive the positions and colors for each vertex and will need to transmit the colors to the fragment buffer.
 <br>To do so, we will use a <b>varying</b>: a global variable that is writable by the vertex shader and readable by the fragment shader.
 <br>Varyings are declared at the beginning of both shaders, and set in the code of the vertex shader. It's a good practice to name them with a "v_" prefix.
 <br>Every fragment (pixel) inside the triangle, if it's bound to a varying color variable, will be interpolated from the color of each vertex around it!
+-->
 </ul>
-<iframe id=i6 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=5"></iframe>
+
+
+<img src="images/webgl-guide/interpolation.gif" width=350 style="border:2px solid #ddd">
+<br>
+<h5>Tips and tricks</h5>
+
+<ul>
+<li>It's a good practice to prefix every varying name with "v_".
+<li>Color interpolation also works in <b>LINES</b>, <b>LINE_STRIP</b> and <b>LINE_LOOP</b> modes.
+</ul>
 
 <br><br><hr><br>
+<!--
 
 <h4>Translate, rotate, scale</h4>
 
