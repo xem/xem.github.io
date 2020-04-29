@@ -93,7 +93,7 @@ pre.inline, pre.inline code { display: inline; padding: 2px; background: #444; f
 <li>A <b>constant</b> is a variable with a fixed value: <pre class=inline><code class="lang-js">const int c = 100;</code></pre>.
 <li>The xyzw / rgba components of a vec4 can be extracted and recomposed, for example: <pre class=inline><code class="lang-js">float f = v.x</code></pre>, <pre class=inline><code class="lang-js">vec3 rgb = v.rgb</code></pre>.
 <li><b>Math functions</b>: cos, sin, tan, pow, exp, log, log2, sqrt, abs, sign, floor, ceil, round, trunc, fract, mod, min, max, clamp, mix, step, length, distance, dot, cross, normalize...
-<li>All the usual <b>operators</b> are available (+ - * / &amp;&amp; || == != > >= &lt; &lt;= ++ -- += ...) but only between variables of the same type (and matrices can be multiplied with vectors of same size).
+<li>All the usual <b>operators</b> are available (= + - * / &amp;&amp; || == != > >= &lt; &lt;= ++ -- ^^ += -= *= /=) but only between variables of the same type or same length (ex: mat4 * float, mat4 * vec4).
 <li><b>Tests and loops</b> are also available (if, else, switch, for, while), but loops must have a constant limit. (you can't do <pre class=inline><code class="lang-js">for(i=0; i&lt;j; i++){...}</code></pre> if j is variable).
 <li>The <b>entry point</b> of each shader is a <pre class=inline><code class="lang-js">void main(){...}</code></pre> function. (<a href="https://relativity.net.au/gaming/glsl/Functions.html">custom functions</a> can also be created and called by main() ).
 <li>The <b>precision</b> of ints, floats and Sampler2Ds (lowp / mediump / highp) can be set in each shader with a directive, like <pre class=inline><code class="lang-js">precision highp int;</code></pre> or <pre class=inline><code class="lang-js">precision mediump float;</code></pre>
@@ -122,7 +122,7 @@ pre.inline, pre.inline code { display: inline; padding: 2px; background: #444; f
 <p>Don't worry, all these features will be explained and illustrated in the next chapters.
 
 <br><br><hr><br>
-<h2>2D graphics</h2>
+<center><h2>2D graphics</h2></center>
 <br><hr><br>
 
 
@@ -379,8 +379,9 @@ gl.uniformMatrix4fv(
 <h5>Tips &amp; tricks</h5>
 
 <ul>
-<li>You can draw as many triangles as you want by adding vertices on line 33 and updating count on line 61.
+<li>You can draw as many triangles as you want by adding vertex coordinates on line 33 and updating the vertex count on line 61.
 <li>In all the following chapters' demos, you can replace <b>gl.TRIANGLES</b> with <b>gl.LINE_LOOP</b> to see the scene in <b>wireframe</b>.
+<li>WebGL does <b>antialiasing</b> (pixel smoothing) by default. This can be disabled with <pre class=inline><code class="lang-js">canvas.getContext('webgl', {antialias: false});</code></pre>, to save resources, especially on retina screens.
 <li>The buffer creation and binding is also quite verbose, so let's put it in the function <b>buffer()</b>, in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>:
 </ul>
 <pre style="font-size:11px"><code class="lang-js">// Bind a data buffer to an attribute, fill it with data and enable it
@@ -1035,23 +1036,23 @@ multMat4Mat4 = (a, b) => {
   return c;
 };
 
+// Get the transposed of a mat4
+transpose = m => {
+  return new Float32Array([
+    m[0], m[4], m[8],  m[12],
+    m[1], m[5], m[9],  m[13],
+    m[2], m[6], m[10], m[14],
+    m[3], m[7], m[11], m[15]
+  ]);
+};
+
 // Transform a mat4
 // options: x/y/z (translate), rx/ry/rz (rotate), sx/sy/sz (scale)
 transform = (mat, options) => {
-
   var out = new Float32Array(mat);
-  
-  var x = options.x || 0;
-  var y = options.y || 0;
-  var z = options.z || 0;
-  
-  var sx = options.sx || 1;
-  var sy = options.sy || 1;
-  var sz = options.sz || 1;
-  
-  var rx = options.rx;
-  var ry = options.ry;
-  var rz = options.rz;
+  var x = options.x || 0, y = options.y || 0, z = options.z || 0;
+  var sx = options.sx || 1, sy = options.sy || 1, sz = options.sz || 1;
+  var rx = options.rx, ry = options.ry, rz = options.rz;
   
   // translate
   if(x || y || z){
@@ -1089,35 +1090,16 @@ transform = (mat, options) => {
   
   // Scale
   if(sx !== 1){
-    out[0] *= sx;  
-    out[1] *= sx;
-    out[2] *= sx;
-    out[3] *= sx;
+    out[0] *= sx, out[1] *= sx, out[2] *= sx, out[3] *= sx;
   }
   if(sy !== 1){
-    out[4] *= sy;
-    out[5] *= sy;
-    out[6] *= sy;
-    out[7] *= sy;
+    out[4] *= sy, out[5] *= sy, out[6] *= sy, out[7] *= sy;
   }
   if(sz !== 1){
-    out[8] *= sz;
-    out[9] *= sz;
-    out[10] *= sz;
-    out[11] *= sz;
+    out[8] *= sz, out[9] *= sz, out[10] *= sz, out[11] *= sz;
   }
   
   return out;
-};
-
-// Get the transposed of a mat4
-transpose = m => {
-  return new Float32Array([
-    m[0], m[4], m[8],  m[12],
-    m[1], m[5], m[9],  m[13],
-    m[2], m[6], m[10], m[14],
-    m[3], m[7], m[11], m[15]
-  ]);
 };</code>
 </pre>
 
@@ -1136,31 +1118,69 @@ transpose = m => {
 
 <br><br><hr><br>
 
-<!--
 <h4>Texturing</h4>
 
-<ul>
-<li>As we saw earlier, the colors of the fragments inside a triangle are interpolated from the colors of each vertex around it.
-<br>The same principle can be used with a texture image (it's called sampling in this case).
-<li>Each texture (square or rectangle) has a local coordinates system (U,V) that goes from 0 to 1, and every vertex can have its own <b>texture coordinates</b> in this system.
-<li>A JS Image object can be bound to an <b>uniform sampler2D</b> to create a texture, which is applied to the current fragment using <b>gl_FragColor = texture2D(sampler, coords);</b>
-<li>The "pixels" of the texture are called texels. The texture files are generally squared to avoid being stretched in a direction or the other.
-<br><img src="images/webgl-guide/texture.png">
+<p>As we saw earlier, a fragment's color inside a triangle can be interpolated from the colors of each vertex around it.
+<br>The same principle can be used with a texture image (it's called <b>sampling</b> in this case).
+<br>A WebGL texture (whatever its size in pixels) has a local coordinates system (U,V) between 0 and 1, and any vertex can have <b>texture coordinates</b> in this system.
 </ul>
+<br><img src="images/webgl-guide/texture.png">
 
-<p>Here's an example of textured quad (a square made of two triangles). You can edit the numbers to change the way the vertices and texture are mapped:
-<p>
+<h5>Demo</h5>
+
+<p>Here's an example of texture applied to a <b>quad</b> (a square made of two triangles):
+<br>
+<br>
 <iframe id=i7 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=7"></iframe>
 
-<p>Remember that the values you're manipulating are rgba colors, so you can basically do anything you want with them, like inverting the colors:
+<h5>What happens here?</h5>
 
-<pre class="language-js"><code>vec4 color = texture2D(sampler, v_TexCoord);
-gl_FragColor = vec4(vec3(1.0, 1.0, 1.0) - color.rgb, 1.0);</code></pre>
+<ul>
+<li>An image is loaded and a WebGL <b>texture sampler</b> is created from it, using the functions <b>createTexture</b>, <b>pixelStorei</b>, <b>activeTexture</b>, <b>bindTexture</b>, <b>texParameteri</b> (lines 59 to 85).
+<br>Most of these steps plus <b>clear</b> and <b>drawArrays</b> are executed after the image has finished loading (line 63).
+<li>Special texture behaviors (wrap / mirror / clamp on edges, minimize / magnify filters, etc) can be configured with <b>texParameteri</b> (more info <a href="https://developer.mozilla.org/en/docs/Web/API/WebGLRenderingContext/texParameter">here</a>).
+<br>In particular, <b>gl.TEXTURE_WRAP_S</b> and <b>gl.TEXTURE_WRAP_T</b> can be set to <b>gl.REPEAT</b> (default), <b>gl.CLAMP_TO_EDGE</b> or <b>gl.MIRRORED_REPEAT</b>.
+<br>This tells WebGL what to do if a texture coordinates is not between 0 and 1:
+</ul>
+<img src="images/webgl-guide/wrap.png" width=550>
+<ul>
+<li>The Y axis flip (on line 66) puts the image's UV origin at the top left corner, and avoids having to work with an upsise-down image.
+<li>The vertices positions are interleaved with the texture coordinates in the data buffer (lines 30 to 35).
+<br>The vertex buffer receives the vertex positions and texture coordinates as <b>attributes</b> (lines 8,9), and sends the latter to the fragment shader using a <b>varying</b> (lines 10, 13, 20).
+<li>The fragment buffer receives the coordinates as a varying, the texture image as a <b>uniform sampler2D</b> (line 19), and calls <pre class="language-js inline"><code>texture2D(sampler, v_TexCoord)</code></pre> to interpolate it (line 22).
+</ul>
+<br>
 
-<br><img src="images/webgl-guide/textures0.png">
+<h5>Tips and tricks</h5>
 
-<h5>Multiple textures</h5>
-<p>Two or more textures can also be used at the same time. For example, you can initialize two samplers, and add or multiply them in the fragment shader:
+
+<ul>
+<li>The U and V axis are sometimes called <b>S and T</b>, but it's exactly the same thing.
+<li>The "pixels" inside a texture are called <b>texels</b>.
+<li>Since UV coordinates are between 0 and 1, the vast majority of texture images are square.
+<li>In this demo, we're using a single texture (TEXTURE0). The maximum amount of textures is not fixed, but to be safe, you should not exceed the guaranteed minimum of 8 (<a href="http://webglstats.com/webgl/parameter/MAX_TEXTURE_IMAGE_UNITS">source</a>).
+<br>You can call <pre class="language-js inline"><code>gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS)</code></pre> to know the limit on your device.
+<li>The maximum texture size also varies with the device used, but to be safe, width and height shouldn't exceed 4096px (<a href="http://webglstats.com/webgl2/parameter/MAX_TEXTURE_SIZE">source</a>).
+<br>You can call <pre class="language-js inline"><code>gl.getParameter(gl.MAX_TEXTURE_SIZE)</code></pre> to know the limit on your device.
+<li>You can overwrite textures after a <b>draw call</b> (after calling drawArrays or drawElements) if they're not used anymore.
+<li>If you need more than 8 textures without constantly switching between them, you can make a <b>texture atlas</b> (a mosaic of textures), and pick coordinates in the regions you want.
+<br>Warning: <b>texture bleeding</b> can occur if you use texture coordinates at the fronteer between two texture, due to antialiasing. 
+</ul>
+<br>
+<h5>Changing the texture's appearance</h5>
+<p>Remember that the values you're manipulating in the fragment buffer are rgba colors, so you can do anything you want with them, like:
+<br>- inverting the colors (r = 1-r; g = 1-g; b = 1-b).
+<br>- greyscaling (compute the mean of r, g and b, and apply it to r, g and b).
+<br>- exchanging color components (ex: gl_FragColor = color.brga).
+<br>- playing with <b>gl_FragCoord</b> (the current canvas coordinates, in pixels, in the form of a vec2).
+
+<br><br><img src="images/webgl-guide/textures0.png" width=600>
+
+<br>
+<br>
+
+<h5>Combining multiple textures</h5>
+<p>Two or more textures can be used on a triangle at the same time. For example, you can initialize two samplers, and add or multiply them in the fragment shader:
 <pre class="language-js"><code>vec4 color0 = texture2D(sampler0, v_TexCoord);
 vec4 color1 = texture2D(sampler1, v_TexCoord);
 gl_FragColor = color0 + color1;
@@ -1176,23 +1196,24 @@ gl_FragColor = color0 * color1;</code></pre>
 <pre class="language-js"><code>gl_FragColor = mix(color0, color1, 0.25); // color0 * 0.25 + color1 * 0.75;</code></pre>
 
 <br><img src="images/webgl-guide/textures2.png" width=600>
-
+<br>
+<br>
 <br><br><hr><br>
-<h2>3D graphics</h2>
+<center><h2>3D graphics</h2></center>
 <br><hr><br>
 
+<h4>The 3D camera</h4>
 <br>You should know by now that computers don't do "3D" natively.
-<br>You (or your 3D framework) will have to do all the computing to simulate the camera, the perspective and how they affect each polygon, so the scene can seem to be in 3D.
-<br>Fortunately, the API we use (WebGL) provides very helpful tools (especially data and depth buffers) to help rendering complex scenes without too much effort.
+<br>You (or your 3D framework) will have to do all the computing to simulate the camera, the perspective, and how they affect each polygon, so the scene can seem to be in 3D.
+<br>Fortunately, the API we use (WebGL) provides very helpful tools to help rendering complex scenes without too much effort.
 <br>
-<h4>3D camera</h4>
 <br><img src="images/webgl-guide/frustum.png">
-<ul>
-<li>In 3D, the "camera", with its position, angle and perspective, is defined by nothing more than a 4x4 matrix.
-<li>During render, every vertex in the scene is multiplied by this matrix to simulate these camera properties and appear at the right position.
-<li>The camera's frustum, also called "clipping volume", defines an area in which the scene will be rendered.
+<p>In 3D, the "camera", with its position, angle and perspective, is defined by nothing more than a 4x4 matrix.
+<br>During render, every vertex in the scene is multiplied by this matrix to simulate these camera properties and appear at the right position.
+<br>The camera's <b>frustum</b>, also called <b>clipping volume</b>, defines an area in which the triangles will be rendered.
 <br>For a camera with perspective, it is defined by a field of view angle, an aspect ratio, a near clip plane and a far clip plane, and can be set with this matrix:
-
+<br>
+<br>
 <div class=math>
 <math xmlns = "http://www.w3.org/1998/Math/MathML">
    <mrow>
@@ -1230,17 +1251,18 @@ gl_FragColor = color0 * color1;</code></pre>
    </mrow>
 </math>
 </div>
+<br>
+<br>
+<p>Then, the camera can be translated, rotated and scaled (zoomed) similarly to the vertices, by using the matrices multiplications we saw earlier.
+<br>A slightly more advanced LookAt() function is often used by developers to set the camera's position, angle and target all at once.
 
-<li>Then, the camera can be translated, rotated and scaled (zoomed) similarly to the vertices, by using the matrices multiplications we saw earlier.
-<li>A slightly more advanced LookAt() function is often used by developers to set the camera's position, angle and target all at once.
-</ul>
-<p>Here are the perspective() and lookAt() functions I added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
+<p>Here are the perspective() and lookAt() functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
 
 <pre><code class="lang-js">// Create a perspective matrix
 // options: fov, aspect, near, far
 orthogonal = options => {
   var fov = options.fov || 1.5;
-  var aspect = options.ratio || 1; // canvas.width / canvas.height
+  var aspect = options.ratio || 1; // (`canvas.width / canvas.height` if the canvas is rectangle)
   var near = options.near || 0;
   var far = options.far || 100;
   var f = 1 / Math.tan(fov);
@@ -1286,12 +1308,13 @@ lookAt = (mat, cameraX, cameraY, cameraZ, targetX, targetY, targetZ, upX = 0, up
 </pre>
 
 <br>
-<p>It's also possible to make a camera with no perspective, also called "orthogonal", "orthographic", "isometric" or "2.5D" view.
-<br>In this case, the frustum is a box:
+<p>It's also possible to make a camera with no perspective, also called "orthogonal", "orthographic", "isometric" or "2.5D".
+<br>In this case, the clipping volume is a box:
 <br><img src="images/webgl-guide/orthogonal.png">
 <br>
 <p>Here are the matrix and the corresponding source code:
-
+<br>
+<br>
 <div class=math>
 <math xmlns = "http://www.w3.org/1998/Math/MathML">
    <mrow>
@@ -1330,6 +1353,7 @@ lookAt = (mat, cameraX, cameraY, cameraZ, targetX, targetY, targetZ, upX = 0, up
 </math>
 </div>
 <br>
+<br>
 
 <pre><code class="lang-js">// Create an orthogonal matrix
 // options: top, bottom, left, right, near, far
@@ -1352,26 +1376,20 @@ orthogonal = options => {
 }</code>
 </pre>
 
-<p>You may have noticed that the matrix is different in the mathematic formula and in the source code.
-<br>This is because WebGL requires that all the matrices used in the shaders are transposed (i.e. X and Y axis are inversed).
-<br>You don't need to worry about it when using the functions in  <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>, but otherwise, you can either write your matrices already transposed, or use this function:
-
-<pre><code class="lang-js"></code>
-</pre>
-
 <br><br><hr><br>
 
 <h4>Reduce repetitions with indexed vertices</h4>
 
-<ul>
-<li>Before starting to draw 3D objects (that require a lot of triangles), we need to learn an optimized way to write our buffers.
-<li>As we have seen before, data buffers (with the type gl.ARRAY_BUFFER) can hold vertex properties (position, color, texture coordinates...).
-<li>These properties can be placed into multiple buffers or interleaved into a single one.
-<li>In 3D, vertices are often shared between multiple triangles.
-<li>Instead of repeating the same vertices many times in the same buffer, it's possible to write each vertex only once in a data buffer,<br>and use a second buffer with the type <b>gl.ELEMENT_ARRAY_BUFFER</b> that declares all our triangles by using indices of the first object.
-<li>Even if many data buffers exist in your program, only one index buffer can be used, and it will list indices from all the data buffers at once,<br>so they all need to be stored in the same order (the N'th item of every buffer must belong to the same N'th vertex).
-<li>Finally, to draw indexed vertices, you need you replace gl.drawArrays with <b>gl.drawElements(type, count, type, offset)</b>.
-<li>The indices stored in the index buffer have integer values (N = 0, 1, 2...), and you can choose their size in bytes depending on the number of vertices you want to index:
+<p>Before starting to draw 3D objects (that require a lot of triangles), we need to learn an optimized way to write our data buffers.
+<br>As we have seen before, data buffers (with the type gl.ARRAY_BUFFER) can hold vertex properties (position, color, texture coordinates...).
+<br>These properties can be placed into multiple buffers or interleaved into a single one.
+<p>In 3D, vertices are often shared between multiple triangles.
+<br>Instead of repeating the same vertices many times in the same buffer, it's possible to write each vertex only once in a data buffer,
+<br>and use a second buffer with the type <b>gl.ELEMENT_ARRAY_BUFFER</b> that declares all our triangles by using indices of the first object.
+<p>Even if many data buffers exist in your program, only one index buffer can be used, and it will list indices from all the data buffers at the same time,
+<br>so they all need to be stored in the same order (the N'th item of every buffer must belong to the same N'th vertex).
+<p>Finally, to draw indexed vertices, you need you replace gl.drawArrays with <b>gl.drawElements(type, count, type, offset)</b>.
+<p>The indices stored in the index buffer have integer values (N = 0, 1, 2...), and you can choose their size in bytes depending on the number of vertices you want to index:
 <br>
 <br>
 <table border>
@@ -1394,45 +1412,62 @@ orthogonal = options => {
 </table>
 
 <p>(*) In WebGL1, an extension must be enabled before using the type UNSIGNED_INT: <b>gl.getExtension('OES_element_index_uint');</b>. In WebGL2, it's enabled by default.
-</ul>
-
-<br>
-<p>You can see indexed buffers in action in the following demos...
 
 
 <br><br><hr><br>
 
 <h3>Hello cube</h3>
 
-<p>The easiest 3D shape to render is a cube. But to render it correctly, two new settings must be used:
-<ul>
-<li>In order to make each triangle appear at the right depth (the front ones in front, the back ones in the back), depth-sorting must be enabled with <b>gl.enable(gl.DEPTH_TEST);</b>
-<li>The clear code is also updated to take this depth test into account: <b>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</b> (see lines 95 and 106).
-</ul>
+<p>The easiest 3D shape to render is a cube composed of 8 points and 12 triangles.
+
+<h5>Demo</h5>
 
 <iframe id=i8 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=8"></iframe>
 
-<p>You can notice that the cube appears to rotate on itself, but it's actually the camera that rotates around it (see lines 97-100 + 104).
+<h5>What happens here?</h5>
 
-<p>Remember that in every demo, you can see the scene in "wireframe" by changing the first parameter of gl.grawElements to gl.LINE_STRIP:
+<ul>
+<li>Here we are, finally drawing in 3D! But to render it correctly, we had to enable WebGL's <b>depth sorting</b>.
+<br>This mechanism ensures that only the fragments that are the closest to the camera are drawn, in order to avoid, for example, seeing the back face of the cube on top of the front face.
+<br>To do that, we add <pre class="language-js inline"><code>gl.enable(gl.DEPTH_TEST);</code></pre> and update the clearing: <pre class="language-js inline"><code>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</code></pre> (see lines 95 and 106).
+<li>Notice the index buffer (lines 60-67 + 78-80), and the use of <b>drawElements</b> (line 107) with matching types (Uint8Array / gl.UNSIGNED_BYTE).
+<li>You may have noticed that the cube appears to rotate on itself, but it's actually the camera that rotates around it (see lines 97-100 + 104).
+</ul>
+
+<h5>Tips and tricks</h5>
+
+<p>Remember that in every demo, you can see the triangles in wireframe by changing the first parameter of gl.grawElements to <b>gl.LINE_STRIP</b>, which makes the face diagonals visible:
 
 <br>
 
-<br><img src="images/webgl-guide/wire.png" width=200>
+<br><img src="images/webgl-guide/wire.png" width=250>
+
+
+
 
 <br><br><hr><br>
 
-<h3>Color each face of the cube</h3>
+<h3>How to color each face of the cube</h3>
 
-<ul>
-<li>To color each face individually, each vertex can't have an unique color like before. Its color needs to vary depending on which face is being rendered.
-<li>The solution is to declare all the possible combinations of vertices positions and colors in two data buffers, and use an index buffer to create the corresponding triangles.
-<li>The same principle will apply if you want to make a cube with different textures on each face.
-</ul>
+<p>To color each face individually, each vertex can't have an unique color like we did before. Its color needs to vary depending on which face is being rendered.
+<br>The solution is to declare all the possible combinations of vertices positions and colors in two data buffers, and use an index buffer to create the corresponding triangles.
+<br>Its indeed a bit more verbose, but still the simplese way to achieve it.
+
+<br>The same principle applies if you want to make a cube with different textures on each face (each combination of vertex position and texture coordinates must be declared separately).
+
+<h5>Demo</h5>
 
 <iframe id=i9 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=9"></iframe>
 
-<p>I've added the cube declaration in the cube() function of <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> to avoid repeating it in the next demos:
+<h5>What happens here?</h5>
+
+<p>The vertex positions and colors are split in two data buffers to improve readability. Each line declares the 4 vertices composing one (square) face of the cube (lines 39-55).
+<br>Then, the index buffer makes two triangles from the vertices of each face, and recycles the vertices placed on the diagonal (lines 57-64).
+<br>Thanks to this indexing, we only need to declare 24 vertices (4 per face) instead of 36 (3 per triangle x 12 triangles).
+<br>
+<h5>Tips and tricks</h5>
+
+<p>Let's add the cube declaration in the cube() function of <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> to avoid repeating it in the next demos:
 
 <pre><code class="lang-js">// Declare a cube (2x2x2)
 // Returns [vertices (Float32Array), normals (Float32Array), indices (Uint16Array)] 
@@ -1478,13 +1513,16 @@ cube = (r = 1, g = 1, b = 1) => {
 };</code></pre>
 
 <p>In bonus, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> also contains the models for a sphere and a pyramid.
-<br>You can test them in all the following demos by replacing cube() with <b>sphere()</b> or <b>pyramid()</b>.
+<br>You can try them in all the following demos by replacing cube() with <b>sphere()</b> or <b>pyramid()</b>.
 
-<br><br><img src="images/webgl-guide/othershapes.png">
+<br><br><img src="images/webgl-guide/othershapes.png" width=600>
 
-<br><br>NB: all the shapes in this file use Uint16Array's for indices, so remember to use <b>gl.UNSIGNED_SHORT</b> in drawArrays().
+<br><br>NB: all the shapes in shapes.js use Uint16Array's for indices, so if you use them, remember to use the type <b>gl.UNSIGNED_SHORT</b> in drawArrays().
 
 <br><br><hr><br>
+<!--
+
+
 
 <h4>Lighting and shading</h4>
 
