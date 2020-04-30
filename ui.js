@@ -340,7 +340,7 @@ menu = function(){
 }
 
 onscroll = function(){
-  $(".logo h2").style.transform = "perspective(130px)rotateX(" + (-60 + scrollY/10) + "deg)";
+  if($(".logo h2")) $(".logo h2").style.transform = "perspective(130px)rotateX(" + (-60 + scrollY/10) + "deg)";
 }
 
 showmenu = function(){

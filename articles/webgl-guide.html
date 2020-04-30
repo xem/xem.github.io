@@ -26,7 +26,7 @@ h1 { font-size: 30px }
 h2 { font-size: 24px }
 h3 { font-size: 20px }
 h4 { font-size: 18px }
-h5 { font-size: 14px }
+h5 { font-size: 16px }
 ul, ol { padding-left: 15px }
 pre { margin: 3px; font-size: 12px; }
 pre.inline, pre.inline code { display: inline; padding: 2px; background: #444; font-size: 11px;}
@@ -138,7 +138,7 @@ pre.inline, pre.inline code { display: inline; padding: 2px; background: #444; f
 
 
 <h5>Demo</h5>
-<iframe id=i1 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=1"></iframe>
+<iframe id=i1 loading=lazy src="../../webgl-guide/visualizer/?demo=1"></iframe>
 
 <h5>What happens here?</h5>
 <ul>
@@ -255,7 +255,7 @@ gl.uniformMatrix4fv(
 
 
 <h5>Demo</h5>
-<iframe id=i2 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=2"></iframe>
+<iframe id=i2 loading=lazy src="../../webgl-guide/visualizer/?demo=2"></iframe>
 
 <h5>What happens here?</h5>
 
@@ -282,7 +282,7 @@ gl.uniformMatrix4fv(
 
 <h5>Demo</h5>
 
-<iframe id=i3 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=3"></iframe>
+<iframe id=i3 loading=lazy src="../../webgl-guide/visualizer/?demo=3"></iframe>
 
 <h5>What happens here?</h5>
 <p>As you can see, the canvas is not cleared (in black), but completely reset each time drawArrays() is called. This is the standard behavior when the draws happen at different moments.
@@ -364,7 +364,7 @@ gl.uniformMatrix4fv(
 <p>Here's the simplest way to draw a colored triangle:
 <br>
 <br>
-<iframe id=i4 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=4"></iframe>
+<iframe id=i4 loading=lazy src="../../webgl-guide/visualizer/?demo=4"></iframe>
 
 <h5>What happens here?</h5>
 <ul>
@@ -403,7 +403,7 @@ buffer = (gl, data, program, attribute, size, type) => {
 <br>The X/Y/Z and R/G/B values for each vertex can be stored in two data buffers, or in an <b>interleaved data buffer</b>, like here:
 <h5>Demo</h5>
 
-<iframe id=i6 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=5"></iframe>
+<iframe id=i6 loading=lazy src="../../webgl-guide/visualizer/?demo=5"></iframe>
 
 <h5>What happens here?</h5>
 <ul>
@@ -993,7 +993,7 @@ buffer = (gl, data, program, attribute, size, type) => {
 
 <h5>Demo</h5>
 
-<iframe id=i5 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=6"></iframe>
+<iframe id=i5 loading=lazy src="../../webgl-guide/visualizer/?demo=6"></iframe>
 
 <h5>What happens here?</h5>
 <p>This demo performs 3 transformations on the same triangle: translate, then rotate, then scale.
@@ -1131,7 +1131,7 @@ transform = (mat, options) => {
 <p>Here's an example of texture applied to a <b>quad</b> (a square made of two triangles):
 <br>
 <br>
-<iframe id=i7 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=7"></iframe>
+<iframe id=i7 loading=lazy src="../../webgl-guide/visualizer/?demo=7"></iframe>
 
 <h5>What happens here?</h5>
 
@@ -1380,7 +1380,7 @@ orthogonal = options => {
 
 <h4>Reduce repetitions with indexed vertices</h4>
 
-<p>Before starting to draw 3D objects (that require a lot of triangles), we need to learn an optimized way to write our data buffers.
+<p>Before starting to draw <b>meshes</b> (3D objects) that contain a lot of triangles, we need to learn an optimized way to write our data buffers.
 <br>As we have seen before, data buffers (with the type gl.ARRAY_BUFFER) can hold vertex properties (position, color, texture coordinates...).
 <br>These properties can be placed into multiple buffers or interleaved into a single one.
 <p>In 3D, vertices are often shared between multiple triangles.
@@ -1418,11 +1418,11 @@ orthogonal = options => {
 
 <h3>Hello cube</h3>
 
-<p>The easiest 3D shape to render is a cube composed of 8 points and 12 triangles.
+<p>The easiest shape to render in 3D is a cube composed of 8 points and 12 triangles.
 
 <h5>Demo</h5>
 
-<iframe id=i8 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=8"></iframe>
+<iframe id=i8 loading=lazy src="../../webgl-guide/visualizer/?demo=8"></iframe>
 
 <h5>What happens here?</h5>
 
@@ -1457,7 +1457,7 @@ orthogonal = options => {
 
 <h5>Demo</h5>
 
-<iframe id=i9 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=9"></iframe>
+<iframe id=i9 loading=lazy src="../../webgl-guide/visualizer/?demo=9"></iframe>
 
 <h5>What happens here?</h5>
 
@@ -1496,7 +1496,7 @@ cube = (r = 1, g = 1, b = 1) => {
     1.0, 0.0, 0.0,   1.0, 0.0, 0.0,   1.0, 0.0, 0.0,   1.0, 0.0, 0.0,  // right
     0.0, 1.0, 0.0,   0.0, 1.0, 0.0,   0.0, 1.0, 0.0,   0.0, 1.0, 0.0,  // up
    -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  // left
-    0.0,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,  // down
+    0.0,-1.0, 0.0,   00,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,  // down
     0.0, 0.0,-1.0,   0.0, 0.0,-1.0,   0.0, 0.0,-1.0,   0.0, 0.0,-1.0   // back
   ]);
 
@@ -1520,27 +1520,39 @@ cube = (r = 1, g = 1, b = 1) => {
 <br><br>NB: all the shapes in shapes.js use Uint16Array's for indices, so if you use them, remember to use the type <b>gl.UNSIGNED_SHORT</b> in drawArrays().
 
 <br><br><hr><br>
-<!--
 
 
 
 <h4>Lighting and shading</h4>
+<p>The terms lighting and shading are often used without distinction but they actually represent two different things:
+<ul>
+<li><b>Lighting</b> is a physics notion, representing how the light affects an object in the real world or a in 3D scene.
+<li><b>Shading</b> is specific to computer graphics, and indicate how the pixels of a 3D scene are rendered on a screen according to lighting.
+</ul>
+<p>Sometimes, lighting is also referred to as <b>coloring</b>, and it makes sense when you think about it, as the color of an object is produced by the light it absorbs and emits.
+<p>Every 3D scene needs a minimum of shading to avoid looking flat and confusing, even if it's a simple colored cube:
+<br><br>
+<img src="images/webgl-guide/shading.png" width=500>
+<br>In the first case, all the pixels are the same color, which doesn't look natural.<br>In the second case, every face has a different color, but our brains interpret in as a shaded, red cube.
 
-<h5>Normals and cross-products</h5>
+<p>To implement that, we first need to learn two new tools:
+
+<h5>1) Normals and cross-products</h5>
 
 <img src="images/webgl-guide/normal.png" width=300>
 <br>
 
-<ul>
-<li>Each triangle has a <b>normal</b>: it's a vec3 perpendicular to its surface, and <b>normalized</b> (with a length equal to 1).
-<li>A normal can be computed using a <b>cross-product</b> of two edge's vectors: AB × BC if the points A, B and C are in counterclockwise order.
+<p>Each triangle has a <b>normal</b>: it's a 3D vector perpendicular to its surface, and <b>normalized</b> (with a length equal to 1).
+<br>A normal can be computed using a <b>cross-product</b> of two edge's vectors: AB × BC if the points A, B and C are in counterclockwise order.
+
 
 <br><br><a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/cross.gif" width=300 style="border: 1px solid #ddd;"></a>
 <br><br>
+<div style="background:#fff;width:97px;height:32px;position:relative;z-index:2;margin-top:-220px;left:200px;margin-bottom:170px;"></div>
 
-<li>A cross-product can be computed natively in GLSL: <b>cross(AB, BC)</b>.
+<p>A cross-product can be computed natively in GLSL: <b>cross(AB, BC)</b>.
 
-<br>However, the normals of a 3D model are generally hard-coded or computed in JS when the page loads. Here's the source code:
+<br>However, the normals of a 3D model are generally hard-coded or computed once, in JS when the page loads. Here's the source code:
 </ul>
 <pre><code class="lang-js">// Cross-product of three points a, b, c.
 // Returns the coordinates of a normal vector perpendicular to the side where these points are counter-clockwise.
@@ -1550,57 +1562,71 @@ cross = (a0, a1, a2, b0, b1, b2, c0, c1, c2) => {
   return [yAB * zBC - zAB * yBC, zAB * xBC - xAB * zBC, xAB * yBC - yAB * xBC]; // cross product
 }</code></pre>
 
+<br>There's a mnemotechnic way to remember how a cross-product works, called <b>right-hand rule</b>: your right thumb is the cross-product of your 2nd and 3rd right finger.
 
+<img src="images/webgl-guide/righthand.png" width=400>
 
-<h5>Dot product</h5>
+<br>
+<h5>2) Dot product</h5>
 
 <a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/dot.gif" width=250 style="border: 1px solid #ddd;"></a>
 
+<p>The <b>dot product</b> is a function that compares two normalized vectors and tells how perpendicular they are.
+<br>The dot product can have any value between 1 and -1, with three remarkable values:
 <ul>
-<li>The dot product is another interesting function: it compares two vectors and tells how perpendicular they are. (1: parallel, 0: perpendicular, -1: opposite of each other).
-<br>In our case, it is useful to check if a triangle is facing a light source, and render it accordingly.
-<li>This operation is generally done inside the shader, using the native function <b>dot(lightDirection, normmal)</b>.
-<li>If you need to do it in JS, here's the corresponding code:
+<li>1: the vectors are parallel.
+<li>0: they're perpendicular.
+<li>-1: they're at the opposite of each other.
 </ul>
+
+<p>In our case, it is interesting to check if a triangle is facing a light source, and render it accordingly.
+<br>This operation is usually done inside the shader, using the native function <b>dot(lightDirection, normal)</b>.
+<br>Though, if you need to do it in JS one day, here's the corresponding source code:
+<br>
 
 <pre><code class="lang-js">// Dot-product of two vec3: v and w
 dot = (v0, v1, v2, w0, w1, w2) => {
   return v0 * w0 + v1 * w1 + v2 * w2;
 }</code></pre>
 
-
-
-<h5>Diffuse light</h5>
-<ul>
-<li>Diffuse light (also called <b>directional light</b>) is the equivalent of the sun's light on Earth: all the rays are parallel and have the same intensity everywhere in the scene.
-<li>When it hits a surface, it is reflected in all directions, but the intensity of the reflexion decreases proportionally to the angles in which the light hits the surface:
-<br><img src="images/webgl-guide/diffuse.png">
-<li>To simulate it, we need to define a light source with a color (for example, white), and a direction (for example, vec3(0.5, 3.0, 4.0)).
-
-<li>The color sent to the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light. The color's alpha is set to 1.0.
-<li>If the dot product is negative, we set it to "0" (there can't be a negative amount of light). This is done with <b>max(dot(light, normal), 0.0);</b>
-<li>NB: The components of a vec4 can be accessed with .x/y/z/t (for a position) or .r/g/b/a (for a color). They can also be composed into a new vector (ex: <b>vec3 rgb = col.rgb</b>).
-</ul>
-
-<iframe id=i10 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=10"></iframe>
-
-<br><h5>Ambient light</h5>
-
-<p>With diffuse lighting alone, some faces are too dark, like the rightmost one here. To fix that, we can add an ambient light reflexion.
-<br>It corresponds to a light that is applied equally to all the faces of a model, regardless to their normal vector.
-<br>To simulate it, we need to set a light color (not too bright, for example: vec3(0.2, 0.2, 0.2)), multiply it to the surface color, and add it to the diffuse light:
 <br>
 <br>
-<iframe id=i11 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=11"></iframe>
+<hr style="width:500px">
+<br>
+
+<p>There are many different ways to light a 3D scene, here are the four main ones:
+
+<h5>1) Diffuse light</h5>
+<p>Diffuse light (also called <b>directional light</b>) is the equivalent of the sun's light on Earth: all the rays are parallel and have the same intensity everywhere in the scene.
+<br>When it hits a surface, it is reflected in all directions, but the intensity of the reflexion decreases proportionally to the angle in which the light hits the surface:
+<br><br><img src="images/webgl-guide/diffuse.png">
+<br>To simulate it, we need to define a light source with a color (for example, white), and a direction (for example, vec3(0.5, 3.0, 4.0)).
+
+<br>The color sent to the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light. The color's alpha is fixed to 1.0.
+<br>If the dot product is negative, we set it to "0" (there can't be a negative amount of light). This is done with <b>max(dot(lightDirection, normal), 0.0);</b> (see line 27).
+<br>Note: it's a good practice to re-normalize the normals in the shaders to ensure they have the right length. This is done with <b>normalize()</b>.
+<br>
+<br>
+
+<iframe id=i10 loading=lazy src="../../webgl-guide/visualizer/?demo=10"></iframe>
+
+<br><h5>2) Ambient light</h5>
+
+<p>With diffuse lighting alone, some faces are too dark, like the rightmost one in the previous demo. To fix that, we can add an ambient light reflexion.
+<br>It's a light that is applied equally to all the triangles in the scene, regardless to their normal vector.
+<br>To simulate it, we need to set a light color (not too bright, for example: vec3(0.2, 0.2, 0.2)), multiply it to the surface color, and add it to the diffuse light (see line 37):
+<br>
+<br>
+<iframe id=i11 loading=lazy src="../../webgl-guide/visualizer/?demo=11"></iframe>
 
 <br>
-<h5>Point light</h5>
+<h5>3) Point light</h5>
 
 <ul>
 <li>We can also have a <b>point light</b> representing a light bulb, with a specific position and color.
-<li>It's a kind of diffuse light, except that the light rays are not parallel, because the light source is not infinitely far away.
+<li>It's a kind of diffuse light, except that the light rays are not parallel, because the light source is not "infinitely" far away.
 <li>With such a point light in the scene, the shading intensity will vary according to the distance from the light source, but also with the angle of the light rays.
-<li>In the real world, the light <b>attenuation</b> is proportional to the distance squared, but in CGI, it's more often proportional to the distance (not squared).
+<li>In the real world, the light <b>attenuation</b> is proportional to the distance squared, but in computer graphics, it's more often proportional to the distance (not squared).
 <li>When a point light reflexion is computed per vertex, it looks a bit nicer but the triangles are still visible:
 <br>
 <br><img src="images/webgl-guide/per_vertex.png" width=500>
@@ -1609,33 +1635,24 @@ dot = (v0, v1, v2, w0, w1, w2) => {
 <li>The best solution consists in computing the right color for every fragment of the cube (i.e. every pixel) according to its distance from the light source,<br>and that's exactly what the fragment shader is here for:
 <br><br><img src="images/webgl-guide/sphere.png" width=500>
 </ul>
-<p>The following demo shows how a point light can be computed per fragment. You can play with the numbers to change how it looks.
-<br>The vertex shader sends the vertices positions, colors and normals to the fragment shader using varyings, and the fragment shader computes everything. 
+<br>
+<p>The following demo shows how a point light can be computed per fragment.
+<br>The vertex shader sends the vertices positions, colors and normals to the fragment shader using varyings, and the fragment shader computes everything.
 <br>
 <br>
-<iframe id=i12 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=12"></iframe>
+<iframe id=i12 loading=lazy src="../../webgl-guide/visualizer/?demo=12"></iframe>
 
-<h5>Smooth shading</h5>
+<h5>4) Specular lighting</h5>
 
-<ul>
-<li>With the current implementation, each face has an unique normal vector, which is used by all its vertices.
-<br>This provokes a <b>facetted</b> (or "polygonal") rendering, with "hard edges" between the triangles.
-<li><b>Smooth shading</b>, also called Phong shading, consists in computing a different normal for each vertex, equal to the mean of the normals of all the triangles around it.
-<br>But no need to use divisions to obtain this mean value! Just add all the normals together and the mean will appear when the shaders will normalize the result (more info <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">here</a>).
-<br>Example: the same 3D model with smooth shading disabled / enabled:
-<br><br><img src="images/webgl-guide/w5.gif" width=650>
-</ul>
-
-<h5>Other types of lighting</h5>
-<ul>
-<li>Emissive lighting: when an object is self-illuminated - this can be easy if you just want to make the fragments lighter (multiply their rgb color with a number higher than 1),
-<br>or very complicated if you want the surface to illuminate surrounding objects (this will not be covered here :p ).
-<li>Specular lighting: when an object is shiny, it can reflect a point light like a mirror under a certain angle (more info <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-3d-lighting-point.html">here</a>).
-<br>To simulate it, we can compute the half-vector between the camera, the fragment and the light, and compare this with the surface normal using a dot product.
-<br>This dot product is then powered to a number that represents the surface's "shininess", and added to the other (ambient / diffuse / emmisive) lights in the fragment shader:
-</ul>
+<p>When an object is shiny, it can reflect a point light like a mirror under a certain angle (more info <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-3d-lighting-point.html">here</a>).
+<br>To simulate it, we can compute the <b>half-vector</b> between the camera, the fragment and the light, and compare this with the surface normal using a dot product.
+<br>This dot product is then powered to a number that represents the surface's "shininess", and added to the other (ambient / diffuse) lights in the fragment shader:
+<br>
+<br>
 <img src="images/webgl-guide/specular.png">
 
+<br><br>This combination of diffuse, ambiant and specular lighting is also called <b>Phong reflexion</b>, and the final fragment shader looks like this:
+<br>
 <pre><code class=lang-js>var fshader = `
 (...)
 float shininess = 150.0;
@@ -1653,30 +1670,84 @@ color.rgb += specular * specularLightColor;
 (...)
 `;</code></pre>
 
-<h5>A bit of vocabulary</h5>
+<br><br><hr style="width:500px"><br>
 
+
+<h5>Smooth shading</h5>
+
+<p>By default, the normal vector of a triangle is reused by all its vertices.
+<br>This provokes a <b>facetted</b> (or polygonal) rendering, where neighbour triangles are separated by a visible "hard edge".
+<br><b>Smooth shading</b> (or "Phong shading"), consists in computing a different normal for each vertex, equal to the mean of the normals of all the triangles around it.
+<br>But no need to use divisions to obtain this mean value! Simply add all the normals together, and the mean will be computed when the shaders normalize the result (more info <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">here</a>).
+<br>Also, since the normal is now a varying vector interpolated for each fragment, the fragment shader needs to re-normalize it to stay accurate.
+<br>Example: the same 3D model with smooth shading disabled / enabled (more info about loading 3D models in a future chapter!):
+<br><br><img src="images/webgl-guide/w5.gif" width=650>
+
+<br><br><hr style="width:500px"><br>
+
+<h5>How about raytracing?</h5>
+
+<p>You may have heard about <b>raytracing</b> as a way to produce protorealistic lights and reflections in 3D scenes, but this is actually a whole other domain of computer graphics.
+
+<br><br><img src="images/webgl-guide/ray.png">
+<br>
+<br>Raytracing can be done with WebGL, but it's usually more convenient to compute it on a fullscreen shader than in a scene made of triangles, as you can see <a href="https://www.shadertoy.com/results?query=tag%3Draytracer"> on Shadertoy</a>.
+
+<p>It also enables more advanced lighting modes, such as <b>Emissive lighting</b>, where an object is self-illuminated, glows and affects the the surrounding objects like a light source.
+<br><br><img src="images/webgl-guide/emissive.png">
+
+<br><br>But this will not be covered in this guide... maybe the next one?
+<br>
+<br><br><hr style="width:500px"><br>
+
+<h5>How about baked lighting?</h5>
+
+<p><b>Baked lighting</b> was an optimization used in early 3D games, where real-time computations were very CPU-intensive.
+<br>The lights, shadings and shadows were precomputed or drawn by artists during the game development and displayed as textures to save resources.
+<br>Famous example from Zelda Wind Waker on Gamecube: 
+<br><br><img src="images/webgl-guide/baked.jpg" width=700>
+
+<br><br><hr><br>
+
+<h4>How to transform a 3D model</h4>
+
+<p>So far, we've only transformed the camera matrix to make it revolve around the cube, which created an illusion of cube rotation.
+<br>Now that we learned how to place a fixed light in the scene, if we want to rotate, translate or scale a cube without touching the rest of the scene, we need to do two things:
 <ul>
-<li>You may find documents talking about ambient / diffuse / specular <b>colors</b>. It's the same thing as ambient / diffuse / specular <b>lighting</b>.
-<br>And it kind of makes sense: in CG, like in the real world, the colors emitted by an object depend entirely on its lighting.
-
-<li>However, <b>lighting</b> and <b>shading</b> are not the same thing, even though the two terms are often mixed.
-<br>Lighting is actually a physics notion (how the light affects an object) while shading is purely CG-related (how a pixel is rendered on a screen).
+<li>Introduce a <b>model matrix</b> (the transformation matrix of the cube)
+<li>Recompute the vertex normals and the lighting of every fragment after each transform (after each update of the model matrix).
 </ul>
 
-<br><hr><br>
-
-<h4>Transforming the shaded cube</h4>
-
-<ul>
-<li>So far, we've only transformed the camera matrix, to make it revolve around the cube to create an illusion of cube rotation.
-<li>Now that we have a fixed point light in the scene, if we want to rotate, translate or scale the cube without touching the rest of the scene, we need to do two things:<br>- introduce a <b>model matrix</b> (the transformation matrix of the cube),<br>- recompute the cube's normals and the lighting of every fragment every time the model matrix is updated.
-
-<li>In practice, the best method is to keep the original normals unchanged, and pass them to the vertex shader, along with the vertex position and color.
+<p>But in practice, the best approach is to keep the original normals unchanged, and pass them to the vertex shader, along with the vertex position and color.
 <br>
 Then, when the model matrix changes, the trick is compute its <b>inverse transpose</b> and pass it to the vertex shader in the form of an uniform mat4.
 <br>
-In the vertex shader, simply multiply the original normal with this inverse transpose matrix to obtain its updated value: <b>vec3 newNormal = oldNormal * inverseTranspose</b>.
+Finally, in the vertex shader, we multiply the original normal with this inverse transpose matrix to obtain its updated value: <b>vec3 newNormal = oldNormal * inverseTranspose</b>.
+
+<h5>Demo</h5>
+
+<p>Here's a cube rotating on itself with a fixed camera and a fixed point light:
+
+<br><br>
+
+<iframe id=i13 loading=lazy src="../../webgl-guide/visualizer/?demo=13"></iframe>
+
+<h5>What happens here?</h5>
+
+<ul>
+<li>When the page loads, the cube, the light and the camera matrix are set as usual. (lines 68-105).
+<li>Three new matrices are introduced: <b>model</b> (the model matrix), <b>inverseTranspose</b> and <b>mvp</b> (the model view projection matrix, equal to cameraMatrix * modelMatrix).
+<li>In the loop executed 60 times per second, we update the cube Y angle (line 117), recompute the model matrix (lines 119-122), the mvp matrix (lines 124-126), the inverse transpose matrix (lines 128-130), and send them to WebGL as uniforms, before rendering the scene.
+<li>The fragment matrix applies the mvp matrix to the current vertex (line 26), and sends three varyings (position, normal and color) to the fragment shader.
+<li>The fragment shader does nothing new. As far as it is concerned, its task is still to compute a shading from the variables at its disposal, regardless of how they were computed.
+</ul>
+
+<h5>Tips and tricks</h5>
+
+<ul>
+<li>The mvp matrix introduced above is precomputed in JavaScript to avoid recomputing it for every vertex, just like we did for transformation matrices.
 <li>Here are the inverse() and inverseTranspose() functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
+</ul>
 
 <pre><code class="lang-js">// Get the inverse of a mat4
 inverse = m => {
@@ -1709,21 +1780,10 @@ inverse = m => {
 
 // Get the inverse transpose of a mat4
 inverseTranspose = m => transpose(inverse(m));</code></pre>
-<br>
-<li>We also pass a "mvp" (<b>model view projection</b>) matrix to the vertex shader, which is the multiplication of the camera matrix and the model matrix.
-<br>These two matrices are multiplied in JS instead of the vertex buffer, for the same reason as before: avoid the effort of recomputing it for each vertex, at each frame.
+<br>As you can see, inversing a matrix is pretty complex operation, but it's very useful:
+<br>It actually updates the model's coordinates system from its transformation matrix, which can be used to update its normals (like here), but not only! (we will reuse it soon)
 
-</ul>
-<p>Here's a cube rotating on itself with a fixed camera and a fixed point light:
-<br>
-<br>
-
-<iframe id=i13 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=13"></iframe>
-
-<p>You may remark that in certain cases (simple rotation or scaling), the inverse transpose matrix will be equal to the model matrix.
-<br>But for translations or any combination of transformations, it will actually have a different value.
-<br>As I said earlier, this value is useful in order to update the face normals with a simple multiplication, instead of recomputing them from scratch (more info <a href="https://stackoverflow.com/questions/13654401/why-transforming-normals-with-the-transpose-of-the-inverse-of-the-modelview-matr">here</a>).
-
+<!--
 <br><br><hr><br>
 
 <h4>Drawing many cubes</h4>
@@ -1736,7 +1796,7 @@ inverseTranspose = m => transpose(inverse(m));</code></pre>
 
 <p>Here's a demo with 3 red cuboids (deformed cubes)
 <br><br>
-<iframe id=i14 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=14"></iframe>
+<iframe id=i14 loading=lazy src="../../webgl-guide/visualizer/?demo=14"></iframe>
 
 <p>To avoid repetitions, I added a drawShape() function in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a>, with optional scaling along X/Y/Z. Its role is to (re)render the current model as many times as necessary.
 
@@ -1775,7 +1835,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <p>The following demo shows an robotic arm made of three cuboids (click the buttons below to make it move).
 <br><br>
 
-<iframe id=i15 loading=lazy src="https://xem.github.io/webgl-guide/visualizer/?demo=15"></iframe>
+<iframe id=i15 loading=lazy src="../../webgl-guide/visualizer/?demo=15"></iframe>
 <ul>
 <li>You can see from line 146 that the vertical "arm" cuboid can rotate around X, and once it's rotated, we perform a "-2" translation along Y.
 <br>As described in the "transformations" chapter, this allows to make the cuboid to rotate around a pivot point placed at its extremity (the "elbow") instead of its center.
