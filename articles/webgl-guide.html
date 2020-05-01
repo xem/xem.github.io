@@ -1838,7 +1838,7 @@ inverseTranspose = m => transpose(inverse(m));</code></pre>
 
 <h5>What happens here?</h5>
 
-TODO
+<p>A new model matrix is created and drawn three times using the same data buffers (lines 110, 132, 154).
 
 <h5>Tips and tricks</h5>
 
@@ -1871,24 +1871,32 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 
 <h4>Hierarchical objects</h4>
 
-<ul>
-<li>A <b>hierarchical object</b> is a model made of several basic objects (called <b>segments</b>), for example a robotic arm.
-<li><b>Joints</b> are where the segments are linked and rotate relatively to each other, like an elbow or a wrist.
-<li>To keep the segments linked to each other, the transformation matrix is inherited from segment to segment (ex: a hand will add its own transformation matrix to the arm's one). 
-</ul>
+<p>A <b>hierarchical object</b> is a model made of several basic objects (called <b>segments</b>), for example a robotic arm.
+<br><b>Joints</b> are where the segments are linked and rotate relatively to each other, like an elbow or a wrist.
+<br>To keep the segments linked to each other, the transformation matrix is inherited from segment to segment (ex: a hand will apply its own transformation matrix to the arm's one). 
 <p>The following demo shows an robotic arm made of three cuboids (click the buttons below to make it move).
-<br><br>
+<br>
+
+<h5>Demo</h5>
 
 <iframe id=i16 loading=lazy src="../../webgl-guide/visualizer/?demo=16"></iframe>
-<ul>
-<li>You can see from line 146 that the vertical "arm" cuboid can rotate around X, and once it's rotated, we perform a "-2" translation along Y.
-<br>As described in the "transformations" chapter, this allows to make the cuboid to rotate around a pivot point placed at its extremity (the "elbow") instead of its center.
-<li>Then from line 152, the hand cuboid, which is attached at the end of the arm cuboid, inherits its model matrix, and extends it to add its own rotation and translation.
-<br>(the rotation happens along the Y axis, and the translation places it at the end of the arm)
-<li>This process can be repeated many times to make a multi-joint object, like an entire robot or a rope made of many segments!
-<li>Also, if many segments are attached to the same parent (for example, the fingers of a hand), they must all reuse their parent's matrix (see demo <a href="https://xem.github.io/webgl-guide/book/ch09/MultiJointModel.html">here</a>).
 
-<br><br><img src="images/webgl-guide/6cubes.gif" width=250> 
+<h5>What happens here?</h5>
+
+<ul>
+<li>You can see on lines 146-150 that the vertical "arm" cuboid can rotate around its X axis, and once it's rotated, we perform a "-2" translation along Y.
+<br>As described in the "transformations" chapter, this allows to make the cuboid rotate around a pivot point placed at its extremity (the "elbow", 2 units higher) instead of its center.
+<li>Then, on lines 152-155, the hand cuboid, which is attached at the end of the arm cuboid, inherits its model matrix, and updates it to add its own rotation and translation.
+<br>(the rotation happens along the Y axis, and the translation places it at the end of the arm).
+</ul>
+
+<h5>Tips and tricks</h5>
+<ul>
+<li>This process can be repeated many times to make a multi-joint object, like an entire robot or a rope made of many segments!
+<li>If many segments are attached to the same parent (for example, the fingers of a hand), they must all reuse their parent's matrix (see multi-joint demo <a href="https://xem.github.io/webgl-guide/book/ch09/MultiJointModel.html">here</a>).
+</ul>
+
+<br><img src="images/webgl-guide/6cubes.gif" width=250> 
 
 
 <br><br><hr><br>
@@ -1914,7 +1922,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <li>Not passing the right amount of data in attributes or uniforms (ex: 4 floats in a vec3).
 </ul>
 <br>
-<p>Finally, if no syntax errors were made but nothing appears, check that:
+<p>Finally, if no syntax errors were made but nothing appears, check if:
 <ul>
 <li>The camera looks in the right direction (and with a decent fov angle, usually around 0.9 radians or 50 degrees).
 <li>The light source is not too dark or trapped inside a 3D object.
