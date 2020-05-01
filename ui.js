@@ -24,7 +24,7 @@ menus = {
     gameoflife: "Golfing the Game of Life",
     webspeech: "Web Speech API golfing",
     css3dgames: "CSS3D game tutorial",
-    jsgamesinputs: "JS games keyboard inputs",
+    jsgamesinputs: "JS keyboard inputs",
     js13k16 :"JS13kGames 2016",
     eqcss: "EQCSS",
     fatigue: "Shitty systems fatigue",
