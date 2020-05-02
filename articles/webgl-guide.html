@@ -1729,7 +1729,7 @@ dot = (v0, v1, v2, w0, w1, w2) => {
 
 <h5>How about Physically Based Rendering?</h5>
 
-<p>Physically Based Rendering, or PBR, is a combination of techniques that allow to simulate materials lighting based on real-world physics.
+<p>Physically Based Rendering, or PBR, is a combination of techniques that allow to make materials react to any type of lighting based on real-world physics.
 <br>It allows to reach a level of realism that is much higher than what is possible with approximations like diffuse, ambient and specular lighting, or even basic raytracing.
 <br>Though, the maths behind it are extremely complex, and out of the scope of this guide, but you can read more about it in this free <a href="http://www.pbr-book.org/">reference book</a>.
 
@@ -1938,19 +1938,23 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <br>
 As I said in the introduction, WebGL 2.0 brings new features and changes a few things compared to WebGL 1.0.
 <br>To enable it, you need to change the canvas context creation: <pre class=inline><code class="lang-js">canvas.getContext("webgl2");</code></pre> and put <b>#version 300 es</b> on the very first line of your shaders.
-<br>Here's a list of things that are different:
+<br>Here are the most important changes:
 <br><ul>
-<li><b>attribute</b> must be renamed as <b>in</b> inside the shaders (ex: <b>in vec4 a_position;</b>
+<li><b>attribute</b> must be renamed as <b>in</b> inside the shaders (ex: <b>in vec4 a_position;</b>).
 <li><b>varyings</b> must be renamed as <b>out</b> in the vertex shader and <b>in</b> in the fragment buffer.
-<li><b>gl_FragColor</b> doesn't exist anymore. Instead, the fragment buffer needs to declare its own <b>out vec4 fragColor;</b> before main() and set its value inside main().
+<li><b>gl_FragColor</b> doesn't exist anymore. Instead, the fragment shader needs to declare its own <b>out vec4 fragColor;</b> before main() and set its value inside main().
+<li>The fragment shader can edit the depth buffer directly using the global <b>gl_FragDepth</b>.
 <li>New <b>types</b>: uint, bvec2/3/4 (boolean vectors), ivec2/3/4 (integer vectors), uvec2/3/4 (uint vectors), mat2x3, mat2x4, mat3x4, mat4x3, mat4x2, mat3x2 and a bunch of new Samplers.
-<li>New boolean <b>operators</b>: % &lt;&lt; >> &amp; ^ | &lt;&lt;= >>= &= ^= |= 
+<li>New boolean <b>operators</b>: %, &lt;&lt;, >>, &amp;, ^, |, &lt;&lt;=, >>=, &=, ^=, |=.
+<li>New <b>matrix functions</b>: inverse(), transpose().
+<li>Loops bounds no not need to be constant anymore. 
 <li>The functions <b>texture2D</b> and <b>textureCube</b> are now simply called <b>texture</b>.
 <li>Mipmapping now works on textures even if their width and height are not a power of 2.
-<br>(Mipmaps are smaller versions of a 2D texture, to be used when a textured object is moving away from the camera. They can be generated with <b>gl.generateMipmap(gl.TEXTURE_2D)</b>).
+<br>(Mipmaps are smaller versions of a 2D texture, used when a textured object is moving away from the camera. They can be generated with <b>gl.generateMipmap(gl.TEXTURE_2D)</b>).
+<br>The GLSL function <b>textureSize(sampler, lod)</b> gives you texture size for a given level of detail.
+<br>And the function <b>texelFetch(sampler, ivec2(x,y), lod)</b> gives you the value of a given texel.
 <li>Most <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getExtension">extensions</a> don't need to be loaded anymore, as they are enabled by default.
-<li>In particular, <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLVertexArrayObject">Vertex array objects</a> are now available natively and allow to cache the attributes binding, leading to a performance boost in programs doing many draw calls per frame.
-<br>Here's how to use them:
+<li>In particular, <b>Vertex array objects</b> are now available natively and allow to cache the attributes binding, leading to a performance boost in programs doing many draw calls per frame:
 <pre><code class="lang-js">// Just after WebGL setup
 var vao = gl.createVertexArray();
 gl.bindVertexArray(vao);
