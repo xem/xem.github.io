@@ -18,7 +18,7 @@
 
 <div class=section id=js1k2017>
   <h2>JS1K 2017: some kind of magic (plus a few other news)</h2>
-	<h3>febuary 2017</h3>
+	<h3>February 2017</h3>
   <br>
   <hr>
   <br>
@@ -86,7 +86,7 @@
   <p>Last year, we submitted PERIOD1k, a periodic table drawn on a canvas.
   <br>This time, we rewrote it entirely and the result is much better!
   <br>It's rendered in HTML/CSS and generated with a big chunk of ES6 template literals (26kb of generated code in total!)
-  <br>It contains the definitive names for the last four elements (officialized in june 2016), better responsiveness, and a new information: the state of each element at room temperature (Liquid / Solid / Gas).
+  <br>It contains the definitive names for the last four elements (officialized in June 2016), better responsiveness, and a new information: the state of each element at room temperature (Liquid / Solid / Gas).
   <p><img src="images/js1k17/period1k.png" style="border: 2px solid #555">
   <br>
   <br>
@@ -167,7 +167,7 @@
   <p><h4>Tricks and lessons learned:</h4>
   <ul>
     <li><b>CSS3D is fun!</b>. It provides a 3D engine almost for free! No need to implement any kind of raycasting, depth-sorting, etc. !
-    <li>CSS3D is still highly experimental. We're in febuary 2017, and Firefox explodes (I mean: stops doing any kind of z-sorting) when a page contains more than 100 "CSS3D" elements (i.e. elements with rotate / translate transformations). Firefox 53 will finally drop this limit, but it'll only release in april. So for this JS1k, my game had to respect this limit, and if you count the trees, the ground tiles, the animals, the carrot, the rabbit and the hat, you'll find a total of exactly 100. I could have added much more trees and other items to make this forest much more dense, but it was too expensive. Firefox still has a few little visual glitches but nothing dramatic...
+    <li>CSS3D is still highly experimental. We're in February 2017, and Firefox explodes (I mean: stops doing any kind of z-sorting) when a page contains more than 100 "CSS3D" elements (i.e. elements with rotate / translate transformations). Firefox 53 will finally drop this limit, but it'll only release in April. So for this JS1k, my game had to respect this limit, and if you count the trees, the ground tiles, the animals, the carrot, the rabbit and the hat, you'll find a total of exactly 100. I could have added much more trees and other items to make this forest much more dense, but it was too expensive. Firefox still has a few little visual glitches but nothing dramatic...
     <li>All the ground tiles could have been replaced by just one element, and the entire path could have been drawn with multiple brown CSS box-shadows on this element (like <a href="http://xem.github.io/miniShadowArt/">here</a>). It was too glitchy on some browsers, mostly the MacOS ones, and I had to revert that. (too bad! the box-shadow trick weighs as many bytes as the current method but it would have made room for a few dozens extra trees).
     <li>At the minimum, you have to use 2 div containers around your scene objects to make the CSS3D magic work.
     <br>

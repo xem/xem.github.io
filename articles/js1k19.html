@@ -32,7 +32,7 @@
 </style>
 
 <h1>JS1K 2019</h1>
-<h3>march 2018 - march 2019</h3>
+<h3>March 2018 - March 2019</h3>
 
 <br>
 <hr>
@@ -40,7 +40,7 @@
 
 <p>This 10th edition of <a href="https://js1k.com/2019-x/">JS1K</a> was so important, it was announced <a href="//js10k.com">one year in advance</a> with the theme "X".
 <p>To respect the theme, I didn't really do a "X" entry, but I did X (ten) entries! All of them are in <a href="https://github.com/xem/js1k19">this Github repo</a>.
-<p>5 of them were made before the official compo start (febuary 1), the 5 others were done during the two following months.
+<p>5 of them were made before the official compo start (February 1), the 5 others were done during the two following months.
 <p>Here they are by order of submission, with all their development tricks and anecdotes.
 <p><b>The commented source codes of each demo is super detailed too, so it's recommended to read them along this post!</b>
 
@@ -224,7 +224,7 @@ This allowed to enhance the simulation precision (as if it was run twice at each
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <li>So naturally, I thought I could merge the two synths with an unified UI and make a JS1K entry out of it.
 <br>It worked pretty well, as <a href="https://twitter.com/MaximeEuziere/status/1077886743775494144">I managed to fit it in 1023b on the first try</a>, and 950b with a lot of extra golfing.
-<li>I submitted it to js1k mid-febuary, but no luck: the demo, once published on <a href="//js1k.com/4052">js1k.com/4052</a>, didn't play any sound.
+<li>I submitted it to js1k mid-February, but no luck: the demo, once published on <a href="//js1k.com/4052">js1k.com/4052</a>, didn't play any sound.
 <br>The problem was that js1k's shim didn't like the way I generated and played the notes, and I found no way to fix it...
 <br>Then it hit me! With the 74 free bytes I had, I could put all my app inside an iframe, which would bypass completely all the shim's fixes and polyfills that made my app mute.
 <br><pre><code class="lang-js">// Before
@@ -261,7 +261,7 @@ By chance, it worked and fitted exactly in 1024 bytes. We can see the borders of
 <ul>
 <li>I've had a long affective codegolf story with the periodic table of chemical elements:
 <br>In 2016 <a href="http://codegolf.github.io/period1k/final.min.pack.html">I made an entry inspired by the theme "EleMental"</a>, on a canvas, with the great help of <b>Subzey</b> and <b>Innovati</b>.
-<br>In 2017, <a href="http://codegolf.github.io/period1k/js1k17.html">I rebooted it in HTML</a>, which saved enough bytes to include extra information like the final names of the elements 113 to 118 (that were voted in november 2016) and the state of every element at room temperature.
+<br>In 2017, <a href="http://codegolf.github.io/period1k/js1k17.html">I rebooted it in HTML</a>, which saved enough bytes to include extra information like the final names of the elements 113 to 118 (that were voted in November 2016) and the state of every element at room temperature.
 <br>Just after that, I dweeted a periodic table in 138 bytes <a href="https://www.dwitter.net/d/646">HERE</a> (only containing the shape of the table and colors going from green to blue).
 <br><img src="images/js1k19/5.png">
 <br>I even produced <a href="http://codegolf.github.io/period1k/wallpaper.png">a wallpaper</a> and <a href="https://twitter.com/MaximeEuziere/status/745312281018376193">a business card</a> for fun.
@@ -386,7 +386,7 @@ reversed:
 <br>- using <b>encodeURIComponent</b> and regexes to isolate the UTF-8 bytes of every multi-byte character, directly in their hexadecimal form.
 <br>- using <b>XMLHttpRequests</b> to change the encoding of a base64'd text (interpret a latin-1 text in UTF-8 and vice-versa, a.k.a mojibake)
 <li>I had some issues when I tried to submit EscApe to js1k:
-<br>- First, Chrome 71 had broken the "..." operator back in febuary, so I waited mid-march to submit the demo, hoping that enough people would have at least Chrome 72.
+<br>- First, Chrome 71 had broken the "..." operator back in February, so I waited mid-March to submit the demo, hoping that enough people would have at least Chrome 72.
 <br>- Then, I realized during the submit process that js1k.com's CSP blocked all XMLHttpRequests, which broke my last two mojibake fields. Fortunately, I managed to replace them with iframes, which worked fine and even took less bytes!
 <br><pre><code class="lang-html"><b>// Before (update a field using XHR)</b>
 

@@ -18,7 +18,7 @@
 
 <div class=section id=jsgamesinputs>
   <h2>Some subtleties of keyboard inputs in JS games</h2>
-	<h3>september 2016, january 2017, febuary 2018</h3>
+	<h3>September 2016, January 2017, February 2018</h3>
   <br>
   <hr>
   <br>
@@ -119,7 +119,7 @@ onkeyup = (e) => {
   <br>
   <hr>
   <br>
-  <p><b>january 2017 golfing</b>
+  <p><b>January 2017 golfing</b>
   <p>I made a new version that's only 87b, but it works if the only keys you need to support are arrows, WASD and ZQSD (most of the other keys may collide with one of the four directions):
   <pre><code class="lang-js">u=d=l=r=0;onkeyup=t=(e,v)=>top['lurdl*d*l*ur*u'[(e.which-37)%20]]=v;onkeydown=e=>t(e,1)</code></pre>
   <p>It fell down to 85b with the help of <b>nderscore</b>:
@@ -136,7 +136,7 @@ onkeyup = (e) => {
   <br>
   <hr>
   <br>
-  <p><b>Febuary 2018 update, thanks to @BalintCsala and @ETHProd !</b>
+  <p><b>February 2018 update, thanks to @BalintCsala and @ETHProd !</b>
   <p>Here's how to save the state of four variables (u,l,d,r) based on Arrow keys, WASD or ZQSD, in 78b:
   <pre><code class="lang-js">u=l=d=r=0;onkeydown=onkeyup=e=>top['lld*rlurdu'[e.which%32%17]]=e.type[5]</code></pre>
   <br>

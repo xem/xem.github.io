@@ -18,7 +18,7 @@
 
 <div class=section id=webgl_quest_2>
   <h2>WebGL quest #2: tiny raymarching bootstrap with Distance Estimation functions</h2>
-	<h3>may 2017 - november 2019</h3>
+	<h3>May 2017 - November 2019</h3>
   <br>
   <hr>
   <br>
@@ -42,16 +42,16 @@
     <li><a href="http://iquilezles.org">iquilezles.org</a> (the entire site but especially the pages about <a href="http://iquilezles.org/www/articles/distfunctions/distfunctions.htm">distance functions</a> and <a href="http://iquilezles.org/www/articles/distfunctions/distfunctions.htm">avoiding trigonometry</a>)
     <li><a href="https://www.youtube.com/watch?v=s8nFqwOho-s">How to Create Content with Signed Distance Functions (awesome video)</a>
     <li><a href="mercury.sexy/hg_sdf/">hg_sdf</a>, the lib used in the video above.
-    <li><a href="http://www.geeks3d.com/20130524/building-worlds-with-distance-functions-in-glsl-raymarching-glslhacker-tutorial-opengl/">Building Worlds With Distance Functions in GLSL (Raymarching)</a>
-    <li><a href="http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/">Ray Marching and Signed Distance Functions</a>
-    <li><a href="http://xoofx.com/blog/2009/10/12/potatro-and-raymarching-story-of/">Potatro, RayMarching and DistanceFields : a story of SphereTracing</a>
+    <li><a href="http://www.geeks3d.com/20130524/building-worlds-with-distance-functions-in-glsl-raymarching-glslhacker-tutorial-opengl/">Building Worlds With Distance Functions in GLSL (raymarching)</a>
+    <li><a href="http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/">Ray marching and Signed Distance Functions</a>
+    <li><a href="http://xoofx.com/blog/2009/10/12/potatro-and-raymarching-story-of/">Potatro, raymarching and DistanceFields : a story of SphereTracing</a>
     <li><a href="http://alexsimes.com/sphere-tracing-distance-fields-and-fractals.pdf">Sphere Tracing, Distance Fields, and Fractals</a>
     <li><a href="http://www.scratchapixel.com/">Scratchapixel (Learn Computer Graphics From Scratch!)</a>
     <li><a href="https://www.reddit.com/r/twotriangles/comments/1hy5qy/tutorial_1_writing_a_simple_distance_field/">Writing a simple distance field raymarcher</a>
     <li><a href="https://www.shadertoy.com/view/MlGSWm">A simple shadertoy demo made by LiterallyLara</a> (uncomment line 38 to render a torus instead of a sphere)
-    <li><a href="https://www.shadertoy.com/view/XllGW4">HOWTO Get Started With Ray Marching by MysticReddit</a>
-    <li><a href="https://gist.github.com/sephirot47/f942b8c252eb7d1b7311">GLSL Raymarch ShaderToy tutorial and example code by sephirot47</a>
-    <li><a href="https://www.youtube.com/watch?v=yxNnRSefK94">ShaderToy Raymarch Tutorial video (with super short source code)</a>
+    <li><a href="https://www.shadertoy.com/view/XllGW4">HOWTO Get Started With Ray marching by MysticReddit</a>
+    <li><a href="https://gist.github.com/sephirot47/f942b8c252eb7d1b7311">GLSL raymarch ShaderToy tutorial and example code by sephirot47</a>
+    <li><a href="https://www.youtube.com/watch?v=yxNnRSefK94">ShaderToy raymarch Tutorial video (with super short source code)</a>
     <li><a href="https://www.shadertoy.com/view/4dfXDn">2D distance functions (interesting too!)</a>
     <li><a href="https://www.shadertoy.com/view/4dSfRc">a tutorial about ray marching distance fields (using a ray marcher in Shadertoy)</a>
 	
@@ -175,7 +175,7 @@ void mainImage(out vec4 fragColor,vec2 fragCoord){
         o = vec3(0.0, 0.0, -2.0);   
     }
     
-    // Raymarching loop (calling DE() at each step)
+    // raymarching loop (calling DE() at each step)
     float t = 0.0;
     vec3 p;
 
