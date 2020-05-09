@@ -40,6 +40,7 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 .newWindow { float: right; margin-top: -60px; left: -10px; position: relative; z-index: 2; padding: 5px; border: 1px solid #555; border-radius: 5px; color: #000; font-size: 20px; width: 40px; height: 40px; background: url('images/new_window.svg') no-repeat center center #def; }
 .section p {line-height: 32px; }
 .grey, .grey td, iframe { border: 3px solid #999 }
+.token.comment, .token.prolog, .token.doctype, .token.cdata { color: #bbb; }
 </style>
 
 <div class=section id=webgl_guide>
@@ -48,25 +49,86 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 
 <br><hr>
 
-<h4>Introduction</h4>
+<h2 id="0">Introduction</h2>
 
 <p>This guide is a complete, summarized WebGL tutorial, with tiny interactive demos in each chapter.
-<br>It's mainly inspired by the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> and the websites <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals</a>, <a href="http://learnwebgl.brown37.net/index.html">LearnWebgl</a> &amp, <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">MDN</a>. 
+<br>It's mainly inspired by the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> and the websites <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals</a>, <a href="http://learnwebgl.brown37.net/index.html">LearnWebgl</a> &amp; <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">MDN</a>. 
 <br>Starting nearly from scratch, you'll be able to create your own 3D interactive scenes without needing to use any <a href="https://fr.wikipedia.org/wiki/Liste_de_frameworks_WebGL">library or framework</a>: only vanilla JS &amp; WebGL.
 <br>My goal was to gather all the information and tricks about WebGL I found scattered everywhere, and present them in a short and helpful way. I hope you'll enjoy it!
 <br>The demos, files and tools presented in this guide are all available <a href="https://github.com/xem/webgl-guide">on Github</a>.
 <br>If you're interested in WebGL code golfing, raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2.</a>
-<br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a> and <a href="https://twitter.com/adriengueret">Adrien Guéret</a> for their knowledge, tips and proofreading!
-
+<br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a>, <a href="https://twitter.com/adriengueret">Adrien Guéret</a> and <b>Sampson Savinel</b> for their knowledge, tips, gifs and proofreading!
 
 <br><br><hr><br>
-<h2>What is WebGL?</h2>
+<h2>Table of contents</h2>
 
-<h4>Presentation</h4>
+<!--table style=font-size:11px;width:100%><tr>
+
+<td style="border-right: 2px solid #ddd;vertical-align:top"-->
+
+<br><a href="#0" target="_self"><b>Introduction</b></a>
+<p><a href="#1" target="_self"><b>What is WebGL?</b></a>
+<ul>
+<li><a href="#1a" target="_self">Presentation</a>
+<li><a href="#1b" target="_self">The GLSL language</a>
+<li><a href="#1c" target="_self">Communication between JS and WebGL</a>
+</ul>
+
+<a href="#1d" target="_self"><b>Maths required to follow this guide</b></a>
+
+<!--td style="border-right: 2px solid #ddd;padding-left:20px;vertical-align:top"-->
+
+<p><a href="#2" target="_self"><b>2D graphics</b></a>
+<ul>
+<li><a href="#2a" target="_self">Hello, point</a>
+<li><a href="#2b" target="_self">Custom values: attributes and uniforms</a>
+<li><a href="#2c" target="_self">Drawing many pointsy</a>
+<li><a href="#2d" target="_self">Drawing lines and triangles</a>
+<li><a href="#2e" target="_self">Multi-attribute buffer &amp; varyings</a>
+<li><a href="#2f" target="_self">Translate, rotate, scale</a>
+<li><a href="#2g" target="_self">Texturing</a>
+</ul>
+
+<!--td style="border-right: 2px solid #ddd;padding-left:20px;vertical-align:top"-->
+<br><a href="#3" target="_self"><b>3D graphics</b></a>
+<ul>
+<li><a href="#3a" target="_self">The 3D camera</a>
+<li><a href="#3b" target="_self">Indexed vertices</a>
+<li><a href="#3c" target="_self">Hello cube </a>
+<li><a href="#3d" target="_self">How to color each face of the cube</a>
+<li><a href="#3e" target="_self">Lighting and shading</a>
+<!--<li><a href="#3e1">> Normals and cross-products</a>
+<li><a href="#3e2">> Dot product</a>
+<li><a href="#3e3">> Diffuse light</a>
+<li><a href="#3e4">> Ambient light</a>
+<li><a href="#3e5">> Point light</a>
+<li><a href="#3e6">> Spot light</a>
+<li><a href="#3e7">> Specular light</a>
+<li><a href="#3e8">> Smooth shading</a>
+<li><a href="#3e9">> How about raytracing?</a>
+<li><a href="#3e10">> How about Physically Based Rendering?</a>
+<li><a href="#3e11">> How about baked lighting?</a-->
+<li><a href="#3f" target="_self">How to transform a 3D model</a>
+<li><a href="#3g" target="_self">Drawing many cubes</a>
+<li><a href="#3h" target="_self">Hierarchical objects</a>
+</ul>
+
+<!--td style="padding-left:20px;vertical-align:top"-->
+
+<br><a href="#4" target="_self"><b>Debugging</b></a>
+<p><a href="#5" target="_self"><b>WebGL 2.0</b></a>
+<p><a href="#6" target="_self"><b>To be continued...</b></a>
+<!--/table-->
+
+<br><br><hr><br>
+<h2 id="1">What is WebGL?</h2>
+
+<h4 id="1a">Presentation</h4>
 
 <p>WebGL is a JavaScript API designed to compute and draw 2D and 3D graphics very fast in a Web browser, by using the processing power of the GPU.
 <br>It's based on <b>OpenGL ES</b> and is programmed using <b>shaders</b> coded in <b>GLSL</b> (OpenGL Shading Language), a language similar to C and C++.
-<br>A scene rendered by WebGL is made of <b>vertices</b> (points in 3D space, with coordinates X, Y, Z), which can be drawn as points, lines or triangles (colored, shaded or textured).
+<br>A scene rendered by WebGL is mainly made of <b>vertices</b> (points in 3D space, with coordinates X, Y, Z), which can be drawn as points, lines or triangles (colored, shaded or textured),
+<br>but many other effects can be displayed as well (shadows, particles, fog, post-processing...).
 <p>Two versions of the API exist: <b>WebGL 1.0</b>, supported by 97% of browsers, and its evolution <b>WebGL 2.0</b>, supported by 74% of browsers as of may 2020, according to <a href="https://caniuse.com/#search=webgl">caniuse</a>.
 <br>This guide will focus on WebGL 1.0, but all the features added in WebGL 2.0 will be explained at the end if you want to take the plunge.
 <br>
@@ -78,9 +140,13 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <li>The fragments constitute a bitmap image stored in a <b>color buffer</b>, which is finally displayed on the canvas.
 <br><br><img src="images/webgl-guide/workflow.png" width=800>
 </ol>
+
+<br>
+<br>
+<hr style="width:500px">
 <br>
 
-<h4>The GLSL language</h4>
+<h4 id="1b">The GLSL language</h4>
 
 <p>The shaders source code can be placed in a JavaScript string or loaded from a separate file.
 <br>Here are the key features of their <a href="https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf">syntax</a>:
@@ -90,53 +156,633 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <li>A <b>float</b> is a number written with at least one decimal: <b>0.0</b>, <b>0.1</b>, <b>1.0</b>, <b>-10.5</b>,...
 <li>A <b>bool</b> is a boolean number. Its possible values are <b>true</b> and <b>false</b>.
 <li>A <b>vec4</b> is an array of 4 floats representing vertex coordinates or a 3D vector (x, y, z, w), or a color (r, g, b, alpha). The types <b>vec2</b> (x, y) and <b>vec3</b> (x, y, z / r, g, b) exist too.
-<li>A <b>mat4</b> is a matrix (a grid) of 4 x 4 floats, useful for transforming coordinates and vectors in 3D. The types mat2 (2x2) and mat3 (3x3) exist too.
+<li>A <b>mat4</b> is a matrix (a grid) of 4 x 4 floats, useful for transforming vertex coordinates and vectors in 3D. The types mat2 (2x2) and mat3 (3x3) exist too.
 <li>A <b>sampler2D</b> is a reference to a texture image; a <b>samplerCube</b> is a reference to a "3D texture" (a set of 6 textures mapped on a cube).
 <li>A <b>variable</b> is declared with its type, for example: <pre class=inline><code class="lang-js">int i = -1</code></pre>, <pre class=inline><code class="lang-js">float f = 2.0</code></pre> or <pre class=inline><code class="lang-js">vec4 v = vec4(1.0, 2.0, 3.0, 4.0)</code></pre>.
 <li>A <b>constant</b> is a variable with a fixed value: <pre class=inline><code class="lang-js">const int c = 100;</code></pre>.
 <li>The xyzw / rgba components of a vector can be extracted and swizzled (recomposed) in another vector, for example: <pre class=inline><code class="lang-js">float f = v.x</code></pre>, <pre class=inline><code class="lang-js">vec3 rgb = v.rgb</code></pre>.
 <li>Every instruction must end with a semicolon <pre class=inline><code class="lang-js">;</code></pre>.
-<li><b>Math functions</b>: cos, sin, tan, pow, exp, log, log2, sqrt, abs, sign, floor, ceil, round, trunc, fract, mod, min, max, clamp, mix, step, length, distance, dot, cross, normalize...
-<li>Many <b>operators</b> are available (=, +, -, *, /, &amp;&amp;, ||, ==, !=, >, >=, &lt;, &lt;=, ++, --, ^^, +=, -=, *=, /=) but only between variables of the same type or same length (ex: int + int, mat4 * vec4).
-<li><b>Type casting</b> allows to convert a type into another. Ex: <pre class=inline><code class="lang-js">bool b = true; int i = int(b); /* i = 1 */ float f = float(i); /* f = 1.0 */</code></pre>.
-<li><b>Tests and loops</b> are also available (if, else, switch, for, while), but loops must have a constant limit. (you can't do <pre class=inline><code class="lang-js">for(i=0; i&lt;j; i++){...}</code></pre> if j is variable).
-<li>The <b>entry point</b> of each shader is a <pre class=inline><code class="lang-js">void main(){...}</code></pre> function.
-<li>Custom functions can also be created and called by main(), but recursion isn't allowed.
+<li><b>Math functions</b>: cos, sin, tan, pow, exp, log, log2, sqrt, abs, sign, floor, ceil, round, trunc, fract, mod, min, max, clamp, mix, step, length, distance, dot, cross, reflect, normalize...
+<li><b>Math operators</b> (=, +, -, *, /, &amp;&amp;, ||, ==, !=, >, >=, &lt;, &lt;=, ++, --, ^^, +=, -=, *=, /=) only work between variables of the same type or same length (ex: int + int, float / float, mat4 * vec4 ...).
+<li><b>Type casting</b> allows to convert a type into another, when it's possible. Ex: <pre class=inline><code class="lang-js">bool b = true; int i = int(b); /* i = 1 */ float f = float(i); /* f = 1.0 */</code></pre>.
+<li><b>Tests and loops</b> are also available (if, else, switch, for, while), but loops must have a constant limit. (you can't do <pre class=inline><code class="lang-js">for(int i = 0; i &lt; j; i++){...}</code></pre> if j is variable).
+<li>The <b>entry point</b> of each shader (where their execution starts) is a <pre class=inline><code class="lang-js">void main(){...}</code></pre> function.
+<li>Custom functions can also be created and called by main() or by each other, but recursion isn't allowed.
 <li>The <b>precision</b> of ints, floats and Sampler2Ds (lowp / mediump / highp) can be set in each shader with a directive, like <pre class=inline><code class="lang-js">precision highp int;</code></pre> or <pre class=inline><code class="lang-js">precision mediump float;</code></pre>
 <br>These directives must be at the beginning of the shader's code, however only the float precision is mandatory in the fragment buffer, all the others have values by default.
-<li>The vertex shader must set a global variable <b>gl_Position</b> containing the coordinates of the current vertex. <b>gl_PointSize</b> is also mandatory when rendering individual points.
+<li>The vertex shader must set a global variable <b>gl_Position</b> containing the coordinates of the current vertex (It must also set <b>gl_PointSize</b> when rendering individual points).
 <li>The fragment shader must set a global variable <b>gl_FragColor</b> containing the color of the current fragment.
-<br>It can also read 3 global variables: <b>gl_FragCoord</b> (window coordinates),  <b>gl_PointCoord</b> (coordinates inside a point) and <b>gl_FrontFacing</b> (current triangle orientation).
+<br>It has access to 3 global variables: <b>gl_FragCoord</b> (window coordinates),  <b>gl_PointCoord</b> (coordinates inside a point) and <b>gl_FrontFacing</b> (current triangle orientation).
 </ul>
 
 <br>
-<h4>Communication between JavaScript and WebGL</h4>
+<br>
+<hr style="width:500px">
+<br>
+
+<h4 id="1c">Communication between JavaScript and WebGL</h4>
+
+<br><br><img src="images/webgl-guide/schema2.png" width=800>
+<br>
 <p>Four main mechanisms exist to send data between the different scripts:
 <ul>
-<li><b>Attributes</b> are global variable passed by JS to the vertex shader. Their value can change for each vertex (ex: vertex coordinates).
-<li><b>Uniforms</b> are global variables passed by JS to both vertex and fragment shaders (ex: a color). Their value stays constant for an entire frame.
+<li><b>Attributes</b> are global variable passed by JavaScript to the vertex shader. Their value can change for each vertex (ex: vertex coordinates).
+<li><b>Uniforms</b> are global variables passed by JavaScript to both vertex and fragment shaders (ex: a color). Their value stays constant for an entire frame.
 <li><b>Varyings</b> are not accessible by JavaScript. They can only be set by the vertex shader and read by the fragment shader.
-<li><b>buffer objects</b> are big arrays of floats passed by JS to the vertex shader in chunks of 1 to 4 items.
+<li><b>Data buffers</b> are big arrays of numbers passed by JS to the vertex shader in chunks of 1 to 4 values.
 <br>For example, if a long list of vertex coordinates (X,Y,Z, X,Y,Z, ...) is sent to the vertex buffer 3 by 3, the shader will receive each chunk in the form of an <b>attribute vec3</b>.
-<li>Each attribute, uniform and varying must be declared before main() in the shaders that uses them.
-<li>JS can also send commands to the WebGL program to clear the screen, render the scene, etc... and this can be done many times per second to create an animation.
+</ul>
+<p>Each attribute, uniform and varying must be declared before main() in the shaders that uses them.
+
+<p>Don't worry, these features will be explained and illustrated in the next chapters.
+
+<br>
+<br>
+<hr>
+<br>
+
+<h3 id="1d">Maths required to follow this guide</h3>
+
+<p>If you're not friend with maths, don't worry! 3D programming actually requires a very limited subset of maths, which is summarized below:
+
+<p><b>The basics of geometry</b>:
+<br>- A point in 2D has two spatial coordinates (X horizontally, Y vertically).
+<br>- A point in 3D has a third Z coordinate for depth.
+<br>- The origin is the point where all the coordinates are equal to 0.
+<br><img src="images/webgl-guide/xyz.png" width=700>
+
+<p><b>The basics of trigonometry</b>:
+<ul>
+<li>An angle can measure between 0 and 360 degrees, which is equivalent to: 0 to 2 * Pi radians (Pi radians is half a turn).
+<li>An angle in degrees can be converted in radians by multiplying it with <b>π/180</b>.
+<li>An angle in radians can be converted in degrees by multiplying it with <b>180/π</b>.
+<li>The trigonometric circle is a circle of radius 1, centered on the origin of a 2D plane.
+<br>Every point of this circle has an angle: the rightmost point represents the angle 0 (or 2*Pi), the topmost point is Pi/2, the leftmost is Pi, and the bottom is 3*Pi/2.
+<li>The cosine of an angle is the X coordinate of the corresponding point on the trigonometric circle, and oscillates between 1 and -1.
+<li>The sine is the Y coordinate of the same point, and also oscillates between -1 and 1.
+<li>The tangent is the X coordinate where the tangent of the circle at this point intersects the X axis. It's value goes between -∞ and +∞. 
+</ul>
+<br><a href="https://twitter.com/freyaholmer/status/1173376419168247810"><img src="images/webgl-guide/trigo.gif" width=400></a>
+
+<p><b>Vectors</b>: 
+<br>A vector is an array of numbers. For example, [2,4] is a vector representing the coordinates of a 2D point, [3,5,2] is a vector representing a 3D point.
+<br>A vector can also represent a direction or a movement in space. In this case, you can imagine it like an arrow.
+<br>Though, contrary to vertices, direction vectors don't have a position. They only represent an offset, and this offset can start from anywhere.
+<br>The vector AB going from a point A to a point B is computed like this: <b>AB = [xB - xA, yB - yA, zB - zA]</b>.
+<br><img src="images/webgl-guide/vector.png" width=700>
+
+<p><b>Operations on vectors</b>:
+<ul>
+<li>Adding two vectors consists in adding their terms one by one: <b>V + W = [xV + xW, yV + yW, zV + zW]</b>. 
+<li>Scaling a vector consists in multiplying all its terms by a given amount: <b>V * n = [xV * n, yV * n, zV * n]</b>.
+<li>Measuring the length (or magnitude) of a vector is similar to measuring the distance between two points with Pythagore:
+<b>||V|| = sqrt(xV² + yV² + zV²)</b>.
+<li>Normalizing a vector consists in adjusting its length to 1 unit, without changing its direction. It's equivalent to scaling it by <b>1 / ||v||</b>.
+<li>The relative angle between two normalized vectors V and W can be computed using the dot product: <b>V.W = xV * xW + yV * yW + zV * zW</b>.
+<br>The dot product is equal to the cosine of the angle between the vectors. For example, it's 1 if they're equal, 0 if they're perpendicular, -1 if they're opposite.
+<li>The normal of a triangle ABC is a vector perpendicular to two edges AB and BC, where the points A, B and C are in counter-clockwise order.
+<br>It is computed using the cross product: <b>AB × BC = [yAB*zBC - zAB*yBC, zAB*xBC - xAB*zBC, xAB*yBC - yAB*xBC]</b>.
 </ul>
 
-<br><img src="images/webgl-guide/schema2.png" width=750>
+<table style=width:800px>
+<tr>
+<td>
+<a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/dot.gif" width=350 style="border: 1px solid #ddd;"></a>
 
-<br><br>
-<p>Don't worry, all these features will be explained and illustrated in the next chapters.
+<td>
+<br><br><a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/cross.gif" width=450 style="border: 1px solid #ddd;"></a>
+</table>
 
+
+<p><b>Matrices</b>:
+<p>A matrix is a grid of numbers. It represents a system of equations that can be applied to any vector with a multiplication.
+<br>Multiplying a matrix and a vector consists in computing the dot product of the vector with each line of the matrix.
+<br>For example, in 3D, the "identity" matrix below transforms a vector into itself (it's a neutral operation):
+<br>
+<table style="width:500px">
+<tr>
+<td>
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+      ×
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+ = 
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+
+<td>
+
+1 * x + 0 * y + 0 * z = x
+<br>0 * x + 1 * y + 0 *z = y
+<br>0 * z + 0 * y + 1 * z = z
+</table>
+<br>
+If you use values different than 1 on the diagonal, the vector will be scaled:
+<br>
+<br>
+
+<table style="width:500px">
+<tr>
+<td>
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>2</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>3</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>-1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+      ×
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+ = 
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>2x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>3y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>-z</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+
+<td>
+2 * x + 0 * y + 0 * z = 2x
+<br>0 * x + 3 * y + 0 * z = 3y
+<br>0 * x + 0 * y + -1 * z = -z
+
+</table>
+
+<p>And if you use the appropriate values in the other fields, you can perform a rotation:
+
+<ul>
+<li>Along the X axis (angle φ in radians):
+<br>
+<br>
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>cos φ</mn></mtd>
+            <mtd><mn>-sin φ</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>sin φ</mn></mtd>
+            <mtd><mn>cos φ</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+      ×
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+ = 
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+   <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y cos φ - z sin φ </mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y sin φ + z cos φ </mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+<br>
+<br>
+
+<li>Along the Y axis (angle θ in radians):
+<br>
+<br>
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>cos θ</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>sin θ</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>-sin θ</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>cos θ</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+      ×
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+ = 
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+   <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x cos θ + z sin θ</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>-x sin θ + z cos θ</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+<br>
+<br>
+
+<li>Along the Z axis (angle ψ in radians):
+
+<br>
+<br>
+
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>cos ψ</mn></mtd>
+            <mtd><mn>- sin ψ</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>sin ψ</mn></mtd>
+            <mtd><mn>cos ψ</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+      ×
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+ = 
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+   <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x cos ψ – y sin ψ</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>x sin ψ + y cos ψ</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z'</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+</ul>
+
+<br>
+<p>Similarly, you can transform a 2D vector with this identity matrix:
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+ &nbsp; 
+and this rotation matrix:
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>cos ψ</mn></mtd>
+            <mtd><mn>- sin ψ</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>sin ψ</mn></mtd>
+            <mtd><mn>cos ψ</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+
+<p><b>Homogeneous coordinates:</b>
+<p>Finally, a little extension of the 3D vectors and matrices above, consists in giving them a fourth dimension, called <b>W</b>.
+<br>When the vector represents a vertex's coordinates, we often need to make it move through space, or to "see" it on screen with a certain perspective (more info in the <a href="#3a">3D camera chapter</a>).
+<br>This kind of transformations is made possible by homogeneous coordinates: the vector is noted <b>[X, Y, Z, 1]</b>.
+<br>For example, here's the translation matrix that moves a point 2 units along X, 3 units along Y, and -1 unit along Z.
+<br>(you can remark that it's an identity matrix, with the X, Y and Z offsets added on the fourth column):
+<br>
+
+<table style="width:550px">
+<tr>
+<td>
+
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>2</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>3</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>-1</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>0</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+      ×
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+  <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+   </mrow>
+</math>
+ = 
+<math xmlns = "http://www.w3.org/1998/Math/MathML">
+   <mrow>
+      <mo>[</mo>
+      <mtable>
+         <mtr>
+            <mtd><mn>x + 2</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>y + 3</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>z - 1</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>1</mn></mtd>
+         </mtr>
+      </mtable>
+      <mo>]</mo>
+  </mrow>
+</math>
+<td>
+
+1 * x + 0 * y + 0 * z + 2 * 1 = x + 2
+<br>0 * x + 1 * y + 0 * z + 3 * 1 = y + 3
+<br>0 * x + 0 * y + 1 * z + -1 * 1 = z - 1
+<br>0 * x + 0 * y + 0 * z + 1 * 1 = 1
+
+</table>
+
+<br>
+<p>Enough introduction, let's start this guide with our first WebGL demo!
 <br><br><hr><br>
-<center><h2>2D graphics</h2></center>
+<center><h2 id="2">2D graphics</h2></center>
 <br><hr><br>
 
 
-<h4>Hello, point</h4>
-
-<ul>
-
-</ul>
+<h4 id="2a">Hello, point</h4>
 
 <p>Here's the simplest possible WebGL program, drawing a red, square point in the middle of the canvas.
 
@@ -152,9 +798,9 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <li>JavaScript also uses the functions <b>createShader</b>, <b>shaderSource</b>, <b>compileShader</b>, <b>attachShader</b>, <b>linkProgram</b> and <b>useProgram</b> to set up and run the app (lines 27-41),
 <br>and the functions <b>clearColor</b>, <b>clear</b> and <b>drawArrays</b> to set the default background color, clear the canvas and draw a point on it (lines 48-59).
 <li>The vertex shader (lines 7-15) sets the vec4 <b>gl_Position</b> (x, y, z, 1.0), and <b>gl_PointSize</b> (in pixels).<br>It is executed once, as there's only one vertex.
-<br>Since we're drawing in 2D, the point's Z coordinate is 0.0, while X and Y are in the range [-1 : 1]: within the bounds of the canvas.
-<br>The 4th vertex coordinate is fixed to 1.0, this will be useful to compute transformations in the next chapters.
-<li>The fragment shader (lines 18-24) sets the vec4 <b>gl_Fragolor</b> (r, g, b, alpha), in which the four components are in the range [0 : 1].<br>It is executed 100 times (once for each pixel inside the point).
+<br>Since we're drawing in 2D, the point's Z coordinate is 0, while X and Y are in the range [-1 : 1]: within the bounds of the canvas.
+<br>The 4th vertex coordinate (W) is fixed to 1.0, and allows many transformations detailed in the next chapters.
+<li>The fragment shader (lines 18-24) sets the vec4 <b>gl_Fragolor</b> (r, g, b, alpha), where each component is in the range [0 : 1].<br>It is executed 100 times (once for each pixel inside the point).
 <br>It starts with a mandatory directive, used to define the precision of its floating numbers: <pre class=inline><code class="lang-js">precision mediump float;</code></pre> (lowp and highp are also available, but less useful). 
 <li>If an error occurs during the compilation, it's caught by <b>getShaderInfoLog</b> or <b>getProgramInfoLog</b> (lines 44-46) and logged in the browser's JS console.
 </ul>
@@ -202,7 +848,7 @@ compile = (gl, vshader, fshader) => {
 
 <br><br><hr><br>
 
-<h4>Custom values: attributes and uniforms</h4>
+<h4 id="2a">Custom values: attributes and uniforms</h4>
 
 <p>Of course, WebGL wouldn't be interesting if it could just draw one hard-coded point.
 <br>To make it less rigid, we can give it custom values. This can be done with <b>attributes</b> (readable by the vertex buffer) and <b>uniforms</b> (readable by both buffers).
@@ -317,7 +963,7 @@ if(d &lt; .5) { gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); }
 else { discard; }</code></pre>
 
 <br><br><hr><br>
-<h4>Drawing many points, a matter of continuity</h4>
+<h4 id="2c">Drawing many points, a matter of continuity</h4>
 
 <p>By default, WebGL has no problems calling <b>gl.drawArrays</b> many times in a row, but only if these calls happen in the same timeframe.
 <br>Here's a program trying to draw a new random point every 500ms:
@@ -344,7 +990,7 @@ else { discard; }</code></pre>
 
 <br><br><hr><br>
 
-<h4>Drawing lines and triangles</h4>
+<h4 id="2d">Drawing lines and triangles</h4>
 
 <p>The next step consists in declaring many points at once, and telling WebGL how to display them: as points, as lines or as triangles.
 <br>To do this, we'll use a <b>data buffer</b> (an array of binary numbers) to send vertex properties from JS to the fragment shader, via an attribute. The following types are supported:
@@ -442,7 +1088,7 @@ buffer = (gl, data, program, attribute, size, type) => {
 
 <br><hr><br>
 
-<h4>Multi-attribute buffer and varying color</h4>
+<h4 id="2e">Multi-attribute buffer and varying color</h4>
 
 <p>Now, we want to give a different color to our three vertices, and draw a triangle with them.
 <br>The vertex colors can be transmitted to the fragment buffer via a <b>varying</b> variable, to produce a gradient (this process is called <b>color interpolation</b>).
@@ -481,7 +1127,7 @@ buffer = (gl, data, program, attribute, size, type) => {
 
 <br><br><hr><br>
 
-<h4>Translate, rotate, scale</h4>
+<h4 id="2f">Translate, rotate, scale</h4>
 
 <p>If we want to move, rotate or scale a triangle, we need to know how to transform each of its vertices.
 <ul>
@@ -1170,7 +1816,7 @@ transform = (mat, options) => {
 
 <br><br><hr><br>
 
-<h4>Texturing</h4>
+<h4 id="2g">Texturing</h4>
 
 <p>As we saw earlier, a fragment's color inside a triangle can be interpolated from the colors of each vertex around it.
 <br>The same principle can be used with a texture image (it's called <b>sampling</b> in this case).
@@ -1252,10 +1898,10 @@ gl_FragColor = color0 * color1;</code></pre>
 <br>
 <br>
 <br><br><hr><br>
-<center><h2>3D graphics</h2></center>
+<center><h2 id="3">3D graphics</h2></center>
 <br><hr><br>
 
-<h4>The 3D camera</h4>
+<h4 id="3a">The 3D camera</h4>
 <br>You should know by now that computers don't do "3D" natively.
 <br>You (or your 3D framework) will have to do all the computing to simulate the camera, the perspective, and how they affect each polygon, so the scene can seem to be in 3D.
 <br>Fortunately, the API we use (WebGL) provides very helpful tools to help rendering complex scenes without too much effort.
@@ -1431,7 +2077,7 @@ orthogonal = options => {
 
 <br><br><hr><br>
 
-<h4>Reduce repetitions with indexed vertices</h4>
+<h4 id="3b">Reduce repetitions with indexed vertices</h4>
 
 <p>Before starting to draw <b>meshes</b> (3D objects) that contain a lot of triangles, we need to learn an optimized way to write our data buffers.
 <br>As we have seen before, data buffers (with the type gl.ARRAY_BUFFER) can hold vertex properties (position, color, texture coordinates...).
@@ -1468,7 +2114,7 @@ orthogonal = options => {
 
 <br><br><hr><br>
 
-<h3>Hello cube</h3>
+<h3 id="3c">Hello cube</h3>
 
 <p>The easiest shape to render in 3D is a cube composed of 8 points and 12 triangles.
 
@@ -1500,7 +2146,7 @@ orthogonal = options => {
 
 <br><br><hr><br>
 
-<h3>How to color each face of the cube</h3>
+<h3 id="3d">How to color each face of the cube</h3>
 
 <p>To color each face individually, each vertex can't have an unique color like we did before. Its color needs to vary depending on which face is being rendered.
 <br>The solution is to declare all the possible combinations of vertices positions and colors in two data buffers, and use an index buffer to create the corresponding triangles.
@@ -1576,7 +2222,7 @@ cube = (r = 1, g = 1, b = 1) => {
 
 
 
-<h4>Lighting and shading</h4>
+<h4 id="3e">Lighting and shading</h4>
 <p>The terms lighting and shading are often used without distinction but they actually represent two different things:
 <ul>
 <li><b>Lighting</b> is a physics notion, representing how the light affects an object in the real world or in a 3D scene.
@@ -1597,11 +2243,6 @@ cube = (r = 1, g = 1, b = 1) => {
 
 <p>Each triangle has a <b>normal</b>: it's a 3D vector perpendicular to its surface, and <b>normalized</b> (with a length equal to 1).
 <br>A normal can be computed using a <b>cross-product</b> of two edge's vectors: AB × BC points "up" if the points A, B and C are in counterclockwise order.
-
-
-<br><br><a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/cross.gif" width=300 style="border: 1px solid #ddd;"></a>
-<br><br>
-<div style="background:#fff;width:97px;height:32px;position:relative;z-index:2;margin-top:-220px;left:200px;margin-bottom:170px;"></div>
 
 <p>A cross-product can be computed natively in GLSL: <b>cross(AB, BC)</b>.
 
@@ -1819,7 +2460,7 @@ Demo:
 
 <br><br><hr><br>
 
-<h4>How to transform a 3D model</h4>
+<h4 id="3f">How to transform a 3D model</h4>
 
 <p>So far, we've only transformed the camera matrix to make it revolve around the cube, which created an illusion of cube rotation.
 <br>Now that we learned how to place a fixed light in the scene, if we want to rotate, translate or scale a cube without touching the rest of the scene, we need to do two things:
@@ -1896,7 +2537,7 @@ inverseTranspose = m => transpose(inverse(m));</code></pre>
 
 <br><br><hr><br>
 
-<h4>Drawing many cubes</h4>
+<h4 id="3g">Drawing many cubes</h4>
 
 <p>To draw many cubes at once, it's of course possible to declare the vertices coordinates, colors and normals of each cube separately, but that would be very verbose.
 <br>Instead, we can consider the cube we already declared as a reusable model.
@@ -1942,7 +2583,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <br><br><hr><br>
 
 
-<h4>Hierarchical objects</h4>
+<h4 id="3h">Hierarchical objects</h4>
 
 <p>A <b>hierarchical object</b> is a 3D model made of several basic objects (called <b>segments</b>), for example a robotic arm.
 <br><b>Joints</b> are where the segments are linked and rotate relatively to each other, like an elbow or a wrist.
@@ -1975,7 +2616,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 
 <br><br><hr><br>
 
-<h4>Debugging</h4>
+<h4 id="4">Debugging</h4>
 
 <p>Many kind of errors can be present in your WebGL shaders or occur on runtime. The most frequent I've encountered are:
 <ul>
@@ -2008,7 +2649,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 
 <br><br><hr><br>
 
-<h4>WebGL 2.0</h4>
+<h4 id="5">WebGL 2.0</h4>
 <br>
 As I said in the introduction, WebGL 2.0 brings new features and changes a few things compared to WebGL 1.0.
 <br>To enable it, you need to change the canvas context creation: <pre class=inline><code class="lang-js">canvas.getContext("webgl2");</code></pre> and put <b>#version 300 es</b> on the very first line of your shaders.
@@ -2042,7 +2683,7 @@ gl.bindVertexArray(vao);</code></pre>
 
 <br><br><hr><br>
 
-<h4>To be continued...</h4>
+<h4 id="6">To be continued...</h4>
 
 <p>At this point we've covered all the basis of 2D and 3D rendering in WebGL 1.0 and 2.0!
 <br>For the record, this single page contained more information than 430 pages of <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">the book</a> and 3/4 of the <a href="https://webgl2fundamentals.org/">site</a> that inspired it at the beginning. Did I invent tutorial golfing? :D
