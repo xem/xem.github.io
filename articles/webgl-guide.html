@@ -216,20 +216,26 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <li>An angle can measure between 0 and 360 degrees, which is equivalent to: 0 to 2 * Pi radians (Pi radians is half a turn).
 <li>An angle in degrees can be converted in radians by multiplying it with <b>π/180</b>.
 <li>An angle in radians can be converted in degrees by multiplying it with <b>180/π</b>.
-<li>The trigonometric circle is a circle of radius 1, centered on the origin of a 2D plane.
-<br>Every point of this circle has an angle: the rightmost point represents the angle 0 (or 2*Pi), the topmost point is Pi/2, the leftmost is Pi, and the bottom is 3*Pi/2.
-<li>The cosine of an angle is the X coordinate of the corresponding point on the trigonometric circle, and oscillates between 1 and -1.
+<li>The trigonometric circle is a circle of radius 1, centered on the origin of a 2D plane. Every point of this circle corresponds to an angle, measured anti-clockwise:
+<br>The rightmost point represents the angle 0 (or 2*Pi rad), the topmost point is Pi/2 rad, the leftmost is Pi rad, and the bottom is 3*Pi/2 rad.
+<li>An angle bigger than 2*Pi or smaller than 0 is similar to the same angle modulo 2*Pi (ex: 5*Pi rad = Pi rad; -Pi/2 rad = 3*Pi/2 rad).
+<li>The cosine of an angle is the X coordinate of the corresponding point on the trigonometric circle, and oscillates between -1 and 1.
 <li>The sine is the Y coordinate of the same point, and also oscillates between -1 and 1.
-<li>The tangent is the X coordinate where the tangent of the circle at this point intersects the X axis. It's value goes between -∞ and +∞. 
+<li>The tangent is the X coordinate where the tangent of the circle at this point intersects the X axis. It's value goes between -∞ and -1, and between 1 and +∞. 
 </ul>
 <br><a href="https://twitter.com/freyaholmer/status/1173376419168247810"><img src="images/webgl-guide/trigo.gif" width=400></a>
 
-<p><b>Vectors</b>: 
-<br>A vector is an array of numbers. For example, [2,4] is a vector representing the coordinates of a 2D point, [3,5,2] is a vector representing a 3D point.
-<br>A vector can also represent a direction or a movement in space. In this case, you can imagine it like an arrow.
-<br>Though, contrary to vertices, direction vectors don't have a position. They only represent an offset, and this offset can start from anywhere.
-<br>The vector AB going from a point A to a point B is computed like this: <b>AB = [xB - xA, yB - yA, zB - zA]</b>.
+<p><b>Vectors</b>:
+<ul>
+<li>A vector is an array of numbers. It can represent either a point in space, or an offset.
+<li>When it represents a point, it's a list of coordinates.
+<br>For example, [2,4] can represent the X and Y coordinates of a 2D point, and [3,5,2] the X, Y and Z coordinates of a 3D point.
+<li>When it's an offset (from a position in space to another position), it represents how the offset is applied in each coordinate. You can imagine it like an arrow.
+<br>for example [1,2,3] means X offset of 1 unit, a Y offset of 2 units and a Z offset of 3 units.
+<li>Contrary to vertices, direction vectors don't have a position. They only represent an offset, and this offset can start from anywhere.
+<li>You can build a vector AB (going from a point A to a point B) like this: <b>AB = [xB - xA, yB - yA, zB - zA]</b>.
 <br><img src="images/webgl-guide/vector.png" width=700>
+</ul>
 
 <p><b>Operations on vectors</b>:
 <ul>
@@ -237,11 +243,13 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <li>Scaling a vector consists in multiplying all its terms by a given amount: <b>V * n = [xV * n, yV * n, zV * n]</b>.
 <li>Measuring the length (or magnitude) of a vector is similar to measuring the distance between two points with Pythagore:
 <b>||V|| = sqrt(xV² + yV² + zV²)</b>.
-<li>Normalizing a vector consists in adjusting its length to 1 unit, without changing its direction. It's equivalent to scaling it by <b>1 / ||v||</b>.
+<li>Normalizing a vector consists in adjusting its length to 1 unit, without changing its direction. It's equivalent to scaling it by <b>1 / ||V||</b>.
 <li>The relative angle between two normalized vectors V and W can be computed using the dot product: <b>V.W = xV * xW + yV * yW + zV * zW</b>.
 <br>The dot product is equal to the cosine of the angle between the vectors. For example, it's 1 if they're equal, 0 if they're perpendicular, -1 if they're opposite.
-<li>The normal of a triangle ABC is a vector perpendicular to two edges AB and BC, where the points A, B and C are in counter-clockwise order.
-<br>It is computed using the cross product: <b>AB × BC = [yAB*zBC - zAB*yBC, zAB*xBC - xAB*zBC, xAB*yBC - yAB*xBC]</b>.
+<li>The cross-product of two vectors V and W is a vector perpendicular to both vectors. It can be computed like this: <b>V×W = [yV*zW - zV*yW, zV*xW - xV*zW, xV*yW - yV*xW]</b>.
+<li>The normal of a triangle ABC is a vector perpendicular to its surface, more precisely, perpendicular to any vector inside the triangle.
+<br>It can be computed as the cross-product of the vectors AB and BC, if the points A, B and C are arranged counter-clockwise. (if clockwise, the normal will point to the opposite direction).
+<br>The normal of a triangle, as its name suggests, must be normalized, because it will often be involved in dot products.
 </ul>
 
 <table style=width:800px>
