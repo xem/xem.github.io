@@ -227,10 +227,10 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 
 <p><b>Vectors</b>:
 <ul>
-<li>A vector is an array of numbers. It can represent either a point in space, or an offset.
+<li>A vector is an array of numbers. It can represent either a point in space (a vertex), or a direction (an offset).
 <li>When it represents a point, it's a list of coordinates.
 <br>For example, [2,4] can represent the X and Y coordinates of a 2D point, and [3,5,2] the X, Y and Z coordinates of a 3D point.
-<li>When it's an offset (from a position in space to another position), it represents how the offset is applied in each coordinate. You can imagine it like an arrow.
+<li>When it's a direction (from a position in space to another position), it represents how the offset is applied in each coordinate. You can imagine it like an arrow.
 <br>for example [1,2,3] means X offset of 1 unit, a Y offset of 2 units and a Z offset of 3 units.
 <li>Contrary to vertices, direction vectors don't have a position. They only represent an offset, and this offset can start from anywhere.
 <li>You can build a vector AB (going from a point A to a point B) like this: <b>AB = [xB - xA, yB - yA, zB - zA]</b>.
@@ -246,24 +246,28 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <li>Normalizing a vector consists in adjusting its length to 1 unit, without changing its direction. It's equivalent to scaling it by <b>1 / ||V||</b>.
 <li>The relative angle between two normalized vectors V and W can be computed using the dot product: <b>V.W = xV * xW + yV * yW + zV * zW</b>.
 <br>The dot product is equal to the cosine of the angle between the vectors. For example, it's 1 if they're equal, 0 if they're perpendicular, -1 if they're opposite.
+<br><br><a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/dot.gif" width=350 style="border: 1px solid #ddd;"></a>
+<br>
+<br>
 <li>The cross-product of two vectors V and W is a vector perpendicular to both vectors. It can be computed like this: <b>V×W = [yV*zW - zV*yW, zV*xW - xV*zW, xV*yW - yV*xW]</b>.
+
+<!--table style=width:800px>
+<tr>
+<td>
+<td>
+</table-->
+<br><br><a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/cross.gif" width=450 style="border: 1px solid #ddd;"></a>
+<br>
+<br>
+
 <li>The normal of a triangle ABC is a vector perpendicular to its surface, more precisely, perpendicular to any vector inside the triangle.
 <br>It can be computed as the cross-product of the vectors AB and BC, if the points A, B and C are arranged counter-clockwise. (if clockwise, the normal will point to the opposite direction).
 <br>The normal of a triangle, as its name suggests, must be normalized, because it will often be involved in dot products.
+<br><br><img src="images/webgl-guide/normal.png" width=350>
 </ul>
 
-<table style=width:800px>
-<tr>
-<td>
-<a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/dot.gif" width=350 style="border: 1px solid #ddd;"></a>
-
-<td>
-<br><br><a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/cross.gif" width=450 style="border: 1px solid #ddd;"></a>
-</table>
-
-
 <p><b>Matrices</b>:
-<p>A matrix is a grid of numbers. It represents a system of equations that can be applied to any vector with a multiplication.
+<p>A matrix is a grid of numbers. It represents a system of linear equations that can be applied to any vector with a multiplication.
 <br>Multiplying a matrix and a vector consists in computing the dot product of the vector with each line of the matrix.
 <br>For example, in 3D, the "identity" matrix below transforms a vector into itself (it's a neutral operation):
 <br>
@@ -639,52 +643,84 @@ If you use values different than 1 on the diagonal, the vector will be scaled:
   </mrow>
 </math>
 </ul>
-
 <br>
-<p>Similarly, you can transform a 2D vector with this identity matrix:
-<math xmlns = "http://www.w3.org/1998/Math/MathML">
+<p><b>Operations on matrices</b>:
+<ul>
+<li>A matrix can be transposed by inverting its horizontal and vertical axis (the diagonal stays unchanged):
+<br>
+
+<table style=width:300px>
+<tr>
+<td>
+A = <math xmlns = "http://www.w3.org/1998/Math/MathML">
   <mrow>
       <mo>[</mo>
       <mtable>
          <mtr>
             <mtd><mn>1</mn></mtd>
-            <mtd><mn>0</mn></mtd>
+            <mtd><mn>2</mn></mtd>
+            <mtd><mn>3</mn></mtd>
          </mtr>
          
          <mtr>
-            <mtd><mn>0</mn></mtd>
-            <mtd><mn>1</mn></mtd>
+            <mtd><mn>4</mn></mtd>
+            <mtd><mn>5</mn></mtd>
+            <mtd><mn>6</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>7</mn></mtd>
+            <mtd><mn>8</mn></mtd>
+            <mtd><mn>9</mn></mtd>
          </mtr>
       </mtable>
       <mo>]</mo>
   </mrow>
 </math>
- &nbsp; 
-and this rotation matrix:
-<math xmlns = "http://www.w3.org/1998/Math/MathML">
+
+<td>
+A<sup>T</sup> = <math xmlns = "http://www.w3.org/1998/Math/MathML">
   <mrow>
       <mo>[</mo>
       <mtable>
          <mtr>
-            <mtd><mn>cos ψ</mn></mtd>
-            <mtd><mn>- sin ψ</mn></mtd>
+            <mtd><mn>1</mn></mtd>
+            <mtd><mn>4</mn></mtd>
+            <mtd><mn>7</mn></mtd>
          </mtr>
          
          <mtr>
-            <mtd><mn>sin ψ</mn></mtd>
-            <mtd><mn>cos ψ</mn></mtd>
+            <mtd><mn>2</mn></mtd>
+            <mtd><mn>5</mn></mtd>
+            <mtd><mn>8</mn></mtd>
+         </mtr>
+         
+         <mtr>
+            <mtd><mn>3</mn></mtd>
+            <mtd><mn>6</mn></mtd>
+            <mtd><mn>9</mn></mtd>
          </mtr>
       </mtable>
       <mo>]</mo>
   </mrow>
 </math>
+</table>
+<li>Two or more matrices of equal size can be multiplied together to combine (accumulate) their transformations.
+<br>The result is a matrix containing the dot products of each line of the first matrix with each column of the second matrix.
+<br>The combination order is important, and is from right to left. For example, a matrix that performs a translation T, then a rotation R, then a scale S is equal to <b>S * (R * T)</b>.
+
+<li>Finally, a matrix can be inversed, with a complicated equation that we'll see later in this guide. It cancels the transformation made by the original matrix. Hence:
+<br>
+A * A<sup>-1</sup> = identity
+<br>
+A * A<sup>-1</sup> * V = V
+</ul>
 
 <p><b>Homogeneous coordinates:</b>
 <p>Finally, a little extension of the 3D vectors and matrices above, consists in giving them a fourth dimension, called <b>W</b>.
-<br>When the vector represents a vertex's coordinates, we often need to make it move through space, or to "see" it on screen with a certain perspective (more info in the <a href="#3a">3D camera chapter</a>).
-<br>This kind of transformations is made possible by homogeneous coordinates: the vector is noted <b>[X, Y, Z, 1]</b>.
-<br>For example, here's the translation matrix that moves a point 2 units along X, 3 units along Y, and -1 unit along Z.
-<br>(you can remark that it's an identity matrix, with the X, Y and Z offsets added on the fourth column):
+<br>The goal is not to draw 4-dimensional objects, but to allow more operations on vertices, like translations and <a href="#3a">camera projections</a>.
+<br>Those 4D vectors are called homogeneous coordinates and are noted <b>[X, Y, Z, 1]</b> for vertices, and <b>[X, Y, Z, 0]</b> for normals.
+<br>For example, here's the translation matrix that moves a point 2 units along X, 3 units along Y, and -1 unit along Z:
 <br>
 
 <table style="width:550px">
@@ -782,6 +818,12 @@ and this rotation matrix:
 <br>0 * x + 0 * y + 0 * z + 1 * 1 = 1
 
 </table>
+
+<br>Remarks:
+<br>- The (4D) transformation matrix performing a translation is an identity matrix, with the X, Y and Z offsets encoded on the last column.
+<br>- These offsets are multiplied by the fourth element of the 4D vector, that's why a point can be translated (W = 1) and a normal cannot (W = 0).
+<br>- The 3x3 matrix on the top left corner can still be used to perform rotations and scalings.
+<br>- When a vertex is rendered on the screen, only its X, Y and Z coordinates matter. It's W coordinate, only useful for computing translations and projections, is discarded.
 
 <br>
 <p>Enough introduction, let's start this guide with our first WebGL demo!
@@ -2242,7 +2284,7 @@ cube = (r = 1, g = 1, b = 1) => {
 <img src="images/webgl-guide/shading.png" width=500>
 <br>In the first case, all the pixels are the same color, which doesn't look natural.<br>In the second case, every face has a different color, but our brains interpret in as a shaded, red cube.
 
-<p>To implement that, we first need to learn two new tools:
+<!--p>To implement that, we first need to learn two new tools:
 
 <h5>1) Normals and cross-products</h5>
 
@@ -2301,7 +2343,7 @@ dot = (xV, yV, zV, xW, yW, zW) => {
 <br>
 <br>
 <hr style="width:500px">
-<br>
+<br-->
 
 <p>There are many different ways to light a 3D scene, here are the five main ones we can start with:
 
@@ -2446,8 +2488,7 @@ Demo:
 <br><br><img src="images/webgl-guide/emissive.png">
 
 <br><br>But this will not be covered in this guide... maybe the next one?
-<br>
-<br><br><hr style="width:500px"><br>
+<!--br><br><hr style="width:500px"><br>
 
 <h5>How about Physically Based Rendering?</h5>
 
@@ -2464,25 +2505,37 @@ Demo:
 <p><b>Baked lighting</b> was an optimization used in early 3D games, where real-time computations were very CPU-intensive.
 <br>The lights, shadings and shadows were precomputed or drawn by artists during the game development and displayed as textures to save resources.
 <br>Famous example from Zelda Wind Waker on Gamecube: 
-<br><br><img src="images/webgl-guide/baked.jpg" width=700>
+<br><br><img src="images/webgl-guide/baked.jpg" width=700-->
 
 <br><br><hr><br>
 
 <h4 id="3f">How to transform a 3D model</h4>
 
 <p>So far, we've only transformed the camera matrix to make it revolve around the cube, which created an illusion of cube rotation.
-<br>Now that we learned how to place a fixed light in the scene, if we want to rotate, translate or scale a cube without touching the rest of the scene, we need to do two things:
+<br>Now that we learned how to place a fixed light in the scene, if we want to rotate, translate or scale a cube without touching the rest of the scene, we need to do three things:
 <ul>
-<li>Introduce a <b>model matrix</b> (the transformation matrix of the cube)
-<li>Recompute the vertex normals and the lighting of every fragment after each transform (after each update of the model matrix).
+<li>Introduce a <b>model matrix</b> (the transformation matrix of the cube).
+<li>Update the position of each vertex by multiplying it with the camera matrix (as usual) and also multiplying it with the model matrix.
+<li>Recompute all the vertex normals and the lighting of every fragment after each update of the model matrix.
+</ul>
+<br>
+<p><b>How to update the normals efficiently</b>
+<p>It's possible to recompute the normals from scratch (with a cross product) after each transform, but it can represent a lot of computations in scenes that contain a lot of triangles.
+<p>So, in practice, the best approach is to keep the original normals unchanged, and have a matrix that can be used to update each of them.
+<br>Then, when the model matrix changes, two things can occur:
+<ul>
+<li>If the transformation is a simple translation, rotation, or uniform scale, the original normal's xyz coordinates can be multiplied with the top-left 3x3 matrix of the model matrix:
+<br><pre class="lang-js inline"><code>vec3 v_normal = normalize(mat3(model) * normal.xyz)</code></pre>
+<br>
+<br>
+<li>But if the transformation is a non-uniform scale or a combination of multiple transformations, then applying a subset of the model matrix won't be accurate.
+<br>In this case, the solution is to multiply the normal with the <b>inverse transpose</b> of the model matrix, i.e. the transpose of the inverse of the model matrix:
+<br><pre class="lang-js inline"><code>vec3 v_normal = vec3(inverseTranspose * normal)</code></pre>
 </ul>
 
-<p>But in practice, the best approach is to keep the original normals unchanged, and pass them to the vertex shader, along with the vertex position and color.
-<br>
-Then, when the model matrix changes, the trick is compute its <b>inverse transpose</b> and pass it to the vertex shader in the form of an uniform mat4.
-<br>
-Finally, in the vertex shader, we multiply the original normal with this inverse transpose matrix to obtain its updated value: <b>vec3 newNormal = oldNormal * inverseTranspose</b>.
-
+<p>The second approach is often the only one used in 3D programs, because it works for both simple and complex transformations.
+<br>This generic approach means that the inverse transpose matrix must be computed once per frame, in JavaScript, and passed to the vertex shader,
+<br>along with the original normals, the model matrix, and all the usual attributes and uniforms (position, color, light...).
 <h5>Demo</h5>
 
 <p>Here's a cube rotating on itself with a fixed camera and a fixed point light:
@@ -2496,20 +2549,20 @@ Finally, in the vertex shader, we multiply the original normal with this inverse
 <ul>
 <li>When the page loads, the cube, the light and the camera matrix are set as usual. (lines 68-105).
 <li>Three new matrices are introduced: <b>model</b> (the model matrix), <b>inverseTranspose</b> and <b>mvp</b> (the model view projection matrix, equal to cameraMatrix * modelMatrix).
-<li>In the loop executed 60 times per second, we update the cube Y angle (line 117), recompute the model matrix (lines 119-122), the mvp matrix (lines 124-126), the inverse transpose matrix (lines 128-130), and send them to WebGL as uniforms, before rendering the scene.
-<br>Note: the </b>identity</b> matrix is used at each frame to recompute the model matrix from scratch (line 120). It avoids updating the same matrix with small increments every time.
-<li>The fragment matrix applies the mvp matrix to the current vertex (line 26), and sends three varyings (position, normal and color) to the fragment shader.
+<li>In the loop executed 60 times per second, we update the cube Y angle (line 117), recompute the model matrix (lines 119-122), the mvp matrix (lines 124-126),<br>the inverse transpose matrix (lines 128-130), and send them to WebGL as uniforms, before rendering the scene.
+<br>Note: the </b>identity</b> matrix is used in each frame to recompute the model matrix from scratch (line 120). It avoids updating the same matrix with small increments every time.
+<li>The vertex shader applies the mvp matrix to the current vertex (line 26), and sends three varyings (position, normal and color) to the fragment shader.
 <li>The fragment shader does nothing new. As far as it is concerned, its task is still to compute a shading from the variables at its disposal, regardless of how they were computed.
 </ul>
 
 <h5>Tips and tricks</h5>
 
 <ul>
-<li>The mvp matrix introduced above is precomputed in JavaScript to avoid recomputing it for every vertex, just like we did for transformation matrices.
+<li>The mvp matrix introduced above is precomputed in JavaScript to avoid recomputing it for every vertex, just like we did for combined transformation matrices.
 <li>Here are the inverse() and inverseTranspose() functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
 </ul>
 
-<pre><code class="lang-js">// Get the inverse of a mat4
+<pre><code class="lang-js" style=font-size:10px>// Get the inverse of a mat4
 inverse = m => {
   var inv = new Float32Array([
      m[5]*m[10]*m[15] - m[5]*m[11]*m[14] - m[9]*m[6]*m[15] + m[9]*m[7]*m[14] + m[13]*m[6]*m[11] - m[13]*m[7]*m[10],
@@ -2540,8 +2593,8 @@ inverse = m => {
 
 // Get the inverse transpose of a mat4
 inverseTranspose = m => transpose(inverse(m));</code></pre>
-<br>As you can see, inversing a matrix is pretty complex operation, but it's very useful:
-<br>It actually updates the model's coordinates system from its transformation matrix, which can be used to update its normals (like here), but not only! (we will reuse it soon)
+<br>As you can see, the inversion algorithm is a bit hairy, so it's better to do it the as few times per second as possible.
+<br>Nevertheless, the inverse transpose is very useful for other life-saving tricks, as we will see in the part 2 of this guide. 
 
 <br><br><hr><br>
 
