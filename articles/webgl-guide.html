@@ -57,7 +57,7 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <br>My goal was to gather all the information and tricks about WebGL I found scattered everywhere, and present them in a short and helpful way. I hope you'll enjoy it!
 <br>The demos, files and tools presented in this guide are all available <a href="https://github.com/xem/webgl-guide">on Github</a>.
 <br>If you're interested in WebGL code golfing, raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2.</a>
-<br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a>, <a href="https://twitter.com/adriengueret">Adrien Guéret</a> and <b>Sampson Savinel</b> for their knowledge, tips, gifs and proofreading!
+<br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a>, <a href="https://twitter.com/adriengueret">Adrien Guéret</a>, <b>Damien Allonsius</b> and <b>Sampson Savinel</b> for their knowledge, tips, gifs and proofreading!
 
 <br><br><hr><br>
 <h2>Table of contents</h2>
@@ -707,7 +707,7 @@ A<sup>T</sup> = <math xmlns = "http://www.w3.org/1998/Math/MathML">
 </table>
 <li>Two or more matrices of equal size can be multiplied together to combine (accumulate) their transformations.
 <br>The result is a matrix containing the dot products of each line of the first matrix with each column of the second matrix.
-<br>The combination order is important, and is from right to left. For example, a matrix that performs a translation T, then a rotation R, then a scale S is equal to <b>S * (R * T)</b>.
+<br>The combination order is important, and is from right to left. For example, a matrix that performs a translation T, then a rotation R, then a scale S is equal to <b>S * R * T</b>.
 
 <li>Finally, a matrix can be inversed, with a complicated equation that we'll see later in this guide. It cancels the transformation made by the original matrix. Hence:
 <br>
