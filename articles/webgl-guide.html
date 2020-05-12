@@ -56,7 +56,7 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <br>Starting nearly from scratch, you'll be able to create your own 3D interactive scenes without needing to use any <a href="https://fr.wikipedia.org/wiki/Liste_de_frameworks_WebGL">library or framework</a>: only vanilla JS &amp; WebGL.
 <br>My goal was to gather all the information and tricks about WebGL I found scattered everywhere, and present them in a short and helpful way. I hope you'll enjoy it!
 <br>The demos, files and tools presented in this guide are all available <a href="https://github.com/xem/webgl-guide">on Github</a>.
-<br>If you're interested in WebGL code golfing, raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2.</a>
+<br>If you're interested in WebGL code golfing, raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2</a>, that I made with the <a href="//xem.github.io/codegolf/intro.html">Codegolf Team</a>.
 <br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a>, <a href="https://twitter.com/adriengueret">Adrien Guéret</a>, <b>Damien Allonsius</b> and <b>Sampson Savinel</b> for their knowledge, tips, gifs and proofreading!
 
 <br><br><hr><br>
@@ -118,6 +118,7 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 <br><a href="#4" target="_self"><b>Debugging</b></a>
 <p><a href="#5" target="_self"><b>WebGL 2.0</b></a>
 <p><a href="#6" target="_self"><b>To be continued...</b></a>
+<p><a href="#7" target="_self"><b>Bonus: WebGL and code-golfing</b></a>
 <!--/table-->
 
 <br><br><hr><br>
@@ -2520,8 +2521,8 @@ Demo:
 </ul>
 <br>
 <p><b>How to update the normals efficiently</b>
-<p>It's possible to recompute the normals from scratch (with a cross product) after each transform, but it can represent a lot of computations in scenes that contain a lot of triangles.
-<p>So, in practice, the best approach is to keep the original normals unchanged, and have a matrix that can be used to update each of them.
+<p>It's possible to recompute the normals from scratch in JS (with a cross product) after each transform, but it can represent a lot of computations in scenes that contain a lot of triangles.
+<br>So, in practice, the best approach is to keep the original normals unchanged, and have a matrix that can be used to update each of them.
 <br>Then, when the model matrix changes, two things can occur:
 <ul>
 <li>If the transformation is a simple translation, rotation, or uniform scale, the original normal's xyz coordinates can be multiplied with the top-left 3x3 matrix of the model matrix:
@@ -2750,6 +2751,85 @@ gl.bindVertexArray(vao);</code></pre>
 <br>For the record, this single page contained more information than 430 pages of <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">the book</a> and 3/4 of the <a href="https://webgl2fundamentals.org/">site</a> that inspired it at the beginning. Did I invent tutorial golfing? :D
 <br>I could have made it longer but unfortunately, most browsers can't display more than 16 WebGL canvas contexts in the same page...
 <br>so all the advanced techniques will be in the upcoming part 2... and maybe a book one day?
+
+
+
+<br><br><hr><br>
+
+<div style="background:#fff4e1; border-radius: 20px; padding: 20px">
+
+<h4 id="7">Bonus: WebGL and code-golfing</h4>
+
+<p>Despite my efforts to make the demos of this guide as short as possible, you may have noticed that the WebGL API and the GLSL language are extremely verbose.
+<br>Though, if you're into code-golfing like me, you may be interested in making tiny WebGL programs, or even games that fit in <a href="//js1k.com">1kb</a>, or <a href="//js13kgames.com">13kb</a>...
+<br>As I said in the intro, the Codegolf Team and I already golfed a Shadertoy-like boilerplate in <a href="https://xem.github.io/articles/webgl_quest.html">242 bytes</a> and a raymarching algorithm for Signed Distance Functions in <a href="https://xem.github.io/articles/webgl_quest_2.html">135 bytes</a>.
+<br>In complement, here's a list of tricks you can use to golf a "real" WebGL app (one with vertices, triangles, normals, matrices, shading...). Some are dirty!
+
+<p><b>Writing less code</b>
+<p>If you're on a tight byte budget, there are a number of optimizations that you can remove from your code:
+<ul>
+<li>Remove error logs:
+<pre class=lang-js><code>// console.log('vertex shader:', gl.getShaderInfoLog(vs) || 'OK');
+// console.log('fragment shader:', gl.getShaderInfoLog(fs) || 'OK');
+// console.log('program:', gl.getProgramInfoLog(program) || 'OK');</code></pre>
+<li>Don't set a "clear color" for your WebGL canvas (the background will be transparent by default)
+<pre class=lang-js><code>// gl.clearColor(0, 0, 0, 1);
+// gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</code></pre>
+<li>Use radians directly for angles, to avoid the conversion from degrees (you can even avoid using the constant Math.PI, and round the result a little):
+<pre class=lang-js><code>// deg2rad = angle => Math.PI * angle / 180;
+// perspective({fov: deg2rad(30)})
+// perspective({fov: Math.Pi / 6})
+perspective({fov: .5})</code></pre>
+<li>Get rid of the "mvp" matrix by multiplying modelMatrix and cameraMatrx natively in the vertex shader:
+<pre class=lang-js><code>// uniform mat4 mvp;
+// gl_Position = mvp * position;
+gl_Position = model * camera * position;
+(...)
+// var mvpMatrix = multMat4Mat4(cameraMatrix, modelMatrix);
+// gl.uniformMatrix4fv(mvp, false, mvpMatrix);</code></pre>
+<li>Use the model matrix instead of the inverse transpose matrix, the only risk is having normals that are a bit off during complex transformations.
+<li>If you really need the inverse transpose, you can compute it in the fragment shader directly to avoid implementing inverse() / transpose() in JavaScript (<b>WebGL 2.0 only</b>):
+<pre class=lang-js><code>// uniform mat4 inverseTranspose;
+mat4 inverseTranspose = transpose(inverse(model));
+(...)
+// var inverseTranspose = gl.getUniformLocation(program, 'inverseTranspose');
+// var inverseTransposeMatrix = transpose(inverse(modelMatrix));
+// gl.uniformMatrix4fv(inverseTranspose, false, inverseTransposeMatrix);</code></pre>
+<li>You can also get rid of the JavaScript implementation of multMat4Mat4() by sending all your transformation matrices to the fragment and multiplying them natively there:
+<pre class=lang-js><code>// uniform mat4 model;
+uniform mat4 rotate;
+uniform mat4 translate;
+uniform mat4 scale;
+(...)
+// v_position = vec3(model * camera * position);
+v_position = vec3(scale * rotate * translate * camera * position);</code></pre>
+<li>Remove the transform() helper function too, and use the matrices you want, directly in your code.
+<li>Don't re-normalize the varying normals in the fragment shader. The only risk is having a normal that doesn't measure exactly 1, but the difference might not be visible.
+<li>Use <b>drawArrays</b> (unindexed vertices) instead of <b>drawElements</b> (indexed vertices), especially if you can use Zip compression (repeated coordinates, colors, etc compress very well).
+</ul>
+<br>
+<p><b>Minifying the GLSL and JavaScript code (more dirty)</b>
+<ul>
+<li>Use ints instead of floats when it's possible.
+<li>Use <b>lowp</b> float precision for the fragment shader.
+<li>Remove redundant variables (vshader, fshader, attribute/uniform handlers...):
+<pre class=lang-js><code>var vs = gl.createShader(gl.VERTEX_SHADER);
+gl.shaderSource(vs, `void main(){...}`);
+(...)
+gl.vertexAttrib1f(gl.getAttribLocation(program, 'size'), 10);</code></pre>
+<li>Remove parenthesis in functions that have a single string as parameter
+<pre class=lang-js><code>var gl = canvas.getContext`webgl`;</code></pre>
+<li>Make <b>gl.</b>implicit:
+<pre class=lang-js><code>with(canvas.getContext`webgl`){ /* JS program */ }</code></pre>
+<li>Make all JavaScript variables global (no var/let/const).
+<li>Use a minifier to remove every redundant whitespace and line break, and rename every variable / shader input in 1 character (see <a href="http://www.ctrl-alt-test.fr/glsl-minifier/">GLSL minifier</a>, <a href="https://xem.github.io/terser-online/">JS minifier</a>).
+</ul>
+<br>
+<p><b>Extra golfing (super dirty)</b>
+
+</div>
+
+
 </div>
 
 </main>
