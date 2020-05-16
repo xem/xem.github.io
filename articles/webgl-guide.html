@@ -1908,7 +1908,7 @@ transform = (mat, options) => {
 <ul>
 <li>The U and V axis are sometimes called <b>S and T</b>, but it's exactly the same thing.
 <li>The "pixels" inside a texture are called <b>texels</b>.
-<li>Since UV coordinates are between 0 and 1, the vast majority of texture images are square.
+<li>Since UV coordinates are between 0 and 1, the vast majority of texture images are square to avoid being distorted when they're mapped on a 3D shape.
 <li>In this demo, we're using a single texture (TEXTURE0). You can use more, but you can't exceed 8 on some devices (more info on <a href="http://webglstats.com/webgl/parameter/MAX_TEXTURE_IMAGE_UNITS">webglstats</a>).
 <br>You can call <pre class="language-js inline"><code>gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS)</code></pre> to know the limit on your device.
 <li>The maximum texture size also varies with the device used. To be safe, width and height shouldn't exceed 4096px (more info on <a href="http://webglstats.com/webgl2/parameter/MAX_TEXTURE_SIZE">webglstats</a>).
@@ -2716,9 +2716,11 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <br><br><hr><br>
 
 <h4 id="5">WebGL 2.0</h4>
-<br>
+<p>
 As I said in the introduction, WebGL 2.0 brings new features and changes a few things compared to WebGL 1.0.
-<br>To enable it, you need to change the canvas context creation: <pre class=inline><code class="lang-js">canvas.getContext("webgl2");</code></pre> and put <b>#version 300 es</b> on the very first line of your shaders.
+<br>I decided to not write a WebGL 2.0 guide due to its limited browser support and its new syntax rules that I personally find more confusing than useful.</p>
+Anyway, if you want to enable it, you need to change the canvas context creation: <pre class=inline><code class="lang-js">canvas.getContext("webgl2");</code></pre> and add <pre class=inline><code class="lang-js">#version 300 es</code></pre> on the very first line of your shaders.
+<br>
 <br>Here are the most important changes:
 <br><ul>
 <li><b>attribute</b> must be renamed as <b>in</b> inside the shaders (ex: <b>in vec4 a_position;</b>).
@@ -2837,7 +2839,7 @@ v_position = vec3(scale * rotate * translate * camera * position);</code></pre>
 <li>If Zip compression is allowed, get rid of indices. You can use <b>drawArrays</b> (unindexed vertices), as repeated coordinates, colors, etc... compress very well.
 </ul>
 <br>
-<p><b>2. Writing less characters (more dirty)</b>
+<p><b>2. Writing less characters (a bit dirtier)</b>
 <ul>
 <li>Use ints instead of floats when it's possible.
 <li>Use <b>lowp</b> float precision for the fragment shader.
