@@ -1910,7 +1910,7 @@ transform = (mat, options) => {
 <li>The "pixels" inside a texture are called <b>texels</b>.
 <li>Since UV coordinates are between 0 and 1, the vast majority of texture images are square to avoid being distorted when they're mapped on a 3D shape.
 <li>In WebGL 1.0, the textures width and height in pixels need (in most cases) to be a power of two (2, 4, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096).
-<br>It's recommended to always use power-of-two sizes, but if you really need textures of different sizes, you can fix them by affing wrap on S and T axis:
+<br>It's recommended to always use power-of-two sizes, but if you really need textures of different sizes, you can fix them by adding wrap on S and T axis:
 <br><pre class="language-js"><code>gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);</code></pre>
 <li>In this demo, we're using a single texture (TEXTURE0). You can use more, but you can't exceed 8 on some devices (more info on <a href="http://webglstats.com/webgl/parameter/MAX_TEXTURE_IMAGE_UNITS">webglstats</a>).
