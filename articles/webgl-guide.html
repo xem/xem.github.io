@@ -1909,6 +1909,10 @@ transform = (mat, options) => {
 <li>The U and V axis are sometimes called <b>S and T</b>, but it's exactly the same thing.
 <li>The "pixels" inside a texture are called <b>texels</b>.
 <li>Since UV coordinates are between 0 and 1, the vast majority of texture images are square to avoid being distorted when they're mapped on a 3D shape.
+<li>In WebGL 1.0, the textures width and height in pixels need (in most cases) to be a power of two (2, 4, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096).
+<br>It's recommended to always use power-of-two sizes, but if you really need textures of different sizes, you can fix them by affing wrap on S and T axis:
+<br><pre class="language-js"><code>gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);</code></pre>
 <li>In this demo, we're using a single texture (TEXTURE0). You can use more, but you can't exceed 8 on some devices (more info on <a href="http://webglstats.com/webgl/parameter/MAX_TEXTURE_IMAGE_UNITS">webglstats</a>).
 <br>You can call <pre class="language-js inline"><code>gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS)</code></pre> to know the limit on your device.
 <li>The maximum texture size also varies with the device used. To be safe, width and height shouldn't exceed 4096px (more info on <a href="http://webglstats.com/webgl2/parameter/MAX_TEXTURE_SIZE">webglstats</a>).
@@ -1916,6 +1920,7 @@ transform = (mat, options) => {
 <li>You can overwrite textures after a <b>draw call</b> (after calling drawArrays or drawElements) if they're not used anymore.
 <li>If you need more than 8 textures without constantly switching between them, you can make a <b>texture atlas</b> (a mosaic of textures), and pick coordinates in the regions you want.
 <br>Warning: <b>texture bleeding</b> can occur if you use texture coordinates at the fronteer between two texture, due to antialiasing. 
+
 </ul>
 <br>
 <h5>Changing the texture's appearance</h5>
@@ -2733,9 +2738,10 @@ Anyway, if you want to enable it, you need to change the canvas context creation
 <li>Loops bounds no not need to be constant anymore. 
 <li>The functions <b>texture2D</b> and <b>textureCube</b> are now simply called <b>texture</b>.
 <li>Mipmapping now works on textures even if their width and height are not a power of 2.
-<br>(Mipmaps are smaller versions of a 2D texture, used when a textured object is moving away from the camera. They can be generated with <b>gl.generateMipmap(gl.TEXTURE_2D)</b>).
-<br>The GLSL function <b>textureSize(sampler, lod)</b> gives you texture size for a given level of detail.
-<br>And the function <b>texelFetch(sampler, ivec2(x,y), lod)</b> gives you the value of a given texel.
+<br>In summary, mipmaps are smaller versions of a 2D texture (size/4, size/8 size/16 ...), used by WebGL when a textured object is moving away from the camera.
+<br>They can be generated with <b>gl.generateMipmap(gl.TEXTURE_2D)</b> or provided by the developer/artist.
+<br>The GLSL function <b>textureSize(sampler, lod)</b> gives you the mipmap texture size for a given level of detail.
+<br>And the function <b>texelFetch(sampler, ivec2(x,y), lod)</b> gives you the value of a given texel in this texture.
 <li>Most <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getExtension">extensions</a> don't need to be loaded anymore, as they are enabled by default.
 <li>In particular, <b>Vertex array objects</b> are now available natively and allow to cache the attributes binding, leading to a performance boost in programs doing many draw calls per frame:
 <pre><code class="lang-js">// Just after WebGL setup
