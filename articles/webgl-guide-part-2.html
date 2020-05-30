@@ -23,33 +23,119 @@ th, td { padding: 5px; width: 200px }
 th { background: #eee }
 h4 { margin-bottom: 0; }
 h1 { font-size: 30px }
-h2 { font-size: 24px }
+h2 { font-size: 24px; line-height: 40px; }
 h3 { font-size: 20px }
 h4 { font-size: 18px }
-h5 { font-size: 14px }
-ul { padding-left: 15px }
+h5 { font-size: 16px }
+ul, ol { padding-left: 15px }
+li { line-height: 25px }
 pre { margin: 3px; font-size: 12px; }
+pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #333; font-size: 11px;}
 .math { margin: 15px 0 }
-.section iframe { max-height: 90vh }
-pre { max-height: 90vh; overflow: auto }
+.section iframe { height: 40vw; min-height: 400px; }
 .ch10 { border: 1px solid #000 }
 .ch10 * { border: none }
 .ch10 td { max-width: 430px; width: auto; vertical-align: top }
 .ch10 td + td { max-width: 450px; }
+.newWindow { float: right; margin-top: -60px; left: -10px; position: relative; z-index: 2; padding: 5px; border: 1px solid #555; border-radius: 5px; color: #000; font-size: 20px; width: 40px; height: 40px; background: url('images/new_window.svg') no-repeat center center #def; }
+.section p {line-height: 32px; }
+.grey, .grey td, iframe { border: 3px solid #999 }
+.token.comment, .token.prolog, .token.doctype, .token.cdata { color: #bbb; }
+summary { cursor: pointer }
+.ch10 { border: 1px solid #000 }
+.ch10 * { border: none }
+.ch10 td { max-width: 430px; width: auto; vertical-align: top }
+.ch10 td + td { max-width: 450px; }
+.toc li { line-height: 15px; }
+.toc p { line-height: 13px; }
 
 </style>
 
 <div class=section id=webgl_guide>
 <h2>WebGL guide part 2: Advanced techniques</h2>
-<h3>October 2019 - May 2020</h3>
+<h3>June 2020</h3>
+
+<br><hr>
+
+<h2 id="0">Introduction</h2>
+
+<p>Welcome to the second part of my <a href="webgl-guide.html">WebGL guide</a>! I had to split the guide in two parts to fit all the demos.
+<br>Indeed, browsers tend to lose their WebGL contexts after too many occurrences or when the computer goes into hibernation mode. This can be fixed with two event listeners:
+<pre class=lang-js><code>canvas.onwebglcontextlost = e => e.preventDefault(); // make the canvas trigger onwebglcontextrestored if the context is lost
+canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textures and clear color here */ }</code></pre>
 
 <br><hr><br>
 
-This is the second part of my <a href="webgl-guide.html">WebGL guide</a>!
-<br>(Browsers have a hard time displaying 16 or more WebGL contexts on the same page, so I splitted the tutorial in two)
-<p>This page will only show the relevant code snippets for each technique instead of the whole source code.
+<h2>Table of contents</h2>
 
-<br><br><hr><br>
+<div class=toc>
+<p><b>Advanced 3D rendering</b>
+<ul>
+<li><a href="#1a" target="_self">Alpha blending</a>
+<li><a href="#1b" target="_self">Mouse interactivity</a>
+<li><a href="#1c" target="_self">Render buffer</a>
+<li><a href="#1d" target="_self">Instanced geometry</a>
+</ul>
+
+<p><b>Advanced coloring / texturing</b>
+<ul>
+<li><a href="#2a" target="_self">Animate, transform and wrap textures</a>
+<li><a href="#2b" target="_self">Reflexions and environment mapping</a>
+<li><a href="#2c" target="_self">Normal / Height / Parallax / Bump mapping</a>
+<li><a href="#2d" target="_self">Fresnel</a>
+<li><a href="#2e" target="_self">Matcaps / lit spheres</a>
+</ul>
+
+<p><b>Advanced lighting</b>
+<ul>
+<li><a href="#3a" target="_self">Multiple light sources</a>
+<li><a href="#3b" target="_self">Shadows!</a>
+<li><a href="#3c" target="_self">360° shadows</a>
+<li><a href="#3d" target="_self">Penumbra and soft shadows</a>
+<li><a href="#3e" target="_self">Baked lighting</a>
+</ul>
+
+<p><b>Advanced display</b>
+<ul>
+<li><a href="#4a" target="_self">Fog</a>
+<li><a href="#4b" target="_self">HUD</a>
+<li><a href="#4c" target="_self">Text</a>
+<li><a href="#4d" target="_self">Particles</a>
+<li><a href="#4e" target="_self">Multiple passes and post-processing</a>
+</ul>
+
+<p><b>Load external 3D models</b>
+<ul>
+<li><a href="#5a" target="_self">obj/mtl files</a>
+<li><a href="#5b" target="_self">fbx files</a>
+<li><a href="#5c" target="_self">gltf/glb files</a>
+<li><a href="#5d" target="_self">Others (ply, prwm...)</a>
+</ul>
+
+<p><b>Advanced shader manipulation</b>
+<ul>
+<li><a href="#6a" target="_self">Using multiple shaders</a>
+<li><a href="#6b" target="_self">Build shaders</a>
+</ul>
+
+<p><b>Interesting subjects to study next</b>
+<ul>
+<li><a href="#7a" target="_self">3D physics</a>
+<li><a href="#7b" target="_self">Tessellation and decimation</a>
+<li><a href="#7c" target="_self">Interpolation, animation and rigging</a>
+<li><a href="#7d" target="_self">VR</a>
+<li><a href="#7e" target="_self">Field of view</a>
+<li><a href="#7f" target="_self">Other WebGL features</a>
+<li><a href="#7g" target="_self">Raycasting and distance fields</a>
+<li><a href="#7h" target="_self">Raytracing and Physics Based Rendering</a>
+<li><a href="#7i" target="_self">NURBS</a>
+<li><a href="#7j" target="_self">WebGPU</a>
+<li><a href="#7k" target="_self">WebGL and Gamedev</a>
+</ul>
+</div>
+
+<!--
+<br><hr><br>
 
 <h4>Rotate a cube with the mouse</h4>
 <ul>
@@ -187,7 +273,7 @@ canvas.onclick = e => {
 <table class=ch10>
 <tr>
 <td>
-<pre><code class="lang-js">&lt;!-- HTML -->
+<pre><code class="lang-js">&lt;!-- HTML -- >
 &lt;canvas id="webgl" width="400" height="400" 
 style="position: absolute; z-index: 0">&lt;/canvas>
 
@@ -215,7 +301,7 @@ ctx.fillText(...);</code></pre>
 
 TODO
 <!-- https://webglfundamentals.org/webgl/lessons/webgl-text-texture.html
-https://webglfundamentals.org/webgl/lessons/webgl-text-glyphs.html -->
+https://webglfundamentals.org/webgl/lessons/webgl-text-glyphs.html -- >
 
 <br><br><hr><br>
 
@@ -279,38 +365,6 @@ gl.clearColor(fogColor[0], fogColor[1], fogColor[2], 1.0);
 <p>To simplify, you can also use <b>v_dist = gl_Position.w;</b> in the vertex shader, as it is a nice approximation of the distance between camera and vertex
 <br>
 (see <a href="https://xem.github.io/webgl-guide/book/ch10/Fog_w.html">the book's "fog_w" demo</a> for more info)
-
-<br><br><hr><br>
-
-<h4>Rounded points</h4>
-
-<ul>
-<li>You can prevent a fragment from being drawn with the <b>discard</b> statement in the fragment shader
-<li>If you discard the fragments of a point outside a given radius, it renders a circle
-<li>Whatever the value of gl_PointSize and gl_Position, the fragment shader considers that the point has a <b>radius = 0.5</b> and these coordinates: <b>gl_PointCoord = vec2(0.5, 0.5)</b>   
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">var vshader = `
-attribute vec4 pos;
-void main() {
-  gl_Position = pos;
-  gl_PointSize = 30.0;
-}`;
-
-var fshader = `
-precision mediump float;
-void main() {
-  float d = distance(gl_PointCoord, vec2(0.5, 0.5));
-  if(d &lt; .5) {
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-  } else { discard; }
-}`;</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="//xem.github.io/webgl-guide/book/ch10/RoundedPoints.html"></iframe>
-</table>
 
 <br><br><hr><br>
 
@@ -394,14 +448,14 @@ gl.useProgram(p2);
 
 <h4>Multiple light sources</h4>
 TODO
-<!-- http://learnwebgl.brown37.net/09_lights/lights_other_models.html -->
+<!-- http://learnwebgl.brown37.net/09_lights/lights_other_models.html -- >
 
 <br><br><hr><br>
 
 
 <h4>Transform and wrap textures</h4>
 TODO
-<!-- http://learnwebgl.brown37.net/10_surface_properties/texture_mapping_transforms.html + wrap -->
+<!-- http://learnwebgl.brown37.net/10_surface_properties/texture_mapping_transforms.html + wrap -- >
 
 <br><br><hr><br>
 <h4>Use what has been drawn as a texture image</h4>
@@ -605,7 +659,7 @@ TODO
 a</code></pre>
 <td>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>-->
+</table>-- >
 TODO
 
 
@@ -789,14 +843,6 @@ TODO
 
 <br><br><hr><br>
 
-<h4>Mark the edges</h4>
-
-<!--http://learnwebgl.brown37.net/rendering/render_example_01.html-->
-TODO
-
-
-<br><br><hr><br>
-
 <h4>Cel-shading / ramp textures</h4>
 
 TODO
@@ -805,7 +851,7 @@ TODO
 
 <h4>Reflexion and environment mapping</h4>
 
-<!-- https://webglfundamentals.org/webgl/lessons/webgl-environment-maps.html -->
+<!-- https://webglfundamentals.org/webgl/lessons/webgl-environment-maps.html -- >
 TODO
 
 
@@ -819,7 +865,7 @@ TODO
 <br><br><hr><br>
 
 <h4>Visualizing the camera</h4>
-<!-- https://webglfundamentals.org/webgl/lessons/webgl-visualizing-the-camera.html -->
+<!-- https://webglfundamentals.org/webgl/lessons/webgl-visualizing-the-camera.html -- >
 TODO
 
 <br><br><hr><br>
@@ -828,9 +874,6 @@ TODO
 
 TODO
 
-<br><br><hr><br>
-
-<h4>Handling lost context</h4>
 
 TODO
 <!--<p>a
@@ -845,7 +888,7 @@ TODO
 a</code></pre>
 <td>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table-->
+</table-- >
 
 
 <br><br><hr><br>
@@ -854,14 +897,14 @@ a</code></pre>
 
 TODO
 
-
 <br><br><hr><br>
 
 <h4>Conclusion</h4>
 
 TODO
+-->
 
-<br>
+<br><br><hr><br>
 
 
 

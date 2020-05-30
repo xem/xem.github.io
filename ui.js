@@ -9,7 +9,8 @@ $$ = function(i){
 menus = {
   
   articles: {
-    "webgl-guide": "WebGL guide",
+    "webgl-guide": "WebGL guide part 1",
+    "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
     obfuscatweet: "Obfusc-a-tweet reloaded",
     js13k19: "JS13kGames 2019",
     projection: "3D projection",
@@ -237,12 +238,12 @@ header = function(){
     <h3>game design <span>&</span> front-end hacking</h3>
     </div>
     <menu>
-    <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}">🏠</a>
-    <a href="${section == "home" ? "" : "../"}articles"${section == "articles" ? ' class="active"' : ""}>Articles</a>
-    <a href="${section == "home" ? "" : "../"}codegolf"${section == "codegolf" ? ' class="active"' : ""}>JS code golf</a>
+    <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
+    <a href="${section == "home" ? "" : "../"}articles"${section == "articles" ? ' class="active"' : ""} target=_self>Articles</a>
+    <a href="${section == "home" ? "" : "../"}codegolf"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
     <br class="mobileonly">
-    <a href="${section == "home" ? "" : "../"}projects"${section == "projects" ? ' class="active"' : ""}>Projects, games & experiments</a>
-    <a href="${section == "home" ? "" : "../"}techwatch"${section == "techwatch" ? ' class="active"' : ""}>Tech watch</a>
+    <a href="${section == "home" ? "" : "../"}projects"${section == "projects" ? ' class="active"' : ""} target=_self>Projects, games & experiments</a>
+    <a href="${section == "home" ? "" : "../"}techwatch"${section == "techwatch" ? ' class="active"' : ""} target=_self>Tech watch</a>
     </menu>
   `;
 }
@@ -316,9 +317,9 @@ menu = function(){
     var counter = menus[section].length;
     for(i in menus[section]){
       if(section != "articles" && section != "projects" && section != "codegolf")
-        html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}'>${menus[section][i]}</a>`;
+        html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}' target=_self>${menus[section][i]}</a>`;
       else
-        html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html'>${menus[section][i]}</a>`;
+        html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html' target=_self>${menus[section][i]}</a>`;
       
       if(page == i){
         scroll = nb * 22;

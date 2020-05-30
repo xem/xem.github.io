@@ -42,6 +42,8 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 .grey, .grey td, iframe { border: 3px solid #999 }
 .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #bbb; }
 summary { cursor: pointer }
+.toc li { line-height: 15px; }
+.toc p { line-height: 13px; }
 </style>
 
 <div class=section id=webgl_guide>
@@ -77,11 +79,7 @@ summary { cursor: pointer }
 
 <br><br><hr><br>
 <h2>Table of contents</h2>
-
-<!--table style=font-size:11px;width:100%><tr>
-
-<td style="border-right: 2px solid #ddd;vertical-align:top"-->
-
+<div class=toc>
 <br><a href="#0" target="_self"><b>Introduction</b></a>
 <p><a href="#1" target="_self"><b>What is WebGL?</b></a>
 <ul>
@@ -91,8 +89,6 @@ summary { cursor: pointer }
 </ul>
 
 <a href="#1d" target="_self"><b>Maths required to follow this guide</b></a>
-
-<!--td style="border-right: 2px solid #ddd;padding-left:20px;vertical-align:top"-->
 
 <p><a href="#2" target="_self"><b>2D graphics</b></a>
 <ul>
@@ -105,39 +101,25 @@ summary { cursor: pointer }
 <li><a href="#2g" target="_self">Texturing</a>
 </ul>
 
-<!--td style="border-right: 2px solid #ddd;padding-left:20px;vertical-align:top"-->
-<br><a href="#3" target="_self"><b>3D graphics</b></a>
+<a href="#3" target="_self"><b>3D graphics</b></a>
 <ul>
 <li><a href="#3a" target="_self">The 3D camera</a>
 <li><a href="#3b" target="_self">Indexed vertices</a>
 <li><a href="#3c" target="_self">Hello cube </a>
 <li><a href="#3d" target="_self">How to color each face of the cube</a>
 <li><a href="#3e" target="_self">Lighting and shading</a>
-<!--<li><a href="#3e1">> Normals and cross-products</a>
-<li><a href="#3e2">> Dot product</a>
-<li><a href="#3e3">> Diffuse light</a>
-<li><a href="#3e4">> Ambient light</a>
-<li><a href="#3e5">> Point light</a>
-<li><a href="#3e6">> Spot light</a>
-<li><a href="#3e7">> Specular light</a>
-<li><a href="#3e8">> Smooth shading</a>
-<li><a href="#3e9">> How about raytracing?</a>
-<li><a href="#3e10">> How about Physically Based Rendering?</a>
-<li><a href="#3e11">> How about baked lighting?</a-->
 <li><a href="#3f" target="_self">How to transform a 3D model</a>
 <li><a href="#3g" target="_self">Drawing many cubes</a>
 <li><a href="#3h" target="_self">Hierarchical objects</a>
 </ul>
 
-<!--td style="padding-left:20px;vertical-align:top"-->
-
-<br><a href="#4" target="_self"><b>Debugging</b></a>
+<a href="#4" target="_self"><b>Debugging</b></a>
 <p><a href="#5" target="_self"><b>WebGL 2.0</b></a>
 <p><a href="#6" target="_self"><b>To be continued...</b></a>
 <p><a href="#7" target="_self"><b>Bonus: WebGL and code-golfing</b></a>
-<!--/table-->
+</div>
 
-<br><br><hr><br>
+<br><hr><br>
 <h2 id="1">What is WebGL?</h2>
 
 <h4 id="1a">Presentation</h4>
@@ -2031,10 +2013,10 @@ gl_FragColor = color0 * color1;</code></pre>
 
 <pre><code class="lang-js">// Create a perspective matrix
 // options: fov, aspect, near, far
-orthogonal = options => {
+perspective = options => {
   var fov = options.fov || 1.5;
   var aspect = options.ratio || 1; // (`canvas.width / canvas.height` if the canvas is rectangle)
-  var near = options.near || 0;
+  var near = options.near || 0.01; // can't be 0
   var far = options.far || 100;
   var f = 1 / Math.tan(fov);
   var nf = 1 / (near - far);
