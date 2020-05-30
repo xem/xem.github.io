@@ -75,7 +75,7 @@ summary { cursor: pointer }
 <br>My goal was to gather all the information and tricks about WebGL I found scattered everywhere, and present them in a short and helpful way. I hope you'll enjoy it!
 <br>The demos, files and tools presented in this guide are all available <a href="https://github.com/xem/webgl-guide">on Github</a>.
 <br>If you're interested in WebGL code golfing, raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2</a>, that I made with the <a href="//xem.github.io/codegolf/intro.html">Codegolf Team</a>.
-<br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a>, <a href="https://twitter.com/adriengueret">Adrien Guéret</a>, <a href="https://damienallonsius.github.io/">Damien Allonsius</a> and <a href="https://www.savinel.name/">Sampson Savinel</a> for their knowledge, tips, gifs and proofreading!
+<br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a>, <a href="https://twitter.com/adriengueret">Adrien Guéret</a>, <a href="https://damienallonsius.github.io/">Damien Allonsius</a>, <a href="https://www.savinel.name/">Sampson Savinel</a> and <a href="https://bugshake.tumblr.com/">Stijn Raaijmakers</a> for their tips, gifs and proofreading!
 
 <br><br><hr><br>
 <h2>Table of contents</h2>
@@ -159,7 +159,7 @@ summary { cursor: pointer }
 <li>A <b>sampler2D</b> is a reference to a texture image; a <b>samplerCube</b> is a reference to a "3D texture" (a set of 6 textures mapped on a cube).
 <li>A <b>variable</b> is declared with its type, for example: <pre class=inline><code class="lang-js">int i = -1</code></pre>, <pre class=inline><code class="lang-js">float f = 2.0</code></pre> or <pre class=inline><code class="lang-js">vec4 v = vec4(1.0, 2.0, 3.0, 4.0)</code></pre>.
 <li>A <b>constant</b> is a variable with a fixed value: <pre class=inline><code class="lang-js">const int c = 100;</code></pre>.
-<li>The xyzw / rgba components of a vector can be extracted and swizzled (recomposed) in another vector, for example: <pre class=inline><code class="lang-js">float f = v.x</code></pre>, <pre class=inline><code class="lang-js">vec3 rgb = v.rgb</code></pre>.
+<li>The xyzw / rgba components of a vector can be extracted and swizzled (recomposed) in another vector, for example: <pre class=inline><code class="lang-js">float f = v.x</code></pre>, <pre class=inline><code class="lang-js">vec3 rgb = v.rgb</code></pre>, <pre class=inline><code class="lang-js">vec4 w = v.zxxy</code></pre>.
 <li>Every instruction must end with a semicolon <pre class=inline><code class="lang-js">;</code></pre>.
 <li><b>Math functions</b>: cos, sin, tan, pow, exp, log, log2, sqrt, abs, sign, floor, ceil, round, trunc, fract, mod, min, max, clamp, mix, step, length, distance, dot, cross, reflect, normalize...
 <li><b>Math operators</b> (=, +, -, *, /, &amp;&amp;, ||, ==, !=, >, >=, &lt;, &lt;=, ++, --, ^^, +=, -=, *=, /=) only work between variables of the same type or same length (ex: int + int, float / float, mat4 * vec4 ...).
@@ -2464,7 +2464,7 @@ Demo:
 </ul>
 
 <p>Here's a demo that combines diffuse, ambient and specular lighting.
-<br>This combination is also called <b>Phong reflexion</b>.
+<br>This combination is also called <b>Phong reflection</b>.
 <p><b>Demo</b>
 <p>
 <iframe id=i13 loading=lazy src="../../webgl-guide/editor/?demo=13"></iframe>
