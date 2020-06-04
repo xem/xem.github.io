@@ -94,7 +94,7 @@ summary { cursor: pointer }
 <ul>
 <li><a href="#2a" target="_self">Hello, point</a>
 <li><a href="#2b" target="_self">Custom values: attributes and uniforms</a>
-<li><a href="#2c" target="_self">Drawing many pointsy</a>
+<li><a href="#2c" target="_self">Drawing many points, a matter of continuity</a>
 <li><a href="#2d" target="_self">Drawing lines and triangles</a>
 <li><a href="#2e" target="_self">Multi-attribute buffer &amp; varyings</a>
 <li><a href="#2f" target="_self">Translate, rotate, scale</a>
@@ -218,9 +218,9 @@ summary { cursor: pointer }
 <li>The trigonometric circle is a circle of radius 1, centered on the origin of a 2D plane. Every point of this circle corresponds to an angle, measured anti-clockwise:
 <br>The rightmost point represents the angle 0 (or 2*Pi rad), the topmost point is Pi/2 rad, the leftmost is Pi rad, and the bottom is 3*Pi/2 rad.
 <li>An angle bigger than 2*Pi or smaller than 0 is similar to the same angle modulo 2*Pi (ex: 5*Pi rad = Pi rad; -Pi/2 rad = 3*Pi/2 rad).
-<li>The cosine of an angle is the X coordinate of the corresponding point on the trigonometric circle, and oscillates between -1 and 1.
+<li>The cosine of an angle "α" is the X coordinate of the corresponding point on the trigonometric circle, and oscillates between -1 and 1.
 <li>The sine is the Y coordinate of the same point, and also oscillates between -1 and 1.
-<li>The tangent is the X coordinate where the tangent of the circle at this point intersects the X axis. It's value goes between -∞ and -1, and between 1 and +∞. 
+<li>The tangent is the length of the segment perpendicular to the radius at this point and the X axis. Its value goes between -∞ and +∞, and is equal to sin(α) / cos(α).
 </ul>
 <br><a href="https://twitter.com/freyaholmer/status/1173376419168247810"><img src="images/webgl-guide/trigo.gif" width=400></a>
 

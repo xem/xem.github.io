@@ -32,22 +32,20 @@ li { line-height: 25px }
 pre { margin: 3px; font-size: 12px; }
 pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #333; font-size: 11px;}
 .math { margin: 15px 0 }
-.section iframe { height: 40vw; min-height: 400px; }
+.section iframe { min-height: 400px; }
 .ch10 { border: 1px solid #000 }
 .ch10 * { border: none }
-.ch10 td { max-width: 430px; width: auto; vertical-align: top }
-.ch10 td + td { max-width: 450px; }
-.newWindow { float: right; margin-top: -60px; left: -10px; position: relative; z-index: 2; padding: 5px; border: 1px solid #555; border-radius: 5px; color: #000; font-size: 20px; width: 40px; height: 40px; background: url('images/new_window.svg') no-repeat center center #def; }
+.ch10 hr { border-bottom: 1px solid #000 }
+.ch10 td { width: 100%; vertical-align: top }
+.ch10 td + td { min-width: 430px; }
+.newWindow { float: right; left: -10px; position: relative; z-index: 2; padding: 5px; border: 1px solid #555; border-radius: 5px; color: #000; font-size: 20px; width: 40px; height: 40px; background: url('images/new_window.svg') no-repeat center center #def; }
 .section p {line-height: 32px; }
 .grey, .grey td, iframe { border: 3px solid #999 }
 .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #bbb; }
 summary { cursor: pointer }
-.ch10 { border: 1px solid #000 }
-.ch10 * { border: none }
-.ch10 td { max-width: 430px; width: auto; vertical-align: top }
-.ch10 td + td { max-width: 450px; }
 .toc li { line-height: 15px; }
 .toc p { line-height: 13px; }
+.demo { background: url('images/new_window.svg') no-repeat 10px center #def; padding: 10px 10px 10px 40px; border-radius: 5px; border: 2px solid #456; color: #000 }
 
 </style>
 
@@ -55,7 +53,7 @@ summary { cursor: pointer }
 <h2>WebGL guide part 2: Advanced techniques</h2>
 <h3>June 2020</h3>
 
-<br><hr>
+<br><hr><br>
 
 <h2 id="0">Introduction</h2>
 
@@ -63,26 +61,29 @@ summary { cursor: pointer }
 <br>Indeed, browsers tend to lose their WebGL contexts after too many occurrences or when the computer goes into hibernation mode. This can be fixed with two event listeners:
 <pre class=lang-js><code>canvas.onwebglcontextlost = e => e.preventDefault(); // make the canvas trigger onwebglcontextrestored if the context is lost
 canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textures and clear color here */ }</code></pre>
+<p>This second part will show a bunch of techniques built upon the basics shown in <a href="webgl-guide.html" target=_self>part 1</a>, that I recommend reading first.
+<br>In this page, to make things clearer, I will only show the relevant lines of codes involved to produce each effect. A link to a complete, editable demo will be available when necessary.
+<p>I'd like to thank again all the people and resources that helped me write this guide, and all the readers who came here thanks to important JS newsletters, social networks and word of mouth.
 
-<br><hr><br>
+<br><br><hr><br>
 
 <h2>Table of contents</h2>
 
 <div class=toc>
 <p><b>Advanced 3D rendering</b>
 <ul>
-<li><a href="#1a" target="_self">Alpha blending</a>
-<li><a href="#1b" target="_self">Mouse interactivity</a>
-<li><a href="#1c" target="_self">Render buffer</a>
+<li><a href="#1a" target="_self">Transparency and alpha blending</a> <!-- 1 demo -->
+<li><a href="#1b" target="_self">Mouse interactivity</a> <!-- 3 demos -->
+<li><a href="#1c" target="_self">Render buffer</a> <!-- 1 demo -->
 <li><a href="#1d" target="_self">Instanced geometry</a>
 </ul>
 
 <p><b>Advanced coloring / texturing</b>
 <ul>
-<li><a href="#2a" target="_self">Animate, transform and wrap textures</a>
+<li><a href="#2a" target="_self">Animate, transform and wrap textures</a> <!-- 1 demo -->
 <li><a href="#2b" target="_self">Mip mapping</a>
-<li><a href="#2c" target="_self">Reflexions and environment mapping</a>
-<li><a href="#2d" target="_self">Normal / Height / Parallax / Bump mapping</a>
+<li><a href="#2c" target="_self">Reflexions and environment mapping</a> <!-- 1 demo -->
+<li><a href="#2d" target="_self">Normal / Height / Parallax / Bump mapping</a> <!-- 1 demo -->
 <li><a href="#2e" target="_self">Fresnel</a>
 <li><a href="#2f" target="_self">Matcaps / lit spheres</a>
 </ul>
@@ -90,24 +91,24 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <p><b>Advanced lighting</b>
 <ul>
 <li><a href="#3a" target="_self">Multiple light sources</a>
-<li><a href="#3b" target="_self">Shadows!</a>
-<li><a href="#3c" target="_self">360° shadows</a>
+<li><a href="#3b" target="_self">Shadows!</a> <!-- 1 demo -->
+<li><a href="#3c" target="_self">360° shadows</a> <!-- 1 demo -->
 <li><a href="#3d" target="_self">Penumbra and soft shadows</a>
 <li><a href="#3e" target="_self">Baked lighting</a>
 </ul>
 
 <p><b>Advanced display</b>
 <ul>
-<li><a href="#4a" target="_self">Fog</a>
+<li><a href="#4a" target="_self">Fog</a> <!-- 1 demo -->
 <li><a href="#4b" target="_self">HUD</a>
-<li><a href="#4c" target="_self">Text</a>
+<li><a href="#4c" target="_self">Text</a> <!-- 1 demo -->
 <li><a href="#4d" target="_self">Particles</a>
 <li><a href="#4e" target="_self">Multiple passes and post-processing</a>
 </ul>
 
 <p><b>Load external 3D models</b>
 <ul>
-<li><a href="#5a" target="_self">obj/mtl files</a>
+<li><a href="#5a" target="_self">obj/mtl files</a> <!-- 1 demo -->
 <li><a href="#5b" target="_self">fbx files</a>
 <li><a href="#5c" target="_self">gltf/glb files</a>
 <li><a href="#5d" target="_self">Others (ply, prwm...)</a>
@@ -115,7 +116,7 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 
 <p><b>Advanced shader manipulation</b>
 <ul>
-<li><a href="#6a" target="_self">Using multiple shaders</a>
+<li><a href="#6a" target="_self">Using multiple shaders</a> <!-- 1 demo -->
 <li><a href="#6b" target="_self">Build shaders</a>
 </ul>
 
@@ -132,74 +133,115 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <li><a href="#7i" target="_self">NURBS</a>
 <li><a href="#7j" target="_self">WebGPU</a>
 <li><a href="#7k" target="_self">WebGL and Gamedev</a>
+<li><a href="#7k" target="_self">Use WebGL to compute stuff</a>
 </ul>
 </div>
 
-<!--
 <br><hr><br>
+<h2>Advanced 3D rendering</h2>
+<br><hr>
 
-<h4>Rotate a cube with the mouse</h4>
+<h4 id=1a>Transparency and alpha blending</h4>
+
+<p>There are many ways to handle transparency in a WebGL program:
 <ul>
-<li>Detect when the mouse is clicked
-<li>Detect in which direction the mouse moves when clicked
-<li>Update the cube's Y angle when the mouse moves horizontally
-<li>Update the cube's X angle when the mouse moves vertically
+<li>First, remember that the HTML <b>&lt;canvas></b> is transparent by default, and can absolutely stay like that if it doesn't get a CSS background or a clear color (as we saw in <a href="webgl-guide.html#2c">part 1</a>).
+<li>The fragment shader can set a rgba value for each pixel it renders. By default, when lowering the "a", it will blend with the canvas's background (not its clear color):
+<br>
+<br><img src="images/webgl-guide/alpha1.png" width=750>
+<br>
+<br>In order to blend it with the clear color, you need to call two new functions:
+<pre class=lang-js><code>gl.enable(gl.BLEND); // enable alpha blending
+gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); // specify how alpha must blend: fragment color * alpha + clear color * (1 - alpha)</code></pre>
+<img src="images/webgl-guide/alpha2.png" width=750>
+<p><a href="../../webgl-guide/editor/?demo=17/triangle" class=demo>OPEN FULL DEMO</a>
+<br><br>
+<li>If you want to use a PNG image with transparency as a texture, many solutions are possible, but the most convenient one is to enable alpha premultiplication when loading the image:
+<pre class=lang-js><code>gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);</code></pre>
+<br>
+If premultiplication is not enabled, the transparent transparent pixels will become white and the semi-transparent ones will become fully opaque:
+<br>
+<br><img src="images/webgl-guide/alpha3.png" width=700>
+
+<p><a href="../../webgl-guide/editor/?demo=17/png" class=demo>OPEN FULL DEMO</a>
+<br><br>
+<li>Finally, you may want to make entire objects transparent. To do that, you can assign a RGBA color to each vertex, with A &lt; 1.0.
+<br>Then, enable WegGL's alpha blending with <pre class="inline lang-js"><code>gl.enable(gl.BLEND);</code></pre> and <pre class="inline lang-js"><code>gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);</code></pre> as we did earlier.
+<br>If you're drawing an object (like a cube) with transparency, you also need to disable <b>gl.DEPTH_TEST</b>, so that the front faces don't block the other faces from being drawn
+<br>If your scene contains a mix of opaque and transparent objects, you'll need to draw all your opaque objects first, then disable depth test with <pre class="inline lang-js"><code>gl.disable(gl.DEPTH_TEST);</code></pre>, then draw all your objects with transparency, then re-enable depth test with <pre class="inline lang-js"><code>gl.enable(gl.DEPTH_TEST);</code></pre> for the next frame.
 </ul>
 
 <table class=ch10>
 <tr>
 <td>
+<pre><code class="lang-js">// Set rgba colors for each face's vertices
+var colors = new Float32Array([
+  0.5, 0.5, 1.0, 0.5,   0.5, 0.5, 1.0, 0.3,
+  0.5, 0.5, 1.0, 0.5,   0.5, 0.5, 1.0, 0.3, // front
+  0.5, 1.0, 0.5, 0.5,   0.5, 1.0, 0.5, 0.3,
+  0.5, 1.0, 0.5, 0.5,   0.5, 1.0, 0.5, 0.3, // right
+  1.0, 0.5, 0.5, 0.5,   1.0, 0.5, 0.5, 0.3,
+  1.0, 0.5, 0.5, 0.5,   1.0, 0.5, 0.5, 0.3, // up
+  1.0, 1.0, 0.5, 0.5,   1.0, 1.0, 0.5, 0.3,
+  1.0, 1.0, 0.5, 0.5,   1.0, 1.0, 0.5, 0.3, // left
+  1.0, 1.0, 1.0, 0.5,   1.0, 1.0, 1.0, 0.3,
+  1.0, 1.0, 1.0, 0.5,   1.0, 1.0, 1.0, 0.3, // down
+  0.5, 1.0, 1.0, 0.5,   0.5, 1.0, 1.0, 0.3,
+  0.5, 1.0, 1.0, 0.5,   0.5, 1.0, 1.0, 0.3  // back
+]);
 
-<pre><code class="lang-js">var dragging = false;
-var lastX = -1;
-var lastY = -1;
-var dx = 0;
-var dy = 0;
+(...)
 
-canvas.onmousedown = e => {
-  lastX = e.clientX
-  lastY = e.clientY;
-  dragging = true;
-};
+// Pass 4 values to the color attribute instead of 3
+buffer(gl, colors, program, 'color', 4, gl.FLOAT);
 
-canvas.onmouseup = e => {
-  dragging = false;
-};
+(...)
 
-canvas.onmousemove = (e) {
-  var x = e.clientX;
-  var y = e.clientY;
-  if(dragging){
-    dx = (x - lastX) * 100 / canvas.width;
-    dy = (y - lastY) * 100 / canvas.height;
-  }
-  lastX = x;
-  lastY = y;
-};</code></pre>
+// Set the clear color
+gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
+// Enable alpha blending
+gl.enable(gl.BLEND);
+gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+(...)
+
+// Clear
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+// Draw opaque objects here (if any)
+// (...)
+
+// DISABLE depth test
+gl.disable(gl.DEPTH_TEST);
+
+// Draw semi-transparent objects here (if any)
+gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+
+// Reenable depth test for next frame
+gl.enable(gl.DEPTH_TEST);
+
+</code></pre>
 <td>
-
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/RotateObject.html"></iframe>
-
-<br>Rotate a cube with the mouse
-
+<iframe width=430 height=430 style="max-width:420px;" src="../../webgl-guide/17/cube"></iframe>
+<br>
+<a class=newWindow title="Open in a new window" href="../../webgl-guide/editor/?demo=17/cube">
 </table>
-
-<h5>Bonus: update the cube's coordinates system</h5>
-
-<p>TODO
 
 <br><br><hr><br>
 
-<h4>Select a 3D item with the mouse</h4>
+<h4 id=1b>Mouse interactivity</h4>
 
-<p>The simple (and hacky) way:
+<p><b>Technique 1: Select a 3D item with the mouse</b>
+
+<p>Here's the simple (and a bit hacky) way:
 <ul>
-<li>When the canvas is clicked, color each object in the scene with a different flat color (for example, a different shade of red)
-<li>Then read the pixel color where the mouse is clicked and find the corresponding object
-<li>Then, immediately repaint every object with their correct color / texture / lighting so that the hack doesn't have time to appear on screen
-<li>This technique can be used for an object (like a cube), or a face, or a single triangle, depending on your needs
+<li>When the canvas is clicked, color each object in the scene with a different flat color (for example, a different shade of red).
+<li>Then read the pixel color where the mouse is clicked and find the corresponding object.
+<li>Then, immediately repaint every object with their correct color / texture / lighting so that the hack doesn't have time to appear on screen.
 </ul>
+This technique can be used for an object (like a cube), or a face, or a single triangle, depending on your needs!
+<p>A less hacky way consists in computing the intersection between the vector starting from the mouse and the triangles in your scene to see which one is clicked (more info <a href="http://www.3dkingdoms.com/selection.html#ray">on 3Dkingdoms</a>).
 
 <table class=ch10>
 <tr>
@@ -253,14 +295,114 @@ canvas.onclick = e => {
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/PickObject.html"></iframe>
 <br>Click the cube
 
-<br><br>
+<br><br><hr>
 
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/PickFace.html"></iframe>
-<br>Click a face
+<br>Click a face of the cube
 
 </table>
 
-<p>For more precision, you can compute the intersection between the camera's sight vector and the triangles in your scene (in other words, raycasting! More info <a href="http://www.3dkingdoms.com/selection.html#ray">here</a>)
+<br><br>
+
+<p><b>Technique 2: rotate a cube with the mouse</b>
+
+<ul>
+<li>Detect when the mouse is clicked.
+<li>Update the cube's Y angle when the mouse is clicked and moves horizontally
+<li>Update the cube's X angle when the mouse is clicked and moves vertically
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+
+<pre><code class="lang-js">var dragging = false;
+var lastX = -1;
+var lastY = -1;
+var dx = 0;
+var dy = 0;
+
+canvas.onmousedown = e => {
+  lastX = e.clientX
+  lastY = e.clientY;
+  dragging = true;
+};
+
+canvas.onmouseup = e => {
+  dragging = false;
+};
+
+canvas.onmousemove = (e) {
+  var x = e.clientX;
+  var y = e.clientY;
+  if(dragging){
+    dx = (x - lastX) * 100 / canvas.width;
+    dy = (y - lastY) * 100 / canvas.height;
+  }
+  lastX = x;
+  lastY = y;
+};</code></pre>
+
+<td>
+
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/RotateObject.html"></iframe>
+
+<br>Rotate the cube with the mouse
+
+</table>
+
+<br><br>
+
+<b>Technique 3: update the cube's coordinates system</b>
+
+<p>todo
+
+
+<br><br><hr><br>
+<h2>Advanced coloring / texturing</h2>
+<br><hr><br>
+
+<p>todo
+
+<br><br><hr><br>
+<h2>Advanced lighting</h2>
+<br><hr><br>
+
+<p>todo
+
+<br><br><hr><br>
+<h2>Advanced display</h2>
+<br><hr><br>
+
+<p>todo
+
+<br><br><hr><br>
+<h2>Load external 3D models</h2>
+<br><hr><br>
+
+<p>todo
+
+<br><br><hr><br>
+<h2>Advanced shader manipulation</h2>
+<br><hr><br>
+
+<p>todo
+
+<br><br><hr><br>
+<h2>Interesting subjects to study next</h2>
+<br><hr><br>
+
+<p>todo
+<!--
+<br><hr><br>
+
+
+
+<p>TODO
+
+<br><br><hr><br>
+
+
 
 <br><br><hr><br>
 
@@ -369,54 +511,7 @@ gl.clearColor(fogColor[0], fogColor[1], fogColor[2], 1.0);
 
 <br><br><hr><br>
 
-<h4>Alpha blending</h4>
 
-You can add transparency to a triangle or a whole object very easily:
-<ul>
-<li>First, assign RGBA colors (vec4) to each vertex, 
-<li>Then, enable WegGL's alpha blending with <b>gl.enable(gl.BLEND);</b> and <b>gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);</b> (... *shrug*)
-<li>If you're drawing an object (like a cube) with transparency, you also need to disable <b>gl.DEPTH_TEST</b>, so that the front faces don't block the other faces from being drawn
-<li>If your scene contains a mix of opaque and transparent objects, you'll need to draw all your opaque objects first, then disable depth test with <b>gl.depthMask(false)</b>, then draw all your objects with transparency, then re-enable depth test with <b>gl.depthMask(true)</b></ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">// Cube faces rgba colors
-var colors = new Float32Array([
-  0.5, 0.5, 1.0, 0.3,  0.5, 0.5, 1.0, 0.3,
-  0.5, 0.5, 1.0, 0.3,  0.5, 0.5, 1.0, 0.3, // v0-v1-v2-v3 front
-  0.5, 1.0, 0.5, 0.3,  0.5, 1.0, 0.5, 0.3,
-  0.5, 1.0, 0.5, 0.3,  0.5, 1.0, 0.5, 0.3, // v0-v3-v4-v5 right
-  1.0, 0.5, 0.5, 0.3,  1.0, 0.5, 0.5, 0.3,
-  1.0, 0.5, 0.5, 0.3,  1.0, 0.5, 0.5, 0.3, // v0-v5-v6-v1 up
-  1.0, 1.0, 0.5, 0.3,  1.0, 1.0, 0.5, 0.3,
-  1.0, 1.0, 0.5, 0.3,  1.0, 1.0, 0.5, 0.3, // v1-v6-v7-v2 left
-  1.0, 1.0, 1.0, 0.3,  1.0, 1.0, 1.0, 0.3,
-  1.0, 1.0, 1.0, 0.3,  1.0, 1.0, 1.0, 0.3, // v7-v4-v3-v2 down
-  0.5, 1.0, 1.0, 0.3,  0.5, 1.0, 1.0, 0.3,
-  0.5, 1.0, 1.0, 0.3,  0.5, 1.0, 1.0, 0.3  // v4-v7-v6-v5 back
-]);
-
-(...)
-
-// Pass 4 values (RGBA) to the color attribute instead of 3
-gl.vertexAttribPointer(color, 4, gl.FLOAT, false, 0, 0);
-
-(...)
-
-// Draw a transparent object
-gl.clearColor(0.0, 0.0, 0.0, 1.0);
-gl.disable(gl.DEPTH_TEST);
-gl.enable(gl.BLEND);
-gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
-gl.enable(gl.DEPTH_TEST);</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/BlendedCube.html"></iframe>
-</table>
-
-<br><br><hr><br>
 
 <h4>Use multiple shaders</h4>
 
