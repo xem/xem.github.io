@@ -39,7 +39,7 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 .ch10 td { width: 100%; vertical-align: top }
 .ch10 td + td { min-width: 430px; }
 .newWindow { float: right; left: -10px; position: relative; z-index: 2; padding: 5px; border: 1px solid #555; border-radius: 5px; color: #000; font-size: 20px; width: 40px; height: 40px; background: url('images/new_window.svg') no-repeat center center #def; }
-.section p {line-height: 32px; }
+.section p { line-height: 25px; marfin: 15px 0; }
 .grey, .grey td, iframe { border: 3px solid #999 }
 .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #bbb; }
 summary { cursor: pointer }
@@ -57,13 +57,17 @@ summary { cursor: pointer }
 
 <h2 id="0">Introduction</h2>
 
-<p>Welcome to the second part of my <a href="webgl-guide.html">WebGL guide</a>! I had to split the guide in two parts to fit all the demos.
-<br>Indeed, browsers tend to lose their WebGL contexts after too many occurrences or when the computer goes into hibernation mode. This can be fixed with two event listeners:
+<p>Welcome to the second part of my <a href="webgl-guide.html">WebGL guide</a>!
+<p>I had to split the guide in two parts to embed all my demos... indeed, browsers tend to lose their WebGL contexts after 16 occurrences.
+<br>Context loss can also happen when the computer goes into hibernation mode, and can be fixed by adding these two event listeners in your program:
 <pre class=lang-js><code>canvas.onwebglcontextlost = e => e.preventDefault(); // make the canvas trigger onwebglcontextrestored if the context is lost
 canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textures and clear color here */ }</code></pre>
-<p>This second part will show a bunch of techniques built upon the basics shown in <a href="webgl-guide.html" target=_self>part 1</a>, that I recommend reading first.
-<br>In this page, to make things clearer, I will only show the relevant lines of codes involved to produce each effect. A link to a complete, editable demo will be available when necessary.
-<p>I'd like to thank again all the people and resources that helped me write this guide, and all the readers who came here thanks to important JS newsletters, social networks and word of mouth.
+<p>Anyway, this second part will show a bunch of techniques built upon the basics shown in <a href="webgl-guide.html" target=_self>part 1</a>, that I recommend reading first.
+<p>In this page, to make things easier to read, I will only show the relevant lines of codes involved to produce each effect. A link to a complete, editable demo will be available when necessary.
+<p>Keep in mind that most of the advanced visual effects presented here rely on the same basic principles shown in the previous parts (messing with light rays, angles, distances, sizes, reflections, projections and colors, in order to make the computer draw something that looks cool, one pixel at the time).
+<br>This also means that you can invent your own tricks! (this guide is as complete as possible, but not exhaustive).
+<p>I'd like to thank again all the people and resources that helped me write this guide, and all the readers who came here thanks to JS newsletters, social networks and word of mouth.
+<p>Let's get started!
 
 <br><br><hr><br>
 
@@ -74,7 +78,7 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <ul>
 <li><a href="#1a" target="_self">Transparency and alpha blending</a> <!-- 1 demo -->
 <li><a href="#1b" target="_self">Mouse interactivity</a> <!-- 3 demos -->
-<li><a href="#1c" target="_self">Render buffer</a> <!-- 1 demo -->
+<li><a href="#1c" target="_self">Render buffers and framebuffers</a> <!-- 1 demo -->
 <li><a href="#1d" target="_self">Instanced geometry</a>
 </ul>
 
@@ -150,7 +154,7 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <br>
 <br><img src="images/webgl-guide/alpha1.png" width=750>
 <br>
-<br>In order to blend it with the clear color, you need to call two new functions:
+<br>In order to blend it with the clear color (or the elements behind it), you need to call two new functions:
 <pre class=lang-js><code>gl.enable(gl.BLEND); // enable alpha blending
 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); // specify how alpha must blend: fragment color * alpha + clear color * (1 - alpha)</code></pre>
 <img src="images/webgl-guide/alpha2.png" width=750>
@@ -176,18 +180,18 @@ If premultiplication is not enabled, the transparent transparent pixels will bec
 <td>
 <pre><code class="lang-js">// Set rgba colors for each face's vertices
 var colors = new Float32Array([
-  0.5, 0.5, 1.0, 0.5,   0.5, 0.5, 1.0, 0.3,
-  0.5, 0.5, 1.0, 0.5,   0.5, 0.5, 1.0, 0.3, // front
-  0.5, 1.0, 0.5, 0.5,   0.5, 1.0, 0.5, 0.3,
-  0.5, 1.0, 0.5, 0.5,   0.5, 1.0, 0.5, 0.3, // right
-  1.0, 0.5, 0.5, 0.5,   1.0, 0.5, 0.5, 0.3,
-  1.0, 0.5, 0.5, 0.5,   1.0, 0.5, 0.5, 0.3, // up
-  1.0, 1.0, 0.5, 0.5,   1.0, 1.0, 0.5, 0.3,
-  1.0, 1.0, 0.5, 0.5,   1.0, 1.0, 0.5, 0.3, // left
-  1.0, 1.0, 1.0, 0.5,   1.0, 1.0, 1.0, 0.3,
-  1.0, 1.0, 1.0, 0.5,   1.0, 1.0, 1.0, 0.3, // down
-  0.5, 1.0, 1.0, 0.5,   0.5, 1.0, 1.0, 0.3,
-  0.5, 1.0, 1.0, 0.5,   0.5, 1.0, 1.0, 0.3  // back
+  0.5, 0.5, 1.0, 0.3,   0.5, 0.5, 1.0, 0.3,
+  0.5, 0.5, 1.0, 0.3,   0.5, 0.5, 1.0, 0.3, // front
+  0.5, 1.0, 0.5, 0.3,   0.5, 1.0, 0.5, 0.3,
+  0.5, 1.0, 0.5, 0.3,   0.5, 1.0, 0.5, 0.3, // right
+  1.0, 0.5, 0.5, 0.3,   1.0, 0.5, 0.5, 0.3,
+  1.0, 0.5, 0.5, 0.3,   1.0, 0.5, 0.5, 0.3, // up
+  1.0, 1.0, 0.5, 0.3,   1.0, 1.0, 0.5, 0.3,
+  1.0, 1.0, 0.5, 0.3,   1.0, 1.0, 0.5, 0.3, // left
+  1.0, 1.0, 1.0, 0.3,   1.0, 1.0, 1.0, 0.3,
+  1.0, 1.0, 1.0, 0.3,   1.0, 1.0, 1.0, 0.3, // down
+  0.5, 1.0, 1.0, 0.3,   0.5, 1.0, 1.0, 0.3,
+  0.5, 1.0, 1.0, 0.3,   0.5, 1.0, 1.0, 0.3  // back
 ]);
 
 (...)
@@ -212,7 +216,7 @@ gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 // Draw opaque objects here (if any)
 // (...)
 
-// DISABLE depth test
+// Disable depth test
 gl.disable(gl.DEPTH_TEST);
 
 // Draw semi-transparent objects here (if any)
@@ -283,7 +287,7 @@ canvas.onclick = e => {
   gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
 
   // Do something with the red value of the pixel
-  console.log("object " + pixels[0] + " clicked");
+  alert("object " + pixels[0] + " clicked");
   
   // Disable hack and rerender everything normally
   gl.uniform1f(objectNumber, 0);
@@ -293,37 +297,31 @@ canvas.onclick = e => {
 }</code></pre>
 <td>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/PickObject.html"></iframe>
-<br>Click the cube
+<br>Click the cube to trigger an alert
 
 <br><br><hr>
 
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/PickFace.html"></iframe>
-<br>Click a face of the cube
+<br>Click a face of the cube to paint it in white
 
 </table>
 
 <br><br>
 
-<p><b>Technique 2: rotate a cube with the mouse</b>
+<p><b>Technique 2: rotate a cube with the mouse (easy)</b>
 
 <ul>
 <li>Detect when the mouse is clicked.
-<li>Update the cube's Y angle when the mouse is clicked and moves horizontally
-<li>Update the cube's X angle when the mouse is clicked and moves vertically
+<li>Update the cube's Y angle when the mouse is clicked and moves horizontally.
+<li>Update the cube's X angle when the mouse is clicked and moves vertically.
 </ul>
 
 <table class=ch10>
 <tr>
 <td>
 
-<pre><code class="lang-js">var dragging = false;
-var lastX = -1;
-var lastY = -1;
-var dx = 0;
-var dy = 0;
-
-canvas.onmousedown = e => {
-  lastX = e.clientX
+<pre><code class="lang-js">canvas.onmousedown = e => {
+  lastX = e.clientX;
   lastY = e.clientY;
   dragging = true;
 };
@@ -332,35 +330,224 @@ canvas.onmouseup = e => {
   dragging = false;
 };
 
-canvas.onmousemove = (e) {
+canvas.onmousemove = e => {
   var x = e.clientX;
   var y = e.clientY;
   if(dragging){
-    dx = (x - lastX) * 100 / canvas.width;
-    dy = (y - lastY) * 100 / canvas.height;
+    
+    // Set angles
+    dx = (y - lastY) * 100/canvas.height;
+    dy = (x - lastX) * 100/canvas.width;
+    
+    rx += dx;
+    ry += dy;
+    
+    // Remember mouse position
+    lastX = x;
+    lastY = y;
+    
+    // Draw the modified cube
+    var modelMatrix = identity();
+    modelMatrix = transform(modelMatrix, {rx: deg2rad(rx), ry: deg2rad(ry)});
+    
+    (...)
+    
+    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
   }
-  lastX = x;
-  lastY = y;
 };</code></pre>
 
 <td>
 
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/RotateObject.html"></iframe>
+<iframe width=430 height=430 style="max-width:420px;" src="../../webgl-guide/18/rotate"></iframe>
 
 <br>Rotate the cube with the mouse
+
+<br><a class=newWindow title="Open in a new window" href="../../webgl-guide/editor/?demo=18/rotate"></a>
 
 </table>
 
 <br><br>
 
-<b>Technique 3: update the cube's coordinates system</b>
+<b>Technique 3: rotate a cube with the mouse (advanced)</b>
+
+<p>In the demo above, you may have remarked that the cube rotation is wrong when its vertical angle is too big.
+<br>Indeed, When the vertical angle is, for example, 180 degrees, all the cube will be upside-down, and the horizontal rotation performed first will be inversed compared to the mouse's direction:
+<br><br><img src="images/webgl-guide/drag.gif" width=350>
+
+<p>This problem is present in most 3D tutorials and libraries out there, and is generally "fixed" (hidden) by preventing the vertical angle to go beyond 45 degrees.
+<br>Fortunately, a real solution exists! <b>Kevin Chapelier</b> implemented it in his <a href="http://www.kchapelier.com/txlkwxlker/sphere.html">sphere demo</a> and explained it to me:
+<p>First, every time the cube rotates, instead of rotating along the X axis then along the Y axis, make it rotate along a specifix axis, perpendicular to mouse movement:
+<br><br><img src="images/webgl-guide/custom-axis.png" width=1200>
+<p>So far, we didn't solve anything... but introducing this custom rotation axis is very important.
+<br>Indeed, it is possible to inverse the rotation that has been made by the cube so far, and apply this inverse transformation to our custom axis.
+<br>This may sound a bit strange, but it does something pretty awesome:
+<br>it cancels all the previous rotations along this axis, in order to perform the next bit of rotation as if the cube had never rotated before:
+
+<table class=ch10>
+<tr>
+<td>
+
+<pre><code class="lang-js">canvas.onmousedown = e => {
+  lastX = e.clientX;
+  lastY = e.clientY;
+  dragging = true;
+};
+
+canvas.onmouseup = e => {
+  dragging = false;
+};
+
+canvas.onmousemove = e => {
+  var x = e.clientX;
+  var y = e.clientY;
+
+  if(dragging){
+    
+    // Set angles
+    dx = (y - lastY) * 100/canvas.height;
+    dy = (x - lastX) * 100/canvas.width;
+
+    // Compute rotation axis (perpendicular to mouse movement)
+    axis[0] = dx;
+    axis[1] = dy;
+    axis[2] = 0;
+
+    // Inverse the rotation that has been done so far
+    inverseRotation = inverse(modelMatrix);
+    
+    // Apply the inverse rotation to the rotation axis
+    axis = transformMat4(axis, inverseRotation);
+    
+    // Compute the new rotation matrix "deltaRotation" along the axis
+    deltaRotation = fromRotation(axis, Math.hypot(dx, dy)/100);
+
+    // Compute the rotation: rotation * deltaRotation
+    if(deltaRotation){
+      modelMatrix = multMat4Mat4(modelMatrix, deltaRotation);
+    }
+    
+    // Remember mouse position
+    lastX = x;
+    lastY = y;
+    
+    (...)
+    
+    // Set the model matrix
+    gl.uniformMatrix4fv(model, false, modelMatrix);
+  
+    (...)
+    
+    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
+  }
+};</code></pre>
+
+<td>
+
+<iframe width=430 height=430 style="max-width:420px;" src="../../webgl-guide/18/fixed"></iframe>
+
+<br>Rotate the cube with the mouse
+
+<br><a class=newWindow title="Open in a new window" href="../../webgl-guide/editor/?demo=18/fixed"></a>
+
+</table>
+
+<p>As a result, the cube can now follow the mouse in every direction:
+<br><br><img src="images/webgl-guide/drag2.gif" width=350>
+<br>
+<p>New functions added in matrix.js:
+
+<pre class=lang-js><code>// Create a matrix representing a rotation around an arbitrary axis [x, y, z]
+fromRotation = (axis, angle) => {
+
+  var x = axis[0], y = axis[1], z = axis[2];
+  var len = Math.hypot(x, y, z);
+  var s, c, t;
+  
+  if (len == 0) return null;
+
+  len = 1 / len;
+  x *= len;
+  y *= len;
+  z *= len;
+
+  s = Math.sin(angle);
+  c = Math.cos(angle);
+  t = 1 - c;
+
+  return new Float32Array([
+    x * x * t + c,      y * x * t + z * s,  z * x * t - y * s,   0,
+    x * y * t - z * s,  y * y * t + c,      z * y * t + x * s,   0,
+    x * z * t + y * s,  y * z * t - x * s,  z * z * t + c,       0,
+    0, 0, 0, 1
+  ]);
+};
+
+// Apply a matrix transformation to a custom axis
+transformMat4 = (a, m) => {
+  let x = a[0],
+    y = a[1],
+    z = a[2];
+  let w = (m[3] * x + m[7] * y + m[11] * z + m[15])|| 1.0;
+  
+  return new Float32Array([
+    (m[0] * x + m[4] * y + m[8] * z + m[12]) / w,
+    (m[1] * x + m[5] * y + m[9] * z + m[13]) / w,
+    (m[2] * x + m[6] * y + m[10] * z + m[14]) / w
+  ]);
+}</code></pre>
+
+<br><br><hr><br>
+<h4 id=1c>Render buffers and framebuffers</h4>
+<p>WIP
+<!--p>Until now, we've used depth and color buffers to draw content on the WebGL canvas.
+<br>If you want to compute a scene and save it, it's possible to write data in a <b>render buffer</b> and a <b>framebuffer</b> instead.
+<p>The scene will be saved as an image that you can modify or use as a texture or as a shadow projection.
+<p>Here's an example of scene rendered as a texture:
+<!--br>Note that the framebuffer object has its own pair of shaders and camera matrices, independent from the global ones, used to draw the textured quad.-- >
+<br>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">(...)
+var OFFSCREEN_WIDTH = 256;
+var OFFSCREEN_HEIGHT = 256;
+var fbo = gl.createFramebuffer();
+var texture = gl.createTexture();
+var viewProjMatrixFBO = identity();
+
+(...)
+
+framebuffer.texture = texture;
+depthBuffer = gl.createRenderbuffer();
+gl.bindRenderbuffer(gl.RENDERBUFFER, depthBuffer);
+gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, OFFSCREEN_WIDTH, OFFSCREEN_HEIGHT);
+gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,bgl.TEXTURE_2D, texture, 0);
+gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer);
+cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN_HEIGHT, near: 1, far: 100});
+
+// Transform camera matrix
+// Draw something in the framebuffer
+// Draw a plane with this texture
+
+(...)</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/FramebufferObject.html"></iframe>
+
+<br><a class=newWindow title="Open in a new window" href="https://xem.github.io/webgl-guide/book/ch10/FramebufferObject.html"></a>
+
+</table-->
+
+
+<br><br><hr><br>
+<h4 id=1d>Instanced geometry</h4>
 
 <p>todo
-
 
 <br><br><hr><br>
 <h2>Advanced coloring / texturing</h2>
 <br><hr><br>
+
 
 <p>todo
 
@@ -554,42 +741,7 @@ TODO
 <!-- http://learnwebgl.brown37.net/10_surface_properties/texture_mapping_transforms.html + wrap -- >
 
 <br><br><hr><br>
-<h4>Use what has been drawn as a texture image</h4>
 
-<ul>
-<li>Instead of the depth and color buffers we've used so far, you can draw content in a <b>render buffer</b> and a <b>framebuffer</b>
-<li>The scene won't be rendered on the canvas, but saved in an image that you can modify and/or use as a texture
-<li>The framebuffer object has its own shaders and perspective / camera matrices, independent from the global ones
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">(...)
-var OFFSCREEN_WIDTH = 256;
-var OFFSCREEN_HEIGHT = 256;
-var fbo = gl.createFramebuffer();
-var texture = gl.createTexture();
-var viewProjMatrixFBO = new Matrix4();
-
-(...)
-
-framebuffer.texture = texture;
-depthBuffer = gl.createRenderbuffer();
-gl.bindRenderbuffer(gl.RENDERBUFFER, depthBuffer);
-gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, OFFSCREEN_WIDTH, OFFSCREEN_HEIGHT);
-gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,bgl.TEXTURE_2D, texture, 0);
-gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer);
-cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN_HEIGHT, near: 1, far: 100});
-
-// Transform camera matrix
-// Draw something in the framebuffer
-// Draw a plane with this texture
-
-(...)</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/FramebufferObject.html"></iframe>
-</table>
 
 <br><br><hr><br>
 

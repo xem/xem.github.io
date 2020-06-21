@@ -44,6 +44,7 @@ pre.inline, pre.inline code { display: inline; padding: 4px 2px; background: #33
 summary { cursor: pointer }
 .toc li { line-height: 15px; }
 .toc p { line-height: 13px; }
+sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff; padding: 5px 5px 0; left: 2px; }
 </style>
 
 <div class=section id=webgl_guide>
@@ -222,7 +223,8 @@ summary { cursor: pointer }
 <li>The sine is the Y coordinate of the same point, and also oscillates between -1 and 1.
 <li>The tangent is the length of the segment perpendicular to the radius at this point and the X axis. Its value goes between -∞ and +∞, and is equal to sin(α) / cos(α).
 </ul>
-<br><a href="https://twitter.com/freyaholmer/status/1173376419168247810"><img src="images/webgl-guide/trigo.gif" width=400></a>
+<br><a href="https://twitter.com/freyaholmer/status/1173376419168247810"><img src="images/webgl-guide/trigo.gif" width=400 style="border: 1px solid #ddd"></a>
+<br><sub>GIF by Freya Holmér</sub>
 
 <p><b>Vectors</b>:
 <ul>
@@ -246,6 +248,7 @@ summary { cursor: pointer }
 <li>The relative angle between two normalized vectors V and W can be computed using the dot product: <b>V.W = xV * xW + yV * yW + zV * zW</b>.
 <br>The dot product is equal to the cosine of the angle between the vectors. For example, it's 1 if they're equal, 0 if they're perpendicular, -1 if they're opposite.
 <br><br><a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/dot.gif" width=350 style="border: 1px solid #ddd;"></a>
+<br><sub>GIF by Freya Holmér</sub>
 <br>
 <br>
 <li>The cross-product of two vectors V and W is a vector perpendicular to both vectors. It can be computed like this: <b>V×W = [yV*zW - zV*yW, zV*xW - xV*zW, xV*yW - yV*xW]</b>.
@@ -256,6 +259,7 @@ summary { cursor: pointer }
 <td>
 </table-->
 <br><br><a href="https://twitter.com/FreyaHolmer/status/1203059678705602562?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/cross.gif" width=450 style="border: 1px solid #ddd;"></a>
+<br><sub>GIF by Freya Holmér</sub>
 <br>
 <br>
 
@@ -2049,12 +2053,12 @@ lookAt = (mat, cameraX, cameraY, cameraZ, targetX, targetY, targetZ, upX = 0, up
   ux = sy * fz - sz * fy;
   uy = sz * fx - sx * fz;
   uz = sx * fy - sy * fx;
-  var l = new Float32Array(
+  var l = new Float32Array([
     sx, ux, -fx, 0,
     sy, uy, -fy, 0,
     sz, uz, -fz, 0,
     0,  0,  0,   1
-  );
+  ]);
   l = transform(l, {x: -cameraX, y: -cameraY, z: -cameraZ});
   return multMat4Mat4(mat, l); 
 }</code>
