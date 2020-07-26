@@ -2196,7 +2196,7 @@ orthogonal = options => {
 <ul>
 <li>In this demo, a 60-fps loop is made using a simple (and a bit hacky) call to <pre class="language-js inline"><code>setInterval( /* function called every 16ms */, 16);</code></pre>.
 <br>This can be enhanced by syncing to the screen's refresh rate with <a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame">requestAnimationFrame</a>. Ex: <pre class="language-js inline"><code>var loop = function(){ requestAnimationFrame(loop); /* ... */}; loop();</code></pre>
-<li>Remember that in every demo, you can see the triangles in wireframe by changing the first parameter of gl.grawElements to <b>gl.LINE_STRIP</b>, which makes the face diagonals visible:
+<li>Remember that in every demo, you can see the triangles in wireframe by changing the first parameter of gl.grawElements to <b>gl.LINE_LOOP</b>, which makes the face diagonals visible:
 </ul>
 <br>
 
@@ -2272,10 +2272,10 @@ cube = (r = 1, g = 1, b = 1) => {
   return [vertices, normals, indices];
 };</code></pre>
 
-<p>In bonus, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> also contains the models for a sphere and a pyramid.
-<br>You can try them in all the following demos by replacing cube() with <b>sphere()</b> or <b>pyramid()</b>.
+<p>In bonus, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> also contains the models for a plane, a sphere and a pyramid.
+<br>You can try them in all the following demos by replacing cube() with <b>plane()</b>, <b>sphere()</b> or <b>pyramid()</b>.
 
-<br><br><img src="images/webgl-guide/othershapes.png" width=600>
+<br><br><img src="images/webgl-guide/othershapes.png" width=750>
 
 <br><br>NB: all the shapes in shapes.js use Uint16Array's for indices, so if you use them, remember to use the type <b>gl.UNSIGNED_SHORT</b> in drawArrays().
 
