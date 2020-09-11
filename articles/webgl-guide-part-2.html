@@ -50,8 +50,8 @@ summary { cursor: pointer }
 </style>
 
 <div class=section id=webgl_guide>
-<h2>WebGL guide part 2: Advanced techniques</h2>
-<h3>June 2020</h3>
+<h2>WebGL guide (part 2/2): Advanced techniques</h2>
+<h3>June 2020 - WIP</h3>
 
 <br><hr><br>
 
@@ -78,7 +78,7 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <ul>
 <li><a href="#1a" target="_self">Transparency and alpha blending</a> <!-- 1 demo -->
 <li><a href="#1b" target="_self">Mouse interactivity</a> <!-- 3 demos -->
-<li><a href="#1c" target="_self">Render buffers and framebuffers</a> <!-- 1 demo -->
+<li><a href="#1c" target="_self">Framebuffers and renderbuffers</a> <!-- 1 demo -->
 <li><a href="#1d" target="_self">Instanced geometry</a>
 </ul>
 
@@ -94,10 +94,10 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 
 <p><b>Advanced lighting</b>
 <ul>
-<li><a href="#3a" target="_self">Multiple light sources</a>
+<li><a href="#3a" target="_self">Multiple light sources</a> <!-- 1 demo -->
 <li><a href="#3b" target="_self">Shadows!</a> <!-- 1 demo -->
 <li><a href="#3c" target="_self">360° shadows</a> <!-- 1 demo -->
-<li><a href="#3d" target="_self">Penumbra and soft shadows</a>
+<li><a href="#3d" target="_self">Penumbra and soft shadows</a> <!-- 1 demo -->
 <li><a href="#3e" target="_self">Baked lighting</a>
 </ul>
 
@@ -454,7 +454,7 @@ canvas.onmousemove = e => {
 <p>As a result, the cube can now follow the mouse in every direction:
 <br><br><img src="images/webgl-guide/drag2.gif" width=350>
 <br>
-<p>New functions added in matrix.js:
+<p>New functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
 
 <pre class=lang-js><code>// Create a matrix representing a rotation around an arbitrary axis [x, y, z]
 fromRotation = (axis, angle) => {
@@ -497,19 +497,20 @@ transformMat4 = (a, m) => {
 }</code></pre>
 
 <br><br><hr><br>
-<h4 id=1c>Render buffers and framebuffers</h4>
-<p>WIP
-<!--p>Until now, we've used depth and color buffers to draw content on the WebGL canvas.
-<br>If you want to compute a scene and save it, it's possible to write data in a <b>render buffer</b> and a <b>framebuffer</b> instead.
-<p>The scene will be saved as an image that you can modify or use as a texture or as a shadow projection.
-<p>Here's an example of scene rendered as a texture:
-<!--br>Note that the framebuffer object has its own pair of shaders and camera matrices, independent from the global ones, used to draw the textured quad.-- >
-<br>
+<h4 id=1c>Framebuffers and renderbuffers</h4>
+<p>Until now, we've used the color and depth buffers to draw 3D content on the WebGL canvas. It is also possible to bypass this default target to perform <b>offscreen rendering</b>.
+<br>This can be done by creating <b>a framebuffer object</b>, which, in turn, writes the image data in a <b>texture object</b>, and depth data in a <b>renderbuffer object</b>.
+<br>The texture object can be used as if it was loaded from an image file, and the renderbuffer object can be used to cast shadows, as we'll see in the <a href="#3b">following chapters</a>.
+<br><br><img src="images/webgl-guide/framebuffer.png" width=700>
+
+<p>Here's an example of 3D cube rendered as a texture and applied on a quad.
+<br>You can see that only one program and one pair of shaders is present, because they're generic enough to be used by both the textured cube and the textured quad, even though each of them uses different meshes, uv and mvp matrices.  
+<br>However, it's totally possible to write two programs and two pairs of shaders (one for the offscreen texture, and one for the canvas)!
 
 <table class=ch10>
 <tr>
 <td>
-<pre><code class="lang-js">(...)
+<!--pre><code class="lang-js">(...)
 var OFFSCREEN_WIDTH = 256;
 var OFFSCREEN_HEIGHT = 256;
 var fbo = gl.createFramebuffer();
@@ -530,13 +531,13 @@ cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN
 // Draw something in the framebuffer
 // Draw a plane with this texture
 
-(...)</code></pre>
+(...)</code></pre-->
 <td>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/FramebufferObject.html"></iframe>
 
 <br><a class=newWindow title="Open in a new window" href="https://xem.github.io/webgl-guide/book/ch10/FramebufferObject.html"></a>
 
-</table-->
+</table>
 
 
 <br><br><hr><br>

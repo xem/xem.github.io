@@ -11,6 +11,7 @@ menus = {
   articles: {
     "webgl-guide": "WebGL guide part 1",
     "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
+    js13k20: "JS13kGames 2020",
     obfuscatweet: "Obfusc-a-tweet reloaded",
     js13k19: "JS13kGames 2019",
     projection: "3D projection",
@@ -67,7 +68,7 @@ menus = {
     minifacedetection: "Mini Face Detection",
     minimusic: "Mini Music (JS1k18)",
     epiccycles: "Epic Cycles (JS1k18)",
-    shaderandom: "ShaderRndom (JS1k18)",
+    shaderandom: "ShadeRandom (JS1k18)",
     minifourier: "Mini Fourier (JS1k18)",
     sn1ke: "SN1KE (JS1k18)",
     miniworld: "Mini World",
