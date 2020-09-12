@@ -79,7 +79,7 @@ ul { padding-left: 15px }
 
 <p>... but it didn't inspire me enough.
 <br>One thing was sure: I really wanted to make a game that uses Emoji.
-<br>Though, I remembered all the problems I had in 2018 when I wanted to use Emoji flags in my game <a href="http://js13kgames.com/entries/geoquiz-2">Geoquiz 2</a>, so I decided to solve that first. I tried <a href="https://twitter.com/MaximeEuziere/status/1294011011331239937">many approaches</a>, but none of them was satisfying, until <b>Lance Erwing</b> kindly pointed me to the Twemoji webfont built by Mozilla, that actually worked seamlessly on every browser. Yay!
+<br>Though, I remembered all the problems I had in 2018 when I wanted to use Emoji flags in my game <a href="http://js13kgames.com/entries/geoquiz-2">Geoquiz 2</a>, so I decided to solve that first. I tried <a href="https://twitter.com/MaximeEuziere/status/1294011011331239937">many approaches</a>, but none of them was satisfying, until <b>Lance Erwing</b> kindly pointed me to the Twemoji webfont built by Mozilla, that actually worked seamlessly on every browser... (except Safari, doesn't seem to accept any form of color Emoji webfont :/)
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 3:<br>Thanks to <a href="https://twitter.com/lance_ewing?ref_src=twsrc%5Etfw">@lance_ewing</a>, I found a better version of Twitter&#39;s Emoji webfont, built by Mozilla, which seems to work everywhere. And it&#39;s much smaller than the previous ones (1.2Mb vs 9Mb)!<br><br>Here&#39;s the updated emoji resource:<a href="https://t.co/bPnorv3YSr">https://t.co/bPnorv3YSr</a> <a href="https://t.co/dMl4MJPhuE">pic.twitter.com/dMl4MJPhuE</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294552111276068864?ref_src=twsrc%5Etfw">August 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -140,8 +140,8 @@ If you played the game already, you should recognize the first levels, plus some
 <li>The train is fixed
 <li>The metallic rails are fixed
 <li>The ground (with a green gradient) is fixed
-<li>The trees are placed around the train and scroll from front to back using a 9-second repeating CSS animation.
-<li>The wood pattern between the rails (which is actually a single div with a linear-gradient that alternates between orange and transparent) also scrolls using a 0.9-second CSS animation.
+<li>The trees are placed around the train and scroll from front to back using a 9-second repeating CSS animation
+<li>The wood pieces between the rails also scrolls using a 0.9-second CSS animation
 </ul>
 
 CSS code:
@@ -152,11 +152,10 @@ CSS code:
 }
 
 @keyframes wood {
-  100% { background-position: -100% center; }
+  100% { left: 30px center; }
 }
 
-.woods { position: fixed; animation: wood .9s infinite linear; }
-.tree { position: fixed; animation: tree 9s infinite linear; }</code></pre>
+.wood { position: fixed; animation: wood .9s infinite linear; }</code></pre>
 <br>
 
 <p>If you look at it from far away, you can see how fixed it really is:
@@ -169,7 +168,26 @@ CSS code:
 <p>Avoiding to spawn CSS3D elements continuously was a size optimization, but also a performance optimization, as browsers prefer having as few CSS3D complexity to handle as possible.
 <br>This is why I made another optimization, that consists in hiding all the cube faces that are never seen by the camera:
 
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Notes about the GIF above:<br>- Emoji shadow trick: emoji almost transparent + CSS text-shadow<br>- CSS3D optimization: all the cubes&#39;s faces that are never visible are removed.<br>- Total divs in this scene, thanks to the looping track and trees: 180 (before optimization: 293)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/imKp6Qwf8y">pic.twitter.com/imKp6Qwf8y</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295360654468173824?ref_src=twsrc%5Etfw">August 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Notes about the GIF above:<br>- Emoji shadow trick: emoji almost transparent + CSS text-shadow<br>- CSS3D optimization: all the cubes&#39;s faces that are never visible are removed.<br>- Total divs in this scene, thanks to the looping track and trees: 180 (before optimization: 293)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/imKp6Qwf8y">pic.twitter.com/imKp6Qwf8y</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295360654468173824?ref_src=twsrc%5Etfw">August 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>And I also replaced all the: wood pieces between the rails with a single flat div, on which I applied a linear gradient to alternate between orange ans transparent:
+
+<br>
+<br>Updated CSS code:
+<br>
+<pre class=lang-css><code>@keyframes wood {
+  100% { background-position: -100% center; }
+}
+
+@keyframes wood {
+  100% { left: 30px center; }
+}
+
+.woods { 
+  position: fixed;
+  animation: wood .9s infinite linear;
+  background: linear-gradient(90deg, #ca0, #ca0 50%, rgba(255,255,255,0) 50%);
+}</code></pre>
 
 <p>In the end, this title screen only required 79 divs and 2.16kb zipped.
 <br>Even the interior of the train lost many more divs to finally look like this (14 faces, plus the front and back emoji not shown here):
@@ -179,38 +197,172 @@ CSS code:
 <img src="images/js13k20/interior.png" width=500>
 
 <br>
+
+<p>Let's place the first brick of the gameplay environment and game engine that will be present during the rest of the project:
+<br>Two hills, a river, a bridge made of eight 100px-long chunks, and a little bit of interactivity, with our locomotive accelerating forwards or backwards with the press of two keys, X and C.
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">The train is controllable. Let&#39;s cross some bridges!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/t8yI1qZB2o">pic.twitter.com/t8yI1qZB2o</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295704179294568448?ref_src=twsrc%5Etfw">August 18, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
 <br>
-<h1>TO BE CONTINUED</h1>
+<br>
+<h1>WORK IN PROGRESS ~ PLEASE COME BACK SOON!</h1>
 <br>
 <br>
 
 
-<!--h4>Day 7</h4>
-<h4>Day 8</h4>
-<h4>Day 9</h4>
-<h4>Day 10</h4>
-<h4>Day 11</h4>
-<h4>Day 12</h4>
-<h4>Day 13</h4>
-<h4>Day 14</h4>
-<h4>Day 15</h4>
-<h4>Day 16</h4>
-<h4>Day 17</h4>
-<h4>Day 18</h4>
-<h4>Day 19</h4>
-<h4>Day 20</h4>
-<h4>Day 21</h4>
-<h4>Day 22</h4>
-<h4>Day 23</h4>
-<h4>Day 24</h4>
-<h4>Day 25</h4>
-<h4>Day 26</h4>
-<h4>Day 27</h4>
-<h4>Day 28</h4>
-<h4>Day 29</h4>
-<h4>Day 30</h4>
--->
+<h4>Days 7 - 10: playing with perspective</h4>
 
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 7: the problems begin<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/oakmayUtsL">pic.twitter.com/oakmayUtsL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295980011594428423?ref_src=twsrc%5Etfw">August 19, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 8: the perspective mechanic seems to work!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/34w6JawoCH">pic.twitter.com/34w6JawoCH</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296354054784921600?ref_src=twsrc%5Etfw">August 20, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 9:<br>I finally settled on a convenient format to represent my levels.<br>Each chunk of track will have a number, a position (X, Y, Z),<br>And for each view (2D, 3D, ...), an array tells, for each chunk, which other chunk is reachable on the left side and on the right side...<br> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/r4FH80Y3LI">pic.twitter.com/r4FH80Y3LI</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296788502802247682?ref_src=twsrc%5Etfw">August 21, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Imagine the train is on the chunk n°1.<br>If it goes left, it&#39;ll go on the chunk n°0, either in 2D or in 3D.<br>But if it goes right, it depends:<br>- In 3D: it falls in the river.<br>- In 2D: it goes on chunk n°3 (and its Y is updated!)<br>The code I wrote represents this double view.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/1w0qTC2fCL">pic.twitter.com/1w0qTC2fCL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296788505788653569?ref_src=twsrc%5Etfw">August 21, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Like every year, the end of the first week of the jam seems to be the right time to clean up my project&#39;s folder, remove all dead/temp code, add comments, divide the project in multiple files... (total 17kb)...<br>Because the hard part begins now (compute 2D/3D collisions)!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/2HgLg6qNDL">pic.twitter.com/2HgLg6qNDL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296430685763375104?ref_src=twsrc%5Etfw">August 20, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<h4>Day 11 - 13: playing with angles</h4>
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 11: [SPOILERS]<br>After a weekend of coding, I finally managed to implement the camera controls I wanted.<br>The camera will switch from 2D to 3D, but it will also be able to rotate up, down, left and right with 45° increments.<br>In total, that&#39;s 48 different camera positions!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/K5gDsW8jrY">pic.twitter.com/K5gDsW8jrY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1297618284322394113?ref_src=twsrc%5Etfw">August 23, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 12<br>Remember when I showed how I store the links between chunks of road in 2D &amp; 3D?<br>Now that the camera can be in 48 different positions, it needs to be smarter: one &quot;default&quot; view for every unremarkable position, and a couple custom ones where the rails align properly<a href="https://twitter.com/hashtag/hs13k?src=hash&amp;ref_src=twsrc%5Etfw">#hs13k</a> <a href="https://t.co/p8NvdZRZ2m">pic.twitter.com/p8NvdZRZ2m</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1297969258295631874?ref_src=twsrc%5Etfw">August 24, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 13<br>Behind the scenes<br>- Rails aren&#39;t very long (to reduce the div count)<br>- Hills on each side of the river are actually slanted cuboids with no bottom (front &amp; back planes are skewed in CSS)<br>- River &amp; hillsides use backface-visibility:hidden (to be invisible from below)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/EEh6C9bAPC">pic.twitter.com/EEh6C9bAPC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298232483524349952?ref_src=twsrc%5Etfw">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">A quick size check ?<br>- Commented source code: 32.6kb.<br>- Minified: 19.1kb.<br>- Zipped: 5.21kb.<br><br>Remaining work:<br>- Complete / fix the game engine (~75% done)<br>- Create a couple new assets (different types of rail chunks)<br>- Make nice levels 😱<br>- Add music and sound<br>- Polish<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1297983872399966211?ref_src=twsrc%5Etfw">August 24, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+ 
+
+<h4>Days 14 - 18: fixing new problems with each new puzzle</h4>
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">If you look closely, there&#39;s an issue that I kind of expected during the scribble phase: when the train is teleported on a track piece further than the previous one, it suddenly appears below the track...<br><br>There are maybe 2 possible approaches to fix that...<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/5LqrGMoo9T">pic.twitter.com/5LqrGMoo9T</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298343138503909376?ref_src=twsrc%5Etfw">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">The first possible approach consists in stopping the wood pieces earlier, so they never appear on top of the train.<br>It would produce something a bit like this, and honestly it really doesn&#39;t look nice...<br>The gaps and the train&#39;s jumps are still too visible.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/9hTkS8Wzc9">pic.twitter.com/9hTkS8Wzc9</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298343141452521473?ref_src=twsrc%5Etfw">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">My second idea consists in keeping the train at the same height as the neighbour chunks, but only in the view in which everything is aligned. It will fly but no one will see it.<br>So let&#39;s alter our &quot;2D top&quot; links a little to include new &quot;virtual&quot; coordinates on chunk n°2...<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/VFR2LrSAVs">pic.twitter.com/VFR2LrSAVs</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298347600681340928?ref_src=twsrc%5Etfw">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">The gif below shows:<br>=&gt; The problem, seen from above<br>&lt;= The problem, seen from a different angle<br>=&gt; The new solution, seen from above (yay! looks nice!)<br>&lt;= The new solution, seen from a different angle (see? the train &quot;flies&quot; to avoid glitching below the track!)<br>Woohoo!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/oeQdqmYUhh">pic.twitter.com/oeQdqmYUhh</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298359096828190720?ref_src=twsrc%5Etfw">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Yes but... if the player stops the train on that exact chunk and moves the camera? Then they&#39;ll see the train flying, and that&#39;s not good!<br><br>Solution: when a camera move is requested, re-place the train at the &quot;right&quot; height and not the &quot;virtual&quot; one, then move the camera!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/yDVn2Fwi6j">pic.twitter.com/yDVn2Fwi6j</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298363283418882048?ref_src=twsrc%5Etfw">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 15:<br>Here&#39;s a new <a href="https://twitter.com/hashtag/spoiler?src=hash&amp;ref_src=twsrc%5Etfw">#spoiler</a> fot my entry: the scale!<br>Some track pieces can look bigger or smaller than the others, but in a certain 3D angle, everything will align perfectly!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/u5oqdRxjYS">pic.twitter.com/u5oqdRxjYS</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298860830604353541?ref_src=twsrc%5Etfw">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">By the way, do you think I use complex calculations or a fancy level editor to adjust the tracks in 3D like that?<br>Absolutely not. I do everything pixel by pixel in my browser&#39;s debugger (and still believe it&#39;s the way that saves the most time🤡)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/x0J9EMYYBd">pic.twitter.com/x0J9EMYYBd</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298875562694447109?ref_src=twsrc%5Etfw">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Today I finally started producing the levels of my game... And scraping about half of them because they were interesting but a bit too redundant. Most players won&#39;t play my game more than 2 minutes, so I want them to have &quot;enough surprise&quot; at each new level... <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298972338814414848?ref_src=twsrc%5Etfw">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 16:<br>- Made the river wavy and wider (to leave more room for the puzzles)<br>- Made a bit of <a href="https://twitter.com/hashtag/procgen?src=hash&amp;ref_src=twsrc%5Etfw">#procgen</a> to place the trees on the hills without any overlap<br>- Added numbers on each part of the track to help the puzzle creation and debugging<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/dqiMzx3PCU">pic.twitter.com/dqiMzx3PCU</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299250259915403265?ref_src=twsrc%5Etfw">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">A new problem that I hadn&#39;t anticipated just occurred on this level:<br>Until now, the train moved linearly from left to right, sometimes changing its Y (height) and Z (depth) coordinates.<br>But here, it&#39;s not enough: the chunk n°1 is bigger, further but also more on the left.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/80mz23HSNo">pic.twitter.com/80mz23HSNo</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299308446135857152?ref_src=twsrc%5Etfw">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+"The GIF above shows the 3D view, the same 3D view seen from another angle, and the problematic 2D view.
+When we switch from 3D to 2D, the train can't keep the same X position, because it's moved on a track chunk that is bigger, further, and offsetted horizontally..."
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Solution:<br>- Consider all the horizontal train movements relative to the current chunk (for example, a percentage) instead of a global X coordinate, to keep it coherent during camera switches.<br>- Update the train&#39;s scale and speed when it&#39;s moved on a smaller or bigger chunk<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/lD8L29LuNl">pic.twitter.com/lD8L29LuNl</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299318504064245761?ref_src=twsrc%5Etfw">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Solution:<br>- Consider all the horizontal train movements relative to the current chunk (for example, a percentage) instead of a global X coordinate, to keep it coherent during camera switches.<br>- Update the train&#39;s scale and speed when it&#39;s moved on a smaller or bigger chunk<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/lD8L29LuNl">pic.twitter.com/lD8L29LuNl</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299318504064245761?ref_src=twsrc%5Etfw">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 18:<br>I&#39;m spending hours trying to fix little bugs, like this one happening when the train goes from a virtual position to another...<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/nNHivwforj">pic.twitter.com/nNHivwforj</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300033745404203008?ref_src=twsrc%5Etfw">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Details:<br>It&#39;s not very hard to fix, but there are dozens of cases like this one (when going from 2D to 3D, when changing the angle, when going from a virtual position to a real one, etc) that often require a specific implementation, using more lines of code and dev time 😰<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/RmAfdntH3o">pic.twitter.com/RmAfdntH3o</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300033752324808704?ref_src=twsrc%5Etfw">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Update: IT WORKS! 🥳<br>Seamless train repositioning/rescaling when jumping from a view to another. <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/fxqwhn9YQu">pic.twitter.com/fxqwhn9YQu</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300065972292902914?ref_src=twsrc%5Etfw">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Gosh, it&#39;s already the end of week 3!<br>Let&#39;s clean up my code and crunch some numbers...<br>5 levels completed<br>Engine 90% finished<br>1315 lines of code<br>~40h of work<br>42.6kb commented (incl. 4.4kb of CSS, 0.7kb of HTML)<br>23.7kb minified (incl. 3.4kb of CSS)<br>6.12kb zipped (with ECT)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/qTesrOqkUT">pic.twitter.com/qTesrOqkUT</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300112990184837121?ref_src=twsrc%5Etfw">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<h4>Days 19 - 26: more puzzles, special events and optimizations</h4>
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 19: <br>Preview of level 6...<br>Three holes in the road, but only two chunks to fill them... 🤔<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/Nz7vjBsLZf">pic.twitter.com/Nz7vjBsLZf</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300510860322975748?ref_src=twsrc%5Etfw">August 31, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 20<br>I realized that the level 6 I presented yesterday can actually be solved with just one loose chunk of road, even though the bridge has three holes.<br>So I modified it accordingly, but to dramatize it a little, I made a little collapsing animation for the middle one 🤭<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/TzRG71TriC">pic.twitter.com/TzRG71TriC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300828510903304195?ref_src=twsrc%5Etfw">September 1, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 21: optimization day!<br>- I drastically reduced my div count to improve perfs<br>Here&#39;s 170 divs instead of 230 (looks the same + a bonus sun🌞<br>- Game is responsive &amp; starts being playable on mobile!<br>- The important (emoji) assets are now SVG&#39;s, included in the entry&#39;s zip!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/aNOIeEPujc">pic.twitter.com/aNOIeEPujc</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1301220726867984384?ref_src=twsrc%5Etfw">September 2, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+"Regarding div count: I trimmed everything (hills, tracks, pillars, train, etc).
+Regarding emoji: I included Twemoji's locomotive, eye & camera emojis as SVG in my zip, the others (tree, boat...) are purely decorative and the game works fine without them if we play offline."
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">But to ensure good perfs on mobile, I also reduced the div count even more:<br>- no sun<br>- no trees<br>- no boat<br>- no animated waves<br><br>It&#39;s more sober indeed, but way less glitchy!<br>Div count: 170 on desktop / 139 on mobile.<br><br>Zip size with all the fixes + the emoji SVGs: 8.44kb!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/3VGZ4pYuhg">pic.twitter.com/3VGZ4pYuhg</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1301427350333161473?ref_src=twsrc%5Etfw">September 3, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">These optical illusions hurt my brain!<br><br>For example here, part 6 is bigger, further and lower than part 5, but in this angle, they&#39;re aligned...<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/pclp417VRL">pic.twitter.com/pclp417VRL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1301535916968865793?ref_src=twsrc%5Etfw">September 3, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 24:<br>This year more than ever, my entry&#39;s code is filled with weird tests and safeguards, just to avoid the train from falling through the track or teleporting on the other side of the map while switching perspectives.<br>Reminds me this story: <a href="https://t.co/4aqDZjyqjO">https://t.co/4aqDZjyqjO</a><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/0erX0hyDAT">pic.twitter.com/0erX0hyDAT</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1302209931911757824?ref_src=twsrc%5Etfw">September 5, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Day 25:<br>Dynamites and moving platforms were in my &quot;nice to have list&quot; since the beginning, but it&#39;s Twitter&#39;s suggestions that decided me to use them in the game.<br>In a game about perspective, moving platforms are a nightmare to work with, but I think I figured it out.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1302636663672377346?ref_src=twsrc%5Etfw">September 6, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 26:<br>Why limit ourselves to 2D and 3D?<br>(I won&#39;t spoil too much :p)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/RZYxmlsIeY">pic.twitter.com/RZYxmlsIeY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303008528223920128?ref_src=twsrc%5Etfw">September 7, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">End of week 4!<br><br>Stats time:<br>- 1.16kb of HTML (42 lines of code)<br>- 5.12kb of CSS (115 lines of code)<br>- 63.4kb of JS (2043 lines of code)<br>- 4.81kb of SVG files<br><br>HTML/CSS/JS minified (not golfed): 34.8kb<br><br>Everything zipped: 11.0kb<br><br>TODO: one last level, sound, polish.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1302689941596631040?ref_src=twsrc%5Etfw">September 6, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+
+<h4>Days 27 - 28: Music!</h4>
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">So yeah uh,<br>I&#39;ve put together a mini tool to write a two-track melody using nothing else than the letters a-z and the number 0 for the silences. 👉👈<br><br>Try it here:<a href="https://t.co/Ib6AkBfAU4">https://t.co/Ib6AkBfAU4</a><br><br>If anyone is free to help me compose a little loop for my game, it&#39;d be great. ☺️<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/5uAkdolR82">pic.twitter.com/5uAkdolR82</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303404329081221123?ref_src=twsrc%5Etfw">September 8, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44?ref_src=twsrc%5Etfw">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360?ref_src=twsrc%5Etfw">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44?ref_src=twsrc%5Etfw">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360?ref_src=twsrc%5Etfw">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<h4>Days 29 - 30: Polishing and filling the zip with bonuses</h4>
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44?ref_src=twsrc%5Etfw">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360?ref_src=twsrc%5Etfw">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44?ref_src=twsrc%5Etfw">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360?ref_src=twsrc%5Etfw">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44?ref_src=twsrc%5Etfw">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360?ref_src=twsrc%5Etfw">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Adding sound effects too 👀<br>(there&#39;s still too much free room in my zip)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304161494997897217?ref_src=twsrc%5Etfw">September 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Adding sound effects too 👀<br>(there&#39;s still too much free room in my zip)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304161494997897217?ref_src=twsrc%5Etfw">September 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Some stats from the final build:<br>- ~60 hours of work<br>- 2546 CSS3D divs displayed in 11 levels<br>- 1 HTML file (46 lines, 1.39kb, 1014b minified)<br>- 1 CSS file (107 lines, 4.93kb, 4.09kb minified)<br>- 8 JS files (2663 lines, 81.6kb, 34.74kb minified)<br>- 5 svg files (3.89kb)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/0NKtyUIjTP">pic.twitter.com/0NKtyUIjTP</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304516741473734659?ref_src=twsrc%5Etfw">September 11, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br><br><hr><br>
+
+<h4>Conclusion</h4>
 
 
 </div>
