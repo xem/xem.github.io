@@ -5,8 +5,14 @@
 <head>
 <link rel=stylesheet href="../style.css?v=4">
 <title>Maxime Euzière</title>
+<base target=_blank>
 </head>
 <body>
+
+<style>
+.twitter-tweet { margin: 30px 0 !important; border: 3px solid #ccc; border-radius: 30px; overflow: hidden; transform: scale(.95)}
+ul { padding-left: 15px }
+</style>
 
 <div class="wrapper">
 
@@ -21,7 +27,191 @@
 <h2>JS13kGames 2020: Track not Found ?!</h2>
 <h3>August-September 2020</h3>
 
-<i>Coming soon</i>
+<br>
+<hr>
+<br>
+
+<img src="images/js13k20/big.png">
+<ul>
+<li><a href="https://js13kgames.com/entries/track-not-found">Play the game</a>
+<li><a href="https://github.com/xem/track-not-found">Github repo</a>
+<li>Results (soon!)
+</ul>
+
+<br><hr><br>
+
+<h4>Before the jam</h4>
+
+<p>This year, I didn't prepare a list of ideas and didn't create new tools before the start of the compo.
+<br>I wanted to create everything between August 13th and September 13th.
+<br>Three of my tools from the previous years have been updated though:
+<ul>
+<li><a href="https://github.com/xem/emoji">Emoji</a>, my cross-browser build of Twitter's Twemoji webfont, useable as fallback in any js13k entry.
+<li><a href="https://github.com/xem/terser-online">Terser-online</a>, my online ES6 minifier that received many great UI/UX contributions on Github in the last few months.
+<li><a href="https://github.com/xem/GameAudioBundleMP3">GameAudioBundleMP3</a> now contains a folder with all the sound effects &lt; 13kb, in different qualities (128 / 96 / 48kbps). 
+</ul>
+<br>
+<p>Besides that, I wrote a recap of all the tips, tricks and traps that I learned during the last 6 years of JS13kGames.
+<br>You can read it <a href="">here</a> as a Twitter thread, or <a href="https://threadreaderapp.com/thread/1287378754172485633.html?refreshed=1599891868">here</a> unrolled.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Thread of tips and tricks for your next <a href="https://twitter.com/js13kGames?ref_src=twsrc%5Etfw">@js13kGames</a> entry (2020 edition starts on august 13th, lasts 1 month, and has a theme, a jury and awesome prizes to win) 🤠</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1287378754172485633?ref_src=twsrc%5Etfw">July 26, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<br>
+<p>Until the start of the repo, I've been working on my <a href="https://xem.github.io/articles/webgl-guide.html">WebGL guide</a>, but didn't end up using this language for my 2020 entry.
+<br>
+<p>I also made a new speedrun of my 2016 entry <b>Super Chrono Portal Maker</b> <a href="https://twitter.com/MaximeEuziere/status/1289180153520611329">in this thread</a>.
+<br>
+<p>When the compo started, I tweeted daily updates in a <a href="https://twitter.com/MaximeEuziere/status/1293990088347615232">Twitter thread</a>, that I will explain in detail in this making-of.
+
+<p>Let's go!
+
+<br><br><hr><br>
+
+<h4>Days 1 - 3: brainstorming</h4>
+
+<p>The competition started on a thursday, so I decided to take the end of the week to think about ideas that could fit the theme <b>404</b>, and get started the next monday.
+<p>On day 1, I prepared my working folder (it's important):
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/JS13k?src=hash&amp;ref_src=twsrc%5Etfw">#JS13k</a> 2020 day 1: it&#39;s something.<br>(I actually have some ideas) <a href="https://t.co/vMl2F2VlhU">pic.twitter.com/vMl2F2VlhU</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1293990088347615232?ref_src=twsrc%5Etfw">August 13, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>I also imagined a kind of adventure game where all the graphics would be replaced by placeholder images like the ones that browsers display when they can't find a file...
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">So my game could be some kind of big joke where every asset ends up being shown as a broken image...<br>Title screen prototype<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/1Vw9XzaG15">pic.twitter.com/1Vw9XzaG15</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1293997138377089025?ref_src=twsrc%5Etfw">August 13, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>... but it didn't inspire me enough.
+<br>One thing was sure: I really wanted to make a game that uses Emoji.
+<br>Though, I remembered all the problems I had in 2018 when I wanted to use Emoji flags in my game <a href="http://js13kgames.com/entries/geoquiz-2">Geoquiz 2</a>, so I decided to solve that first. I tried <a href="https://twitter.com/MaximeEuziere/status/1294011011331239937">many approaches</a>, but none of them was satisfying, until <b>Lance Erwing</b> kindly pointed me to the Twemoji webfont built by Mozilla, that actually worked seamlessly on every browser. Yay!
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 3:<br>Thanks to <a href="https://twitter.com/lance_ewing?ref_src=twsrc%5Etfw">@lance_ewing</a>, I found a better version of Twitter&#39;s Emoji webfont, built by Mozilla, which seems to work everywhere. And it&#39;s much smaller than the previous ones (1.2Mb vs 9Mb)!<br><br>Here&#39;s the updated emoji resource:<a href="https://t.co/bPnorv3YSr">https://t.co/bPnorv3YSr</a> <a href="https://t.co/dMl4MJPhuE">pic.twitter.com/dMl4MJPhuE</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294552111276068864?ref_src=twsrc%5Etfw">August 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>For my game, I was actually torn between my desire to make a chill game (à la Animal Crossing, where the world would be full of living emoji) and a puzzle game. So I made a poll...
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Now, back to my entry!<br><br>(I needed to have this emoji stuff sorted out before continuing 🤓)<br><br>It&#39;ll be either a puzzle game, or a relaxing game à la Animal Crossing.<br><br>What do you prefer?<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294359779981303809?ref_src=twsrc%5Etfw">August 14, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>... and, hum, by lack of interesting ideas, <a href="https://twitter.com/MaximeEuziere/status/1294930121376370689">I didn't listen the results</a> and decided to make a puzzle game anyway 🙃.
+<br>And just before the end of the week-end, I finally found my idea, by scribbling on a notepad in my garden!
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">I&#39;m at the same place and with the same notepad as 2017 when I got the idea of LOSSST. Time to scribble and find a fun game to make 💪<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/uv5w8PUPYN">pic.twitter.com/uv5w8PUPYN</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294616006233595906?ref_src=twsrc%5Etfw">August 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>In exclusivity, here are the three pages of notes I wrote that day.
+If you played the game already, you should recognize the first levels, plus some elements that never made it in the final game:
+<br>
+<br>
+
+<a href="images/js13k20/scribble.jpg"><img src="images/js13k20/scribble.jpg"></a>
+<br>(click to enlarge)
+
+<p>I wanted to make a game about perspective for a long time, and it was the right moment to do it!
+<p>Of course, a lot of inspiration came from the fantastic indie games <a href="http://fezgame.com/">FEZ</a> and <a href="https://www.ustwogames.co.uk/">Monument Valley 1 and 2</a>,<br>even though I wanted to revisit the idea in my onw way, and try new angles.
+
+<p>At this moment though, my main concern was to find a way to represent a 3D locomotive... out of an emoji. 🚂
+ 
+<br>This requirement alone got me busy for a couple days!
+
+<h4>Days 4 - 6: inventing the volumetric emoji™ </h4>
+
+<p>I started by updating my CSS3D framework to make it display shaded faces, and started working on a little scene with a track and a (flat) train emoji:
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 4: I updated my CSS3D mini-framework to remove useless stuff, improve the doc, and add support for optional &quot;shaded&quot; cubes and pyramids (via different face colors):<br><br>&gt; <a href="https://t.co/qDYNiq7x9s">https://t.co/qDYNiq7x9s</a><br><br>In the GIF below:<br>- The new website&#39;s demo<br>- The Bob-omb demo<br>- My <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> WIP... :p <a href="https://t.co/H1Cl1JPIZI">pic.twitter.com/H1Cl1JPIZI</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294926785243742210?ref_src=twsrc%5Etfw">August 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>I was curious to see how it would look if I stacked a dozen similar emoji like a sandwich. It turned out very well... except when it's seen from the side.
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Did I just invent volumetric emoji?<br>...<br>No, I just stacked a dozen 🚂 emoji and hoped for the best. the trick is apparent when the camera is behind the vehicle.<br>The result is oddly satisfying though, on the other angles!<br><br>(also, I loaded the Twemoji Webfont)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/css3d?src=hash&amp;ref_src=twsrc%5Etfw">#css3d</a> <a href="https://t.co/tChsBMFUnH">pic.twitter.com/tChsBMFUnH</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294962861744304129?ref_src=twsrc%5Etfw">August 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>To avoid seeing the gaps in the middle of the shape and give it a bit more volume, I decided to fill it with three cuboids (representing the body, chimney and cabin of the locomotive):
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Re: Volumetric emoji:<br><br>I wanted to let my camera see the locomotive in every angle (front, back, top...) without the annoying flat layers.<br>So I filled it with 3 cuboids (1 red, and 2 greys).<br>This gif shows the cuboids, then the full shape (cuboids+emoji).<br>It&#39;s better. 🤓<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/JscRRaNpQA">pic.twitter.com/JscRRaNpQA</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294973820139339777?ref_src=twsrc%5Etfw">August 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>It was becoming interesting but womething was still wrong: the pile of emoji at the center of the locomotive didn't look right, so I removed them completely, and instead, represented the interior with a few more 3D shapes (4 cuboids and 3 colored planes), while keeping the emoji for the front face and the back face only, like an ice-cream sandwich:
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 5:<br>I wasn&#39;t totally happy with the multi-layer emoji, so here&#39;s a new approach: &quot;ice cream sandwich emoji&quot;:<br>1) Place 2 emoji (front face + back face).<br>2) Fill the space in-between with colored cubes/planes that resemble the emoji.<br>(1/2)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/VoJLt4TUhg">pic.twitter.com/VoJLt4TUhg</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295355708167290883?ref_src=twsrc%5Etfw">August 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<h4>In the meantime: a title screen is born!</h4>
+
+<p>I was so satisfied with the camera movement I had implemented around my vehicle (even though it was pretty simple: a constant rotation around the vertical Z axis, and a sinusoidal rotation around the horizontal X axis), that I decided to add some emoji trees, emoji shadows (<a href="https://twitter.com/MaximeEuziere/status/904257442506313728">invented in 2017</a>), animate everything...
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Playing with CSS to make the rails and trees scroll and the camera move around in a big infinite loop...<br>It could be the beginning of something interesting!😊<br>(The trees are not volumetric btw, they&#39;re programmed to always face the camera)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a><br>too late <a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> <a href="https://t.co/wN7GfmYkdA">pic.twitter.com/wN7GfmYkdA</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295076046514130944?ref_src=twsrc%5Etfw">August 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>...and use it as my game's title screen:
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 6:<br><br>Let&#39;s use this as the title screen and move on to the gameplay (quick prototype first, I hope it works)!<br><br>NB: the GIF doesn&#39;t show the green gradient properly :(<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/cMHp7QnfvZ">pic.twitter.com/cMHp7QnfvZ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295662069954613248?ref_src=twsrc%5Etfw">August 18, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>The interesting trick about this scene is that it's as far from an infinite ride as you can imagine:
+<ul>
+<li>The train is fixed
+<li>The metallic rails are fixed
+<li>The ground (with a green gradient) is fixed
+<li>The trees are placed around the train and scroll from front to back using a 9-second repeating CSS animation.
+<li>The wood pattern between the rails (which is actually a single div with a linear-gradient that alternates between orange and transparent) also scrolls using a 0.9-second CSS animation.
+</ul>
+
+CSS code:
+<br>
+<pre class=lang-css><code>@keyframes tree {
+  0% {left: 600px;}
+  100% {left: -600px;}
+}
+
+@keyframes wood {
+  100% { background-position: -100% center; }
+}
+
+.woods { position: fixed; animation: wood .9s infinite linear; }
+.tree { position: fixed; animation: tree 9s infinite linear; }</code></pre>
+<br>
+
+<p>If you look at it from far away, you can see how fixed it really is:
+<br>
+<br>
+
+<img src="images/js13k20/css3d42.gif">
+
+<br>
+<p>Avoiding to spawn CSS3D elements continuously was a size optimization, but also a performance optimization, as browsers prefer having as few CSS3D complexity to handle as possible.
+<br>This is why I made another optimization, that consists in hiding all the cube faces that are never seen by the camera:
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Notes about the GIF above:<br>- Emoji shadow trick: emoji almost transparent + CSS text-shadow<br>- CSS3D optimization: all the cubes&#39;s faces that are never visible are removed.<br>- Total divs in this scene, thanks to the looping track and trees: 180 (before optimization: 293)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/imKp6Qwf8y">pic.twitter.com/imKp6Qwf8y</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295360654468173824?ref_src=twsrc%5Etfw">August 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>In the end, this title screen only required 79 divs and 2.16kb zipped.
+<br>Even the interior of the train lost many more divs to finally look like this (14 faces, plus the front and back emoji not shown here):
+<br>
+<br>
+
+<img src="images/js13k20/interior.png" width=500>
+
+<br>
+<br>
+<h1>TO BE CONTINUED</h1>
+<br>
+<br>
+
+
+<!--h4>Day 7</h4>
+<h4>Day 8</h4>
+<h4>Day 9</h4>
+<h4>Day 10</h4>
+<h4>Day 11</h4>
+<h4>Day 12</h4>
+<h4>Day 13</h4>
+<h4>Day 14</h4>
+<h4>Day 15</h4>
+<h4>Day 16</h4>
+<h4>Day 17</h4>
+<h4>Day 18</h4>
+<h4>Day 19</h4>
+<h4>Day 20</h4>
+<h4>Day 21</h4>
+<h4>Day 22</h4>
+<h4>Day 23</h4>
+<h4>Day 24</h4>
+<h4>Day 25</h4>
+<h4>Day 26</h4>
+<h4>Day 27</h4>
+<h4>Day 28</h4>
+<h4>Day 29</h4>
+<h4>Day 30</h4>
+-->
+
+
 
 </div>
 
