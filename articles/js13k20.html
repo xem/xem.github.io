@@ -79,7 +79,7 @@ ul { padding-left: 15px }
 
 <p>... but it didn't inspire me enough.
 <br>One thing was sure: I really wanted to make a game that uses Emoji.
-<br>Though, I remembered all the problems I had in 2018 when I wanted to use Emoji flags in my game <a href="http://js13kgames.com/entries/geoquiz-2">Geoquiz 2</a>, so I decided to solve that first. I tried <a href="https://twitter.com/MaximeEuziere/status/1294011011331239937">many approaches</a>, but none of them was satisfying, until <b>Lance Erwing</b> kindly pointed me to the Twemoji webfont built by Mozilla, that actually worked seamlessly on every browser... (except Safari, doesn't seem to accept any form of color Emoji webfont :/)
+<br>Though, I remembered all the problems I had in 2018 when I wanted to use Emoji flags in my game <a href="http://js13kgames.com/entries/geoquiz-2">Geoquiz 2</a>, so I decided to solve that first. I tried <a href="https://twitter.com/MaximeEuziere/status/1294011011331239937">many approaches</a>, but none of them was satisfying, until <b>Lance Erwing</b> kindly pointed me to the Twemoji webfont built by Mozilla, that actually worked seamlessly on every browser... (except Safari, which doesn't seem to accept any form of color Emoji webfont :/)
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 3:<br>Thanks to <a href="https://twitter.com/lance_ewing?ref_src=twsrc%5Etfw">@lance_ewing</a>, I found a better version of Twitter&#39;s Emoji webfont, built by Mozilla, which seems to work everywhere. And it&#39;s much smaller than the previous ones (1.2Mb vs 9Mb)!<br><br>Here&#39;s the updated emoji resource:<a href="https://t.co/bPnorv3YSr">https://t.co/bPnorv3YSr</a> <a href="https://t.co/dMl4MJPhuE">pic.twitter.com/dMl4MJPhuE</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294552111276068864?ref_src=twsrc%5Etfw">August 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -121,7 +121,7 @@ If you played the game already, you should recognize the first levels, plus some
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Re: Volumetric emoji:<br><br>I wanted to let my camera see the locomotive in every angle (front, back, top...) without the annoying flat layers.<br>So I filled it with 3 cuboids (1 red, and 2 greys).<br>This gif shows the cuboids, then the full shape (cuboids+emoji).<br>It&#39;s better. 🤓<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/JscRRaNpQA">pic.twitter.com/JscRRaNpQA</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1294973820139339777?ref_src=twsrc%5Etfw">August 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>It was becoming interesting but womething was still wrong: the pile of emoji at the center of the locomotive didn't look right, so I removed them completely, and instead, represented the interior with a few more 3D shapes (4 cuboids and 3 colored planes), while keeping the emoji for the front face and the back face only, like an ice-cream sandwich:
+<p>It was becoming interesting but something was still wrong: the pile of emoji at the center of the locomotive didn't look right, so I removed them completely, and instead, represented the interior with a few more 3D shapes (4 cuboids and 3 colored planes), while keeping the emoji for the front face and the back face only, like an ice-cream sandwich:
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 5:<br>I wasn&#39;t totally happy with the multi-layer emoji, so here&#39;s a new approach: &quot;ice cream sandwich emoji&quot;:<br>1) Place 2 emoji (front face + back face).<br>2) Fill the space in-between with colored cubes/planes that resemble the emoji.<br>(1/2)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/VoJLt4TUhg">pic.twitter.com/VoJLt4TUhg</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295355708167290883?ref_src=twsrc%5Etfw">August 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -135,11 +135,12 @@ If you played the game already, you should recognize the first levels, plus some
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 6:<br><br>Let&#39;s use this as the title screen and move on to the gameplay (quick prototype first, I hope it works)!<br><br>NB: the GIF doesn&#39;t show the green gradient properly :(<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/cMHp7QnfvZ">pic.twitter.com/cMHp7QnfvZ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295662069954613248?ref_src=twsrc%5Etfw">August 18, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>The interesting trick about this scene is that it's as far from an infinite ride as you can imagine:
+<p>An interesting trick about this scene is that it's as far from an infinite ride as you can imagine:
 <ul>
 <li>The train is fixed
 <li>The metallic rails are fixed
 <li>The ground (with a green gradient) is fixed
+<li>Even the camera is fixed (in CSS3D there's no camera, it's the whole scene that rotates on itself)
 <li>The trees are placed around the train and scroll from front to back using a 9-second repeating CSS animation
 <li>The wood pieces between the rails also scrolls using a 0.9-second CSS animation
 </ul>
@@ -170,7 +171,7 @@ CSS code:
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Notes about the GIF above:<br>- Emoji shadow trick: emoji almost transparent + CSS text-shadow<br>- CSS3D optimization: all the cubes&#39;s faces that are never visible are removed.<br>- Total divs in this scene, thanks to the looping track and trees: 180 (before optimization: 293)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/imKp6Qwf8y">pic.twitter.com/imKp6Qwf8y</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295360654468173824?ref_src=twsrc%5Etfw">August 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>And I also replaced all the: wood pieces between the rails with a single flat div, on which I applied a linear gradient to alternate between orange ans transparent:
+<p>And I also replaced all the wood pieces between the rails with a single flat div, on which I applied a linear gradient to alternate between orange and transparent:
 
 <br>
 <br>Updated CSS code:
@@ -198,10 +199,42 @@ CSS code:
 
 <br>
 
-<p>Let's place the first brick of the gameplay environment and game engine that will be present during the rest of the project:
-<br>Two hills, a river, a bridge made of eight 100px-long chunks, and a little bit of interactivity, with our locomotive accelerating forwards or backwards with the press of two keys, X and C.
+<p>Let's start the game engine! But first, a minimal setup for my puzzles:<br>Two hills, a river, a bridge made of eight 100px-long chunks, and a little bit of interactivity, with our locomotive accelerating forwards or backwards with the press of two keys, X and C.
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">The train is controllable. Let&#39;s cross some bridges!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/t8yI1qZB2o">pic.twitter.com/t8yI1qZB2o</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295704179294568448?ref_src=twsrc%5Etfw">August 18, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<h4>Days 7 - 10: playing with perspective</h4>
+
+<p>So I directly started with the main mechanic of my game: switching perspective. More precisely, make the camera transition between a 3D view and a 2D isometric view, in order to make elements placed at different depths look aligned.
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 7: the problems begin<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/oakmayUtsL">pic.twitter.com/oakmayUtsL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295980011594428423?ref_src=twsrc%5Etfw">August 19, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>By chance, I had already experimented this in 2017 while preparing my js13k entry <a href="https://js13kgames.com/entries/lossst">LOSSST</a>, so I knew it was doable by cheating a little.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/screenshotsaturday?src=hash&amp;ref_src=twsrc%5Etfw">#screenshotsaturday</a> first steps of a kind of 2Diso/3D editor for next <a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a>. Powered by CSS3D of course!<br>56 days left :D <a href="https://t.co/arCzinMEH3">pic.twitter.com/arCzinMEH3</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/876077765916860416?ref_src=twsrc%5Etfw">June 17, 2017</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>The cheat is that it's not a REAL isometric view. Instead, I push the perspective sofar away that everything becomes seemingly flat.
+<br>I had to proceed like that in order to have transitions between the two views (CSS can transition from "perspective: 400px" to "perspective: 6000px", but not between "perspective: 400px" to "perspective: none".
+<br>(Actually it's possible, if the perspective is placed in every CSS3D div in the scene, but I didn't knew it at the time).
+<br>This transition is also the main reason why I didn't end up using WebGL for my entry: I knew how to make 3D and isometric 2D in WebGL but not how to transition properly between the two.
+<br>My other arguments against WebGL were the difficulty to display text and emoji on the screen, and the impossibility to edit / debug my scene in real time in the DOM inspector.
+
+<p>Anyway, in my first puzzle, this worked like a charm.
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 8: the perspective mechanic seems to work!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/34w6JawoCH">pic.twitter.com/34w6JawoCH</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296354054784921600?ref_src=twsrc%5Etfw">August 20, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>If I wanted to make many more puzzles, I had to define a convenient data format.
+<br>For each camera configuration, this format would tell which chunks of bridge are connected to each other:
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Imagine the train is on the chunk n°1.<br>If it goes left, it&#39;ll go on the chunk n°0, either in 2D or in 3D.<br>But if it goes right, it depends:<br>- In 3D: it falls in the river.<br>- In 2D: it goes on chunk n°3 (and its Y is updated!)<br>The code I wrote represents this double view.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/1w0qTC2fCL">pic.twitter.com/1w0qTC2fCL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296788505788653569?ref_src=twsrc%5Etfw">August 21, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>And this marked the end of the first week of development.
+<br>In other words, it was time to split my monolithic, 17kb index.html in many files.
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Like every year, the end of the first week of the jam seems to be the right time to clean up my project&#39;s folder, remove all dead/temp code, add comments, divide the project in multiple files... (total 17kb)...<br>Because the hard part begins now (compute 2D/3D collisions)!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/2HgLg6qNDL">pic.twitter.com/2HgLg6qNDL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296430685763375104?ref_src=twsrc%5Etfw">August 20, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <br>
@@ -209,23 +242,6 @@ CSS code:
 <h1>WORK IN PROGRESS ~ PLEASE COME BACK SOON!</h1>
 <br>
 <br>
-
-
-<h4>Days 7 - 10: playing with perspective</h4>
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 7: the problems begin<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/oakmayUtsL">pic.twitter.com/oakmayUtsL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1295980011594428423?ref_src=twsrc%5Etfw">August 19, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 8: the perspective mechanic seems to work!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/34w6JawoCH">pic.twitter.com/34w6JawoCH</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296354054784921600?ref_src=twsrc%5Etfw">August 20, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 9:<br>I finally settled on a convenient format to represent my levels.<br>Each chunk of track will have a number, a position (X, Y, Z),<br>And for each view (2D, 3D, ...), an array tells, for each chunk, which other chunk is reachable on the left side and on the right side...<br> <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/r4FH80Y3LI">pic.twitter.com/r4FH80Y3LI</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296788502802247682?ref_src=twsrc%5Etfw">August 21, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Imagine the train is on the chunk n°1.<br>If it goes left, it&#39;ll go on the chunk n°0, either in 2D or in 3D.<br>But if it goes right, it depends:<br>- In 3D: it falls in the river.<br>- In 2D: it goes on chunk n°3 (and its Y is updated!)<br>The code I wrote represents this double view.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/1w0qTC2fCL">pic.twitter.com/1w0qTC2fCL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296788505788653569?ref_src=twsrc%5Etfw">August 21, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Like every year, the end of the first week of the jam seems to be the right time to clean up my project&#39;s folder, remove all dead/temp code, add comments, divide the project in multiple files... (total 17kb)...<br>Because the hard part begins now (compute 2D/3D collisions)!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/2HgLg6qNDL">pic.twitter.com/2HgLg6qNDL</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1296430685763375104?ref_src=twsrc%5Etfw">August 20, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
 <h4>Day 11 - 13: playing with angles</h4>
