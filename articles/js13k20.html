@@ -219,6 +219,8 @@ CSS code:
 <p>The cheat is that it's not a REAL isometric view. Instead, I push the perspective so far away that everything becomes seemingly flat.
 <br><br>I had to proceed like that in order to have smooth transitions between the two views.
 <br>Indeed, CSS can transition the viewport from "perspective: 400px" to "perspective: 6000px", but not between "perspective: 400px" to "perspective: none", except if you encode the perspective in every CSS3D element of the scene, which is not worth the effort.
+
+<br><br>For more info about CSS3D and perspective, take a look at <a href="https://xem.github.io/articles/css3dgames.html">my CSS3D gamedev tutorial</a> or <a href="https://css-tricks.com/how-css-perspective-works/">this great CSS3D article</a> published on September 10.
 <br><br>This transition is also the main reason why I didn't end up using WebGL for my entry: I knew how to make 3D and isometric 2D in WebGL but not how to transition properly between the two.
 <br><br>My other arguments against WebGL were the difficulty to display text and emoji on the screen, and the impossibility to edit / debug my scene in real time in the DOM inspector.
 
@@ -247,7 +249,7 @@ CSS code:
 <br>It forced him to make complex computations and develop various techniques to always "project" the character at a convenient position in both 2D and 3D spaces at each transition.
 <br><br>Similarly, I also found behind-the-scenes images of the game Monument valley a few years ago, showing that every impossible perspective shown in the game was actually an illusion created by the developers, and that many items teleportations were actually necessary to make the whole scene look coherent. I found these illustrations very interesting and a lot of situations I faced during the development of my engine reminded me of them:
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">“The magic behind ustwo Games&#39; Monument Valley.” <a href="https://twitter.com/ustwogames?ref_src=twsrc%5Etfw">@ustwogames</a> <br><br>Read More: <a href="https://t.co/FDTPLFWzeX">https://t.co/FDTPLFWzeX</a><a href="https://t.co/hh5oguhabf">https://t.co/hh5oguhabf</a> <a href="https://t.co/gF3h4kYy2N">pic.twitter.com/gF3h4kYy2N</a></p>&mdash; The Logo Smith (@thelogosmith) <a href="https://twitter.com/thelogosmith/status/1037334495073116164?ref_src=twsrc%5Etfw">September 5, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">“The magic behind ustwo Games&#39; Monument Valley.” <a href="https://twitter.com/ustwogames">@ustwogames</a> <br><br>Read More: <a href="https://t.co/FDTPLFWzeX">https://t.co/FDTPLFWzeX</a><a href="https://t.co/hh5oguhabf">https://t.co/hh5oguhabf</a> <a href="https://t.co/gF3h4kYy2N">pic.twitter.com/gF3h4kYy2N</a></p>&mdash; The Logo Smith (@thelogosmith) <a href="https://twitter.com/thelogosmith/status/1037334495073116164">September 5, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p>So, this marked the end of the first week of development.
 <br>The end of week one also meant that it was time to split my monolithic, 17kb index.html into many files:
@@ -265,11 +267,11 @@ CSS code:
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 11: [SPOILERS]<br>After a weekend of coding, I finally managed to implement the camera controls I wanted.<br>The camera will switch from 2D to 3D, but it will also be able to rotate up, down, left and right with 45° increments.<br>In total, that&#39;s 46 different camera positions!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/K5gDsW8jrY">pic.twitter.com/K5gDsW8jrY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1297618284322394113">August 23, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>I had to adapt my data format to this new mechanic: instead of storing the links between chunks for the <s>48</s> 46 different camera positions, I defined a "default" links list, and only overwrite it with custom links for each camera position where two links become aligned. 
+<p>I had to adapt my data format to this new mechanic: instead of storing the links between chunks for the <s>48</s> 46 different camera positions, I defined a "default" links list, and only overwrite it with custom links for each camera position where two chunks or more become aligned. 
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 12<br>Remember when I showed how I store the links between chunks of road in 2D &amp; 3D?<br>Now that the camera can be in 48 different positions, it needs to be smarter: one &quot;default&quot; view for every unremarkable position, and a couple custom ones where the rails align properly<a href="https://twitter.com/hashtag/hs13k?src=hash&amp;ref_src=twsrc%5Etfw">#hs13k</a> <a href="https://t.co/p8NvdZRZ2m">pic.twitter.com/p8NvdZRZ2m</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1297969258295631874">August 24, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<p>In the meantime, I improved my scenery to take these new camera features into account: the hills are now volumetric (made of four slanted/skewed divs), and the river and hillsides are invisible when the camera is in low angle.
+<p>In the meantime, I improved my scenery to take these new camera features into account: the hills are now volumetric (made of five slanted/skewed divs), and the river and hillsides are invisible when the camera is in low angle.
 <br><br>At first, I used the native CSS property "backface-visibility: hidden" to do that, but the poor browser support finally made me  replace it with custom definitions of "opacity: 0" / "opacity: 1" depending on the camera's vertical angle.
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 13<br>Behind the scenes<br>- Rails aren&#39;t very long (to reduce the div count)<br>- Hills on each side of the river are actually slanted cuboids with no bottom (front &amp; back planes are skewed in CSS)<br>- River &amp; hillsides use backface-visibility:hidden (to be invisible from below)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/EEh6C9bAPC">pic.twitter.com/EEh6C9bAPC</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298232483524349952">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
@@ -278,6 +280,87 @@ CSS code:
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">A quick size check ?<br>- Commented source code: 32.6kb.<br>- Minified: 19.1kb.<br>- Zipped: 5.21kb.<br><br>Remaining work:<br>- Complete / fix the game engine (~75% done)<br>- Create a couple new assets (different types of rail chunks)<br>- Make nice levels 😱<br>- Add music and sound<br>- Polish<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1297983872399966211">August 24, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
+<h4>Days 14 - 18: fixing new problems with each new puzzle</h4>
+
+<p>As explained before, when the train moves between two chunks of track that seem aligned, it needs to teleport itself on each chunk, and potentially update its height or depth.
+<br>Or so I thought...
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">If you look closely, there&#39;s an issue that I kind of expected during the scribble phase: when the train is teleported on a track piece further than the previous one, it suddenly appears below the track...<br><br>There are maybe 2 possible approaches to fix that...<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/5LqrGMoo9T">pic.twitter.com/5LqrGMoo9T</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298343138503909376">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>The problem is that when the train suddenly teleports further from the camera, it appears behind the other parts of track that are closer to the camera.
+<br><br>At first I thought it could be fixed by cheating a little with the wood pattern between the rails...
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">The first possible approach consists in stopping the wood pieces earlier, so they never appear on top of the train.<br>It would produce something a bit like this, and honestly it really doesn&#39;t look nice...<br>The gaps and the train&#39;s jumps are still too visible.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/9hTkS8Wzc9">pic.twitter.com/9hTkS8Wzc9</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298343141452521473">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>But I was wrong, this approach didn't look good, and moreover, it didn't fix most of the cases where the camera is placed in a 45° angle.
+<br><br>So I had to cheat, but in a good way: I made the train stay at a position that was nice in that specific angle, even though it meant that in "reality", it is flying in the air, on the side or on top of its real target.
+<br><br>I called that a <b>virtual position</b>. When a virtual position is available, the train will behave as if it was on the chunk, but the game engine draws it at another position, closer to the camera, in order to make the optical illusion work.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The gif below shows:<br>=&gt; The problem, seen from above<br>&lt;= The problem, seen from a different angle<br>=&gt; The new solution, seen from above (yay! looks nice!)<br>&lt;= The new solution, seen from a different angle (see? the train &quot;flies&quot; to avoid glitching below the track!)<br>Woohoo!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/oeQdqmYUhh">pic.twitter.com/oeQdqmYUhh</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298359096828190720">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>I was really happy to find this "virtual position" trick, because even if it needed an extra effort during the level design phase, it was really stunning visually and could make something impossible, just work.
+<br><br>It was not yet the end of my problems though. First, I had to handle the fact that the train had to quit its virtual position and "fix" itself to a real chunk as soon as a camera movement was requested...
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Yes but... if the player stops the train on that exact chunk and moves the camera? Then they&#39;ll see the train flying, and that&#39;s not good!<br><br>Solution: when a camera move is requested, re-place the train at the &quot;right&quot; height and not the &quot;virtual&quot; one, then move the camera!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/yDVn2Fwi6j">pic.twitter.com/yDVn2Fwi6j</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298363283418882048">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>Then, the other (and bigger) problem I faced was when I wanted to make optical illusions that work in 3D perspective too.
+<br>In 3D, to make a chunk look like it fills a gap in the bridge, it needs to be further and bigger, or closer and smaller.
+<br>In other words, the scale of the chunks would become a hint for where the camera should be placed to solve each puzzle: if a chunk is bigger or smaller than the rest of the track, the solution is in 3D; if it's the same size, the solution is in 2D.
+
+<br><br>I really thought the hard part of my engine was nearly over at ths point...
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 15:<br>Here&#39;s a new <a href="https://twitter.com/hashtag/spoiler?src=hash&amp;ref_src=twsrc%5Etfw">#spoiler</a> fot my entry: the scale!<br>Some track pieces can look bigger or smaller than the others, but in a certain 3D angle, everything will align perfectly!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/u5oqdRxjYS">pic.twitter.com/u5oqdRxjYS</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298860830604353541">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>...But not at all. What I hadn't anticipated is that in 3D, not only the scale, height and depth of the chunks would be altered to make an optical illusion, but also the horizontal position, X!
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">A new problem that I hadn&#39;t anticipated just occurred on this level:<br>Until now, the train moved linearly from left to right, sometimes changing its Y (height) and Z (depth) coordinates.<br>But here, it&#39;s not enough: the chunk n°1 is bigger, further but also more on the left.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/80mz23HSNo">pic.twitter.com/80mz23HSNo</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299308446135857152">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>So to recap, the chunk has a virtual position perfectly aligned with the rest of the track, but a real position that is further, lower and more on the left than what the optical illusion suggests.
+<br>When we quit the 3D view, the train has to move to its real coordinates and scale (the position and scale of the chunk it's on), but how can it know what is its real X position on that chunk? The only thing it knew was its virtual, fake, X coordinate, but not where it gets projected on the real thing.
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Solution:<br>- Consider all the horizontal train movements relative to the current chunk (for example, a percentage) instead of a global X coordinate, to keep it coherent during camera switches.<br>- Update the train&#39;s scale and speed when it&#39;s moved on a smaller or bigger chunk<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/lD8L29LuNl">pic.twitter.com/lD8L29LuNl</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299318504064245761">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>So a big change had to be made in my engine. No more X coordinate. The only information that the train knew was which proportion of a chunk it had already crossed, from 0 to 100%.
+<br>If it moves to 75% of the chunk in virtual position and then goes back to its real position because of a camera transition, then it'll need to be placed at 75% of the real chunk too.
+<br>I was lucky to find this solution (after a few days of head-scratching), because otherwise, this could have been a showstopper issue!
+
+<br><br>The biggest challenge was solved, but it didn't prevent specific edge cases from popping everywhere, like this one:
+<br>What happens when the train has to quit a virtual position because of a camera movement, and needs to jump to a virtual position immediately in the new camera position?
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Details:<br>It&#39;s not very hard to fix, but there are dozens of cases like this one (when going from 2D to 3D, when changing the angle, when going from a virtual position to a real one, etc) that often require a specific implementation, using more lines of code and dev time 😰<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/RmAfdntH3o">pic.twitter.com/RmAfdntH3o</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300033752324808704">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>At the end of day 17, after putting all my special cases on paper and intense reflexion,  I finally found a clean, elegant and generic solution that I could use until the end of the development to handle all my teleportations, optical illusions, and transitions. Woohoo!
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Update: IT WORKS! 🥳<br>Seamless train repositioning/rescaling when jumping from a view to another. <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/fxqwhn9YQu">pic.twitter.com/fxqwhn9YQu</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300065972292902914">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<p>As a side note, I wanted to show you how artisanal my level-making was. No maths, no fancy editor, everything was made in my debugger, by moving my chunks pixel by pixel and scaling them percent by percent directly in-game (and that would have been much more complex to do in WebGL):
+
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">By the way, do you think I use complex calculations or a fancy level editor to adjust the tracks in 3D like that?<br>Absolutely not. I do everything pixel by pixel in my browser&#39;s debugger (and still believe it&#39;s the way that saves the most time🤡)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/x0J9EMYYBd">pic.twitter.com/x0J9EMYYBd</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298875562694447109">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>While we're speaking of level design, I consider it as a big force, and at the same time, a big weakness of my game.
+<br>I really wanted to surprise the player at each new level with a new mechanic to learn or a special event, because I know that most players will have very few time to test each game, and I didn't want them to miss cool things just because they happen later in the game (like the time travel and portal features of my 2016 entry <a href="https://js13kgames.com/entries/super-chrono-portal-maker">Super Chrono Portal Maker</a> or the mirrored and 3D puzzles of my 2017 entry <a href="https://js13kgames.com/entries/lossst">LOSSST</a>).
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Today I finally started producing the levels of my game... And scraping about half of them because they were interesting but a bit too redundant. Most players won&#39;t play my game more than 2 minutes, so I want them to have &quot;enough surprise&quot; at each new level... <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298972338814414848">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>So I scraped every little level that didn't bring something new to the game, even though they would have been helpful to consolidate the game's mechanics in the players' minds.
+<br>Unfortunately, the feedbacks I got at the end of the jam confirmed that this "feature rush" was a bit too extreme, as a vast majority of players told me that the concept is great, but the difficulty curve is way too steep, especially at the level 6, where camera rorations are introduced... I definitely should have made it simpler :(
+
+<br><br>To finish this week, here's a sneak peek at the improvements made in my scene so far and the debug mode where every chunk gets numbered:
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 16:<br>- Made the river wavy and wider (to leave more room for the puzzles)<br>- Made a bit of <a href="https://twitter.com/hashtag/procgen?src=hash&amp;ref_src=twsrc%5Etfw">#procgen</a> to place the trees on the hills without any overlap<br>- Added numbers on each part of the track to help the puzzle creation and debugging<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/dqiMzx3PCU">pic.twitter.com/dqiMzx3PCU</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299250259915403265">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>Almost one half of my zip was already full!
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Gosh, it&#39;s already the end of week 3!<br>Let&#39;s clean up my code and crunch some numbers...<br>5 levels completed<br>Engine 90% finished<br>1315 lines of code<br>~40h of work<br>42.6kb commented (incl. 4.4kb of CSS, 0.7kb of HTML)<br>23.7kb minified (incl. 3.4kb of CSS)<br>6.12kb zipped (with ECT)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/qTesrOqkUT">pic.twitter.com/qTesrOqkUT</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300112990184837121">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
 
 <br>
 <br>
@@ -285,59 +368,6 @@ CSS code:
 <br>
 <br>
  
-
-<h4>Days 14 - 18: fixing new problems with each new puzzle</h4>
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">If you look closely, there&#39;s an issue that I kind of expected during the scribble phase: when the train is teleported on a track piece further than the previous one, it suddenly appears below the track...<br><br>There are maybe 2 possible approaches to fix that...<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/5LqrGMoo9T">pic.twitter.com/5LqrGMoo9T</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298343138503909376">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">The first possible approach consists in stopping the wood pieces earlier, so they never appear on top of the train.<br>It would produce something a bit like this, and honestly it really doesn&#39;t look nice...<br>The gaps and the train&#39;s jumps are still too visible.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/9hTkS8Wzc9">pic.twitter.com/9hTkS8Wzc9</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298343141452521473">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">My second idea consists in keeping the train at the same height as the neighbour chunks, but only in the view in which everything is aligned. It will fly but no one will see it.<br>So let&#39;s alter our &quot;2D top&quot; links a little to include new &quot;virtual&quot; coordinates on chunk n°2...<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/VFR2LrSAVs">pic.twitter.com/VFR2LrSAVs</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298347600681340928">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">The gif below shows:<br>=&gt; The problem, seen from above<br>&lt;= The problem, seen from a different angle<br>=&gt; The new solution, seen from above (yay! looks nice!)<br>&lt;= The new solution, seen from a different angle (see? the train &quot;flies&quot; to avoid glitching below the track!)<br>Woohoo!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/oeQdqmYUhh">pic.twitter.com/oeQdqmYUhh</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298359096828190720">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Yes but... if the player stops the train on that exact chunk and moves the camera? Then they&#39;ll see the train flying, and that&#39;s not good!<br><br>Solution: when a camera move is requested, re-place the train at the &quot;right&quot; height and not the &quot;virtual&quot; one, then move the camera!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/yDVn2Fwi6j">pic.twitter.com/yDVn2Fwi6j</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298363283418882048">August 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 15:<br>Here&#39;s a new <a href="https://twitter.com/hashtag/spoiler?src=hash&amp;ref_src=twsrc%5Etfw">#spoiler</a> fot my entry: the scale!<br>Some track pieces can look bigger or smaller than the others, but in a certain 3D angle, everything will align perfectly!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/wip?src=hash&amp;ref_src=twsrc%5Etfw">#wip</a> <a href="https://t.co/u5oqdRxjYS">pic.twitter.com/u5oqdRxjYS</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298860830604353541">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">By the way, do you think I use complex calculations or a fancy level editor to adjust the tracks in 3D like that?<br>Absolutely not. I do everything pixel by pixel in my browser&#39;s debugger (and still believe it&#39;s the way that saves the most time🤡)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/x0J9EMYYBd">pic.twitter.com/x0J9EMYYBd</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298875562694447109">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Today I finally started producing the levels of my game... And scraping about half of them because they were interesting but a bit too redundant. Most players won&#39;t play my game more than 2 minutes, so I want them to have &quot;enough surprise&quot; at each new level... <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1298972338814414848">August 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 16:<br>- Made the river wavy and wider (to leave more room for the puzzles)<br>- Made a bit of <a href="https://twitter.com/hashtag/procgen?src=hash&amp;ref_src=twsrc%5Etfw">#procgen</a> to place the trees on the hills without any overlap<br>- Added numbers on each part of the track to help the puzzle creation and debugging<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/dqiMzx3PCU">pic.twitter.com/dqiMzx3PCU</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299250259915403265">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">A new problem that I hadn&#39;t anticipated just occurred on this level:<br>Until now, the train moved linearly from left to right, sometimes changing its Y (height) and Z (depth) coordinates.<br>But here, it&#39;s not enough: the chunk n°1 is bigger, further but also more on the left.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/80mz23HSNo">pic.twitter.com/80mz23HSNo</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299308446135857152">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-"The GIF above shows the 3D view, the same 3D view seen from another angle, and the problematic 2D view.
-When we switch from 3D to 2D, the train can't keep the same X position, because it's moved on a track chunk that is bigger, further, and offsetted horizontally..."
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Solution:<br>- Consider all the horizontal train movements relative to the current chunk (for example, a percentage) instead of a global X coordinate, to keep it coherent during camera switches.<br>- Update the train&#39;s scale and speed when it&#39;s moved on a smaller or bigger chunk<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/lD8L29LuNl">pic.twitter.com/lD8L29LuNl</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299318504064245761">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Solution:<br>- Consider all the horizontal train movements relative to the current chunk (for example, a percentage) instead of a global X coordinate, to keep it coherent during camera switches.<br>- Update the train&#39;s scale and speed when it&#39;s moved on a smaller or bigger chunk<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/lD8L29LuNl">pic.twitter.com/lD8L29LuNl</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1299318504064245761">August 28, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 18:<br>I&#39;m spending hours trying to fix little bugs, like this one happening when the train goes from a virtual position to another...<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/nNHivwforj">pic.twitter.com/nNHivwforj</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300033745404203008">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Details:<br>It&#39;s not very hard to fix, but there are dozens of cases like this one (when going from 2D to 3D, when changing the angle, when going from a virtual position to a real one, etc) that often require a specific implementation, using more lines of code and dev time 😰<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/RmAfdntH3o">pic.twitter.com/RmAfdntH3o</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300033752324808704">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Update: IT WORKS! 🥳<br>Seamless train repositioning/rescaling when jumping from a view to another. <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/fxqwhn9YQu">pic.twitter.com/fxqwhn9YQu</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300065972292902914">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Gosh, it&#39;s already the end of week 3!<br>Let&#39;s clean up my code and crunch some numbers...<br>5 levels completed<br>Engine 90% finished<br>1315 lines of code<br>~40h of work<br>42.6kb commented (incl. 4.4kb of CSS, 0.7kb of HTML)<br>23.7kb minified (incl. 3.4kb of CSS)<br>6.12kb zipped (with ECT)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/qTesrOqkUT">pic.twitter.com/qTesrOqkUT</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1300112990184837121">August 30, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
 
 <h4>Days 19 - 26: more puzzles, special events and optimizations</h4>
 
