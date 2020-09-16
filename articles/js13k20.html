@@ -38,6 +38,20 @@ ul { padding-left: 15px }
 <li>Results (soon!)
 </ul>
 
+<br><br><hr><br>
+
+<h4>My other code-golfed CSS3D / emoji projects</h4>
+<ul>
+<li><a href="https://js1k.com/2017-magic/demo/2794">Can I haz 1Karrot</a> (js1k 2017)
+<li><a href="https://js13kgames.com/entries/lossst">LOSSST</a> (js13kgames 2017)
+<li><a href="https://js1k.com/2018-coins/demo/3003">SN1KE</a> (LOSSST demake, js1k 2018)
+<li><a href="https://js1k.com/2019-x/demo/4066">Peach1Kastle</a> (js1k 2019)
+<li><a href="https://js1k.com/2019-x/demo/4139">MiniTwo3D</a> (js1k 2019)
+<li><a href="https://js1k.com/2019-x/demo/4269">Mini Riding Light</a> (js1k 2019)
+<li><a href="https://js13kgames.com/entries/back-on-track-mania">Back on track (mania)</a> (Trackmania demake, js13kgames 2019)
+<li><a href="https://itch.io/jam/2kplus-jam/rate/578133">Shift 2k20</a> (Shift demake, 2kplus jam 2020)
+</ul>
+
 <br><hr><br>
 
 <h4>Before the jam</h4>
@@ -419,44 +433,74 @@ CSS code:
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">End of week 4!<br><br>Stats time:<br>- 1.16kb of HTML (42 lines of code)<br>- 5.12kb of CSS (115 lines of code)<br>- 63.4kb of JS (2043 lines of code)<br>- 4.81kb of SVG files<br><br>HTML/CSS/JS minified (not golfed): 34.8kb<br><br>Everything zipped: 11.0kb<br><br>TODO: one last level, sound, polish.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1302689941596631040">September 6, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
+
+<h4>Days 27 - 28: Music!</h4>
+
+<p>The music of <b>Track not found?!</b> has a fun backstory.
+<br><br>On day 27, I was pretty much despaired that my game was completely mute, and that I couldn't compose anything interesting despite all the music tools out there (including the ones I made myself during the last few years).
+<br><br>I started to copy the music of my 2017 entry <b>LOSSST</b> to put it in my game, but when I tried to golf the code that plays the melody, I made a typo that only played one note every two notes (and ignoring the other one).
+<br>The result was a melody that sounded not only completely original, but also not bad at all!
+<br><br>After fixing the length of the silences and the pitch of a couple notes, it gave me this:
+<script>
+losssthalf = D => {
+  if(!D)return;           // D = melody string (a-z + 0 for silence)
+  I=.3;           // I = note length in seconds
+  with(new AudioContext)
+  with(G=createGain())
+  for(i=0;i<D.length;i++)
+  with(createOscillator())
+  if(D[i=+i]&&D[i]!="0")
+  connect(G),
+  G.connect(destination),
+  start(i*I+.3),
+  frequency.setValueAtTime(440*1.06**(-105+D.charCodeAt(i)),i*I+.3),
+  type='sine',            // or triangle or square or sawtooth
+  gain.setValueAtTime(.5,i*I+.3),
+  gain.setTargetAtTime(.001,i*I+.3+.1,.05),
+  stop(i*I+.3+I-.01);
+}
+</script>
+<br><br><button onclick="losssthalf('miffif00mifbfh00heaehe00ifffif00iheaehefffff');losssthalf('aaabbb00aaabbc00aaabbb00aaabbc00aaabbcccbbbb')">Play</button>
+
+<br><br>I was preparing to use this theme in my game, but I found quite amusing to edit melodies like that, just by editing an ASCII string! So I made a mini-tool for it and shared it on Twitter:
+ 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">So yeah uh,<br>I&#39;ve put together a mini tool to write a two-track melody using nothing else than the letters a-z and the number 0 for the silences. 👉👈<br><br>Try it here:<a href="https://t.co/Ib6AkBfAU4">https://t.co/Ib6AkBfAU4</a><br><br>If anyone is free to help me compose a little loop for my game, it&#39;d be great. ☺️<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/5uAkdolR82">pic.twitter.com/5uAkdolR82</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303404329081221123">September 8, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br><br>And then, by chance, <b>GregPeck</b>, another js13kgames contestant, saw my tool and had the kindness to compose something else with it, for me.
+<br>It was so good that I ended up using his song in my game :)
+<br><br>While you're here, go play his entry <b>404th floor</b> <a href="https://js13kgames.com/entries/404th-floor">HERE</a>, it's very nice!
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>I didn't stop there: I adapted my music player so that it played each note individually, one after the other, instantly, instead of making it program the 64 notes of the melody in advance and letting them all play for 20 seconds.
+
+<br><br>It was a bit complex to get the AudioContext API right, but when it finally worked, I've been able to change the waveform of the notes on-the-fly when switching from 2D to 3D to produce an interesting effect.
+<br>For the 4D transition, I used a different waveform but I also randomized the start and length of each note to make the melody sound glitchy.
+
+<br><br>Another problem that I faced when making this custom music player was that the two first notes were always buggy on my computer. Depending on the browser I used, there was either a very unsettling cracking noise, as if a microphone was being plugged in an amplifier or something like that, or complete silence for a brief moment.
+<br>The solution was to start playing 3 dummy notes with a volume of 0.001, and then start the real melody, with a hearable volume (0.5).
+
+<br><br>I'm happy with the final result, even though I realized after the end of the compo that the song was kind of distorted and unrecognizable on some low-end smartphones, but it was too late to try and fix it, so... so be it!
+
+
 <br>
 <br>
 <h1>WORK IN PROGRESS ~ PLEASE COME BACK SOON!</h1>
 <br>
 <br>
- 
-
-
-<h4>Days 27 - 28: Music!</h4>
-
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">So yeah uh,<br>I&#39;ve put together a mini tool to write a two-track melody using nothing else than the letters a-z and the number 0 for the silences. 👉👈<br><br>Try it here:<a href="https://t.co/Ib6AkBfAU4">https://t.co/Ib6AkBfAU4</a><br><br>If anyone is free to help me compose a little loop for my game, it&#39;d be great. ☺️<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/5uAkdolR82">pic.twitter.com/5uAkdolR82</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303404329081221123">September 8, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
 
 <h4>Days 29 - 30: Polishing and filling the zip with bonuses</h4>
 
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">Day 28:<br>I finally have a nice music, thanks to <a href="https://twitter.com/GregPeck44">@GregPeck44</a> (who is also making a very nice entry on his own) 🥳<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303655689450127360">September 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Adding sound effects too 👀<br>(there&#39;s still too much free room in my zip)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304161494997897217">September 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Adding sound effects too 👀<br>(there&#39;s still too much free room in my zip)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304161494997897217">September 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Some stats from the final build:<br>- ~60 hours of work<br>- 2546 CSS3D divs displayed in 11 levels<br>- 1 HTML file (46 lines, 1.39kb, 1014b minified)<br>- 1 CSS file (107 lines, 4.93kb, 4.09kb minified)<br>- 8 JS files (2663 lines, 81.6kb, 34.74kb minified)<br>- 5 svg files (3.89kb)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/0NKtyUIjTP">pic.twitter.com/0NKtyUIjTP</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304516741473734659">September 11, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+ 
+
 
 <br><br><hr><br>
 
