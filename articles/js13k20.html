@@ -40,14 +40,18 @@ ul { padding-left: 15px }
 
 <br><br><hr><br>
 
-<h4>My other code-golfed CSS3D / emoji projects</h4>
+<h4>Similar projects</h4>
+<p>If you discover my work today, here are my latest notable code-golfed / CSS3D / emoji projects that you may also like:</h4>
 <ul>
-<li><a href="https://js1k.com/2017-magic/demo/2794">Can I haz 1Karrot</a> (js1k 2017)
+<li><a href="https://js1k.com/2017-magic/demo/2794">Can I haz 1Karrot?</a> (js1k 2017)
 <li><a href="https://js13kgames.com/entries/lossst">LOSSST</a> (js13kgames 2017)
 <li><a href="https://js1k.com/2018-coins/demo/3003">SN1KE</a> (LOSSST demake, js1k 2018)
+<li><a href="https://js13kgames.com/entries/geoquiz-2">Geoquiz 2</a> (js13kgames 2018)
+<li><a href="https://js1k.com/2019-x/demo/4007">Emojysics!</a> (js1k 2019)
 <li><a href="https://js1k.com/2019-x/demo/4066">Peach1Kastle</a> (js1k 2019)
 <li><a href="https://js1k.com/2019-x/demo/4139">MiniTwo3D</a> (js1k 2019)
 <li><a href="https://js1k.com/2019-x/demo/4269">Mini Riding Light</a> (js1k 2019)
+<li><a href="https://js1k.com/2019-x/demo/4182">Mini Mandelbox</a> (js1k 2019)
 <li><a href="https://js13kgames.com/entries/back-on-track-mania">Back on track (mania)</a> (Trackmania demake, js13kgames 2019)
 <li><a href="https://itch.io/jam/2kplus-jam/rate/578133">Shift 2k20</a> (Shift demake, 2kplus jam 2020)
 </ul>
@@ -466,7 +470,7 @@ losssthalf = D => {
  
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">So yeah uh,<br>I&#39;ve put together a mini tool to write a two-track melody using nothing else than the letters a-z and the number 0 for the silences. 👉👈<br><br>Try it here:<a href="https://t.co/Ib6AkBfAU4">https://t.co/Ib6AkBfAU4</a><br><br>If anyone is free to help me compose a little loop for my game, it&#39;d be great. ☺️<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/5uAkdolR82">pic.twitter.com/5uAkdolR82</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1303404329081221123">September 8, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<br><br>And then, by chance, <b>GregPeck</b>, another js13kgames contestant, saw my tool and had the kindness to compose something else with it, for me.
+<br><br>And by chance, <b>GregPeck</b>, another js13kgames contestant, saw my tool and had the kindness to compose something new with it, for me.
 <br>It was so good that I ended up using his song in my game :)
 <br><br>While you're here, go play his entry <b>404th floor</b> <a href="https://js13kgames.com/entries/404th-floor">HERE</a>, it's very nice!
 
@@ -482,31 +486,43 @@ losssthalf = D => {
 
 <br><br>I'm happy with the final result, even though I realized after the end of the compo that the song was kind of distorted and unrecognizable on some low-end smartphones, but it was too late to try and fix it, so... so be it!
 
-
-<br>
-<br>
-<h1>WORK IN PROGRESS ~ PLEASE COME BACK SOON!</h1>
-<br>
-<br>
-
 <h4>Days 29 - 30: Polishing and filling the zip with bonuses</h4>
 
+<p>I took the last two days to fill the remaining space in my zip with extra features (like fullscreen mode, skip a level using the Escape key, etc), rework my title screen to make it less janky on Firefox (Firefox doesn't like ultra long CSS3D elements, so I replaced the big 1000px-long rail I had made in the title screen with ten 100-px chunks, each of them having the same wood pieces animation).
 
+<br><br>I also added sound effects (for deaths and dynamite explosions), picked from the <a href="https://xem.github.io/MiniSoundEditor/">Mini Sound Editor</a> tool I made with <b>Anders Kaare</b> in 2017, and some achievements unlockable in the fabulous <a href="https://js13kgames.com/entries/os13k">OS13k</a> entry by <b>Frank Force</b> (who's fabulous too)!
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Adding sound effects too 👀<br>(there&#39;s still too much free room in my zip)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304161494997897217">September 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
+<p>I finally added a 11th level (one I had scraped during the development), as a bonus for Coil users.
+<br>(pssst: it can also be reached by pressing Escape on level 10...).<br>I used this level as an example to explain how much work (and how much code) the making of a single level represents in my code base:
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">For each level, I have to hardcode the position and scale of every track chunk in 3D space, and links between them. Then for every camera position where two tracks become aligned, I hardcode the new links plus the adjustments that make the optical illusion seamless (2/3)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/D0iMgI7NKd">pic.twitter.com/D0iMgI7NKd</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304049198992691200?ref_src=twsrc%5Etfw">September 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>To finish, I showed how small this huge level could be after proper compression.
+<br>Though, I wish my game could have had a level editor to ease my creative process... <br>unfortunately, due to the nature of the puzzles, a level editor would have been too complex to develop and would probably have taken most of the month to build, probably delaying or cancelling the release of my game, so I guess I made the right decision.
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">So this is extremely verbose, but compresses very well.<br>For example, the data shown above requires 295 lines and 8304 bytes unminified,<br>3064 bytes minified,<br>and after zipping, my entry&#39;s size only increased by ~300 bytes.<br>I wish I could have made a level editor... 🤔<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304049203690311681?ref_src=twsrc%5Etfw">September 10, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br>And at the end of the last day, after all these little additions, I discovered that my zip had reached 14.1kb.<br>Yay! Finally an opportunity to make a bit of golfing and compression optimizations!
+<br><br>Remember the SVG emoji I borrowed from Twitter? Turned out, they weren't optimized at all. Passing them through <a href="https://jakearchibald.github.io/svgomg/">svgomg</a> reduced their uncompressed size by about 50%!
+<br><br>I also removed all the useless spaces here and here, and all the "null" keywords that remained in my code, making every empty slot simply equal to "undefined" instead of "null".
+<br><br>Since it was not enough, I finally renamed my longest / most used JS variables to 1 or 2 characters each.
+<br><br>The zip was finally 13.4kb, and thanks to the new amazing <a href="https://github.com/fhanau/Efficient-Compression-Tool">ECT zip optimizer</a>, it dropped just 20 bytes under the 13kb limit.
+<br>(to use ECT, download it, place it in the same folder as your entry and execute: <b> ./ect-0.8.3.exe -9 -zip ./entry.zip</b>)
+<br>ECT has this amazing capability to recompress a zip file even better than the strongest Advzip settings, and using only a fraction of the time Advzip used (~2 seconds vs. ~2 minutes). I love this tool!
 
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Some stats from the final build:<br>- ~60 hours of work<br>- 2546 CSS3D divs displayed in 11 levels<br>- 1 HTML file (46 lines, 1.39kb, 1014b minified)<br>- 1 CSS file (107 lines, 4.93kb, 4.09kb minified)<br>- 8 JS files (2663 lines, 81.6kb, 34.74kb minified)<br>- 5 svg files (3.89kb)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/0NKtyUIjTP">pic.twitter.com/0NKtyUIjTP</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1304516741473734659">September 11, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
- 
-
 
 <br><br><hr><br>
 
 <h4>Conclusion</h4>
 
-
+(to be completed after all the tests, feedbacks and rankings become available :p)
+<br>
+<br>
 </div>
 
 
