@@ -221,7 +221,7 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <li>An angle bigger than 2*Pi or smaller than 0 is similar to the same angle modulo 2*Pi (ex: 5*Pi rad = Pi rad; -Pi/2 rad = 3*Pi/2 rad).
 <li>The cosine of an angle "α" is the X coordinate of the corresponding point on the trigonometric circle, and oscillates between -1 and 1.
 <li>The sine is the Y coordinate of the same point, and also oscillates between -1 and 1.
-<li>The tangent is the length of the segment perpendicular to the radius at this point and the X axis. Its value goes between -∞ and +∞, and is equal to sin(α) / cos(α).
+<li>The tangent is the length of the segment perpendicular to the radius, between this point and the X axis. Its value goes between -∞ and +∞, and is equal to sin(α) / cos(α).
 </ul>
 <br><a href="https://twitter.com/freyaholmer/status/1173376419168247810"><img src="images/webgl-guide/trigo.gif" width=400 style="border: 1px solid #ddd"></a>
 <br><sub>GIF by Freya Holmér</sub>
@@ -346,7 +346,7 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <td>
 
 1 * x + 0 * y + 0 * z = x
-<br>0 * x + 1 * y + 0 *z = y
+<br>0 * x + 1 * y + 0 * z = y
 <br>0 * x + 0 * y + 1 * z = z
 </table>
 <br>
@@ -709,7 +709,7 @@ A<sup>T</sup> = <math xmlns = "http://www.w3.org/1998/Math/MathML">
 </math>
 </table>
 <li>Two or more matrices of equal size can be multiplied together to combine (accumulate) their transformations.
-<br>The result is a matrix containing the dot products of each line of the first matrix with each column of the second matrix.
+<br>The result of a matrix multiplication is a matrix containing the dot products of each line of the first matrix with each column of the second matrix.
 <br>The combination order is important, and is from right to left. For example, a matrix that performs a translation T, then a rotation R, then a scale S is equal to <b>S * R * T</b>.
 
 <li>Finally, a matrix can be inversed, with a complicated equation that we'll see later in this guide. It cancels the transformation made by the original matrix. Hence:
@@ -1907,7 +1907,7 @@ transform = (mat, options) => {
 
 
 <ul>
-<li>The U and V axis are sometimes called <b>S and T</b>, but it's exactly the same thing.
+<li>The U and V axis are sometimes called <b>S and T</b> in literature and 3D projects, but it's exactly the same thing.
 <li>The "pixels" inside a texture are called <b>texels</b>.
 <li>Since UV coordinates are between 0 and 1, the vast majority of texture images are square to avoid being distorted when they're mapped on a 3D shape.
 <li>In WebGL 1.0, the textures width and height in pixels need (in most cases) to be a power of two (2, 4, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096).
@@ -1919,17 +1919,17 @@ gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);</code></pr
 <li>The maximum texture size also varies with the device used. To be safe, width and height shouldn't exceed 4096px (more info on <a href="http://webglstats.com/webgl2/parameter/MAX_TEXTURE_SIZE">webglstats</a>).
 <br>You can call <pre class="language-js inline"><code>gl.getParameter(gl.MAX_TEXTURE_SIZE)</code></pre> to know the limit on your device.
 <li>You can overwrite textures after a <b>draw call</b> (after calling drawArrays or drawElements) if they're not used anymore.
-<li>If you need more than 8 textures without constantly switching between them, you can make a <b>texture atlas</b> (a mosaic of textures), and pick coordinates in the regions you want.
-<br>Warning: <b>texture bleeding</b> can occur if you use texture coordinates at the fronteer between two texture, due to antialiasing. 
+<li>If you need more than 8 textures without constantly switching between them, you can gather them into a <b>texture atlas</b> (a mosaic), and pick coordinates in the regions you want.
+<br>Warning: <a href="https://answers.unity.com/questions/1009926/texture-bleeding-on-mesh.html">texture bleeding</a> can occur if you use texture coordinates at the fronteer between two "sub-textures" of an atlas, due to antialiasing. Leave a bit of padding to avoid it.
 
 </ul>
 <br>
 <h5>Changing the texture's appearance</h5>
 <p>Remember that the values you're manipulating in the fragment buffer are rgba colors, so you can do anything you want with them, like:
-<br>- inverting the colors (r = 1-r; g = 1-g; b = 1-b).
+<br>- inverting the colors (r = 1 - r; g = 1 - g; b = 1 - b).
 <br>- greyscaling (compute the average of r, g and b, and apply it to r, g and b).
 <br>- exchanging color components (ex: gl_FragColor = color.brga).
-<br>- playing with <b>gl_FragCoord</b> (the current canvas coordinates, in pixels, in the form of a vec2).
+<br>- playing with <b>gl_FragCoord</b> (the current canvas coordinates, in pixels, which can be read as a vec2).
 
 <br><br><img src="images/webgl-guide/textures0.png" width=600>
 
@@ -1968,7 +1968,7 @@ gl_FragColor = color0 * color1;</code></pre>
 <p>In 3D, the "camera", with its position, angle and perspective, is defined by nothing more than a 4x4 matrix.
 <br>During render, every vertex in the scene is multiplied by this matrix to simulate these camera properties and appear at the right position.
 <br>The camera's <b>frustum</b>, also called <b>clipping volume</b>, defines an area in which the triangles will be rendered.
-<br>For a camera with perspective, it is defined by a field of view angle, an aspect ratio, a near clip plane and a far clip plane, and can be set with this matrix:
+<br>For a camera with perspective, it is defined by an angle (the field of view), an aspect ratio, a near clip plane and a far clip plane, and can be set with this matrix:
 <br>
 <br>
 <div class=math>
@@ -2209,9 +2209,9 @@ orthogonal = options => {
 
 <h3 id="3d">How to color each face of the cube</h3>
 
-<p>To color each face individually, each vertex can't have an unique color like we did before. Its color needs to vary depending on which face is being rendered.
+<p>To color each face individually, each vertex can't have an unique color like we did above. Its color needs to vary depending on which face is being rendered.
 <br>The solution is to declare all the possible combinations of vertices positions and colors in two data buffers, and use an index buffer to create the corresponding triangles.
-<br>Its indeed a bit more verbose, but still the simplese way to achieve it.
+<br>Its indeed a bit more verbose, but still the simplest way to achieve it.
 
 <br>The same principle applies if you want to make a cube with different textures on each face (each combination of vertex position and texture coordinates must be declared separately).
 
@@ -2256,7 +2256,7 @@ cube = (r = 1, g = 1, b = 1) => {
     1.0, 0.0, 0.0,   1.0, 0.0, 0.0,   1.0, 0.0, 0.0,   1.0, 0.0, 0.0,  // right
     0.0, 1.0, 0.0,   0.0, 1.0, 0.0,   0.0, 1.0, 0.0,   0.0, 1.0, 0.0,  // up
    -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  -1.0, 0.0, 0.0,  // left
-    0.0,-1.0, 0.0,   00,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,  // down
+    0.0,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,   0.0,-1.0, 0.0,  // down
     0.0, 0.0,-1.0,   0.0, 0.0,-1.0,   0.0, 0.0,-1.0,   0.0, 0.0,-1.0   // back
   ]);
 
@@ -2366,7 +2366,7 @@ dot = (xV, yV, zV, xW, yW, zW) => {
 
 <br>The color set by the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light. The color's alpha is fixed to 1.0.
 <br>If the dot product is negative, we set it to "0" (there can't be a negative amount of light). This is done with <b>max(dot(lightDirection, normal), 0.0);</b> (see line 27).
-<br>Note: it's a good practice to re-normalize the normals in the shaders to ensure they have the right length. This is done with <b>normalize()</b>.
+<br>Note: it's a good practice to re-normalize the normals in the shaders to ensure they have the right length. This is done with <b>normalize()</b>. (also on line 27).
 <p>
 <b>Demo</b>
 <p>
@@ -2408,8 +2408,9 @@ dot = (xV, yV, zV, xW, yW, zW) => {
 
 <p>A <b>spot light</b> is very similar to a point light, except that it does not emit light rays in all directions, but rather inside a given "cone".
 <br>When this cone hits a surface, the resulting lighting is elliptic, like a spot. In the real world, this is similar to a torchlight.
-<p>To implement it, we can start from a point light, and add a direction (like we had in the diffuse light) and an angle (like the camera's field of view angle).
+<p>To implement it, we can start from a point light, and add a direction (like we had in the diffuse light) and an angle (like the camera's "field of view" angle, but for the light source).
 <br>Then, the diffuse light is only computed for the fragments where the dot product of the spot direction and the spot-to-surface vector is bigger than the cosine of the spot's angle.
+<br>(If the dot product is smaller than the angle's cosine, it means that we're outside of the light cone.)
 
 <p>Here's the code added to the point light demo to transform it into a 20° spot light:
 
@@ -2480,8 +2481,13 @@ Demo:
 <p>By default, the normal vector of a triangle is reused by all its vertices.
 <br>This provokes a <b>facetted</b> (or polygonal) rendering, where neighbour triangles are separated by a visible "hard edge".
 <br><b>Smooth shading</b> (or "Phong shading"), consists in computing a different normal for each vertex, equal to the mean of the normals of all the triangles around it.
-<br>But no need to use divisions to obtain this mean value! Just normalize the sum of all the neighbour normals and you'll get the right result! (more info on <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">iquilezles's website</a>)
-<br>Also, since the normal is now a varying vector interpolated for each fragment, the fragment shader needs to re-normalize it to stay accurate.
+
+<br><br><a href="https://www.toptal.com/javascript/3d-graphics-a-webgl-tutorial"><img src="images/webgl-guide/softshading.png" width=400></a>
+
+<br>This computation can be done outside of your WebGL program, and if you work with 3D models, 3D editors can generally export them with or without enabling smooth shading. The only difference you'll see is that each vertex will have a specific normal vector, instead of the faces normals.
+
+<br>Fun fact: there's no need to use divisions to obtain this mean value! Just normalize the sum of all the neighbour faces normals and you're good! (more info on <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">iquilezles's website</a>)
+<br>Also, since the normal is now a varying vector interpolated for each fragment, the fragment shader needs to re-normalize it to stay accurate at each pixel.
 <br>Example: the same 3D model with smooth shading disabled / enabled (more info about loading 3D models in a future chapter!):
 <br><br><img src="images/webgl-guide/w5.gif" width=650>
 
@@ -2526,13 +2532,13 @@ Demo:
 <br>Now that we learned how to place a fixed light in the scene, if we want to rotate, translate or scale a cube without touching the rest of the scene, we need to do three things:
 <ul>
 <li>Introduce a <b>model matrix</b> (the transformation matrix of the cube).
-<li>Update the position of each vertex by multiplying it with the camera matrix (as usual) and also multiplying it with the model matrix.
+<li>Update the position of each cube vertex by multiplying it with the camera matrix (as usual) and also multiplying it with the model matrix.
 <li>Recompute all the vertex normals and the lighting of every fragment after each update of the model matrix.
 </ul>
 <br>
 <p><b>How to update the normals efficiently</b>
 <p>It's possible to recompute the normals from scratch in JS (with a cross product) after each transform, but it can represent a lot of computations in scenes that contain a lot of triangles.
-<br>So, in practice, the best approach is to keep the original normals unchanged, and have a matrix that can be used to update each of them.
+<br>So, in practice, the best approach is to keep the original normals unchanged, and have a single transformation matrix that can be used to update all of them.
 <br>Then, when the model matrix changes, two things can occur:
 <ul>
 <li>If the transformation is a simple translation, rotation, or uniform scale, the original normal's xyz coordinates can be multiplied with the top-left 3x3 matrix of the model matrix:
@@ -2561,7 +2567,7 @@ Demo:
 <li>When the page loads, the cube, the light and the camera matrix are set as usual. (lines 68-105).
 <li>Three new matrices are introduced: <b>model</b> (the model matrix), <b>inverseTranspose</b> and <b>mvp</b> (the model view projection matrix, equal to cameraMatrix * modelMatrix).
 <li>In the loop executed 60 times per second, we update the cube Y angle (line 117), recompute the model matrix (lines 119-122), the mvp matrix (lines 124-126),<br>the inverse transpose matrix (lines 128-130), and send them to WebGL as uniforms, before rendering the scene.
-<br>Note: the </b>identity</b> matrix is used in each frame to recompute the model matrix from scratch (line 120). It avoids updating the same matrix with small increments every time.
+<br>Note: the </b>identity</b> matrix is used in each frame to recompute the model matrix from scratch (line 120). It's more accurate than updating the same matrix with small increments every time.
 <li>The vertex shader applies the mvp matrix to the current vertex (line 26), and sends three varyings (position, normal and color) to the fragment shader.
 <li>The fragment shader does nothing new. As far as it is concerned, its task is still to compute a shading from the variables at its disposal, regardless of how they were computed.
 </ul>
@@ -2604,8 +2610,8 @@ inverse = m => {
 
 // Get the inverse transpose of a mat4
 inverseTranspose = m => transpose(inverse(m));</code></pre>
-<br>As you can see, the inversion algorithm is a bit hairy, so it's better to do it the as few times per second as possible.
-<br>Nevertheless, the inverse transpose is very useful for other life-saving tricks, as we will see in the part 2 of this guide. 
+<br>As you can see, the inversion algorithm is a bit hairy, so it's better to do it the as few times per second as possible.  (Once per frame, in JS, is the best solution)
+<br>Nevertheless, this inverse transpose is very useful for other life-saving tricks, as we will see in the part 2 of this guide!
 
 <br><br><hr><br>
 
@@ -2659,7 +2665,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 
 <p>A <b>hierarchical object</b> is a 3D model made of several basic objects (called <b>segments</b>), for example a robotic arm.
 <br><b>Joints</b> are where the segments are linked and rotate relatively to each other, like an elbow or a wrist.
-<br>To keep the segments linked to each other, the transformation matrix is inherited from segment to segment (ex: a hand will apply its own transformation matrix to the arm's one). 
+<br>To keep the segments linked to each other, the transformation matrix is inherited from segment to segment (ex: a hand will apply its own transformation matrix on top of the arm's one). 
 <p>The following demo shows an robotic arm made of three cuboids (click the buttons below to make it move).
 <br>
 
@@ -2690,7 +2696,7 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 
 <h4 id="4">Debugging</h4>
 
-<p>Many kind of errors can be present in your WebGL shaders or occur on runtime. The most frequent I've encountered are:
+<p>Many kinds of errors can be present in your WebGL shaders or occur on runtime. The most frequent I've encountered are:
 <ul>
 <li>Missing semicolon at the end of a line.
 <li>Missing decimal part in a float number (1 is an int, 1.0 is a float).
@@ -2704,14 +2710,14 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <br>
 <p>Other errors can be made in the JS program, and can sometimes fail silently. especially:
 <ul>
-<li>Using the bad count parameter for gl.drawArrays or gl.drawElements (must be the number of vertices).
-<li>Using the wrong combination of types for an index buffer and gl.drawElements (Uint16Array only work with gl.UNSIGNED_SHORT).
+<li>Using the bad count parameter for gl.drawArrays or gl.drawElements (it must be the number of vertices to draw).
+<li>Using the wrong combination of types for an index buffer and gl.drawElements (ex: Uint16Array only work with gl.UNSIGNED_SHORT).
 <li>Not passing the right amount of data in attributes or uniforms (ex: 4 floats in a vec3).
 </ul>
 <br>
 <p>Finally, if no syntax errors were made but nothing appears, check if:
 <ul>
-<li>The camera looks in the right direction (and with a decent fov angle, usually around 0.9 radians or 50 degrees).
+<li>The camera looks in the right direction (and with a decent fov angle, usually around 0.9 radians / 50°).
 <li>The light source is not too dark or trapped inside a 3D object.
 <li>Your normals are not inverted (they must point "outside" to let the object reflect the light correctly).
 <li>You didn't accidentally set any color's alpha to 0.0.
@@ -2736,7 +2742,7 @@ Anyway, if you want to enable it, you need to change the canvas context creation
 <li>New <b>types</b>: uint, bvec2/3/4 (boolean vectors), ivec2/3/4 (integer vectors), uvec2/3/4 (uint vectors), mat2x3, mat2x4, mat3x4, mat4x3, mat4x2, mat3x2 and a bunch of new Samplers.
 <li>New boolean <b>operators</b>: %, &lt;&lt;, >>, &amp;, ^, |, &lt;&lt;=, >>=, &=, ^=, |=.
 <li>New <b>matrix functions</b>: inverse(), transpose().
-<li>Loops bounds no not need to be constant anymore. 
+<li>Loops bounds do not need to be constant anymore. 
 <li>The functions <b>texture2D</b> and <b>textureCube</b> are now simply called <b>texture</b>.
 <li>Mipmapping now works on textures even if their width and height are not a power of 2.
 <br>In summary, mipmaps are smaller versions of a 2D texture (size/4, size/8 size/16 ...), used by WebGL when a textured object is moving away from the camera.
@@ -2798,7 +2804,7 @@ gl.bindVertexArray(vao);</code></pre>
 <li>Don't set a "clear color" for your WebGL canvas (the background will be transparent by default and <b>gl.enable(gl.DEPTH_TEST)</b> will still work):
 <pre class=lang-js><code>// gl.clearColor(0, 0, 0, 1);
 // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</code></pre>
-Note: black background can still be made with css: <pre class="lang-html inline"><code>&lt;canvas id=canvas style=background:#000></code></pre>
+Note: black background can still be obtained with css: <pre class="lang-html inline"><code>&lt;canvas id=canvas style=background:#000></code></pre>
 <li>Use radians directly for angles, to avoid the conversion from degrees (you can even avoid using the constant Math.PI, and round the result a little):
 <pre class=lang-js><code>// deg2rad = angle => Math.PI * angle / 180;
 // perspective({fov: deg2rad(30)})
@@ -2864,7 +2870,7 @@ gl.vertexAttrib1f(gl.getAttribLocation(program, 'size'), 10);</code></pre>
 <li>Make <b>gl.</b> implicit:
 <pre class=lang-js><code>with(canvas.getContext`webgl`){ /* JS program without any "gl." */ }</code></pre>
 <li>Make all JavaScript variables global (no var/let/const).
-<li>Use a minifier to remove every redundant whitespace and line break, and rename every variable / shader input in 1 character (see <a href="http://www.ctrl-alt-test.fr/glsl-minifier/">GLSL minifier</a>, <a href="https://xem.github.io/terser-online/">JS minifier</a>).
+<li>Use a minifier to remove every redundant whitespace and line break, and rename every variable / shader input into 1 character (see <a href="http://www.ctrl-alt-test.fr/glsl-minifier/">GLSL minifier</a>, <a href="https://xem.github.io/terser-online/">JS minifier</a>).
 <li>Rename the canvas's id as "c", and remove the closing tag <b>&lt;/canvas></b>
 </ul>
 <br>
@@ -2872,65 +2878,65 @@ gl.vertexAttrib1f(gl.getAttribLocation(program, 'size'), 10);</code></pre>
 <ul>
 <li>Replace all the WebGL constants with their numerical value. Here are the most used ones (full list available on <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Constants">MDN</a>):
 <pre class=lang-js style="columns:2;column-gap:10px;"><code>// Shaders
-gl.FRAGMENT_SHADER      // = 35632
-gl.VERTEX_SHADER        // = 35633
+gl.FRAGMENT_SHADER       // = 35632
+gl.VERTEX_SHADER         // = 35633
 ...
 
 // Clear
-gl.DEPTH_BUFFER_BIT     // = 256
-gl.COLOR_BUFFER_BIT     // = 16384
+gl.DEPTH_BUFFER_BIT      // = 256
+gl.COLOR_BUFFER_BIT      // = 16384
 
 // drawArrays / drawElements
-gl.POINTS               // = 0
-gl.LINES                // = 1
-gl.LINE_LOOP            // = 2
-gl.LINE_STRIP           // = 3
-gl.TRIANGLES            // = 4
-gl.TRIANGLE_STRIP       // = 5
-gl.TRIANGLE_FAN         // = 6
+gl.POINTS                // = 0
+gl.LINES                 // = 1
+gl.LINE_LOOP             // = 2
+gl.LINE_STRIP            // = 3
+gl.TRIANGLES             // = 4
+gl.TRIANGLE_STRIP        // = 5
+gl.TRIANGLE_FAN          // = 6
 
 // Blend (more details in part 2)
-gl.ZERO                 // = 0
-gl.ONE                  // = 1
-gl.SRC_ALPHA            // = 770
-gl.ONE_MINUS_SRC_ALPHA  // = 771
+gl.ZERO                  // = 0
+gl.ONE                   // = 1
+gl.SRC_ALPHA             // = 770
+gl.ONE_MINUS_SRC_ALPHA   // = 771
 ...
 
 // Buffers
-gl.STATIC_DRAW          // = 35044
-gl.ARRAY_BUFFER         // = 34962
-gl.ELEMENT_ARRAY_BUFFER // = 34963
-gl.BUFFER_SIZE          // = 34660
+gl.STATIC_DRAW           // = 35044
+gl.ARRAY_BUFFER          // = 34962
+gl.ELEMENT_ARRAY_BUFFER  // = 34963
+gl.BUFFER_SIZE           // = 34660
 ...
 // Enable
-gl.BLEND                // = 3042
-gl.DEPTH_TEST           // = 2929
+gl.BLEND                 // = 3042
+gl.DEPTH_TEST            // = 2929
 ...
 
 // Data types
-gl.BYTE                 // = 5120
-gl.UNSIGNED_BYTE        // = 5121
-gl.SHORT                // = 5122
-gl.UNSIGNED_SHORT       // = 5122
-gl.INT                  // = 5124
-gl.UNSIGNED_INT         // = 5125
-gl.FLOAT                // = 5126
+gl.BYTE                  // = 5120
+gl.UNSIGNED_BYTE         // = 5121
+gl.SHORT                 // = 5122
+gl.UNSIGNED_SHORT        // = 5122
+gl.INT                   // = 5124
+gl.UNSIGNED_INT          // = 5125
+gl.FLOAT                 // = 5126
 
 // Textures
-gl.TEXTURE_2D           // = 3553
-gl.TEXTURE_MAG_FILTER   // = 10240
-gl.TEXTURE_MIN_FILTER   // = 10241
-gl.TEXTURE_WRAP_S       // = 10242
-gl.TEXTURE_WRAP_T       // = 10243
-gl.NEAREST              // = 9728
-gl.LINEAR               // = 9729
-gl.RGB                  // = 6407
-gl.RGBA                 // = 6408
-gl.REPEAT               // = 10497
-gl.CLAMP_TO_EDGE        // = 33071
-gl.MIRRORED_REPEAT      // = 33648
-gl.UNPACK_FLIP_Y_WEBGL  // = 37440
-gl.TEXTURE0-31          // = 33984 - 34015
+gl.TEXTURE_2D            // = 3553
+gl.TEXTURE_MAG_FILTER    // = 10240
+gl.TEXTURE_MIN_FILTER    // = 10241
+gl.TEXTURE_WRAP_S        // = 10242
+gl.TEXTURE_WRAP_T        // = 10243
+gl.NEAREST               // = 9728
+gl.LINEAR                // = 9729
+gl.RGB                   // = 6407
+gl.RGBA                  // = 6408
+gl.REPEAT                // = 10497
+gl.CLAMP_TO_EDGE         // = 33071
+gl.MIRRORED_REPEAT       // = 33648
+gl.UNPACK_FLIP_Y_WEBGL   // = 37440
+gl.TEXTURE0-gl.TEXTURE31 // = 33984 - 34015
 ...</code></pre>
 
 <li>Hashing WebGL functions (make a short alias for many functions and constants of "gl").
