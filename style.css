@@ -4,7 +4,7 @@ ul { list-style-type: square; }
 li { line-height: 22px; margin: 5px 0 0; }
 img { max-width: 100% }
 h1, h2, h3 { margin: 0 }
-hr { border-color: #ccc }
+hr { border-color: #ccc; }
 pre { padding: 10px; border-radius: 3px; background: #def; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
 
 body { margin: auto; font: 14px/22px arial, helvetica, sans serif; max-width: 1200px; padding: 30px 20px 0; min-width: 490px; }
@@ -30,7 +30,7 @@ main a { font-weight: bold }
 #menu ul { margin: 0; padding: 0 0 0 20px; }
 #menu li { margin: 0; line-height: 22px; }
 #menu .active { color: #000; font-weight: bold }
-#menu.techwatch { columns: 2; display: none; }
+#menu.techwatch { display: none; }
 #menu { z-index: 10; position: sticky; top: 10px; left: 0; float: left; width: 240px; max-height: calc(100vh - 90px); overflow: auto; background: #f8f8f8; border: 2px solid #ddd; padding: 15px 0 15px 10px; border-radius: 5px; }
 #menusearch { border: 1px solid #aaa; margin: 10px 0 10px 5px; }
 .section { padding: 30px 20px; margin: 0 0 20px; max-width: 100%; overflow: hidden; border: 2px solid #ddd; border-radius: 5px; min-height: 90vh; }
@@ -50,6 +50,8 @@ footer .backtotop { position: fixed; right: 0; bottom: 10px; width: 25px; height
 max-width: calc(100% - 10px); }
 
 .mobileonly { display: none }
+
+#menu2 ul { margin: 0; }
 
 
 @media (max-width: 999px){

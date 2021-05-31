@@ -9,6 +9,8 @@ $$ = function(i){
 menus = {
   
   articles: {
+    intro: "Intro",
+    nes: "Golfing a NES emulator (WIP)",
     "webgl-guide": "WebGL guide part 1",
     "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
     js13k20: "JS13kGames 2020",
@@ -288,7 +290,7 @@ footer = function(){
 }
 
 
-menu = function(){
+menu = function(container){
   
   var section = "home";
   var page = "";
@@ -314,14 +316,17 @@ menu = function(){
     var nb = 0;
     
     var html = `
-    <input id=menusearch placeholder="Search..." oninput="filtermenu(value)">
+    ${
+    container ? '' : '<input id=menusearch placeholder="Search..." oninput="filtermenu(value)">'
+    }
     <ul>`;
     var counter = menus[section].length;
     for(i in menus[section]){
       if(section != "articles" && section != "projects" && section != "codegolf")
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}' target=_self>${menus[section][i]}</a>`;
-      else
+      else if(!(section=="articles" && page=="intro" && i == "intro")){
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html' target=_self>${menus[section][i]}</a>`;
+      }
       
       if(page == i){
         scroll = nb * 22;
@@ -330,11 +335,14 @@ menu = function(){
       nb++;
     }
     
-    $("#menu").innerHTML = html;
-    $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hamburger class=mobileonly onclick=showmenu()>≡</div>");
-    $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hidemenu class=mobileonly onclick=hidemenu()>≡</div>");
-    $("#menu").className = section;
-    if(scroll > 100) $("#menu").scrollTop = scroll;
+    if(container) container.innerHTML = html;
+    else {
+      $("#menu").innerHTML = html;
+      $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hamburger class=mobileonly onclick=showmenu()>≡</div>");
+      $("#menu").insertAdjacentHTML("beforeBegin", "<div id=hidemenu class=mobileonly onclick=hidemenu()>≡</div>");
+      $("#menu").className = section;
+      if(scroll > 100) $("#menu").scrollTop = scroll;
+    }
   }
   
   // prev/next 
