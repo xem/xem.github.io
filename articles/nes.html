@@ -29,7 +29,7 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 <br>I wrote an <a href="https://github.com/xem/nes/blob/gh-pages/cheat%20sheet.txt">emulation cheat-sheet</a> and built a <a href="https://xem.github.io/nes/">ROM decompiler and debugger</a>...
 <br>
 <br>
-<img src="images/nes/1.png" width=500>
+<img src="images/nes/1.png" width=700>
 <br>
 <br>but unfortunately, all the preparation and all the docs I could read (<a href="http://wiki.nesdev.com/w/index.php/NES_reference_guide">NESdev</a>, <a href="http://problemkaputt.de/everynes.htm">NO$NES</a>) weren't enough to boot a single game.
 <br>The actual CPU and graphics emulation were just too tricky.
@@ -48,9 +48,9 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 <br>- 99.5kb zipped
 
 <p>My goal will be to figure out what all these lines of code do exactly, and try to replicate that with the smallest possible amount of code.
-<br>Also, an emulator is fractally complex. You can add accuracy and features as much as you want, it'll never really end...
+<br>Keep in mind that an emulator is fractally complex. You can add accuracy and features as much as you want, it'll never really end...
 <br>so I will aim for a MVP (minimum viable product) with the best support possible for commercial games, and under 5kb zipped.
-<br>Let's go on a journey full of traps, surprises and arbitrary choices!
+<br>Let's go on a journey full of traps, surprises, reverse-engineering and arbitrary choices!
 
 <br><br><hr><br>
 
@@ -70,7 +70,7 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 
 <p><details>
 <summary><b>HTML setup</b> (3 lines)</summary>
-<pre><code class="lang-html">&lt;canvas id=canvas width=256 height=240 style="background: #000">&lt;/canvas>
+<pre><code class="lang-html">&lt;canvas id=canvas width=256 height=240 style="background:#000">&lt;/canvas>
 <br>&lt;b>Controls&lt;/b>: arrow keys + X + C + Start + Esc
 <br>&lt;input type=file id=file></code></pre>
 </details>
@@ -171,17 +171,17 @@ var currentSample = 0;</code></pre>
 </details>
 
 <p>The original jsnes-web also features a game list and supports USB gamepads, but I don't.
-<p>Anyway, when all my code is put together, it's as small as 1.17kb minified and 878b zipped.
+<p>Anyway, when all my code is put together, it's as small as 1082b minified and 835b zipped.
 
 
 
-<pre style="font-size:12px;line-height:1"><code class="lang-html">&lt;canvas id=canvas width=256 height=240 style="background: #000">&lt;/canvas>
-&lt;p>&lt;input type=file id=file>
+<pre style="font-size:12px;line-height:1"><code class="lang-html">&lt;canvas id=c width=256 height=240 style=background:#000>&lt;/canvas>
+&lt;p>&lt;input type=file id=f>
 &lt;p>&lt;b>Controls&lt;/b>: arrow keys + A + B + Start + Esc
-&lt;script src="https://unpkg.com/jsnes/dist/jsnes.min.js">&lt;/script>
-&lt;script>e=canvas.getContext("2d"),o=e.getImageData(0,0,256,240),n=new ArrayBuffer(o.data.length),t=new Uint8ClampedArray(n),r=new Uint32Array(n),l=new AudioContext,s=l.createScriptProcessor(512,0,2);s.connect(l.destination),s.onaudioprocess=e=>{if(a.length>C+512)for(var o=0;o<512;o++)e.outputBuffer.getChannelData(0)[o]=a[C],e.outputBuffer.getChannelData(1)[o]=T[C],C++};var a=[],T=[],C=0;file.onchange=()=>{var n=new FileReader;n.readAsBinaryString(file.files[0]),n.onload=()=>{file.remove();var l=new jsnes.NES({onFrame:function(n){for(var l=0,s=0;s<256;++s)for(var a=0;a<240;++a)r[l=256*s+a]=4278190080|n[l];o.data.set(t),e.putImageData(o,0,0)},onAudioSample:function(e,o){a.push(e),T.push(o)},sampleRate:44100});l.loadROM(n.result),setInterval(l.frame,16),onkeydown=onkeyup=n=>{l[n.type[5]?"buttonDown":"buttonUp"](1,jsnes.Controller["BUTTON_"+{37:"LEFT",38:"UP",39:"RIGHT",40:"DOWN",88:"A",67:"B",27:"SELECT",13:"START"}[n.keyCode]])}}}&lt;/script></code></pre>
+&lt;script src=jsnes.min.js>&lt;/script>
+&lt;script>e=c.getContext`2d`,o=e.getImageData(0,0,256,240),n=new ArrayBuffer(o.data.length),t=new Uint8ClampedArray(n),r=new Uint32Array(n),l=new AudioContext,s=l.createScriptProcessor(512,0,2),s.connect(l.destination),s.onaudioprocess=e=>{if(a.length>C+512)for(var n=0;n&lt;512;n++)e.outputBuffer.getChannelData(0)[n]=a[C],e.outputBuffer.getChannelData(1)[n]=T[C],C++},a=[],T=[],C=0,f.onchange=()=>{n=new FileReader,n.readAsBinaryString(f.files[0]),n.onload=()=>{f.remove(),N=new jsnes.NES({onFrame:n=>{for(l=0,s=0;s&lt;256;++s)for(A=0;A&lt;240;++A)r[l=256*s+A]=0xff000000|n[l];o.data.set(t),e.putImageData(o,0,0)},onAudioSample:(e,n)=>{a.push(e),T.push(n)},sampleRate:44100}),N.loadROM(n.result),setInterval(N.frame,16),onkeydown=onkeyup=e=>{N[e.type[5]?"buttonDown":"buttonUp"](1,jsnes.Controller[`BUTTON_`+{37:`LEFT`,38:`UP`,39:`RIGHT`,40:`DOWN`,88:`A`,67:`B`,`SELECT`,13:`START`}[e.keyCode]])}}}&lt;/script></code></pre>
 
-<br>In other words, 116 times smaller than the original, and fully compatible with JSNES.
+<br>In other words, 122 times smaller than the original, and fully compatible with JSNES.
 <br>(A lot of that size is actually used to respect JSNES's API, so it'll be even less at the end of my project.)
 
 <p>Here's my fork of jsnes-web: <a href="https://github.com/xem/jsnes-web">Github repo</a> / <a href="https://xem.github.io/jsnes-web/index.min.html">Demo</a>.
@@ -197,40 +197,45 @@ var currentSample = 0;</code></pre>
 <br>
 <img src="images/nes/3.svg" width=800>
 <br>
-<p>Of course, a million details are not covered, that's what we'll see in the following parts.
+<p>Of course, a million details are not covered here, that's what we'll see in the following parts.
 <br>
-<h4>II) Golfing the ROM loader</h4>
-<p>There's one major ROM format that dominates NES emulation, called iNes 1.0 (".nes" files).
+<h4>II) Golfing the rom loader</h4>
+<p>There's one major rom format that dominates NES emulation, called iNes 1.0 (".nes" files).
 <br>Unfortunately, it's not very well designed, nor well used by the people who dump and share games.
-<br>But to summarize, a 16-byte header contains information about the cartridge:
+<br>But to summarize, it starts with a 16-byte header that contains information about the cartridge:
 <br>
 <br>- Number of 16kb PRG-ROM banks (game code).
 <br>- Number of 4kb CHR-ROM banks (graphics).
 <br>- Presence of a 8kb PRG-RAM bank (save slot).
 <br>- Nametable mirroring (background layout, allowing horizontal, vertical or bidirectional scrolling).
-<br>- Mapper number (0-255). Higher mapper numbers require other rom formats like iNes 2.0.
+<br>- Mapper number (0-255). Represents the cartridge's format. Higher mapper numbers require other rom formats like iNes 2.0.
 <br>- Presence of a 512b "trainer" ROM bank containing instructions specific to certain mappers.
 <br>- Presence of extra ROM banks specific to arcade games.
-<br>- The TV system (NTSC or PAL) is sadly not reliable in this file format, so it must be found elsewhere (ROM database or user input).
+<br>- The TV system (NTSC or PAL) is sadly not reliable in this file format, so it must be found elsewhere (<a href="http://bootgod.dyndns.org:7777/advanced.php">ROM database</a> or user input).
 
-<p>...then the ROM contains dumps (copies) of the trainer (if any) and all the PRG-ROM banks and CHR-ROM banks.
-<p>For now, let's focus on the simplest Mapper "Mapper 0", used by major games like DK and SMB.
+<p>...then the rom file contains dumps (copies) of:
+<br>- the trainer (if any).
+<br>- all the PRG-ROM banks.
+<br>- all the CHR-ROM banks.
+<br>- extra ROM banks specific to arcade games (if any).
+
+<p>For now, let's focus on the simplest Mapper "Mapper 0", used by many famous games like DK, SMB, Ice Climbers, Excitebike, Pac-Man...
 <br>These games fit all their code in less than 32kb and all their graphics in less than 8kb, so no bank swaps are necessary.
 
-<p>In JSNES, the ROM parsing and Mapper 0 handling represents:
-<br>- 697 lines of code (in <a href="https://github.com/bfirsh/jsnes/blob/master/src/rom.js">rom.js</a>, <a href="https://github.com/bfirsh/jsnes/blob/master/src/mappers.js">mappers.js</a> and <a href="https://github.com/bfirsh/jsnes/blob/master/src/tile.js">tile.js</a>)
+<p>In JSNES, the rom parsing and Mapper 0 handling represents:
+<br>- 697 lines of code (in <a href="https://github.com/bfirsh/jsnes/blob/master/src/rom.js">rom.js</a> and <a href="https://github.com/bfirsh/jsnes/blob/master/src/mappers.js">mappers.js</a>)
 <br>- 17.6kb commented
 <br>- 5.3kb minified
 <br>- 1.4kb zipped
 
 <p>After rewriting it (and fixing it), my version is down to:
-<br>- 61 lines of code
-<br>- 8.4kb commented
-<br>- 819b minified
-<br>- 459b zipped
+<br>- 106 lines of code
+<br>- 10.6kb commented
+<br>- 1442b minified
+<br>- 613b zipped
 
 <details>
-<summary><b>Commented</b></summary>
+<summary><b>Updated rom.js, commented source code</b></summary>
 <pre><code class="lang-js">// ROM manager
 // ===========
 
@@ -320,12 +325,356 @@ ROM = {
   }
 }</code></pre></details>
 
-<p><b>Minified</b>
-<pre style="font-size:12px;line-height:1"><code class="lang-js">ROM={header:[],mapper:0,mirroring:0,trainer:0,prg_rom_count:0,prg_rom:[],chr_rom_count:0,chr_rom:[[],[]],chr_rom_tiles:[[],[]],load_rom:r=>{var o,e;if(!r.indexOf("NES")){for(o=0;o&lt;16;o++)ROM.header[o]=255&r.charCodeAt(o);ROM.prg_rom_count=ROM.header[4],ROM.chr_rom_count=2*ROM.header[5],ROM.mirroring=8&ROM.header[6]?2:1&ROM.header[6]?0:1,PPU.nametable_mirroring=ROM.mirroring,ROM.batteryRam=2&ROM.header[6],ROM.trainer=4&ROM.header[6],ROM.mapper=(ROM.header[6]>>4)+(240&ROM.header[7]);var O=16;for(ROM.trainer&&(O+=512),o=0;o&lt;ROM.prg_rom_count;o++)for(ROM.prg_rom[o]=[],e=0;e&lt;16384;e++)ROM.prg_rom[o][e]=255&r.charCodeAt(O++);for(o=0;o&lt;ROM.chr_rom_count;o++){for(ROM.chr_rom[o]=[],ROM.chr_rom_tiles[o]=[],e=0;e&lt;4096;e++)ROM.chr_rom[o][e]=255&r.charCodeAt(O++);for(e=0;e&lt;256;e++)ROM.chr_rom_tiles[o][e]={pixels:[]}}}}}</code></pre>
+<br>
+<details>
+<summary><b>Updated mappers.js, commented source code</b></summary>
+<pre><code class="lang-js">// Mapper 0
+// ========
+
+var Mapper = {
+  
+  // Load ROM's content in memory
+  load_rom: () => {
+    Mapper.load_prg_rom();
+    Mapper.load_chr_rom();
+  },
+  
+  // Load PRG-ROM banks in CPU memory
+  load_prg_rom: () => {
+    
+    // If there are two banks or more, the first two banks are placed at addresses $8000 and $C000
+    if(ROM.prg_rom_count > 1){
+      Mapper.load_prg_rom_bank(0, 0x8000);
+      Mapper.load_prg_rom_bank(1, 0xC000);
+    }
+
+    else {
+      // If there's only one bank, it's mirrored at both locations (ex: Donkey Kong, Galaxian)
+      Mapper.load_prg_rom_bank(0, 0x8000);
+      Mapper.load_prg_rom_bank(0, 0xC000);
+    }
+  },
+
+  // Load CHR-ROM pages in PPU memory
+  load_chr_rom: () => {
+    
+    // If there are two pages or more, the first ones are placed at addresses $0000 and $1000
+    if(ROM.chr_rom_count > 1){
+      Mapper.load_chr_rom_bank(0, 0x0000);
+      Mapper.load_chr_rom_bank(1, 0x1000);
+    }
+    
+    // If there's only one page, it's mirrored at both locations
+    // If the game has no CHR-ROM banks, do nothing (CHR-RAM is used instead)
+    else if(ROM.chr_rom_count > 0){
+      Mapper.load_chr_rom_bank(0, 0x0000);
+      Mapper.load_chr_rom_bank(0, 0x1000);
+    }
+  },
+  
+  // Load a PRG-ROM bank in CPU memory
+  load_prg_rom_bank: (bank, address) => {
+    Mapper.copy_array(ROM.prg_rom[bank], CPU.mem, address);
+  },
+
+  // Load a CHR-ROM page in PPU memory + the corresponding tiles
+  load_chr_rom_bank: (bank, address) => {
+    if(ROM.chr_rom_count > 0){
+      Mapper.copy_array(ROM.chr_rom[bank], PPU.mem, address);
+    }
+  },
+  
+  // Copy the values of an array into a specific position in another array
+  copy_array: (src, dest, address) => {
+    for(var i = 0; i &lt; src.length; i++){
+      dest[address + i] = src[i];
+    }
+  },
+}</code></pre></details>
+
+<p><details open><summary><b>Minified</b></summary>
+<pre style="font-size:12px;line-height:1"><code class="lang-js">ROM={header:[],mapper:0,mirroring:0,trainer:0,prg_rom_count:0,prg_rom:[],chr_rom_count:0,chr_rom:[[],[]],chr_rom_tiles:[[],[]],load_rom:r=>{var o,_;if(!r.indexOf("NES")){for(o=0;o&lt;16;o++)ROM.header[o]=255&r.charCodeAt(o);ROM.prg_rom_count=ROM.header[4],ROM.chr_rom_count=2*ROM.header[5],ROM.mirroring=8&ROM.header[6]?2:1&ROM.header[6]?0:1,ROM.batteryRam=2&ROM.header[6],ROM.trainer=4&ROM.header[6],ROM.mapper=(ROM.header[6]>>4)+(240&ROM.header[7]);var a=16;for(ROM.trainer&&(a+=512),o=0;o&lt;ROM.prg_rom_count;o++)for(ROM.prg_rom[o]=[],_=0;_&lt;16384;_++)ROM.prg_rom[o][_]=255&r.charCodeAt(a++);for(o=0;o&lt;ROM.chr_rom_count;o++){for(ROM.chr_rom[o]=[],ROM.chr_rom_tiles[o]=[],_=0;_&lt;4096;_++)ROM.chr_rom[o][_]=255&r.charCodeAt(a++);for(_=0;_&lt;256;_++)ROM.chr_rom_tiles[o][_]={pixels:[]}}}}};
+
+Mapper={load_rom:()=>{Mapper.load_prg_rom(),Mapper.load_chr_rom()},load_prg_rom:()=>{ROM.prg_rom_count>1?(Mapper.load_prg_rom_bank(0,32768),Mapper.load_prg_rom_bank(1,49152)):(Mapper.load_prg_rom_bank(0,32768),Mapper.load_prg_rom_bank(0,49152))},load_chr_rom:()=>{ROM.chr_rom_count>1?(Mapper.load_chr_rom_bank(0,0),Mapper.load_chr_rom_bank(1,4096)):ROM.chr_rom_count>0&&(Mapper.load_chr_rom_bank(0,0),Mapper.load_chr_rom_bank(0,4096))},load_prg_rom_bank:(r,o)=>{Mapper.copy_array(ROM.prg_rom[r],CPU.mem,o)},load_chr_rom_bank:(r,o)=>{ROM.chr_rom_count>0&&Mapper.copy_array(ROM.chr_rom[r],PPU.mem,o)},copy_array:(r,o,_)=>{for(var a=0;a&lt;r.length;a++)o[_+a]=r[a]}};</code></pre>
+</details>
+
+<p><b>Bonus: A bit of cleanup</b>
+<br>Before continuing with the biggest parts, I took a bit of time to understand and rewrite properly two files from JSNES:
+<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/tile.js">tile.js</a>, the tile/sprite display algorithm (before: 2.5kb zipped, after: 420b zipped).
+<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/nes.js">nes.js</a>, the emulator API: init(), frame(), reset()... (before: 1.1kb zipped, after: 566b zipped).
+<br>But we'll get back to them later.
+
+
+<p><b>Bonus: Rant (or lack thereof)</b>
+<br>You may remark that JSNES, even though it's coded in Vanilla JS, is extremely verbose and heavy compared to my version.
+<br>If you plunge into it, you'll even see that it's an absurd mess, an almost uncommented plate of spaghetti full of useless code, excessive layers of abstraction, unreadable logic, lags and plenty of errors.
+<br>But even if all these problems make it hard to follow, I don't really despise it.
+<br>To the contrary, I'm glad that it exists because it <u>works</u>, and offers me something to start from and enhance as much as I want!
 
 <br>
 <br>
-TO BE CONTINUED
+<h4>III) Golfing the CPU</h4>
+
+<img src="images/nes/5.jpg" width=300>
+<br>
+
+<p>The NES is powered by a well-known CPU called Ricoh 6502.
+<br>This CPU can execute 56 different instructions (or "opcodes"), each of them is available in one or many "addressing modes" (there are 13 addressing modes representing different ways to fetch data in the CPU's 64kb memory), for a total of 256 instructions ($00 to $FF in hex).
+
+<br>
+<br>
+<img src="images/nes/8.png">
+
+<p>It can also execute 3 special routines called "interrupts" on special occasions (console reset, end of frame, or an external signal).
+<p>Nintendo modified the original 6502 a little to remove some features they didn't need and merge it with the console's audio chip.
+<br>Besides that, all that it does, a real 6502 can do it too. And luckily, a lot of documentation and implementations exist online, like:
+<p>- <a href="https://www.masswerk.at/6502/6502_instruction_set.html">masswerk doc</a>, detailing the cycles and flags used by each instruction
+<br>- <a href="https://wiki.nesdev.com/w/index.php/CPU">Nesdev</a>, explaining all the rest
+<br>- <a href="https://github.com/6502/js6502/blob/master/6502.js">6502.js</a>, a standalone JS emulator (13kb minified, 3.6kb zipped)
+<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">JSNES's cpu.js</a>, of course (27kb minified, 4.7kb zipped)
+<br>- and this very interesting NES emulator in C called <a href="https://bisqwit.iki.fi/jutut/kuvat/programming_examples/nesemu1/nesemu1.cc">nesemu1</a>, specifically aiming for a small size. (It's "<a href="https://www.youtube.com/watch?v=y71lli8MS8s">coded in 15 minutes</a>" too)
+<br>In this emulator, the instructions are implemented/encoded in 56 lines and 1054b zipped, and the whole CPU takes about 2.5kb zipped:
+
+<details>
+<summary><b>nesemu1's CPU instructions encoding</b></summary>
+<pre style="font-size:12px;line-height:1"><code class="lang-js">t("                                !", addr = 0xFFFA) // NMI vector location
+t("                                *", addr = 0xFFFC) // Reset vector location
+t("!                               ,", addr = 0xFFFE) // Interrupt vector location
+t("zy}z{y}zzy}zzy}zzy}zzy}zzy}zzy}z ", addr = RB(PC++))
+t("2 yy2 yy2 yy2 yy2 XX2 XX2 yy2 yy ", d = X) // register index
+t("  62  62  62  62  om  om  62  62 ", d = Y)
+t("2 y 2 y 2 y 2 y 2 y 2 y 2 y 2 y  ", addr=u8(addr+d); d=0; tick())              // add zeropage-index
+t(" y z!y z y z y z y z y z y z y z ", addr=u8(addr);   addr+=256*RB(PC++))       // absolute address
+t("3 6 2 6 2 6 286 2 6 2 6 2 6 2 6 /", addr=RB(c=addr); addr+=256*RB(wrap(c,c+1)))// indirect w/ page wrap
+t("  *Z  *Z  *Z  *Z      6z  *Z  *Z ", Misfire(addr, addr+d)) // abs. load: extra misread when cross-page
+t("  4k  4k  4k  4k  6z      4k  4k ", RB(wrap(addr, addr+d)))// abs. store: always issue a misread
+t("aa__ff__ab__,4  ____ -  ____     ", t &= A) // Many operations take A or X as operand. Some try in
+t("                knnn     4  99   ", t &= X) // error to take both; the outcome is an AND operation.
+t("                9989    99       ", t &= Y) // sty,dey,iny,tya,cpy
+t("                       4         ", t &= S) // tsx, las
+t("!!!!  !!  !!  !!  !   !!  !!  !!/", t &= P.raw|pbits; c = t)// php, flag test/set/clear, interrupts
+t("_^__dc___^__            ed__98   ", c = t; t = 0xFF)        // save as second operand
+t("vuwvzywvvuwvvuwv    zy|zzywvzywv ", t &= RB(addr+d)) // memory operand
+t(",2  ,2  ,2  ,2  -2  -2  -2  -2   ", t &= RB(PC++))   // immediate operand
+t("    88                           ", P.V = t & 0x40; P.N = t & 0x80) // bit
+t("    nink    nnnk                 ", sb = P.C)       // rol,rla, ror,rra,arr
+t("nnnknnnk     0                   ", P.C = t & 0x80) // rol,rla, asl,slo,[arr,anc]
+t("        nnnknink                 ", P.C = t & 0x01) // lsr,sre, ror,rra,asr
+t("ninknink                         ", t = (t &lt;&lt; 1) | (sb * 0x01))
+t("        nnnknnnk                 ", t = (t >> 1) | (sb * 0x80))
+t("                 !      kink     ", t = u8(t - 1))  // dec,dex,dey,dcp
+t("                         !  khnk ", t = u8(t + 1))  // inc,inx,iny,isb
+t("kgnkkgnkkgnkkgnkzy|J    kgnkkgnk ", WB(addr+d, t))
+t("                   q             ", WB(wrap(addr, addr+d), t &= ((addr+d) >> 8))) // [shx,shy,shs,sha?]
+t("rpstljstqjstrjst - - - -kjstkjst/", tick()) // nop,flag ops,inc,dec,shifts,stack,transregister,interrupts
+t("     !  !    !                   ", tick(); t = Pop())                        // pla,plp,rti
+t("        !   !                    ", RB(PC++); PC = Pop(); PC |= (Pop() &lt;&lt; 8)) // rti,rts
+t("            !                    ", RB(PC++))  // rts
+t("!   !                           /", d=PC+(op?-1:1); Push(d>>8); Push(d))      // jsr, interrupts
+t("!   !    8   8                  /", PC = addr) // jmp, jsr, interrupts
+t("!!       !                      /", Push(t))   // pha, php, interrupts
+t("! !!  !!  !!  !!  !   !!  !!  !!/", t = 1)
+t("  !   !                   !!  !! ", t &lt;&lt;= 1)
+t("! !   !   !!  !!       !   !   !/", t &lt;&lt;= 2)
+t("  !   !   !   !        !         ", t &lt;&lt;= 4)
+t("   !       !           !   !____ ", t = u8(~t)) // sbc, isb,      clear flag
+t("`^__   !       !               !/", t = c | t)  // ora, slo,      set flag
+t("  !!dc`_  !!  !   !   !!  !!  !  ", t = c & t)  // and, bit, rla, clear/test flag
+t("        _^__                     ", t = c ^ t)  // eor, sre
+t("      !       !       !       !  ", if(t)  { tick(); Misfire(PC, addr = s8(addr) + PC); PC=addr; })
+t("  !       !       !       !      ", if(!t) { tick(); Misfire(PC, addr = s8(addr) + PC); PC=addr; })
+t("            _^__            ____ ", c = t; t += A + P.C; P.V = (c^t) & (A^t) & 0x80; P.C = t & 0x100)
+t("                        ed__98   ", t = c - t; P.C = ~t & 0x100) // cmp,cpx,cpy, dcp, sbx
+t("aa__aa__aa__ab__ 4 !____    ____ ", A = t)
+t("                    nnnn 4   !   ", X = t) // ldx, dex, tax, inx, tsx,lax,las,sbx
+t("                 !  9988 !       ", Y = t) // ldy, dey, tay, iny
+t("                   4   0         ", S = t) // txs, las, shs
+t("!  ! ! !!  !   !       !   !   !/", P.raw = t & ~0x30) // plp, rti, flag set/clear
+t("wwwvwwwvwwwvwxwv 5 !}}||{}wv{{wv ", P.N = t & 0x80)
+t("wwwv||wvwwwvwxwv 5 !}}||{}wv{{wv ", P.Z = u8(t) == 0)
+t("             0                   ", P.V = (((t >> 5)+1)&2))         // [arr]</code></pre>
+</details>
+
+<p>This packing technique is pretty smart, because it lists all the micro-instructions that can be performed by the CPU in the right order: fetching some data, transforming it, storing it somewhere, jump to another address, etc.
+<br>Each of these micro-instructions can be performed by one or many of the 259 official instructions/interrupts supported by the CPU.
+<br>So nesemu1 encodes on each line:
+<br>- a 33-char string that, when converted into binary, represents which instructions use it (from 0 to 259).
+<br>- the C code simulating this micro-instruction.
+<!--<br>And the function t() unpacks that into an optimized matrix of functions executeable for each opcode.-->
+
+<p><b>Example:</b> the 18th micro-instruction performs an AND binary operation between a register and a byte read in memory:
+
+<p><pre><code class="lang-js">t("vuwvzywvvuwvvuwv    zy|zzywvzywv ", t &= RB(addr+d))
+// |_______________________________|   |_____________|
+//     instructions using this          corresponding
+//       micro-instruction                  C code</code></pre>
+
+<p>So every time an instruction must be run, the emulator checks the encoded string in each of the 56 micro-instructions to see if it's relevant, and if it is, the code on the right is evaluated.
+
+<p>I decoded the data from this file, to make this table (click to enlarge):
+<br>
+<br>
+<a href="images/nes/6.jpg"><img src="images/nes/6.jpg"></a>
+<br>
+
+<p>In nesemu1, this 56 x 33-chars ASCII encoding takes 1848 bytes.
+<br>I found a way to improve it, by transposing the table:
+<br>
+
+<br>
+<a href="images/nes/7.jpg"><img src="images/nes/7.jpg" width=250></a>
+<br>
+
+<p>When it's presented like that, the table shows which of the 56-micro instructions are used by each of the 259 real instructions,
+<br>and it's interesting because it yields much more redundancy in the binary data than it did when it was the other way around.
+<br>This redundancy can be exploited by replacing each repeated byte with a smaller binary number.
+<br>(there are 64 different 1-byte patterns in total, so each of them can be encoded on 6 bits, reducing the size by 20%).
+<br>In the end, after doing these optimizations and a bit of cleanup, my re-encoding fits in 259 x 5 = 1295 bytes...
+
+<p>But I also have the actual JS source code to implement, and it takes some space:
+<p>- <a href="https://twitter.com/MaximeEuziere/status/1320792142235770880">3.3kb</a> if I implement each micro-instruction.
+<br>- <a href="https://twitter.com/MaximeEuziere/status/1320792139069071365">8.5kb</a> if I implement the 259 instructions directly in JS (as 13 addressing modes + 52 reuseable instructions).
+
+<p><b>I had to find something better!</b>
+
+<p>After a week of head-scratching, I finally found a way to implement the instructions that takes very little space *and* compresses very well.
+<br>Actually, I decided to make it entirely standalone, and challenged myself to fit it in 1kb!
+
+<p>First, I removed one quarter of the opcodes that are <a href="https://wiki.nesdev.com/w/index.php/CPU_unofficial_opcodes">not officially supported</a> nor used by 99.9% of commercial NES games.
+
+<p>Then for the 192 remaining ones, the idea is to generate a function that do something like that:
+<pre><code class="lang-js">Opcodes[n] = function(){
+  var targetAddress = myAddressingMode(); // execute the right addressing mode for opcode n
+  myopcode(targetAddress);                // execute the right operation for opcode n
+}</code></pre>
+
+<br>So I took the 12 main addressing modes, numbered them from 0 to 9 (+ "Z" for when the operand is either implicit or the register "A"),
+<br>and made a 192-byte string representing which one is used by each official opcode:
+
+<pre><code class="lang-c">020666Z0Z77713Z444Z8Z999
+720666Z0Z77713Z444Z8Z999
+Z20666Z0Z77713Z444Z8Z999
+Z20666Z0Z77713Z444Z8Z999
+020666Z0Z77713Z445Z8Z998
+020666Z0Z77713Z445Z8Z998
+020666Z0Z77713Z444Z8Z999
+020666Z0Z77713Z444Z8Z999</code></pre>
+(Note the important redundancy in this string, which helps a lot with compression.)
+
+<p>Then I took many days to understand, implement, document and golf these addressing modes in the most compressible way I could find:
+
+<details>
+<summary><b>addressing modes implementation</b></summary>
+<pre><code class="lang-js">
+
+myAddressingMode = () => {
+
+  // When this function is called:
+  // - `PC` represents the opcode's address
+  // - A, X, Y are the CPU's general purpose registers
+  // - S is the stack pointer
+  // - P contains the CPU flags: Carry, Zero, Interrupt disable, Decimal, (unused), (unused), oVerflow, Negative
+  // - `a` equals PC+1
+  // - `p` is the value stored at the address PC+1, just in case
+  // - `c` (the cycle counter) equals 2 because the CPU has already spent that time to fetch data at addresses PC and PC+1
+  // - r(address) and w(address, value) read/write a byte of data in memory
+
+  // Some opcodes require an address in memory
+  // This address can be computed in 10 different ways (plus one not implemented here):
+
+  // `0`: Immediate:
+  // The target address is PC+1, which is already stored in `a`
+  // Opcode size: 2 bytes
+  // Total cycles: 2 (c is decremented because the `p` fetch is redundant)
+  "c--,PC++;"
+
+  // `1`: Relative:
+  // (only used for branching)
+  // The target address (between PC-128 and PC+127) = PC + signed offset stored in `p`
+  // Opcode size: 2 bytes
+  // Total cycles: 2 (no branch) / 3 (branch on same page) / 4 (branch on another page)
+  + "a=a+p-256*(p>>7),PC++;"
+
+  // `2`: Indexed indirect X
+  // The target address is absolute and stored at a zero page address which is stored at PC + 1 + X
+  // Opcode size: 2 bytes
+  // Total cycles: 6 (read or write)
+  + "a=r(p+X&255)+256*r(p+X+1&255),PC++,c++;"
+
+  // `3`: Indirect indexed Y
+  // The target address is absolute and stored at a zero page address which is stored at PC+1, then Y is added to it
+  // Opcode size: 2 bytes
+  // Total cycles: 5* (read) / 6 (write)
+  // * Cross-page between absolute address and absolute address + Y cost 1 extra cycle
+  + "a=r(p)+256*r(p+1&255)+Y,c+=a-Y>>8&lt;a>>8||o>>4==9,PC++;"
+
+  // `4`: Zero page X
+  // The target address is equal to zero page address (stored at PC+1) + X, wrapping between $00 and $FF
+  // Opcode size: 2 bytes
+  // Total cycles: 3 (BIT) / 4 (read or write) / 6 (read + write)
+  + "a=r(a)+X&255,PC++;"
+
+  // `5`: Zero page Y
+  // The target address is equal to zero page address (stored at PC+1) + Y, wrapping between $00 and $FF
+  // Opcode size: 2 bytes
+  // Total cycles: 4 (read or write)
+  + "a=r(a)+Y&255,PC++;"
+
+  // `6`: Zero page
+  // The target address (between $00 and $FF) is stored in p
+  // Opcode size: 2 bytes
+  // Total cycles: 3 (read or write) / 5 (read + write)
+  + "a=p,PC++;"
+
+  // `7`: Absolute
+  // The target address is stored at PC+1 (low byte) and PC+2 (high byte)
+  // Opcode size: 3 bytes
+  // Total cycles: 3 (JMP) / 4 (read or write) / 6 (read + write or JSR)
+  + "a=p+256*r(PC+2),PC+=2;"
+
+  // `8`: Absolute Y
+  // The target address is equal to absolute address (stored at PC+1 and PC+2) + Y
+  // Opcode size: 3 bytes
+  // Total cycles: 4* (read) / 5 (write)
+  // * Cross-page read cost 1 extra cycle
+  + "t=p+256*r(PC+2),c+=t>>8&lt;t+Y>>8||o>>4==9,a=t+Y,PC+=2;"
+
+  // `9`: Absolute X
+  // The target address is equal to absolute address (stored at PC+1 and PC+2) + X
+  // Opcode size: 3 bytes
+  // Total cycles: 4* (read) / 5 (write) / 7 (read + write)
+  // * Cross-page read cost 1 extra cycle
+  + "t=p+256*r(PC+2),c+=t>>8&lt;t+X>>8||o>>4==9||(15&o)>13,a=t+X,PC+=2;"
+
+  // `Z`: implicit or Accumulator
+  // The target is either a flag or a CPU register (no need to compute an address)
+  // Opcode size: 1 byte (no need to increment PC)
+  // Total cycles: 2-7
+  + ""
+  
+// Make an array from this string
+).split `;`
+
+// Fetch the right addressing mode for the current opcode (ignore every unofficiam opcode where o % 4 == 3):
+[
+  "020666Z0Z77713Z444Z8Z999720666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999020666Z0Z77713Z445Z8Z998020666Z0Z77713Z445Z8Z998020666Z0Z77713Z444Z8Z999020666Z0Z77713Z444Z8Z999"[o-(o>>2)]
+]</code></pre>
+</details>
+
+
+<p>I did the same with the 52 official opcodes, turned into an alphabet of consecutive ASCII chars from "0" to "["
+<pre><code class="lang-c">UE#UE#GEBUE#=E#UE#1E#UE#
+C6%)6%I6$)6%&lt;6%D6%D6%C6%
+J@'J@'F@&:@'>@'J@'4@'J@'
+T90T90H9*:90W90T90290T90
+QMNQMN-NSQMNVMNQMNRMKQMN
+/5?/5?L5P/5?;5?/5?Z5O/5?
+"7A"7A.7("7AY7A"7A37A"7A
+!8+!8+,8[!8+X8+!8+ 8+!8+</code></pre>
+
+
+
+
 <br>
 <br>
 
@@ -345,7 +694,9 @@ TO BE CONTINUED
 
 
 
-
+<h1>TO BE CONTINUED</h1>
+<br>
+<br>
 
 
 </div>
