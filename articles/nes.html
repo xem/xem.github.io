@@ -49,7 +49,7 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 
 <p>My goal will be to figure out what all these lines of code do exactly, and try to replicate that with the smallest possible amount of code.
 <br>Keep in mind that an emulator is fractally complex. You can add accuracy and features as much as you want, it'll never really end...
-<br>so I will aim for a MVP (minimum viable product) with the best support possible for commercial games, and under 5kb zipped.
+<br>so I will aim for a MVP (minimum viable product) with the best support possible for commercial games, and under 10kb zipped.
 <br>Let's go on a journey full of traps, surprises, reverse-engineering and arbitrary choices!
 
 <br><br><hr><br>
@@ -200,7 +200,7 @@ var currentSample = 0;</code></pre>
 <p>Of course, a million details are not covered here, that's what we'll see in the following parts.
 <br>
 <h4>II) Golfing the rom loader</h4>
-<p>There's one major rom format that dominates NES emulation, called iNes 1.0 (".nes" files).
+<p>There's one major rom format that dominates NES emulation, called iNes 1.0 (".nes" files), so my emulator will support it.
 <br>Unfortunately, it's not very well designed, nor well used by the people who dump and share games.
 <br>But to summarize, it starts with a 16-byte header that contains information about the cartridge:
 <br>
@@ -222,7 +222,7 @@ var currentSample = 0;</code></pre>
 <p>For now, let's focus on the simplest Mapper "Mapper 0", used by many famous games like DK, SMB, Ice Climbers, Excitebike, Pac-Man...
 <br>These games fit all their code in less than 32kb and all their graphics in less than 8kb, so no bank swaps are necessary.
 
-<p>In JSNES, the rom parsing and Mapper 0 handling represents:
+<p>In JSNES, the rom parsing and Mapper 0 handling represent:
 <br>- 697 lines of code (in <a href="https://github.com/bfirsh/jsnes/blob/master/src/rom.js">rom.js</a> and <a href="https://github.com/bfirsh/jsnes/blob/master/src/mappers.js">mappers.js</a>)
 <br>- 17.6kb commented
 <br>- 5.3kb minified
@@ -231,7 +231,7 @@ var currentSample = 0;</code></pre>
 <p>After rewriting it (and fixing it), my version is down to:
 <br>- 106 lines of code
 <br>- 10.6kb commented
-<br>- 1442b minified
+<br>- 1442b minified (with verbose ver names)
 <br>- 613b zipped
 
 <details>
@@ -306,10 +306,6 @@ ROM = {
       }
       
       // Load the CHR-ROM pages and prepare 256 tiles for each of them
-      var byte1;
-      var byte2;
-      var color;
-      
       for(i = 0; i &lt; ROM.chr_rom_count; i++){
         ROM.chr_rom[i] = [];
         ROM.chr_rom_tiles[i] = [];
@@ -418,7 +414,7 @@ Mapper={load_rom:()=>{Mapper.load_prg_rom(),Mapper.load_chr_rom()},load_prg_rom:
 <img src="images/nes/5.jpg" width=300>
 <br>
 
-<p>The NES is powered by a well-known CPU called Ricoh 6502.
+<p>The NES is powered by a CPU called Ricoh 6502, based on the famous MOS 6502 chip.
 <br>This CPU can execute 56 different instructions (or "opcodes"), each of them is available in one or many "addressing modes" (there are 13 addressing modes representing different ways to fetch data in the CPU's 64kb memory), for a total of 256 instructions ($00 to $FF in hex).
 
 <br>
@@ -426,14 +422,24 @@ Mapper={load_rom:()=>{Mapper.load_prg_rom(),Mapper.load_chr_rom()},load_prg_rom:
 <img src="images/nes/8.png">
 
 <p>It can also execute 3 special routines called "interrupts" on special occasions (console reset, end of frame, or an external signal).
-<p>Nintendo modified the original 6502 a little to remove some features they didn't need and merge it with the console's audio chip.
+<p>It has:
+<br>- 3 general purpose registers (A, X, Y),
+<br>- a stack pointer (S),
+<br>- a program counter (PC),
+<br>- Status flags (Carry, Zero, Interrupt disable, Decimal, oVerflow, Negative) placed in a dedicated register (P)
+<p>and has access to a 64kb memory containing:
+<br>- the internal RAM (2kb, including the stack),
+<br>- a bunch of I/O registers (to communicate with the Mapper, the PPU, the APU and the Joypads),
+<br>- the ROM banks exposed by the cartridge: trainer (if present), PRG-RAM (save slot, if present), and two 16kb PRG-ROM banks containing the game's code.
+ 
+<p>Nintendo modified the original 6502 chip a little to remove some features they didn't need and merge it with the console's audio chip.
 <br>Besides that, all that it does, a real 6502 can do it too. And luckily, a lot of documentation and implementations exist online, like:
-<p>- <a href="https://www.masswerk.at/6502/6502_instruction_set.html">masswerk doc</a>, detailing the cycles and flags used by each instruction
-<br>- <a href="https://wiki.nesdev.com/w/index.php/CPU">Nesdev</a>, explaining all the rest
-<br>- <a href="https://github.com/6502/js6502/blob/master/6502.js">6502.js</a>, a standalone JS emulator (13kb minified, 3.6kb zipped)
-<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">JSNES's cpu.js</a>, of course (27kb minified, 4.7kb zipped)
+<p>- <a href="https://www.masswerk.at/6502/6502_instruction_set.html">masswerk doc</a>, detailing the cycles and flags used by each instruction,
+<br>- <a href="https://wiki.nesdev.com/w/index.php/CPU">Nesdev</a>, explaining all the rest,
+<br>- <a href="https://github.com/6502/js6502/blob/master/6502.js">6502.js</a>, a standalone JS simulator (13kb minified, 3.6kb zipped),
+<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">JSNES's cpu.js</a>, of course (27kb minified, 4.7kb zipped),
 <br>- and this very interesting NES emulator in C called <a href="https://bisqwit.iki.fi/jutut/kuvat/programming_examples/nesemu1/nesemu1.cc">nesemu1</a>, specifically aiming for a small size. (It's "<a href="https://www.youtube.com/watch?v=y71lli8MS8s">coded in 15 minutes</a>" too)
-<br>In this emulator, the instructions are implemented/encoded in 56 lines and 1054b zipped, and the whole CPU takes about 2.5kb zipped:
+<p>In this emulator, the instructions are implemented/encoded in 56 lines and 1054b zipped, and the whole CPU takes about 2.5kb zipped:
 
 <details>
 <summary><b>nesemu1's CPU instructions encoding</b></summary>
@@ -528,19 +534,96 @@ t("             0                   ", P.V = (((t >> 5)+1)&2))         // [arr]<
 <p>When it's presented like that, the table shows which of the 56-micro instructions are used by each of the 259 real instructions,
 <br>and it's interesting because it yields much more redundancy in the binary data than it did when it was the other way around.
 <br>This redundancy can be exploited by replacing each repeated byte with a smaller binary number.
-<br>(there are 64 different 1-byte patterns in total, so each of them can be encoded on 6 bits, reducing the size by 20%).
+<br>(there are 64 different 1-byte patterns in total, so each of them can be encoded on 6 bits, reducing their size by 20%).
 <br>In the end, after doing these optimizations and a bit of cleanup, my re-encoding fits in 259 x 5 = 1295 bytes...
 
 <p>But I also have the actual JS source code to implement, and it takes some space:
 <p>- <a href="https://twitter.com/MaximeEuziere/status/1320792142235770880">3.3kb</a> if I implement each micro-instruction.
 <br>- <a href="https://twitter.com/MaximeEuziere/status/1320792139069071365">8.5kb</a> if I implement the 259 instructions directly in JS (as 13 addressing modes + 52 reuseable instructions).
+<br>In both cases, that's too much.
 
 <p><b>I had to find something better!</b>
 
 <p>After a week of head-scratching, I finally found a way to implement the instructions that takes very little space *and* compresses very well.
 <br>Actually, I decided to make it entirely standalone, and challenged myself to fit it in 1kb!
 
-<p>First, I removed one quarter of the opcodes that are <a href="https://wiki.nesdev.com/w/index.php/CPU_unofficial_opcodes">not officially supported</a> nor used by 99.9% of commercial NES games.
+<p>First, I initialized all the globals (memory, registers) used by the CPU, and wrote a few useful helpers: 
+
+<details>
+<summary><b>CPU globals and helpers</b></summary>
+<pre><code class="lang-js">// Globals
+// -------
+
+// 16kb memory
+// Each chunk of 256 bytes in memory is called a page
+// The first chunk ($00-$FF) is called Zero page and is easier/faster to access
+m = [
+
+  // Registers
+  A =           // accumulator
+  X =           // X
+  Y =           // Y
+  S =           // stack pointer (also called SP)
+  PC =          // program counter (address of next instruction)
+  P =           // status register (flags on bytes 0-7: C=0, Z=0, I=1, D=0, B=0, 1, V=0, N=0)
+
+  // Other globals
+
+  t,            // temp var
+  o,            // opcode value
+  a,            // operand address
+  p,            // operand value
+  c = 0         // cycle counter
+],
+
+
+// Helpers
+// -------
+
+// Read a byte from memory. (costs 1 cycle)
+// The address is wrapped between $0000 and $FFFF
+r = v => m[c++, v % 0x10000],
+
+// Write a byte in memory. (costs 1 cycle)
+w = (v, w) => m[c++, v % 0x10000] = w,
+
+// Update N and Z status flags:
+// - The value v is clamped on 8 bits and returned
+// - The Zero flag (bit 1 of P) is set if v is zero, otherwise it's cleared
+// - The Negative flag (bit 7 of P) is set if byte 7 of v is 1, otherwise it's cleared
+F = v => (
+  Z = (v &= 255) &lt; 1,
+  N = v >> 7,
+  v
+),
+
+// Update the flags values according to the status register P
+f = v => (
+  C = v & 1,
+  Z = (v>>1) & 1,
+  I = (v>>2) & 1,
+  D = (v>>3) & 1,
+  B = (v>>4) & 1,
+  V = (v>>6) & 1,
+  N = v>>7
+),
+
+// Set all flags on load
+f(P = 0x24),
+
+// Push on Stack
+// Write at address $100 + S, decrement S, wrap it between $00 and $FF
+h = v => (
+  w(256 + S--, v),
+  S &= 255
+),
+
+// Pull from stack
+// Increment S, wrap it between $00 and $FF, read at address $100 + S
+g = v => r(256 + (S = (255 & (S+1))))</code></pre>
+</details>
+
+<p>Then, I removed one quarter of the opcodes that are <a href="https://wiki.nesdev.com/w/index.php/CPU_unofficial_opcodes">not officially supported</a> nor used by 99.9% of commercial NES games.
 
 <p>Then for the 192 remaining ones, the idea is to generate a function that do something like that:
 <pre><code class="lang-js">Opcodes[n] = function(){
@@ -548,8 +631,9 @@ t("             0                   ", P.V = (((t >> 5)+1)&2))         // [arr]<
   myopcode(targetAddress);                // execute the right operation for opcode n
 }</code></pre>
 
-<br>So I took the 12 main addressing modes, numbered them from 0 to 9 (+ "Z" for when the operand is either implicit or the register "A"),
-<br>and made a 192-byte string representing which one is used by each official opcode:
+<br>So I took the 10 main addressing modes, numbered them from 0 to 9, and made a 192b string representing which is used by each opcode.
+<br>The letter "Z" is a dummy character that indicates that the operand is either implicit or the Accumulator register.
+<br>A 13th addressing mode exists, but it's only used by a single opcode, so it will be implemented separately.
 
 <pre><code class="lang-c">020666Z0Z77713Z444Z8Z999
 720666Z0Z77713Z444Z8Z999
@@ -559,126 +643,959 @@ Z20666Z0Z77713Z444Z8Z999
 020666Z0Z77713Z445Z8Z998
 020666Z0Z77713Z444Z8Z999
 020666Z0Z77713Z444Z8Z999</code></pre>
-(Note the important redundancy in this string, which helps a lot with compression.)
+(Only 151 of these are legal opcodes, the others were chosen to create as much redundancy as possible, to improve compression.)
 
 <p>Then I took many days to understand, implement, document and golf these addressing modes in the most compressible way I could find:
 
 <details>
 <summary><b>addressing modes implementation</b></summary>
-<pre><code class="lang-js">
+<pre><code class="lang-js">myAddressingMode = () => {
+  (
+    // Addressing modes
+    // ----------------
 
-myAddressingMode = () => {
+    // Some opcodes require an address in memory
+    // This address can be computed in 11 different ways
+    // The 10 main ones are implemented here, the 11th is included in the last instruction (JMP ind)
+    // The order and implementations below are optimized for a better gzip compression
+    
+    // When this function is called:
+    // - PC represents the current opcode's address
+    // - o is the opcode's value
+    // - a equals PC+1
+    // - p is the value stored at the address PC+1
+    // - c (the cycle counter) equals 2 because two memory reads have already been done (o and p)
 
-  // When this function is called:
-  // - `PC` represents the opcode's address
-  // - A, X, Y are the CPU's general purpose registers
-  // - S is the stack pointer
-  // - P contains the CPU flags: Carry, Zero, Interrupt disable, Decimal, (unused), (unused), oVerflow, Negative
-  // - `a` equals PC+1
-  // - `p` is the value stored at the address PC+1, just in case
-  // - `c` (the cycle counter) equals 2 because the CPU has already spent that time to fetch data at addresses PC and PC+1
-  // - r(address) and w(address, value) read/write a byte of data in memory
+    // "0": Immediate:
+    // The target address is PC+1, already stored in a
+    // Opcode size: 2 bytes
+    // Cycles total: 2
+    // Cycles addr.: -1 (1 cycle is removed because the first p fetch is redundant, the instruction has to read it again)
+    // Cycles opc. : 1
+    "c--,PC++;"
 
-  // Some opcodes require an address in memory
-  // This address can be computed in 10 different ways (plus one not implemented here):
+    // "1": Relative:
+    // (only used for branching)
+    // The target address (between PC-128 and PC+127) = PC + signed offset stored in p
+    // Opcode size: 2 bytes
+    // Cycles total: 2 (no branch) / 3 (branch on same page) / 4 (branch on another page)
+    // Cycles addr.: 0
+    // Cycles opc. : 0-2
+    + "a=a+p-256*(p>>7),PC++;"
 
-  // `0`: Immediate:
-  // The target address is PC+1, which is already stored in `a`
-  // Opcode size: 2 bytes
-  // Total cycles: 2 (c is decremented because the `p` fetch is redundant)
-  "c--,PC++;"
+    // "2": Indexed indirect X
+    // The target address is absolute and stored at a zero page address which is stored at PC + 1 + X
+    // Opcode size: 2 bytes
+    // Cycles total: 6 (read or write)
+    // Cycles addr.: 3
+    // Cycles opc. : 1
+    + "a=r(p+X&255)+256*r(p+X+1&255),PC++,c++;"
 
-  // `1`: Relative:
-  // (only used for branching)
-  // The target address (between PC-128 and PC+127) = PC + signed offset stored in `p`
-  // Opcode size: 2 bytes
-  // Total cycles: 2 (no branch) / 3 (branch on same page) / 4 (branch on another page)
-  + "a=a+p-256*(p>>7),PC++;"
+    // "3": Indirect indexed Y
+    // The target address is absolute and stored at a zero page address which is stored at PC+1, then Y is added to it
+    // Opcode size: 2 bytes
+    // Cycles total: 5* (read) / 6 (write)
+    // Cycles addr.: 2-3
+    // Cycles opc. : 0-1
+    // * Cross-page read (if address and address + Y are on different pages) costs 1 extra cycle
+    + "a=r(p)+256*r(p+1&255)+Y,c+=a-Y>>8&lt;a>>8||o>>4==9,PC++;"
 
-  // `2`: Indexed indirect X
-  // The target address is absolute and stored at a zero page address which is stored at PC + 1 + X
-  // Opcode size: 2 bytes
-  // Total cycles: 6 (read or write)
-  + "a=r(p+X&255)+256*r(p+X+1&255),PC++,c++;"
+    // "4": Zero page X
+    // The target address is equal to zero page address (stored at PC+1) + X, wrapping between $00 and $FF
+    // Opcode size: 2 bytes
+    // Cycles total: 3 (BIT) / 4 (read or write) / 6 (read + write)
+    // Cycles addr.: 1
+    // Cycles opc. : 0-2
+    + "a=r(a)+X&255,PC++;"
 
-  // `3`: Indirect indexed Y
-  // The target address is absolute and stored at a zero page address which is stored at PC+1, then Y is added to it
-  // Opcode size: 2 bytes
-  // Total cycles: 5* (read) / 6 (write)
-  // * Cross-page between absolute address and absolute address + Y cost 1 extra cycle
-  + "a=r(p)+256*r(p+1&255)+Y,c+=a-Y>>8&lt;a>>8||o>>4==9,PC++;"
+    // "5": Zero page Y
+    // The target address is equal to zero page address (stored at PC+1) + Y, wrapping between $00 and $FF
+    // Opcode size: 2 bytes
+    // Cycles total: 4 (read or write)
+    // Cycles addr.: 1
+    // Cycles opc. : 1
+    + "a=r(a)+Y&255,PC++;"
 
-  // `4`: Zero page X
-  // The target address is equal to zero page address (stored at PC+1) + X, wrapping between $00 and $FF
-  // Opcode size: 2 bytes
-  // Total cycles: 3 (BIT) / 4 (read or write) / 6 (read + write)
-  + "a=r(a)+X&255,PC++;"
+    // "6": Zero page
+    // The target address (between $00 and $FF) is stored in p
+    // Opcode size: 2 bytes
+    // Cycles total: 3 (read or write) / 5 (read + write)
+    // Cycles addr.: 0
+    // Cycles opc. : 1-3
+    + "a=p,PC++;"
 
-  // `5`: Zero page Y
-  // The target address is equal to zero page address (stored at PC+1) + Y, wrapping between $00 and $FF
-  // Opcode size: 2 bytes
-  // Total cycles: 4 (read or write)
-  + "a=r(a)+Y&255,PC++;"
+    // "7": Absolute
+    // The target address is stored at PC+1 (low byte) and PC+2 (high byte)
+    // Opcode size: 3 bytes
+    // Cycles total: 3 (JMP) / 4 (read or write) / 6 (read + write or JSR)
+    // Cycles addr.: 1
+    // Cycles opc. : 0-3
+    + "a=p+256*r(PC+=2);"
 
-  // `6`: Zero page
-  // The target address (between $00 and $FF) is stored in p
-  // Opcode size: 2 bytes
-  // Total cycles: 3 (read or write) / 5 (read + write)
-  + "a=p,PC++;"
+    // "8": Absolute Y
+    // The target address is equal to absolute address (stored at PC+1 and PC+2) + Y
+    // Opcode size: 3 bytes
+    // Cycles total: 4* (read) / 5 (write)
+    // Cycles addr.: 1-2
+    // Cycles opc. : 0-2
+    // * Cross-page read (if address and address + Y are on different pages) costs 1 extra cycle
+    + "t=p+256*r(PC+=2),c+=t>>8&lt;t+Y>>8||o>>4==9,a=t+Y;"
 
-  // `7`: Absolute
-  // The target address is stored at PC+1 (low byte) and PC+2 (high byte)
-  // Opcode size: 3 bytes
-  // Total cycles: 3 (JMP) / 4 (read or write) / 6 (read + write or JSR)
-  + "a=p+256*r(PC+2),PC+=2;"
+    // "9": Absolute X
+    // The target address is equal to absolute address (stored at PC+1 and PC+2) + X
+    // Opcode size: 3 bytes
+    // Cycles total: 4* (read) / 5 (write) / 7 (read + write)
+    // Cycles addr.: 1-2
+    // Cycles opc. : 0-4
+    // * Cross-page read (if address and address + X are on different pages) costs 1 extra cycle
+    + "t=p+256*r(PC+=2),c+=t>>8&lt;t+X>>8||o>>4==9||(15&o)>13,a=t+X"
 
-  // `8`: Absolute Y
-  // The target address is equal to absolute address (stored at PC+1 and PC+2) + Y
-  // Opcode size: 3 bytes
-  // Total cycles: 4* (read) / 5 (write)
-  // * Cross-page read cost 1 extra cycle
-  + "t=p+256*r(PC+2),c+=t>>8&lt;t+Y>>8||o>>4==9,a=t+Y,PC+=2;"
+    // "Z": implicit or Accumulator
+    // The target is either a flag or a CPU register (no need to compute an address)
+    // (When a "Z" is read, the generated JavaScript code will just contain "undefined;")
+    // Opcode size: 1 byte (no need to increment PC)
+    // Cycles total: 2-7
+    // Cycles addr.: 0
+    // Cycles opc. : 0-5
+    + ""
 
-  // `9`: Absolute X
-  // The target address is equal to absolute address (stored at PC+1 and PC+2) + X
-  // Opcode size: 3 bytes
-  // Total cycles: 4* (read) / 5 (write) / 7 (read + write)
-  // * Cross-page read cost 1 extra cycle
-  + "t=p+256*r(PC+2),c+=t>>8&lt;t+X>>8||o>>4==9||(15&o)>13,a=t+X,PC+=2;"
+  // Make an array from this string
+  ).split(";")
 
-  // `Z`: implicit or Accumulator
-  // The target is either a flag or a CPU register (no need to compute an address)
-  // Opcode size: 1 byte (no need to increment PC)
-  // Total cycles: 2-7
-  + ""
-  
-// Make an array from this string
-).split `;`
-
-// Fetch the right addressing mode for the current opcode (ignore every unofficiam opcode where o % 4 == 3):
-[
-  "020666Z0Z77713Z444Z8Z999720666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999020666Z0Z77713Z445Z8Z998020666Z0Z77713Z445Z8Z998020666Z0Z77713Z444Z8Z999020666Z0Z77713Z444Z8Z999"[o-(o>>2)]
-]</code></pre>
+  // Fetch the right addressing mode for the current opcode (ignore illegal opcode where o % 4 == 3):
+  // (The string below is optomized for compression: the illegal opcodes are assigned characters that create extra repetitions)
+  [
+    (
+       "020666Z0Z77713Z444Z8Z999"
+      +"720666Z0Z77713Z444Z8Z999"
+      +"Z20666Z0Z77713Z444Z8Z999"
+      +"Z20666Z0Z77713Z444Z8Z999"
+      +"020666Z0Z77713Z445Z8Z998"
+      +"020666Z0Z77713Z445Z8Z998"
+      +"020666Z0Z77713Z444Z8Z999"
+      +"020666Z0Z77713Z444Z8Z999"
+    )[o-(o>>2)]
+  ]
+}</code></pre>
 </details>
 
 
-<p>I did the same with the 52 official opcodes, turned into an alphabet of consecutive ASCII chars from "0" to "["
-<pre><code class="lang-c">UE#UE#GEBUE#=E#UE#1E#UE#
-C6%)6%I6$)6%&lt;6%D6%D6%C6%
-J@'J@'F@&:@'>@'J@'4@'J@'
-T90T90H9*:90W90T90290T90
-QMNQMN-NSQMNVMNQMNRMKQMN
-/5?/5?L5P/5?;5?/5?Z5O/5?
-"7A"7A.7("7AY7A"7A37A"7A
-!8+!8+,8[!8+X8+!8+ 8+!8+</code></pre>
+<p>I did the same with the 52 official opcodes, turned into an alphabet of printable ASCII chars ranging from " " to "[" :
+<pre><code class="lang-c">PI#PI#KIDPI#=I#PI#1IDPI#
+E6%)6%M6$)6%;6%E6%F6%E6%
+NB'NB'JB&ZB'@B'NB'4B'NB'
+Y90Y90L9*[90>90Y90290Y90
+VRSVRS-zXVRSORSVRSWR VRS
+/5A/5AQ5U/5A:5A/5AH5T/5A
+"7C"7C.7("7C?7C"7C37C"7C
+!8+!8+,8z!8+&lt;8+!8+G8+!8+</code></pre>
 
+<p>And took a few weeks to implement, golf and reorder them many times until I reached my goal:
+
+<details>
+<summary><b>Opcodes implementation</b></summary>
+<pre><code class="lang-js">myOpcode = (a) => {
+  // Instructions
+  // ------------
+
+  // There are 56 official instructions, performing operations in memory and/or in the registers
+  // When this function is called:
+  // - a represents the operand's address in memory (if any)
+  // - c is the cycle counter (incremented by 1-5 during the prefetch and the addressing)
+  // Some instructions use extra cycles:
+  // *  : cross-page when fetching the address costs 1 extra cycle
+  // ** : Same-page branch (PC+2>>8 == a>>8) costs 1 extra cycle. Cross-page branch costs 2 extra cycles
+  // ***: Instructions that read, modify and write a value in memory (+ JSR/RTI/RTS/PLA/PLP) cost 1 to 2 extra cycles
+  // The order and implementations below are also optimized for a better gzip compression
+  // Also, some instructions were splitted in two if they target either the memory or the Accumulator register (ROR, ROL, LSR, ASL)
+
+  + (
+  
+    // " ": TXS (transfer X to stack pointer)
+    // Stack pointer = X
+    // Addressing:   imp
+    // Opcode:       9A
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    "S=X;"
+    
+    // "!": CPX (compare memory and X)
+    // N, Z and C are set with the result of X minus a byte in memory
+    // Flag C is set if there's no borrow
+    // Addressings:  imm, zpg, abs
+    // Opcodes:      E0,  E4,  EC
+    // Cycles total: 2,   3,   4
+    // Cycles addr.: -1,  0,   1
+    // Cycles opc. : 1,   1,   1
+    + "p=r(a),C=X-p>=0,F(X-p);"
+
+    // '"': CPY (compare memory and Y)
+    // N, Z and C are set with the result of Y minus a byte in memory
+    // Flag C is set if there's no borrow
+    // Addressings:  imm, zpg, abs
+    // Opcodes:      C0,  C4,  CC
+    // Cycles total: 2,   3,   4
+    // Cycles addr.: -1,  0,   1
+    // Cycles opc. : 1,   1,   1
+    + "p=r(a),C=Y-p>=0,F(Y-p);"
+
+    // "#": ASL (shift left)
+    // A byte in memory is left shifted. Flags: N, Z, C
+    // The shifted-out bit 7 is saved in C
+    // Addressings:  zpg, zpgX, abs, absX
+    // Opcodes:      06,  16,   0E,  1E
+    // Cycles total: 5,   6,    6,   7
+    // Cycles addr.: 0,   1,    1,   2
+    // Cycles opc. : 3,   3,    3,   3 (***)
+    + "p=r(a),C=p>>7,w(a,F(2*p)),c++;"
+
+    // "$": ROL A (rotate left accumulator)
+    // Rotate left A. Same as left shift but C flag is put into bit 0. Flags: N, Z, C
+    // The shifted-out bit 7 is saved in C
+    // Addressing:   A
+    // Opcode:       2A
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "C=A>>7,A=F(2*A+(1&P));"
+
+    // "%": ROL (rotate left)
+    // Rotate left a byte in memory. Same as left shift but C flag is put into bit 0. Flags: N, Z, C
+    // The shifted-out bit 7 is saved in C
+    // Addressings:  zpg, zpgX, abs, absX
+    // Opcodes:      26,  36,   2E,  3E
+    // Cycles total: 5,   6,    6,   7
+    // Cycles addr.: 0,   1,    1,   2
+    // Cycles opc. : 3,   3,    3,   3 (***)
+    + "p=r(a),C=p>>7,w(a,F(2*p+(1&P))),c++;"
+
+    // "&": LSR A (shift right accumulator)
+    // A is shifted right. Flags: N, Z, C
+    // The shifted-out bit 0 is saved in C
+    // Addressing:   A
+    // Opcode:       4A
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "C=1&A,A=F(A>>1);"
+
+    // "'": LSR (shift right)
+    // A or a byte in memory is shifted right. Flags: N, Z, C
+    // The shifted-out bit 0 is saved in C
+    // Addressings:  zpg, zpgX, abs, absX
+    // Opcodes:      46,  56,   4E,  5E
+    // Cycles total: 5,   6,    6,   7
+    // Cycles addr.: 0,   1,    1,   2
+    // Cycles opc. : 3,   3,    3,   3 (***)
+    + "p=r(a),C=1&p,w(a,F(p>>1)),c++;"
+
+    // "(": DEX (decrement X)
+    // X is decremented. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       CA
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "X=F(X-1);"
+
+    // ")": BIT (test bits in memory)
+    // N and V = bits 7 and 6 of operand. Z is set if operand AND A is not zero. Flags: N, Z, V
+    // Addressings:  zpg, abs
+    // Opcodes:      24,   2C
+    // Cycles total: 3,    4
+    // Cycles addr.: 0,    1
+    // Cycles opc. : 1,    1
+    + "p=r(a),F(p&A),N=p>>7&1,V=p>>6&amp;1;"
+
+    // "*": ROR A (rotate right accumulator)
+    // Rotate right A or a byte in memory. Same as left shift but C flag is put into bit 7. Flags: N, Z, C
+    // The shifted-out bit 0 is saved in C
+    // Addressing:   A
+    // Opcode:       6A
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "C=1&A,A=F((A>>1)+128*(1&P));"
+
+    // "+": INC (increment memory)
+    // A byte in memory is incremented. Flags: N, Z
+    // Addressings:  zpg, zpgX, abs, absX
+    // Opcodes:      E6,  F6,   EE,  FE
+    // Cycles total: 5,   6,    6,   7
+    // Cycles addr.: 0,   1,    1,   2
+    // Cycles opc. : 3,   3,    3,   3 (***)
+    + "w(a,F(r(a)+1)),c++;"
+
+    // ",": INX (increment X)
+    // X is incremented. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       E8
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "X=F(X+1);"
+
+    // "-": DEY (decrement Y)
+    // Y is decremented. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       88
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "Y=F(Y-1);"
+
+    // ".": INY (increment Y)
+    // Y is incremented. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       C8
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "Y=F(Y+1);"
+
+    // "/": LDY (load Y with memory)
+    // Y = a byte from memory. Flags: N, Z
+    // Addressings:  imm, zpg, zpgX, abs, absX
+    // Opcodes:      A0,  A4,  B4,   AC,  BC
+    // Cycles total: 2,   3,   4,    4,   4*
+    // Cycles addr.: -1,  0,   1,    1,   1*
+    // Cycles opc. : 1,   1,   1,    1,   1
+    + "Y=F(r(a));"
+
+    // 0: ROR (rotate right)
+    // Rotate right a byte in memory. Same as left shift but C flag is put into bit 7. Flags: N, Z, C
+    // The shifted-out bit 0 is saved in C
+    // Addressings:  zpg, zpgX, abs, absX
+    // Opcodes:      66,  76,   6E,  7E
+    // Cycles total: 5,   6,    6,   7
+    // Cycles addr.: 0,   1,    1,   2
+    // Cycles opc. : 3,   3,    3,   3 (***)
+    + "p=r(a),C=1&p,w(a,F((p>>1)+128*(1&P))),c++;"
+
+    // "1": CLC (clear carry flag)
+    // C is set to 0
+    // Addressing:   imp
+    // Opcode:       18
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "C=0;"
+
+    // "2": SEI  (set interrupt disable flag)
+    // I is set to 1
+    // Addressing:   imp
+    // Opcode:       78
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "I=1;"
+
+    // "3": CLD (clear decimal flag)
+    // D is set to 0
+    // Addressing:   imp
+    // Opcode:       D8
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "D=0;"
+
+    // "4": CLI (clear interrupt disable flag)
+    // I is set to 0
+    // Addressing:   imp
+    // Opcode:       58
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "I=0;"
+
+    // "5": LDA (load accumulator with memory)
+    // A = a byte from memory. Flags: N, Z
+    // Addressings:  imm, zpg, zpgX, abs, absX, absY, indX, indY
+    // Opcodes:      A9,  A5,  B5,   AD,  BD,   B9,   A1,   B1
+    // Cycles total: 2,   3,   4,    4,   4*,   4*,   6,    5*
+    // Cycles addr.: -1,  0,   1,    1,   1*,   1*    3,    3*
+    // Cycles opc. : 1,   1,   1,    1,   1,    1,    1,    1
+    + "A=F(r(a));"
+
+    // "6": AND: (AND memory and accumulator)
+    // A = A AND a byte in memory. Flags: N, Z
+    // Addressings:  imm, zpg, zpgX, abs, absX, absY, indX, indY
+    // Opcodes:      29,  25,  35,   2D,  3D,   39,   21,   31
+    // Cycles total: 2,   3,   4,    4,   4*,   4*,   6,    5*
+    // Cycles addr.: -1,  0,   1,    1,   1*,   1*    3,    3*
+    // Cycles opc. : 1,   1,   1,    1,   1,    1,    1,    1
+    + "A=F(r(a)&A);"
+    
+    // "7": CMP (compare memory and accumulator)
+    // N, Z and C are set with the result of A - a byte in memory
+    // Flag C is set if there's no borrow
+    // Addressings:  imm, zpg, zpgX, abs, absX, absY, indX, indY
+    // Opcodes:      C9,  C5,  D5,   CD,  DD,   D9,   C1,   D1
+    // Cycles total: 2,   3,   4,    4,   4*,   4*,   6,    5*
+    // Cycles addr.: -1,  0,   1,    1,   1*,   1*    3,    3*
+    // Cycles opc. : 1,   1,   1,    1,   1,    1,    1,    1
+    + "p=r(a),C=A-p>=0,F(A-p);"
+
+    // "8": SBC (subtract from accumulator with carry)
+    // A = A - a byte from memory - (1 - Carry). Flags: N, Z, C, V
+    // Flag C is set if there's no borrow
+    // Flag V is set if the subtraction is incorrectly considered positive
+    // Addressings:  imm, zpg, zpgX, abs, absX, absY, indX, indY
+    // Opcodes:      E9,  E5,  F5,   ED,  FD,   F9,   E1,   F1
+    // Cycles total: 2,   3,   4,    4,   4*,   4*,   6,    5*
+    // Cycles addr.: -1,  0,   1,    1,   1*,   1*    3,    3*
+    // Cycles opc. : 1,   1,   1,    1,   1,    1,    1,    1
+    + "p=r(a),t=A+C-1-p,V=!!(128&(A^p))&&!!(128&(A^t)),C=t>=0,A=F(t);"
+
+    // "9": ADC (add to accumulator with carry)
+    // A = A + a byte in memory + Carry. Flags: N, Z, C, V
+    // Flag C is set if there's a carry
+    // Flag V is set if the sum of two positive numbers is incorrectly considered negative
+    // Addressings:  imm, zpg, zpgX, abs, absX, absY, indX, indY
+    // Opcodes:      69,  65,  75,   6D,  7D,   79,   61,   71
+    // Cycles total: 2,   3,   4,    4,   4*,   4*,   6,    5*
+    // Cycles addr.: -1,  0,   1,    1,   1*,   1*    3,    3*
+    // Cycles opc. : 1,   1,   1,    1,   1,    1,    1,    1
+    + "p=r(a),t=A+C+p,V=!(128&(A^p))&&!!(128&(A^t)),C=t>255,A=F(t);"
+    
+    // ":": BCS (branch on carry set)
+    // PC = address if C is 1
+    // Addressing:   rel 
+    // Opcode:       B0
+    // Cycles total: 2**
+    // Cycles addr.: 0
+    // Cycles opc. : 0**
+    + "C&&(c+=1+(a>>8!=PC+1>>8),PC=a);"
+    
+    // ";": BMI (branch on minus)
+    // PC = address if N is 1
+    // Addressing:   rel 
+    // Opcode:       30
+    // Cycles total: 2**
+    // Cycles addr.: 0
+    // Cycles opc. : 0**
+    + "N&&(c+=1+(a>>8!=PC+1>>8),PC=a);"
+    
+    // "&lt;": BEQ (branch if equal)
+    // PC = address if Z is 0
+    // Addressing:   rel 
+    // Opcode:       F0
+    // Cycles total: 2**
+    // Cycles addr.: 0
+    // Cycles opc. : 0**
+    + "Z&&(c+=1+(a>>8!=PC+1>>8),PC=a);"
+    
+    // "=": BPL (branch on plus)
+    // PC = address if N is 0
+    // Addressing:   rel 
+    // Opcode:       10
+    // Cycles total: 2**
+    // Cycles addr.: 0
+    // Cycles opc. : 0**
+    + "N||(c+=1+(a>>8!=PC+1>>8),PC=a);"
+    
+    // ">": BVS (branch on overflow set)
+    // PC = address if V is 1
+    // Addressing:   rel 
+    // Opcode:       70
+    // Cycles total: 2**
+    // Cycles addr.: 0
+    // Cycles opc. : 0**
+    + "V&&(c+=1+(a>>8!=PC+1>>8),PC=a);"
+    
+    // "?": BNE (branch if not equal)
+    // PC = address if Z is 1
+    // Addressing:   rel 
+    // Opcode:       D0
+    // Cycles total: 2**
+    // Cycles addr.: 0
+    // Cycles opc. : 0**
+    + "Z||(c+=1+(a>>8!=PC+1>>8),PC=a);"
+    
+    // "@": BVC (branch on overflow clear)
+    // PC = address if V is 0
+    // Addressing:   rel 
+    // Opcode:       50
+    // Cycles total: 2**
+    // Cycles addr.: 0
+    // Cycles opc. : 0**
+    + "V||(c+=1+(a>>8!=PC+1>>8),PC=a);"
+    
+    // "A": LDX (load X with memory)
+    // X = a byte from memory. Flags: N, Z
+    // Addressings:  imm, zpg, zpgY, abs, absY
+    // Opcodes:      A2,  A6,  B6,   AE,  BE
+    // Cycles total: 2,   3,   4,    4,   4*
+    // Cycles addr.: -1,  0,   1,    1,   1*
+    // Cycles opc. : 1,   1,   1,    1,   1
+    + "X=F(r(a));"
+    
+    // "B": EOR (exclusive-or memory and accumulator)
+    // A = A XOR a byte in memory. Flags: N, Z
+    // Addressings:  imm, zpg, zpgX, abs, absX, absY, indX, indY
+    // Opcodes:      49,  45,  55,   4D,  5D,   59,   41,   51
+    // Cycles total: 2,   3,   4,    4,   4*,   4*,   6,    5*
+    // Cycles addr.: -1,  0,   1,    1,   1*,   1*    3,    3*
+    // Cycles opc. : 1,   1,   1,    1,   1,    1,    1,    1
+    + "A=F(r(a)^A);"
+    
+    // "C": DEC (decrement memory)
+    // A byte in memory is decremented. Flags: N, Z
+    // Addressings:  zpg, zpgX, abs, absX
+    // Opcodes:      C6,  D6,   CE,  DE
+    // Cycles total: 5,   6,    6,   7
+    // Cycles addr.: 0,   1,    1,   2
+    // Cycles opc. : 3,   3,    3,   3 (***)
+    + "w(a,F((r(a)-1)&255)),c++;"
+    
+    // "D": ASL A (shift left accumulator)
+    // A is left shifted. Flags: N, Z, C
+    // The shifted-out bit 7 is saved in C
+    // Addressing:   A
+    // Opcode:       0A
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "C=A>>7,A=F(2*A);"
+    
+    // "E": JSR (jump to subroutine)
+    // Push PC + 2, PC = absolute address
+    // Addressing:   abs
+    // Opcode:       20
+    // Cycles total: 6
+    // Cycles addr.: 1
+    // Cycles opc. : 3 (***)
+    + "h(PC>>8),h(255&PC),PC=a-1,c++;"
+    
+    // "F": SEC (set carry flag)
+    // C is set to 1
+    // Addressing:   imp
+    // Opcode:       38
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "C=1;"
+    
+    // "G": SED (set decomal flag)
+    // D is set to 1
+    // Addressing:   imp
+    // Opcode:       F8
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "D=1;"
+    
+    // "H": CLV (clear overflow flag)
+    // V is set to 0
+    // Addressing:   imp
+    // Opcode:       B8
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "V=0;"
+    
+    // "I": ORA (OR memory and accumulator)
+    // A = A OR a byte in memory. Flags: N, Z. 
+    // Addressings:  imm, zpg, zpgX, abs, absX, absY, indX, indY
+    // Opcodes:      09,  05,  15,   0D,  1D,   19,   01,   11
+    // Cycles total: 2,   3,   4,    4,   4*,   4*,   6,    5*
+    // Cycles addr.: -1,  0,   1,    1,   1*,   1*    3,    3*
+    // Cycles opc. : 1,   1,   1,    1,   1,    1,    1,    1
+    + "A=F(r(a)|A);"
+    
+    // "J": PHA (push accumulator)
+    // Push A
+    // Addressing:   imp
+    // Opcode:       48
+    // Cycles total: 3
+    // Cycles addr.: 0
+    // Cycles opc. : 1
+    + "h(A);"
+    
+    // "K": PHP (push processor status)
+    // Push P with B flag set to 1
+    // Addressing:   imp
+    // Opcode:       08
+    // Cycles total: 3
+    // Cycles addr.: 0
+    // Cycles opc. : 1
+    + "h(P|16);"
+    
+    // A=F(g()),c++
+    // "L": PLA (pull accumulator)
+    // Pull A. Flags: N, Z.
+    // Addressing:   imp
+    // Opcode:       68
+    // Cycles total: 4 (*** 1 extra cycle according to nestest)
+    // Cycles addr.: 0
+    // Cycles opc. : 1
+    + "A=F(g()),c++;"
+    
+    // "M": PLP (pull processor status)
+    // Pull P and set all flags
+    // (According to nestest, the B flag stays at 0) 
+    // Addressing:   imp
+    // Opcode:       28
+    // Cycles total: 4 (*** 1 extra cycle according to nestest)
+    // Cycles addr.: 0
+    // Cycles opc. : 1
+    + "f(g()&239),c++;"
+    
+    // "N": RTI (return from interrupt)
+    // Pull P, set all flags, pull PC
+    // Addressing:   imp
+    // Opcode:       40
+    // Cycles total: 6
+    // Cycles addr.: 0
+    // Cycles opc. : 4 (***)
+    + "f(g()),PC=g()+256*g()-1,c++;"
+    
+    // "O": BCC (branch on carry clear)
+    // PC = address if C is 0
+    // Addressing:   rel 
+    // Opcode:       90
+    // Cycles total: 2**
+    // Cycles addr.: 0
+    // Cycles opc. : 0**
+    + "C||(c+=1+(a>>8!=PC+1>>8),PC=a);"
+    
+    // "P": BRK (force break)
+    // Interrupt, push PC+2 (PC+1 is a padding byte), push P with B flag set to 1, set I to 1
+    // This is equivalent to an IRQ interrupt with another value of P pushed on the stack:
+    // "h(PC>>8),h(255&PC),h(P|16),I=1,PC=r(65534)+256*r(65535)-1;"
+    // Addressing:   imp
+    // Opcode:       00
+    // Cycles total: 7
+    // Cycles addr.: 0
+    // Cycles opc. : 5
+    //+ 
+    + "op(3,1);"
+    
+    // "Q": TAY (transfer accumulator to Y)
+    // Y = A. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       A8
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "Y=F(A);"
+    
+    // "R": STA (store accumulator)
+    // A is copied in memory
+    // Addressings:  zpg, zpgX, abs, absX, absY, indX, indY
+    // Opcodes:      85,  95,   8D,  9D,   99,   81,   91
+    // Cycles total: 3,   4,    4,   5,    5,    6,    6
+    // Cycles addr.: 0,   1,    1,   2,    2     3,    2
+    // Cycles opc. : 1,   1,    1,   1,    1,    1,    1
+    + "w(a,A);"
+    
+    // "S": STX (store X)
+    // X is copied in memory
+    // Addressings:  zpg, zpgY, abs
+    // Opcodes:      86,  96,   8E
+    // Cycles total: 3,   4,    4
+    // Cycles addr.: 0,   1,    1
+    // Cycles opc. : 1,   1,    1
+    + "w(a,X);"
+    
+    // "T": TSX (transfer stack pointer to X)
+    // X = S. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       BA
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "X=F(S);"
+    
+    // "U": TAX (transfer accumulator to X)
+    // X = A. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       AA
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "X=F(A);"
+    
+    // "V": STY (store Y)
+    // Y is copied in memory
+    // Addressings:  zpg, zpgX, abs
+    // Opcodes:      84,  94,   8C
+    // Cycles total: 3,   4,    4
+    // Cycles addr.: 0,   1,    1
+    // Cycles opc. : 1,   1,    1
+    + "w(a,Y);"
+    
+    // "W": TYA (transfer Y to accumulator)
+    // A = Y. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       98
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "A=F(Y);"
+    
+    // "X": TXA (transfer X to accumulator)
+    // A = X. Flags: N, Z
+    // Addressing:   imp
+    // Opcode:       8A
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + "A=F(X);"
+    
+    // "Y": RTS (return from subroutine)
+    // Pull and increment PC
+    // Addressing:   imp
+    // Opcode:       60
+    // Cycles total: 6
+    // Cycles addr.: 0
+    // Cycles opc. : 0 (***)
+    + "PC=g()+256*g(c+=2);"
+    
+    // "Z": JMP (jump to new location)
+    // Set a new value to PC
+    // Addressings:  abs
+    // Opcodes:      4C
+    // Cycles total: 3
+    // Cycles addr.: 1
+    // Cycles opc. : 0
+    + "PC=a-1;"
+    
+    // "[" JMP indirect
+    // Jump to an address stored anywhere in memory. The address of this address is stored after the opcode
+    // Hardware bug: if the indirect address falls on a page boundary ($xxFF), it will wrap and fetch the low byte in the same page ($xx00)
+    // Addressing:   ind
+    // Opcodes:      6C
+    // Cycles total: 5
+    // Cycles addr.: 3
+    // Cycles opc. : 2
+    + "PC=r(a)+256*r(a+1-256*((a&255)==255))-1"
+
+    // "z": NOP (no operation)
+    // (When a "z" is read, the generated JavaScript code will just contain "undefined;")
+    // Addressing:   imp
+    // Opcode:       EA
+    // Cycles total: 2
+    // Cycles addr.: 0
+    // Cycles opc. : 0
+    + ""
+
+  // Make an array from this string
+  ).split(";")
+
+  // Fetch the right instruction for the current opcode (ignore every illegal opcode where o % 4 == 3):
+  // (The string below is optomized for compression: all the illegal opcodes are assigned characters that allow extra repetition)
+  [
+     (
+       `PI#PI#KIDPI#=I#PI#1IDPI#`
+      +`E6%)6%M6$)6%;6%E6%F6%E6%`
+      +`NB'NB'JB&ZB'@B'NB'4B'NB'`
+      +`Y90Y90L9*[90>90Y90290Y90`
+      +`VRSVRS-zXVRSORSVRSWR VRS`
+      +`/5A/5AQ5U/5A:5A/5AH5T/5A`
+      +`"7C"7C.7("7C?7C"7C37C"7C`
+      +`!8+!8+,8z!8+&lt;8+!8+G8+!8+`
+    )[o - (o >> 2)].charCodeAt() - 32
+  ]
+}</code></pre>
+</details>
+
+<p>This kind of implementation is called a jump table.
+<p>I'd like to thank <b>@subzey</b> and <b>@James0x57</b> for helping me golfing this!
+<br>Subzey even made a tool that shuffles the lines of a text file to improve gzip compression: <a href="https://www.npmjs.com/package/dict-tempering">dict-tempering</a>, which saved me about 30 bytes.
+
+<p>Finally, I generated a function for each instruction:
+
+<details>
+<summary><b>One function per instruction</b></summary>
+<pre><code class="lang-js">// Instructions
+// ============
+
+// The code below creates a function for each valid opcode supported by the CPU.
+// When a function is called:
+// - PC represents the current opcode's address
+// - o is the opcode's value
+// - a equals PC+1
+// - p is the value stored at the address PC+1
+// - c (the cycle counter) equals 2 because two memory reads have already been done (o and p)
+O = [...Array(255)].map((t,o) =>
+  Function(
+
+    (
+      // addressing jump table ...
+    )
+
+    // Separator
+    + ";"
+    
+    + (
+      // opcode jump table ...
+    )
+  )
+);</code></pre>
+</details>
+
+<p>And I made an <b>op()</b> function, able to execute one of the three interrupts, or the next instruction in the ROM:
+
+<details>
+<summary><b>opcode / interrupt executer</b></summary>
+<pre><code class="lang-js">// Emulation
+// ---------
+
+// If an interrupt (v = 1/2/3) is specified, it's executed
+// Otherwise, execute the next opcode, at the address pointed by the PC register
+op = (v, z) => (
+
+  // - Fetch opcode at address PC (costs 1 cycle), save it in o
+  // - Increment PC, save it in a
+  // - Fetch the byte at address a (costs 1 cycle), save it in p
+  o = r(PC),
+  p = r(a = PC+1),
+
+  // Execute an interrupt if v is set
+  v ? (
+
+    // 1: NMI:
+    // Push PC and P with B flag set to 0, then set I to 1,
+    // then jump to address stored at $FFFA-$FFFB
+    // This costs 7 cycles
+    // On NES, it only works when VBlank is enabled (bit 7 of PPU register $2000 = 1), otherwise it's skipped and only costs 2 cycles
+
+    // 2: Reset:
+    // Push PC and P with B flag set to 0, then set I to 1,
+    // then jump to address stored at $FFFC-$FFFD
+    // This resets c and costs 8 cycles
+    // On NES, this also resets the PPU
+
+    // 3: IRQ/BRK:
+    // Push PC and P with B flag set to 0 (IRQ) or 1 (BRK), then set I to 1,
+    // then jump to address stored at $FFFE-$FFFF
+    // This costs 7 cycles
+
+    //(v > 1 || r(0x2000) >> 7) && ( // NES-specific test
+      (
+        (
+          (v - 2) 
+          ? (h(PC >> 8), h(255 & PC), h(z ? (P|16) : (239 & P))) // NMI/IRQ/BRK
+          : (S = (S-3) & 255, c = 6) // Reset
+        ),
+
+        I = 1,
+        PC = r(65528 + v * 2) + 256 * r(65528 + v * 2 + 1)
+      )
+    //)
+  )
+
+  // Or execute the next instruction:
+  : (
+    O[o](),
+    PC++
+  ),
+
+  // Update status register P according to the new flags values
+  P = C + Z*2 + I*4 + D*8 + B*16 + 32 + V*64 + N*128
+)</code></pre>
+</details>
+
+<p>After golfing and minifying, all this code fits in 2288 bytes:
+
+<pre><code class="lang-js">m=[A=X=Y=c=0]
+r=(d,b)=>m[c++,d%65536]
+w=(d,b)=>m[c++,d%65536]=b
+F=(d,b)=>(Z=(d&=255)&lt;1,N=d>>7,d)
+f=(d,b)=>(C=d&1,Z=d>>1&1,I=d>>2&1,D=d>>3&1,B=d>>4&1,V=d>>6&1,N=d>>7)
+f(P=36)
+h=(d,b)=>(w(256+S--,d),S&=255)
+g=(d,b)=>r(256+(S=255&S+1))
+O=[...Array(255)].map((d,b)=>Function(`c--,PC++
+a=a+p-256*(p>>7),PC++
+a=r(p+X&255)+256*r(p+X+1&255),PC++,c++
+a=r(p)+256*r(p+1&255)+Y,c+=a-Y>>8&lt;a>>8||o>>4==9,PC++
+a=r(a)+X&255,PC++
+a=r(a)+Y&255,PC++
+a=p,PC++
+a=p+256*r(PC+=2)
+t=p+256*r(PC+=2),c+=t>>8&lt;t+Y>>8||o>>4==9,a=t+Y
+t=p+256*r(PC+=2),c+=t>>8&lt;t+X>>8||o>>4==9||o%16>13,a=t+X`.split`
+`[`020666Z0Z77713Z444Z8Z999720666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999020666Z0Z77713Z445Z8Z998020666Z0Z77713Z445Z8Z998020666Z0Z77713Z444Z8Z999020666Z0Z77713Z444Z8Z999`[b-(b>>2)]]+`
+`+`S=X
+p=r(a),C=X-p>=0,F(X-p)
+p=r(a),C=Y-p>=0,F(Y-p)
+p=r(a),C=p>>7,w(a,F(2*p)),c++
+C=A>>7,A=F(2*A+(1&P))
+p=r(a),C=p>>7,w(a,F(2*p+(1&P))),c++
+C=1&A,A=F(A>>1)
+p=r(a),C=1&p,w(a,F(p>>1)),c++
+X=F(X-1)
+p=r(a),F(p&A),N=p>>7&1,V=p>>6&1
+C=1&A,A=F((A>>1)+128*(1&P))
+w(a,F(r(a)+1)),c++
+X=F(X+1)
+Y=F(Y-1)
+Y=F(Y+1)
+Y=F(r(a))
+p=r(a),C=1&p,w(a,F((p>>1)+128*(1&P))),c++
+C=0
+I=1
+D=0
+I=0
+A=F(r(a))
+A=F(r(a)&A)
+p=r(a),C=A-p>=0,F(A-p)
+p=r(a),t=A+C-1-p,V=!!(128&(A^p))&&!!(128&(A^t)),C=t>=0,A=F(t)
+p=r(a),t=A+C+p,V=!(128&(A^p))&&!!(128&(A^t)),C=t>255,A=F(t)
+C&&(c+=1+(a>>8!=PC+1>>8),PC=a)
+N&&(c+=1+(a>>8!=PC+1>>8),PC=a)
+Z&&(c+=1+(a>>8!=PC+1>>8),PC=a)
+N||(c+=1+(a>>8!=PC+1>>8),PC=a)
+V&&(c+=1+(a>>8!=PC+1>>8),PC=a)
+Z||(c+=1+(a>>8!=PC+1>>8),PC=a)
+V||(c+=1+(a>>8!=PC+1>>8),PC=a)
+X=F(r(a))
+A=F(r(a)^A)
+w(a,F((r(a)-1)&255)),c++
+C=A>>7,A=F(2*A)
+h(PC>>8),h(255&PC),PC=a-1,c++
+C=1
+D=1
+V=0
+A=F(r(a)|A)
+h(A)
+h(P|16)
+A=F(g()),c++
+f(g()&239),c++
+f(g()),PC=g()+256*g()-1,c++
+C||(c+=1+(a>>8!=PC+1>>8),PC=a)
+op(3,1)
+Y=F(A)
+w(a,A)
+w(a,X)
+X=F(S)
+X=F(A)
+w(a,Y)
+A=F(Y)
+A=F(X)
+PC=g()+256*g(c+=2)
+PC=a-1
+PC=r(a)+256*r(a+1-256*((a&255)==255))-1`.split`
+`[`PI#PI#KIDPI#=I#PI#1IDPI#E6%)6%M6$)6%;6%E6%F6%E6%NB'NB'JB&ZB'@B'NB'4B'NB'Y90Y90L9*[90>90Y90290Y90VRSVRS-zXVRSORSVRSWR VRS/5A/5AQ5U/5A:5A/5AH5T/5A"7C"7C.7("7C?7C"7C37C"7C!8+!8+,8z!8+&lt;8+!8+G8+!8+`[b-(b>>2)].charCodeAt()-32]))
+op=(d,b)=>(o=r(PC),p=r(a=PC+1),d?(2-d?(h(PC>>8),h(255&PC),h(b|239&P)):(S=S-3&255,c=6),I=1,PC=r(65528+2*d)+256*r(65528+2*d+1)):(O[o](),PC++),P=C+2*Z+4*I+8*D+16*B+32+64*V+128*N)</code></pre>
+
+<p>After gzip (<b>zopfli --gzip -i1000000 6502.min.js</b>), it's down to only <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.gz">938 bytes</a>!
+<br>But if we do a regular "zip" file (that has a big overhead compared to gzip) also fits under 1kb: <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.zip">1015 bytes</a>.
+
+<p><b>Mission complete!</b>
+<p>I made my 6502 CPU simulator in under one kilobyte.
+<br>In comparison, <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">JSNES's cpu</a> was 52.7kb barely commented, 27.5kb minified (12x bigger), and 4.7kb gzipped (5x bigger).
+
+<p>My CPU is available as a standalone project (with comments and tests) here: <a href="https://github.com/xem/mini6502">mini6502</a>
 
 
 
 <br>
 <br>
-
-
+<h4>IV) Golfing the PPU</h4>
 
 
 
