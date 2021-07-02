@@ -10,6 +10,8 @@
 
 <div class="wrapper">
 
+<style>details { cursor: pointer; background: #e8e8e8; padding: 5px; border-radius: 5px; }</style>
+
 <header></header>
 
 <div id=menu></div>
@@ -24,7 +26,7 @@
 <br><br><hr><br>
 <h3>Introduction</h3>
 <p>Hello!<br>
-Today I'm going to tell you how I'm creating the world's smallest NES emulator in JS. It is based on <a href="https://twitter.com/MaximeEuziere/status/1316455403274858501">this Twitter thread</a>.
+Today I'm going to tell you how I'm creating the world's smallest NES emulator in JS, <a href="https://github.com/xem/jsnes-lite">JSNES-lite</a>. It is based on <a href="https://twitter.com/MaximeEuziere/status/1316455403274858501">this Twitter thread</a>.
 <p>In the previous years, I've made many attempts at creating my onw NES emulator from scratch:
 <br>I wrote an <a href="https://github.com/xem/nes/blob/gh-pages/cheat%20sheet.txt">emulation cheat-sheet</a> and built a <a href="https://xem.github.io/nes/">ROM decompiler and debugger</a>...
 <br>
@@ -51,6 +53,8 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 <br>Keep in mind that an emulator is fractally complex. You can add accuracy and features as much as you want, it'll never really end...
 <br>so I will aim for a MVP (minimum viable product) with the best support possible for commercial games, and under 10kb zipped.
 <br>Let's go on a journey full of traps, surprises, reverse-engineering and arbitrary choices!
+
+<p><i>This article contains chunks of commented code and extra explanations hidden behind dropdowns. Feel free to read or skip them.</i>
 
 <br><br><hr><br>
 
@@ -171,9 +175,7 @@ var currentSample = 0;</code></pre>
 </details>
 
 <p>The original jsnes-web also features a game list and supports USB gamepads, but I don't.
-<p>Anyway, when all my code is put together, it's as small as 1082b minified and 835b zipped.
-
-
+<p>Anyway, when all my code is put together, it's as small as 1078b minified and 721b gzipped.
 
 <pre style="font-size:12px;line-height:1"><code class="lang-html">&lt;canvas id=c width=256 height=240 style=background:#000>&lt;/canvas>
 &lt;p>&lt;input type=file id=f>
@@ -181,16 +183,19 @@ var currentSample = 0;</code></pre>
 &lt;script src=jsnes.min.js>&lt;/script>
 &lt;script>e=c.getContext`2d`,o=e.getImageData(0,0,256,240),n=new ArrayBuffer(o.data.length),t=new Uint8ClampedArray(n),r=new Uint32Array(n),l=new AudioContext,s=l.createScriptProcessor(512,0,2),s.connect(l.destination),s.onaudioprocess=e=>{if(a.length>C+512)for(var n=0;n&lt;512;n++)e.outputBuffer.getChannelData(0)[n]=a[C],e.outputBuffer.getChannelData(1)[n]=T[C],C++},a=[],T=[],C=0,f.onchange=()=>{n=new FileReader,n.readAsBinaryString(f.files[0]),n.onload=()=>{f.remove(),N=new jsnes.NES({onFrame:n=>{for(l=0,s=0;s&lt;256;++s)for(A=0;A&lt;240;++A)r[l=256*s+A]=0xff000000|n[l];o.data.set(t),e.putImageData(o,0,0)},onAudioSample:(e,n)=>{a.push(e),T.push(n)},sampleRate:44100}),N.loadROM(n.result),setInterval(N.frame,16),onkeydown=onkeyup=e=>{N[e.type[5]?"buttonDown":"buttonUp"](1,jsnes.Controller[`BUTTON_`+{37:`LEFT`,38:`UP`,39:`RIGHT`,40:`DOWN`,88:`A`,67:`B`,`SELECT`,13:`START`}[e.keyCode]])}}}&lt;/script></code></pre>
 
-<br>In other words, 122 times smaller than the original, and fully compatible with JSNES.
-<br>(A lot of that size is actually used to respect JSNES's API, so it'll be even less at the end of my project.)
+<br>In other words, 140 times smaller than the original, and still fully compatible with JSNES.
+<br>(A lot of that size is actually used to respect JSNES's API, so it'll be even smaller in my final version of JSNES-lite.)
 
 <p>Here's my fork of jsnes-web: <a href="https://github.com/xem/jsnes-web">Github repo</a> / <a href="https://xem.github.io/jsnes-web/index.min.html">Demo</a>.
 <br>The author of JSNES found it <a href="https://github.com/bfirsh/jsnes-web/pull/300">neat</a>!
 
 <br><br><hr><br>
 
-<h3>The emulator!</h3>
-<h4>I) The big picture</h4>
+<h2>The emulator!</h2>
+
+<br><hr><br>
+
+<h3>The big picture</h3>
 
 <p>I've drawn an overview of all the elements that must be handled by a NES emulator:
 <br>
@@ -198,8 +203,58 @@ var currentSample = 0;</code></pre>
 <img src="images/nes/3.svg" width=800>
 <br>
 <p>Of course, a million details are not covered here, that's what we'll see in the following parts.
-<br>
-<h4>II) Golfing the rom loader</h4>
+
+<br><br><hr><br>
+<h3>How I will proceed</h3>
+
+<p>JSNES's 191kb source code is divided in <a href="https://github.com/bfirsh/jsnes/tree/master/src">10 files</a>:
+<p>- <b>controller.js</b> (27 lines, 548b) updates an array of 8 values when buttonDown(key) and buttonUp(key) are called by JSNES-web.
+<br>- <b>cpu.js</b> (2024 lines, 52.7kb) has a reset() function and an emulate() function able to execute any of the CPU's 256 instructions & interrupts.
+<br>- <b>mappers.js</b> (1518 lines, 37.5kb) handles reads/writes in the CPU memory and communicates with the gamepak, controllers, PPU & APU.
+<br>It supports the gamepak formats (Mappers) 0-5, 7, 11, 34, 38, 66, 94, 140 and 180, for a total coverage of ~90% of all commercial games.
+<br>- <b>nes.js</b> (210 lines, 4.8kb) is the emulator's entry point. It exposes a constructor NES(), a reset() function and a frame() function.
+<br>Its job is to call CPU.emulate() repeatedly until the current frame is completed (every 29780.5 cycles on NTSC, or 33247.5 on PAL),
+<br>and tells the APU to generate the audio samples that need to be played when this frame is displayed.
+<br>- <b>papu.js</b> (1371 lines, 36.6kb) handles all the audio. It exposes three functions: reset(), setSampleRate() and clockFrameCounter().
+<br>- <b>ppu.js</b> (1753 lines, 48.8kb) handles all the graphics. It exposes four functions: reset(), startFrame(), startVBlank() and endScanline().
+<br>- <b>rom.js</b> (204 lines, 5.5kb) has a load() function that parses a ROM file and places its content in memory.
+<br>- <b>tile.js</b> (5kb) and <b>utils.js</b> (0.6kb) handle graphics generation and copying in memories, so they can be merged with ppu.js and mappers.js. 
+<br>- <b>index.js</b> is not necessary, it just loads nes.js.
+
+<p><b>A little problem...</b>
+<p>These files are quite hard to read. Not only do they lack comments and good variable naming, but they also contain a frightening amount of redundancy, absurd abstractions, unneeded complexity, backwards logic, dead code, and errors too...
+
+<p>But I can't really complain, because despite all these problems, it's a <i>Vanilla JS</i> emulator that <i>works</i>, which is just what I need to get started!
+
+<p><b>First steps</b>
+<p>So after forking it and taking a few days to clean up a bunch of useless code and trying to make sense of the rest by reading some documentation online, I could finally start taking all these files one by one and rewriting them the way I want: clean, readable, commented, functional, accurate, fast, and as short as possible after minification.
+
+<p>For simplicity, I'll get rid of all the JS modules, Objects and prototypes present in JSNES. All the variables and functions will be "global".
+<br>Though, I know that people tend to find that quite dirty, so I'll also provide a version where everything will be contained in a self-executing function, with no global leaks.
+
+<p><b>The scope</b>
+<p>For the initial release, I'll try to limit the amount of features supported by my emulator:
+<br>- 1 or 2 controllers mapped to keyboard keys (no Duck Hunt zapper, no USB gamepad...).
+<br>- No support for Famicom Disc System, Arcade systems, and other peripherals.
+<br>- The CPU will only emulate the 151 legal/official instructions, which is enough to run <a href="https://wiki.nesdev.com/w/index.php/CPU_unofficial_opcodes#Games_using_unofficial_opcodes">99.9% of all commercial games</a>.
+<br>- The PPU will not simulate NTSC video rendering nor special video effects like greyscale or color emphasis (which are almost never used).
+<br>- Support for the gamepak mappers 0-4 only, which represent about <a href="http://tuxnes.sourceforge.net/nesmapper.txt">75% of all games</a> (100% of the games you know are covered).
+<br>- No debug tools, except an optional VRAM visualizer (showing the background tiles and screen viewport).
+<br>- No TAS tools (save states, frame advance, keystrokes recording/playback).
+<br>- Save slots will be stored in localStorage for games that support it.
+
+<p><b>The goal</b>
+<p>Then, I'll gather everything in a standalone HTML page, golf it even further, and hopefully obtain the world's smallest NES emulator.
+
+<br>But who are my concurrents anyway? Here's my top 5:
+<br>- <a href="https://github.com/takahirox/nes-js">nes-js</a> (JS emulator, standalone version: 3744 lines of code, 81kb minified, 16kb zipped)
+<br>- <a href="https://github.com/bfirsh/jsnes">jsnes</a> (the most popular JS emulator, 5411 lines of code, 99.9kb minified, 21kb zipped)
+<br>- <a href="https://github.com/wwssllabcd/NesEmu">nesemu1</a> (C emulator 743 lines of code, 45kb commented, 97kb compiled with SDL)
+<br>- <a href="https://github.com/AndreaOrru/LaiNES">LaiNes</a> (C++ emulator in 1730 lines of code, 63kb commented, 198kb compiled with SDL2)
+<br>- <a href="https://problemkaputt.de/nes.htm">no$nes</a> (windows executable only, 340kb)
+
+<br><br><hr><br>
+<h3>Golfing the rom loader</h3>
 <p>There's one major rom format that dominates NES emulation, called iNes 1.0 (".nes" files), so my emulator will support it.
 <br>Unfortunately, it's not very well designed, nor well used by the people who dump and share games.
 <br>But to summarize, it starts with a 16-byte header that contains information about the cartridge:
@@ -400,16 +455,8 @@ Mapper={load_rom:()=>{Mapper.load_prg_rom(),Mapper.load_chr_rom()},load_prg_rom:
 <br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/nes.js">nes.js</a>, the emulator API: init(), frame(), reset()... (before: 1.1kb zipped, after: 566b zipped).
 <br>But we'll get back to them later.
 
-
-<p><b>Bonus: Rant (or lack thereof)</b>
-<br>You may remark that JSNES, even though it's coded in Vanilla JS, is extremely verbose and heavy compared to my version.
-<br>If you plunge into it, you'll even see that it's an absurd mess, an almost uncommented plate of spaghetti full of useless code, excessive layers of abstraction, unreadable logic, lags and plenty of errors.
-<br>But even if all these problems make it hard to follow, I don't really despise it.
-<br>To the contrary, I'm glad that it exists because it <u>works</u>, and offers me something to start from and enhance as much as I want!
-
-<br>
-<br>
-<h4>III) Golfing the CPU</h4>
+<br><br><hr><br>
+<h3>Golfing the CPU</h3>
 
 <img src="images/nes/5.jpg" width=300>
 <br>
@@ -1591,11 +1638,28 @@ op=(d,b)=>(o=r(PC),p=r(a=PC+1),d?(2-d?(h(PC>>8),h(255&PC),h(b|239&P)):(S=S-3&255
 
 <p>My CPU is available as a standalone project (with comments and tests) here: <a href="https://github.com/xem/mini6502">mini6502</a>
 
+<p><b>Integration in the emulator</b>
+<p>This 6502 simulator works fine as a standalone file, but it must be part of the NES emulator:
+<br>- The r() and w() function that read and write into memory are replaced by functions from the memory/mapper manager:
+<pre><code class="lang-js">// "Memory" handles mirrors, persistent save slots, and Mapper-specific features like bank switches
+// Read a byte from memory. Costs 1 cycle
+r = v => (c++, Memory.load(v))
 
+// Write a byte in memory. Costs 1 cycle
+w = (v, w) => (c++, Memory.write(v, w))</code></pre>
 
-<br>
-<br>
-<h4>IV) Golfing the PPU</h4>
+<p>- The NMI interrupt is only executed if the 7th bit of the value present at address $2000 is not zero:
+
+<pre><code class="lang-js">(v > 1 || r(0x2000) >> 7) && (
+ // execute interrupts... v = 1/2/3
+)</code></pre>
+
+<p>- a reset() function wipes the internal RAM
+<br>- a tick() function helps making the PPU run 3 times faster than the CPU
+<br>- an emulate() function executes either an interrupt (if one is requested) or the next ROM instruction
+
+<br><br><hr><br>
+<h3>Golfing the PPU</h3>
 
 
 
