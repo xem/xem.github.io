@@ -10,7 +10,7 @@
 
 <div class="wrapper">
 
-<style>details { cursor: pointer; background: #e8e8e8; padding: 5px; border-radius: 5px; }</style>
+<style>details { cursor: pointer; background: #d8d8d8; padding: 5px; border-radius: 5px; }</style>
 
 <header></header>
 
@@ -22,11 +22,12 @@
 <h2>Golfing a NES emulator in JS</h2>
 <h3>October 2020 - WIP</h3>
 <br>
-<img src="images/nes/0.gif" width=500>
+<img src="images/nes/0.gif" width=800>
 <br><br><hr><br>
 <h3>Introduction</h3>
 <p>Hello!<br>
-Today I'm going to tell you how I'm creating the world's smallest NES emulator in JS, <a href="https://github.com/xem/jsnes-lite">JSNES-lite</a>. It is based on <a href="https://twitter.com/MaximeEuziere/status/1316455403274858501">this Twitter thread</a>.
+Today I'm going to tell you how I'm creating the world's smallest NES emulator in JS, <a href="https://github.com/xem/jsnes-lite">jsnes-lite</a>.
+<br>It's a detailed version of <a href="https://twitter.com/MaximeEuziere/status/1316455403274858501">this Twitter thread</a>.
 <p>In the previous years, I've made many attempts at creating my onw NES emulator from scratch:
 <br>I wrote an <a href="https://github.com/xem/nes/blob/gh-pages/cheat%20sheet.txt">emulation cheat-sheet</a> and built a <a href="https://xem.github.io/nes/">ROM decompiler and debugger</a>...
 <br>
@@ -34,24 +35,24 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 <img src="images/nes/1.png" width=700>
 <br>
 <br>but unfortunately, all the preparation and all the docs I could read (<a href="http://wiki.nesdev.com/w/index.php/NES_reference_guide">NESdev</a>, <a href="http://problemkaputt.de/everynes.htm">NO$NES</a>) weren't enough to boot a single game.
-<br>The actual CPU and graphics emulation were just too tricky.
+<br>The actual CPU and graphics emulation were just too tricky for me.
 <p>So I decided to try a different approach: fork an existing (and functional) NES emulator in JS, and golf it down to just a few kilobytes.
-<p>After some research, I chose the most popular one, <a href="//github.com/bfirsh/jsnes">JSNES</a>, which is already quite large:
+<p>After some research, I chose the most popular one, <a href="//github.com/bfirsh/jsnes">jsnes</a>, which is already quite large:
 <br>- 5411 lines of code
-<br>- 191kb commented
-<br>- 99.92kb minified
-<br>- 21.29kb zipped
-<p>... and can't acually run without its huge UI (<a href="https://github.com/bfirsh/jsnes-web">jsnes-web</a>) made in React 😱:
+<br>- 191KB commented
+<br>- 99.92KB minified
+<br>- 21.29KB gzipped
+<p>... and can't acually run without its huge UI (<a href="https://github.com/bfirsh/jsnes-web">jsnes-web</a>) made with Bootstrap and React 😱:
 <br>- 1106 dependencies
 <br>- 304Mb of node_modules
 <br>- 1614 lines of code
-<br>- 51.4kb commented
-<br>- 349kb built and minified
-<br>- 99.5kb zipped
+<br>- 51.4KB commented
+<br>- 349KB built and minified
+<br>- 99.5KB gzipped
 
 <p>My goal will be to figure out what all these lines of code do exactly, and try to replicate that with the smallest possible amount of code.
 <br>Keep in mind that an emulator is fractally complex. You can add accuracy and features as much as you want, it'll never really end...
-<br>so I will aim for a MVP (minimum viable product) with the best support possible for commercial games, and under 10kb zipped.
+<br>so I will aim for a MVP (minimum viable product) supporting a good amount of commercial games, and under 10KB zipped.
 <br>Let's go on a journey full of traps, surprises, reverse-engineering and arbitrary choices!
 
 <p><i>This article contains chunks of commented code and extra explanations hidden behind dropdowns. Feel free to read or skip them.</i>
@@ -63,14 +64,14 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 <img src="images/nes/2.png" width=400>
 <br>
 
-<p>Let's start with the elephant in the room: the UI. What does <b>jsnes-web</b> do to weigh almost 100kb? Not so many things actually:
+<p>Let's start with the elephant in the room: the UI. What does <b>jsnes-web</b> do to weigh almost 100KB? Not so many things actually:
 <br>- Initialize a 2D canvas and an AudioContext, with their framebuffers and audio buffers
-<br>- Start the JSNES emulator
-<br>- Load a ROM file and hand it to JSNES's ROM manager
+<br>- Start the jsnes emulator
+<br>- Load a ROM file and hand it to jsnes's ROM manager
 <br>- Render the frames and play the sound samples returned by the emulator, 60 times per second
-<br>- Listen to keyboard inputs and hand them to JSNES's control manager
+<br>- Listen to keyboard inputs and hand them to jsnes's control manager
 
-<p>So I created a standalone HTML page that did all that in Vanilla JavaScript, while respecting JSNES's API:
+<p>So I created a standalone HTML page that did all that in Vanilla JavaScript, while respecting jsnes's API:
 
 <p><details>
 <summary><b>HTML setup</b> (3 lines)</summary>
@@ -175,6 +176,7 @@ var currentSample = 0;</code></pre>
 </details>
 
 <p>The original jsnes-web also features a game list and supports USB gamepads, but I don't.
+<br>It also uses a 4KB <a href="https://www.npmjs.com/package/ringbufferjs">RingBuffer</a> library to store and play audio samples, which is simply unnecessary.
 <p>Anyway, when all my code is put together, it's as small as 1078b minified and 721b gzipped.
 
 <pre style="font-size:12px;line-height:1"><code class="lang-html">&lt;canvas id=c width=256 height=240 style=background:#000>&lt;/canvas>
@@ -183,11 +185,11 @@ var currentSample = 0;</code></pre>
 &lt;script src=jsnes.min.js>&lt;/script>
 &lt;script>e=c.getContext`2d`,o=e.getImageData(0,0,256,240),n=new ArrayBuffer(o.data.length),t=new Uint8ClampedArray(n),r=new Uint32Array(n),l=new AudioContext,s=l.createScriptProcessor(512,0,2),s.connect(l.destination),s.onaudioprocess=e=>{if(a.length>C+512)for(var n=0;n&lt;512;n++)e.outputBuffer.getChannelData(0)[n]=a[C],e.outputBuffer.getChannelData(1)[n]=T[C],C++},a=[],T=[],C=0,f.onchange=()=>{n=new FileReader,n.readAsBinaryString(f.files[0]),n.onload=()=>{f.remove(),N=new jsnes.NES({onFrame:n=>{for(l=0,s=0;s&lt;256;++s)for(A=0;A&lt;240;++A)r[l=256*s+A]=0xff000000|n[l];o.data.set(t),e.putImageData(o,0,0)},onAudioSample:(e,n)=>{a.push(e),T.push(n)},sampleRate:44100}),N.loadROM(n.result),setInterval(N.frame,16),onkeydown=onkeyup=e=>{N[e.type[5]?"buttonDown":"buttonUp"](1,jsnes.Controller[`BUTTON_`+{37:`LEFT`,38:`UP`,39:`RIGHT`,40:`DOWN`,88:`A`,67:`B`,`SELECT`,13:`START`}[e.keyCode]])}}}&lt;/script></code></pre>
 
-<br>In other words, 140 times smaller than the original, and still fully compatible with JSNES.
-<br>(A lot of that size is actually used to respect JSNES's API, so it'll be even smaller in my final version of JSNES-lite.)
+<br>In other words, 140 times smaller than the original, and still fully compatible with jsnes.
+<br>(A lot of that size is actually used to respect jsnes's API, so it'll be even smaller in my final version of jsnes-lite.)
 
 <p>Here's my fork of jsnes-web: <a href="https://github.com/xem/jsnes-web">Github repo</a> / <a href="https://xem.github.io/jsnes-web/index.min.html">Demo</a>.
-<br>The author of JSNES found it <a href="https://github.com/bfirsh/jsnes-web/pull/300">neat</a>!
+<br>The author of jsnes found it <a href="https://github.com/bfirsh/jsnes-web/pull/300">neat</a>!
 
 <br><br><hr><br>
 
@@ -202,69 +204,72 @@ var currentSample = 0;</code></pre>
 <br>
 <img src="images/nes/3.svg" width=800>
 <br>
-<p>Of course, a million details are not covered here, that's what we'll see in the following parts.
+<p>Of course, a ton of details are not covered here, that's what we'll see in the following parts.
 
 <br><br><hr><br>
 <h3>How I will proceed</h3>
 
-<p>JSNES's 191kb source code is divided in <a href="https://github.com/bfirsh/jsnes/tree/master/src">10 files</a>:
-<p>- <b>controller.js</b> (27 lines, 548b) updates an array of 8 values when buttonDown(key) and buttonUp(key) are called by JSNES-web.
-<br>- <b>cpu.js</b> (2024 lines, 52.7kb) has a reset() function and an emulate() function able to execute any of the CPU's 256 instructions & interrupts.
-<br>- <b>mappers.js</b> (1518 lines, 37.5kb) handles reads/writes in the CPU memory and communicates with the gamepak, controllers, PPU & APU.
+<p>jsnes's 191KB source code is divided in <a href="https://github.com/bfirsh/jsnes/tree/master/src">10 files</a>:
+<p>- <b>controller.js</b> (27 lines, 548b) handles joypads by updating an array of 8 values when buttonDown(key) and buttonUp(key) are called.
+<br>- <b>cpu.js</b> (2024 lines, 52.7KB) has a reset() function and an emulate() function able to execute any of the CPU's 256 instructions & interrupts.
+<br>- <b>mappers.js</b> (1518 lines, 37.5KB) handles reads / writes in CPU memory and communicates with the gamepak, controllers, PPU & APU.
 <br>It supports the gamepak formats (Mappers) 0-5, 7, 11, 34, 38, 66, 94, 140 and 180, for a total coverage of ~90% of all commercial games.
-<br>- <b>nes.js</b> (210 lines, 4.8kb) is the emulator's entry point. It exposes a constructor NES(), a reset() function and a frame() function.
+<br>- <b>nes.js</b> (210 lines, 4.8KB) is the emulator's entry point. It exposes a constructor NES(), a reset() function and a frame() function.
 <br>Its job is to call CPU.emulate() repeatedly until the current frame is completed (every 29780.5 cycles on NTSC, or 33247.5 on PAL),
 <br>and tells the APU to generate the audio samples that need to be played when this frame is displayed.
-<br>- <b>papu.js</b> (1371 lines, 36.6kb) handles all the audio. It exposes three functions: reset(), setSampleRate() and clockFrameCounter().
-<br>- <b>ppu.js</b> (1753 lines, 48.8kb) handles all the graphics. It exposes four functions: reset(), startFrame(), startVBlank() and endScanline().
-<br>- <b>rom.js</b> (204 lines, 5.5kb) has a load() function that parses a ROM file and places its content in memory.
-<br>- <b>tile.js</b> (5kb) and <b>utils.js</b> (0.6kb) handle graphics generation and copying in memories, so they can be merged with ppu.js and mappers.js. 
+<br>- <b>papu.js</b> (1371 lines, 36.6KB) handles all the audio. It exposes three functions: reset(), setSampleRate() and clockFrameCounter().
+<br>- <b>ppu.js</b> (1753 lines, 48.8KB) handles all the graphics. It exposes four functions: reset(), startFrame(), startVBlank() and endScanline().
+<br>- <b>rom.js</b> (204 lines, 5.5KB) has a load() function that parses a ROM file and places its content in memory.
+<br>- <b>tile.js</b> (5KB) and <b>utils.js</b> (0.6KB) handle graphics generation and memory copies, so they can be merged with ppu.js and mappers.js. 
 <br>- <b>index.js</b> is not necessary, it just loads nes.js.
 
 <p><b>A little problem...</b>
-<p>These files are quite hard to read. Not only do they lack comments and good variable naming, but they also contain a frightening amount of redundancy, absurd abstractions, unneeded complexity, backwards logic, dead code, and errors too...
+<p>These files are quite hard to read. Not only do they lack comments and good variable naming, but they also contain a frightening amount of redundancy, absurd abstractions, unneeded complexity, backwards logic, dead code, and <a href="images/nes/9.png">errors</a> too...
 
 <p>But I can't really complain, because despite all these problems, it's a <i>Vanilla JS</i> emulator that <i>works</i>, which is just what I need to get started!
 
 <p><b>First steps</b>
-<p>So after forking it and taking a few days to clean up a bunch of useless code and trying to make sense of the rest by reading some documentation online, I could finally start taking all these files one by one and rewriting them the way I want: clean, readable, commented, functional, accurate, fast, and as short as possible after minification.
+<p>So after forking it and taking a few days to clean up a bunch of useless code and trying to make sense of the rest by reading some documentation online, I could finally start taking all these files one by one and rewriting them the way I want: clean, readable, commented, functional, accurate, fast, and as short as possible after minification. That's what I'll explain in the next chapters.
 
-<p>For simplicity, I'll get rid of all the JS modules, Objects and prototypes present in JSNES. All the variables and functions will be "global".
-<br>Though, I know that people tend to find that quite dirty, so I'll also provide a version where everything will be contained in a self-executing function, with no global leaks.
+<p>For simplicity, I'll get rid of all the JS modules, Objects and prototypes present in jsnes. All the variables and functions will be "global".
+<br>Though, I know that some people tend to find that quite dirty, so I'll also provide a version where everything will be contained in a self-executing function, with no global leaks.
 
 <p><b>The scope</b>
 <p>For the initial release, I'll try to limit the amount of features supported by my emulator:
-<br>- 1 or 2 controllers mapped to keyboard keys (no Duck Hunt zapper, no USB gamepad...).
-<br>- No support for Famicom Disc System, Arcade systems, and other peripherals.
+<br>- 1 or 2 joypad controllers mapped to keyboard keys (no Duck Hunt zapper, no USB gamepad...).
+<br>- No support for Famicom Disc System, Arcade systems, and other variants or peripherals.
 <br>- The CPU will only emulate the 151 legal/official instructions, which is enough to run <a href="https://wiki.nesdev.com/w/index.php/CPU_unofficial_opcodes#Games_using_unofficial_opcodes">99.9% of all commercial games</a>.
 <br>- The PPU will not simulate NTSC video rendering nor special video effects like greyscale or color emphasis (which are almost never used).
-<br>- Support for the gamepak mappers 0-4 only, which represent about <a href="http://tuxnes.sourceforge.net/nesmapper.txt">75% of all games</a> (100% of the games you know are covered).
+<br>- Support for the gamepak mappers 0-4 only, which represent about <a href="http://tuxnes.sourceforge.net/nesmapper.txt">75% of all games</a> (though 100% of the games you know are covered).
 <br>- No debug tools, except an optional VRAM visualizer (showing the background tiles and screen viewport).
 <br>- No TAS tools (save states, frame advance, keystrokes recording/playback).
 <br>- Save slots will be stored in localStorage for games that support it.
 
 <p><b>The goal</b>
-<p>Then, I'll gather everything in a standalone HTML page, golf it even further, and hopefully obtain the world's smallest NES emulator.
+<p>At the end, I'll gather everything in a standalone HTML page, golf it a bit further, and hopefully obtain the world's smallest NES emulator.
 
-<br>But who are my concurrents anyway? Here's my top 5:
-<br>- <a href="https://github.com/takahirox/nes-js">nes-js</a> (JS emulator, standalone version: 3744 lines of code, 81kb minified, 16kb zipped)
-<br>- <a href="https://github.com/bfirsh/jsnes">jsnes</a> (the most popular JS emulator, 5411 lines of code, 99.9kb minified, 21kb zipped)
-<br>- <a href="https://github.com/wwssllabcd/NesEmu">nesemu1</a> (C emulator 743 lines of code, 45kb commented, 97kb compiled with SDL)
-<br>- <a href="https://github.com/AndreaOrru/LaiNES">LaiNes</a> (C++ emulator in 1730 lines of code, 63kb commented, 198kb compiled with SDL2)
-<br>- <a href="https://problemkaputt.de/nes.htm">no$nes</a> (windows executable only, 340kb)
+<p>But who are my concurrents anyway? Here's my top 5:
+<p>- <a href="https://github.com/takahirox/nes-js">nes-js</a> (JS emulator, standalone version: 3744 lines of code, 81KB minified, 16KB zipped)
+<br>- <a href="https://github.com/bfirsh/jsnes">jsnes</a> (the most popular JS emulator, 5411 lines of code, 99.9KB minified, 21KB zipped)
+<br>- <a href="https://github.com/wwssllabcd/NesEmu">nesemu1</a> (C emulator 743 lines of code, 45KB commented, 97KB compiled with SDL)
+<br>- <a href="https://github.com/AndreaOrru/LaiNES">LaiNes</a> (C++ emulator in 1730 lines of code, 63KB commented, 198KB compiled with SDL2)
+<br>- <a href="https://problemkaputt.de/nes.htm">no$nes</a> (windows executable only, 340KB)
 
 <br><br><hr><br>
 <h3>Golfing the rom loader</h3>
-<p>There's one major rom format that dominates NES emulation, called iNes 1.0 (".nes" files), so my emulator will support it.
+
+<br><img src="images/nes/cart.png" width=400>
+<p>Let's start with rom.js and mapper.js, that parse rom files and handles the data present in the GamePak.
+<br>There's one major rom format that dominates NES emulation, called iNes 1.0 (".nes" files), so my emulator will support it.
 <br>Unfortunately, it's not very well designed, nor well used by the people who dump and share games.
 <br>But to summarize, it starts with a 16-byte header that contains information about the cartridge:
 <br>
-<br>- Number of 16kb PRG-ROM banks (game code).
-<br>- Number of 4kb CHR-ROM banks (graphics).
-<br>- Presence of a 8kb PRG-RAM bank (save slot).
+<br>- Number of 16KB PRG-ROM banks (game's code).
+<br>- Number of 4KB CHR-ROM banks (game's graphics. If zero, assume that there's an editable CHR-RAM bank)
+<br>- Presence of a 8KB PRG-RAM bank (save slot).
 <br>- Nametable mirroring (background layout, allowing horizontal, vertical or bidirectional scrolling).
-<br>- Mapper number (0-255). Represents the cartridge's format. Higher mapper numbers require other rom formats like iNes 2.0.
-<br>- Presence of a 512b "trainer" ROM bank containing instructions specific to certain mappers.
+<br>- Mapper number (0-255). Represents the cartridge's format. Mappers > 255 require other rom formats like iNes 2.0.
+<br>- Presence of a 512b "trainer" ROM bank specific to certain hardware or rom hacks.
 <br>- Presence of extra ROM banks specific to arcade games.
 <br>- The TV system (NTSC or PAL) is sadly not reliable in this file format, so it must be found elsewhere (<a href="http://bootgod.dyndns.org:7777/advanced.php">ROM database</a> or user input).
 
@@ -275,102 +280,80 @@ var currentSample = 0;</code></pre>
 <br>- extra ROM banks specific to arcade games (if any).
 
 <p>For now, let's focus on the simplest Mapper "Mapper 0", used by many famous games like DK, SMB, Ice Climbers, Excitebike, Pac-Man...
-<br>These games fit all their code in less than 32kb and all their graphics in less than 8kb, so no bank swaps are necessary.
+<br>These games fit all their code in 32KB and all their graphics in 8KB, so no bank swaps are necessary.
 
-<p>In JSNES, the rom parsing and Mapper 0 handling represent:
+<p>In jsnes, the rom parsing and Mapper 0 handling represent:
 <br>- 697 lines of code (in <a href="https://github.com/bfirsh/jsnes/blob/master/src/rom.js">rom.js</a> and <a href="https://github.com/bfirsh/jsnes/blob/master/src/mappers.js">mappers.js</a>)
-<br>- 17.6kb commented
-<br>- 5.3kb minified
-<br>- 1.4kb zipped
+<br>- 17.6KB commented
+<br>- 5.3KB minified
+<br>- 1.4KB gzipped
 
 <p>After rewriting it (and fixing it), my version is down to:
-<br>- 106 lines of code
-<br>- 10.6kb commented
-<br>- 1442b minified (with verbose ver names)
-<br>- 613b zipped
+<br>- 36 lines of code
+<br>- 9.22 commented
+<br>- 641b minified
+<br>- 330b gzipped
+
+<p>NB: the original rom.js file precomputed the tile's pixels of all the CHR-ROM banks, but I removed this part.
+<br>The PPU can do it fast enough at runtime, and in the case of editable CHR-RAM banks, it HAS to do it on runtime anyways, so it's fine.
 
 <details>
-<summary><b>Updated rom.js, commented source code</b></summary>
-<pre><code class="lang-js">// ROM manager
-// ===========
+<summary><b>Updated rom.js, commented</b></summary>
+<pre><code class="lang-js">// ROM loader
+// ==========
 
-ROM = {
-  header: [],
-  mapper: 0,
-  mirroring: 0,
-  trainer: 0,
-  prg_rom_count: 0,
-  prg_rom: [],
-  chr_rom_count: 0,
-  chr_rom: [[],[]],
-  chr_rom_tiles: [[],[]],
-
-  // Load a ROM file:
-  load_rom: data => {
+// Load a ROM file:
+parse_rom = data => {
+  
+  var i, j;
+  
+  // Ensure file starts with chars "NES\x1a"
+  if(data.includes("NES")){
+  
+    // Read useful information from the rom header:
     
-    var i, j, k, l;
+    // Check if the game adds 2 extra KB to the PPU's VRAM to have a 4-screen nametable (byte 6, bit 3)
+    // Otherwise, read mirroring layout (byte 6, bit 0)
+    // 0 => vertical mirroring (bit 0 on: the game can scroll horizontally)
+    // 1 => horizontal mirroring (bit 0 off: the game can scroll vertically)
+    // 2 => 4-screen nametable (bit 4 on: the game can scroll horizontally and vertically)
+    mirroring = (data.charCodeAt(6) & 0b00001000) ? 2 : (data.charCodeAt(6) & 0b0000001) ? 0 : 1;
     
-    // Ensure file starts with chars "NES\x1a"
-    if(!data.indexOf("NES\x1a")){
+    // Check if the game has at least one battery-backed PRG-RAM bank (byte 6, bit 1)
+    // This is a persistent save slot that can be used to save the player's progress in a game
+    // If present, it can be accessed by the CPU at the addresses $6000-$7FFF (ignored for now)
+    // batteryRam = (data.charCodeAt(6) & 0b0000010);
     
-      // Parse ROM header (first 16 bytes)
-      for(i = 0; i &lt; 16; i++){
-        ROM.header[i] = data.charCodeAt(i) & 0xff;
+    // Mapper number (byte 6, bits 4-7 >> 4 + byte 7, bits 4-7)
+    // iNes 2.0 ROMs contain more mapper bits on byte 8
+    mapper = (data.charCodeAt(6) >> 4) + (data.charCodeAt(7) & 0b11110000);
+    
+    // Skip header
+    offset = 16;
+    
+    // Skip 512b trainer, if it's present (byte 6, bit 2)
+    // This ROM bank is only used by special hardware or rom hacks, so it can be ignored
+    // (if present, it's usually mapped to the memory addresses $7000-$71FF)
+    if(data.charCodeAt(6) & 0b00000100) offset += 512;
+    
+    // Load the PRG-ROM banks containing the game's code
+    // The number of 16KB PRG-ROM banks is stored on byte 4 of the header
+    prg_rom = [];
+    for(i = 0; i &lt; data.charCodeAt(4); i++){
+      prg_rom[i] = [];
+      for(j = 0; j &lt; 16 * 1024; j++){
+        prg_rom[i][j] = data.charCodeAt(offset++) & 0xff;
       }
-      
-      // Read number of 16Kib PRG-ROM banks (byte 4)
-      // The game's program is stored here
-      ROM.prg_rom_count = ROM.header[4];
-      
-      // Read number of 8Kib CHR-ROM banks (byte 5)
-      // The game's graphics are stored here in the form of 8*8px, 4-color bitmaps
-      ROM.chr_rom_count = ROM.header[5] * 2;
-      
-      // Check if the game adds 2 extra Kib to the PPU's VRAM (byte 6, bit 4)
-      // Otherwise, read mirroring layout (byte 6, bit 0)
-      // 0 => vertical mirroring (bit 0 on: the game can scroll horizontally)
-      // 1 => horizontal mirroring (bit 0 off: the game can scroll vertically)
-      // 2 => 4-screen nametable (bit 4 on: the game can scroll horizontally and vertically)
-      ROM.mirroring = (ROM.header[6] & 0b00001000) ? 2 : (ROM.header[6] & 0b0000001) ? 0 : 1;
-      
-      // Check if the game has at least one battery-backed PRG-RAM bank (byte 6, bit 2)
-      // This is a persistent save slot that can be used to save the player's progress in a game
-      // If present, it can be accessed by the CPU at the addresses $6000-$7FFF
-      ROM.batteryRam = (ROM.header[6] & 0b0000010);
-      
-      // Check if the game contains a 512b trainer (byte 6, bit 3)
-      // This bank contains subroutines executed by some Mappers
-      // If present, it can be accessed by the CPU at the addresses $7000-$71FF
-      ROM.trainer = (ROM.header[6] & 0b00000100);
-      
-      // Mapper number (byte 6, bits 5-8 >> 4 + byte 7, bits 5-8)
-      ROM.mapper = (ROM.header[6] >> 4) + (ROM.header[7] & 0b11110000);
-      
-      // Skip header
-      var offset = 16;
-      
-      // Skip trainer, if it's present
-      if(ROM.trainer) offset += 512;
-      
-      // Load the PRG-ROM banks
-      for(i = 0; i &lt; ROM.prg_rom_count; i++){
-        ROM.prg_rom[i] = [];
-        for(j = 0; j &lt; 16 * 1024; j++){
-          ROM.prg_rom[i][j] = data.charCodeAt(offset++) & 0xff;
-        }
-      }
-      
-      // Load the CHR-ROM pages and prepare 256 tiles for each of them
-      for(i = 0; i &lt; ROM.chr_rom_count; i++){
-        ROM.chr_rom[i] = [];
-        ROM.chr_rom_tiles[i] = [];
-        for(j = 0; j &lt; 4 * 1024; j++){
-          ROM.chr_rom[i][j] = data.charCodeAt(offset++) & 0xff;
-        }
-
-        for(j = 0; j &lt; 256; j++){
-          ROM.chr_rom_tiles[i][j] = { pixels: [] };
-        }
+    }
+    
+    // Load the CHR-ROM pages
+    // The number of pairs of 4KB CHR-ROM pages is stored on byte 5 of the header
+    // Each bank contains 256 8*8px, 4-color bitmap tiles
+    chr_rom = [];
+    for(i = 0; i &lt; data.charCodeAt(5) * 2; i++){
+      chr_rom[i] = [];
+      for(j = 0; j &lt; 4 * 1024; j++){
+        chr_rom[i][j] = data.charCodeAt(offset++) & 0xff;
       }
     }
   }
@@ -378,91 +361,68 @@ ROM = {
 
 <br>
 <details>
-<summary><b>Updated mappers.js, commented source code</b></summary>
-<pre><code class="lang-js">// Mapper 0
-// ========
+<summary><b>Updated mappers.js, commented</b></summary>
+<pre><code class="lang-js">// Mappers
+// =======
 
-var Mapper = {
-  
-  // Load ROM's content in memory
-  load_rom: () => {
-    Mapper.load_prg_rom();
-    Mapper.load_chr_rom();
-  },
-  
-  // Load PRG-ROM banks in CPU memory
-  load_prg_rom: () => {
-    
-    // If there are two banks or more, the first two banks are placed at addresses $8000 and $C000
-    if(ROM.prg_rom_count > 1){
-      Mapper.load_prg_rom_bank(0, 0x8000);
-      Mapper.load_prg_rom_bank(1, 0xC000);
-    }
+// Mapper 0
+// --------
 
-    else {
-      // If there's only one bank, it's mirrored at both locations (ex: Donkey Kong, Galaxian)
-      Mapper.load_prg_rom_bank(0, 0x8000);
-      Mapper.load_prg_rom_bank(0, 0xC000);
-    }
-  },
+// Only Mapper 0 (NROM) is handled for now:
+// https://wiki.nesdev.com/w/index.php/NROM
 
-  // Load CHR-ROM pages in PPU memory
-  load_chr_rom: () => {
-    
-    // If there are two pages or more, the first ones are placed at addresses $0000 and $1000
-    if(ROM.chr_rom_count > 1){
-      Mapper.load_chr_rom_bank(0, 0x0000);
-      Mapper.load_chr_rom_bank(1, 0x1000);
-    }
-    
-    // If there's only one page, it's mirrored at both locations
-    // If the game has no CHR-ROM banks, do nothing (CHR-RAM is used instead)
-    else if(ROM.chr_rom_count > 0){
-      Mapper.load_chr_rom_bank(0, 0x0000);
-      Mapper.load_chr_rom_bank(0, 0x1000);
-    }
-  },
-  
-  // Load a PRG-ROM bank in CPU memory
-  load_prg_rom_bank: (bank, address) => {
-    Mapper.copy_array(ROM.prg_rom[bank], CPU.mem, address);
-  },
+// - 8, 16 or 32KB PRG-ROM (mirrored if less than 32KB)
+// - 0 or 8KB PRG-RAM (only one game uses it: Family Basic)
+// - 0, 4 or 8KB CHR-ROM (mirrored if it's just 4)
+// - 0 or 8KB CHR-RAM (enable it if no CHR-ROM is present. Mapper 0 doesn't really support it, but some homebrew ROMs rely on it)
+// - Horizontal or vertical nametable mirroring
 
-  // Load a CHR-ROM page in PPU memory + the corresponding tiles
-  load_chr_rom_bank: (bank, address) => {
-    if(ROM.chr_rom_count > 0){
-      Mapper.copy_array(ROM.chr_rom[bank], PPU.mem, address);
-    }
-  },
+// Load ROM's content in memory
+load_rom = () => {
   
-  // Copy the values of an array into a specific position in another array
-  copy_array: (src, dest, address) => {
-    for(var i = 0; i &lt; src.length; i++){
-      dest[address + i] = src[i];
-    }
-  },
+  // Load PRG-ROM banks in CPU memory:
+  // If there are two banks or more, the first two banks are placed at addresses $8000 and $C000
+  // If there's only one bank, it's mirrored at both locations (ex: Donkey Kong, Galaxian)
+  copy_array(prg_rom[0], CPU_mem, 0x8000);
+  copy_array(prg_rom[prg_rom.length > 1 ? 1 : 0], CPU_mem, 0xC000);
+
+  // Load CHR-ROM pages in PPU memory:
+  // If there are two pages or more, the first ones are placed at addresses $0000 and $1000
+  // If there's only one page, it's mirrored at both locations
+  // But if the game has no CHR-ROM banks, do nothing (CHR-RAM is used instead)
+  if(chr_rom.length > 0){
+    copy_array(chr_rom[0], PPU_mem, 0x0000);
+    copy_array(chr_rom[chr_rom.length > 1 ? 1 : 0], PPU_mem, 0x1000);
+  }
+},
+
+// Copy the values of an array into a specific position in another array
+copy_array = (src, dest, address) => {
+  for(var i = 0; i &lt; src.length; i++){
+    dest[address + i] = src[i];
+  }
 }</code></pre></details>
 
 <p><details open><summary><b>Minified</b></summary>
-<pre style="font-size:12px;line-height:1"><code class="lang-js">ROM={header:[],mapper:0,mirroring:0,trainer:0,prg_rom_count:0,prg_rom:[],chr_rom_count:0,chr_rom:[[],[]],chr_rom_tiles:[[],[]],load_rom:r=>{var o,_;if(!r.indexOf("NES")){for(o=0;o&lt;16;o++)ROM.header[o]=255&r.charCodeAt(o);ROM.prg_rom_count=ROM.header[4],ROM.chr_rom_count=2*ROM.header[5],ROM.mirroring=8&ROM.header[6]?2:1&ROM.header[6]?0:1,ROM.batteryRam=2&ROM.header[6],ROM.trainer=4&ROM.header[6],ROM.mapper=(ROM.header[6]>>4)+(240&ROM.header[7]);var a=16;for(ROM.trainer&&(a+=512),o=0;o&lt;ROM.prg_rom_count;o++)for(ROM.prg_rom[o]=[],_=0;_&lt;16384;_++)ROM.prg_rom[o][_]=255&r.charCodeAt(a++);for(o=0;o&lt;ROM.chr_rom_count;o++){for(ROM.chr_rom[o]=[],ROM.chr_rom_tiles[o]=[],_=0;_&lt;4096;_++)ROM.chr_rom[o][_]=255&r.charCodeAt(a++);for(_=0;_&lt;256;_++)ROM.chr_rom_tiles[o][_]={pixels:[]}}}}};
+<pre style="font-size:12px;line-height:1"><code class="lang-js">// ROM loader, 349b
+parse_rom=(e,c,d)=>{if(e.includes("NES")){for(8&e.charCodeAt(6)?2:1&e.charCodeAt(6)?0:1,(e.charCodeAt(6)>>4)+(240&e.charCodeAt(7)),a=16,4&e.charCodeAt(6)&&(a+=512),r=[],c=0;c&lt;e.charCodeAt(4);c++)for(r[c]=[],d=0;d&lt;16384;d++)r[c][d]=255&e.charCodeAt(a++);for(o=[],c=0;c&lt;2*e.charCodeAt(5);c++)for(o[c]=[],d=0;d&lt;4096;d++)o[c][d]=255&e.charCodeAt(a++)}}
 
-Mapper={load_rom:()=>{Mapper.load_prg_rom(),Mapper.load_chr_rom()},load_prg_rom:()=>{ROM.prg_rom_count>1?(Mapper.load_prg_rom_bank(0,32768),Mapper.load_prg_rom_bank(1,49152)):(Mapper.load_prg_rom_bank(0,32768),Mapper.load_prg_rom_bank(0,49152))},load_chr_rom:()=>{ROM.chr_rom_count>1?(Mapper.load_chr_rom_bank(0,0),Mapper.load_chr_rom_bank(1,4096)):ROM.chr_rom_count>0&&(Mapper.load_chr_rom_bank(0,0),Mapper.load_chr_rom_bank(0,4096))},load_prg_rom_bank:(r,o)=>{Mapper.copy_array(ROM.prg_rom[r],CPU.mem,o)},load_chr_rom_bank:(r,o)=>{ROM.chr_rom_count>0&&Mapper.copy_array(ROM.chr_rom[r],PPU.mem,o)},copy_array:(r,o,_)=>{for(var a=0;a&lt;r.length;a++)o[_+a]=r[a]}};</code></pre>
+// Mapper 0, 276b
+load_rom=()=>{copy_array(prg_rom[0],CPU_mem,32768),copy_array(prg_rom[prg_rom.length>1?1:0],CPU_mem,49152),chr_rom.length>0&&(copy_array(chr_rom[0],PPU_mem,0),copy_array(chr_rom[chr_rom.length>1?1:0],PPU_mem,4096))},
+copy_array=(r,o,_)=>{for(var m=0;m&lt;r.length;m++)o[_+m]=r[m]}</code></pre>
 </details>
 
-<p><b>Bonus: A bit of cleanup</b>
-<br>Before continuing with the biggest parts, I took a bit of time to understand and rewrite properly two files from JSNES:
-<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/tile.js">tile.js</a>, the tile/sprite display algorithm (before: 2.5kb zipped, after: 420b zipped).
-<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/nes.js">nes.js</a>, the emulator API: init(), frame(), reset()... (before: 1.1kb zipped, after: 566b zipped).
-<br>But we'll get back to them later.
+<p>You can see that function and external variables have long names in the minified code, they will be reduced in the final release.
+<p>Also, these files are not finished yet. I'll add support for mappers 1-4 and persistent save slots later.
 
 <br><br><hr><br>
 <h3>Golfing the CPU</h3>
 
-<img src="images/nes/5.jpg" width=300>
+<img src="images/nes/5.png" width=300>
 <br>
 
 <p>The NES is powered by a CPU called Ricoh 6502, based on the famous MOS 6502 chip.
-<br>This CPU can execute 56 different instructions (or "opcodes"), each of them is available in one or many "addressing modes" (there are 13 addressing modes representing different ways to fetch data in the CPU's 64kb memory), for a total of 256 instructions ($00 to $FF in hex).
+<br>This CPU can execute 56 different instructions (or "opcodes"), each of them is available in one or many "addressing modes" (there are 13 addressing modes representing different ways to fetch data in the CPU's 64KB memory), for a total of 256 instructions ($00 to $FF in hex).
 
 <br>
 <br>
@@ -474,19 +434,19 @@ Mapper={load_rom:()=>{Mapper.load_prg_rom(),Mapper.load_chr_rom()},load_prg_rom:
 <br>- a stack pointer (S),
 <br>- a program counter (PC),
 <br>- Status flags (Carry, Zero, Interrupt disable, Decimal, oVerflow, Negative) placed in a dedicated register (P)
-<p>and has access to a 64kb memory containing:
-<br>- the internal RAM (2kb, including the stack),
+<p>and has access to a 64KB memory containing:
+<br>- the internal RAM (2KB, including the stack),
 <br>- a bunch of I/O registers (to communicate with the Mapper, the PPU, the APU and the Joypads),
-<br>- the ROM banks exposed by the cartridge: trainer (if present), PRG-RAM (save slot, if present), and two 16kb PRG-ROM banks containing the game's code.
+<br>- the ROM banks exposed by the cartridge: trainer (if present), PRG-RAM (save slot, if present), and two 16KB PRG-ROM banks containing the game's code.
  
 <p>Nintendo modified the original 6502 chip a little to remove some features they didn't need and merge it with the console's audio chip.
 <br>Besides that, all that it does, a real 6502 can do it too. And luckily, a lot of documentation and implementations exist online, like:
 <p>- <a href="https://www.masswerk.at/6502/6502_instruction_set.html">masswerk doc</a>, detailing the cycles and flags used by each instruction,
 <br>- <a href="https://wiki.nesdev.com/w/index.php/CPU">Nesdev</a>, explaining all the rest,
-<br>- <a href="https://github.com/6502/js6502/blob/master/6502.js">6502.js</a>, a standalone JS simulator (13kb minified, 3.6kb zipped),
-<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">JSNES's cpu.js</a>, of course (27kb minified, 4.7kb zipped),
+<br>- <a href="https://github.com/6502/js6502/blob/master/6502.js">6502.js</a>, a standalone JS simulator (13KB minified, 3.6KB zipped),
+<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">jsnes's cpu.js</a>, of course (27KB minified, 4.7KB zipped),
 <br>- and this very interesting NES emulator in C called <a href="https://bisqwit.iki.fi/jutut/kuvat/programming_examples/nesemu1/nesemu1.cc">nesemu1</a>, specifically aiming for a small size. (It's "<a href="https://www.youtube.com/watch?v=y71lli8MS8s">coded in 15 minutes</a>" too)
-<p>In this emulator, the instructions are implemented/encoded in 56 lines and 1054b zipped, and the whole CPU takes about 2.5kb zipped:
+<p>In this emulator, the instructions are implemented/encoded in 56 lines and 1054b zipped, and the whole CPU takes about 2.5KB zipped:
 
 <details>
 <summary><b>nesemu1's CPU instructions encoding</b></summary>
@@ -585,14 +545,14 @@ t("             0                   ", P.V = (((t >> 5)+1)&2))         // [arr]<
 <br>In the end, after doing these optimizations and a bit of cleanup, my re-encoding fits in 259 x 5 = 1295 bytes...
 
 <p>But I also have the actual JS source code to implement, and it takes some space:
-<p>- <a href="https://twitter.com/MaximeEuziere/status/1320792142235770880">3.3kb</a> if I implement each micro-instruction.
-<br>- <a href="https://twitter.com/MaximeEuziere/status/1320792139069071365">8.5kb</a> if I implement the 259 instructions directly in JS (as 13 addressing modes + 52 reuseable instructions).
+<p>- <a href="https://twitter.com/MaximeEuziere/status/1320792142235770880">3.3KB</a> if I implement each micro-instruction.
+<br>- <a href="https://twitter.com/MaximeEuziere/status/1320792139069071365">8.5KB</a> if I implement the 259 instructions directly in JS (as 13 addressing modes + 52 reuseable instructions).
 <br>In both cases, that's too much.
 
 <p><b>I had to find something better!</b>
 
 <p>After a week of head-scratching, I finally found a way to implement the instructions that takes very little space *and* compresses very well.
-<br>Actually, I decided to make it entirely standalone, and challenged myself to fit it in 1kb!
+<br>Actually, I decided to make it entirely standalone, and challenged myself to fit it in 1KB!
 
 <p>First, I initialized all the globals (memory, registers) used by the CPU, and wrote a few useful helpers: 
 
@@ -601,7 +561,7 @@ t("             0                   ", P.V = (((t >> 5)+1)&2))         // [arr]<
 <pre><code class="lang-js">// Globals
 // -------
 
-// 16kb memory
+// 16KB memory
 // Each chunk of 256 bytes in memory is called a page
 // The first chunk ($00-$FF) is called Zero page and is easier/faster to access
 m = [
@@ -1630,11 +1590,11 @@ PC=r(a)+256*r(a+1-256*((a&255)==255))-1`.split`
 op=(d,b)=>(o=r(PC),p=r(a=PC+1),d?(2-d?(h(PC>>8),h(255&PC),h(b|239&P)):(S=S-3&255,c=6),I=1,PC=r(65528+2*d)+256*r(65528+2*d+1)):(O[o](),PC++),P=C+2*Z+4*I+8*D+16*B+32+64*V+128*N)</code></pre>
 
 <p>After gzip (<b>zopfli --gzip -i1000000 6502.min.js</b>), it's down to only <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.gz">938 bytes</a>!
-<br>But if we do a regular "zip" file (that has a big overhead compared to gzip) also fits under 1kb: <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.zip">1015 bytes</a>.
+<br>But if we do a regular "zip" file (that has a big overhead compared to gzip) also fits under 1KB: <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.zip">1015 bytes</a>.
 
 <p><b>Mission complete!</b>
 <p>I made my 6502 CPU simulator in under one kilobyte.
-<br>In comparison, <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">JSNES's cpu</a> was 52.7kb barely commented, 27.5kb minified (12x bigger), and 4.7kb gzipped (5x bigger).
+<br>In comparison, <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">jsnes's cpu</a> was 52.7KB barely commented, 27.5KB minified (12x bigger), and 4.7KB gzipped (5x bigger).
 
 <p>My CPU is available as a standalone project (with comments and tests) here: <a href="https://github.com/xem/mini6502">mini6502</a>
 
