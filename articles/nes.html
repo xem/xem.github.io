@@ -42,6 +42,7 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 <br>- 191KB commented
 <br>- 99.92KB minified
 <br>- 21.29KB gzipped
+
 <p>... and can't acually run without its huge UI (<a href="https://github.com/bfirsh/jsnes-web">jsnes-web</a>) made with Bootstrap and React 😱:
 <br>- 1106 dependencies
 <br>- 304Mb of node_modules
@@ -259,13 +260,15 @@ var currentSample = 0;</code></pre>
 <h3>Golfing the rom loader</h3>
 
 <br><img src="images/nes/cart.png" width=400>
-<p>Let's start with rom.js and mapper.js, that parse rom files and handles the data present in the GamePak.
-<br>There's one major rom format that dominates NES emulation, called iNes 1.0 (".nes" files), so my emulator will support it.
+<p>Let's start with <a href="https://github.com/bfirsh/jsnes/blob/master/src/rom.js">rom.js</a> and <a href="https://github.com/bfirsh/jsnes/blob/master/src/mappers.js">mappers.js</a>, that parse rom files and handle the data present in the GamePak.
+
+<p><b>Rom parsing</b>
+<p>There's one major rom format that dominates NES emulation, called iNes 1.0 (".nes" files), so my emulator will support it.
 <br>Unfortunately, it's not very well designed, nor well used by the people who dump and share games.
-<br>But to summarize, it starts with a 16-byte header that contains information about the cartridge:
+<p>But to summarize, it starts with a 16-byte header that contains information about the cartridge:
 <br>
 <br>- Number of 16KB PRG-ROM banks (game's code).
-<br>- Number of 4KB CHR-ROM banks (game's graphics. If zero, assume that there's an editable CHR-RAM bank)
+<br>- Number of 8KB CHR-ROM banks (game's graphics, split in two 4KB "pages". If zero, assume that there's an editable CHR-RAM bank)
 <br>- Presence of a 8KB PRG-RAM bank (save slot).
 <br>- Nametable mirroring (background layout, allowing horizontal, vertical or bidirectional scrolling).
 <br>- Mapper number (0-255). Represents the cartridge's format. Mappers > 255 require other rom formats like iNes 2.0.
@@ -278,27 +281,16 @@ var currentSample = 0;</code></pre>
 <br>- all the PRG-ROM banks.
 <br>- all the CHR-ROM banks.
 <br>- extra ROM banks specific to arcade games (if any).
+<p>rom.js takes a rom file, reads the header and keeps a copy of each PRG-ROM bank and CHR-ROM page present in it.
 
-<p>For now, let's focus on the simplest Mapper "Mapper 0", used by many famous games like DK, SMB, Ice Climbers, Excitebike, Pac-Man...
-<br>These games fit all their code in 32KB and all their graphics in 8KB, so no bank swaps are necessary.
+<p><b>Mapper 0</b>
+<p>For now, let's focus on the simplest mapper "Mapper 0", used by many famous games like DK, SMB, Ice Climbers, Excitebike, Pac-Man...
+<br>The games using this mapper fit all their code in 32KB and all their graphics in 8KB, so no bank swaps are necessary.
+<br>So when the rom's header is parsed, mappers.js has the simple task to copy the two PRG-ROM banks in CPU memory (at addresses $8000 and $C000) and the two CHR-ROM pages in PPU memory (at addresses $0000 and $1000).
 
-<p>In jsnes, the rom parsing and Mapper 0 handling represent:
-<br>- 697 lines of code (in <a href="https://github.com/bfirsh/jsnes/blob/master/src/rom.js">rom.js</a> and <a href="https://github.com/bfirsh/jsnes/blob/master/src/mappers.js">mappers.js</a>)
-<br>- 17.6KB commented
-<br>- 5.3KB minified
-<br>- 1.4KB gzipped
-
-<p>After rewriting it (and fixing it), my version is down to:
-<br>- 36 lines of code
-<br>- 9.22 commented
-<br>- 641b minified
-<br>- 330b gzipped
-
-<p>NB: the original rom.js file precomputed the tile's pixels of all the CHR-ROM banks, but I removed this part.
-<br>The PPU can do it fast enough at runtime, and in the case of editable CHR-RAM banks, it HAS to do it on runtime anyways, so it's fine.
-
+<p><b>Golfing</b>
 <details>
-<summary><b>Updated rom.js, commented</b></summary>
+<summary><b>New rom.js, commented</b></summary>
 <pre><code class="lang-js">// ROM loader
 // ==========
 
@@ -361,7 +353,7 @@ parse_rom = data => {
 
 <br>
 <details>
-<summary><b>Updated mappers.js, commented</b></summary>
+<summary><b>New mappers.js, commented</b></summary>
 <pre><code class="lang-js">// Mappers
 // =======
 
@@ -412,8 +404,207 @@ load_rom=()=>{copy_array(prg_rom[0],CPU_mem,32768),copy_array(prg_rom[prg_rom.le
 copy_array=(r,o,_)=>{for(var m=0;m&lt;r.length;m++)o[_+m]=r[m]}</code></pre>
 </details>
 
-<p>You can see that function and external variables have long names in the minified code, they will be reduced in the final release.
-<p>Also, these files are not finished yet. I'll add support for mappers 1-4 and persistent save slots later.
+<p>You can see that function and external variables still have long names in the minified code, they will be reduced in the final release.
+<br>Also, these files are not yet complete. I'll add support for mappers 1-4 and persistent save slots a bit later.
+<p>NB: the original rom.js file precomputed the tile's pixels of all the CHR-ROM banks, but I removed this part.
+<br>The PPU can do it fast enough at runtime, and in the case of editable CHR-RAM banks, it HAS to do it on runtime anyways, so it's fine.
+
+<p><b>Before / after</b>
+<p>In jsnes, the rom parsing and Mapper 0 handling represent:
+<br>- 605 lines of code
+<br>- 18.2KB commented
+<br>- 9.8KB minified
+<br>- 2.7KB gzipped
+
+<p>After rewriting it (and fixing it), my version is down to:
+<br>- 36 lines of code
+<br>- 9.22KB commented
+<br>- 641b minified
+<br>- 330b gzipped
+
+<br><br><hr><br>
+<h3>Golfing the CPU's memory map</h3>
+
+<p><b>Presentation</b>
+<p>As you may know, the NES's CPU can access a 64KB memory whose layout is considered very elegant. It can be summarized like this:
+<p>
+<div style=overflow-x:auto>
+<pre style=width:690px><code class='lang-js'>//  +-------------+---------+-------------------------------------------------------+
+//  | Address     | Size    | Use                                                   |
+//  +-------------+---------+-------------------------------------------------------+
+//  | $0000-$07FF | 2KB     | 2KB internal RAM:                                     |
+//  | $0000-$00FF | 256B    | - Zero page                                           |
+//  | $0100-$01FF | 256B    | - Stack                                               |
+//  | $01FF-$07FF | 1.5KB   | - general purpose                                     |
+//  +-------------+---------+-------------------------------------------------------+
+//  | $0800-$1FFF | 3*2KB   | Mirrors of $0000-$07FF                                |
+//  +-------------+---------+-------------------------------------------------------+
+//  | $2000-$2007 | 8B      | PPU I/O registers                                     |
+//  +-------------+---------+-------------------------------------------------------+
+//  | $2008-$3FFF | 1023*8B | Mirrors of $2000-$2007                                |
+//  +-------------+---------+-------------------------------------------------------+
+//  | $4000-$4017 | 24B     | APU/sprite/interrupt/joypads I/O registers            |
+//  +-------------+---------+-------------------------------------------------------+
+//  | $4018-$401F | 8B      | APU I/O test registers (disabled)                     |
+//  +-------------+---------+-------------------------------------------------------+
+//  | $4020-$FFFF | 48KB    | Cartridge space:                                      |
+//  | $4020-$5FFF | 8160B   | - Expansion ROM (extra ROM banks)                     |
+//  | $6000-$7FFF | 8KB     | - PRG-RAM (if any)                                    |
+//  | $7000-$71FF | 512B    | - trainer (if any)                                    |
+//  | $8000-$BFFF | 16KB    | - PRG-ROM low page                                    |
+//  | $C000-$FFFF | 16KB    | - PRG-ROM high page                                   |
+//  +-------------+---------+-------------------------------------------------------+</code></pre>
+</div>
+
+<p>The whole memory can be simulated with a JS Array (or Uint8Array), filled with 8-bit values (0-255).
+<p>We just saw that <b>load_rom()</b> copied two 16kb PRG-ROM banks at addresses $8000 and $C000.
+<p>The remaining parts to handle are:
+<p>- Memory mirrors: the internal RAM is mirrored 3 times (read/write inside a mirror is strictly identical to a read/write in the internal RAM).
+<br>- Wrap-around: accessing a memory address outside of $0000-$FFFF targets the same address (modulo 64KB) inside this range. 
+<br>- I/O registers: reads/writes in the range $0800-$401F exchange data with the PPU, APU or Joypads, simulated with a function call.
+<br>- Mapper control: depending on the GamePak's model, reads and writes at special addresses allow to perform bankswitches (present different PRG-ROM banks to the CPU and different CHR-ROM banks to the PPU on-the-fly)... this part will be done later.
+
+<p><b>Golfing</b>
+
+<p>These functions were initially present in mappers.js, I moved them to a new file: memory.js
+
+<details>
+<summary><b>Memory.js, commented (45 lines of code)</b></summary>
+<pre><code class="lang-js">// Memory manager
+// ==============
+
+// Read a 8-byte value in memory
+memory_read = address => {
+  
+  // Wrap around ($0000-$FFFF)
+  address &= 0xFFFF;
+  
+  // Handle RAM mirrors ($0000-$07FF + $0800-$1FFF)
+  if(address &lt; 0x2000) address &= 0x7FF;
+  
+  // PPU registers ($2000-$2007) + mirrors ($2008-$3FFF)
+  else if(address &lt; 0x4000){
+    
+    // Mirroring
+    address &= 0x2007;
+
+    // $2002: PPU Status Register
+    if(address == 0x2002) return get_PPUSTATUS(); 
+
+    // $2004: Sprite Memory read
+    else if(address == 0x2004) return get_OAMDATA(); 
+    
+    // $2007: VRAM read
+    else if(address == 0x2007) return get_PPUDATA(); 
+  }
+  
+  // Sound and I/O registers ($4000-$401F)
+  else if(address &lt; 0x4020){
+    
+    // $4015: Sound channel enable, DMC Status
+    if(address == 0x4015) return APU.readReg(address);
+
+    // $4016: Joystick 1 + Strobe
+    else if(address == 0x4016) return joy1Read();
+
+    // $4017: Joystick 2 + Strobe
+    else if(address == 0x4017) return joy2Read();
+  }
+  
+  // Simply read in memory
+  return cpu_mem[address] || 0;
+},
+
+// Write a 8-bit value in memory
+memory_write = (address, value) => {
+  
+  // Wrap around ($0000-$FFFF)
+  address &= 0xFFFF;
+  
+  // Handle RAM mirrors ($0000-$07FF + $0800-$1FFF)
+  if(address &lt; 0x2000) address &= 0x7FF;
+  
+  // PPU registers ($2000-$2007) + mirrors ($2008-$3FFF)
+  else if(address &lt; 0x4000){
+    
+    address &= 0x2007;
+    
+    // $2000: PPU Control register 1 (write-only)
+    if(address == 0x2000) set_PPUCTRL(value);
+
+    // $2001: PPU Control register 2 (write-only)
+    else if(address == 0x2001) set_PPUMASK(value);
+
+    // $2003: Set Sprite RAM address (write-only)
+    else if(address == 0x2003) set_OAMADDR(value);
+
+    // $2004: Write to Sprite RAM
+    else if(address == 0x2004) set_OAMDATA(value);
+
+    // $2005: Screen Scroll offsets (write-only)
+    else if(address == 0x2005) set_PPUSCROLL(value);
+
+    // $2006: Set VRAM address (write-only)
+    else if(address == 0x2006) set_PPUADDR(value);
+
+    // $2007: Write to VRAM
+    else if(address == 0x2007) set_PPUDATA(value);
+  }
+  
+  // Sound registers ($4000-$4013)
+  else if(address &lt; 0x4014) APU.writeReg(address, value);
+  
+  // I/O registers ($4014-$401F)
+  else if(address &lt; 0x4020){
+    
+    // $4014: Sprite Memory DMA Access
+    if(address == 0x4014) set_OAMDMA(value);
+
+    // $4015: Sound Channel Switch, DMC Status
+    else if(address == 0x4015) APU.writeReg(address, value);
+
+    // $4016: Joystick 1 + Strobe
+    else if(address == 0x4016){
+      if((value & 1) === 0 && (joypadLastWrite & 1) === 1){
+        joy1StrobeState = 0;
+        joy2StrobeState = 0;
+      }
+      joypadLastWrite = value;
+    }
+
+    // $4017: Sound channel frame sequencer:
+    else if(address == 0x4017) APU.writeReg(address, value);
+  }
+
+  // Write to persistent RAM
+  else if(address >= 0x6000 && address &lt; 0x8000) NES.onBatteryRamWrite(address, value);
+  
+  // Simply write in memory
+  cpu_mem[address] = value;
+}</code></pre>
+</details>
+
+<p>
+<details open>
+<summary><b>Minified (796b)</b></summary>
+<pre><code class="lang-js">memory_read=e=>{if((e&=65535)&lt;8192)e&=2047;else if(e&lt;16384){if(8194==(e&=8199))return get_PPUSTATUS();if(8196==e)return get_OAMDATA();if(8199==e)return get_PPUDATA()}else if(e&lt;16416){if(16405==e)return APU.readReg(e);if(16406==e)return joy1Read();if(16407==e)return joy2Read()}return cpu_mem[e]||0},memory_write=(e,t)=>{(e&=65535)&lt;8192?e&=2047:e&lt;16384?8192==(e&=8199)?set_PPUCTRL(t):8193==e?set_PPUMASK(t):8195==e?set_OAMADDR(t):8196==e?set_OAMDATA(t):8197==e?set_PPUSCROLL(t):8198==e?set_PPUADDR(t):8199==e&&set_PPUDATA(t):e&lt;16404?APU.writeReg(e,t):e&lt;16416?16404==e?set_OAMDMA(t):16405==e?APU.writeReg(e,t):16406==e?(0==(1&t)&&1==(1&joypadLastWrite)&&(joy1StrobeState=0,joy2StrobeState=0),joypadLastWrite=t):16407==e&&APU.writeReg(e,t):e>=24576&&e&lt;32768&&NES.onBatteryRamWrite(e,t),cpu_mem[e]=t}</code></pre>
+</details>
+
+<p>Here again, a lot of long identifiers are still present in the code and will be renamed soon.
+
+<p><b>Before / after</b>
+
+<p>Before:
+<br>- 213 lines of code
+<br>- 7.1KB commented
+<br>- 2.6KB minified
+<br>- 805b gzipped
+
+<p>After:
+<br>- 45 lines of code
+<br>- 9KB commented
+<br>- 796b minified
+<br>- 392b gzipped
 
 <br><br><hr><br>
 <h3>Golfing the CPU</h3>
@@ -421,6 +612,7 @@ copy_array=(r,o,_)=>{for(var m=0;m&lt;r.length;m++)o[_+m]=r[m]}</code></pre>
 <img src="images/nes/5.png" width=300>
 <br>
 
+<p><b>Presentation</b>
 <p>The NES is powered by a CPU called Ricoh 6502, based on the famous MOS 6502 chip.
 <br>This CPU can execute 56 different instructions (or "opcodes"), each of them is available in one or many "addressing modes" (there are 13 addressing modes representing different ways to fetch data in the CPU's 64KB memory), for a total of 256 instructions ($00 to $FF in hex).
 
@@ -432,7 +624,7 @@ copy_array=(r,o,_)=>{for(var m=0;m&lt;r.length;m++)o[_+m]=r[m]}</code></pre>
 <p>It has:
 <br>- 3 general purpose registers (A, X, Y),
 <br>- a stack pointer (S),
-<br>- a program counter (PC),
+<br>- a 2-byte program counter (PC),
 <br>- Status flags (Carry, Zero, Interrupt disable, Decimal, oVerflow, Negative) placed in a dedicated register (P)
 <p>and has access to a 64KB memory containing:
 <br>- the internal RAM (2KB, including the stack),
@@ -445,12 +637,16 @@ copy_array=(r,o,_)=>{for(var m=0;m&lt;r.length;m++)o[_+m]=r[m]}</code></pre>
 <br>- <a href="https://wiki.nesdev.com/w/index.php/CPU">Nesdev</a>, explaining all the rest,
 <br>- <a href="https://github.com/6502/js6502/blob/master/6502.js">6502.js</a>, a standalone JS simulator (13KB minified, 3.6KB zipped),
 <br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">jsnes's cpu.js</a>, of course (27KB minified, 4.7KB zipped),
-<br>- and this very interesting NES emulator in C called <a href="https://bisqwit.iki.fi/jutut/kuvat/programming_examples/nesemu1/nesemu1.cc">nesemu1</a>, specifically aiming for a small size. (It's "<a href="https://www.youtube.com/watch?v=y71lli8MS8s">coded in 15 minutes</a>" too)
-<p>In this emulator, the instructions are implemented/encoded in 56 lines and 1054b zipped, and the whole CPU takes about 2.5KB zipped:
+<br>- <a href="https://bisqwit.iki.fi/jutut/kuvat/programming_examples/nesemu1/nesemu1.cc">nesemu1</a>, a NES emulator in C specifically aiming for a small size. It encodes all the instructions in just 56 lines and 1054b zipped (the whole CPU takes about 2.5KB zipped).
 
-<details>
-<summary><b>nesemu1's CPU instructions encoding</b></summary>
-<pre style="font-size:12px;line-height:1"><code class="lang-js">t("                                !", addr = 0xFFFA) // NMI vector location
+<p><b>Analysis and improvement of nesemu1's encoding</b>
+
+<p>I reverse-engineered nesemu1's CPU, improved its compression, and tried to use it in my own emulator, but it ended up being way too heavy. You can read more details below if you want (it was quite an adventure by itself):
+
+<p><details>
+<summary><b>Read more</b></summary>
+<p>Here's nesemu1's CPU instructions encoding:
+<p><pre style="font-size:12px;line-height:1"><code class="lang-js">t("                                !", addr = 0xFFFA) // NMI vector location
 t("                                *", addr = 0xFFFC) // Reset vector location
 t("!                               ,", addr = 0xFFFE) // Interrupt vector location
 t("zy}z{y}zzy}zzy}zzy}zzy}zzy}zzy}z ", addr = RB(PC++))
@@ -506,7 +702,6 @@ t("!  ! ! !!  !   !       !   !   !/", P.raw = t & ~0x30) // plp, rti, flag set/
 t("wwwvwwwvwwwvwxwv 5 !}}||{}wv{{wv ", P.N = t & 0x80)
 t("wwwv||wvwwwvwxwv 5 !}}||{}wv{{wv ", P.Z = u8(t) == 0)
 t("             0                   ", P.V = (((t >> 5)+1)&2))         // [arr]</code></pre>
-</details>
 
 <p>This packing technique is pretty smart, because it lists all the micro-instructions that can be performed by the CPU in the right order: fetching some data, transforming it, storing it somewhere, jump to another address, etc.
 <br>Each of these micro-instructions can be performed by one or many of the 259 official instructions/interrupts supported by the CPU.
@@ -547,14 +742,18 @@ t("             0                   ", P.V = (((t >> 5)+1)&2))         // [arr]<
 <p>But I also have the actual JS source code to implement, and it takes some space:
 <p>- <a href="https://twitter.com/MaximeEuziere/status/1320792142235770880">3.3KB</a> if I implement each micro-instruction.
 <br>- <a href="https://twitter.com/MaximeEuziere/status/1320792139069071365">8.5KB</a> if I implement the 259 instructions directly in JS (as 13 addressing modes + 52 reuseable instructions).
-<br>In both cases, that's too much.
+<br>In both cases, I decided that it was way too much.
+
+</details>
 
 <p><b>I had to find something better!</b>
 
-<p>After a week of head-scratching, I finally found a way to implement the instructions that takes very little space *and* compresses very well.
-<br>Actually, I decided to make it entirely standalone, and challenged myself to fit it in 1KB!
+<p>I have to admit, golfing this CPU was a thrilling experience because it made me look for a way to express in a ridiculously small size the most important part of the NES (and other 8-bit consoles): its microprocessor.
 
-<p>First, I initialized all the globals (memory, registers) used by the CPU, and wrote a few useful helpers: 
+<p>After a week of head-scratching, I finally found a way to implement the instructions that takes very little space *and* compresses very well.
+<br>Actually, I decided to make an entirely standalone version of it, and challenged myself to fit it in 1KB!
+
+<p>First, I initialized all the globals (memory, registers, flags) used by the CPU, and wrote a few useful helpers: 
 
 <details>
 <summary><b>CPU globals and helpers</b></summary>
@@ -632,14 +831,14 @@ g = v => r(256 + (S = (255 & (S+1))))</code></pre>
 
 <p>Then, I removed one quarter of the opcodes that are <a href="https://wiki.nesdev.com/w/index.php/CPU_unofficial_opcodes">not officially supported</a> nor used by 99.9% of commercial NES games.
 
-<p>Then for the 192 remaining ones, the idea is to generate a function that do something like that:
+<p>And for the 192 remaining ones, the idea was to generate a function that does something like that:
 <pre><code class="lang-js">Opcodes[n] = function(){
   var targetAddress = myAddressingMode(); // execute the right addressing mode for opcode n
   myopcode(targetAddress);                // execute the right operation for opcode n
 }</code></pre>
 
 <br>So I took the 10 main addressing modes, numbered them from 0 to 9, and made a 192b string representing which is used by each opcode.
-<br>The letter "Z" is a dummy character that indicates that the operand is either implicit or the Accumulator register.
+<br>The letter "Z" is a dummy character that indicates that the operand is either implicit or the Accumulator register (addressing modes 11/12).
 <br>A 13th addressing mode exists, but it's only used by a single opcode, so it will be implemented separately.
 
 <pre><code class="lang-c">020666Z0Z77713Z444Z8Z999
@@ -785,7 +984,6 @@ Z20666Z0Z77713Z444Z8Z999
   ]
 }</code></pre>
 </details>
-
 
 <p>I did the same with the 52 official opcodes, turned into an alphabet of printable ASCII chars ranging from " " to "[" :
 <pre><code class="lang-c">PI#PI#KIDPI#=I#PI#1IDPI#
@@ -1408,11 +1606,10 @@ VRSVRS-zXVRSORSVRSWR VRS
 }</code></pre>
 </details>
 
-<p>This kind of implementation is called a jump table.
 <p>I'd like to thank <b>@subzey</b> and <b>@James0x57</b> for helping me golfing this!
 <br>Subzey even made a tool that shuffles the lines of a text file to improve gzip compression: <a href="https://www.npmjs.com/package/dict-tempering">dict-tempering</a>, which saved me about 30 bytes.
 
-<p>Finally, I generated a function for each instruction:
+<p>Here's the code that generates a function for each instruction:
 
 <details>
 <summary><b>One function per instruction</b></summary>
@@ -1443,7 +1640,7 @@ O = [...Array(255)].map((t,o) =>
 );</code></pre>
 </details>
 
-<p>And I made an <b>op()</b> function, able to execute one of the three interrupts, or the next instruction in the ROM:
+<p>And the <b>op()</b> function, which is able to execute one of the three interrupts, or the next instruction in the ROM:
 
 <details>
 <summary><b>opcode / interrupt executer</b></summary>
@@ -1479,19 +1676,16 @@ op = (v, z) => (
     // Push PC and P with B flag set to 0 (IRQ) or 1 (BRK), then set I to 1,
     // then jump to address stored at $FFFE-$FFFF
     // This costs 7 cycles
-
-    //(v > 1 || r(0x2000) >> 7) && ( // NES-specific test
+    (
       (
-        (
-          (v - 2) 
-          ? (h(PC >> 8), h(255 & PC), h(z ? (P|16) : (239 & P))) // NMI/IRQ/BRK
-          : (S = (S-3) & 255, c = 6) // Reset
-        ),
+        (v - 2) 
+        ? (h(PC >> 8), h(255 & PC), h(z ? (P|16) : (239 & P))) // NMI/IRQ/BRK
+        : (S = (S-3) & 255, c = 6) // Reset
+      ),
 
-        I = 1,
-        PC = r(65528 + v * 2) + 256 * r(65528 + v * 2 + 1)
-      )
-    //)
+      I = 1,
+      PC = r(65528 + v * 2) + 256 * r(65528 + v * 2 + 1)
+    )
   )
 
   // Or execute the next instruction:
@@ -1507,119 +1701,127 @@ op = (v, z) => (
 
 <p>After golfing and minifying, all this code fits in 2288 bytes:
 
-<pre><code class="lang-js">m=[A=X=Y=c=0]
-r=(d,b)=>m[c++,d%65536]
-w=(d,b)=>m[c++,d%65536]=b
-F=(d,b)=>(Z=(d&=255)&lt;1,N=d>>7,d)
-f=(d,b)=>(C=d&1,Z=d>>1&1,I=d>>2&1,D=d>>3&1,B=d>>4&1,V=d>>6&1,N=d>>7)
-f(P=36)
-h=(d,b)=>(w(256+S--,d),S&=255)
-g=(d,b)=>r(256+(S=255&S+1))
-O=[...Array(255)].map((d,b)=>Function(`c--,PC++
-a=a+p-256*(p>>7),PC++
-a=r(p+X&255)+256*r(p+X+1&255),PC++,c++
-a=r(p)+256*r(p+1&255)+Y,c+=a-Y>>8&lt;a>>8||o>>4==9,PC++
-a=r(a)+X&255,PC++
-a=r(a)+Y&255,PC++
-a=p,PC++
-a=p+256*r(PC+=2)
-t=p+256*r(PC+=2),c+=t>>8&lt;t+Y>>8||o>>4==9,a=t+Y
-t=p+256*r(PC+=2),c+=t>>8&lt;t+X>>8||o>>4==9||o%16>13,a=t+X`.split`
-`[`020666Z0Z77713Z444Z8Z999720666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999020666Z0Z77713Z445Z8Z998020666Z0Z77713Z445Z8Z998020666Z0Z77713Z444Z8Z999020666Z0Z77713Z444Z8Z999`[b-(b>>2)]]+`
-`+`S=X
-p=r(a),C=X-p>=0,F(X-p)
-p=r(a),C=Y-p>=0,F(Y-p)
-p=r(a),C=p>>7,w(a,F(2*p)),c++
-C=A>>7,A=F(2*A+(1&P))
-p=r(a),C=p>>7,w(a,F(2*p+(1&P))),c++
-C=1&A,A=F(A>>1)
-p=r(a),C=1&p,w(a,F(p>>1)),c++
-X=F(X-1)
-p=r(a),F(p&A),N=p>>7&1,V=p>>6&1
-C=1&A,A=F((A>>1)+128*(1&P))
-w(a,F(r(a)+1)),c++
-X=F(X+1)
-Y=F(Y-1)
-Y=F(Y+1)
-Y=F(r(a))
-p=r(a),C=1&p,w(a,F((p>>1)+128*(1&P))),c++
-C=0
-I=1
-D=0
-I=0
-A=F(r(a))
-A=F(r(a)&A)
-p=r(a),C=A-p>=0,F(A-p)
-p=r(a),t=A+C-1-p,V=!!(128&(A^p))&&!!(128&(A^t)),C=t>=0,A=F(t)
-p=r(a),t=A+C+p,V=!(128&(A^p))&&!!(128&(A^t)),C=t>255,A=F(t)
-C&&(c+=1+(a>>8!=PC+1>>8),PC=a)
-N&&(c+=1+(a>>8!=PC+1>>8),PC=a)
-Z&&(c+=1+(a>>8!=PC+1>>8),PC=a)
-N||(c+=1+(a>>8!=PC+1>>8),PC=a)
-V&&(c+=1+(a>>8!=PC+1>>8),PC=a)
-Z||(c+=1+(a>>8!=PC+1>>8),PC=a)
-V||(c+=1+(a>>8!=PC+1>>8),PC=a)
-X=F(r(a))
-A=F(r(a)^A)
-w(a,F((r(a)-1)&255)),c++
-C=A>>7,A=F(2*A)
-h(PC>>8),h(255&PC),PC=a-1,c++
-C=1
-D=1
-V=0
-A=F(r(a)|A)
-h(A)
-h(P|16)
-A=F(g()),c++
-f(g()&239),c++
-f(g()),PC=g()+256*g()-1,c++
-C||(c+=1+(a>>8!=PC+1>>8),PC=a)
-op(3,1)
-Y=F(A)
-w(a,A)
-w(a,X)
-X=F(S)
-X=F(A)
-w(a,Y)
-A=F(Y)
-A=F(X)
-PC=g()+256*g(c+=2)
-PC=a-1
-PC=r(a)+256*r(a+1-256*((a&255)==255))-1`.split`
-`[`PI#PI#KIDPI#=I#PI#1IDPI#E6%)6%M6$)6%;6%E6%F6%E6%NB'NB'JB&ZB'@B'NB'4B'NB'Y90Y90L9*[90>90Y90290Y90VRSVRS-zXVRSORSVRSWR VRS/5A/5AQ5U/5A:5A/5AH5T/5A"7C"7C.7("7C?7C"7C37C"7C!8+!8+,8z!8+&lt;8+!8+G8+!8+`[b-(b>>2)].charCodeAt()-32]))
-op=(d,b)=>(o=r(PC),p=r(a=PC+1),d?(2-d?(h(PC>>8),h(255&PC),h(b|239&P)):(S=S-3&255,c=6),I=1,PC=r(65528+2*d)+256*r(65528+2*d+1)):(O[o](),PC++),P=C+2*Z+4*I+8*D+16*B+32+64*V+128*N)</code></pre>
+<pre><code class="lang-js">m=[A=X=Y=c=0];r=(d,b)=>m[c++,d%65536];w=(d,b)=>m[c++,d%65536]=b;F=(d,b)=>(Z=(d&=255)&lt;1,N=d>>7,d);f=(d,b)=>(C=d&1,Z=d>>1&1,I=d>>2&1,D=d>>3&1,B=d>>4&1,V=d>>6&1,N=d>>7);f(P=36);h=(d,b)=>(w(256+S--,d),S&=255);g=(d,b)=>r(256+(S=255&S+1));O=[...Array(255)].map((d,b)=>Function(`c--,PC++;a=a+p-256*(p>>7),PC++;a=r(p+X&255)+256*r(p+X+1&255),PC++,c++;a=r(p)+256*r(p+1&255)+Y,c+=a-Y>>8&lt;a>>8||o>>4==9,PC++;a=r(a)+X&255,PC++;a=r(a)+Y&255,PC++;a=p,PC++;a=p+256*r(PC+=2);t=p+256*r(PC+=2),c+=t>>8&lt;t+Y>>8||o>>4==9,a=t+Y;t=p+256*r(PC+=2),c+=t>>8&lt;t+X>>8||o>>4==9||o%16>13,a=t+X`.split`;`[`020666Z0Z77713Z444Z8Z999720666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999020666Z0Z77713Z445Z8Z998020666Z0Z77713Z445Z8Z998020666Z0Z77713Z444Z8Z999020666Z0Z77713Z444Z8Z999`[b-(b>>2)]]+`;`+`S=X;p=r(a),C=X-p>=0,F(X-p);p=r(a),C=Y-p>=0,F(Y-p);p=r(a),C=p>>7,w(a,F(2*p)),c++;C=A>>7,A=F(2*A+(1&P));p=r(a),C=p>>7,w(a,F(2*p+(1&P))),c++;C=1&A,A=F(A>>1);p=r(a),C=1&p,w(a,F(p>>1)),c++;X=F(X-1);p=r(a),F(p&A),N=p>>7&1,V=p>>6&1;C=1&A,A=F((A>>1)+128*(1&P));w(a,F(r(a)+1)),c++;X=F(X+1);Y=F(Y-1);Y=F(Y+1);Y=F(r(a));p=r(a),C=1&p,w(a,F((p>>1)+128*(1&P))),c++;C=0;I=1;D=0;I=0;A=F(r(a));A=F(r(a)&A);p=r(a),C=A-p>=0,F(A-p);p=r(a),t=A+C-1-p,V=!!(128&(A^p))&&!!(128&(A^t)),C=t>=0,A=F(t);p=r(a),t=A+C+p,V=!(128&(A^p))&&!!(128&(A^t)),C=t>255,A=F(t);C&&(c+=1+(a>>8!=PC+1>>8),PC=a);N&&(c+=1+(a>>8!=PC+1>>8),PC=a);Z&&(c+=1+(a>>8!=PC+1>>8),PC=a);N||(c+=1+(a>>8!=PC+1>>8),PC=a);V&&(c+=1+(a>>8!=PC+1>>8),PC=a);Z||(c+=1+(a>>8!=PC+1>>8),PC=a);V||(c+=1+(a>>8!=PC+1>>8),PC=a);X=F(r(a));A=F(r(a)^A);w(a,F((r(a)-1)&255)),c++;C=A>>7,A=F(2*A);h(PC>>8),h(255&PC),PC=a-1,c++;C=1;D=1;V=0;A=F(r(a)|A);h(A);h(P|16);A=F(g()),c++;f(g()&239),c++;f(g()),PC=g()+256*g()-1,c++;C||(c+=1+(a>>8!=PC+1>>8),PC=a);op(3,1);Y=F(A);w(a,A);w(a,X);X=F(S);X=F(A);w(a,Y);A=F(Y);A=F(X);PC=g()+256*g(c+=2);PC=a-1;PC=r(a)+256*r(a+1-256*((a&255)==255))-1`.split`;`[`PI#PI#KIDPI#=I#PI#1IDPI#E6%)6%M6$)6%;6%E6%F6%E6%NB'NB'JB&ZB'@B'NB'4B'NB'Y90Y90L9*[90>90Y90290Y90VRSVRS-zXVRSORSVRSWR VRS/5A/5AQ5U/5A:5A/5AH5T/5A"7C"7C.7("7C?7C"7C37C"7C!8+!8+,8z!8+&lt;8+!8+G8+!8+`[b-(b>>2)].charCodeAt()-32]));op=(d,b)=>(o=r(PC),p=r(a=PC+1),d?(2-d?(h(PC>>8),h(255&PC),h(b|239&P)):(S=S-3&255,c=6),I=1,PC=r(65528+2*d)+256*r(65528+2*d+1)):(O[o](),PC++),P=C+2*Z+4*I+8*D+16*B+32+64*V+128*N)</code></pre>
 
 <p>After gzip (<b>zopfli --gzip -i1000000 6502.min.js</b>), it's down to only <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.gz">938 bytes</a>!
-<br>But if we do a regular "zip" file (that has a big overhead compared to gzip) also fits under 1KB: <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.zip">1015 bytes</a>.
+<br>But if we do a regular "zip" file (that has a big overhead compared to gzip), it also fits just under 1KB: <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.zip">1015 bytes</a>.
 
 <p><b>Mission complete!</b>
-<p>I made my 6502 CPU simulator in under one kilobyte.
+<p>I made a 6502 CPU simulator in under one kilobyte.
 <br>In comparison, <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">jsnes's cpu</a> was 52.7KB barely commented, 27.5KB minified (12x bigger), and 4.7KB gzipped (5x bigger).
 
 <p>My CPU is available as a standalone project (with comments and tests) here: <a href="https://github.com/xem/mini6502">mini6502</a>
 
 <p><b>Integration in the emulator</b>
-<p>This 6502 simulator works fine as a standalone file, but it must be part of the NES emulator:
-<br>- The r() and w() function that read and write into memory are replaced by functions from the memory/mapper manager:
-<pre><code class="lang-js">// "Memory" handles mirrors, persistent save slots, and Mapper-specific features like bank switches
-// Read a byte from memory. Costs 1 cycle
-r = v => (c++, Memory.load(v))
+<p>This 6502 simulator works fine as a standalone file, but a few additions must be made to include it in the NES emulator:
 
-// Write a byte in memory. Costs 1 cycle
-w = (v, w) => (c++, Memory.write(v, w))</code></pre>
+<br>- The r() and w() function that read and write into memory are mapped to the functions from the memory manager:
+<pre><code class="lang-js">// Read/write a byte in memory. Costs 1 cycle
+// These functions handle mirrors, persistent save slots, and Mapper-specific features like bank switches
+r = v => (c++, memory_read(v)),
+w = (v, w) => (c++, memory_write(v, w)),</code></pre>
 
-<p>- The NMI interrupt is only executed if the 7th bit of the value present at address $2000 is not zero:
+<p>- The NMI and IRQ interrupts are only executed if another value is set (VBlank flag or I register):
 
-<pre><code class="lang-js">(v > 1 || r(0x2000) >> 7) && (
- // execute interrupts... v = 1/2/3
-)</code></pre>
+<pre><code class="lang-js">// Only execute NMI if VBlank flag (bit 7 of $2000) is set
+(v > 1 || r(0x2000) >> 7)
 
-<p>- a reset() function wipes the internal RAM
-<br>- a tick() function helps making the PPU run 3 times faster than the CPU
-<br>- an emulate() function executes either an interrupt (if one is requested) or the next ROM instruction
+// Only execute IRQ if I is not set
+&& (v &lt; 3 || !I)
+
+&& ( /* execute interrupts */ )</code></pre>
+
+<p>- a cpu_reset() function wipes the internal RAM
+<br>- a tick_cpu() function clocks 3 PPU cycles and 1 APU cycle for each CPU cycle.
+<br>- an emulate() function executes either an interrupt (if one is requested) or the next ROM instruction.
+
+<p>Here's the code put in cpu.js to finish this integration:
+
+<details>
+<summary>New cpu.js, commented, 18 lines of code</summary>
+<pre><code class="lang-js">// CPU
+// ===
+
+// Reset the CPU
+cpu_reset = () => {
+    
+  // CPU internal memory (64KB)
+  cpu_mem = [];
+  
+  // Interrupt
+  interrupt_requested = 0;
+},
+  
+// Clock 1 CPU cycle
+// During this time, 3 PPU cycles and 1 APU cycle take place
+cpu_tick = () => {
+  ppu_tick();
+  ppu_tick();
+  ppu_tick();
+  apu_tick();
+},
+
+// Emulates a single CPU instruction or interrupt, returns the number of cycles
+emulate = () => {
+
+  // Execute the requested interrupt, if any
+  if(interrupt_requested){
+    
+    // 1: NMI
+    // 2: Reset
+    // 3: IRQ
+    op(interrupt_requested);
+    
+    // Reset interrupt requested flag
+    interrupt_requested = 0;
+  }
+
+  // Or execute next instruction
+  else {
+    op();
+  }
+  
+  // Return the number of cycles spent
+  return c;
+}</code></pre>
+</details>
+<p>
+<details open>
+<summary>New cpu.js, minified, 118 bytes</summary>
+<pre><code class="lang-js">cpu_reset=_=>{cpu_mem=[]},cpu_tick=()=>{ppu_tick(),ppu_tick(),ppu_tick(),apu_tick()},emulate=_=>(p?(op(p),p=0):op(),c)</code></pre>
+</details>
+
+<p><b>Before / after</b>
+
+<p>Jsnes's cpu has:
+<br>- 1362 lines of code
+<br>- 52.7KB commented
+<br>- 27.5KB minified
+<br>- 4.7KB gzipped
+
+<p>After rewriting it, my entire CPU is down to:
+<br>- 179 lines of code
+<br>- 30.3KB commented
+<br>- 2.4KB minified
+<br>- 1043b gzipped
+
+<p>And contrary to jsnes's cpu, this one is 100% cycle-accurate and emulates correctly all the addressing modes and hardware bugs.
+<br>My emulator also allows to load a new rom while another one is running, which was buggy in jsnes.
 
 <br><br><hr><br>
 <h3>Golfing the PPU</h3>
+
+<br><br><hr><br>
+<h3>Golfing the APU</h3>
+
+<br><br><hr><br>
+<h3>Golfing the Controllers</h3>
+
+<br><br><hr><br>
+<h3>Golfing the emulator's setup</h3>
+
+<br><br><hr><br>
+<h3>Conclusion</h3>
 
 
 
@@ -1633,7 +1835,9 @@ w = (v, w) => (c++, Memory.write(v, w))</code></pre>
 <!--br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/wfrNnwJrujw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe-->
 
-
+<br>
+<br>
+<br>
 
 <h1>TO BE CONTINUED</h1>
 <br>
