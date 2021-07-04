@@ -27,7 +27,7 @@
 <h3>Introduction</h3>
 <p>Hello!<br>
 Today I'm going to tell you how I'm creating the world's smallest NES emulator in JS, <a href="https://github.com/xem/jsnes-lite">jsnes-lite</a>.
-<br>It's a detailed version of <a href="https://twitter.com/MaximeEuziere/status/1316455403274858501">this Twitter thread</a>.
+<br>It's a highly detailed version of <a href="https://twitter.com/MaximeEuziere/status/1316455403274858501">this Twitter thread</a>.
 <p>In the previous years, I've made many attempts at creating my onw NES emulator from scratch:
 <br>I wrote an <a href="https://github.com/xem/nes/blob/gh-pages/cheat%20sheet.txt">emulation cheat-sheet</a> and built a <a href="https://xem.github.io/nes/">ROM decompiler and debugger</a>...
 <br>
@@ -283,7 +283,8 @@ var currentSample = 0;</code></pre>
 <br>- extra ROM banks specific to arcade games (if any).
 <p>rom.js takes a rom file, reads the header and keeps a copy of each PRG-ROM bank and CHR-ROM page present in it.
 
-<p><b>Mapper 0</b>
+<p><b>Mapper 0: "NROM"</b>
+<p><img src="images/nes/nrom.png" width=300>
 <p>For now, let's focus on the simplest mapper "Mapper 0", used by many famous games like DK, SMB, Ice Climbers, Excitebike, Pac-Man...
 <br>The games using this mapper fit all their code in 32KB and all their graphics in 8KB, so no bank swaps are necessary.
 <br>So when the rom's header is parsed, mappers.js has the simple task to copy the two PRG-ROM banks in CPU memory (at addresses $8000 and $C000) and the two CHR-ROM pages in PPU memory (at addresses $0000 and $1000).
@@ -1791,6 +1792,8 @@ emulate = () => {
 <pre><code class="lang-js">cpu_reset=_=>{cpu_mem=[]},cpu_tick=()=>{ppu_tick(),ppu_tick(),ppu_tick(),apu_tick()},emulate=_=>(p?(op(p),p=0):op(),c)</code></pre>
 </details>
 
+<p>PS: golfing the CPU instructions has been a long series of trial and errors, which I've live-tweeted <a href="https://twitter.com/MaximeEuziere/status/1325511864474869763">here</a> if you want more details.
+
 <p><b>Before / after</b>
 
 <p>Jsnes's cpu has:
@@ -1810,6 +1813,76 @@ emulate = () => {
 
 <br><br><hr><br>
 <h3>Golfing the PPU</h3>
+
+<p><img src="images/nes/2c02.png" width=300>
+
+<p><b>Presentation</b>
+<p>The graphics processor is another big chunk of complexity. Especially in JSNES, where the code is impossible to follow.
+<br>So I decided to rewrite it from scratch, and realized it was... not simple, but pretty straightforward:
+
+<p>- The 64KB memory contains two 4KB CHR-ROM pages, the VRAM (background memory), two 16-color palettes and a bunch of mirroring.
+
+<pre style=width:750px><code class="lang-js">// +-------------+-------+-----------------------------------------------------------+
+// | Address     | Size  | Use                                                       |
+// +-------------+-------+-----------------------------------------------------------+
+// | $0000-$1FFF | 8KB   | Cartridge space (CHR-ROM or CHR-RAM):                     |
+// | $0000-$0FFF | 4KB   | Pattern Table 0 (256 tiles) or "left page"                |
+// | $1000-$1FFF | 4KB   | Pattern Table 1 (256 tiles) or "right page"               |
+// +-------------+-------+-----------------------------------------------------------+
+// | $2000-$2FFF | 4KB   | VRAM (2KB in the NES, 2KB in the cartridge or mirrored)   |
+// |             |       | Contains four 960B nametables + four 64B attribute tables |
+// +-------------+-------+-----------------------------------------------------------+
+// | $3000-$3EFF | 3840B | Mirror of $2000-$2EFF (never used by the PPU)             |
+// +-------------+-------+-----------------------------------------------------------+
+// | $3F00-$3F1F | 32B   | Palettes (4 * 4B for backgrounds, 4 * 4B for sprites)     |
+// +-------------+-------+-----------------------------------------------------------+
+// | $3F20-$3FFF | 224B  | Mirrors of $3F00-$3F1F                                    |
+// +-------------+-------+-----------------------------------------------------------+
+// | $4000-$FFFF | 48KB  | Mirrors of $0000-$3FFF                                    |
+// +-------------+-------+-----------------------------------------------------------+</code></pre>
+
+
+<br>- The 256b OAM memory contains info about up to 64 sprites drawn in front of (and sometimes behind) the background tiles.
+<br>- 9 I/O registers in CPU memory allow to exchange data between the CPU and PPU, to control background layout/scrolling, palettes, etc.
+<br>- At each CPU cycle, the PPU performs 3 cycles, by rendering 3 dots (pixels) of the current frame (background + sprites).
+<br>- A frame measures 341*262px on NTSC (341*312 on PAL), but only the top-left 256*240px are visible on the TV screen. The rest is used to let the CPU and PPU compute what will be drawn at the next line the next frame.
+
+<pre style=width:500px><code class="lang-js">//         x=0                 x=256               x=340
+//      ---+-------------------+-------------------+
+//  y=0    | visible area      | Horizontal blank  |
+//         | (this is rendered | (prepare sprites  |
+//  y=239  | on the screen)    | for the next      |
+//  y=239  |                   | scanline)         |
+//      ---+-------------------+-------------------|
+//  y=240  | idle scanline                         |
+//      ---+---------------------------------------|
+//  y=241  | vertical blanking (idle)              |
+//         | - 20 scanlines long on NTSC consoles  |
+//  y=260  | - 70 scanlines on PAL consoles        |
+//      ---+-------------------------------------+-+
+//  y=261  | pre-render scanline                 |*|
+//  or -1 -+-------------------------------------+-+</code></pre>
+<i>(* the pre-render scanline has only 340 dots on odd frames when background rendering is enabled)</i>
+
+<p><b>First goal: DK title screen</b>
+
+<p><img src="images/nes/dk1.png">
+
+<p>When you start a NES emulator, do NOT attempt to emulate Super Mario Bros first. It's actually one of the most <a href="https://wiki.nesdev.com/w/index.php/Tricky-to-emulate_games">tricky-to-emulate games</a>.
+<br>The title screen, HUD, and other memory reads are super hacky, some of these hacks seem to have been made to fit the game in 32+8KB.
+<br>Code-golfing was quite on another level back then!
+
+<p>Anyway, the easiest game to get started is Donkey Kong.
+<br>It has no scrolling, default VRAM mirroring, and the title screen is basically a fixed background and a pink sprite. 
+<br>My first goal will be to make my PPU render this screen on a JS canvas.
+
+<p>A little detail to note is that no NES game start displaying stuff on screen instantly.
+<br>They enable the display after a few frames, after they have initialized everything they wanted.
+<br>For DK, it takes 5 frames to show something. For SMB, it's 33. So don't worry if your screen stays black at the end of the first frames.
+
+<p><b>So, er, let's find the NES color palette</b>
+
+<p>...
 
 <br><br><hr><br>
 <h3>Golfing the APU</h3>
