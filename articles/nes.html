@@ -1835,6 +1835,8 @@ emulate = () => {
 // | $3000-$3EFF | 3840B | Mirror of $2000-$2EFF (never used by the PPU)             |
 // +-------------+-------+-----------------------------------------------------------+
 // | $3F00-$3F1F | 32B   | Palettes (4 * 4B for backgrounds, 4 * 4B for sprites)     |
+// |             |       | Color at $3F00 is the Universal Background Color          |
+// |             |       | (it replaces every background subpalette's color "0")     |
 // +-------------+-------+-----------------------------------------------------------+
 // | $3F20-$3FFF | 224B  | Mirrors of $3F00-$3F1F                                    |
 // +-------------+-------+-----------------------------------------------------------+
@@ -1848,7 +1850,7 @@ emulate = () => {
 <br>- A frame measures 341*262px on NTSC (341*312 on PAL), but only the top-left 256*240px are visible on the TV screen. 
 <br>The rest is used to let the CPU and PPU compute what will be drawn at the next line the next frame.
 
-<pre style=width:500px><code class="lang-js">//         x=0                 x=256               x=340
+<p><pre style=width:500px><code class="lang-js">//         x=0                 x=256               x=340
 //      ---+-------------------+-------------------+
 //  y=0    | visible area      | Horizontal blank  |
 //         | (this is rendered | (prepare sprites  |
@@ -1861,7 +1863,7 @@ emulate = () => {
 //         | - 20 scanlines long on NTSC consoles  |
 //  y=260  | - 70 scanlines on PAL consoles        |
 //      ---+-------------------------------------+-+
-//  y=261  | pre-render scanline                 |*|
+//  y=261  | pre-render scanline                 |<span style=color:red>*</span>|
 //  or -1 -+-------------------------------------+-+</code></pre>
 <i>(* the pre-render scanline has only 340 dots on odd frames when background rendering is enabled)</i>
 
@@ -1879,7 +1881,7 @@ emulate = () => {
 
 <p>A little detail to note is that no NES game starts displaying stuff on screen instantly.
 <br>They enable the display after a few frames, after they have initialized everything they wanted.
-<br>For DK, it takes 5 frames to show something. For SMB, it's 33. So don't worry if your screen stays black at the end of the first frames.
+<br>For DK, it takes 5 frames to show something. For SMB, it's 30. So don't worry if your screen stays black at the end of the first frames.
 
 <p><b>So, er, let's find the NES color palette?</b>
 
@@ -1901,10 +1903,11 @@ emulate = () => {
 
 <p>So, if I have to choose arbitrarily, let's take a palette that I like. One that avoids the purple sky in SMB and the pink walls in Castlevania.
 
-<p>I first tried to generate it procedurally... I was pretty happy with this one (203b gzipped):
-<p><img src="images/nes/formula.png" width=800>
+<br>I first tried to generate it procedurally... I was pretty happy with this one (203b gzipped):
+<p><img src="images/nes/formula.png" width=650>
 
 <p>Then I realized that a list of 64 "#RGB" values would compress much better (when it comes to compression, simpler is always better).
+<br>Moreover, hsl colors are much slower to parse for a JS canvas, and it would have been a performance issue.
 <br>So I ended up taking the palette from 3DS Virtual Console (my favourite) in #RRGGBB, converted it in #RGB by removing half of the characters, concatenated them in a string, and used <b>.match(/.../g)</b> to transform them into an array (191b gzipped):
 <p><img src="images/nes/rgb.png" width=500>
 
@@ -1914,8 +1917,19 @@ emulate = () => {
 <br>The functions <b>ppu_read()</b> and <b>ppu_write()</b> handle reads and writes in the main memory and respect all the memory mirrors:
 
 <details>
-<summary>Memory access</summary>
-<pre><code class="lang-js">// Memory access
+<summary>Memory reset and read/write</summary>
+<pre><code class="lang-js">// Reset the PPU
+ppu_reset = () => {
+
+  // Reset PPU memory (64KB) and OAM memory (256b)
+  PPU_mem = [];
+  OAM = [];
+  
+  // ...
+  
+},
+
+// Memory access
 // -------------
 
 // Handle address mirrorings
@@ -1976,17 +1990,231 @@ ppu_write = (address, value) => {
 
 <p><b>PPU I/O registers</b>
 
-<p>TODO
+<p>The 9 PPU registers allow the CPU to control if and how backgrounds and sprites are rendered, set scrolling, ask for the next frame, or read/write data in PPU memory or OAM.
+<br>Sometimes a register contains many significant bitfields, represented here by saparate global variables.
+
+<details>
+<summary>PPU I/O registers</summary>
+<pre><code class="lang-js">// Reset the PPU
+// Reset the PPU
+ppu_reset = () => {
+
+  // ...
+  
+  // PPU scrolling is handled via two 15-bit registers called V and T
+  // In these registers:
+  // - bits 0-4 (XXXXX) represent the coarse X scrolling
+  // - bits 5-9 (YYYYY) represent the coarse Y scrolling
+  // - bits 10-11 (NN) represent the nametable where the scrolling starts
+  // - bits 12-14 (yyy) represent the fine Y scrolling
+  // The fine X scrolling (xxx) is stored separately
+  // The effective X scrolling is equal to: (NN & 0b1) * 256 + XXXXX * 8 + xxx
+  // The effective Y scrolling is equal to: (NN >> 1) * 240 + YYYYY * 8 + yyy
+  
+  // V: value of scroll on the next scanline (V = 0yyyNNYYYYYXXXXX)
+  V_yyy = 
+  V_NN = 
+  V_YYYYY = 
+  V_XXXXX = 
+  
+  // T: value of scroll on current scanline (T = 0yyyNNYYYYYXXXXX)
+  T_yyy = 
+  T_NN = 
+  T_YYYYY = 
+  T_XXXXX = 
+
+  // Fine X scroll (xxx, also called w)
+  xxx = 
+  
+  // Effective PPU scroll
+  scroll_x = 
+  scroll_y = 
+  
+  // PPU Status register
+  PPUSTATUS_O =
+  PPUSTATUS_S =
+  PPUSTATUS_V =
+  
+  // PPU latch (also called w)
+  // It's toggled between 0 and 1 every time PPUSCROLL or PPUADDR get written, and reset to 0 when PPUSTATUS is read
+  latch = 0;
+
+  // Reset PPUCTRL and PPUMASK registers
+  set_PPUCTRL(0);
+  set_PPUMASK(0);
+},
+
+// PPU I/O registers
+// -----------------
+
+// The CPU can read/write at the following addresses in memory to interact with the PPU
+
+// $2000 (write): set PPU Control Register 1 (PPUCTRL)
+set_PPUCTRL = value => {
+  PPUCTRL_V = (value >> 7) & 1; // bit 7: trigger a NMI on VBlank
+                                // bit 6: ignored (external pin)
+  PPUCTRL_H = (value >> 5) & 1; // bit 5: sprite size (0: 8x8, 1: 8x16)
+  PPUCTRL_B = (value >> 4) & 1; // bit 4: background pattern table (0: $0000, 1: $1000)
+  PPUCTRL_S = (value >> 3) & 1; // bit 3: sprite pattern table (0: $0000, 1: $1000, ignored in 8x16 mode)
+  PPUCTRL_I = (value >> 2) & 1; // bit 2: VRAM address increment after reading from PPUDATA (0: 1, 1: 32)
+  T_NN = value & 0b11;          // bits 0-1: update nametable bits in scroll register T
+},
+
+// $2001 (write): set PPU Control Register 2 (PPUMASK)
+set_PPUMASK = value => {
+  //PPUMASK_RGB = (value >> 5) & 7; // Bits 5-7: red/green/blue emphasis on NTSC, red/blue/green on PAL (ignored here)
+  PPUMASK_s = (value >> 4) & 1;     // Bit 4: show sprites
+  PPUMASK_b = (value >> 3) & 1;     // Bit 3: show background
+  //PPUMASK_M = (value >> 2) & 1;   // Bit 2: show sprites on leftmost 8px-wide column (ignored here)
+  //PPUMASK_m = (value >> 1) & 1;   // Bit 1: show background on leftmost 8px-wide column (ignored here)
+  //PPUMASK_G = value & 1;          // Bit 0: greyscale (all colors are ANDed with $30; ignored here)
+},
+
+// $2002 (read): get PPU Status Register (PPUSTATUS)
+get_PPUSTATUS = () => {
+  
+  // Update status
+  t = cpu_mem[0x2002] = 
+    0                     // Bits 0-4: copy of last 5 bits written to a PPU register (can be ignored)
+    + (PPUSTATUS_O &lt;&lt; 5)  // Bit 5 (O): Sprite overflow (set during sprite evaluation if more than 8 sprites in next scanline, cleared at pre-render line, buggy on the NES)
+    + (PPUSTATUS_S &lt;&lt; 6)  // Bit 6 (S): Sprite 0 hit (set when an opaque pixel from sprite 0 overlaps an opaque pixel of the background if both displays are enabled, cleared at pre-render line)
+    + (PPUSTATUS_V &lt;&lt; 7); // Bit 7 (V): VBlank (set at line 241, cleared after reading PPUSTATUS and at pre-render line)
+  
+  // Reset PPUSCROLL/PPUADDR latch
+  latch = 0;
+  
+  // Reset VBlank
+  PPUSTATUS_V = 0;
+
+  // Return status (without the resets)
+  return t;
+},
+
+// $2003 (write): set SPR-RAM Address Register (OAMADDR)
+set_OAMADDR = address => {
+  OAMADDR = address;
+},
+
+// $2004h (read/write): SPR-RAM Data Register (OAMDATA, address must be set first). Not readable on Famicom
+get_OAMDATA = () => {
+  return OAM[OAMADDR];
+},
+
+set_OAMDATA = value => {
+  OAM[OAMADDR] = value;
+  OAMADDR++;
+  OAMADDR %= 0x100;
+},
+
+// $2005 (write twice: vertical, then horizontal): PPU Background Scrolling Offset (PPUSCROLL)
+set_PPUSCROLL = value => {
+
+  // Latch equals 0: first write, update horizontal scroll
+  if(latch == 0){
+    
+    // Update X bits of scroll register T (XXXXXxxx = value)
+    T_XXXXX = value >> 3;
+    xxx = value & 0b111;
+  }
+  
+  // Latch equals 1: second write, update vertical scroll
+  // If value is between 240 and 255, it becomes negative (-16 to -1) and the rendering is glitchy (ignored here)
+  else {
+    
+    // Update Y bits of scroll register T (YYYYYyyy = value)
+    T_YYYYY = value >> 3;
+    T_yyy = value & 0b111;
+  }
+  
+  // Toggle latch
+  latch ^= 1;
+},
+
+// $2006 (write twice): VRAM Address Register (PPUADDR)
+set_PPUADDR = value => {
+  
+  // Latch 0: first write, set high byte of address and update Y scrolling
+  if(latch == 0){
+    
+    PPUADDR = value &lt;&lt; 8;
+    
+    // Update Y bits of scroll register T (00yyNNYY)
+    T_yyy = (value >> 4) & 0b11;   // only bits 1 and 2 of yyy are set. Bit 3 is corrupted to 0
+    T_NN = (value >> 2) & 0b11;
+    T_YYYYY = (value & 0b11) &lt;&lt; 3; // read the two high bits of YYYYY
+  } 
+  
+  // Latch 1: second write, set low byte of address and update X and Y scrolling
+  else {
+    
+    PPUADDR += value;
+    
+    // Update X and Y bits of scroll register T (YYYXXXXX)
+    T_YYYYY += (value >> 5); // read the three low bits of YYYYY
+    T_XXXXX = value & 0b11111;
+    
+    // Copy T in V, containing the scroll values to be used in the next scanline
+    V_yyy = T_yyy;
+    V_YYYYY = T_YYYYY;
+    V_XXXXX = T_XXXXX;
+    V_NN = T_NN;
+  }
+  
+  // Toggle latch
+  latch ^= 1;
+},
+
+// $2007h (read/write): VRAM Data Register (PPUDATA, an address must be set using PPUADDR before accessing this)
+
+// Write
+set_PPUDATA = value => {
+  ppu_write(PPUADDR, value);
+  PPUADDR += PPUCTRL_I ? 32 : 1; // increment address (1 or 32 depending on bit 2 of PPUCTRL)
+},
+
+// Read
+get_PPUDATA = () => {
+  
+  // PPUADDR between $0000 and $3EFF: buffered read
+  // Each read fills a 1-byte buffer and returns the value previously stored in that buffer
+  if(PPUADDR &lt;= 0x3F00){
+    t = PPUDATA_read_buffer;
+    PPUDATA_read_buffer = ppu_read(PPUADDR);
+  }
+  
+  // PPUADDR higher than $3EFF: direct read
+  else {
+    t = ppu_read(PPUADDR);
+  }
+  
+  PPUADDR += PPUCTRL_I === 1 ? 32 : 1; // increment address (1 or 32 depending on bit 2 of PPUCTRL)
+  return t;
+},
+
+// $4014: (write): copy a 256-byte page of CPU memory into the OAM memory (OAMDMA)
+set_OAMDMA = value => {
+  for(var i = OAMADDR; i &lt; 256; i++){
+    OAM[i] = cpu_mem[value * 0x100 + i];;
+  }
+  
+  // Consume 513 CPU cycles
+  // (or 514 cycles when the current CPU cycle is odd. Ignored here)
+  for(i = 0; i &lt; 513; i++){
+    cpu_tick();
+  }
+}</code></pre>
+</details>
 
 <p><b>Drawing the backgrounds</b>
 
-<p>The PPU can hold the equivalent of 4 screens full of backgrounds in its nametables (telling which tiles to draw) and attribute tables (telling which color palettes to use for each tile).
-<br>So I did like many emulators do: a VRAM visualizer (on a 512*480px canvas).
-<br>And when the VRAM was filled with the right data, I tried to render it as colored pixels.
+<p>The PPU can hold the equivalent of 4 screens full of backgrounds in VRAM
+<br>The nametables tell which tiles to draw, and the attribute tables tell which color subpalette to use for each tile.
+<br>To see if I implemented it correctly, I did like many emulators do: a VRAM visualizer (on a 512*480px canvas).
+<br>I waited for the VRAM to be filled with data, then I tried to render it as colored pixels:
 
-<p><img src="images/nes/vram.png" width=500>
+<p><img src="images/nes/vram.png" width=800>
 
-<p>The palettes and VRAM can be modified between two scanlines, that's why the screen (and the debug view) are nor rendered entirely but one line at the time, using this function:
+<p>The palettes and VRAM can be modified by the CPU between two scanlines, that's why the screen (and the debug view) are not rendered entirely but one line at the time, using this function:
 
 <details>
 <summary>Render a line of background</summary>
@@ -2140,15 +2368,27 @@ drawVramScanline = y => {
 </details>
 
 <p>It's important to note that the PPU only has enough memory for two nametables and attribute tables.
-<br>Each screen requires ONE kilobyte of VRAM, and they couldn't afford to have 4 of them in the NES. It gives an idea of how expensive the chips were back then!
-<br>Anyway, most games choose to mirror the two PPU screens horizontally (for vertical scrolling) or vertically (for horizontal scrolling).
-<br>Games like SMB3 or Kirby make a smart use of these limitations and manage to have both scrollings work at the same time, even if it causes a few glitches sometimes.
-<br>Though, a few games embark two extra KB of VRAM inside their GamePak and allow for true bidirectional scrolling!
+<br>Each screen requires ONE kilobyte of VRAM, and Nintendo couldn't afford to have 4 of them in the NES.
+<br>(It gives an idea of how expensive the RAM was back then!)
+<p>Anyway, most games choose to mirror the two PPU screens horizontally (for vertical scrolling) or vertically (for horizontal scrolling).
+<br>Some games are also able to switch between horizontal and vertical mirrorings at runtime.
+
+<p>For example, here's how the VRAM looks while DK and SMB title's screens are rendered (DK: horizontal mirroring, SMB: horizontal):
+<p><img src="images/nes/nes2.gif">
+
+<p>Games like SMB3 or Kirby's Adventure make a smart use of these limitations and manage to have both horizontal and vertical scrollings work at the same time with 2KB of VRAM, at the cost of a few palette glitches on one side of the screen.
+<p>Though, a few games embark two extra KB of VRAM inside their GamePak and allow for a "true" bidirectional scrolling!
 <br>I highly recommend watching this video about VRAM mirrorings and PPU scrolling, which explains everything perfectly:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wfrNnwJrujw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p><iframe style="width:560px" width="560" height="315" src="https://www.youtube.com/embed/wfrNnwJrujw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+<p><b>Scrolling, sprites and final image rendering</b>
 
+<p>TODO
+
+<p><b>Before / after</b>
+
+<p>TODO
 
 <br><br><hr><br>
 <h3>Golfing the APU</h3>
