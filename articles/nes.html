@@ -27,6 +27,7 @@
 <h3>Introduction</h3>
 <p>Hello!<br>
 Today I'm going to tell you how I'm creating the world's smallest NES emulator in JS, <a href="https://github.com/xem/jsnes-lite">jsnes-lite</a>.
+<br>(the kind of projects I do when I have way too much free time)
 <br>It's a highly detailed version of <a href="https://twitter.com/MaximeEuziere/status/1316455403274858501">this Twitter thread</a>.
 <p>In the previous years, I've made many attempts at creating my onw NES emulator from scratch:
 <br>I wrote an <a href="https://github.com/xem/nes/blob/gh-pages/cheat%20sheet.txt">emulation cheat-sheet</a> and built a <a href="https://xem.github.io/nes/">ROM decompiler and debugger</a>...
@@ -211,8 +212,8 @@ var currentSample = 0;</code></pre>
 <h3>How I will proceed</h3>
 
 <p>jsnes's 191KB source code is divided in <a href="https://github.com/bfirsh/jsnes/tree/master/src">10 files</a>:
-<p>- <b>controller.js</b> (27 lines, 548b) handles joypads by updating an array of 8 values when buttonDown(key) and buttonUp(key) are called.
-<br>- <b>cpu.js</b> (2024 lines, 52.7KB) has a reset() function and an emulate() function able to execute any of the CPU's 256 instructions & interrupts.
+<p>- <b>controller.js</b> (27 lines, 548b) emulates the joypads by updating an array of 8 values when buttonDown(key) and buttonUp(key) are called.
+<br>- <b>cpu.js</b> (2024 lines, 52.7KB) has a reset() and an emulate() function, able to execute any of the CPU's 256 instructions & interrupts.
 <br>- <b>mappers.js</b> (1518 lines, 37.5KB) handles reads / writes in CPU memory and communicates with the gamepak, controllers, PPU & APU.
 <br>It supports the gamepak formats (Mappers) 0-5, 7, 11, 34, 38, 66, 94, 140 and 180, for a total coverage of ~90% of all commercial games.
 <br>- <b>nes.js</b> (210 lines, 4.8KB) is the emulator's entry point. It exposes a constructor NES(), a reset() function and a frame() function.
@@ -255,6 +256,13 @@ var currentSample = 0;</code></pre>
 <br>- <a href="https://github.com/wwssllabcd/NesEmu">nesemu1</a> (C emulator 743 lines of code, 45KB commented, 97KB compiled with SDL)
 <br>- <a href="https://github.com/AndreaOrru/LaiNES">LaiNes</a> (C++ emulator in 1730 lines of code, 63KB commented, 198KB compiled with SDL2)
 <br>- <a href="https://problemkaputt.de/nes.htm">no$nes</a> (windows executable only, 340KB)
+
+<p><b>Golfing, minification and compression</b>
+<p>I'll write my code as legible and commented as possible, while trying to write the least possible amount of code.
+<br>Sometimes, the code I write could be shorter with some refactoring, but I'll avoid it if it doesn't improve gzip compression.
+<br>Then, I'll minify my code with <a href="https://try.terser.org/">Terser REPL</a> with the following settings: <b>{module: false, mangle: {toplevel: true}}</b>.
+<br>When I'll gather all my minified files into one, I'll golf them a bit further.
+<br>Finally, I'll gzip my minified code with the command <b>zopfli --gzip -i10000 min.js</b>.
 
 <br><br><hr><br>
 <h3>Golfing the rom loader</h3>
@@ -838,7 +846,10 @@ g = v => r(256 + (S = (255 & (S+1))))</code></pre>
   myopcode(targetAddress);                // execute the right operation for opcode n
 }</code></pre>
 
-<br>So I took the 10 main addressing modes, numbered them from 0 to 9, and made a 192b string representing which is used by each opcode.
+<p>We use functions instead of "eval" here because they're much faster to execute.
+<br>With these, we can match the CPU's frequency of 5.3 million cycles (about 2-3 million instructions) per <u>second</u>.
+
+<p>So I took the 10 main addressing modes, numbered them from 0 to 9, and made a 192b string representing which is used by each opcode.
 <br>The letter "Z" is a dummy character that indicates that the operand is either implicit or the Accumulator register (addressing modes 11/12).
 <br>A 13th addressing mode exists, but it's only used by a single opcode, so it will be implemented separately.
 
@@ -1607,7 +1618,7 @@ VRSVRS-zXVRSORSVRSWR VRS
 }</code></pre>
 </details>
 
-<p>I'd like to thank <b>@subzey</b> and <b>@James0x57</b> for helping me golfing this!
+<p>I'd like to thank <a href="//twitter.com/subzey">@subzey</a> and <a href="//twitter.com/James0x57">@James0x57</a> for helping me golfing this!
 <br>Subzey even made a tool that shuffles the lines of a text file to improve gzip compression: <a href="https://www.npmjs.com/package/dict-tempering">dict-tempering</a>, which saved me about 30 bytes.
 
 <p>Here's the code that generates a function for each instruction:
@@ -1702,7 +1713,10 @@ op = (v, z) => (
 
 <p>After golfing and minifying, all this code fits in 2288 bytes:
 
+<details open>
+<summary><b>6502.js, minified</b></summary>
 <pre><code class="lang-js">m=[A=X=Y=c=0];r=(d,b)=>m[c++,d%65536];w=(d,b)=>m[c++,d%65536]=b;F=(d,b)=>(Z=(d&=255)&lt;1,N=d>>7,d);f=(d,b)=>(C=d&1,Z=d>>1&1,I=d>>2&1,D=d>>3&1,B=d>>4&1,V=d>>6&1,N=d>>7);f(P=36);h=(d,b)=>(w(256+S--,d),S&=255);g=(d,b)=>r(256+(S=255&S+1));O=[...Array(255)].map((d,b)=>Function(`c--,PC++;a=a+p-256*(p>>7),PC++;a=r(p+X&255)+256*r(p+X+1&255),PC++,c++;a=r(p)+256*r(p+1&255)+Y,c+=a-Y>>8&lt;a>>8||o>>4==9,PC++;a=r(a)+X&255,PC++;a=r(a)+Y&255,PC++;a=p,PC++;a=p+256*r(PC+=2);t=p+256*r(PC+=2),c+=t>>8&lt;t+Y>>8||o>>4==9,a=t+Y;t=p+256*r(PC+=2),c+=t>>8&lt;t+X>>8||o>>4==9||o%16>13,a=t+X`.split`;`[`020666Z0Z77713Z444Z8Z999720666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999Z20666Z0Z77713Z444Z8Z999020666Z0Z77713Z445Z8Z998020666Z0Z77713Z445Z8Z998020666Z0Z77713Z444Z8Z999020666Z0Z77713Z444Z8Z999`[b-(b>>2)]]+`;`+`S=X;p=r(a),C=X-p>=0,F(X-p);p=r(a),C=Y-p>=0,F(Y-p);p=r(a),C=p>>7,w(a,F(2*p)),c++;C=A>>7,A=F(2*A+(1&P));p=r(a),C=p>>7,w(a,F(2*p+(1&P))),c++;C=1&A,A=F(A>>1);p=r(a),C=1&p,w(a,F(p>>1)),c++;X=F(X-1);p=r(a),F(p&A),N=p>>7&1,V=p>>6&1;C=1&A,A=F((A>>1)+128*(1&P));w(a,F(r(a)+1)),c++;X=F(X+1);Y=F(Y-1);Y=F(Y+1);Y=F(r(a));p=r(a),C=1&p,w(a,F((p>>1)+128*(1&P))),c++;C=0;I=1;D=0;I=0;A=F(r(a));A=F(r(a)&A);p=r(a),C=A-p>=0,F(A-p);p=r(a),t=A+C-1-p,V=!!(128&(A^p))&&!!(128&(A^t)),C=t>=0,A=F(t);p=r(a),t=A+C+p,V=!(128&(A^p))&&!!(128&(A^t)),C=t>255,A=F(t);C&&(c+=1+(a>>8!=PC+1>>8),PC=a);N&&(c+=1+(a>>8!=PC+1>>8),PC=a);Z&&(c+=1+(a>>8!=PC+1>>8),PC=a);N||(c+=1+(a>>8!=PC+1>>8),PC=a);V&&(c+=1+(a>>8!=PC+1>>8),PC=a);Z||(c+=1+(a>>8!=PC+1>>8),PC=a);V||(c+=1+(a>>8!=PC+1>>8),PC=a);X=F(r(a));A=F(r(a)^A);w(a,F((r(a)-1)&255)),c++;C=A>>7,A=F(2*A);h(PC>>8),h(255&PC),PC=a-1,c++;C=1;D=1;V=0;A=F(r(a)|A);h(A);h(P|16);A=F(g()),c++;f(g()&239),c++;f(g()),PC=g()+256*g()-1,c++;C||(c+=1+(a>>8!=PC+1>>8),PC=a);op(3,1);Y=F(A);w(a,A);w(a,X);X=F(S);X=F(A);w(a,Y);A=F(Y);A=F(X);PC=g()+256*g(c+=2);PC=a-1;PC=r(a)+256*r(a+1-256*((a&255)==255))-1`.split`;`[`PI#PI#KIDPI#=I#PI#1IDPI#E6%)6%M6$)6%;6%E6%F6%E6%NB'NB'JB&ZB'@B'NB'4B'NB'Y90Y90L9*[90>90Y90290Y90VRSVRS-zXVRSORSVRSWR VRS/5A/5AQ5U/5A:5A/5AH5T/5A"7C"7C.7("7C?7C"7C37C"7C!8+!8+,8z!8+&lt;8+!8+G8+!8+`[b-(b>>2)].charCodeAt()-32]));op=(d,b)=>(o=r(PC),p=r(a=PC+1),d?(2-d?(h(PC>>8),h(255&PC),h(b|239&P)):(S=S-3&255,c=6),I=1,PC=r(65528+2*d)+256*r(65528+2*d+1)):(O[o](),PC++),P=C+2*Z+4*I+8*D+16*B+32+64*V+128*N)</code></pre>
+</details>
 
 <p>After gzip (<b>zopfli --gzip -i1000000 6502.min.js</b>), it's down to only <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.gz">938 bytes</a>!
 <br>But if we do a regular "zip" file (that has a big overhead compared to gzip), it also fits just under 1KB: <a href="https://github.com/xem/mini6502/blob/gh-pages/6502.min.js.zip">1015 bytes</a>.
@@ -1711,7 +1725,7 @@ op = (v, z) => (
 <p>I made a 6502 CPU simulator in under one kilobyte.
 <br>In comparison, <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">jsnes's cpu</a> was 52.7KB barely commented, 27.5KB minified (12x bigger), and 4.7KB gzipped (5x bigger).
 
-<p>My CPU is available as a standalone project (with comments and tests) here: <a href="https://github.com/xem/mini6502">mini6502</a>
+<p>My CPU is available as a standalone project (with comments and tests) here: <a href="https://github.com/xem/mini6502">mini6502</a>.
 
 <p><b>Integration in the emulator</b>
 <p>This 6502 simulator works fine as a standalone file, but a few additions must be made to include it in the NES emulator:
@@ -1817,7 +1831,7 @@ emulate = () => {
 <p><img src="images/nes/2c02.png" width=300>
 
 <p><b>Presentation</b>
-<p>The graphics processor is another big chunk of complexity. Especially in JSNES, where the code is impossible to follow.
+<p>The graphics processor is another big chunk of complexity. Especially in JSNES, where the code is almost impossible to follow.
 <br>So I decided to rewrite it from scratch, and realized it was... not simple, but pretty straightforward:
 
 <p>- The 64KB memory contains two 4KB CHR-ROM pages, the VRAM (background memory), two 16-color palettes and a bunch of mirroring.
@@ -1848,7 +1862,7 @@ emulate = () => {
 <br>- 9 I/O registers in CPU memory allow to exchange data between the CPU and PPU, to control background layout/scrolling, palettes, etc.
 <br>- At each CPU cycle, the PPU performs 3 cycles, by rendering 3 dots (pixels) of the current frame (background + sprites).
 <br>- A frame measures 341*262px on NTSC (341*312 on PAL), but only the top-left 256*240px are visible on the TV screen. 
-<br>The rest is used to let the CPU and PPU compute what will be drawn at the next line the next frame.
+<br>The rest is used to let the CPU and PPU compute what will be drawn at the next line and the next frame.
 
 <p><pre style=width:500px><code class="lang-js">//         x=0                 x=256               x=340
 //      ---+-------------------+-------------------+
@@ -1865,7 +1879,7 @@ emulate = () => {
 //      ---+-------------------------------------+-+
 //  y=261  | pre-render scanline                 |<span style=color:red>*</span>|
 //  or -1 -+-------------------------------------+-+</code></pre>
-<i>(* the pre-render scanline has only 340 dots on odd frames when background rendering is enabled)</i>
+<!--i>(* the pre-render scanline has only 340 dots on odd frames when background rendering is enabled)</i-->
 
 <p><b>First goal: DK title screen</b>
 
@@ -1906,10 +1920,52 @@ emulate = () => {
 <br>I first tried to generate it procedurally... I was pretty happy with this one (203b gzipped):
 <p><img src="images/nes/formula.png" width=650>
 
-<p>Then I realized that a list of 64 "#RGB" values would compress much better (when it comes to compression, simpler is always better).
+<p>Then I realized that a list of 64 "RGB" values would compress much better (when it comes to compression, simpler is always better).
 <br>Moreover, hsl colors are much slower to parse for a JS canvas, and it would have been a performance issue.
 <br>So I ended up taking the palette from 3DS Virtual Console (my favourite) in #RRGGBB, converted it in #RGB by removing half of the characters, concatenated them in a string, and used <b>.match(/.../g)</b> to transform them into an array (191b gzipped):
 <p><img src="images/nes/rgb.png" width=500>
+
+<p><b>Using the color palette to render NES frames</b>
+<p>To reach good performance, pixels will be rendered on the JS canvas using an <b>imageData</b>, 60 times per second (50 for PAL games).
+<br>An imageData is filled with sequential RGBA 8-bit values, 4 per pixel (imageData.data = [R, G, B, A, R, G, B, A...]).
+<br>A (alpha) is always 255, to make all the pixels opaque. The other values represent the Red, Green and Blue channels of each pixel.
+<p>For simplicity, this imageData can be mapped to an </b>ArrayBuffer</a>, with a <b>Uint8Array</b> and an <b>Uint32Array</b> views:
+
+<p><pre><code class="lang-js">NES.frameCtx = options.frameCanvas.getContext("2d");
+NES.frameData = NES.frameCtx.getImageData(0, 0, 256, 240);
+NES.frameBuffer = new ArrayBuffer(NES.frameData.data.length); // 256 * 240 * 4
+NES.frameBuffer8 = new Uint8Array(NES.frameBuffer);
+NES.frameBuffer32 = new Uint32Array(NES.frameBuffer);</code></pre>
+
+<p>When a pixel is ready to be drawn on screen, its RGBA color is written inside the 32-bit framebuffer in one single write:
+
+<p><pre><code class="lang-js">NES.frameBuffer32[y * 256 + x] = color;</code></pre>
+
+<p>And when a frame is complete, it's rendered on the canvas by filling the imageData with the Uint8Array view:
+
+<p><pre><code class="lang-js">// Output frameBuffer on canvas
+NES.frameData.data.set(NES.frameBuffer8);
+NES.frameCtx.putImageData(NES.frameData, 0, 0);</code></pre>
+
+<p>There's one trap to tackle here: the <b>Uint32Array</b> stores 32-bit values in "little-endian".
+<br>In other words, the 4 bytes in each value are inverted: [ABGR, ABGR, ...]
+<br>And since each hexadecimal number represents 4 bits, a color in this view would be encoded as "0xAABBGGRR".
+<br>So the final palette I've put in ppu.js looks like this:
+
+<p><pre><code class="lang-js">// System palette
+// An array of 64 RGB colors, inspired by the 3DS VC palette, stored in AABBGGRR format.
+systemPalette = (
+  "777812a0090470810a00a007024040050130531000000000"+
+  "bbbe70e32f08b0b50e02d04c0780900a0390880111000000"+
+  "ffffb3f95f8af7fb7f67f39f3bf1d84d49f5de0333000000"+
+  "ffffeafdcfcdfcfdcfbbfadfaefafebfacfbff9888000000"
+)
+.match(/.../g)
+.map(c => +("0xFF" + c[0] + c[0] + c[1] + c[1] + c[2] + c[2]));</code></pre>
+
+<p>In the code above, all the colors are stored as "BGR" sequences, and transformed into strings of the form "0xFF<i>BBGGRR</i>" (0xFF = 255)
+<br>then the "+" automatically converts these "0xFF<i>BBGGRR</i>" hex strings into numbers ready to be copied in the framebuffer.
+<br>(The "+" acts a bit like <i>eval()</i> or <i>parseInt(n, 16)</i> here. <b>Subzey</b> taught me this trick during when we were golfing another <a href="http://xem.github.io/chip8/">micro emulator!</a>)
 
 <p><b>PPU Memory</b>
 
@@ -1943,7 +1999,7 @@ mirrorAddress = address => {
     
     address &= 0x3F1F;
 
-    // $3F10: mirror of $3F00 (universal background color)
+    // $3F10: mirror of $3F00
     if(address == 0x3F10) address = 0x3F00;
   }
   
@@ -1958,39 +2014,34 @@ mirrorAddress = address => {
     // 0: vertical mirroring:
     // - $2800-$2BFF is a mirror of $2000-$23FF
     // - $2C00-$2FFF is a mirror of $2400-$27FF
-    if(mirroring == 0){
-      address &= 0x37ff;
-    }
     
     // 1: horizontal mirroring:
     // - $2400-$27FF is a mirror of $2000-$23FF
     // - $2C00-$2FFF is a mirror of $2800-$2BFF
-    else if(mirroring == 1){
-      address &= 0x3bff;
-    }
     
     // 2: four-screen nametable
     // There's no mirroring in this case, the address is not modified
+    address &= (0x37ff + 0x400 * mirroring);
   }
   
   return address;
 },
 
-// Read a byte in from memory
+// Read a byte in memory
 ppu_read = address => {
+  
+  // $3F04, $3F08, $3F0C: replaced by $3F00 (universal background color) except during forced blanking
+  if((address & 0x3F03) == 0x3F00) address = 0x3F00;
   return PPU_mem[mirrorAddress(address)];
-},
+}
 
-// Write a byte in memory
-// todo: remove it if it's used once
-ppu_write = (address, value) => {
-  PPU_mem[mirrorAddress(address)] = value;
-}</code></pre>
+// PPU_write is not present because it would be used only once, in set_PPUDATA (see below).</code></pre>
 </details>
 
 <p><b>PPU I/O registers</b>
 
-<p>The 9 PPU registers allow the CPU to control if and how backgrounds and sprites are rendered, set scrolling, ask for the next frame, or read/write data in PPU memory or OAM.
+<p>The 9 PPU registers allow the CPU to control if and how backgrounds and sprites are rendered.
+<br>They can also set scrolling, ask for the next frame, or read/write data in PPU memory or OAM.
 <br>Sometimes a register contains many significant bitfields, represented here by saparate global variables.
 
 <details>
@@ -2051,13 +2102,13 @@ ppu_reset = () => {
 
 // $2000 (write): set PPU Control Register 1 (PPUCTRL)
 set_PPUCTRL = value => {
-  PPUCTRL_V = (value >> 7) & 1; // bit 7: trigger a NMI on VBlank
-                                // bit 6: ignored (external pin)
-  PPUCTRL_H = (value >> 5) & 1; // bit 5: sprite size (0: 8x8, 1: 8x16)
-  PPUCTRL_B = (value >> 4) & 1; // bit 4: background pattern table (0: $0000, 1: $1000)
-  PPUCTRL_S = (value >> 3) & 1; // bit 3: sprite pattern table (0: $0000, 1: $1000, ignored in 8x16 mode)
-  PPUCTRL_I = (value >> 2) & 1; // bit 2: VRAM address increment after reading from PPUDATA (0: 1, 1: 32)
-  T_NN = value & 0b11;          // bits 0-1: update nametable bits in scroll register T
+  PPUCTRL_V = (value >> 7) & 1;   // bit 7: trigger a NMI on VBlank
+  //PPUCTRL_P = (value >> 6) & 1  // bit 6: external pin controlling backdrop color (ignored here)
+  PPUCTRL_H = (value >> 5) & 1;   // bit 5: sprite size (0: 8x8, 1: 8x16)
+  PPUCTRL_B = (value >> 4) & 1;   // bit 4: background pattern table (0: $0000, 1: $1000)
+  PPUCTRL_S = (value >> 3) & 1;   // bit 3: sprite pattern table (0: $0000, 1: $1000, ignored in 8x16 mode)
+  PPUCTRL_I = (value >> 2) & 1;   // bit 2: VRAM address increment after reading from PPUDATA (0: 1, 1: 32)
+  T_NN = value & 0b11;            // bits 0-1: update nametable bits in scroll register T
 },
 
 // $2001 (write): set PPU Control Register 2 (PPUMASK)
@@ -2072,11 +2123,9 @@ set_PPUMASK = value => {
 
 // $2002 (read): get PPU Status Register (PPUSTATUS)
 get_PPUSTATUS = () => {
-  
-  // Update status
   t = cpu_mem[0x2002] = 
-    0                     // Bits 0-4: copy of last 5 bits written to a PPU register (can be ignored)
-    + (PPUSTATUS_O &lt;&lt; 5)  // Bit 5 (O): Sprite overflow (set during sprite evaluation if more than 8 sprites in next scanline, cleared at pre-render line, buggy on the NES)
+    // 0 +                // Bits 0-4: copy of last 5 bits written to a PPU register (can be ignored)
+    (PPUSTATUS_O &lt;&lt; 5)    // Bit 5 (O): Sprite overflow (set during sprite evaluation if more than 8 sprites in next scanline, cleared at pre-render line, buggy on the NES)
     + (PPUSTATUS_S &lt;&lt; 6)  // Bit 6 (S): Sprite 0 hit (set when an opaque pixel from sprite 0 overlaps an opaque pixel of the background if both displays are enabled, cleared at pre-render line)
     + (PPUSTATUS_V &lt;&lt; 7); // Bit 7 (V): VBlank (set at line 241, cleared after reading PPUSTATUS and at pre-render line)
   
@@ -2168,7 +2217,8 @@ set_PPUADDR = value => {
 
 // Write
 set_PPUDATA = value => {
-  ppu_write(PPUADDR, value);
+  // ppu_write(PPUADDR, value);
+  PPU_mem[mirrorAddress(PPUADDR)] = value;
   PPUADDR += PPUCTRL_I ? 32 : 1; // increment address (1 or 32 depending on bit 2 of PPUCTRL)
 },
 
@@ -2205,10 +2255,12 @@ set_OAMDMA = value => {
 }</code></pre>
 </details>
 
+<p>Note that all these functions are only called at a single place in the whole project, in <b>memory.js</b>. The final optimizations will streamline this.
+
 <p><b>Drawing the backgrounds</b>
 
 <p>The PPU can hold the equivalent of 4 screens full of backgrounds in VRAM
-<br>The nametables tell which tiles to draw, and the attribute tables tell which color subpalette to use for each tile.
+<br>The nametables tell which tiles to draw on each screen, and the attribute tables tell which color subpalette to use for each tile.
 <br>To see if I implemented it correctly, I did like many emulators do: a VRAM visualizer (on a 512*480px canvas).
 <br>I waited for the VRAM to be filled with data, then I tried to render it as colored pixels:
 
@@ -2271,7 +2323,7 @@ set_OAMDMA = value => {
 // The line number (y) is a value vetween 0 and 480
 drawVramScanline = y => {
   
-  var i, j, X, Y, nametable, bits, colors, pixel;
+  var i, j, X, Y, nametable, bits, pixel;
   
   // Reset pixel buffer
   vramPixelBuffer = [];
@@ -2280,7 +2332,7 @@ drawVramScanline = y => {
   Y = ~~(y/8); 
 
   // For each tile of the scanline (X tile coordinate between 0 and 64):
-  for(X = 0; X &lt; 64; X++){
+  for(X = 64; X--;){
     
     // Get the nametable address in PPU memory:
     // $2000-$23BF: top left screen
@@ -2297,8 +2349,8 @@ drawVramScanline = y => {
     // attributetable = nametable + 0x3C0;
     
     // Get the attribute byte for the group including the current tile:
-    // attribute_X = (X%32) >> 2; // 0-7
-    // attribute_Y = (Y%30) >> 2; // 0-7
+    // attribute_X = (X % 32) >> 2; // 0-7
+    // attribute_Y = (Y % 30) >> 2; // 0-7
     // attribute = ppu_read(attributetable + attribute_Y * 8 + attribute_X);
     
     // Get the attribute's 2-bit value for the current title:
@@ -2308,7 +2360,7 @@ drawVramScanline = y => {
     
     // Golfed here:
     bits = (
-      ppu_read(nametable + 0x3C0 + ((Y%30) >> 2) * 8 + ((X%32) >> 2))
+      ppu_read(nametable + 0x3C0 + ((Y % 30) >> 2) * 8 + ((X % 32) >> 2))
       >> 
       (
         4 * (((Y % 30) >> 1) & 1)
@@ -2321,13 +2373,13 @@ drawVramScanline = y => {
     // Background palette is stored at $3F00-$3F0F (16 colors, 4 subpalette of 4 colors)
     // The values stored in the palettes are indexes of the 64 system colors (systemPalette)
     // The first color of each subpalette is ignored (*), the value at $3F00 (universal background color) is used instead
-    // (*) during forced blanking (background & sprites disabled), if PPUADDR points to a subpalette's color 0, this color is used as universal background color (ignored here)
-    colors = [
-      systemPalette[PPU_mem[0x3F00]],                 // universal background color
-      systemPalette[PPU_mem[0x3F00 + bits * 4 + 1]],  // color 1 of current subpalette
-      systemPalette[PPU_mem[0x3F00 + bits * 4 + 2]],  // color 2 of current subpalette
-      systemPalette[PPU_mem[0x3F00 + bits * 4 + 3]],  // color 3 of current subpalette
-    ];
+    // (*) during forced blanking (background & sprites disabled), if PPUADDR points to a subpalette's color 0, this color is used as universal background color (TODO)
+    /*colors = [
+      systemPalette[ppu_read(0x3F00 + bits * 4)],  // universal background color
+      systemPalette[ppu_read(0x3F00 + bits * 4 + 1)],  // color 1 of current subpalette
+      systemPalette[ppu_read(0x3F00 + bits * 4 + 2)],  // color 2 of current subpalette
+      systemPalette[ppu_read(0x3F00 + bits * 4 + 3)],  // color 3 of current subpalette
+    ];*/
     
     // Get the tile's address:
     // The bit B of PPUCTRL tells if the tile's graphics are stored in the first or second CHR-ROM bank ($0000-$0FFF or $1000-$1FFF)
@@ -2341,7 +2393,7 @@ drawVramScanline = y => {
     
     // Let x and y be the coordinates of the pixels to draw inside the current tile (x = 0-7, y = 0-7)
     y %= 8;
-    for(x = 0; x &lt; 8; x++){
+    for(x = 8; x--;){
       
       // The current line of 8 pixels is encoded on 2 bytes:
       // byte1 = ppu_read(tile * 16 + y);
@@ -2355,20 +2407,20 @@ drawVramScanline = y => {
       // This buffer will be useful to render the sprites either in the front or behind the background tiles
       
       // Golfed here:
-      t = PPUCTRL_B * 0x1000 + ppu_read(nametable+(Y % 30) * 32 + (X % 32)) * 16 + y;
+      t = PPUCTRL_B * 0x1000 + ppu_read(nametable + (Y % 30) * 32 + (X % 32)) * 16 + y;
       if(pixel = ((ppu_read(t + 8) >> (7 - x)) & 1) * 2 + ((ppu_read(t) >> (7 - x)) & 1)){
-        vramPixelBuffer[X * 8 + x] = colors[pixel];
+        vramPixelBuffer[X * 8 + x] = systemPalette[ppu_read(0x3F00 + bits * 4 + pixel)];
       }
       
-      // Render the pixel on the VRAM visualizer
-      NES.vramBuffer32[(Y * 8 + y) * 512 + (X * 8 + x)] = colors[pixel];
+      // Debug: render the pixel on the VRAM visualizer
+      NES.vramBuffer32[(Y * 8 + y) * 512 + (X * 8 + x)] = systemPalette[ppu_read(0x3F00 + bits * 4 + pixel)];
     }
   }
 },</code></pre>
 </details>
 
-<p>It's important to note that the PPU only has enough memory for two nametables and attribute tables.
-<br>Each screen requires ONE kilobyte of VRAM, and Nintendo couldn't afford to have 4 of them in the NES.
+<p>It's important to note that the NES's PPU only has enough memory for two nametables and attribute tables.
+<br>Each screen (nametable + attributes) requires ONE kilobyte of VRAM, and Nintendo couldn't afford to have 4 of them in the NES.
 <br>(It gives an idea of how expensive the RAM was back then!)
 <p>Anyway, most games choose to mirror the two PPU screens horizontally (for vertical scrolling) or vertically (for horizontal scrolling).
 <br>Some games are also able to switch between horizontal and vertical mirrorings at runtime.
@@ -2376,15 +2428,303 @@ drawVramScanline = y => {
 <p>For example, here's how the VRAM looks while DK and SMB title's screens are rendered (DK: horizontal mirroring, SMB: horizontal):
 <p><img src="images/nes/nes2.gif">
 
-<p>Games like SMB3 or Kirby's Adventure make a smart use of these limitations and manage to have both horizontal and vertical scrollings work at the same time with 2KB of VRAM, at the cost of a few palette glitches on one side of the screen.
-<p>Though, a few games embark two extra KB of VRAM inside their GamePak and allow for a "true" bidirectional scrolling!
+<p>Games like SMB3 or Kirby's Adventure make a smart use of these limitations and manage to have both horizontal and vertical scrollings work with just 2KB of VRAM, at the cost of a few palette glitches on one side of the screen.
+<p>Though, a few games embark two extra KB of VRAM inside their GamePak and can use them to have a "true" bidirectional scrolling!
 <br>I highly recommend watching this video about VRAM mirrorings and PPU scrolling, which explains everything perfectly:
 
 <p><iframe style="width:560px" width="560" height="315" src="https://www.youtube.com/embed/wfrNnwJrujw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<p><b>Scrolling, sprites and final image rendering</b>
+<p><b>Sprites</b>
 
-<p>TODO
+<p>Sprites are decoded and rendered the same way as background tiles... mostly. The differences are that:
+<br>- sprites have a separate color palette
+<br>- they can have transparency (the first color of each subpalette is transparent, the other three can be set freely)
+<br>- they can be placed anywhere on the screen, with X/Y coordinates between 0 and 255. (so they're not visible in VRAM)
+<br>- They can overlap (sprite 0 is the frontmost one, sprite 1 is behind it, etc... and sprite 63 is the one at the back)
+<br>- Each sprite can be flipped horizontally and/or vertically
+<br>- Sprites can be 8*8px or 8*16px. In that case, two consecutive tiles are drawn on top of each other using the same properties
+<br>- No more than 8 sprites can be present at the same scanline (the same Y coordinate). All subsequent sprites are automatically hidden.
+
+<p><img src="images/nes/sprite.png">
+
+<p>Here for example, DK's pink star is a sprite, SMB's coin is a sprite, mario himself is made of 2 separate sprites,
+<br>and in Galaga, all the sprites are 8*16px (ships, weapons and background stars), and they're often flipped horizontally and/or vertically when the ships do manoeuvers, which is very convenient to test if sprite rendering is correctly implemented.
+
+<p>Besides that, sprites can overlap and each sprite can be drawn either in front of the background tiles or behind them.
+<br>As a result, a background tile can hide a part of a foreground sprite if it has a higher priority, and act as a clipping mask.
+<!--<br>(for example, SMB's mushroom coming out of a "?" block, Mario entering a pipe, or Excitebike's jauge are made with such clipping sprites)
+
+<p><img src="images/nes/spriteclip.png">-->
+
+<p>Finally, a feature called <b>Sprite 0 Hit</b> sets a flag as soon as an opaque pixel of sprite 0 overlaps an opaque pixel from the background.
+<br>This allows the program to do something when a certain scanline has been reached, usually differential scrolling.
+<br>For example, in SMB, the coin on top helps the program to separate the fixed hud and the scrolling stage below.
+
+<p>PS: some games like Excitebike have multiple scrolling breaks (the public, the track and the fixed HUD at the bottom).
+<br>Though, sprite 0 hit is only available once per frame.
+<br>So to perform this, the developers need to count CPU cycles precisely, to make the scroll break happen exactly at the line(s) they want.
+<br>As an emulator maker, it's a good game to test the CPU / PPU cycle accuracy!
+
+<p><i>TODO: talk about the weird sprite 0 in Excitebike when I figure it out...</i>
+
+<p><img src="images/nes/nes4b.gif">
+<p>More info about parallax scrolling on NES <a href="https://www.youtube.com/watch?v=wt73KPS_23w">in this great video</a>!
+
+
+<p><b>Scrolling</b>
+<p>Scrolling is quite a trap. At first, when you see the PPU I/O registers and see that there are values representing the target nametable, coarse X, coarse Y, fine X and fine Y, you may be tempted to guess that the obvious way to know the current scroll is:
+<p><pre><code class="lang-js">x_scroll = (nametable & 0b1) * 256 + coarseX * 8 + fineX;
+x_scroll = (nametable >> 1) * 240 + coarseY * 8 + fineY;</code></pre>
+
+<p>And in many games, it works perfectly fine!
+<br>I even made my VRAM debugger show the current scroll with a pink outline in real time using this.
+<br>However, it's not exactly how PPU scrolling works, and games like SMB (with a fixed HUD) show strange glitches because of that!
+
+<p><img src="images/nes/nes3.gif">
+
+<p>The correct way to compute scrolling is the following:
+
+<details>
+<summary>Scroll computation (super weird, don't ask questions, just implement it exactly like that or it won't work)</summary>
+<br>- There are two 15-bit scroll registers, V and T, each of them contains bits representing the nametable, coarse X, coarse Y and fine Y.
+<br>- A separate 3-bit register called w, contains the fine X value.
+<br>- When the PPUSCROLL register is set, it updates either V's coarse Y & fine Y (if latch = 0), or V's coarse X & w (if latch = 1).
+<br>- When the PPUADDR register is set, either it updates T's nametable, coarse Y (bits 3 & 4) and fine Y (bits 0 & 1) (if latch = 0),
+<br>or it updates T's coarse Y (bits 0-3), coarse X, and copies T into V (if latch = 1).
+<br>- After each scanlines is rendered, T's coarse X is copied in V's coarse X, bit 0 of T's nametable is copied into bit 0 of V's nametable,
+<br>and the final X scroll for the next scanline is equal to <b>(V_nametable & 0b1) * 256 + V_coarse_X * 8 + w</b>.
+<br>- At the end of each frame, T's coarse Y and fine Y are copied into V, bit 1 of T's nametable is copied into bit 1 of V's nametable,
+<br>and the final Y scroll for the following frame is equal to <b>(V_nametable >> 1) * 240 + V_coarse_y * 8 + V_fine_y</b>.
+</details>
+
+<p><b>Final image rendering</b>
+
+<p>The last thing to do is render the final frame on a canvas, including the background and the sprites, and using the right X and Y scrolling.
+<br>The frame is drawn pixel by pixel, line by line. 
+<br>When a scanline is completed (after 341 pixels, or dots), the next one starts,
+<br>and when the frame is completed (after 261 scanlines), it's displayed on the canvas and the next one starts.
+
+
+<details>
+<summary>Scanline rendering and frame management</summary>
+
+<pre><code class="lang-js">// Screen:
+// Backround rendering and sprite rendering can be enabled or disabled using bits b and s of PPUMASK
+// Background pixels are stored in a buffer using drawVramScanline()
+// Up to 64 sprites can be drawn on screen, either on the foreground or behind the background tiles
+// Sprites are drawn from front to back (sprite 0 to sprite 63) and can overlap
+// A background sprite can overlap a foreground sprite, in that case it behaves like a clipping mask (ex: SMB's mushroom coming out of a question block)
+// Sprites can measure 8*8px or 8*16px (if bit H of PPUCTRL is set)
+// If 8*16px sprites are enabled, two consecutive tiles from the CHR-ROM are drawn on screen (the first one on top, the second one on bottom) with the same palette
+// Contrary to background tiles:
+// - sprites tiles use a dedicated sprite color palette ($3F10-$3F1F), divided in 4 subpalettes
+// - the first color of each subpalette is always "transparent"
+// - sprites can be flipped horizontally and/or vertically
+// As soon as an opaque pixel of the sprite 0 overlaps an opaque pixel of the background, a "sprite 0 hit" is detected (bit S of PPUSTATUS is set)
+
+// Each sprite is encoded on 4 bytes in the OAM memory:
+// Byte 0: Y coordinate
+// Byte 1: 
+//  * 8x8 mode: tile index in current tile bank
+//  * 8x16 mode: bit 0 = tile bank / bits 1-7 = top tile index
+// Byte 2:
+//  * bits 0-1: palette (4-7)
+//  * bits 2-4: always 0
+//  * bit 5: priority (0: in front of the background, 1: behind the background)
+//  * bit 6: X flip
+//  * bit 7: Y flip
+// Byte 3: X coordinate
+
+// Render one final scanline on screen (background + sprites):
+// The scanline number (y) is a value vetween 0 and 240
+drawScanline = y => {
+  
+  var i, x, scanlineSprites, spriteScanlineAddress, bits, pixel;
+
+  // Find which sprites are present in the current scanline:
+  // Reset the list
+  scanlineSprites = [];
+  
+  // Loop on all the sprites
+  for(i = 0; i &lt; 64; i++){
+    
+    // If the current scanline is between the top of the sprite and its bottom (8px or 16px lower, depending on bit H of PPUCTRL)
+    if(y >= OAM[i * 4] && y &lt; OAM[i * 4] + (PPUCTRL_H ? 16 : 8)){
+      
+      // If more than 8 sprites are found, set overflow flag (bit 0 of PPUSTATUS) and stop checking
+      if(scanlineSprites.length == 8) {
+        PPUSTATUS_O = 1;
+        break;
+      }
+      
+      // Else, the sprite is visible in the current scanline. Add it to the list
+      scanlineSprites.push(i);
+    }
+  }
+  
+  // Draw the scanline's pixels:
+  for(x = 0; x &lt; 256; x++){
+    
+    // Draw background tiles if background rendering is enabled
+    // Use universal background color if no background tile is present
+    // X and Y scrolling are applied when fetching the pixels values inside vramBuffer32
+    if(PPUMASK_b){
+      NES.frameBuffer32[y * 256 + x] = vramPixelBuffer[(x + scroll_x) % 512] || systemPalette[ppu_read(mirrorAddress(0x3F00))];
+    }
+    
+    // Then, for each sprite from back to front:
+    for(i = scanlineSprites.length - 1; i >= 0; i--){
+      
+      // If this sprite is present at this pixel (if x is between the left column and right column of the sprite)
+      if(x >= OAM[scanlineSprites[i] * 4 + 3] && x &lt; OAM[scanlineSprites[i] * 4 + 3] + 8){
+        
+        // Retrieve the sprite's subpalette (bits 0-1 of byte 2 of sprite i in OAM memory)
+        bits = OAM[scanlineSprites[i] * 4 + 2] & 0b11;
+        /*colors = [
+          ,                                               // transparent
+          systemPalette[PPU_mem[0x3F10 + bits * 4 + 1]],  // color 1 of current subpalette
+          systemPalette[PPU_mem[0x3F10 + bits * 4 + 2]],  // color 2 of current subpalette
+          systemPalette[PPU_mem[0x3F10 + bits * 4 + 3]],  // color 3 of current subpalette
+        ];*/
+        
+        // Retrieve the address of the current sprite's scanline in CHR-ROM:
+        t = scanlineSprites[i] * 4;
+        o = OAM[t];
+        spriteScanlineAddress =
+        
+          // CHR-ROM bank
+          (
+            PPUCTRL_H
+            
+            // 8*16
+            ? (OAM[t + 1] & 1)
+            
+            // 8*8
+            : PPUCTRL_S
+          ) * 0x1000
+          
+          // Tile
+          + (OAM[t + 1] & (0xFF - PPUCTRL_H)) * 16
+          
+          // Scanline
+          + (OAM[t + 2] & 0b10000000
+            
+            // Y flip
+            ? (7 - y + o + 8 * ((y &lt; o + 8 && PPUCTRL_H) + PPUCTRL_H))
+
+            // No Y flip
+            : (8 + y - o - 8 * (y &lt; o + 8))
+          );
+
+        // Get pixel position within the sprite scanline
+        t = x - OAM[scanlineSprites[i] * 4 + 3];
+        
+        // Handle horizontal flip
+        o = (OAM[scanlineSprites[i] * 4 + 2] & 0b1000000) ? t : 7 - t;
+        
+        // Get current pixel value, and check if it's opaque (value: 1, 2 or 3)
+        if(pixel = ((ppu_read(spriteScanlineAddress + 8) >> o) & 1) * 2 + ((ppu_read(spriteScanlineAddress) >> o) & 1)){
+          
+          // If sprite rendering is enabled, draw it on the current frame
+          // But if priority bit is 1 and background rendering is enabled: let the background tile's pixel displayed on top if it's opaque
+          // Temp hack: don't show sprite 0 behind background if its priority bit is set
+          // (I don't know why yet, but if I don't do that, Excitebike shows a black sprite that shouldn't be there above the HUD)
+          if((!((OAM[scanlineSprites[i] * 4 + 2] & 0b100000) && (vramPixelBuffer[(x + scroll_x) % 512] || scanlineSprites[i] == 0)) && PPUMASK_s && PPUMASK_b)){
+            NES.frameBuffer32[y * 256 + x] = systemPalette[PPU_mem[0x3F10 + bits * 4 + pixel]];
+          }
+          
+          // Sprite 0 hit detection
+          if(scanlineSprites[i] === 0 && !PPUSTATUS_S && vramPixelBuffer[(x + scroll_x) % 512] && PPUMASK_s && PPUMASK_b){
+            PPUSTATUS_S = 1;
+          }
+        }
+      }
+    }
+  }
+},
+
+// Clock
+// -----
+
+// Clock one PPU cycle
+ppu_tick = () => {
+  
+  dot++;
+  
+  // The PPU renders one dot (one pixel) per cycle
+  // At the end of each scanline (341 dots), a new scanline starts
+  // The screen is complete when 240 scanlines are rendered
+  if(dot > 340){
+
+    dot = 0;
+    scanline++;
+    
+    // Update scroll
+    V_XXXXX = T_XXXXX;
+    V_NN = (V_NN & 0b10) + (T_NN & 0b01);
+    
+    // Visible scanlines (0-239)
+    if(scanline &lt; 240){
+      drawVramScanline(((scanline + scroll_y) % 480) + 240); // Debug
+      drawVramScanline((scanline + scroll_y) % 480);
+      drawScanline(scanline);
+      
+      // Update scroll
+      scroll_x = (V_NN & 0b1) * 256 + V_XXXXX * 8 + xxx;
+      
+      // Debug
+      NES.vramCtx.fillStyle = "pink";
+      NES.vramCtx.rect(scroll_x - 2, (scanline + scroll_y - 2) % 480, (scanline == 0 || scanline == 239) ? 256 : 4, 4);
+      NES.vramCtx.rect((scroll_x - 2 + 256) % 512, (scanline + scroll_y - 2) % 480, 4, 4);
+    }
+    
+    // VBlank starts at scanline 241 (a NMI interrupt is triggered, and the frame is displayed on the canvas)
+    else if(scanline == 240){
+      
+      // VBlank flag
+      PPUSTATUS_V = 1;
+      
+      // Send NMI interrupt to the CPU
+      interrupt_requested = 1;
+      
+      // Output frameBuffer on canvas
+      NES.frameData.data.set(NES.frameBuffer8);
+      NES.frameCtx.putImageData(NES.frameData, 0, 0);
+    
+      // Debug (VRAM view)
+      NES.vramData.data.set(NES.vramBuffer8);
+      NES.vramCtx.putImageData(NES.vramData, 0, 0);
+      if(PPUMASK_b){
+        NES.vramCtx.fill();
+      }
+    }
+    
+    // VBlank ends at the pre-render scanline, and PPUSTATUS is reset
+    else if(scanline == 260){
+      PPUSTATUS_O =
+      PPUSTATUS_S =
+      PPUSTATUS_V = 0;
+    }
+    
+    // When the pre-render scanline is completed, a new frame starts
+    else if(scanline == 261){
+      scanline = -1;
+      endFrame = 1;
+      
+      // Update scroll
+      V_YYYYY = T_YYYYY;
+      V_yyy = T_yyy;
+      V_NN = (V_NN & 0b01) + (T_NN & 0b10);
+      scroll_y = (V_NN >> 1) * 240 + V_YYYYY * 8 + V_yyy;
+    }
+  }
+}</code></pre>
+</details>
+
+
+<p>Fast forwarding a few implementation details visible in the commented source code, everything seems to work great so far!
+<br>And it's a great pleasure and pride to see complex games like SMB run perfectly with some JS code that I wrote (or rewrote) entirely myself.
+<p><img src="images/nes/nes11.gif">
 
 <p><b>Before / after</b>
 
