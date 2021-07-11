@@ -38,7 +38,7 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 <br>but unfortunately, all the preparation and all the docs I could read (<a href="http://wiki.nesdev.com/w/index.php/NES_reference_guide">NESdev</a>, <a href="http://problemkaputt.de/everynes.htm">NO$NES</a>) weren't enough to boot a single game.
 <br>The actual CPU and graphics emulation were just too tricky for me.
 <p>So I decided to try a different approach: fork an existing (and functional) NES emulator in JS, and golf it down to just a few kilobytes.
-<p>After some research, I chose the most popular one, <a href="//github.com/bfirsh/jsnes">jsnes</a>, which is already quite large:
+<p>After some research, I chose the most popular one, <a href="//github.com/bfirsh/jsnes">JSNES</a>, which is already quite large:
 <br>- 5411 lines of code
 <br>- 191KB commented
 <br>- 99.92KB minified
@@ -68,12 +68,12 @@ Today I'm going to tell you how I'm creating the world's smallest NES emulator i
 
 <p>Let's start with the elephant in the room: the UI. What does <b>jsnes-web</b> do to weigh almost 100KB? Not so many things actually:
 <br>- Initialize a 2D canvas and an AudioContext, with their framebuffers and audio buffers
-<br>- Start the jsnes emulator
-<br>- Load a ROM file and hand it to jsnes's ROM manager
+<br>- Start the JSNES emulator
+<br>- Load a ROM file and hand it to JSNES's ROM manager
 <br>- Render the frames and play the sound samples returned by the emulator, 60 times per second
-<br>- Listen to keyboard inputs and hand them to jsnes's control manager
+<br>- Listen to keyboard inputs and hand them to JSNES's control manager
 
-<p>So I created a standalone HTML page that did all that in Vanilla JavaScript, while respecting jsnes's API:
+<p>So I created a standalone HTML page that did all that in Vanilla JavaScript, while respecting JSNES's API:
 
 <p><details>
 <summary><b>HTML setup</b> (3 lines)</summary>
@@ -187,11 +187,11 @@ var currentSample = 0;</code></pre>
 &lt;script src=jsnes.min.js>&lt;/script>
 &lt;script>e=c.getContext`2d`,o=e.getImageData(0,0,256,240),n=new ArrayBuffer(o.data.length),t=new Uint8ClampedArray(n),r=new Uint32Array(n),l=new AudioContext,s=l.createScriptProcessor(512,0,2),s.connect(l.destination),s.onaudioprocess=e=>{if(a.length>C+512)for(var n=0;n&lt;512;n++)e.outputBuffer.getChannelData(0)[n]=a[C],e.outputBuffer.getChannelData(1)[n]=T[C],C++},a=[],T=[],C=0,f.onchange=()=>{n=new FileReader,n.readAsBinaryString(f.files[0]),n.onload=()=>{f.remove(),N=new jsnes.NES({onFrame:n=>{for(l=0,s=0;s&lt;256;++s)for(A=0;A&lt;240;++A)r[l=256*s+A]=0xff000000|n[l];o.data.set(t),e.putImageData(o,0,0)},onAudioSample:(e,n)=>{a.push(e),T.push(n)},sampleRate:44100}),N.loadROM(n.result),setInterval(N.frame,16),onkeydown=onkeyup=e=>{N[e.type[5]?"buttonDown":"buttonUp"](1,jsnes.Controller[`BUTTON_`+{37:`LEFT`,38:`UP`,39:`RIGHT`,40:`DOWN`,88:`A`,67:`B`,`SELECT`,13:`START`}[e.keyCode]])}}}&lt;/script></code></pre>
 
-<br>In other words, 140 times smaller than the original, and still fully compatible with jsnes.
-<br>(A lot of that size is actually used to respect jsnes's API, so it'll be even smaller in my final version of jsnes-lite.)
+<br>In other words, 140 times smaller than the original, and still fully compatible with JSNES.
+<br>(A lot of that size is actually used to respect JSNES's API, so it'll be even smaller in my final version of jsnes-lite.)
 
 <p>Here's my fork of jsnes-web: <a href="https://github.com/xem/jsnes-web">Github repo</a> / <a href="https://xem.github.io/jsnes-web/index.min.html">Demo</a>.
-<br>The author of jsnes found it <a href="https://github.com/bfirsh/jsnes-web/pull/300">neat</a>!
+<br>The author of JSNES found it <a href="https://github.com/bfirsh/jsnes-web/pull/300">neat</a>!
 
 <br><br><hr><br>
 
@@ -211,7 +211,7 @@ var currentSample = 0;</code></pre>
 <br><br><hr><br>
 <h3>How I will proceed</h3>
 
-<p>jsnes's 191KB source code is divided in <a href="https://github.com/bfirsh/jsnes/tree/master/src">10 files</a>:
+<p>JSNES's 191KB source code is divided in <a href="https://github.com/bfirsh/jsnes/tree/master/src">10 files</a>:
 <p>- <b>controller.js</b> (27 lines, 548b) emulates the joypads by updating an array of 8 values when buttonDown(key) and buttonUp(key) are called.
 <br>- <b>cpu.js</b> (2024 lines, 52.7KB) has a reset() and an emulate() function, able to execute any of the CPU's 256 instructions & interrupts.
 <br>- <b>mappers.js</b> (1518 lines, 37.5KB) handles reads / writes in CPU memory and communicates with the gamepak, controllers, PPU & APU.
@@ -233,7 +233,7 @@ var currentSample = 0;</code></pre>
 <p><b>First steps</b>
 <p>So after forking it and taking a few days to clean up a bunch of useless code and trying to make sense of the rest by reading some documentation online, I could finally start taking all these files one by one and rewriting them the way I want: clean, readable, commented, functional, accurate, fast, and as short as possible after minification. That's what I'll explain in the next chapters.
 
-<p>For simplicity, I'll get rid of all the JS modules, Objects and prototypes present in jsnes. All the variables and functions will be "global".
+<p>For simplicity, I'll get rid of all the JS modules, Objects and prototypes present in JSNES. All the variables and functions will be "global".
 <br>Though, I know that some people tend to find that quite dirty, so I'll also provide a version where everything will be contained in a self-executing function, with no global leaks.
 
 <p><b>The scope</b>
@@ -252,7 +252,7 @@ var currentSample = 0;</code></pre>
 
 <p>But who are my concurrents anyway? Here's my top 5:
 <p>- <a href="https://github.com/takahirox/nes-js">nes-js</a> (JS emulator, standalone version: 3744 lines of code, 81KB minified, 16KB zipped)
-<br>- <a href="https://github.com/bfirsh/jsnes">jsnes</a> (the most popular JS emulator, 5411 lines of code, 99.9KB minified, 21KB zipped)
+<br>- <a href="https://github.com/bfirsh/jsnes">JSNES</a> (the most popular JS emulator, 5411 lines of code, 99.9KB minified, 21KB zipped)
 <br>- <a href="https://github.com/wwssllabcd/NesEmu">nesemu1</a> (C emulator 743 lines of code, 45KB commented, 97KB compiled with SDL)
 <br>- <a href="https://github.com/AndreaOrru/LaiNES">LaiNes</a> (C++ emulator in 1730 lines of code, 63KB commented, 198KB compiled with SDL2)
 <br>- <a href="https://problemkaputt.de/nes.htm">no$nes</a> (windows executable only, 340KB)
@@ -419,7 +419,7 @@ copy_array=(r,o,_)=>{for(var m=0;m&lt;r.length;m++)o[_+m]=r[m]}</code></pre>
 <br>The PPU can do it fast enough at runtime, and in the case of editable CHR-RAM banks, it HAS to do it on runtime anyways, so it's fine.
 
 <p><b>Before / after</b>
-<p>In jsnes, the rom parsing and Mapper 0 handling represent:
+<p>In JSNES, the rom parsing and Mapper 0 handling represent:
 <br>- 605 lines of code
 <br>- 18.2KB commented
 <br>- 9.8KB minified
@@ -645,7 +645,7 @@ memory_write = (address, value) => {
 <p>- <a href="https://www.masswerk.at/6502/6502_instruction_set.html">masswerk doc</a>, detailing the cycles and flags used by each instruction,
 <br>- <a href="https://wiki.nesdev.com/w/index.php/CPU">Nesdev</a>, explaining all the rest,
 <br>- <a href="https://github.com/6502/js6502/blob/master/6502.js">6502.js</a>, a standalone JS simulator (13KB minified, 3.6KB zipped),
-<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">jsnes's cpu.js</a>, of course (27KB minified, 4.7KB zipped),
+<br>- <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">JSNES's cpu.js</a>, of course (27KB minified, 4.7KB zipped),
 <br>- <a href="https://bisqwit.iki.fi/jutut/kuvat/programming_examples/nesemu1/nesemu1.cc">nesemu1</a>, a NES emulator in C specifically aiming for a small size. It encodes all the instructions in just 56 lines and 1054b zipped (the whole CPU takes about 2.5KB zipped).
 
 <p><b>Analysis and improvement of nesemu1's encoding</b>
@@ -1723,7 +1723,7 @@ op = (v, z) => (
 
 <p><b>Mission complete!</b>
 <p>I made a 6502 CPU simulator in under one kilobyte.
-<br>In comparison, <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">jsnes's cpu</a> was 52.7KB barely commented, 27.5KB minified (12x bigger), and 4.7KB gzipped (5x bigger).
+<br>In comparison, <a href="https://github.com/bfirsh/jsnes/blob/master/src/cpu.js">JSNES's cpu</a> was 52.7KB barely commented, 27.5KB minified (12x bigger), and 4.7KB gzipped (5x bigger).
 
 <p>My CPU is available as a standalone project (with comments and tests) here: <a href="https://github.com/xem/mini6502">mini6502</a>.
 
@@ -1810,7 +1810,7 @@ emulate = () => {
 
 <p><b>Before / after</b>
 
-<p>Jsnes's cpu has:
+<p>JSNES's cpu has:
 <br>- 1362 lines of code
 <br>- 52.7KB commented
 <br>- 27.5KB minified
@@ -1822,8 +1822,8 @@ emulate = () => {
 <br>- 2.4KB minified
 <br>- 1043b gzipped
 
-<p>And contrary to jsnes's cpu, this one is 100% cycle-accurate and emulates correctly all the addressing modes and hardware bugs.
-<br>My emulator also allows to load a new rom while another one is running, which was buggy in jsnes.
+<p>And contrary to JSNES's cpu, this one is 100% cycle-accurate and emulates correctly all the addressing modes and hardware bugs.
+<br>My emulator also allows to load a new rom while another one is running, which was buggy in JSNES.
 
 <br><br><hr><br>
 <h3>Golfing the PPU</h3>
@@ -2723,12 +2723,29 @@ ppu_tick = () => {
 
 
 <p>Fast forwarding a few implementation details visible in the commented source code, everything seems to work great so far!
-<br>And it's a great pleasure and pride to see complex games like SMB run perfectly with some JS code that I wrote (or rewrote) entirely myself.
+<br>For the record, the tile banks, VRAM, palettes and OAM can be swapped or edited between frames or mid-frame to create animations or other visual effects.
+<br>Anyway, it's a great pleasure and pride to see complex games like SMB run perfectly with a JS CPU and PPU that I wrote (or rewrote) entirely myself.
 <p><img src="images/nes/nes11.gif">
 
 <p><b>Before / after</b>
 
-<p>TODO
+<p>JSNES's PPU:
+<br>- 1344 lines of code
+<br>- 48.8KB commented
+<br>- 23.7KB minified
+<br>- 5.5KB gzipped
+
+<p>My PPU:
+<br>- 281 lines of code
+<br>- 28.8KB commented
+<br>- 2.02KB minified
+<br>- 1324b gzipped (1216b without VRAM debugger)
+
+<details open>
+<summary>PPU.js, minified</summary>
+
+<pre><code class="lang-js">systemPalette="777812a0090470810a00a007024040050130531000000000bbbe70e32f08b0b50e02d04c0780900a0390880111000000ffffb3f95f8af7fb7f67f39f3bf1d84d49f5de0333000000ffffeafdcfcdfcfdcfbbfadfaefafebfacfbff9888000000".match(/.../g).map((P=>+("0xff"+P[0]+P[0]+P[1]+P[1]+P[2]+P[2]))),ppu_reset=()=>{PPU_mem=[],OAM=[],scanline=dot=V_yyy=V_NN=V_YYYYY=V_XXXXX=T_yyy=T_NN=T_YYYYY=T_XXXXX=xxx=scroll_x=scroll_y=PPUSTATUS_O=PPUSTATUS_S=PPUSTATUS_V=latch=0,set_PPUCTRL(0),set_PPUMASK(0)},mirrorAddress=P=>((P&=16383)>16127?16144==(P&=16159)&&(P=16128):P>12287?P-=4096:P>8191&&(P&=14335+1024*mirroring),P),ppu_read=P=>(16128==(65523&P)&&(P=16128),PPU_mem[mirrorAddress(P)]),set_PPUCTRL=P=>{PPUCTRL_V=P>>7&1,PPUCTRL_H=P>>5&1,PPUCTRL_B=P>>4&1,PPUCTRL_S=P>>3&1,PPUCTRL_I=P>>2&1,T_NN=3&P},set_PPUMASK=P=>{PPUMASK_s=P>>4&1,PPUMASK_b=P>>3&1},get_PPUSTATUS=()=>(t=cpu_mem[8194]=(PPUSTATUS_O&lt;&lt;5)+(PPUSTATUS_S&lt;&lt;6)+(PPUSTATUS_V&lt;&lt;7),latch=0,PPUSTATUS_V=0,t),set_OAMADDR=P=>{OAMADDR=P},get_OAMDATA=()=>OAM[OAMADDR],set_OAMDATA=P=>{OAM[OAMADDR]=P,OAMADDR++,OAMADDR%=256},set_PPUSCROLL=P=>{latch?(T_YYYYY=P>>3,T_yyy=7&P):(T_XXXXX=P>>3,xxx=7&P),latch^=1},set_PPUADDR=P=>{latch?(PPUADDR+=P,V_yyy=T_yyy,V_YYYYY=T_YYYYY+=P>>5,V_XXXXX=T_XXXXX=31&P,V_NN=T_NN):(PPUADDR=P&lt;&lt;8,T_yyy=P>>4&3,T_NN=P>>2&3,T_YYYYY=(3&P)&lt;&lt;3),latch^=1},set_PPUDATA=P=>{PPU_mem[mirrorAddress(PPUADDR)]=P,PPUADDR+=PPUCTRL_I?32:1},get_PPUDATA=()=>(PPUADDR&lt;=16128?(t=PPUDATA_read_buffer,PPUDATA_read_buffer=ppu_read(PPUADDR)):t=ppu_read(PPUADDR),PPUADDR+=1===PPUCTRL_I?32:1,t),set_OAMDMA=P=>{for(var _=OAMADDR;_&lt;256;_++)OAM[_]=cpu_mem[256*P+_];for(_=0;_&lt;513;_++)cpu_tick()},drawVramScanline=P=>{var _,e,r,a,A;for(vramPixelBuffer=[],e=~~(P/8),_=64;_--;)for(a=ppu_read((r=8192+2048*(e>29)+1024*(_>31))+960+8*(e%30>>2)+(_%32>>2))>>4*(e%30>>1&1)+2*(_%32>>1&1)&3,P%=8,x=8;x--;)t=4096*PPUCTRL_B+16*ppu_read(r+e%30*32+_%32)+P,(A=2*(ppu_read(t+8)>>7-x&1)+(ppu_read(t)>>7-x&1))&&(vramPixelBuffer[8*_+x]=systemPalette[ppu_read(16128+4*a+A)]),NES.vramBuffer32[512*(8*e+P)+(8*_+x)]=systemPalette[ppu_read(16128+4*a+A)]},drawScanline=P=>{var _,e,r,a,A,U;for(r=[],_=0;_&lt;64;_++)if(P>=OAM[4*_]&&P&lt;OAM[4*_]+(PPUCTRL_H?16:8)){if(8==r.length){PPUSTATUS_O=1;break}r.push(_)}for(e=0;e&lt;256;e++)for(PPUMASK_b&&(NES.frameBuffer32[256*P+e]=vramPixelBuffer[(e+scroll_x)%512]||systemPalette[ppu_read(mirrorAddress(16128))]),_=r.length-1;_>=0;_--)e>=OAM[4*r[_]+3]&&e&lt;OAM[4*r[_]+3]+8&&(A=3&OAM[4*r[_]+2],t=4*r[_],o=OAM[t],a=4096*(PPUCTRL_H?1&OAM[t+1]:PPUCTRL_S)+16*(OAM[t+1]&255-PPUCTRL_H)+(128&OAM[t+2]?7-P+o+8*((P&lt;o+8&&PPUCTRL_H)+PPUCTRL_H):8+P-o-8*(P&lt;o+8)),t=e-OAM[4*r[_]+3],o=64&OAM[4*r[_]+2]?t:7-t,(U=2*(ppu_read(a+8)>>o&1)+(ppu_read(a)>>o&1))&&(32&OAM[4*r[_]+2]&&(vramPixelBuffer[(e+scroll_x)%512]||0==r[_])||!PPUMASK_s||!PPUMASK_b||(NES.frameBuffer32[256*P+e]=systemPalette[PPU_mem[16144+4*A+U]]),0===r[_]&&!PPUSTATUS_S&&vramPixelBuffer[(e+scroll_x)%512]&&PPUMASK_s&&PPUMASK_b&&(PPUSTATUS_S=1)))},ppu_tick=()=>{++dot>340&&(dot=0,scanline++,V_XXXXX=T_XXXXX,V_NN=(2&V_NN)+(1&T_NN),scanline&lt;240?(drawVramScanline((scanline+scroll_y)%480+240),drawVramScanline((scanline+scroll_y)%480),drawScanline(scanline),scroll_x=256*(1&V_NN)+8*V_XXXXX+xxx,NES.vramCtx.fillStyle="pink",NES.vramCtx.rect(scroll_x-2,(scanline+scroll_y-2)%480,0==scanline||239==scanline?256:4,4),NES.vramCtx.rect((scroll_x-2+256)%512,(scanline+scroll_y-2)%480,4,4)):240==scanline?(PPUSTATUS_V=1,interrupt_requested=1,NES.frameData.data.set(NES.frameBuffer8),NES.frameCtx.putImageData(NES.frameData,0,0),NES.vramData.data.set(NES.vramBuffer8),NES.vramCtx.putImageData(NES.vramData,0,0),PPUMASK_b&&NES.vramCtx.fill()):260==scanline?PPUSTATUS_O=PPUSTATUS_S=PPUSTATUS_V=0:261==scanline&&(scanline=-1,endFrame=1,scroll_y=240*((V_NN=(1&V_NN)+(2&T_NN))>>1)+8*(V_YYYYY=T_YYYYY)+(V_yyy=T_yyy)))}</code></pre>
+</details>
 
 <br><br><hr><br>
 <h3>Golfing the APU</h3>
