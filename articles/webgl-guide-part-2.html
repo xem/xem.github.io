@@ -46,6 +46,7 @@ summary { cursor: pointer }
 .toc li { line-height: 15px; }
 .toc p { line-height: 13px; }
 .demo { background: url('images/new_window.svg') no-repeat 10px center #def; padding: 10px 10px 10px 40px; border-radius: 5px; border: 2px solid #456; color: #000 }
+pre a { color: #abf }
 
 </style>
 
@@ -104,10 +105,9 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <p><b>Advanced display</b>
 <ul>
 <li><a href="#4a" target="_self">Fog</a> <!-- 1 demo -->
-<li><a href="#4b" target="_self">HUD</a>
-<li><a href="#4c" target="_self">Text</a> <!-- 1 demo -->
-<li><a href="#4d" target="_self">Particles</a>
-<li><a href="#4e" target="_self">Multiple passes and post-processing</a>
+<li><a href="#4b" target="_self">Text</a> <!-- 1 demo -->
+<li><a href="#4c" target="_self">Particles</a>
+<li><a href="#4d" target="_self">Multiple passes and post-processing</a>
 </ul>
 
 <p><b>Load external 3D models</b>
@@ -562,13 +562,234 @@ cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN
 <h2>Advanced display</h2>
 <br><hr><br>
 
-<p>todo
+<h4 id="4a">Fog</h4>
+
+<p>(todo)
+
+<br><br><hr><br>
+<h4 id="4b">Text</h4>
+
+<p>WebGL can't display text natively on screen.
+<br>We have to cheat a little if we want to display text in our scene...
+
+<p><b>1) Superpose a HTML div over the WebGL canvas</b>
+
+<p>This approach is recommended if you want to display fixed informations on top of the scene (like a game's HUD).
+<br>However, if you want to align the text to a specific point in the scene (like a vertex), the div's position can be computed in JavaScript.
+<br>Some examples are available on <a href="https://webglfundamentals.org/webgl/lessons/webgl-text-html.html">Webglfundamentals</a>.
+
+<p><table style="border: 1px solid;width:750px"><tr>
+<td style="width:450px">
+<pre class="language-html"><code>&lt;canvas id="canvas" width=400 height=400>&lt;/canvas>
+&lt;div id="text">Hello World&lt;/div>
+&lt;style>
+#text {
+  font-size: 30px;
+  font-family: arial;
+  color: #fff;
+  text-shadow: 0 0 2px 2px #000;
+  position: absolute;
+  top: 250px;
+  left: 130px;
+}
+&lt;/style></code></pre>
+<td style="width:300px"><a href="../../webgl-guide/editor/?demo=7/text-html"><img src="images/webgl-guide/text-html.png" width=290></a>
+</table>
+
+
+<br>
+<p><b>2) Place text inside the scene</b>
+<p>In order to have text appear in the scene and be translated, rotated, scaled, overlap or be overlapped by other elements, it needs to be put into a texture, and applied on a polygon.
+<br>To do that, you can either create a texture with all the alphabet and make WebGL draw the text letter by letter, or simply draw the text on an image or a 2D canvas and use it as a texture:
+
+<p><table style="border: 1px solid; width: 1000px"><tr>
+<td style="width:700px">
+<pre class="language-html"><code>&lt;canvas id="canvas2d" width=256 height=256 hidden>&lt;/canvas>
+&lt;script>
+// 2D canvas context
+var ctx = canvas2d.getContext("2d");
+
+// Render text
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, 0, 256, 256);
+ctx.fillStyle = "#00F";
+ctx.font = "30px Arial";
+ctx.fillText("Hello WebGL", 30, 200);
+
+// ...
+
+// Set a 2D texture
+var sampler = gl.getUniformLocation(program, 'sampler');
+var texture = gl.createTexture();
+gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+gl.bindTexture(gl.TEXTURE_2D, texture);
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas2d);
+
+// ...
+
+gl.drawArrays(gl.TRIANGLE_STRIP, 0, n); // Draw the quad
+
+&lt;/script></code></pre>
+<td style="width:300px"><a href="../../webgl-guide/editor/?demo=7/text-canvas"><img src="images/webgl-guide/text-canvas.png" width=290></a>
+(click for full demo)
+</table>
+
+<br>
+<p>NB: other approaches are available on <a href="https://css-tricks.com/techniques-for-rendering-text-with-webgl/">CSS-tricks</a>.
+
+<br><br><hr><br>
+<h4 id="4c">Particles</h4>
+
+<p>(todo)
+
+<br><br><hr><br>
+<h4 id="4d">Multiple passes and post-processing</h4>
+
+<p>(todo)
 
 <br><br><hr><br>
 <h2>Load external 3D models</h2>
 <br><hr><br>
 
-<p>todo
+<h4 id=5a>.obj / .mtl files</h4>
+
+<br><br><img src="images/webgl-guide/objmtl.gif" width=400>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">Wavefront OBJ</a> is a popular and simple 3D model file format, it contains text and can be exported by free tools like Blender.
+<li>It contains the definitions of vertices, vertex normals, texture UV coordinates for each vertex, and faces organized in objects and groups.
+<li>A companion MTL file is used to define the material properties of each object or group (color, opacity, texture, ...).
+<li>Below are described the most important features of these file formats, and all the traps and tricks I found while writing my own parser.
+</ul>
+<p>OBJ file content:
+<pre style="max-height:none" class="language-js"><b># List of geometric vertices (x, y, z, [w], [r], [g], [b]).
+# w is optional and defaults to 1.0. r,g,b are optional and their values are between 0 and 1.
+# Some 3D softwares export the vertices RGB colors after the x/y/z or x/y/z/w coordinates,
+# so if a line contains 6 floats, it's x/y/z/r/g/b. If it contains 7, it's x/y/z/w/r/g/b.
+# Note that this is the only way to declare colors per-vertex, since materials can only be applied to entire polygons.
+# It's not guaranteed that all the lines have the same number of arguments.
+# Sometimes, due to exporting errors, all the vertices are offseted (ex: the object is placed too high and every Y value is > 10).
+# Depending on your needs, it may be interesting to bring the first vertex back to [0,0,0] and offset all the other vertices accordingly.</b>
+v 0.123 0.234 0.345
+v 0.123 0.234 0.345 1.0
+v 0.123 0.234 0.345 0.456 0.567 0.678
+v 0.123 0.234 0.345 1.0 0.456 0.567 0.678
+v ...
+
+<b># List of texture coordinates (u, [v], [w]), between 0 and 1. v and w are optional and default to 0.
+# v is usually set (without it, 2D textures wouldn't work), but w is specific to advanced rendering techniques and almost never used.
+# If none of the file's objects are textured, there won't be any "vt" lines.</b>
+vt 0.500 1
+vt ...
+
+<b># List of normals (x, y, z). Some 3D editors don't normalize them, so make sure to always call normalize() in your shaders.
+# If they're implicit (not present in the file), and if you want to light/shade your model, you'll need to compute them like this:
+# for a triangle A, B, C (in counterclockwise order), the face normal is equal to:
+# vn = AB . BC = [yAB*zBC – zAB*yBC, zAB*xBC – xAB*zBC, xAB*yBC – yAB*xBC]</b>
+vn 0.707 0.000 0.707
+vn ...
+
+<b># Polygonal faces (triangles, quads, and polygons with more than 4 sides can be mixed here).
+# Allowed forms:
+# - "vertex" indices
+# - "vertex/texture" indices
+# - "vertex/texture/normal" indices
+# - "vertex//normal" indices
+# Warning! Indices start at 1, not 0. The values need to be decremented to be used in a WebGL index buffer.
+# Warning #2! in WebGL you can't have 3 sets of data and 3 sets of indices, so when parsing mixed indices (in the form a/b/c d/e/f g/h/i),
+# you'll need to reorganize the data in either 3 non-indexed buffers, or in 3 buffers using the same indices.
+# Also, to be displayed with WebGL, quads and other polygons (anything with more than 3 sides) must be converted to triangles:
+# (For n-edge polygons, each triangle is of the form [0, i, i+1] for i=1..n-2. See <a href="https://stackoverflow.com/a/23724231">this StackOverflow post</a> for more info).
+# The vertices order is counter-clockwise by default, which helps recomputing implicit normals properly.</b>
+f 1 2 3
+f 1 2 3 4
+f 3/1 4/2 5/3
+f 6/4/1 3/5/3 7/6/5
+f 7//1 8//2 9//3
+f ...
+
+<b># Faces can be gathered in objects and groups (both are optional).
+# Objects can contain groups, but groups can also exist without parent object.
+# It may be a good idea to always force the creation of a default object and group when parsing an OBJ file, for consistency.
+# Everything that follows an object definition belongs to this object until a new object starts.
+# Everything that follows a group definition belongs to this group until a new object or group starts.
+# Each group generally requires a new pair of shaders to be rendered, as they generally use different colors, textures, shininess, transparency, etc)</b>
+o myObject
+g myGroup1
+f 1 2 3
+...
+g myGroup2
+f 4 5 6
+...
+
+<b># Smooth shading can be enabled or disabled per object or group.
+# When enabled, shading may be computed per fragment. When disabled, it may be computed per vertex or per face.
+# It's enabled by default for every object, and inherited by default for every group.
+# 1 / on, and 0 / off are equivalent.
+# If the value of s changes inside a group, a new group should be created, to compute normals separately.
+# 's' can also be used by some 3D softwares to define smoothing groups, with numbers > 0.
+# All the groups with the same value should be smoothed together when the vertex normals are recomputed.
+# It's quite rare though, so you can consider that anything different than '0' or 'off' is 'on'.</b>
+s 1
+s on
+
+s 0
+s off
+
+<b># Load a material file and use one or many materials defined inside it.
+# Many 'mtllib' lines may exist in the same obj file (in general there's only one).
+# If a material has the same name in different mtl files, the last one loaded overwrites previous occurrences.
+# If the material changes within a group, a new group should be created, so WebGL can render both separately.</b>
+mtllib material.mtl
+usemtl material1
+# all the following elements will use material1 until another usemtl is reached.
+...
+ 
+usemtl material2
+# all the following elements will use material2 until another usemtl is reached.
+...</pre>
+
+<p>MTL file content:
+<pre style="max-height:none" class="language-js">
+<b># Define a material named material1.</b>
+newmtl material1
+
+<b># All the following properties are optional. Most materials only have one color or one texture map.
+# Whether it's called color or lighting, the implementation is the same.</b>
+
+<b># Ambient color (RGB, each channel between 0 and 1).</b>
+Ka 1.000 1.000 1.000
+
+<b># Diffuse color.</b>
+Kd 1.000 1.000 1.000
+
+<b># Specular color + specular exponent.</b>
+Ks 0.000 0.000 0.000     # black (off)
+Ns 10.000                # shininess, between 0 and 1000
+
+<b># Transparency (or its opposite, "dissolving": d = 1 - Tr). Only d is used in general, but both should be supported.</b>
+d 0.9
+Tr 0.1
+
+<b># Illumination model (more info <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file#Basic_materials">on Wikipedia</a>).</b>
+illum 0 # Color on and Ambient off
+illum 1 # Color on and Ambient on
+illum 2 # Specular highlight on
+...     # The other models are not covered here (raytracing, etc)
+
+<b># Texture map (more info <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file#Texture_maps">on Wikipedia</a>)</b>
+map_Ka ambient.png # ambient texture
+map_Kd diffuse.png # diffuse texture, very often only this one is set, sometimes both are set but use the same file
+map_Ks specular.png # specular texture
+...
+</pre>
+
+<p>Obj and mtl files may contain other statements not detailed here, see <a href="http://www.hodge.net.au/sam/blog/wp-content/uploads/obj_format.txt">OBJ specs</a> and <a href="https://www.fileformat.info/format/material/index.htm">MTL specs</a>
+<p>When parsed, all the v, ft, vn, f floats should be concatenated in big Float32Arrays, as it's the format in which WebGL expects to receive data buffers.
+<p>You can see my mini OBJ/MTL parser/viewer <a href="//xem.github.io/webgl-guide/obj">on Github</a>. It supports all the features listed above.
+
+
+<p>(TODO: explain shaded textures)
 
 <br><br><hr><br>
 <h2>Advanced shader manipulation</h2>
@@ -949,141 +1170,10 @@ TODO
 
 
 <br><br><hr><br>
+-->
 
-<h4>Load and display 3D models (.obj files)</h4>
 
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">Wavefront OBJ</a> is a popular and simple 3D model file format, it contains text and can be exported by free tools like Blender
-<li>It contains the definitions of vertices, vertex normals, texture UV coordinates for each vertex, and faces organized in objects and groups
-<li>A companion MTL file is used to define the material properties of each object or group (color, opacity, texture, ...)
-<li>Below are described the most important features of these file formats, and all the traps and tricks I found while writing my own parser
-</ul>
-<p>OBJ file content:
-<pre style="max-height:none"><b># List of geometric vertices (x, y, z, [w], [r], [g], [b]).
-# w is optional and defaults to 1.0. r,g,b are optional and set between 0 and 1.
-# Some 3D softwares export the vertices RGB colors after the x/y/z or x/y/z/w coordinates,
-# so if a line contains 6 floats, it's x/y/z/r/g/b. If it contains 7, it's x/y/z/w/r/g/b.
-# NB: It's the only way to declare colors per-vertex, as materials can only be used on entire faces.
-# It's not guaranteed that all the lines have the same number of arguments.
-# Sometimes, due to exporting errors, all the vertices are offseted (ex: the object is placed too high and every Y value is > 10).
-# Depending on your needs, it may be interesting to bring the first vertex back to [0,0,0] and offset all the other vertices accordingly.</b>
-v 0.123 0.234 0.345
-v 0.123 0.234 0.345 1.0
-v 0.123 0.234 0.345 0.456 0.567 0.678
-v 0.123 0.234 0.345 1.0 0.456 0.567 0.678
-v ...
-
-<b># List of texture coordinates (u, [v], [w]), between 0 and 1. v, w are optional and default to 0.
-# v is usually set (otherwise 2D textures wouldn't work), but w is specific to advanced rendering techniques and almost never used.
-# If none of the file's objects are textured, there won't be any "vt" lines.</b>
-vt 0.500 1
-vt ...
-
-<b># List of normals (x, y, z). Might not be normalized, so make sure to always call normalize() in your shaders.
-# If they're implicit (not present in the file), and if you want to light/shade your model, you'll need to compute them like this:
-# for a triangle A, B, C (in counterclockwise order), the face normal is the dot product of the vectors AB and BC:
-# vn = [yAB*zBC – zAB*yBC, zAB*xBC – xAB*zBC, xAB*yBC – yAB*xBC]</b>
-vn 0.707 0.000 0.707
-vn ...
-
-<b># Polygonal faces (triangles, quads, and polygons with more than 4 sides can be mixed).
-# Allowed forms:
-# - "vertex" indices
-# - "vertex/texture" indices
-# - "vertex/texture/normal" indices
-# - "vertex//normal" indices
-# Warning! Indices start at 1, not 0. The values need to be decremented to be used in a WebGL index buffer.
-# Warning 2! in WebGL you can't have 3 sets of data and 3 sets of indices, so when parsing mixed indices (in the form a/b/c d/e/f g/h/i),
-# you'll need to reorganize the data in either 3 non-indexed buffers, or in 3 buffers using the same indices.
-# Also, to be displayed with WebGL, quads and polygons (anything with more than 3 sides) must be converted to triangles: ([0, i, i+1] for i in 1..n-2, see <a href="https://stackoverflow.com/a/23724231">here</a>).
-# The vertices order is counter-clockwise by default, which helps recomputing implicit normals properly.</b>
-f 1 2 3
-f 1 2 3 4
-f 3/1 4/2 5/3
-f 6/4/1 3/5/3 7/6/5
-f 7//1 8//2 9//3
-f ...
-
-<b># Faces can be gathered in objects and groups (both are optional).
-# Objects can contain groups, but groups can also exist without parent object.
-# It may be a good idea to always force the creation of a default object and group when parsing an OBJ file, for consistency.
-# Everything that follows an object definition belongs to this object until a new object starts.
-# Everything that follows a group definition belongs to this group until a new object or group starts.
-# Each group generally requires a new pair of shaders to be rendered, as they generally use different colors, textures, shininess, transparency, etc)</b>
-o myObject
-g myGroup1
-f 1 2 3
-...
-g myGroup2
-f 4 5 6
-...
-
-<b># Smooth shading can be enabled or disabled per object or group.
-# When enabled, shading may be computed per fragment. When disabled, it may be computed per vertex or per face.
-# It's enabled by default for every object, and inherited by default for every group.
-# 1 / on, and 0 / off are equivalent.
-# If the value of s changes inside a group, a new group should be created, to compute normals separately.
-# 's' can also be used by some 3D softwares to define smoothing groups, with numbers > 0.
-# All the groups with the same value should be smoothed together when the vertex normals are recomputed.
-# It's quite rare though, so you can consider that anything different than '0' or 'off' is 'on'.</b>
-s 1
-s on
-
-s 0
-s off
-
-<b># Load a material file and use one or many materials defined inside it.
-# Many 'mtllib' lines may exist in the same obj file (in general there's only one).
-# If a material has the same name in different mtl files, the last one loaded overwrites previous occurrences.
-# If the material changes within a group, a new group should be created, so WebGL can render both separately.</b>
-mtllib material.mtl
-usemtl material1
-# all the following elements will use material1 until another usemtl is reached.
-...
- 
-usemtl material2
-# all the following elements will use material2 until another usemtl is reached.
-...</pre>
-
-<p>MTL file content:
-<pre style="max-height:none">
-<b># Define a material named material1.</b>
-newmtl material1
-
-<b># All the following properties are optional, for example materials often have only one color or one texture map.
-# Whether it's called color or lighting, the implementation is the same.</b>
-
-<b># Ambient color (RGB, each channel between 0 and 1).</b>
-Ka 1.000 1.000 1.000
-
-<b># Diffuse color.</b>
-Kd 1.000 1.000 1.000
-
-<b># Specular color + specular exponent.</b>
-Ks 0.000 0.000 0.000     # black (off)
-Ns 10.000                # shininess, between 0 and 1000
-
-<b># Transparency (or its opposite, dissolving = 1 - Tr). Only d is used in general.</b>
-d 0.9
-Tr 0.1
-
-<b># Illumination model (see <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file#Basic_materials">here</a>).</b>
-illum 0 # Color on and Ambient off
-illum 1 # Color on and Ambient on
-illum 2 # Specular highlight on
-...     # The other models are not covered here (raytracing, etc)
-
-<b># Texture map (see <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file#Texture_maps">here</a>)</b>
-map_Ka ambient.png # ambient texture
-map_Kd diffuse.png # diffuse texture, very often only this one is set, sometimes both are set but use the same file
-map_Ks specular.png # specular texture
-...
-</pre>
-
-<p>Obj and mtl files may contain other statements not detailed here, see <a href="http://www.hodge.net.au/sam/blog/wp-content/uploads/obj_format.txt">OBJ specs</a> and <a href="https://www.fileformat.info/format/material/index.htm">MTL specs</a>
-<p>When parsed, all the v, ft, vn, f floats should be concatenated in big 1D arrays and converted to Float32Arrays, as it's the format in which WebGL expects to receive data buffers
-<p>You can see my mini OBJ/MTL parser and viewer <a href="//xem.github.io/webgl-guide/obj">here</a>. It supports all the features listed above.
-
+<!--
 <br><br><hr><br>
 
 <h4>Loading .ply 3D files</h4>

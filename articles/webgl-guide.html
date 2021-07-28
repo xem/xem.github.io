@@ -49,7 +49,7 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 
 <div class=section id=webgl_guide>
 <h2>WebGL guide (part 1/2)</h2>
-<h3>May 2020</h3>
+<h3>May 2020 - July 2021</h3>
 
 <br><hr>
 <div style="background:#fff4e1; border-radius: 20px; padding: 10px 20px 20px; margin: 20px 0;">
@@ -60,10 +60,10 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <li><b>2020-05-22</b>: Hello <a href="//javascriptweekly.com/issues/489">JS Weekly</a> readers!
 <li><b>2020-05-17</b>: Hello <a href="https://www.reddit.com/r/javascript/comments/gliqro/a_full_summarized_interactive_webgl_tutorial/">r/JavaScript</a>, <a href="https://www.reddit.com/r/webgl/comments/glissl/a_full_summarized_interactive_webgl_tutorial/">r/WebGL</a> and <a href="https://www.reddit.com/r/Frontend/comments/gq7tku/webgl_guide_part_12/">r/FrontEnd</a>!
 </ul>
-<p>The <a href="https://docs.google.com/spreadsheets/d/1YR68hC-3dDi70h8xQHT0FOpBJiuaQA1pc0fLTjJbF8E/edit?usp=sharing">visits</a> of my website are skyrocketing thanks to you! <3
-<br><b>The part 2</b> is coming soon with <a href="https://xem.github.io/webgl-guide/book/ch10/Shadow.html">Shadowing</a>, <a href="https://xem.github.io/webgl-guide/obj/">3D files loading</a>, and many other advanced WebGL techniques!
-<br><b>Feedbacks</b> are welcome! You can contact me on <a href="//twitter.com/MaximeEuziere">Twitter</a> or <a href="https://github.com/xem/xem.github.io/issues/new">Github</a>, or follow me to be notified when it's released :)
-<br>Would you be interested by a <b>WebGL book</b> based on this guide? Please tell me!
+<!--p>The <a href="https://docs.google.com/spreadsheets/d/1YR68hC-3dDi70h8xQHT0FOpBJiuaQA1pc0fLTjJbF8E/edit?usp=sharing">visits</a> of my website are skyrocketing thanks to you! <3-->
+<b>The part 2</b> will talk about <a href="https://xem.github.io/webgl-guide/book/ch10/Shadow.html">Shadowing</a>, <a href="https://xem.github.io/webgl-guide/obj/">3D files loading</a>, and many other advanced WebGL techniques!
+<br><b>Feedbacks</b> are welcome! You can contact me on <a href="//twitter.com/MaximeEuziere">Twitter</a> or <a href="https://github.com/xem/xem.github.io/issues/new">Github</a><!--, or follow me to be notified when it's released :)
+<br>Would you be interested by a <b>WebGL book</b> based on this guide? Please tell me!-->.
 </div>
 <hr>
 <br>
@@ -74,7 +74,7 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <br>It's mainly inspired by the book <a href="https://www.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch01.html">WebGL Programming Guide</a> and the websites <a href="https://webgl2fundamentals.org/">Webgl2Fundamentals</a>, <a href="http://learnwebgl.brown37.net/index.html">LearnWebgl</a> &amp; <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">MDN</a>. 
 <br>Starting nearly from scratch, you'll be able to create your own 3D interactive scenes without needing to use any <a href="https://fr.wikipedia.org/wiki/Liste_de_frameworks_WebGL">library or framework</a>: only vanilla JS &amp; WebGL.
 <br>My goal was to gather all the information and tricks about WebGL I found scattered everywhere, and present them in a short and helpful way. I hope you'll enjoy it!
-<br>The demos, files and tools presented in this guide are all available <a href="https://github.com/xem/webgl-guide">on Github</a>.
+<br>The demos, files and tools presented in this guide are all available <a href="https://github.com/xem/webgl-guide">on Github</a> (including my helper functions placed in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>, <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> and <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">matrix.js</a>).
 <br>If you're interested in WebGL code golfing, raymarching and signed distance functions, check out <a href="webgl_quest.html">Webgl quest</a> and <a href="webgl_quest_2.html">Webgl quest 2</a>, that I made with the <a href="//xem.github.io/codegolf/intro.html">Codegolf Team</a>.
 <br>Special thanks to <a href="https://twitter.com/iquilezles">Inigo Quilez</a>, <a href="https://twitter.com/kchplr">Kevin Chapelier</a>, <a href="https://twitter.com/FreyaHolmer/">Freya Holmér</a>, <a href="https://twitter.com/adriengueret">Adrien Guéret</a>, <a href="https://damienallonsius.github.io/">Damien Allonsius</a>, <a href="https://www.savinel.name/">Sampson Savinel</a> and <a href="https://bugshake.tumblr.com/">Stijn Raaijmakers</a> for their tips, gifs and proofreading!
 
@@ -125,16 +125,17 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 
 <h4 id="1a">Presentation</h4>
 
-<p>WebGL is a JavaScript API designed to compute and draw 2D and 3D graphics very fast in a Web browser, by using the processing power of the GPU.
+<p>WebGL is a JavaScript API designed to process and draw 2D and 3D graphics very fast in a Web browser, by using the processing power of the GPU.
 <br>It's based on <b>OpenGL ES</b> and is programmed using <b>shaders</b> coded in <b>GLSL</b> (OpenGL Shading Language), a language similar to C and C++.
 <br>A scene rendered by WebGL is mainly made of <b>vertices</b> (points in 3D space, with coordinates X, Y, Z), which can be drawn as points, lines or triangles (colored, shaded or textured),
-<br>but many other effects can be displayed as well (shadows, particles, fog, post-processing...).
-<p>Two versions of the API exist: <b>WebGL 1.0</b>, supported by 97% of browsers, and its evolution <b>WebGL 2.0</b>, supported by 74% of browsers as of may 2020, according to <a href="https://caniuse.com/#search=webgl">caniuse</a>.
+<br>but it's possible to go way further and display interactive 3D scenes with effects like shadows, reflections, particles, fog, blur, etc.
+<br>However, WebGL doesn't have ready-to-use functions to place a camera, render points, text, polygons or special effects on a canvas. You need to tell it how to do that at a much lower level.
+<p>Two versions of the WebGL API exist: <b>WebGL 1.0</b>, supported by 98% of browsers, and its evolution <b>WebGL 2.0</b>, supported by 77% of browsers as of july 2021, according to <a href="https://caniuse.com/#search=webgl">caniuse</a>.
 <br>This guide will focus on WebGL 1.0, but all the features added in WebGL 2.0 will be explained at the end if you want to take the plunge.
 <br>
 <p>The workflow of a WebGL program can be summarized like this:
 <ol>
-<li>The JavaScript code initializes the WebGL program and pilots it to draw a 2D or 3D scene on the <b>webgl context</b> of a <b>HTML5 canvas</b>.
+<li>The JavaScript code initializes the WebGL program and pilots it to draw graphics on the <b>webgl context</b> of a <b>HTML5 canvas</b>.
 <li>A first GLSL script called <b>vertex shader</b> is executed for every vertex of the scene. It computes an abstract, mathematical model of the scene and hands it to a second GLSL script.
 <li>The second GLSL script, called <b>fragment shader</b>, is executed for every visible fragment (pixel) of the canvas. It computes each fragment's color, in a process called <b>rasterization</b>.
 <li>The fragments constitute a bitmap image stored in a <b>color buffer</b>, which is finally displayed on the canvas.
@@ -148,7 +149,7 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 
 <h4 id="1b">The GLSL language</h4>
 
-<p>The shaders source code can be placed in a JavaScript string or loaded from a separate file.
+<p>The shaders source code can be placed in a JavaScript string (or loaded from separate files).
 <br>Here are the key features of their <a href="https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf">syntax</a>:
 
 <ul>
@@ -158,10 +159,10 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <li>A <b>vec4</b> is an array of 4 floats representing vertex coordinates or a 3D vector (x, y, z, w), or a color (r, g, b, alpha). The types <b>vec2</b> (x, y) and <b>vec3</b> (x, y, z / r, g, b) exist too.
 <li>A <b>mat4</b> is a matrix (a grid) of 4 x 4 floats, useful for transforming vertex coordinates and vectors in 3D. The types mat2 (2x2) and mat3 (3x3) exist too.
 <li>A <b>sampler2D</b> is a reference to a texture image; a <b>samplerCube</b> is a reference to a "3D texture" (a set of 6 textures mapped on a cube).
-<li>A <b>variable</b> is declared with its type, for example: <pre class=inline><code class="lang-js">int i = -1</code></pre>, <pre class=inline><code class="lang-js">float f = 2.0</code></pre> or <pre class=inline><code class="lang-js">vec4 v = vec4(1.0, 2.0, 3.0, 4.0)</code></pre>.
+<li>A <b>variable</b> is declared with its type, for example: <pre class=inline><code class="lang-js">int i = -1;</code></pre>, <pre class=inline><code class="lang-js">float f = 2.0</code></pre> or <pre class=inline><code class="lang-js">vec4 v = vec4(1.0, 2.0, 3.0, 4.0);</code></pre>.
 <li>A <b>constant</b> is a variable with a fixed value: <pre class=inline><code class="lang-js">const int c = 100;</code></pre>.
-<li>The xyzw / rgba components of a vector can be extracted and swizzled (recomposed) in another vector, for example: <pre class=inline><code class="lang-js">float f = v.x</code></pre>, <pre class=inline><code class="lang-js">vec3 rgb = v.rgb</code></pre>, <pre class=inline><code class="lang-js">vec4 w = v.zxxy</code></pre>.
-<li>Every instruction must end with a semicolon <pre class=inline><code class="lang-js">;</code></pre>.
+<li>The xyzw / rgba components of a vector can be extracted or swizzled (recomposed) in another vector, for example: <pre class=inline><code class="lang-js">float f = v.x;</code></pre>, <pre class=inline><code class="lang-js">vec3 rgb = v.rgb;</code></pre>, <pre class=inline><code class="lang-js">vec4 w = v.zxxy;</code></pre>.
+<li>Semicolons <pre class=inline><code class="lang-js">;</code></pre> are mandatory at the end of each instruction (variable declaration or math operation).
 <li><b>Math functions</b>: cos, sin, tan, pow, exp, log, log2, sqrt, abs, sign, floor, ceil, round, trunc, fract, mod, min, max, clamp, mix, step, length, distance, dot, cross, reflect, normalize...
 <li><b>Math operators</b> (=, +, -, *, /, &amp;&amp;, ||, ==, !=, >, >=, &lt;, &lt;=, ++, --, ^^, +=, -=, *=, /=) only work between variables of the same type or same length (ex: int + int, float / float, mat4 * vec4 ...).
 <li><b>Type casting</b> allows to convert a type into another, when it's possible. Ex: <pre class=inline><code class="lang-js">bool b = true; int i = int(b); /* i = 1 */ float f = float(i); /* f = 1.0 */</code></pre>.
@@ -169,8 +170,9 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <li>The <b>entry point</b> of each shader (where their execution starts) is a <pre class=inline><code class="lang-js">void main(){...}</code></pre> function.
 <li>Custom functions can also be created and called by main() or by each other, but recursion isn't allowed.
 <li>The <b>precision</b> of ints, floats and Sampler2Ds (lowp / mediump / highp) can be set in each shader with a directive, like <pre class=inline><code class="lang-js">precision highp int;</code></pre> or <pre class=inline><code class="lang-js">precision mediump float;</code></pre>
-<br>These directives must be at the beginning of the shader's code, however only the float precision is mandatory in the fragment buffer, all the others have values by default.
-<li>The vertex shader must set a global variable <b>gl_Position</b> containing the coordinates of the current vertex (It must also set <b>gl_PointSize</b> when rendering individual points).
+<br>These directives must be at the beginning of the shader's code, however only the float precision is mandatory in the fragment shader, all the others have values by default.
+<br>Lowp corresponds to 8-bit values, mediump: 10-bits, and highp: 16-bits. Lowp is very limited, <b>mediump is fine in most cases</b>, and highp is better but not supported on all devices.
+<li>To work properly, the vertex shader must set a global variable <b>gl_Position</b> containing the coordinates of the current vertex (plus <b>gl_PointSize</b> if it's rendering individual points).
 <li>The fragment shader must set a global variable <b>gl_FragColor</b> containing the color of the current fragment.
 <br>It has access to 3 global variables: <b>gl_FragCoord</b> (window coordinates),  <b>gl_PointCoord</b> (coordinates inside a point) and <b>gl_FrontFacing</b> (current triangle orientation).
 </ul>
@@ -189,10 +191,9 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <li><b>Attributes</b> are global variable passed by JavaScript to the vertex shader. Their value can change for each vertex (ex: vertex coordinates).
 <li><b>Uniforms</b> are global variables passed by JavaScript to both vertex and fragment shaders (ex: a color). Their value stays constant for an entire frame.
 <li><b>Varyings</b> are not accessible by JavaScript. They can only be set by the vertex shader and read by the fragment shader.
-<li><b>Data buffers</b> are big arrays of numbers passed by JS to the vertex shader in chunks of 1 to 4 values.
-<br>For example, if a long list of vertex coordinates (X,Y,Z, X,Y,Z, ...) is sent to the vertex buffer 3 by 3, the shader will receive each chunk in the form of an <b>attribute vec3</b>.
+<li><b>Data buffers</b> are big arrays of numbers passed by JS to the vertex shader, which will read and process it one little chunk at a time.
 </ul>
-<p>Each attribute, uniform and varying must be declared before main() in the shaders that uses them.
+<p>Each attribute, uniform and varying must be declared before <b>main()</b> in the shaders that use them.
 
 <p>Don't worry, these features will be explained and illustrated in the next chapters.
 
@@ -213,18 +214,19 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 
 <p><b>The basics of trigonometry</b>:
 <ul>
-<li>An angle can measure between 0 and 360 degrees, which is equivalent to: 0 to 2 * Pi radians (Pi radians is half a turn).
+<li>An angle can measure between 0 and 360 degrees, which is equivalent to: 0 to 2π radians (π radians equals half a turn).
 <li>An angle in degrees can be converted in radians by multiplying it with <b>π/180</b>.
 <li>An angle in radians can be converted in degrees by multiplying it with <b>180/π</b>.
-<li>The trigonometric circle is a circle of radius 1, centered on the origin of a 2D plane. Every point of this circle corresponds to an angle, measured anti-clockwise:
-<br>The rightmost point represents the angle 0 (or 2*Pi rad), the topmost point is Pi/2 rad, the leftmost is Pi rad, and the bottom is 3*Pi/2 rad.
-<li>An angle bigger than 2*Pi or smaller than 0 is similar to the same angle modulo 2*Pi (ex: 5*Pi rad = Pi rad; -Pi/2 rad = 3*Pi/2 rad).
-<li>The cosine of an angle "α" is the X coordinate of the corresponding point on the trigonometric circle, and oscillates between -1 and 1.
-<li>The sine is the Y coordinate of the same point, and also oscillates between -1 and 1.
-<li>The tangent is the length of the segment perpendicular to the radius, between this point and the X axis. Its value goes between -∞ and +∞, and is equal to sin(α) / cos(α).
-</ul>
-<br><a href="https://twitter.com/freyaholmer/status/1173376419168247810"><img src="images/webgl-guide/trigo.gif" width=400 style="border: 1px solid #ddd"></a>
+<li>The <b>trigonometric circle</b> or "unit circle" is a circle of radius 1, centered on the origin of a 2D plane. Every point of this circle corresponds to an angle, measured anti-clockwise:
+<br>The rightmost point represents the angle 0 (or 2π rad), the topmost point is π/2 rad, the leftmost is π rad, and the bottom is 3π/2 rad.
+<br><br><img src="images/webgl-guide/unitcircle.png" width=400 style="border: 1px solid #ddd">
+<li>An angle bigger than 2π or smaller than 0 is equal to the same angle modulo 2π (ex: 5π rad = π rad; -π/2 rad = 3π/2 rad).
+<li>The <b>cosine</b> of an angle "α" is the X coordinate of the corresponding point on the trigonometric circle, and oscillates between -1 and 1.
+<li>The <b>sine</b> is the Y coordinate of the same point, and also oscillates between -1 and 1.
+<li>The <b>tangent</b> is the length of the segment perpendicular to the radius, between this point and the X axis. Its value goes between -∞ and +∞, and is equal to tan(α) = sin(α) / cos(α).
+<br><br><a href="https://twitter.com/freyaholmer/status/1173376419168247810"><img src="images/webgl-guide/trigo.gif" width=400 style="border: 1px solid #ddd"></a>
 <br><sub>GIF by Freya Holmér</sub>
+</ul>
 
 <p><b>Vectors</b>:
 <ul>
@@ -232,17 +234,17 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <li>When it represents a point, it's a list of coordinates.
 <br>For example, [2,4] can represent the X and Y coordinates of a 2D point, and [3,5,2] the X, Y and Z coordinates of a 3D point.
 <li>When it's a direction (from a position in space to another position), it represents how the offset is applied in each coordinate. You can imagine it like an arrow.
-<br>for example [1,2,3] means X offset of 1 unit, a Y offset of 2 units and a Z offset of 3 units.
+<br>for example [1,2,3] corresponds to an X offset of 1 unit, a Y offset of 2 units and a Z offset of 3 units.
 <li>Contrary to vertices, direction vectors don't have a position. They only represent an offset, and this offset can start from anywhere.
-<li>You can build a vector AB (going from a point A to a point B) like this: <b>AB = [xB - xA, yB - yA, zB - zA]</b>.
-<br><img src="images/webgl-guide/vector.png" width=700>
+<li>For two points A and B, you can build a vector AB (going from a point A to a point B) like this: <b>AB = [xB - xA, yB - yA, zB - zA]</b>.
+<br><br><img src="images/webgl-guide/vector.png" width=700>
 </ul>
 
 <p><b>Operations on vectors</b>:
 <ul>
 <li>Adding two vectors consists in adding their terms one by one: <b>V + W = [xV + xW, yV + yW, zV + zW]</b>. 
 <li>Scaling a vector consists in multiplying all its terms by a given amount: <b>V * n = [xV * n, yV * n, zV * n]</b>.
-<li>Measuring the length (or magnitude) of a vector is similar to measuring the distance between two points with Pythagore:
+<li>Measuring the length (or magnitude) of a vector is similar to measuring the distance between two points with Pythagore's theorem:
 <b>||V|| = sqrt(xV² + yV² + zV²)</b>.
 <li>Normalizing a vector consists in adjusting its length to 1 unit, without changing its direction. It's equivalent to scaling it by <b>1 / ||V||</b>.
 <li>The relative angle between two normalized vectors V and W can be computed using the dot product: <b>V.W = xV * xW + yV * yW + zV * zW</b>.
@@ -251,7 +253,8 @@ sub { color: #888; position: relative; top: -35px; z-index: 2; background: #fff;
 <br><sub>GIF by Freya Holmér</sub>
 <br>
 <br>
-<li>The cross-product of two vectors V and W is a vector perpendicular to both vectors. It can be computed like this: <b>V×W = [yV*zW - zV*yW, zV*xW - xV*zW, xV*yW - yV*xW]</b>.
+<li>The cross-product of two vectors V and W is a vector perpendicular to both vectors.
+<br>It can be computed like this: <b>V×W = [yV*zW - zV*yW, zV*xW - xV*zW, xV*yW - yV*xW]</b>.
 
 <!--table style=width:800px>
 <tr>
@@ -709,10 +712,10 @@ A<sup>T</sup> = <math xmlns = "http://www.w3.org/1998/Math/MathML">
 </math>
 </table>
 <li>Two or more matrices of equal size can be multiplied together to combine (accumulate) their transformations.
-<br>The result of a matrix multiplication is a matrix containing the dot products of each line of the first matrix with each column of the second matrix.
+<br>The result of a matrix multiplication is a new matrix containing the dot products of each line of the first matrix with each column of the second matrix.
 <br>The combination order is important, and is from right to left. For example, a matrix that performs a translation T, then a rotation R, then a scale S is equal to <b>S * R * T</b>.
 
-<li>Finally, a matrix can be inversed, with a complicated equation that we'll see later in this guide. It cancels the transformation made by the original matrix. Hence:
+<li>Finally, a matrix can be inversed. An inversed matrix cancels the transformation made by the original matrix:
 <br>
 A * A<sup>-1</sup> = identity
 <br>
@@ -823,11 +826,12 @@ A * A<sup>-1</sup> * V = V
 </table>
 
 <br>Remarks:
-<br>- The (4D) transformation matrix performing a translation is an identity matrix, with the X, Y and Z offsets encoded on the last column.
-<br>- These offsets are multiplied by the fourth element of the 4D vector, that's why a point can be translated (W = 1) and a normal cannot (W = 0).
-<br>- The 3x3 matrix on the top left corner can still be used to perform rotations and scalings.
-<br>- When a vertex is rendered on the screen, only its X, Y and Z coordinates matter. It's W coordinate, only useful for computing translations and projections, is discarded.
-
+<ul>
+<li>The (4D) transformation matrix performing a translation is an identity matrix, with the X, Y and Z offsets encoded on the last column.
+<li>These offsets are multiplied by the fourth element of the 4D vector, that's why a point can be translated (W = 1) and a normal cannot (W = 0).
+<li>The 3x3 matrix on the top left corner can still be used to perform rotations and scalings.
+<li>When a vertex is rendered on the screen, only its X, Y and Z coordinates matter. It's W coordinate, only useful for computing translations and projections, is discarded.
+</ul>
 <br>
 <p>Enough introduction, let's start this guide with our first WebGL demo!
 <br><br><hr><br>
@@ -848,10 +852,10 @@ A * A<sup>-1</sup> * V = V
 <h5>What happens here?</h5>
 <ul>
 <li>Two JavaScript objects are essential in a WebGL app: the canvas context <b>gl</b>, returned by <pre class=inline><code class="lang-js">canvas.getContext('webgl')</code></pre>, and <b>program</b> returned by <pre class=inline><code class="lang-js">gl.createProgram()</code></pre> (lines 4 &amp; 37).
-<li>JavaScript also uses the functions <b>createShader</b>, <b>shaderSource</b>, <b>compileShader</b>, <b>attachShader</b>, <b>linkProgram</b> and <b>useProgram</b> to set up and run the app (lines 27-41),
+<li>JavaScript also uses the functions <b>createShader</b>, <b>shaderSource</b>, <b>compileShader</b>, <b>attachShader</b>, <b>linkProgram</b> and <b>useProgram</b> to set up and run the WebGL app (lines 27-41),
 <br>and the functions <b>clearColor</b>, <b>clear</b> and <b>drawArrays</b> to set the default background color, clear the canvas and draw a point on it (lines 48-59).
 <li>The vertex shader (lines 7-15) sets the vec4 <b>gl_Position</b> (x, y, z, 1.0), and <b>gl_PointSize</b> (in pixels).<br>It is executed once, as there's only one vertex.
-<br>Since we're drawing in 2D, the point's Z coordinate is 0, while X and Y are in the range [-1 : 1]: within the bounds of the canvas.
+<br>Since we're drawing in 2D, the point's Z coordinate is 0, while X and Y are in the range [-1 : 1]: within the bounds of the canvas, even if the canvas is not square!
 <br>The 4th vertex coordinate (W) is fixed to 1.0, and allows many transformations detailed in the next chapters.
 <li>The fragment shader (lines 18-24) sets the vec4 <b>gl_Fragolor</b> (r, g, b, alpha), where each component is in the range [0 : 1].<br>It is executed 100 times (once for each pixel inside the point).
 <br>It starts with a mandatory directive, used to define the precision of its floating numbers: <pre class=inline><code class="lang-js">precision mediump float;</code></pre> (lowp and highp are also available, but less useful). 
@@ -862,13 +866,9 @@ A * A<sup>-1</sup> * V = V
 <ul>
 <li>On some devices, the biggest supported point size is 62px (more info on <a href="http://webglstats.com/webgl/parameter/ALIASED_POINT_SIZE_RANGE">webglstats</a>).
 <li>On some devices, the points may disappear entirely if their center is outside of the canvas (more info on <a href="https://webglfundamentals.org/webgl/lessons/webgl-drawing-without-data.html#pointsissues">webglfundamentals</a>).
-<li>If you don't like placing your shaders' source code in a JS string, you can also use:
-<ul><li>script blocks (<pre class=inline><code class="lang-html">&lt;script type="x-shader/x-vertex" id="vshader">...&lt;/script></code></pre> / <pre class=inline><code class="lang-html">&lt;script type="x-shader/x-fragment" id="fshader">...&lt;/script></code></pre>
-<br>(and retrieve it with <pre class=inline><code class="lang-js">document.getElementById('vshader').innerText</code></pre> / <pre class=inline><code class="lang-js">document.getElementById('fshader').innerText</code></pre>).
-<li>external files, like <b>fshader.glsl</b> and <b>vshader.glsl</b>
-<br>(and retrieve it as text with XHR, fetch, or any method of your choice).
-</ul>
-<li>The program creation (lines 26 to 46) is always the same and pretty verbose, so we can put it in a <b>compile()</b> function and reuse it in the next chapters (see <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>):
+<li>The shaders' source code is placed in JS strings for simplicity. If you want to fraction your source code, it's possible to declare them in a separate JS files.
+<br>You can get rid of the JS strings by placing your shaders' code in text files (ex: shader.vert / shader.frag), load these files (with XHR / fetch), and pass their content to <b>gl.shaderSource</b>.
+<li>The program creation (lines 26 to 46) is always the same and pretty verbose, so we can put it in a <b>compile()</b> helper function and reuse it in the next chapters (see <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>):
 </ul>
 <pre style="font-size:11px"><code class="lang-js">// Compile a WebGL program from a vertex shader and a fragment shader
 compile = (gl, vshader, fshader) => {
@@ -904,7 +904,7 @@ compile = (gl, vshader, fshader) => {
 <h4 id="2a">Custom values: attributes and uniforms</h4>
 
 <p>Of course, WebGL wouldn't be interesting if it could just draw one hard-coded point.
-<br>To make it less rigid, we can give it custom values. This can be done with <b>attributes</b> (readable by the vertex buffer) and <b>uniforms</b> (readable by both buffers).
+<br>To make it less rigid, we can give it custom values. This can be done with <b>attributes</b> (readable by the vertex shader) and <b>uniforms</b> (readable by both shaders).
 <ul>
 <li>an <b>attribute</b> is variable and can contain a float or a vector (vec2, vec3, vec4). Your program should not exceed <a href="http://webglstats.com/webgl/parameter/MAX_VERTEX_ATTRIBS">16 attributes</a> to work on all devices.
 <li>An <b>uniform</b> is constant can contain an int, a float, a vector or a matrix (mat2, mat3, mat4). Your program should not exceed <a href="http://webglstats.com/webgl/parameter/MAX_VERTEX_UNIFORM_VECTORS">128 vertex uniforms</a> and <a href="http://webglstats.com/webgl/parameter/MAX_FRAGMENT_UNIFORM_VECTORS">64 fragment uniforms</a>.
@@ -1113,11 +1113,11 @@ else { discard; }</code></pre>
 
 <h5>What happens here?</h5>
 <ul>
-<li>A data buffer is filled with 3 points coordinates and bound to a <b>position</b> attribute with <b>createBuffer</b>, <b>bindBuffer</b>, <b>bufferData</b>, <b>vertexAttribPointer</b> &amp; <b>enableVertexAttribArray</b> (lines 31-49).
+<li>A data buffer is filled with 3 points coordinates and bound to a <b>position</b> attribute with <b>createBuffer</b>, <b>bindBuffer</b>, <b>bufferData</b>, <b>vertexAttribPointer</b> &amp; <b>enableVertexAttribArray</b> (lines 32-50).
 <li>At the end, we tell <b>gl.drawArrays</b> to render these points as a triangle. As a result, every fragment inside the triangle will automatically reuse the "color" uniform variable (red).
 <li>If you replace <b>gl.TRIANGLES</b> with <b>gl.LINE_LOOP</b>, only the lines between points 0-1, 1-2, and 2-0 will be rendered, with a <b>line width</b> of 1px (1 fragment).
 <br>You can also try <b>gl.LINE_STRIP</b> to trace lines between points 0-1 and 1-2, and <b>gl.LINES</b> to draw a line between points 0 and 1, as it only works on consecutive pairs of points.
-<br>Unfortunately, the line width can't be changed on most devices, so we have to stick with 1px lines or "cheat" with triangles (more info on <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/lineWidth">MDN</a> and <a href="https://mattdesl.svbtle.com/drawing-lines-is-hard">mattdesl's website</a>).
+<br>Unfortunately, the line width can't be changed on most devices, so we have to "cheat" with triangles to make thicker lines (more info on <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/lineWidth">MDN</a> and <a href="https://mattdesl.svbtle.com/drawing-lines-is-hard">mattdesl's website</a>).
 <li>Lines and triangles do not need <b>gl_PointSize</b> to be set in the vertex shader. If you replace <b>gl.TRIANGLES</b> with <b>gl.POINTS</b>, you'll have to set gl_PointSize again or they won't appear.
 </ul>
 
@@ -1125,6 +1125,8 @@ else { discard; }</code></pre>
 
 <ul>
 <li>You can draw as many triangles as you want by adding vertex coordinates on line 33 and updating the vertex count on line 61.
+<li>Remember that the X and Y vertex coordinates are in the range [-1:1], whatever the size of the canvas.
+<br>If the canvas is not square, you can compute its <b>aspect ratio</b> (width / height) and multiply all your X coordinates with it to cancel the distorsion.
 <li>In all the following chapters' demos, you can replace <b>gl.TRIANGLES</b> with <b>gl.LINE_LOOP</b> to see the scene in <b>wireframe</b>.
 <li>WebGL does <b>antialiasing</b> (pixel smoothing) by default. This can be disabled with <pre class=inline><code class="lang-js">canvas.getContext('webgl', {antialias: false});</code></pre>, to save resources, especially on retina screens.
 <li>The buffer creation and binding is also quite verbose, so let's put it in the function <b>buffer()</b>, in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/webgl.js">webgl.js</a>:
@@ -1144,7 +1146,7 @@ buffer = (gl, data, program, attribute, size, type) => {
 <h4 id="2e">Multi-attribute buffer and varying color</h4>
 
 <p>Now, we want to give a different color to our three vertices, and draw a triangle with them.
-<br>The vertex colors can be transmitted to the fragment buffer via a <b>varying</b> variable, to produce a gradient (this process is called <b>color interpolation</b>).
+<br>The vertex colors can be transmitted to the fragment shader via a <b>varying</b> variable, to produce a gradient (this process is called <b>color interpolation</b>).
 <br>The X/Y/Z and R/G/B values for each vertex can be stored in two data buffers, or in an <b>interleaved data buffer</b>, like here:
 <h5>Demo</h5>
 
@@ -1154,10 +1156,10 @@ buffer = (gl, data, program, attribute, size, type) => {
 <ul>
 <li>A buffer of 3 x 6 floats is initialized and bound to the program (lines 27-43).
 <li>Then, for every chunk of 6 floats in the data buffer,
-<br>- <pre class=inline><code class="lang-js">gl.vertexAttribPointer(position, 3, gl.FLOAT, false, FSIZE*6, 0);</code></pre> reserves the first 3 values for the attribute <b>position</b> (line 47),
-<br>- <pre class=inline><code class="lang-js">gl.vertexAttribPointer(color, 3, gl.FLOAT, false, FSIZE*6, FSIZE*3);</code></pre> reserves the last 3 values for the attribute <b>color</b> (line 59).
-<li>The last two params of vertexAttribPointer (stride and offset) are counted in bytes, and the size of a data buffer item can be retrieved using <b>BYTES_PER_ELEMENT</b> (line 39).
-<li><b>gl.enableVertexAttribArray</b> (lines 55 and 67) finish binding the attributes to the <b>verticesColors</b> data buffer. 
+<br>- <pre class=inline><code class="lang-js">gl.vertexAttribPointer(position, 3, gl.FLOAT, false, FSIZE*6, 0);</code></pre> reserves the first 3 values for the attribute <b>position</b> (line 48),
+<br>- <pre class=inline><code class="lang-js">gl.vertexAttribPointer(color, 3, gl.FLOAT, false, FSIZE*6, FSIZE*3);</code></pre> reserves the last 3 values for the attribute <b>color</b> (line 60).
+<li>The last two params of vertexAttribPointer (stride and offset) are counted in bytes, and the size of a data buffer item can be retrieved using <b>BYTES_PER_ELEMENT</b> (line 40).
+<li><b>gl.enableVertexAttribArray</b> (lines 56 and 68) finish binding the attributes to the <b>verticesColors</b> data buffer. 
 <br>The data buffer is not named explicitly though (the last buffer bound to the WebGL program is used automatically).
 <li>The varying <b>v_color</b> is declared in both shaders.
 <br>- In the vertex shader, it receives the color of the current vertex.
@@ -1173,7 +1175,7 @@ buffer = (gl, data, program, attribute, size, type) => {
 <li>It's a good practice to prefix every varying name with "v_".
 <li>A WebGL program should not exceed <a href="http://webglstats.com/webgl/parameter/MAX_VARYING_VECTORS">6 varyings</a> to work on all devices.
 <li>Color interpolation also works in <b>LINES</b>, <b>LINE_STRIP</b> and <b>LINE_LOOP</b> modes.
-<li>Most WebGL tutorials online stop when they reach this famous "tricolor triangle" step. But there's a lot more to cover! ;)
+<li>Fun fact: most WebGL tutorials online stop when they reach this famous "tricolor triangle", but this one is different: we have much more to cover! ;)
 <li>Contrary to POINTS mode (that has gl_PointCoords), in TRIANGLES mode there is no global variable indicating where the current fragment is situated inside the triangle.
 <br>But you have access to <b>gl_FragCoords</b> telling where the fragment is positioned on the canvas.
 </ul>
@@ -1185,7 +1187,7 @@ buffer = (gl, data, program, attribute, size, type) => {
 <p>If we want to move, rotate or scale a triangle, we need to know how to transform each of its vertices.
 <ul>
 <li><b>Translation</b> consists in moving all the vertices in a given direction (by increasing or decreasing their X/Y/Z coordinates).
-<li><b>Rotation</b> consists in moving the vertices around a <b>pivot point</b>, with a given angle (a full turn clockwise is 360 degrees or 2 * Pi radians).
+<li><b>Rotation</b> consists in moving the vertices around a <b>pivot point</b>, with a given angle (a full turn clockwise is 360 degrees or 2π radians).
 <li><b>Scaling</b> consists in making the triangle smaller or bigger by bringing the vertices closer or further from a pivot point.
 </ul>
 <p>These operations can be done component per component (compute the new value of X, then Y, then Z), but we generally use a much powerful tool: <b>matrix transformations</b>:
@@ -1747,125 +1749,70 @@ buffer = (gl, data, program, attribute, size, type) => {
 <iframe id=i5 loading=lazy src="../../webgl-guide/editor/?demo=6"></iframe>
 
 <h5>What happens here?</h5>
-<p>This demo performs 3 transformations on the same triangle: translate, then rotate, then scale.
-<br>These transformations can be done in this order by multiplying their matrices from right to left, and multiplying the resulting <b>matrix product</b> with the vertex coordinates (see line 14).
-<br>These 3 matrices are declared in JS and sent to the fragment shader using uniforms (see lines 41 to 72).
-<br>WebGL only accepts uniform matrices that are <b>transposed</b> (matrices with the horizontal and vertical axis inverted), so we transpose them manually in the JS code.
-<br>In the following chapters, the matrix product will be computed only once (in JS) and passed to the vertex shader, to avoid recomputing it for each vertex.
-
-<h5>Tips and tricks</h5>
-
 <ul>
-<li>Matrices and vectors with the same size can be multiplied together natively in GLSL (ex: mat4 * vec4).
-<li>In JS, it must be done term by term.
-<li>Helper functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
+<li>This demo performs 3 transformations on the same triangle: translate, then rotate, then scale.
+<li>These transformations can be done in this order by multiplying their matrices from right to left, and multiplying the resulting <b>matrix product</b> with the vertex coordinates (see line 15).
+<li>These 3 matrices are declared in JS and sent to the fragment shader using uniforms (see lines 42 to 73).
+<li>WebGL only accepts uniform matrices that are <b>transposed</b> (matrices with the horizontal and vertical axis inverted), so they were transposed manually in the JS code.
+<li>The matrix multiplication is done in the vertex shader, which is very simple but not efficient, because it's recomputed for each vertex of the scene.
+<br>The best practice is to prepare the transformation matrix once, in the JS program, then send it to the vertex shader.
 </ul>
-<pre style="font-size:11px"><code class="lang-js">// Create an identity mat4
-identity = () => {
-  return new Float32Array([
-    1, 0, 0, 0,
-    0, 1, 0, 0,
-    0, 0, 1, 0,
-    0, 0, 0, 1
-  ]);
-};
 
-// Compute the multiplication of two mat4 (c = a x b)
-multMat4Mat4 = (a, b) => {
-  var i, e, a, b, ai0, ai1, ai2, ai3;
-  var c = new Float32Array(16);
-  for (i = 0; i &lt; 4; i++) {
-    ai0 = a[i];
-    ai1 = a[i+4];
-    ai2 = a[i+8];
-    ai3 = a[i+12];
-    c[i]    = ai0 * b[0]  + ai1 * b[1]  + ai2 * b[2]  + ai3 * b[3];
-    c[i+4]  = ai0 * b[4]  + ai1 * b[5]  + ai2 * b[6]  + ai3 * b[7];
-    c[i+8]  = ai0 * b[8]  + ai1 * b[9]  + ai2 * b[10] + ai3 * b[11];
-    c[i+12] = ai0 * b[12] + ai1 * b[13] + ai2 * b[14] + ai3 * b[15];
-  }
-  return c;
-};
+<h5>Tips: manipulating matrices in JS</h5>
 
-// Get the transposed of a mat4
+<p>As I said, the best practice is to declare and compute the global transformation matrix in JS, before sending it to the shader.
+<br>For many years, the best practice was to compute all the transformations manually, term by term, inside a <b>Float32Array</b>.
+<br>Many JS libraries can help you do that, the most famous is <a href="https://github.com/toji/gl-matrix">glMatrix</a>.
+<br>However, in this guide, I will use a more recent JS API called <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix">DOMMatrix</a>, designed to handle transformations for DOM elements, SVG graphics, and 2D/3D canvas.
+<br>This API has been considered absolutely too slow for WebGL for a long time (3 to 30 times slower than JS alone), but it's not the case anymore:
+<br>According to my perf tests, DOMMatrix is only 5-20% slower than JS at worst, and can still perform more than 30,000 matrix transformations per second, which is largely enough!
+
+<p>Here are the DOMMatrix methods that will interest us in this guide:
+<ul>
+<li><b>A = new DOMMatrix()</b> creates a 4x4 identity matrix.
+<li><b>A = new DOMMatrix([m11, m21, m31, m41, m12, m22, m32, m42, m13, m23, m33, m43, m14, m24, m34, m44])</b> creates a 4x4 matrix from a list of 16 numbers.
+<li><b>A.multiplySelf(B)</b> computes A = A x B.
+<li><b>A.preMultiplySelf(B)</b> computes A = B x A.
+<li><b>A.translateSelf(x, y, z)</b> adds a translation to A.
+<li><b>A.scaleSelf(sx, sy, sz, ox, oy, oz)</b> adds a scaling to A, centered on the origin point o.
+<li><b>A.rotateSelf(rx, ry, rz)</b> adds a rotation to A. Rotates around Z, then Y, then X. The angles are in <b>degrees</b>.
+<li><b>A.invertSelf()</b> inverts A (if the inversion is impossible, the matrix is filled with NaN values).
+<li><b>A.toFloat32Array()</b> returns a Float32Array useable by the WebGL shders.
+</ul>
+
+<p>Unfortunately, the method <b>transposeSelf</b> doesn't exist yet, but can be replaced by this:
+<br><pre class="language-js"><code>// Transpose a DOMMatrix
 transpose = m => {
-  return new Float32Array([
-    m[0], m[4], m[8],  m[12],
-    m[1], m[5], m[9],  m[13],
-    m[2], m[6], m[10], m[14],
-    m[3], m[7], m[11], m[15]
+  return new DOMMatrix([
+    m.m11, m.m21, m.m31, m.m41,
+    m.m12, m.m22, m.m32, m.m42,
+    m.m13, m.m23, m.m33, m.m43,
+    m.m14, m.m24, m.m34, m.m44,
   ]);
-};
+};</code></pre>
 
-// Transform a mat4
-// options: x/y/z (translate), rx/ry/rz (rotate), sx/sy/sz (scale)
-transform = (mat, options) => {
-  var out = new Float32Array(mat);
-  var x = options.x || 0, y = options.y || 0, z = options.z || 0;
-  var sx = options.sx || 1, sy = options.sy || 1, sz = options.sz || 1;
-  var rx = options.rx, ry = options.ry, rz = options.rz;
-  
-  // translate
-  if(x || y || z){
-    out[12] += out[0] * x + out[4] * y + out[8]  * z;
-    out[13] += out[1] * x + out[5] * y + out[9]  * z;
-    out[14] += out[2] * x + out[6] * y + out[10] * z;
-    out[15] += out[3] * x + out[7] * y + out[11] * z;
-  }
-  
-  // Rotate
-  if(rx){
-    out.set(multMat4Mat4(out, new Float32Array([
-      1, 0, 0, 0,
-      0, Math.cos(rx), Math.sin(rx), 0,
-      0, -Math.sin(rx), Math.cos(rx), 0,
-      0, 0, 0, 1
-    ])));
-  }
-  if(ry){
-    out.set(multMat4Mat4(out, new Float32Array([
-      Math.cos(ry), 0, -Math.sin(ry), 0,
-      0, 1, 0, 0,
-      Math.sin(ry), 0, Math.cos(ry), 0,
-      0, 0, 0, 1
-    ])));
-  }
-  if(rz){
-    out.set(multMat4Mat4(out, new Float32Array([
-      Math.cos(rz), Math.sin(rz), 0, 0,
-      -Math.sin(rz), Math.cos(rz), 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1
-    ])));
-  }
-  
-  // Scale
-  if(sx !== 1){
-    out[0] *= sx, out[1] *= sx, out[2] *= sx, out[3] *= sx;
-  }
-  if(sy !== 1){
-    out[4] *= sy, out[5] *= sy, out[6] *= sy, out[7] *= sy;
-  }
-  if(sz !== 1){
-    out[8] *= sz, out[9] *= sz, out[10] *= sz, out[11] *= sz;
-  }
-  
-  return out;
-};</code>
-</pre>
+<p>This function and a few others that we'll see later, are present in my helper file <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>.
 
-<h5>How to change the pivot point</h5>
+<h5>Tips: How to change the pivot point of a rotation</h5>
 
-<p>The rotation and scaling matrices, as described above, only allow to use the world's origin [0, 0, 0] as pivot point.
-<br>Imagine a triangle that is not centered on the origin, that you need to rotate 90 degrees (Pi/2 radians) around its center, for example the point [0.5, 0.5, 0].
-<br>The solution is to apply 3 transformation matrices to this triangle's vertices:
-<ul>
-<li>Translate them around the origin [0, 0, 0]
-<li>Apply a 90 degrees rotation
-<li>Translate them back to around the [0.5, 0.5, 0].
-</ul>
+<p>The <b>rotateSelf</b> method only allows to use the world's origin [0, 0, 0] as pivot point.
+<br>Imagine a triangle that is not centered on the origin, that you need to rotate 90 degrees (π/2 radians) around its center, for example the point [0.5, 0.5, 0].
+<br>The solution is to apply 3 transformations to this triangle's vertices:
+<ol>
+<li>Translate them to place the pivot point at the origin [0, 0, 0].
+<li>Apply a 90 degrees rotation.
+<li>Translate them back to have the pivot point at the original position [0.5, 0.5, 0].
+</ol>
 
-<img src="images/webgl-guide/pivot.png" width=850>
+<img src="images/webgl-guide/pivot.png" width=850-->
+
+<p>It can be implemented like this:
+
+<br><pre class="language-js"><code>// Transformation matrix for a rotation around a pivot point
+rotate = (rx, ry, rz, ox, oy, oz) => {
+  var ret = new DOMMatrix();
+  return ret.translateSelf(-ox, -oy, -oz).rotateSelf(rx, ry, rz).translateSelf(ox, oy, oz);
+};</code></pre>
 
 <br><br><hr><br>
 
@@ -1875,7 +1822,7 @@ transform = (mat, options) => {
 <br>The same principle can be used with a texture image (it's called <b>sampling</b> in this case).
 <br>A WebGL texture (whatever its size in pixels) has a local coordinates system (U,V) between 0 and 1, and any vertex can have <b>texture coordinates</b> in this system.
 </ul>
-<br><img src="images/webgl-guide/texture.png">
+<br><br><img src="images/webgl-guide/texture.png">
 
 <h5>Demo</h5>
 
@@ -1887,19 +1834,19 @@ transform = (mat, options) => {
 <h5>What happens here?</h5>
 
 <ul>
-<li>An image is loaded and a WebGL <b>texture sampler</b> is created from it, using the functions <b>createTexture</b>, <b>pixelStorei</b>, <b>activeTexture</b>, <b>bindTexture</b>, <b>texParameteri</b> (lines 59 to 85).
-<br>Most of these steps plus <b>clear</b> and <b>drawArrays</b> are executed after the image has finished loading (line 63).
+<li>An image is loaded and a WebGL <b>texture sampler</b> is created from it, using the functions <b>createTexture</b>, <b>pixelStorei</b>, <b>activeTexture</b>, <b>bindTexture</b>, <b>texParameteri</b> (lines 60 to 86).
+<br>Most of these steps plus <b>clear</b> and <b>drawArrays</b> are executed after the image has finished loading (line 64).
 <li>Special texture behaviors (wrap / mirror / clamp on edges, minimize / magnify filters, etc) can be configured with <b>texParameteri</b> (more info on <a href="https://developer.mozilla.org/en/docs/Web/API/WebGLRenderingContext/texParameter">MDN</a>).
 <br>In particular, <b>gl.TEXTURE_WRAP_S</b> and <b>gl.TEXTURE_WRAP_T</b> can be set to <b>gl.REPEAT</b> (default), <b>gl.CLAMP_TO_EDGE</b> or <b>gl.MIRRORED_REPEAT</b>.
-<br>This tells WebGL what to do if a texture coordinates is not between 0 and 1:
+<br>This tells WebGL what to do if a texture coordinate is not between 0 and 1:
 </ul>
 <br><img src="images/webgl-guide/wrap.png" width=550>
 
 <ul>
-<li>The Y axis flip (on line 66) puts the image's UV origin at the top left corner, and avoids having to work with an upsise-down image.
-<li>The vertices positions are interleaved with the texture coordinates in the data buffer (lines 30 to 35).
-<br>The vertex buffer receives the vertex positions and texture coordinates as <b>attributes</b> (lines 8,9), and sends the latter to the fragment shader using a <b>varying</b> (lines 10, 13, 20).
-<li>The fragment buffer receives the coordinates as a varying, the texture image as a <b>uniform sampler2D</b> (line 19), and calls <pre class="language-js inline"><code>texture2D(sampler, v_TexCoord)</code></pre> to interpolate it (line 22).
+<li>The Y axis flip (on line 67) puts the image's UV origin at the top left corner, and avoids having to work with an upsise-down image.
+<li>The vertices positions are interleaved with the texture coordinates in the data buffer (lines 31 to 36).
+<br>The vertex shader receives the vertex positions and texture coordinates as <b>attributes</b> (lines 9 and 10), and sends the latter to the fragment shader using a <b>varying</b> (lines 11, 14, 21).
+<li>The fragment shader receives the coordinates as a varying, the texture image as a <b>uniform sampler2D</b> (line 20), and calls <pre class="language-js inline"><code>texture2D(sampler, v_TexCoord)</code></pre> to interpolate it (line 23).
 </ul>
 <br>
 
@@ -1910,7 +1857,7 @@ transform = (mat, options) => {
 <li>The U and V axis are sometimes called <b>S and T</b> in literature and 3D projects, but it's exactly the same thing.
 <li>The "pixels" inside a texture are called <b>texels</b>.
 <li>Since UV coordinates are between 0 and 1, the vast majority of texture images are square to avoid being distorted when they're mapped on a 3D shape.
-<li>In WebGL 1.0, the textures width and height in pixels need (in most cases) to be a power of two (2, 4, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096).
+<li>In WebGL 1.0, the textures width and height in pixels need (in most cases) to be a power of two (2, 4, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096...).
 <br>It's recommended to always use power-of-two sizes, but if you really need textures of different sizes, you can fix them by adding wrap on S and T axis:
 <br><pre class="language-js"><code>gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);</code></pre>
@@ -1918,20 +1865,26 @@ gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);</code></pr
 <br>You can call <pre class="language-js inline"><code>gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS)</code></pre> to know the limit on your device.
 <li>The maximum texture size also varies with the device used. To be safe, width and height shouldn't exceed 4096px (more info on <a href="http://webglstats.com/webgl2/parameter/MAX_TEXTURE_SIZE">webglstats</a>).
 <br>You can call <pre class="language-js inline"><code>gl.getParameter(gl.MAX_TEXTURE_SIZE)</code></pre> to know the limit on your device.
-<li>You can overwrite textures after a <b>draw call</b> (after calling drawArrays or drawElements) if they're not used anymore.
+<li>You can overwrite textures after a <b>draw call</b> (after calling drawArrays or drawElements) if they're not used anymore. Swapping textures can help having more than 8 textures per frame.
 <li>If you need more than 8 textures without constantly switching between them, you can gather them into a <b>texture atlas</b> (a mosaic), and pick coordinates in the regions you want.
 <br>Warning: <a href="https://answers.unity.com/questions/1009926/texture-bleeding-on-mesh.html">texture bleeding</a> can occur if you use texture coordinates at the fronteer between two "sub-textures" of an atlas, due to antialiasing. Leave a bit of padding to avoid it.
+<li>SVG files can't be used as textures (unless you use a library that converts SVG into a bitmap or a list of polygons).
+<li>To enable support for PNG images with transparency, you need to add the following line: <pre class="language-js inline"><code>gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);</code></pre>,
+<br>otherwise, the transparent pixels will remain white (more info in the <a href="webgl-guide-part-2.html#1a">part 2</a> of this guide). 
 
 </ul>
 <br>
 <h5>Changing the texture's appearance</h5>
-<p>Remember that the values you're manipulating in the fragment buffer are rgba colors, so you can do anything you want with them, like:
-<br>- inverting the colors (r = 1 - r; g = 1 - g; b = 1 - b).
-<br>- greyscaling (compute the average of r, g and b, and apply it to r, g and b).
-<br>- exchanging color components (ex: gl_FragColor = color.brga).
-<br>- playing with <b>gl_FragCoord</b> (the current canvas coordinates, in pixels, which can be read as a vec2).
-
-<br><br><img src="images/webgl-guide/textures0.png" width=600>
+<p>Remember that the values you're manipulating in the fragment shader are rgba colors, so you can do anything you want with them, like:
+<ul>
+<li>inverting the colors (r = 1 - r; g = 1 - g; b = 1 - b).
+<li>greyscaling (compute the average of r, g and b, and apply it to r, g and b).
+<li>exchanging color components (ex: gl_FragColor = color.brga).
+<li>playing with <b>gl_FragCoord</b> (the current canvas coordinates, in pixels, which is available as a global vec2).
+<li>Darken or lighten a texture by making the rgb values lower or higher.
+<li>etc...
+</ul>
+<br><img src="images/webgl-guide/textures0.png" width=900>
 
 <br>
 <br>
@@ -1955,19 +1908,26 @@ gl_FragColor = color0 * color1;</code></pre>
 <br><img src="images/webgl-guide/textures2.png" width=600>
 <br>
 <br>
+<p>NB: since WebGL can't display text natively, a common approach is to put text in an image or on a 2D canvas and use it as a texture.
+<br>More info in the <a href="webgl-guide-part-2.html#4b">second part of this guide</a>!
+
+<br>
+<br>
 <br><br><hr><br>
 <center><h2 id="3">3D graphics</h2></center>
 <br><hr><br>
 
 <h4 id="3a">The 3D camera</h4>
-<br>You should know by now that computers don't do "3D" natively.
-<br>You (or your 3D framework) will have to do all the computing to simulate the camera, the perspective, and how they affect each polygon, so the scene can seem to be in 3D.
-<br>Fortunately, the API we use (WebGL) provides very helpful tools to help rendering complex scenes without too much effort.
+<p>WebGL doesn't do "3D" natively. Even if you declare a bunch of 3D vertices and triangles, the browser doesn't have a 3D representation of your scene ready to be displayed on the canvas.
+<br>Your program will have to do all the computing to simulate the camera, the perspective, and how they affect each polygon, so the scene can <i>look like</i> it's in 3D.
+<br>Fortunately, the API we use (WebGL) provides helpful tools to render complex scenes without too much effort.
+<br>
+<p><b>The perspective camera</b>
 <br>
 <br><img src="images/webgl-guide/frustum.png">
 <p>In 3D, the "camera", with its position, angle and perspective, is defined by nothing more than a 4x4 matrix.
-<br>During render, every vertex in the scene is multiplied by this matrix to simulate these camera properties and appear at the right position.
-<br>The camera's <b>frustum</b>, also called <b>clipping volume</b>, defines an area in which the triangles will be rendered.
+<br>When the scene is rendered, every vertex fed to the vertex shader can be multiplied by this matrix to simulate these camera properties and appear at the right position on the canvas.
+<br>The camera's <b>frustum</b>, also called <b>clipping volume</b>, defines an area in which the triangles will be rendered. (all the rest is ignored)
 <br>For a camera with perspective, it is defined by an angle (the field of view), an aspect ratio, a near clip plane and a far clip plane, and can be set with this matrix:
 <br>
 <br>
@@ -2010,21 +1970,24 @@ gl_FragColor = color0 * color1;</code></pre>
 </div>
 <br>
 <br>
+
 <p>Then, the camera can be translated, rotated and scaled (zoomed) similarly to the vertices, by using the matrices multiplications we saw earlier.
 <br>A slightly more advanced LookAt() function is often used by developers to set the camera's position, angle and target all at once.
 
-<p>Here are the perspective() and lookAt() functions added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
+<p>Here are the perspective() and lookAt() functions I added in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/matrix.js">matrix.js</a>:
 
 <pre><code class="lang-js">// Create a perspective matrix
-// options: fov, aspect, near, far
+// options: fov in degrees, aspect, near, far
+// return: DOMMatrix
 perspective = options => {
-  var fov = options.fov || 1.5;
-  var aspect = options.ratio || 1; // (`canvas.width / canvas.height` if the canvas is rectangle)
+  var fov = options.fov || 85;
+  fov = fov * Math.PI / 180;       // fov in radians
+  var aspect = options.ratio || 1; // canvas.width / canvas.height
   var near = options.near || 0.01; // can't be 0
   var far = options.far || 100;
   var f = 1 / Math.tan(fov);
   var nf = 1 / (near - far);
-  return new Float32Array([
+  return new DOMMatrix([
     f / aspect, 0, 0, 0, 
     0, f, 0, 0, 
     0, 0, (far + near) * nf, -1,
@@ -2032,43 +1995,46 @@ perspective = options => {
   ]);
 }
 
-// Place a camera at the position [cameraX, cameraY, cameraZ], make it look at the point [targetX, targetY, targetZ].
-// Optional: a "up" vector can be defined to tilt the camera on one side (vertical by default).  
-lookAt = (mat, cameraX, cameraY, cameraZ, targetX, targetY, targetZ, upX = 0, upY = 1, upZ = 0) => {
+// LookAt generates a matrix corresponding to a camera placed at a given point and looking at a target point.
+// options: camera position (cameraX, cameraY, cameraZ), target (targetX, targetY, targetZ), up vector (upX, upY, upZ, optional, verticl by default)
+// return: DOMMatrix.
+lookAt = (cameraX, cameraY, cameraZ, targetX, targetY, targetZ, upX = 0, upY = 1, upZ = 0) => {
   var e, fx, fy, fz, rlf, sx, sy, sz, rls, ux, uy, uz;
   fx = targetX - cameraX;
   fy = targetY - cameraY;
   fz = targetZ - cameraZ;
-  rlf = 1 / Math.sqrt(fx*fx + fy*fy + fz*fz);
+  rlf = 1 / Math.hypot(fx, fy, fz);
   fx *= rlf;
   fy *= rlf;
   fz *= rlf;
   sx = fy * upZ - fz * upY;
   sy = fz * upX - fx * upZ;
   sz = fx * upY - fy * upX;
-  rls = 1 / Math.sqrt(sx*sx + sy*sy + sz*sz);
+  rls = 1 / Math.hypot(sx, sy, sz);
   sx *= rls;
   sy *= rls;
   sz *= rls;
   ux = sy * fz - sz * fy;
   uy = sz * fx - sx * fz;
   uz = sx * fy - sy * fx;
-  var l = new Float32Array([
+  var ret = new DOMMatrix([
     sx, ux, -fx, 0,
     sy, uy, -fy, 0,
     sz, uz, -fz, 0,
     0,  0,  0,   1
   ]);
-  l = transform(l, {x: -cameraX, y: -cameraY, z: -cameraZ});
-  return multMat4Mat4(mat, l); 
+  return ret.translateSelf(-cameraX, -cameraY, -cameraZ);
 }</code>
 </pre>
 
+<p>(Note that the canvas' aspect ratio is part of the perspective matrix, which means that all canvas sizes are supported out-of-the-box!)
 <br>
-<p>It's also possible to make a camera with no perspective, also called "orthogonal", "orthographic", "isometric" or "2.5D".
-<br>In this case, the clipping volume is a box:
+<p><b>The orthogonal camera</b>
+<br>
 <br><img src="images/webgl-guide/orthogonal.png">
 <br>
+<p>It's also possible to make a camera with no perspective, also called "orthogonal", "orthographic", "isometric" or "2.5D".
+<br>In this case, the clipping volume is a box with no "field of view" angle.
 <p>Here are the matrix and the corresponding source code:
 <br>
 <br>
@@ -2114,6 +2080,7 @@ lookAt = (mat, cameraX, cameraY, cameraZ, targetX, targetY, targetZ, upX = 0, up
 
 <pre><code class="lang-js">// Create an orthogonal matrix
 // options: top, bottom, left, right, near, far
+// return: DOMMatrix
 orthogonal = options => {
   var top = options.top;
   var bottom = options.bottom;
@@ -2124,7 +2091,7 @@ orthogonal = options => {
   var rw = 1 / (right - left);
   var rh = 1 / (top - bottom);
   var rd = 1 / (far - near);
-  return new Float32Array([
+  return new DOMMatrix([
     2 * rw, 0, 0, 0,
     0, 2 * rh, 0, 0,
     0, 0, -2 * rd, 0,
@@ -2132,6 +2099,8 @@ orthogonal = options => {
   ]);
 }</code>
 </pre>
+
+<p>NB: in 2D, there's no such thing as a "camera", but you can simulate panning and zooming by applying offsets and scale to all the elements in the scene. 
 
 <br><br><hr><br>
 
@@ -2143,13 +2112,12 @@ orthogonal = options => {
 <p>In 3D, vertices are often shared between multiple triangles.
 <br>Instead of repeating the same vertices many times in the same buffer, it's possible to write each vertex only once in a data buffer,
 <br>and use a second buffer with the type <b>gl.ELEMENT_ARRAY_BUFFER</b> that declares all our triangles by using indices of the first object.
-<p>Even if many data buffers exist in your program, only one index buffer can be used, and it will list indices from all the data buffers at the same time,
-<br>so they all need to be stored in the same order (the N'th item of every buffer must belong to the same N'th vertex).
+<p>Even if many data buffers exist in your program (positions, colors, texture coordinates...), only one index buffer can be used, and it will list indices from all the data buffers at the same time,
+<br>so they all need to be stored in the same order (the 1st item of every buffer must belong to the 1st vertex, etc...).
 <p>Finally, to draw indexed vertices, you need you replace gl.drawArrays with <b>gl.drawElements(type, count, type, offset)</b>.
 <p>The indices stored in the index buffer have integer values (N = 0, 1, 2...), and you can choose their size in bytes depending on the number of vertices you want to index:
 <br>
-<br>
-<table border>
+<table border style="max-width:600px">
 <tr>
 <th>Number of vertices to index
 <th>Index buffer type
@@ -2168,7 +2136,7 @@ orthogonal = options => {
 <td>gl.UNSIGNED_INT (*)
 </table>
 
-<p>(*) In WebGL 1.0, an extension must be enabled before using the type UNSIGNED_INT: <b>gl.getExtension('OES_element_index_uint');</b>. In WebGL2, it's enabled by default.
+<p>(*) In WebGL 1.0, this type needs to be enabled with <b>gl.getExtension('OES_element_index_uint');</b>. In WebGL2, it's enabled by default.
 
 <br><br><hr><br>
 
@@ -2183,19 +2151,20 @@ orthogonal = options => {
 <h5>What happens here?</h5>
 
 <ul>
-<li>Here we are, finally drawing in 3D! But to render it correctly, we had to enable WebGL's <b>depth sorting</b>.
+<li>Here we are, finally drawing in 3D!
+<li>To render the scene correctly, we had to enable WebGL's <b>depth sorting</b>.
 <br>This mechanism ensures that only the fragments that are the closest to the camera are drawn, in order to avoid, for example, seeing the back face of the cube on top of the front face.
-<br>To do that, we add <pre class="language-js inline"><code>gl.enable(gl.DEPTH_TEST);</code></pre> and update the clearing: <pre class="language-js inline"><code>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</code></pre> (see lines 95 and 106).
-<li>Notice the index buffer (lines 60-67 + 78-80), and the use of <b>drawElements</b> (line 107) with matching types (Uint8Array / gl.UNSIGNED_BYTE).
-<li>You may have noticed that the cube appears to rotate on itself, but it's actually the camera that rotates around it (see lines 97-100 + 104).
-<li>In JS, the the trigonometric functions use angles in <b>radians</b>, but it's easier to imagine a fov in degrees, so a little degrees-radians converter is added on line 7 and used on line 99.
+<br>To do that, we add <pre class="language-js inline"><code>gl.enable(gl.DEPTH_TEST);</code></pre> and update the clearing: <pre class="language-js inline"><code>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</code></pre> (see lines 91 and 102).
+<li>Notice the index buffer (lines 56-63 + 74-76), and the use of <b>drawElements</b> (line 103) with matching types (Uint8Array / gl.UNSIGNED_BYTE).
+<li>You may have noticed that the cube appears to rotate on itself, but it's actually the camera that rotates around it (see lines 93-96 + 100).
 </ul>
 
 <h5>Tips and tricks</h5>
 
 <ul>
-<li>In this demo, a 60-fps loop is made using a simple (and a bit hacky) call to <pre class="language-js inline"><code>setInterval( /* function called every 16ms */, 16);</code></pre>.
-<br>This can be enhanced by syncing to the screen's refresh rate with <a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame">requestAnimationFrame</a>. Ex: <pre class="language-js inline"><code>var loop = function(){ requestAnimationFrame(loop); /* ... */}; loop();</code></pre>
+<li>In this demo, a 60-fps loop is made using a simple call to <pre class="language-js inline"><code>setInterval( /* loop's code */, 16);</code></pre>.
+<br>This can be enhanced by syncing to the screen's refresh rate with <a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame">requestAnimationFrame</a>.
+<br>Ex: <pre class="language-js inline"><code>var loop = function(){ requestAnimationFrame(loop); /* loop's code */}; loop();</code></pre>
 <li>Remember that in every demo, you can see the triangles in wireframe by changing the first parameter of gl.grawElements to <b>gl.LINE_LOOP</b>, which makes the face diagonals visible:
 </ul>
 <br>
@@ -2221,13 +2190,13 @@ orthogonal = options => {
 
 <h5>What happens here?</h5>
 
-<p>The vertex positions and colors are split in two data buffers to improve readability. Each line declares the 4 vertices composing one (square) face of the cube (lines 39-55).
-<br>Then, the index buffer makes two triangles from the vertices of each face, and recycles the vertices placed on the diagonal (lines 57-64).
-<br>Thanks to this indexing, we only need to declare 24 vertices (4 per face) instead of 36 (3 per triangle x 12 triangles).
+<p>The vertex positions and colors are split in two data buffers to improve readability. Each line declares the 4 vertices composing one (square) face of the cube (lines 34-51).
+<br>Then, the index buffer makes two triangles from the vertices of each face, and recycles the vertices placed on the diagonal (lines 53-60).
+<br>With this indexing, we only need to declare 24 vertices (4 per face) instead of 36 (3 per triangle x 12 triangles).
 <br>
 <h5>Tips and tricks</h5>
 
-<p>Let's add the cube declaration in the cube() function of <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> to avoid repeating it in the next demos:
+<p>I added the cube declaration in a helper file called <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a> to avoid repeating it in the next demos:
 
 <pre><code class="lang-js">// Declare a cube (2x2x2)
 // Returns [vertices (Float32Array), normals (Float32Array), indices (Uint16Array)] 
@@ -2277,11 +2246,9 @@ cube = (r = 1, g = 1, b = 1) => {
 
 <br><br><img src="images/webgl-guide/othershapes.png" width=750>
 
-<br><br>NB: all the shapes in shapes.js use Uint16Array's for indices, so if you use them, remember to use the type <b>gl.UNSIGNED_SHORT</b> in drawArrays().
+<br><br>NB: all the shapes in shapes.js use Uint16Array's for indices, so if you use them, be sure to use the type <b>gl.UNSIGNED_SHORT</b> in drawElements().
 
 <br><br><hr><br>
-
-
 
 <h4 id="3e">Lighting and shading</h4>
 <p>The terms lighting and shading are often used without distinction but they actually represent two different things:
@@ -2295,78 +2262,17 @@ cube = (r = 1, g = 1, b = 1) => {
 <img src="images/webgl-guide/shading.png" width=500>
 <br>In the first case, all the pixels are the same color, which doesn't look natural.<br>In the second case, every face has a different color, but our brains interpret in as a shaded, red cube.
 
-<!--p>To implement that, we first need to learn two new tools:
-
-<h5>1) Normals and cross-products</h5>
-
-<img src="images/webgl-guide/normal.png" width=300>
-<br>
-
-<p>Each triangle has a <b>normal</b>: it's a 3D vector perpendicular to its surface, and <b>normalized</b> (with a length equal to 1).
-<br>A normal can be computed using a <b>cross-product</b> of two edge's vectors: AB × BC points "up" if the points A, B and C are in counterclockwise order.
-
-<p>A cross-product can be computed natively in GLSL: <b>cross(AB, BC)</b>.
-
-<br>However, the normals of a 3D model are generally hard-coded or computed once, in JS when the page loads:
-</ul>
-<pre><code class="lang-js">// Compute the cross-product of two vectors AB and BC in JavaScript.
-// Returns the normal vector of the triangle ABC, oriented to the side where the points A B and C are in counter-clockwise order.
-cross = (xA, yA, zA, xB, yB, zB, xC, yC, zC) => {
-  var xAB = xB - xA, yAB = yB - yA, zAB = zB - zA; // AB vector
-  var xBC = xC - xB, yBC = yC - yB, zBC = zC - zB; // BC vector
-  return [yAB * zBC - zAB * yBC, zAB * xBC - xAB * zBC, xAB * yBC - yAB * xBC]; // cross product
-}</code></pre>
-
-<br>There's a mnemotechnic way to remember how a cross-product works, called <b>right-hand rule</b>: your right thumb is the cross-product of your 2nd and 3rd right finger.
-
-<img src="images/webgl-guide/righthand.png" width=400>
-
-<p>Some people prefer the opposite, left-hand rule, which can be enabled using <b>gl.frontFace(gl.CW)</b>, but it's not recommended.
-<br>Also, the fragment shader can know at any moment if the triangle being rendered is facing the camera by testing the boolean variable <b>gl_FrontFacing</b>.
-<br>This can be used to enable <b>backface culling</b> (hide triangles that are not facing the camera to save resources),
-<br>or to the contrary, make both sides of a triangle react to light in a similar way (by inverting the normal vector with <b>normal *= -1;</b> if gl_FrontFacing is false). More info on <a href="https://makc3d.wordpress.com/2015/09/17/alternative-to-gl_frontfacing/">mack3d's blog</a>.
-
-<br>
-<h5>2) Dot product</h5>
-
-<a href="https://twitter.com/FreyaHolmer/status/1200807790580768768?ref_src=twsrc%5Etfw"><img src="images/webgl-guide/dot.gif" width=250 style="border: 1px solid #ddd;"></a>
-
-<p>The <b>dot product</b> is a function that compares two normalized vectors and tells how perpendicular they are.
-<br>The dot product can have any value between 1 and -1, with three remarkable values:
-<ul>
-<li>1: the vectors are parallel.
-<li>0: they're perpendicular.
-<li>-1: they're at the opposite of each other.
-</ul>
-
-<p>In our case, it is interesting to check if a triangle is facing a light source, and render it accordingly.
-<br>This operation is usually done inside the shader, using the native function <b>dot(lightDirection, normal)</b>.
-<br>Though, if you need to do it in JS, it looks like this:
-<br>
-
-<pre><code class="lang-js">// Dot-product of two vec3: V and W
-dot = (xV, yV, zV, xW, yW, zW) => {
-  return xV * xW + yV * yW + zV * zW;
-}</code></pre>
-
-<p>It's also worth noting that the dot product of two vectors is equal to the <b>cosine</b> of the relative angle between them.
-
-<br>
-<br>
-<hr style="width:500px">
-<br-->
-
-<p>There are many different ways to light a 3D scene, here are the five main ones we can start with:
+<p>There are many different ways to light a 3D scene, here are the five main ones:
 
 <h5>1) Diffuse light</h5>
 <p>Diffuse light (also called <b>directional light</b>) is the equivalent of the sun's light on Earth: all the rays are parallel and have the same intensity everywhere in the scene.
 <br>When it hits a surface, it is reflected in all directions, but the intensity of the reflexion decreases proportionally to the angle in which the light hits the surface:
 <br><br><img src="images/webgl-guide/diffuse.png">
-<br>To simulate it, we need to define a light source with a color (for example, white), and a direction (for example, vec3(0.5, 3.0, 4.0)).
+<br>To simulate this, we need to define a light source with a color (for example, white), and a direction (for example, vec3(0.5, 3.0, 4.0)).
 
-<br>The color set by the fragment shader is: the light's color (rgb) × the face color (rgb) × the dot product of the normal and the light. The color's alpha is fixed to 1.0.
-<br>If the dot product is negative, we set it to "0" (there can't be a negative amount of light). This is done with <b>max(dot(lightDirection, normal), 0.0);</b> (see line 27).
-<br>Note: it's a good practice to re-normalize the normals in the shaders to ensure they have the right length. This is done with <b>normalize()</b>. (also on line 27).
+<br>The color set by the fragment shader is equal to the light's color (rgb) * the face color (rgb) * the dot product of the triangle's normal and the light. The color's alpha is fixed to 1.0.
+<br>If the dot product is negative, we set it to zero (there can't be a negative amount of light). This is done with <b>max(dot(lightDirection, normal), 0.0);</b> (see line 24 below).
+<br>Note: it's a good practice to re-normalize the normals in the shaders to ensure they have the right length. This is done with <b>normalize()</b>. (also on line 24).
 <p>
 <b>Demo</b>
 <p>
@@ -2376,7 +2282,7 @@ dot = (xV, yV, zV, xW, yW, zW) => {
 
 <p>With diffuse lighting alone, some faces are too dark, like the rightmost one in the previous demo. To fix that, we can add an ambient light reflexion.
 <br>It's a light that is applied equally to all the triangles in the scene, regardless to their normal vector.
-<br>To simulate it, we need to set a light color (not too bright, for example: vec3(0.2, 0.2, 0.2)), multiply it with the surface color, and add it to the diffuse light (see line 37):
+<br>To simulate it, we need to set a light color (not too bright, for example: vec3(0.2, 0.2, 0.2)), multiply it with the surface color, and add it to the diffuse light (see line 34 below):
 <p>
 <b>Demo</b>
 <p>
@@ -2388,14 +2294,19 @@ dot = (xV, yV, zV, xW, yW, zW) => {
 <p>We can also have a <b>point light</b> representing a light bulb, with a specific position and color.
 <br>It's similar to diffuse light, except that the light rays are not parallel, because the light source is not "infinitely" far away: it's in the scene and emits lights in all directions.
 <br>With a point light, the shading intensity will vary according to the angle of the light rays, but also according the distance from the light source to the object: it's called <b>light attenuation</b>.
-<br>In the real world, the light attenuation is proportional to the distance squared (d²), but in computer graphics, it's usually proportional to the distance (not squared).
-<br>When a point light reflexion is computed per vertex, it looks a bit nicer but the triangles are still visible:
+<br>In the real world, the light attenuation is proportional to the distance squared (d²), but in computer graphics, it usually looks better to make it proportional to the distance (not squared).
+<br>When a point light reflexion is computed per vertex, it looks a bit nicer than the flat colors above, but the triangles are still visible:
 <br>
 <br><img src="images/webgl-guide/per_vertex.png" width=500>
 <br>
-<br>The best solution consists in computing the right color for every fragment of the cube (i.e. every pixel) according to its distance from the light source,<br>and that's exactly what the fragment shader is here for:
+<br>The best solution consists in computing the right color for every fragment of the scene (i.e. every pixel) according to its distance from the light source,<br>and that's exactly what the fragment shader is here for:
 <br><br><img src="images/webgl-guide/sphere.png" width=500>
+<!--p>It looks better (less polygonal) like that because each fragment interpolates the normal vector from the neighbour vertices, the same way it interpolates colors and texture coordinates:
+
+<br><br><img src="images/webgl-guide/normal-inter.png" width=400-->
+
 <br>
+
 <p>The following demo shows how a point light can be computed per fragment.
 <br>The vertex shader sends the vertices positions, colors and normals to the fragment shader using three varyings, and the fragment shader computes everything.
 <p><b>Demo</b>
@@ -2408,7 +2319,7 @@ dot = (xV, yV, zV, xW, yW, zW) => {
 
 <p>A <b>spot light</b> is very similar to a point light, except that it does not emit light rays in all directions, but rather inside a given "cone".
 <br>When this cone hits a surface, the resulting lighting is elliptic, like a spot. In the real world, this is similar to a torchlight.
-<p>To implement it, we can start from a point light, and add a direction (like we had in the diffuse light) and an angle (like the camera's "field of view" angle, but for the light source).
+<p>To implement it, we can start from a point light, to which we add a direction (like we had in the diffuse light) and an angle (like the camera's "field of view" angle, but for the light source).
 <br>Then, the diffuse light is only computed for the fragments where the dot product of the spot direction and the spot-to-surface vector is bigger than the cosine of the spot's angle.
 <br>(If the dot product is smaller than the angle's cosine, it means that we're outside of the light cone.)
 
@@ -2424,11 +2335,18 @@ uniform float spotAngle;
 
 (...)
 
-// Compute diffuse light (spot)
+// Compute diffuse light
 vec3 diffuse = vec3(0.0, 0.0, 0.0);
 float dotSpotLight = dot(normalize(spotDirection), -normalize(lightDirection));
+
+// Apply the diffuse light inside the spot's "field of view"
 if(dotSpotLight > spotAngle){
   diffuse = lightColor * v_color.rgb * nDotL;
+}
+
+// Outside of the spot's fov, also apply the diffuse light, but attenuated (optional)
+else {
+  diffuse = lightColor * v_color.rgb * nDotL * vec3(0.2, 0.2, 0.2);
 }</code></pre>
 
 <br>JavaScript:
@@ -2454,7 +2372,7 @@ Demo:
 <img src="images/webgl-guide/spec.gif" width=250>
 <br>
 <br>
-<p>When an object is shiny, it can reflect a point light like a mirror under a certain angle. Its result looks like a spot light, but it's very different.
+<p>When an object is shiny, it can reflect a point light like a mirror under a certain angle. The result looks like a spot light, but it's very different.
 <br>Specular light is actually the only light in this list that relies on the camera's position to be computed: when the camera moves, the reflect moves too.
 <br>To implement it, we need to:
 <ul>
@@ -2482,13 +2400,14 @@ Demo:
 <br>This provokes a <b>facetted</b> (or polygonal) rendering, where neighbour triangles are separated by a visible "hard edge".
 <br><b>Smooth shading</b> (or "Phong shading"), consists in computing a different normal for each vertex, equal to the mean of the normals of all the triangles around it.
 
-<br><br><a href="https://www.toptal.com/javascript/3d-graphics-a-webgl-tutorial"><img src="images/webgl-guide/softshading.png" width=400></a>
+<br><br><a href="https://www.toptal.com/javascript/3d-graphics-a-webgl-tutorial"><img src="images/webgl-guide/softshading.png" width=600></a>
 
-<br>This computation can be done outside of your WebGL program, and if you work with 3D models, 3D editors can generally export them with or without enabling smooth shading. The only difference you'll see is that each vertex will have a specific normal vector, instead of the faces normals.
+<p>This computation can be done outside of your WebGL program, and if you work with 3D models, most 3D editors allow to export them with or without smooth shading.
+<br>The only difference you'll see is that each vertex will have a specific normal vector, instead of the faces normals.
 
-<br>Fun fact: there's no need to use divisions to obtain this mean value! Just normalize the sum of all the neighbour faces normals and you're good! (more info on <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">iquilezles's website</a>)
+<p>Fun fact: there's no need to use divisions to obtain this mean value! Just normalize the sum of all the neighbour faces normals and you're good! (more info on <a href="https://www.iquilezles.org/www/articles/normals/normals.htm">iquilezles's website</a>)
 <br>Also, since the normal is now a varying vector interpolated for each fragment, the fragment shader needs to re-normalize it to stay accurate at each pixel.
-<br>Example: the same 3D model with smooth shading disabled / enabled (more info about loading 3D models in a future chapter!):
+<br>Example: here's the same 3D model with smooth shading disabled / enabled (more info about loading 3D models in the <a href="webgl-guide-part-2.html#5a">part 2</a> of this guide!):
 <br><br><img src="images/webgl-guide/w5.gif" width=650>
 
 <br><br><hr style="width:500px"><br>
@@ -2497,32 +2416,13 @@ Demo:
 
 <p>You may have heard about <b>raytracing</b> as a way to produce protorealistic lights and reflections in 3D scenes, but this is actually a whole other domain of computer graphics.
 
-<br><br><img src="images/webgl-guide/ray.png">
-<br>
-<br>Raytracing can be done with WebGL, but it's generally computed on a fullscreen shader than in a scene made of triangles, as you can see <a href="https://www.shadertoy.com/results?query=tag%3Draytracer"> on Shadertoy</a>.
-
-<br>It also enables more advanced lighting modes, such as <b>Emissive lighting</b>, where an object is self-illuminated, glows and affects the the surrounding objects like a light source.
 <br><br><img src="images/webgl-guide/emissive.png">
 
-<br><br>But this will not be covered in this guide... maybe the next one?
-<!--br><br><hr style="width:500px"><br>
+<br><br>Raytracing can be done with WebGL, but not with a bunch of triangles.
+<br>Like <b>raycasting</b>, it consists in rendering a scene by casting a virtual light ray for every pixel of the canvas, and let it reflect, refract and cast shadows according to real world's physics.
+<br>It also enables more advanced lighting modes, such as <b>Emissive lighting</b>, where an object is self-illuminated, glows and affects the the surrounding objects like a light source.
 
-<h5>How about Physically Based Rendering?</h5>
-
-<p>Physically Based Rendering, or PBR, is a combination of techniques that allow to make materials react to any type of lighting based on real-world physics.
-<br>It allows to reach a level of realism that is much higher than what is possible with approximations like diffuse, ambient and specular lighting, or even basic raytracing.
-<br>Though, the maths behind it are extremely complex, and out of the scope of this guide, but you can read more about it in this free <a href="http://www.pbr-book.org/">reference book</a>.
-
-<br><br><img src="images/webgl-guide/pbr.jpg" width=800>
-
-<br><br><hr style="width:500px"><br>
-
-<h5>How about baked lighting?</h5>
-
-<p><b>Baked lighting</b> was an optimization used in early 3D games, where real-time computations were very CPU-intensive.
-<br>The lights, shadings and shadows were precomputed or drawn by artists during the game development and displayed as textures to save resources.
-<br>Famous example from Zelda Wind Waker on Gamecube: 
-<br><br><img src="images/webgl-guide/baked.jpg" width=700-->
+<p>I won't cover it in this guide but you can find more info on <a href="https://www.shadertoy.com/results?query=tag%3Draytracer">codepen</a> and in <a href="<a href="http://www.pbr-book.org/">this e-book about physics based rendering</a>.
 
 <br><br><hr><br>
 
@@ -2531,28 +2431,25 @@ Demo:
 <p>So far, we've only transformed the camera matrix to make it revolve around the cube, which created an illusion of cube rotation.
 <br>Now that we learned how to place a fixed light in the scene, if we want to rotate, translate or scale a cube without touching the rest of the scene, we need to do three things:
 <ul>
-<li>Introduce a <b>model matrix</b> (the transformation matrix of the cube).
-<li>Update the position of each cube vertex by multiplying it with the camera matrix (as usual) and also multiplying it with the model matrix.
-<li>Recompute all the vertex normals and the lighting of every fragment after each update of the model matrix.
+<li>Introduce a <b>model matrix</b> (the transformation matrix of the cube), aside from the camera matrix.
+<li>Compute <b>gl_Position</b> in the vertex shader by multiplying each vertex with the camera matrix (as we did before) <i>AND</i> with the model matrix.
+<li>Now that the model has been modified, all its face normals must be recomputed in order to apply lighting correctly.
 </ul>
-<br>
 <p><b>How to update the normals efficiently</b>
-<p>It's possible to recompute the normals from scratch in JS (with a cross product) after each transform, but it can represent a lot of computations in scenes that contain a lot of triangles.
-<br>So, in practice, the best approach is to keep the original normals unchanged, and have a single transformation matrix that can be used to update all of them.
-<br>Then, when the model matrix changes, two things can occur:
+<p>It's possible to recompute all the faces normals from scratch in (with a cross product) but it would represent a huge amount of processing power.
+<br>In practice, the best approach is to keep the original normals unchanged, and provide the vertex shader with a single transformation matrix that can be used to update all of them.
+<br>This matrix is called the <b>inverse transpose</b> of the model matrix (in other words, the transpose ob the inverse of the model matrix).
 <ul>
-<li>If the transformation is a simple translation, rotation, or uniform scale, the original normal's xyz coordinates can be multiplied with the top-left 3x3 matrix of the model matrix:
-<br><pre class="lang-js inline"><code>vec3 v_normal = normalize(mat3(model) * normal.xyz)</code></pre>
-<br>
-<br>
-<li>But if the transformation is a non-uniform scale or a combination of multiple transformations, then applying a subset of the model matrix won't be accurate.
-<br>In this case, the solution is to multiply the normal with the <b>inverse transpose</b> of the model matrix, i.e. the transpose of the inverse of the model matrix:
-<br><pre class="lang-js inline"><code>vec3 v_normal = vec3(inverseTranspose * normal)</code></pre>
+<li>In JS, you can create it by doing:
+<pre class="language-js"><code>var inverseTransposeMatrix = new DOMMatrix(modelMatrix);
+inverseTransposeMatrix = transpose(inverseTransposeMatrix.invertSelf());</code></pre>
+
+<li>And in the fragment shader, you can apply it by doing:
+<pre class="language-js"><code>vec3 v_normal = vec3(inverseTranspose * normal)</code></pre>
 </ul>
 
-<p>The second approach is often the only one used in 3D programs, because it works for both simple and complex transformations.
-<br>This generic approach means that the inverse transpose matrix must be computed once per frame, in JavaScript, and passed to the vertex shader,
-<br>along with the original normals, the model matrix, and all the usual attributes and uniforms (position, color, light...).
+<p>If you're doing an animation, the inverse transpose matrix must be computed once per frame, for each object in the scene, in JS, and passed to the vertex shader.
+
 <h5>Demo</h5>
 
 <p>Here's a cube rotating on itself with a fixed camera and a fixed point light:
@@ -2564,15 +2461,16 @@ Demo:
 <h5>What happens here?</h5>
 
 <ul>
-<li>When the page loads, the cube, the light and the camera matrix are set as usual. (lines 68-105).
+<li>When the page loads, the cube, the light and the camera matrix are set as usual. (lines 65-102).
 <li>Three new matrices are introduced: <b>model</b> (the model matrix), <b>inverseTranspose</b> and <b>mvp</b> (the model view projection matrix, equal to cameraMatrix * modelMatrix).
-<li>In the loop executed 60 times per second, we update the cube Y angle (line 117), recompute the model matrix (lines 119-122), the mvp matrix (lines 124-126),<br>the inverse transpose matrix (lines 128-130), and send them to WebGL as uniforms, before rendering the scene.
-<br>Note: the </b>identity</b> matrix is used in each frame to recompute the model matrix from scratch (line 120). It's more accurate than updating the same matrix with small increments every time.
-<li>The vertex shader applies the mvp matrix to the current vertex (line 26), and sends three varyings (position, normal and color) to the fragment shader.
-<li>The fragment shader does nothing new. As far as it is concerned, its task is still to compute a shading from the variables at its disposal, regardless of how they were computed.
+<li>In the loop executed 60 times per second, we update the cube's Y angle (line 114), then recompute the model matrix (lines 116-119), the mvp matrix (lines 122-124),<br>the inverse transpose matrix (lines 127-129), and send them to WebGL as uniforms, before rendering the scene.
+<li>A new model matrix is created at each frame to represent the cube's angle (line 120). Wou may wonder why we don't use a single matrix that we rotate a little at each frame?
+<br>It's a better practice to start from scratch at each frame to avoid piling up rounding errors after each little angle increment, which can lead to big imprecisions in the long run.
+<li>The vertex shader applies the mvp matrix to the current vertex (line 23), and sends three varyings (position, normal and color) to the fragment shader.
+<li>The fragment shader does nothing new. As far as it is concerned, its task is still to compute a shading from the variables at its disposal.
 </ul>
 
-<h5>Tips and tricks</h5>
+<!--h5>Tips and tricks</h5>
 
 <ul>
 <li>The mvp matrix introduced above is precomputed in JavaScript to avoid recomputing it for every vertex, just like we did for combined transformation matrices.
@@ -2611,7 +2509,7 @@ inverse = m => {
 // Get the inverse transpose of a mat4
 inverseTranspose = m => transpose(inverse(m));</code></pre>
 <br>As you can see, the inversion algorithm is a bit hairy, so it's better to do it the as few times per second as possible.  (Once per frame, in JS, is the best solution)
-<br>Nevertheless, this inverse transpose is very useful for other life-saving tricks, as we will see in the part 2 of this guide!
+<br>Nevertheless, this inverse transpose is very useful for other life-saving tricks, as we will see in the part 2 of this guide!-->
 
 <br><br><hr><br>
 
@@ -2624,33 +2522,37 @@ inverseTranspose = m => transpose(inverse(m));</code></pre>
 
 <h5>Demo</h5>
 
-<p>Here's a demo with 3 red <b>cuboids</b> (that's how we call deformed cubes)
+<p>Here's a demo with 3 red <b>cuboids</b> (deformed cubes)
 <br><br>
 <iframe id=i15 loading=lazy src="../../webgl-guide/editor/?demo=15"></iframe>
 
 <h5>What happens here?</h5>
 
-<p>A new model matrix is created and drawn three times using the same data buffers (lines 110, 132, 154).
+<ul>
+<li>A function <b>renderCube()</b> (lines 108-127) prepares and render a cube from the data buffer defined above (lines 65-79)
+<li>This function has translate and scale parameters, that it applies to the modelMatrix. It also creates a mvp matrix and an inverse transform matrix.
+<li>The finction is called three times (after the canvas clear) to render the three cuboids.
+</ul>
 
 <h5>Tips and tricks</h5>
 
-<p>To avoid repetitions, I added a drawShape() function in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a>, with optional scaling along X/Y/Z. Its role is to (re)render the current model as many times as necessary.
+<p>I added a generic drawShape() function in <a href="https://github.com/xem/webgl-guide/blob/gh-pages/lib/shapes.js">shapes.js</a>, with optional transformation. It is able to (re)render the same model many times.
 
-<pre><code class="lang-js">// Draw the current shape
-drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) => {
+<pre><code class="lang-js">// Draw a model
+drawModel = (gl, program, cameraMatrix, modelMatrix, n, transform) => {
   
   // Set the model matrix (add the custom scale if any)
   var model = gl.getUniformLocation(program, 'model');
-  modelMatrix = transform(modelMatrix, {sx, sy, sz});
+  modelMatrix = (new DOMMatrix(modelMatrix)).preMultiplySelf(transform));
   gl.uniformMatrix4fv(model, false, modelMatrix);
 
   // Set the cube's mvp matrix (camera x model)
-  var mvpMatrix = multMat4Mat4(cameraMatrix, modelMatrix);
+  var mvpMatrix = (new DOMMatrix(modelMatrix).preMultiplySelf(cameraMatrix);
   var mvp = gl.getUniformLocation(program, 'mvp');
   gl.uniformMatrix4fv(mvp, false, mvpMatrix);
 
   // Set the inverse transpose of the model matrix
-  var inverseTransposeMatrix = transpose(inverse(modelMatrix));
+  var inverseTransposeMatrix = transpose((new DOMMatrix(modelMatrix)).invertSelf());
   var inverseTranspose = gl.getUniformLocation(program, 'inverseTranspose');
   gl.uniformMatrix4fv(inverseTranspose, false, inverseTransposeMatrix);
 
@@ -2676,10 +2578,10 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <h5>What happens here?</h5>
 
 <ul>
-<li>You can see on lines 146-150 that the vertical "arm" cuboid can rotate around its X axis, and once it's rotated, we perform a "-2" translation along Y.
+<li>You can see on lines 143-146 that the vertical "arm" cuboid can rotate around its X axis, and once it's rotated, we perform a "-2" translation along Y.
 <br>As described in the "transformations" chapter, this allows to make the cuboid rotate around a pivot point placed at its extremity (the "elbow", 2 units higher) instead of its center.
-<li>Then, on lines 152-155, the hand cuboid, which is attached at the end of the arm cuboid, inherits its model matrix, and updates it to add its own rotation and translation.
-<br>(the rotation happens along the Y axis, and the translation places it at the end of the arm).
+<li>Then, on lines 148-150, the hand cuboid, which is attached at the end of the arm cuboid, inherits its model matrix, and updates it to add its own rotation and translation.
+<br>(the rotation happens along the Y axis, and the translation places the hand at the end of the arm).
 </ul>
 
 <h5>Tips and tricks</h5>
@@ -2703,25 +2605,25 @@ drawShape = (gl, program, cameraMatrix, modelMatrix, n, sx = 1, sy = 1, sz = 1) 
 <li>Trying to change the value of a const variable.
 <li>Trying to set a value already set by an uniform or a varying (they are read-only).
 <li>Trying to set a non-constant limit in a for-loop.
-<li>Trying to use a function recursively.
-<li>Trying to use === or !== operators.
+<li>Trying to use a function recursively (recursivity is not allowed).
+<li>Trying to use === or !== operators (they don't exist).
 <li>Mismatching int or float precision for a variable read by both shaders.
 </ul>
 <br>
 <p>Other errors can be made in the JS program, and can sometimes fail silently. especially:
 <ul>
-<li>Using the bad count parameter for gl.drawArrays or gl.drawElements (it must be the number of vertices to draw).
+<li>Using the bad count parameter for gl.drawArrays or gl.drawElements (it must be the number of vertices to draw, not the number of triangles).
 <li>Using the wrong combination of types for an index buffer and gl.drawElements (ex: Uint16Array only work with gl.UNSIGNED_SHORT).
 <li>Not passing the right amount of data in attributes or uniforms (ex: 4 floats in a vec3).
 </ul>
 <br>
 <p>Finally, if no syntax errors were made but nothing appears, check if:
 <ul>
-<li>The camera looks in the right direction (and with a decent fov angle, usually around 0.9 radians / 50°).
+<li>The camera looks in the right direction (and with a correct fov angle if there's a perspective matrix, usually around 50 degrees).
 <li>The light source is not too dark or trapped inside a 3D object.
 <li>Your normals are not inverted (they must point "outside" to let the object reflect the light correctly).
 <li>You didn't accidentally set any color's alpha to 0.0.
-<li>You're not drawing points that are too big or have their center placed outside of the canvas.
+<li>You're not drawing gl.POINTS that are too big or have their center placed outside of the canvas.
 </ul>
 
 
@@ -2736,7 +2638,7 @@ Anyway, if you want to enable it, you need to change the canvas context creation
 <br>Here are the most important changes:
 <br><ul>
 <li><b>attribute</b> must be renamed as <b>in</b> inside the shaders (ex: <b>in vec4 a_position;</b>).
-<li><b>varyings</b> must be renamed as <b>out</b> in the vertex shader and <b>in</b> in the fragment buffer.
+<li><b>varyings</b> must be renamed as <b>out</b> in the vertex shader and <b>in</b> in the fragment shader.
 <li><b>gl_FragColor</b> doesn't exist anymore. Instead, the fragment shader needs to declare its own <b>out vec4 fragColor;</b> before main() and set its value inside main().
 <li>The fragment shader can edit the depth buffer directly using the global <b>gl_FragDepth</b>.
 <li>New <b>types</b>: uint, bvec2/3/4 (boolean vectors), ivec2/3/4 (integer vectors), uvec2/3/4 (uint vectors), mat2x3, mat2x4, mat3x4, mat4x3, mat4x2, mat3x2 and a bunch of new Samplers.
@@ -2794,7 +2696,7 @@ gl.bindVertexArray(vao);</code></pre>
 <p><b>1. Writing less lines of code</b>
 <p>If you're on a tight byte budget, there are a number of optimizations that you can remove from your code:
 <ul>
-<li>Remove all unnecessary HTML: <b>&lt;!doctype html></b>, <b>&lt;meta charset=utf-8></b>, <b>&lt;html></b>, <b>&lt;head></b>, <b>&lt;title></b>, <b>&lt;body></b> ...
+<li>Remove all unnecessary HTML: <b>&lt;!doctype html></b>, <b>&lt;meta charset=utf-8></b>, <b>&lt;html></b>, <b>&lt;head></b>, <b>&lt;title></b>, <b>&lt;body></b>, ...
 <li>Remove quotes around HTML attributes: <b>&lt;canvas id=canvas width=400 height=400></b> ...
 <li>Put all your JavaScript code in a single <b>&lt;script></b> tag.
 <li>Remove error logs:
@@ -2805,24 +2707,19 @@ gl.bindVertexArray(vao);</code></pre>
 <pre class=lang-js><code>// gl.clearColor(0, 0, 0, 1);
 // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);</code></pre>
 Note: black background can still be obtained with css: <pre class="lang-html inline"><code>&lt;canvas id=canvas style=background:#000></code></pre>
-<li>Use radians directly for angles, to avoid the conversion from degrees (you can even avoid using the constant Math.PI, and round the result a little):
+<!--li>Use radians directly for angles, to avoid the conversion from degrees (you can even avoid using the constant Math.PI, and round the result a little):
 <pre class=lang-js><code>// deg2rad = angle => Math.PI * angle / 180;
 // perspective({fov: deg2rad(30)})
 // perspective({fov: Math.Pi / 6})
-perspective({fov: .5}) /* ~28.6deg */</code></pre>
+perspective({fov: .5}) /* ~28.6deg */</code></pre-->
 <li>Get rid of the "mvp" matrix by multiplying modelMatrix and cameraMatrx natively in the vertex shader:
 <pre class=lang-js><code>/* GLSL */
 // uniform mat4 mvp;
 // gl_Position = mvp * position;
 gl_Position = model * camera * position;
-
-(...)
-
-/* JS */
-// var mvpMatrix = multMat4Mat4(cameraMatrix, modelMatrix);
-// gl.uniformMatrix4fv(mvp, false, mvpMatrix);</code></pre>
-<li>Use the model matrix instead of the inverse transpose matrix to update the normals (the only risk is having normals that are a bit off during complex transformations).
-<li>If you really need the inverse transpose, you can compute it in the fragment shader directly to avoid implementing inverse() / transpose() in JavaScript (<b>WebGL 2.0 only</b>):
+</code></pre>
+<li>Use the model matrix instead of the inverse transpose matrix to update the normals (in general they're identical. The inverse transform is only useful for complex transformations).
+<!--li>If you really need the inverse transpose, you can compute it in the fragment shader directly to avoid implementing inverse() / transpose() in JavaScript (<b>WebGL 2.0 only</b>):
 <pre class=lang-js><code>/* GLSL */
 // uniform mat4 inverseTranspose;
 mat4 inverseTranspose = transpose(inverse(model));
@@ -2846,10 +2743,10 @@ uniform mat4 scale;
 /* JS */
 // v_position = vec3(model * camera * position);
 v_position = vec3(scale * rotate * translate * camera * position);</code></pre>
-<li>You can remove the transform() helper function too, and put the matrices you want directly in your code.
+<li>You can remove the transform() helper function too, and put the matrices you want directly in your code.-->
 <li>Don't re-normalize the varying normals in the fragment shader. The only risk is having a normal that doesn't measure exactly 1, but the shading difference might not be visible.
 <li>Only use <b>uniforms</b> for ints / floats / vectors / matrices inputs.
-<li>If Zip compression is allowed, get rid of indices. You can use <b>drawArrays</b> (unindexed vertices), as repeated coordinates, colors, etc... compress very well.
+<li>If gzip compression is allowed, get rid of indices. You can use <b>drawArrays</b> (unindexed vertices), as repeated coordinates, colors, etc... compress very well.
 </ul>
 <br>
 <p><b>2. Writing less characters (a bit dirtier)</b>
