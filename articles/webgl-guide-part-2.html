@@ -65,7 +65,7 @@ pre a { color: #abf }
 canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textures and clear color here */ }</code></pre>
 <p>Anyway, this second part will show a bunch of techniques built upon the basics shown in <a href="webgl-guide.html" target=_self>part 1</a>, that I recommend reading first.
 <p>In this page, to make things easier to read, I will only show the relevant lines of codes involved to produce each effect. A link to a complete, editable demo will be available when necessary.
-<p>Keep in mind that most of the advanced visual effects presented here rely on the same basic principles shown in the previous parts (messing with light rays, angles, distances, sizes, reflections, projections and colors, in order to make the computer draw something that looks cool, one pixel at the time).
+<p>Keep in mind that most of the advanced visual effects presented here rely on the same basic principles shown in the previous parts (messing with light rays, angles, distances, sizes, reflections, projections and colors, in order to make the computer draw what we want, pixel per pixel).
 <br>This also means that you can invent your own tricks! (this guide is as complete as possible, but not exhaustive).
 <p>I'd like to thank again all the people and resources that helped me write this guide, and all the readers who came here thanks to JS newsletters, social networks and word of mouth.
 <p>Let's get started!
@@ -91,6 +91,7 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <li><a href="#2d" target="_self">Normal / Height / Parallax / Bump mapping</a> <!-- 1 demo -->
 <li><a href="#2e" target="_self">Fresnel</a>
 <li><a href="#2f" target="_self">Matcaps / lit spheres</a>
+<li><a href="#2g" target="_self">Cel-shading / ramp textures</a>
 </ul>
 
 <p><b>Advanced lighting</b>
@@ -112,10 +113,10 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 
 <p><b>Load external 3D models</b>
 <ul>
-<li><a href="#5a" target="_self">obj/mtl files</a> <!-- 1 demo -->
-<li><a href="#5b" target="_self">fbx files</a>
-<li><a href="#5c" target="_self">gltf/glb files</a>
-<li><a href="#5d" target="_self">Others (ply, prwm...)</a>
+<li><a href="#5a" target="_self">.obj / .mtl files</a> <!-- 1 demo -->
+<li><a href="#5b" target="_self">.fbx files</a>
+<li><a href="#5c" target="_self">.gltf / .glb files</a>
+<li><a href="#5d" target="_self">Others (.ply, .prwm...)</a>
 </ul>
 
 <p><b>Advanced shader manipulation</b>
@@ -137,7 +138,8 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <li><a href="#7i" target="_self">NURBS</a>
 <li><a href="#7j" target="_self">WebGPU</a>
 <li><a href="#7k" target="_self">WebGL and Gamedev</a>
-<li><a href="#7k" target="_self">Use WebGL to compute stuff</a>
+<li><a href="#7l" target="_self">Use WebGL to compute stuff</a>
+<li><a href="#7m" target="_self">Visualizing the camera</a>
 </ul>
 </div>
 
@@ -154,7 +156,7 @@ canvas.webglcontextrestored = e => { /* re-init shader, program, buffers, textur
 <br>
 <br><img src="images/webgl-guide/alpha1.png" width=750>
 <br>
-<br>In order to blend it with the clear color (or the elements behind it), you need to call two new functions:
+<li>In order to blend a triangle it with the clear color (or the elements behind it), you need to call two new functions:
 <pre class=lang-js><code>gl.enable(gl.BLEND); // enable alpha blending
 gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); // specify how alpha must blend: fragment color * alpha + clear color * (1 - alpha)</code></pre>
 <img src="images/webgl-guide/alpha2.png" width=750>
@@ -163,13 +165,13 @@ gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); // specify how alpha must bl
 <li>If you want to use a PNG image with transparency as a texture, many solutions are possible, but the most convenient one is to enable alpha premultiplication when loading the image:
 <pre class=lang-js><code>gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);</code></pre>
 <br>
-If premultiplication is not enabled, the transparent transparent pixels will become white and the semi-transparent ones will become fully opaque:
+If premultiplication is not enabled, the transparent pixels will become white and the semi-transparent ones will become fully opaque:
 <br>
 <br><img src="images/webgl-guide/alpha3.png" width=700>
 
 <p><a href="../../webgl-guide/editor/?demo=17/png" class=demo>OPEN FULL DEMO</a>
 <br><br>
-<li>Finally, you may want to make entire objects transparent. To do that, you can assign a RGBA color to each vertex, with A &lt; 1.0.
+<li>Finally, you may want to give some transparency to entire objects. To do that, you can assign a RGBA color to each vertex, with A &lt; 1.0.
 <br>Then, enable WegGL's alpha blending with <pre class="inline lang-js"><code>gl.enable(gl.BLEND);</code></pre> and <pre class="inline lang-js"><code>gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);</code></pre> as we did earlier.
 <br>If you're drawing an object (like a cube) with transparency, you also need to disable <b>gl.DEPTH_TEST</b>, so that the front faces don't block the other faces from being drawn
 <br>If your scene contains a mix of opaque and transparent objects, you'll need to draw all your opaque objects first, then disable depth test with <pre class="inline lang-js"><code>gl.disable(gl.DEPTH_TEST);</code></pre>, then draw all your objects with transparency, then re-enable depth test with <pre class="inline lang-js"><code>gl.enable(gl.DEPTH_TEST);</code></pre> for the next frame.
@@ -245,8 +247,8 @@ gl.enable(gl.DEPTH_TEST);
 <li>Then, immediately repaint every object with their correct color / texture / lighting so that the hack doesn't have time to appear on screen.
 </ul>
 This technique can be used for an object (like a cube), or a face, or a single triangle, depending on your needs!
-<p>A less hacky way consists in computing the intersection between the vector starting from the mouse and the triangles in your scene to see which one is clicked (more info <a href="http://www.3dkingdoms.com/selection.html#ray">on 3Dkingdoms</a>).
 
+<p>
 <table class=ch10>
 <tr>
 <td>
@@ -306,6 +308,8 @@ canvas.onclick = e => {
 
 </table>
 
+<p>A less hacky way consists in computing the intersection between the vector starting from the mouse and the triangles in your scene to see which one is clicked (more info <a href="http://www.3dkingdoms.com/selection.html#ray">on 3Dkingdoms</a>).
+
 <br><br>
 
 <p><b>Technique 2: rotate a cube with the mouse (easy)</b>
@@ -333,11 +337,12 @@ canvas.onmouseup = e => {
 canvas.onmousemove = e => {
   var x = e.clientX;
   var y = e.clientY;
+
   if(dragging){
     
     // Set angles
-    dx = (y - lastY) * 100/canvas.height;
-    dy = (x - lastX) * 100/canvas.width;
+    dx = (y - lastY) * 100 / canvas.height;
+    dy = (x - lastX) * 100 / canvas.width;
     
     rx += dx;
     ry += dy;
@@ -347,10 +352,9 @@ canvas.onmousemove = e => {
     lastY = y;
     
     // Draw the modified cube
-    var modelMatrix = identity();
-    modelMatrix = transform(modelMatrix, {rx: deg2rad(rx), ry: deg2rad(ry)});
+    draw();
     
-    (...)
+    // ... set the model, mvp and inverseTransform matrices ...
     
     gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
   }
@@ -381,7 +385,7 @@ canvas.onmousemove = e => {
 <p>So far, we didn't solve anything... but introducing this custom rotation axis is very important.
 <br>Indeed, it is possible to inverse the rotation that has been made by the cube so far, and apply this inverse transformation to our custom axis.
 <br>This may sound a bit strange, but it does something pretty awesome:
-<br>it cancels all the previous rotations along this axis, in order to perform the next bit of rotation as if the cube had never rotated before:
+<br>it virtually cancels all the previous rotations made along this axis, in order to perform the next bit of rotation as if the cube had never rotated before:
 
 <table class=ch10>
 <tr>
@@ -400,12 +404,11 @@ canvas.onmouseup = e => {
 canvas.onmousemove = e => {
   var x = e.clientX;
   var y = e.clientY;
-
   if(dragging){
     
     // Set angles
-    dx = (y - lastY) * 100/canvas.height;
-    dy = (x - lastX) * 100/canvas.width;
+    dx = (y - lastY) * 100 / canvas.height;
+    dy = (x - lastX) * 100 / canvas.width;
 
     // Compute rotation axis (perpendicular to mouse movement)
     axis[0] = dx;
@@ -413,29 +416,24 @@ canvas.onmousemove = e => {
     axis[2] = 0;
 
     // Inverse the rotation that has been done so far
-    inverseRotation = inverse(modelMatrix);
+    inverseRotation = (new DOMMatrix(modelMatrix)).invertSelf();
     
     // Apply the inverse rotation to the rotation axis
-    axis = transformMat4(axis, inverseRotation);
+    axis = axisTransformMatrix(axis, inverseRotation);
     
     // Compute the new rotation matrix "deltaRotation" along the axis
-    deltaRotation = fromRotation(axis, Math.hypot(dx, dy)/100);
+    deltaRotation = fromRotation(axis, Math.hypot(dx, dy) / 100);
 
     // Compute the rotation: rotation * deltaRotation
     if(deltaRotation){
-      modelMatrix = multMat4Mat4(modelMatrix, deltaRotation);
+      modelMatrix.multiplySelf(deltaRotation);
     }
     
     // Remember mouse position
     lastX = x;
     lastY = y;
     
-    (...)
-    
-    // Set the model matrix
-    gl.uniformMatrix4fv(model, false, modelMatrix);
-  
-    (...)
+    // ... set the model, mvp and inverseTransform matrices ...
     
     gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
   }
@@ -497,20 +495,23 @@ transformMat4 = (a, m) => {
 }</code></pre>
 
 <br><br><hr><br>
+
 <h4 id=1c>Framebuffers and renderbuffers</h4>
+
 <p>Until now, we've used the color and depth buffers to draw 3D content on the WebGL canvas. It is also possible to bypass this default target to perform <b>offscreen rendering</b>.
-<br>This can be done by creating <b>a framebuffer object</b>, which, in turn, writes the image data in a <b>texture object</b>, and depth data in a <b>renderbuffer object</b>.
+<br>This can be done by creating <b>a framebuffer object</b>, which, in turn, writes the image data in a <b>texture object</b>, and the depth data in a <b>renderbuffer object</b>.
 <br>The texture object can be used as if it was loaded from an image file, and the renderbuffer object can be used to cast shadows, as we'll see in the <a href="#3b">following chapters</a>.
 <br><br><img src="images/webgl-guide/framebuffer.png" width=700>
 
 <p>Here's an example of 3D cube rendered as a texture and applied on a quad.
-<br>You can see that only one program and one pair of shaders is present, because they're generic enough to be used by both the textured cube and the textured quad, even though each of them uses different meshes, uv and mvp matrices.  
-<br>However, it's totally possible to write two programs and two pairs of shaders (one for the offscreen texture, and one for the canvas)!
+<br>You can see that only one program and one pair of shaders is present in the code,
+<br>that's because they're generic enough to be used by both the textured cube and the textured quad, even though each of them uses different meshes, uv and mvp matrices.  
+<br>However, it's totally possible to write two programs and two pairs of shaders (one for the offscreen texture, and another for the canvas) !
 
 <table class=ch10>
 <tr>
 <td>
-<!--pre><code class="lang-js">(...)
+<pre><code class="lang-js">(...)
 var OFFSCREEN_WIDTH = 256;
 var OFFSCREEN_HEIGHT = 256;
 var fbo = gl.createFramebuffer();
@@ -531,7 +532,7 @@ cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN
 // Draw something in the framebuffer
 // Draw a plane with this texture
 
-(...)</code></pre-->
+(...)</code></pre>
 <td>
 <iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/FramebufferObject.html"></iframe>
 
@@ -541,7 +542,7 @@ cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN
 
 
 <br><br><hr><br>
-<h4 id=1d>Instanced geometry</h4>
+<h4 id=2a>Instanced geometry</h4>
 
 <p>todo
 
@@ -549,14 +550,197 @@ cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN
 <h2>Advanced coloring / texturing</h2>
 <br><hr><br>
 
+<h4 id=2a>Animate, transform and wrap texturess</h4>
+<p>todo (more info <a href="http://learnwebgl.brown37.net/10_surface_properties/texture_mapping_transforms.html">here</a>)
 
+
+<h4 id=2b>Mip mapping</h4>
+<p>todo
+
+
+<h4 id=2c>Reflexions and environment mapping</h4>
+<p>todo (more info <a href="https://webglfundamentals.org/webgl/lessons/webgl-environment-maps.html">here</a>)
+
+
+<h4 id=2d>Normal / Height / Parallax / Bump mapping</h4>
+<p>todo (more info <a href="http://learnwebgl.brown37.net/10_surface_properties/other_surface_manipulators.html">here</a> & <a href="https://apoorvaj.io/exploring-bump-mapping-with-webgl/">here</a>)
+
+
+<h4 id=2e>Fresnel</h4>
+<p>todo
+
+
+<h4 id=2f>Matcaps / lit spheres</h4>
+<p>todo
+
+<h4 id=2g>Cel-shading / ramp textures</h4>
 <p>todo
 
 <br><br><hr><br>
 <h2>Advanced lighting</h2>
 <br><hr><br>
 
+<h4 id=3a>Multiple light sources</h4>
+<p>todo (more info <a href="http://learnwebgl.brown37.net/09_lights/lights_other_models.html">here</a>)
+
+<br><br><hr><br>
+
+<h4 id=3b>Shadows!</h4>
+
+<p>Displaying shadows consists in rendering with a darker color the objects that are hidden from the light source by another object.
+<p>It's a bit tricky because it involves many concepts introduced in the previous chapters (shading, depth buffer, multiple shaders, ...)
+<ul>
+<li>First, you need to consider a virtual camera placed at the same position as the light source. Everything you can see will be in the light, everything you can <b>not</b> see will be in the shadow.
+<li>To implement that, you need a first pair of shaders that computes the distances between the light source and the scene's fragments (by computing a depth buffer from this virtual camera),
+<br>and a second pair of shaders that uses these results to draw the scene from the "real" camera position.
+<li>To pass this demth buffer between the two pairs of shaders, a texture can be used. In this context, it's called a <b>shadow map</b>.
+<li>For now, the depth will be stored in the R value of the shadow map's RGBA pixels, which is a 8 bit integer.
+<li>All the depths between the near and far clipping planes are normalized (placed in the range [0:1]), and will be multiplied by 256 to be stored in a 8-bit value.
+<li>These shadow map's depth values will be compared to real-world distances, so a small offset a bit higher than 1/256 (0.005) is added to avoid rounding errors's <a href="images/webgl-guide/bands.jpg">Mach bands</a>.
+<li>In this example, fragments that are not the closest to the light source (i.e. in the shadow) will be drawn with 70% of their RGB colors instead of 100%.
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre style="font-size:12px"><code class="lang-js">shadow_vshader = `
+void main() {
+ gl_Position = u_MvpMatrix * pos;
+}`;
+
+shadow_fshader = `
+void main() {
+ gl_FragColor = vec4(gl_FragCoord.z, 0.0, 0.0, 0.0);
+};
+
+vshader = `
+(...)
+v_PositionFromLight = u_MvpMatrixFromLight * pos;
+`;
+
+fshader = `
+uniform sampler2D u_ShadowMap;
+varying vec4 v_PositionFromLight;
+varying vec4 v_Color;
+void main() {
+
+  // Retrieve shadow map texel and depth encoded inside it
+  vec3 shadowCoord = (v_PositionFromLight.xyz/v_PositionFromLight.w)/2.0+0.5;
+  vec4 rgbaDepth = texture2D(u_ShadowMap, shadowCoord.xy);
+  float depth = rgbaDepth.r;
+  
+  // Render shadowed fragments 30% darker
+  float visibility = (shadowCoord.z>depth+0.005)?0.7:1.0;
+  gl_FragColor = vec4(v_Color.rgb*visibility,v_Color.a);
+}
+`;
+
+var OFFSCREEN_WIDTH = 1024, OFFSCREEN_HEIGHT = 1024;
+var LIGHT_X = 0, LIGHT_Y = 7, LIGHT_Z = 2;
+
+(...)
+
+var shadowProgram = createProgram(gl, SHADOW_VSHADER_SOURCE, SHADOW_FSHADER_SOURCE);
+var normalProgram = createProgram(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+(...)
+
+var fbo = initFramebufferObject(gl);
+gl.activeTexture(gl.TEXTURE0);
+gl.bindTexture(gl.TEXTURE_2D, fbo.texture);
+
+(...)
+
+var viewProjMatrixFromLight = perspective({fov: 70, ratio: OFFSCREEN_WIDTH/OFFSCREEN_HEIGHT, near: 1, far: 100);
+viewProjMatrixFromLight = lookAt(viewProjMatrixFromLight, LIGHT_X, LIGHT_Y, LIGHT_Z, 0, 0, 0);
+
+(...)
+
+var mvpMatrixFromLight_t; // For triangle
+var mvpMatrixFromLight_p; // For plane
+
+setInterval(() => {
+
+  // Shadow map generation
+  gl.useProgram(shadowProgram);
+  
+  // Draw the triangle and the plane
+  drawTriangle(gl, shadowProgram, triangle, currentAngle, viewProjMatrixFromLight);
+  mvpMatrixFromLight_t = new DOMMatrix(g_mvpMatrix); // Used later
+  drawPlane(gl, shadowProgram, plane, viewProjMatrixFromLight);
+  mvpMatrixFromLight_p = new DOMMatrix(g_mvpMatrix); // Used later
+  
+  // Change the drawing destination to color buffer
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  
+  // Regular drawing
+  gl.useProgram(normalProgram);
+  gl.uniform1i(normalProgram.u_ShadowMap, 0); // Pass gl.TEXTURE0
+  gl.uniformMatrix4fv(normalProgram.u_MvpMatrixFromLight, false, mvpMatrixFromLight_t.toFloat32Array());
+  drawTriangle(gl, normalProgram, triangle, currentAngle, viewProjMatrix.toFloat32Array());
+  gl.uniformMatrix4fv(normalProgram.u_MvpMatrixFromLight, false, mvpMatrixFromLight_p.toFloat32Array());
+  drawPlane(gl, normalProgram, plane, viewProjMatrix);
+}, 33);
+</code></pre>
+<td>
+<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/Shadow.html"></iframe>
+</table>
+
+<ul>
+<li>This 8-bit shadow only works for small scenes where the light is close to the scene's objects.
+<li>A solution consists in using the four RGBA components of the texture map to store the distance, instead of just R, for a 32-bit precision:
+<br>
+<br><img src="images/webgl-guide/rgba.jpg" width=550>
+<li>The rounding offset can now be lowered to 0.0015 (a bit above 1/(2<sup>32</sup>)) 
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">
+var shadow_fshader = `
+  (...)
+  const vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);
+  const vec4 bitMask = vec4(1.0/256.0, 1.0/256.0, 1.0/256.0, 0.0);
+  vec4 rgbaDepth = fract(gl_FragCoord.z * bitShift);
+  rgbaDepth -= rgbaDepth.gbaa * bitMask;
+  gl_FragColor = rgbaDepth;
+`;
+var fshader = `
+  (...)
+  float unpackDepth(const in vec4 rgbaDepth) {
+    const vec4 bitShift = vec4(1.0, 1.0/256.0, 1.0/(256.0 * 256.0), 1.0/(256.0 * 256.0 * 256.0));
+    float depth = dot(rgbaDepth, bitShift);
+    return depth;
+  }
+  void main() {
+    vec3 shadowCoord = (v_PositionFromLight.xyz / v_PositionFromLight.w)/2.0 + 0.5;
+    vec4 rgbaDepth = texture2D(u_ShadowMap, shadowCoord.xy);
+    float depth = unpackDepth(rgbaDepth);
+    float visibility = (shadowCoord.z > depth + 0.0015)? 0.7:1.0;
+    gl_FragColor = vec4(v_Color.rgb * visibility, v_Color.a);
+  };
+`
+</code></pre>
+</table>
+
+<br><br><hr><br>
+
+<h4 id=3c>360° shadows</h4>
 <p>todo
+
+
+<h4 id=3d>Penumbra and soft shadows</h4>
+<p>todo
+
+
+<h4 id=3e>Baked lighting</h4>
+
+<p><b>Baked lighting</b> was an optimization used in early 3D games, where real-time computations were very CPU-intensive.
+<br>The lights, shadings and shadows were often precomputed or drawn by artists during the game development and displayed as textures to save resources.
+<br>Famous example from Zelda Wind Waker on Gamecube: 
+<br><br><img src="images/webgl-guide/baked.jpg" width=700>
+
 
 <br><br><hr><br>
 <h2>Advanced display</h2>
@@ -564,7 +748,63 @@ cameraMatrix = perspective({fovy: deg2rad(30), aspect: OFFSCREEN_WIDTH/OFFSCREEN
 
 <h4 id="4a">Fog</h4>
 
-<p>(todo)
+<ul>
+<li>Fog will take effect linearly between a near point (where the fog is fully transparent) and a far point (where the fog is fully opaque).
+<li>The vertex shader must know the position of the camera to compute a varying distance between the camera and each vertex.
+<li>Using this varying distance, the fragment shader knows the distance between the camera and each fragment.
+<br>
+<br>
+<img src="images/webgl-guide/fog.png">
+<br>Fortunately, the native GLSL methods <b>distance()</b>, <b>clamp()</b> and <b>mix()</b> simplify the shader's implementation.
+<li>The WebGL canvas context's clear color is equal to the fog's color when it's fully opaque.
+</ul>
+
+<table class=ch10>
+<tr>
+<td>
+<pre><code class="lang-js">var vshader = `
+// (...)
+uniform vec4 camera;
+varying float v_dist;
+void main() {
+
+  // (...)
+  
+  v_dist = distance(modelMatrix * pos, camera);
+}`;
+
+var fshader = `
+// (...)
+uniform vec3 fogColor;
+uniform vec2 fogDist; // near / far
+void main() {
+
+  // (...)
+  
+  // Compute fog factor
+  float fogFactor = clamp((fogDist.y - v_dist) / (fogDist.y - fogDist.x), 0.0, 1.0);
+  
+  // Include fog factor in the color
+  gl_FragColor = vec4(mix(fogColor, vec3(col), fogFactor), 1.0);
+}`;
+
+var fogColor = [0.137, 0.231, 0.423];
+gl.uniform3fv(gl.getUniformLocation(gl.program, 'fogColor'), fogColor);
+gl.uniform2fv(gl.getUniformLocation(gl.program, 'fogDist'), [55, 80]);
+gl.uniform4fv(gl.getUniformLocation(gl.program, 'u_Eye'), [25, 65, 35, 1.0]);
+
+(...)
+
+gl.clearColor(fogColor[0], fogColor[1], fogColor[2], 1.0);
+
+</code></pre>
+<td>
+<iframe width=430 height=500 style="max-width:420px;min-height:500px;" src="https://xem.github.io/webgl-guide/book/ch10/Fog.html"></iframe>
+</table>
+
+<p>To simplify, you can also use <b>v_dist = gl_Position.w;</b> in the vertex shader, as it is a nice approximation of the distance between the camera and the vertex.
+<br>
+(see <a href="https://xem.github.io/webgl-guide/book/ch10/Fog_w.html">the book's "fog_w" demo</a> for more info)
 
 <br><br><hr><br>
 <h4 id="4b">Text</h4>
@@ -635,17 +875,17 @@ gl.drawArrays(gl.TRIANGLE_STRIP, 0, n); // Draw the quad
 </table>
 
 <br>
-<p>NB: other approaches are available on <a href="https://css-tricks.com/techniques-for-rendering-text-with-webgl/">CSS-tricks</a>.
+<p>NB: other approaches are available on <a href="https://css-tricks.com/techniques-for-rendering-text-with-webgl/">CSS-tricks</a> and WebGLFundamentals <a href="https://webglfundamentals.org/webgl/lessons/webgl-text-texture.html">here</a> and <a href="https://webglfundamentals.org/webgl/lessons/webgl-text-glyphs.html">here</a>.
 
 <br><br><hr><br>
 <h4 id="4c">Particles</h4>
 
-<p>(todo)
+<p>todo
 
 <br><br><hr><br>
 <h4 id="4d">Multiple passes and post-processing</h4>
 
-<p>(todo)
+<p>todo
 
 <br><br><hr><br>
 <h2>Load external 3D models</h2>
@@ -791,138 +1031,24 @@ map_Ks specular.png # specular texture
 
 <p>(TODO: explain shaded textures)
 
+
+
+<h4 id=5b>.fbx files</h4>
+<p>todo
+
+
+<h4 id=5c>.gltf / .glb files</h4>
+<p>todo
+
+
+<h4 id=5d>Others (.ply, .prwm...)</h4>
+<p>todo
+
 <br><br><hr><br>
 <h2>Advanced shader manipulation</h2>
 <br><hr><br>
 
-<p>todo
-
-<br><br><hr><br>
-<h2>Interesting subjects to study next</h2>
-<br><hr><br>
-
-<p>todo
-<!--
-<br><hr><br>
-
-
-
-<p>TODO
-
-<br><br><hr><br>
-
-
-
-<br><br><hr><br>
-
-<h4>HUD</h4>
-
-<ul>
-<li>HUD, or head-up display, is how the developers call the info displayed over a 3D scene
-<li>Since it's not easy to display text with WebGL, a good idea is to use a 2D canvas overlay with a transparent background
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">&lt;!-- HTML -- >
-&lt;canvas id="webgl" width="400" height="400" 
-style="position: absolute; z-index: 0">&lt;/canvas>
-
-&lt;canvas id="hud" width="400" height="400" 
-style="position: absolute; z-index: 1">&lt;/canvas>
-
-(...)
-
-// On load
-var ctx = hud.getContext('2d');
-
-// In the render loop
-ctx.beginPath();
-ctx.moveTo(...);
-ctx.lineTo(...);
-ctx.stroke();
-ctx.fillText(...);</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/HUD.html"></iframe>
-</table>
-
-<br><br><hr><br>
-
-<h4>Display text inside the 3D scene</h4>
-
-TODO
-<!-- https://webglfundamentals.org/webgl/lessons/webgl-text-texture.html
-https://webglfundamentals.org/webgl/lessons/webgl-text-glyphs.html -- >
-
-<br><br><hr><br>
-
-
-
-<h4>Fog</h4>
-
-<ul>
-<li>The fog will take effect linearly between a near point (where the fog is fully transparent) and a far point (where the fog is fully opaque)
-<li>The vertex shader must know the position of the camera to compute a varying distance between the camera and each vertex
-<li>Using this varying distance, the fragment shader knows the distance between the camera and each fragment
-<br>
-<img src="images/webgl-guide/fog.png">
-<br>Fortunately, the native GLSL methods <b>distance()</b>, <b>clamp()</b> and <b>mix()</b> simplify the shader's implementation
-<li>The WebGL canvas context's clear color is equal to the fog's color when it's fully opaque.
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">var vshader = `
-// (...)
-uniform vec4 camera;
-varying float v_dist;
-void main() {
-
-  // (...)
-  
-  v_dist = distance(modelMatrix * pos, camera);
-}`;
-
-var fshader = `
-// (...)
-uniform vec3 fogColor;
-uniform vec2 fogDist; // near / far
-void main() {
-
-  // (...)
-  
-  // Compute fog factor
-  float fogFactor = clamp((fogDist.y - v_dist) / (fogDist.y - fogDist.x), 0.0, 1.0);
-  
-  // Include fog factor in the color
-  gl_FragColor = vec4(mix(fogColor, vec3(col), fogFactor), 1.0);
-}`;
-
-var fogColor = [0.137, 0.231, 0.423];
-gl.uniform3fv(gl.getUniformLocation(gl.program, 'fogColor'), fogColor);
-gl.uniform2fv(gl.getUniformLocation(gl.program, 'fogDist'), [55, 80]);
-gl.uniform4fv(gl.getUniformLocation(gl.program, 'u_Eye'), [25, 65, 35, 1.0]);
-
-(...)
-
-gl.clearColor(fogColor[0], fogColor[1], fogColor[2], 1.0);
-
-</code></pre>
-<td>
-<iframe width=430 height=500 style="max-width:420px;min-height:500px;" src="https://xem.github.io/webgl-guide/book/ch10/Fog.html"></iframe>
-</table>
-
-<p>To simplify, you can also use <b>v_dist = gl_Position.w;</b> in the vertex shader, as it is a nice approximation of the distance between camera and vertex
-<br>
-(see <a href="https://xem.github.io/webgl-guide/book/ch10/Fog_w.html">the book's "fog_w" demo</a> for more info)
-
-<br><br><hr><br>
-
-
-
-<h4>Use multiple shaders</h4>
+<h4 id=6a>Using multiple shaders</h4>
 
 <ul>
 <li>If your scene contains many objects rendered differently (colored, textured, alpha, etc), you may want to use many shaders instead of a single, long shader
@@ -951,302 +1077,61 @@ gl.useProgram(p2);
 <br><br><hr><br>
 
 
-<h4>Multiple light sources</h4>
-TODO
-<!-- http://learnwebgl.brown37.net/09_lights/lights_other_models.html -- >
+<h4 id=6b>Build shaders</h4>
+<p>todo
 
 <br><br><hr><br>
+<h2>Interesting subjects to study next</h2>
+<br><hr><br>
 
+<h4 id=7a>3D physics</h4>
+<p>todo
 
-<h4>Transform and wrap textures</h4>
-TODO
-<!-- http://learnwebgl.brown37.net/10_surface_properties/texture_mapping_transforms.html + wrap -- >
-
-<br><br><hr><br>
-
-
-<br><br><hr><br>
-
-<h4>Shadows!</h4>
-
-<p>Displaying shadows consists in rendering with a darker color the objects that are hidden from the light source by another object.
-<p>It's a bit tricky because it involves many concepts introduced in the previous chapters (shading, depth buffer, multiple shaders, ...)
-<ul>
-<li>Consider a camera placed at the same position as the light source. Everything you can see will be in the light, everything you can <b>not</b> see will be in the shadow
-<li>To implement that, you need a first pair of shaders that computes the distances between the light source and the scene's fragments (by placing the camera at the position of the light source and computing a depth buffer), and a second pair of shaders that uses these results to draw the scene from the intended camera position.
-<li>To pass data between the two pairs of shaders, a texture can be used. In this context, it's called a <b>shadow map</b>
-<li>For now, the depth will be stored in the R value of the shadow map's pixels, which is a 8 bit integer
-<li>All the depths between the near and far clipping planes are normalized (placed in the range [0:1]), and will be multiplied by 256 to be stored in a 8-bit value
-<li>These shadow map's depth values will be compared to real-world distances, so a small offset a bit higher than 1/256 (0.005) is added to avoid rounding errors's <a href="images/webgl-guide/bands.jpg">Mach bands</a>
-<li>In this example, fragments that are not the closest to the light source (i.e. in the shadow) will be drawn with 70% of their RGB colors instead of 100%
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">shadow_vshader = `
-void main() {
- gl_Position = u_MvpMatrix * pos;
-}`;
-
-shadow_fshader = `
-void main() {
- gl_FragColor = vec4(gl_FragCoord.z, 0.0, 0.0, 0.0);
-};
-
-vshader = `
-(...)
-v_PositionFromLight = u_MvpMatrixFromLight * pos;
-`;
-
-fshader = `
-uniform sampler2D u_ShadowMap;
-varying vec4 v_PositionFromLight;
-varying vec4 v_Color;
-void main() {
-
-  // Retrieve shadow map texel and depth encoded inside it
-  vec3 shadowCoord = (v_PositionFromLight.xyz/v_PositionFromLight.w)/2.0+0.5;
-  vec4 rgbaDepth = texture2D(u_ShadowMap, shadowCoord.xy);
-  float depth = rgbaDepth.r;
-  
-  // Render shadowed fragments 30% darker
-  float visibility = (shadowCoord.z>depth+0.005)?0.7:1.0;
-  gl_FragColor = vec4(v_Color.rgb*visibility,v_Color.a);
-}
-`;
-
-var OFFSCREEN_WIDTH = 1024, OFFSCREEN_HEIGHT = 1024;
-var LIGHT_X = 0, LIGHT_Y = 7, LIGHT_Z = 2;
-
-(...)
-
-var shadowProgram = createProgram(gl, SHADOW_VSHADER_SOURCE, SHADOW_FSHADER_SOURCE);
-var normalProgram = createProgram(gl, VSHADER_SOURCE, FSHADER_SOURCE);
-
-(...)
-
-var fbo = initFramebufferObject(gl);
-gl.activeTexture(gl.TEXTURE0);
-gl.bindTexture(gl.TEXTURE_2D, fbo.texture);
-
-(...)
-
-var viewProjMatrixFromLight = perspective({fovy: 70.0, ratio: OFFSCREEN_WIDTH/OFFSCREEN_HEIGHT, near: 1.0, far: 100.0);
-viewProjMatrixFromLight = lookAt(viewProjMatrixFromLight, LIGHT_X, LIGHT_Y, LIGHT_Z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
-(...)
-
-var mvpMatrixFromLight_t = identity(); // For triangle
-var mvpMatrixFromLight_p = identity(); // For plane
-
-setInterval(() => {
-
-  // Shadow map generation
-  gl.useProgram(shadowProgram);
-  
-  // Draw the triangle and the plane
-  drawTriangle(gl, shadowProgram, triangle, currentAngle, viewProjMatrixFromLight);
-  mvpMatrixFromLight_t.set(g_mvpMatrix); // Used later
-  drawPlane(gl, shadowProgram, plane, viewProjMatrixFromLight);
-  mvpMatrixFromLight_p.set(g_mvpMatrix); // Used later
-  
-  // Change the drawing destination to color buffer
-  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  
-  // Regular drawing
-  gl.useProgram(normalProgram);
-  gl.uniform1i(normalProgram.u_ShadowMap, 0); // Pass gl.TEXTURE0
-  gl.uniformMatrix4fv(normalProgram.u_MvpMatrixFromLight, false, mvpMatrixFromLight_t.elements);
-  drawTriangle(gl, normalProgram, triangle, currentAngle, viewProjMatrix);
-  gl.uniformMatrix4fv(normalProgram.u_MvpMatrixFromLight, false, mvpMatrixFromLight_p.elements);
-  drawPlane(gl, normalProgram, plane, viewProjMatrix);
-}, 33);
-</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/Shadow.html"></iframe>
-</table>
+<h4 id=7b>Tessellation and decimation</h4>
+<p>todo
 
-<ul>
-<li>This 8-bit shadow only works for small scenes where the light is close to the scene's objects
-<li>The solution is to use the four RGBA components of the texture map to store the distance, instead of just R, for a 32-bit precision
-<br><img src="images/webgl-guide/rgba.jpg" width=550>
-<li>The rounding offset can now be lowered to 0.0015 (a bit above 1/(2<sup>32</sup>)) 
-</ul>
 
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">
-var shadow_fshader = `
-  (...)
-  const vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);
-  const vec4 bitMask = vec4(1.0/256.0, 1.0/256.0, 1.0/256.0, 0.0);
-  vec4 rgbaDepth = fract(gl_FragCoord.z * bitShift);
-  rgbaDepth -= rgbaDepth.gbaa * bitMask;
-  gl_FragColor = rgbaDepth;
-`;
-var fshader = `
-  (...)
-  float unpackDepth(const in vec4 rgbaDepth) {
-    const vec4 bitShift = vec4(1.0, 1.0/256.0, 1.0/(256.0 * 256.0), 1.0/(256.0 * 256.0 * 256.0));
-    float depth = dot(rgbaDepth, bitShift);
-    return depth;
-  }
-  void main() {
-    vec3 shadowCoord = (v_PositionFromLight.xyz / v_PositionFromLight.w)/2.0 + 0.5;
-    vec4 rgbaDepth = texture2D(u_ShadowMap, shadowCoord.xy);
-    float depth = unpackDepth(rgbaDepth);
-    float visibility = (shadowCoord.z > depth + 0.0015)? 0.7:1.0;
-    gl_FragColor = vec4(v_Color.rgb * visibility, v_Color.a);
-  };
-`
-</code></pre>
-</table>
+<h4 id=7c>Interpolation, animation and rigging</h4>
+<p>todo
 
-<br><br><hr><br>
 
-<h4>360° shadows</h4>
+<h4 id=7d>VR</h4>
+<p>todo
 
-TODO
 
-<br><br><hr><br>
+<h4 id=7e>Field of view</h4>
+<p>todo
 
-<h4>Height mapping and bump mapping</h4>
 
-<!--(from http://learnwebgl.brown37.net/10_surface_properties/other_surface_manipulators.html & https://apoorvaj.io/exploring-bump-mapping-with-webgl/) -->
+<h4 id=7f>Other WebGL features</h4>
+<p>todo
 
-<!--
-<p>a
-<ul>
-<li>a
-</ul>
 
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">
-a</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table>-- >
-TODO
+<h4 id=7g>Raycasting and distance fields</h4>
+<p>todo
 
 
-<br><br><hr><br>
+<h4 id=7h>Raytracing and Physics Based Rendering</h4>
+<p>todo
 
-<h4>Particles</h4>
 
-TODO
+<h4 id=7i>NURBS</h4>
+<p>todo
 
 
+<h4 id=7j>WebGPU</h4>
+<p>todo
 
-<br><br><hr><br>
 
-<h4>Blur</h4>
+<h4 id=7k>WebGL and Gamedev</h4>
+<p>todo
 
-TODO
 
+<h4 id=7l>Use WebGL to compute stuff</h4>
+<p>todo
 
-<br><br><hr><br>
-
-<h4>Tessellation and decimation</h4>
-
-TODO
-
-
-
-<br><br><hr><br>
-
-<h4>Add effects on an image or a 2D canvas</h4>
-
-TODO
-
-<br><br><hr><br>
-
-<h4>VR</h4>
-
-TODO
-
-
-<br><br><hr><br>
--->
-
-
-<!--
-<br><br><hr><br>
-
-<h4>Loading .ply 3D files</h4>
-
-TODO
-
-<br><br><hr><br>
-
-<h4>Cel-shading / ramp textures</h4>
-
-TODO
-
-<br><br><hr><br>
-
-<h4>Reflexion and environment mapping</h4>
-
-<!-- https://webglfundamentals.org/webgl/lessons/webgl-environment-maps.html -- >
-TODO
-
-
-<br><br><hr><br>
-
-<h4>Animating textures</h4>
-
-TODO
-
-
-<br><br><hr><br>
-
-<h4>Visualizing the camera</h4>
-<!-- https://webglfundamentals.org/webgl/lessons/webgl-visualizing-the-camera.html -- >
-TODO
-
-<br><br><hr><br>
-
-<h4>Rigged animation</h4>
-
-TODO
-
-
-TODO
-<!--<p>a
-<ul>
-<li>a
-</ul>
-
-<table class=ch10>
-<tr>
-<td>
-<pre><code class="lang-js">
-a</code></pre>
-<td>
-<iframe width=430 height=430 style="max-width:420px;" src="https://xem.github.io/webgl-guide/book/ch10/"></iframe>
-</table-- >
-
-
-<br><br><hr><br>
-
-<h4>A word about 3D physics</h4>
-
-TODO
-
-<br><br><hr><br>
-
-<h4>Conclusion</h4>
-
-TODO
--->
-
-<br><br><hr><br>
-
-
-
+<h4 id=7m>Visualizing the camera</h4>
+<p>todo (more info <a href="https://webglfundamentals.org/webgl/lessons/webgl-visualizing-the-camera.html">here</a>)
 
 
 </div>
