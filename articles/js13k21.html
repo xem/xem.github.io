@@ -92,29 +92,36 @@ ul { padding-left: 15px }
 <br>But this simple demo required a large amount of work to position everything correctly, and it would be a nightmare to animate...
 <br>Which gave me the idea to develop...
 
-<p><b>June-august 2020</b>: a <a href="https://xem.github.io/CSS3Dframework/">CSS3D framework</a>. With it, setting up the camera, a plane, a cube, a sprite (always facing the camera), or moving an object takes a tiny line of code. The framework itself is 1.4kb zipped, and it would literally have saved me dozens of hours (and probably many kbs) while I was developing the first LOSSST game. And it helped me making my 2020 entry: <a href="https://js13kgames.com/entries/track-not-found">Track not found?!</a>
+<p><b>June-august 2020</b>: ... a <a href="https://xem.github.io/CSS3Dframework/">CSS3D framework</a>. With it, setting up the camera, a plane, a cube, a sprite (always facing the camera), or moving an object takes a tiny line of code. The framework itself is 1.4kb zipped, and it would literally have saved me dozens of hours (and probably many kbs) while I was developing the first LOSSST game. I used it to make my 2020 entry: <a href="https://js13kgames.com/entries/track-not-found">Track not found?!</a>
 <p><img src="images/js13k21/bob.jpg" width=300>
 
 <p><b>Back to august 13, 2021</b>: the idea to redevelop LOSSST (and expand it) as a mobile game (with a succession of puzzles of increasing difficulty and extra challenges for each) has grown in my head, and instead of doing it on my free time, let it be my 2021 js13k entry!
-
+<br>
+<br>
 <p><b>How I will proceed</b>
 
-<p>I will make the game I like: a succession of puzzles, a lot of puzzles, with various mechanics, environments and musics, and at the end, puzzles in space (to fit the theme).
-<p>No planning: each day I will work on whatever I feel like working the most.
-<p>No burn out: 2-3 hours of work per day, with pauses. Self-care is important.
+<p>I will make the game I want: a succession of puzzles, a lot of puzzles, with various mechanics, environments and musics, a story, and at the end, puzzles that take place in space (to fit the theme).
+<p>No exploration, no apples, no clumsy CSS3D, no barely-visible tutorial signposts
+<br>No planning: each day I will work on whatever I feel like working the most.
+<br>No burn out: 2-5 hours of work per day, with pauses. Self-care is important.
+<br>No staying stuck for hours because of a problem. If a problem occurs, I'll go take a walk or go to sleep, let my subconscious think about it, and the solution will be trivial when I get back.
 <p>Stats: every day, I'll <a href="https://twitter.com/MaximeEuziere/status/1426588514767052800">record my screen</a> while I code, and share the number of hours spent, the size of my commented code and my progress on Twitter. I'll check out the zipped size once a week.
-<p>Last but not least: leave time for beta-testing, debugging and golfing; Don't leave anything for the last minute (like mobile controls), or hope that someone will help me complete my game (especially for the music!)
+<p>Last but not least: leave time for beta-testing, debugging and golfing; Don't leave anything for the last minute (like mobile controls), or hope that someone will help me complete my game (especially for the music... like I do every year)
 <br><br><hr><br>
 
-<h2>Day 2! menuing</h2>
+<h2>Day 2: what's on the menu?</h2>
 
 <p>Brainstorming continues... my idea for now is to build a rocket from different worlds by completing their puzzles.
-<p>I scribble ideas in my notepad and start coding a menu...
+<p>I scribbled ideas in my notepad and started coding a first draft of my menu...
 <p><video src="images/js13k21/2-1.mp4" width=600 height=450 controls style=background:#000>
-<p>I drew the rocket pieces in my SVG creator tool, and made the stars with a tiny SVG snippet inspired by old codegolf projects like <a href="https://xem.github.io/miniCliffordAttractor/">miniCliffordAttractor</a>:
+<p>I drew the rocket pieces in my SVG creator tool, and made a random stars pattern with a tiny SVG snippet inspired by old codegolf projects like <a href="https://xem.github.io/miniCliffordAttractor/">miniCliffordAttractor</a>:
 <pre class=lang-html><code>&lt;svg fill="#aaa" onload="for(i=500;i--;)innerHTML+=`&lt;text x=${Math.random()*5000} y=${Math.random()*5000}>.&lt;/text>`">&lt;/svg></code></pre>
 
-<p>To make the page behave well on mobile (and make it installable as a mobile web-app), I use the following lines at the beginning of my HTML:
+Demo:
+<br>
+<svg style="background:#000" onload="for(i=100;i--;)innerHTML+=`<text fill='#aaa' x=${Math.random()*300} y=${Math.random()*150}>.</text>`"></svg>
+
+<p>To make the page behave well on mobile (and make it installable as a mobile web-app), I used the following lines at the beginning of my HTML:
 <pre class=lang-html><code>&lt;meta name=viewport content="width=device-width,initial-scale=1">
 &lt;meta name=apple-mobile-web-app-capable content=yes>
 &lt;meta name=mobile-web-app-capable content=yes></code></pre>
@@ -128,17 +135,17 @@ ul { padding-left: 15px }
 <p>I started this day by completing my menu with <a href="https://twitter.com/MaximeEuziere/status/1426812340574502915">a nice scrollbar</a> that will look the same on all browsers.
 
 <p>Then, I started working on my snake.
-<br>I really wanted to find a way to push CSS3D further, <a href="https://twitter.com/MaximeEuziere/status/1426986161591959559">like I did every year since 2017</a>, so I started placing CSS3D circles in my scene to represent the joints of my snake (wondering how I'll do the "cylinders" between each pair of joints)...
-<br>But a happy mistake in my for-loop rendered the circles too close from each other, which simulated the volumetric snake I had always wanted by surprise!
-<br>So I went with that and never tried to implement the cylinders :D
+<br>I really wanted to find a way to push CSS3D further, <a href="https://twitter.com/MaximeEuziere/status/1426986161591959559">like I did every year since 2017</a>, so I started placing CSS3D circles in my scene to represent the joints of my snake (still wondering how I'll do the "cylinders" between each pair of joints)...
+<br>But a happy accident while writing my for-loop rendered the circles too close from each other, which ended up rendering the volumetric snake I had always wanted, by surprise! yay #serendipity
+<br>So I went with that and never had to implement the cylinders :D 
 <p><img src="images/js13k21/3-1.gif" width=400>
-<p>The snake above takes "only" 44 divs. In my 2017 game LOSSST, a "cubic" snake with the same length required about 50 divs. So, against all odds, this snake is better-looking but also more efficient!
+<p>The snake above takes "only" 44 divs. In my 2017 game LOSSST, a "cubic" snake with the same length required about 50 divs. So, against all odds, this snake is better-looking but also more efficient for the DOM!
 
-<p>After I tweeted it, our beloved judge <b>McFunkyPants</b> suggested that I alternate the colors of my circles, and it was an excellent idea. Doing this allowed me to offset my circles and use even less divs (26):
+<p>After I tweeted it, our beloved judge <b>McFunkyPants</b> suggested that I alternate the colors of my circles, and it was an excellent idea. Doing this allowed me to offset my circles more and use even less divs (26):
 <p><img src="images/js13k21/3-2.png" width=400>
 
-<p>As you can see in the previous image (catured on Safari), the old-fashion emoji shadows (color:transparent + text-shadow) don't work well with the Twemoji webfont.
-<p>So I searched a different, cross-browser way to shade these emoji, and I finally found it a few days later, with the help of <b>Browserstack</b>'s remote iPhone / devtools:
+<p>As you can see in that image (catured on Safari), the old-fashion emoji shadows (color:transparent + black text-shadow) don't work well with the Twemoji webfont. Only with the native emoji (which, unfortunately, areuugly, and ugly differently depending on the OS you're using).
+<p>So I searched a different, cross-browser way to shade these emoji, and I finally found it a few days later, using <b>Browserstack</b>'s remote iPhone & devtools:
 
 <pre class=lang-css><code>.emoji.shadow { filter: contrast(0)brightness(0); opacity: .6 }</code></pre>
 
@@ -155,77 +162,140 @@ ul { padding-left: 15px }
 <p>On day 4 I had the huge chance to find <b>finnhvman</b>'s <a href="https://codepen.io/collection/DRMKdB">micro SVG patterns</a> on Codepen, and I decided to not only use them in my game, but also contact him to help me make more!
 
 <p><img src="images/js13k21/4-2.jpg">
-<p><img src="images/js13k21/4-1.png" width=400>
+
+<p>The banded grass looks gorgeous, compared to a simple green radial-gradient: 
+<p><video src="images/js13k21/4.mp4" width=600 height=450 controls style=background:#000>
+<p>In my CSS, I applied a transparent-to-black radial background on top of the SVG background to make the ground look less flat, and more like a sphere (but in reality, it's just a rounded div).
+
+<p>Besides that, implementing the camera rotation with the mouse / finger required very little JS code:
+<details><summary>See code</summary>
+<pre class=lang-js><code>pointerdown = 0;
+// Pointer down (mouse or finger)
+onmousedown = ontouchstart = e => {
+
+  // Tactile devices: consider the first finger only
+  if(e.touches) e = e.touches[0];
+  
+  // Set pointer down flag
+  pointerdown = 1;
+  
+  // Save pointer position
+  px = e.pageX;
+  py = e.pageY;
+}
+
+// Pointer up
+ontouchend = onmouseup = e => {
+  
+  // Clear pointer down flag
+  pointerdown = 0;
+}
+
+// Pointer move
+onmousemove = ontouchmove = e => {
+  var dx, dy;
+  
+  // Tactile device: consider the first finger only
+  if(e.touches) e = e.touches[0];
+
+  // Find cursor delta X/Y since pointer down or last pointer move
+  dx = px - e.pageX;
+  dy = py - e.pageY;
+    
+  // Rotate around X axis according to delta Y
+  rx += dy / 10;
+    
+  // Rotate around Z axis according to delta X
+  rz += dx / 10;
+  
+  // Re-set last pointer position using the current ones
+  px = e.pageX;
+  py = e.pageY;
+    
+  // Rotate camera using CSS3DFramework
+  C.camera({rx,rz});
+}</code></pre>
+</details>
 
 <br>
 <p><b>Total</b>: 6h45, 5.5kb. <a href="">Watch timelapse</a>
 
 <br><br><hr><br>
 
+<h2>Days 5/6: didn't lift a finger</h2>
 
-<h1>TO BE CONTINUED</h1>
+<p>My next goal was to make the snake controllable using the mouse or the finger, by dragging its head on the stage.
+<p>Working on this feature took almost two days, because desktops and mobiles had a very weird support for what I was looking for:
+<br>To make the snake follow the pointer (mouse or finger), I needed to know where the pointer is on the scene, and compare it to the head's position. But retrieving the mouse coordinates inside a div requires <b>e.layerX/layerY</b> on Firefox and <b>e.offsetX/offsetY</b> on Webkit. Though, touch events don't support this feature at all.
+
+<p><img src="images/js13k21/day5.gif">
+
+<p>So I went with another idea that I had found while I was working on LOSSST HD: put 4 almost transparent divs around the snake's head, and make it move as soon as one of these divs is touched with the mouse or finger, using <b>document.elementFromPoint(e.clientX,e.clientY)</b>
+
+<p><img src="images/js13k21/day6b.gif">
+
+<p>Unfortunately, this way to control the snake wasn't precise enough on little screens, and even confusing for wall puzzles and 3D puzzles, so a few days later I scraped it entirely to save a few dozen bytes.<br>Instead, desktop players will use the arrow keys, and mobile players a virtual D-pad.
+
+<p>Like every year, the end of the first week is also the occasion to clean up my code and split my project into multiple files... (getting used to this hierarchy always takes a few days, but it's better than a single, 200kb index.html file, I guess.)
+<p><img src="images/js13k21/day6.png">
+
+<p>I also made a comparison of my scene with and without CSS radial gradients and shadows. Quite impressive:
+<p><img src="images/js13k21/day5.png" width=600>
+<p>(The final game has much less shadows than the right image, I tried to use as few shadows as possible to not overwhelm people with them)
+
+
+<br>
+<p><b>Total</b>: 14h, 20kb. <a href="https://www.youtube.com/watch?v=oVOIPjPpE_o">Watch day 5 timelapse</a> / <a href="https://www.youtube.com/watch?v=9pTdovAcPtg">Watch day 6 timelapse</a>
+
+
+
+<br><br><hr><br>
+
+<h2>Day 7: move your body</h2>
+
+<p>I took the time to test different ways to move the snake's body, and <a href="https://twitter.com/MaximeEuziere/status/1428261233619263492">asked people which one they prefer</a>.
+<p><img src="images/js13k21/day7.gif" width=500>
+<p>My favourite approach (#3) was also <a href="images/js13k21/day7.png">chosen by the other devs</a>... even if it looks less natural than the others.
+So I went with it!
+
+<p>Besides that, I implemented collisions (the snake can't move over itself) and backtracking (when pulling the head to the position from which it's coming)...
+<p><img src="images/js13k21/day7b.gif" width=500>
+
+<p>... and wrote the code responsible to check if the puzzles are solved.
+<p><img src="images/js13k21/day7c.gif" width=500>
+
+
+<br>
+<p><b>Total</b>: 17h30, 26kb, 4kb zipped. <a href="https://www.youtube.com/watch?v=T_-CYHQYMRk">Watch timelapse</a>
+
+
+<br><br><hr><br>
+
+<h2>Days 8/9: puzzled</h2>
+
+<p>I developed new puzzle types: the ones with wall, and the ones with floor + wall...
 <br>
 <br>
+<video src="images/js13k21/8.mp4" width=600 height=450 controls style=background:#000>
+
+<p>And the ones with wrapping:
 <br>
+<br>
+<video src="images/js13k21/day9.mp4" width=600 height=450 controls style=background:#000>
+
+<p>This is when I added keyboard controls an realized I'll have to scrap the "drag head to move" mechanic, which will become too complex to maintain and keep intuitive for the player.
+
+<p>Though, despite the hours spent, I still felt that I had absolutely no game yet, only an engine, so I made this meme to represent my impression:
+<p><img src="images/js13k21/day8.png" width=400>
+
+<p>At the end, I started looking for a way to produce music... (super early compared to the other years!)
+<p>I started by trying to reproduce classic melodies from their piano partitions, but it ended up being a dead-end. Partitions are an unbelievable mess of complexity, I don't have to work them out and develop a game at the same time!
+
+<br>
+<p><b>Total</b>: 27h15, 39kb. <a href="https://www.youtube.com/watch?v=WL_7_bZi9MM">Watch day 8 timelapse</a> / <a href="https://www.youtube.com/watch?v=2lHMBZIT8D4">Watch day 9 timelapse</a>
+
+<br><br><hr><br>
 <!--
-
-<h2>Day 5</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
-<h2>Day 6</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-
-<br><br><hr><br>
-
-<h2>Day 7</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-
-<br><br><hr><br>
-
-<h2>Day 8</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
-<h2>Day 9</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
 <h2>Day 10</h2>
 
 
@@ -263,22 +333,14 @@ ul { padding-left: 15px }
 <h2>To be continued...</h2>
 
 
-
-
-
-<br>
-<hr>
-<br>
-<!--
-<img src="images/js13k20/big.png">
-<ul>
-<li><a href="https://js13kgames.com/entries/track-not-found">Play the game</a>
-<li><a href="https://github.com/xem/track-not-found">Github repo</a>
-<li><a href="https://js13kgames.com/#winners">Results</a>: #2 in <a href="https://twitter.com/js13kGames/status/1316395631368450058">innovation</a>, #3 on Mobile, #4 Overall and #7 in WebMonetization category!
-</ul>
-
-<br><hr><br>
 -->
+
+
+<br><br><hr><br>
+<h1>TO BE CONTINUED</h1>
+<br>
+<br>
+<br>
  
 </div>
 
