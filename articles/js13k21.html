@@ -26,12 +26,249 @@ ul { padding-left: 15px }
 
 <h2>JS13kGames 2021: LOSSST - A Snake in Space</h2>
 <h3>August-September 2021</h3>
+<p><img src="images/js13k21/large.jpg">
+<br><hr><br>
+
+
+<h2>A special year</h2>
+<p>Welcome!
+<p>2021 is a special year: it's the 10th edition of <b>JS13kGames</b>, and it will be the 10th game that I'll develop in solo!
+<br>(I started in 2014, but I made 2 games in 2016 and 3 games in 2018)
+<p>This making-of will cover the completion of a simple idea I've had in 2017, implemented in many forms,<br>and how I plan to make it grow outside of this competition!
+<b>
+<p>You can play the game <a href="https://js13kgames.com/entries/lossst-a-snake-in-space">on js13kGames.com</a>
+<p>The source code is <a href="https://github.com/xem/js13k21">on Github</a>
+<br><br><hr><br>
+</b>
+
+<h2>Before the jam</h2>
+
+<p><a href="images/js13k21/before.jpg"><img src="images/js13k21/before.jpg"></a>
+
+<p>In july, I started preparing this new installment with:
+<p>- A <a href="images/js13k21/ideas.png">list of ideas</a>
+<br>- A <a href="https://twitter.com/MaximeEuziere/status/1416651465951690753">successful Twitter thread</a> full of JS13k-specific tips and tools
+<br>- A <a href="//xem.github.io/miniSVGcreator/">SVG creation tool</a>
+<br>- A Unicode 13 "recap": <a href="https://xem.github.io/unicode13/all-js.html">all chars</a> / <a href="https://xem.github.io/unicode13/shapes-js.html">all shapes</a> / <a href="https://xem.github.io/unicode13/emoji.html">all emoji</a> (and an emoji webfont useable in JS13k entries)
+<br>- A <a href="https://xem.github.io/3Dmapeditor/">3D map editor</a> in CSS3D
+<br>- A <a href="https://github.com/xem/mini2DPlatformer">Mini 2D platformer bootstrap</a>
+<br>- A <a href="https://github.com/xem/mini3DPlatformer">Mini 3D platformer bootstrap</a>
+<br>- A <a href="https://xem.github.io/int2unicode/">tool to convert a list of numbers into an ASCII or Unicode string</a>
+<br>- <a href="https://twitter.com/MaximeEuziere/status/1425504758173945864">One-div CSS3D cubes</a> (while doing them, I found a super simple way to implement a <a href="https://github.com/xem/css3dcube/blob/gh-pages/camera/index.html#L38-L43"> camera in CSS3D!</a>)
+
+<p>All these tools plus all the others I made earlier are available in the <a href="https://js13kgames.github.io/resources/">JS13k resource page</a>
+
+
+<br>
+<p>But an impressive game-changing tool also appeared this year, developed by <b>Yurume</b>:
+<br>an entry compressor called <a href="https://lifthrasiir.github.io/roadroller/">RoadRoller</a>, allowing to lose an extra 1-2kb in a fully optimized 13kb zip file! 🤯 
+
+<br><br><hr><br>
+
+<h2>Day 1: the theme</h2>
+
+<p>So the theme is <b>SPACE</b>!
+<p>No code today (my love has gone away): day one is dedicated to brainstorming!
+<p>I kinda had in mind to do a 3D platformer a la Mario 64, but it wouldn't really fit that theme. So let's find something else!
+<p>I scribbled a list of ideas, removed the ones that risked to be over-represented among the other entries, and replayed some of my favourite space-themed mobile games, in particular <b>Escape</b>, <b>Space Frontier</b> and <b>Armory & Machine</b>
+<p><img src="images/js13k21/1.jpg">
+<p>The last idea I wrote in my notepad was "a sequel to a puzzle game (...) in space", and that's what I picked:<br>I'll do a sequel to <b>LOSSST</b>, my #1 entry from 2017!
+<br>
+<br>
+<p><b>The history of LOSSST</b>
+<br><br><b>Summer 2017</b>: idea of the concept, development of <a href="https://js13kgames.com/entries/lossst">the js13k entry LOSSST</a> that arrived #1 on mobile / #2 on desktop that year.<br>This entry and its <a href="//xem.github.io/articles/js13k17.html">making-of</a> were a huge success, though in retrospect, there are many things I would have done differently: the visuals (rooms are too repetitive, snakes made of cubes looked weird, tutorial signposts were not visible enough...), the clumsy CSS3D, the controls (backtracking / moving up and down was difficult), the "exploration / eat apples to grow" thing added a huge unnecessary complexity, and most of all, on a more personal note, I kind of burned out and gained too much weight while developing it, and I regret that.
+<p><img src="images/js13k21/1b.jpg" width=600>
+
+<p><b>January 2018</b>: I developed a 1kb demake of LOSSST with the Codegolf Team, containing 55 levels.<br>Some of them were never seen before. It was a very fun compression challenge, and it can be played <a href="https://js1k.com/2018-coins/demo/3003">HERE</a>.
+ 
+<p><img src="images/js13k21/1c.jpg" width=600>
+
+<p><b>January-June 2018</b>: I start developing a HD remake of LOSSST with new mechanics, new puzzles, better controls, mp3 musics, photorealistic textures, different environments, better controls, and even a boss fight.<br>The goal was to eventually publish it on Steam and/or mobile app stores.<br>Unfortunately, the game was handicaped because of the still clumsy CSS3D engine and the heavy textures, and remained unfinished.<br>Many lessons were learned though.<br>And it's still playable <a href="https://xem.github.io/LOSSST/">HERE</a>! 
+<p><img src="images/js13k21/1d.jpg" width=600>
+
+<p><b>May 2019</b>: bored with all these cubic snakes, I start to think of a way to represent a volumetric snake out of CSS3D circles and rectangles. You can see a live demo of the result <a href="https://codepen.io/xem/pen/XwroXG">HERE</a> (use mouse to rotate camera vertically).
+<p><img src="images/js13k21/1e.jpg" width=600>
+<br>It's a good start! (Even if the body looks a bit flat, the head really looks like a sphere)...
+<br>But this simple demo required a large amount of work to position everything correctly, and it would be a nightmare to animate...
+<br>Which gave me the idea to develop...
+
+<p><b>June-august 2020</b>: a <a href="https://xem.github.io/CSS3Dframework/">CSS3D framework</a>. With it, setting up the camera, a plane, a cube, a sprite (always facing the camera), or moving an object takes a tiny line of code. The framework itself is 1.4kb zipped, and it would literally have saved me dozens of hours (and probably many kbs) while I was developing the first LOSSST game. And it helped me making my 2020 entry: <a href="https://js13kgames.com/entries/track-not-found">Track not found?!</a>
+<p><img src="images/js13k21/bob.jpg" width=300>
+
+<p><b>Back to august 13, 2021</b>: the idea to redevelop LOSSST (and expand it) as a mobile game (with a succession of puzzles of increasing difficulty and extra challenges for each) has grown in my head, and instead of doing it on my free time, let it be my 2021 js13k entry!
+
+<p><b>How I will proceed</b>
+
+<p>I will make the game I like: a succession of puzzles, a lot of puzzles, with various mechanics, environments and musics, and at the end, puzzles in space (to fit the theme).
+<p>No planning: each day I will work on whatever I feel like working the most.
+<p>No burn out: 2-3 hours of work per day, with pauses. Self-care is important.
+<p>Stats: every day, I'll <a href="https://twitter.com/MaximeEuziere/status/1426588514767052800">record my screen</a> while I code, and share the number of hours spent, the size of my commented code and my progress on Twitter. I'll check out the zipped size once a week.
+<p>Last but not least: leave time for beta-testing, debugging and golfing; Don't leave anything for the last minute (like mobile controls), or hope that someone will help me complete my game (especially for the music!)
+<br><br><hr><br>
+
+<h2>Day 2! menuing</h2>
+
+<p>Brainstorming continues... my idea for now is to build a rocket from different worlds by completing their puzzles.
+<p>I scribble ideas in my notepad and start coding a menu...
+<p><video src="images/js13k21/2-1.mp4" width=600 height=450 controls style=background:#000>
+<p>I drew the rocket pieces in my SVG creator tool, and made the stars with a tiny SVG snippet inspired by old codegolf projects like <a href="https://xem.github.io/miniCliffordAttractor/">miniCliffordAttractor</a>:
+<pre class=lang-html><code>&lt;svg fill="#aaa" onload="for(i=500;i--;)innerHTML+=`&lt;text x=${Math.random()*5000} y=${Math.random()*5000}>.&lt;/text>`">&lt;/svg></code></pre>
+
+<p>To make the page behave well on mobile (and make it installable as a mobile web-app), I use the following lines at the beginning of my HTML:
+<pre class=lang-html><code>&lt;meta name=viewport content="width=device-width,initial-scale=1">
+&lt;meta name=apple-mobile-web-app-capable content=yes>
+&lt;meta name=mobile-web-app-capable content=yes></code></pre>
+<br>
+<p><b>Total</b>: 1h30, 1.2kb. <a href="https://www.youtube.com/watch?v=TNFbeIYd87Q">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 3: draw me a snake</h2>
+
+<p>I started this day by completing my menu with <a href="https://twitter.com/MaximeEuziere/status/1426812340574502915">a nice scrollbar</a> that will look the same on all browsers.
+
+<p>Then, I started working on my snake.
+<br>I really wanted to find a way to push CSS3D further, <a href="https://twitter.com/MaximeEuziere/status/1426986161591959559">like I did every year since 2017</a>, so I started placing CSS3D circles in my scene to represent the joints of my snake (wondering how I'll do the "cylinders" between each pair of joints)...
+<br>But a happy mistake in my for-loop rendered the circles too close from each other, which simulated the volumetric snake I had always wanted by surprise!
+<br>So I went with that and never tried to implement the cylinders :D
+<p><img src="images/js13k21/3-1.gif" width=400>
+<p>The snake above takes "only" 44 divs. In my 2017 game LOSSST, a "cubic" snake with the same length required about 50 divs. So, against all odds, this snake is better-looking but also more efficient!
+
+<p>After I tweeted it, our beloved judge <b>McFunkyPants</b> suggested that I alternate the colors of my circles, and it was an excellent idea. Doing this allowed me to offset my circles and use even less divs (26):
+<p><img src="images/js13k21/3-2.png" width=400>
+
+<p>As you can see in the previous image (catured on Safari), the old-fashion emoji shadows (color:transparent + text-shadow) don't work well with the Twemoji webfont.
+<p>So I searched a different, cross-browser way to shade these emoji, and I finally found it a few days later, with the help of <b>Browserstack</b>'s remote iPhone / devtools:
+
+<pre class=lang-css><code>.emoji.shadow { filter: contrast(0)brightness(0); opacity: .6 }</code></pre>
+
+<p><img src="images/js13k21/5-1.jpg" width=600>
+
+<br>
+<p><b>Total</b>: 3h30, 4.45kb. <a href="https://www.youtube.com/watch?v=bcZE06S3Aes">Watch timelapse</a>
+
+
+<br><br><hr><br>
+
+<h2>Day 4: new grounds</h2>
+
+<p>On day 4 I had the huge chance to find <b>finnhvman</b>'s <a href="https://codepen.io/collection/DRMKdB">micro SVG patterns</a> on Codepen, and I decided to not only use them in my game, but also contact him to help me make more!
+
+<p><img src="images/js13k21/4-2.jpg">
+<p><img src="images/js13k21/4-1.png" width=400>
+
+<br>
+<p><b>Total</b>: 6h45, 5.5kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+
+<h1>TO BE CONTINUED</h1>
+<br>
+<br>
+<br>
+<!--
+
+<h2>Day 5</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 6</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+
+<br><br><hr><br>
+
+<h2>Day 7</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+
+<br><br><hr><br>
+
+<h2>Day 8</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 9</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 10</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+
+<br><br><hr><br>
+
+<h2>Day 11</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 12</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>To be continued...</h2>
+
+
+
+
 
 <br>
 <hr>
 <br>
-
-<p>Coming soon!
 <!--
 <img src="images/js13k20/big.png">
 <ul>

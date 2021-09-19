@@ -10,6 +10,7 @@ menus = {
   
   articles: {
     intro: "Intro",
+    js13k21: "JS13kgames 2021",
     nes: "Golfing a NES emulator (WIP)",
     "webgl-guide": "WebGL guide part 1",
     "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
