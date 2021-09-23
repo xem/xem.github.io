@@ -36,8 +36,9 @@ ul { padding-left: 15px }
 <br>(I started in 2014, but I made 2 games in 2016 and 3 games in 2018)
 <p>This making-of will cover the completion of a simple idea I've had in 2017, implemented in many forms,<br>and how I plan to make it grow outside of this competition!
 <b>
-<p>You can play the game <a href="https://js13kgames.com/entries/lossst-a-snake-in-space">on js13kGames.com</a>
-<p>The source code is <a href="https://github.com/xem/js13k21">on Github</a>
+<p>You can play the game on <a href="https://js13kgames.com/entries/lossst-a-snake-in-space">js13kGames.com</a>
+<p>The source code is available on <a href="https://github.com/xem/js13k21">Github</a>
+<p>This making-of is the long version of <a href="https://twitter.com/MaximeEuziere/status/1426188099898445826">this Twitter thread</a>
 <br><br><hr><br>
 </b>
 
@@ -54,9 +55,10 @@ ul { padding-left: 15px }
 <br>- A <a href="https://github.com/xem/mini2DPlatformer">Mini 2D platformer bootstrap</a>
 <br>- A <a href="https://github.com/xem/mini3DPlatformer">Mini 3D platformer bootstrap</a>
 <br>- A <a href="https://xem.github.io/int2unicode/">tool to convert a list of numbers into an ASCII or Unicode string</a>
-<br>- <a href="https://twitter.com/MaximeEuziere/status/1425504758173945864">One-div CSS3D cubes</a> (while doing them, I found a super simple way to implement a <a href="https://github.com/xem/css3dcube/blob/gh-pages/camera/index.html#L38-L43"> camera in CSS3D!</a>)
+<br>- <a href="https://twitter.com/MaximeEuziere/status/1425504758173945864">One-div CSS3D cubes</a> (while doing them, I found a super simple way to <a href="https://github.com/xem/css3dcube/blob/gh-pages/camera/index.html#L38-L43"> control the "camera" in CSS3D!</a>)
+- Updated my <a href="http://localhost/xem.github.io/articles/jsgamesinputs.html">keyboard inputs blog post</a>
 
-<p>All these tools plus all the others I made earlier are available in the <a href="https://js13kgames.github.io/resources/">JS13k resource page</a>
+<p>All these tools plus all the others I made earlier are available in the <a href="https://js13kgames.github.io/resources/">JS13k resource page</a>.
 
 
 <br>
@@ -68,45 +70,52 @@ ul { padding-left: 15px }
 <h2>Day 1: the theme</h2>
 
 <p>So the theme is <b>SPACE</b>!
-<p>No code today (my love has gone away): day one is dedicated to brainstorming!
+<p>No code today: day one is dedicated to brainstorming!
 <p>I kinda had in mind to do a 3D platformer a la Mario 64, but it wouldn't really fit that theme. So let's find something else!
 <p>I scribbled a list of ideas, removed the ones that risked to be over-represented among the other entries, and replayed some of my favourite space-themed mobile games, in particular <b>Escape</b>, <b>Space Frontier</b> and <b>Armory & Machine</b>
 <p><img src="images/js13k21/1.jpg">
-<p>The last idea I wrote in my notepad was "a sequel to a puzzle game (...) in space", and that's what I picked:<br>I'll do a sequel to <b>LOSSST</b>, my #1 entry from 2017!
+<p>But the last idea I wrote in my notepad was "a sequel to a puzzle game of mine, in space", and that's what I picked:<br>I'll do a sequel to <b>LOSSST</b>, my entry from 2017!
 <br>
 <br>
 <p><b>The history of LOSSST</b>
-<br><br><b>Summer 2017</b>: idea of the concept, development of <a href="https://js13kgames.com/entries/lossst">the js13k entry LOSSST</a> that arrived #1 on mobile / #2 on desktop that year.<br>This entry and its <a href="//xem.github.io/articles/js13k17.html">making-of</a> were a huge success, though in retrospect, there are many things I would have done differently: the visuals (rooms are too repetitive, snakes made of cubes looked weird, tutorial signposts were not visible enough...), the clumsy CSS3D, the controls (backtracking / moving up and down was difficult), the "exploration / eat apples to grow" thing added a huge unnecessary complexity, and most of all, on a more personal note, I kind of burned out and gained too much weight while developing it, and I regret that.
+<br><br><b>Summer 2017</b>: I got the "make shapes with a snake" idea, and developed <a href="https://js13kgames.com/entries/lossst">my js13k entry LOSSST</a>.<br>This entry and its <a href="//xem.github.io/articles/js13k17.html">making-of</a> were a huge success, though in retrospect, there are many things I would have done differently: the visuals (rooms are too repetitive, snakes made of cubes look weird, tutorial signposts are not visible enough...), the clumsy CSS3D, the controls (backtracking / moving up and down is difficult), the "exploration / eat apples to grow" thing added a huge unnecessary complexity, and most of all, on a more personal note, I kind of burned out and gained too much weight while developing it, and I regret that.
 <p><img src="images/js13k21/1b.jpg" width=600>
 
-<p><b>January 2018</b>: I developed a 1kb demake of LOSSST with the Codegolf Team, containing 55 levels.<br>Some of them were never seen before. It was a very fun compression challenge, and it can be played <a href="https://js1k.com/2018-coins/demo/3003">HERE</a>.
+<p><b>January 2018</b>: during JS1K 2018, I developed a 1kb demake of LOSSST with the help of the Codegolf Team, containing 55 levels.<br>Some of them were never seen before. It was a very fun compression challenge, and it can be played <a href="https://js1k.com/2018-coins/demo/3003">HERE</a>.
  
 <p><img src="images/js13k21/1c.jpg" width=600>
 
-<p><b>January-June 2018</b>: I start developing a HD remake of LOSSST with new mechanics, new puzzles, better controls, mp3 musics, photorealistic textures, different environments, better controls, and even a boss fight.<br>The goal was to eventually publish it on Steam and/or mobile app stores.<br>Unfortunately, the game was handicaped because of the still clumsy CSS3D engine and the heavy textures, and remained unfinished.<br>Many lessons were learned though.<br>And it's still playable <a href="https://xem.github.io/LOSSST/">HERE</a>! 
+<p><b>January-June 2018</b>: I start developing a HD remake of LOSSST with new mechanics, new puzzles, better controls, mp3 musics, photorealistic textures, different environments, better controls, and even a boss fight.<br>The goal was to eventually publish it on Steam and/or mobile app stores.
+<br>I also developed a <a href="https://xem.github.io/LOSSST/procgen.html">puzzle generator</a> to help me find new ideas.
+<br>(until then, all the puzzles, <a href="//xem.github.io/articles/images/js13k17/scribbles3.png">even the 3D ones</a>, were created by hand on a notepad, which was pretty hard).
+<br>Unfortunately, the game was handicaped because of the (still clumsy) CSS3D, bad controls and heavy textures, and remained unfinished.
+<br>Many lessons were learned though. And it's still playable <a href="https://xem.github.io/LOSSST/">HERE</a>! 
 <p><img src="images/js13k21/1d.jpg" width=600>
 
 <p><b>May 2019</b>: bored with all these cubic snakes, I start to think of a way to represent a volumetric snake out of CSS3D circles and rectangles. You can see a live demo of the result <a href="https://codepen.io/xem/pen/XwroXG">HERE</a> (use mouse to rotate camera vertically).
 <p><img src="images/js13k21/1e.jpg" width=600>
 <br>It's a good start! (Even if the body looks a bit flat, the head really looks like a sphere)...
-<br>But this simple demo required a large amount of work to position everything correctly, and it would be a nightmare to animate...
+<br>But this simple demo required a large amount of work to position everything correctly, and it would have been a nightmare to animate...
 <br>Which gave me the idea to develop...
 
 <p><b>June-august 2020</b>: ... a <a href="https://xem.github.io/CSS3Dframework/">CSS3D framework</a>. With it, setting up the camera, a plane, a cube, a sprite (always facing the camera), or moving an object takes a tiny line of code. The framework itself is 1.4kb zipped, and it would literally have saved me dozens of hours (and probably many kbs) while I was developing the first LOSSST game. I used it to make my 2020 entry: <a href="https://js13kgames.com/entries/track-not-found">Track not found?!</a>
-<p><img src="images/js13k21/bob.jpg" width=300>
+<p><img src="images/js13k21/bob.png">
+<br><i>👆 CSS3Dframework's demo: <a href="https://xem.github.io/CSS3Dframework/bobomb.html">king Bob-omb</a>, made with a plane, 3 rounded divs, 5 emoji and 11 lines of JS</i>
 
 <p><b>Back to august 13, 2021</b>: the idea to redevelop LOSSST (and expand it) as a mobile game (with a succession of puzzles of increasing difficulty and extra challenges for each) has grown in my head, and instead of doing it on my free time, let it be my 2021 js13k entry!
 <br>
 <br>
 <p><b>How I will proceed</b>
 
-<p>I will make the game I want: a succession of puzzles, a lot of puzzles, with various mechanics, environments and musics, a story, and at the end, puzzles that take place in space (to fit the theme).
-<p>No exploration, no apples, no clumsy CSS3D, no barely-visible tutorial signposts
+<p>I will make the game I want: a lot of puzzles, with quick transitions, various mechanics, environments and musics, a story, and at the end, puzzles that take place in space (to fit the theme)... and I'll do it with CSS3D (but good CSS3D this time).
+<p>No exploration, no apples, no barely-visible tutorial signposts.
 <br>No planning: each day I will work on whatever I feel like working the most.
-<br>No burn out: 2-5 hours of work per day, with pauses. Self-care is important.
-<br>No staying stuck for hours because of a problem. If a problem occurs, I'll go take a walk or go to sleep, let my subconscious think about it, and the solution will be trivial when I get back.
+<br>No IDE or automation: only Notepad++, my browsers and my favourite online tools.
+<br>No burn out: 2 to 5 hours of work per day, with pauses. Self-care is important. (CSS3Dframework will also help to iterate quickly)
+<br>No staying stuck for hours because of a problem. Pro tip: if a problem occurs, go take a walk or go to sleep, or work on something else, let your subconscious think about it, and the solution will be trivial when you'll get back.
 <p>Stats: every day, I'll <a href="https://twitter.com/MaximeEuziere/status/1426588514767052800">record my screen</a> while I code, and share the number of hours spent, the size of my commented code and my progress on Twitter. I'll check out the zipped size once a week.
-<p>Last but not least: leave time for beta-testing, debugging and golfing; Don't leave anything for the last minute (like mobile controls), or hope that someone will help me complete my game (especially for the music... like I do every year)
+<p>Last but not least: leave time for beta-testing, debugging and golfing...
+<br>And Don't fall in the trap of leaving something for the last minute (like mobile controls, or the music... like I do every year)
 <br><br><hr><br>
 
 <h2>Day 2: what's on the menu?</h2>
@@ -121,30 +130,35 @@ Demo:
 <br>
 <svg style="background:#000" onload="for(i=100;i--;)innerHTML+=`<text fill='#aaa' x=${Math.random()*300} y=${Math.random()*150}>.</text>`"></svg>
 
-<p>To make the page behave well on mobile (and make it installable as a mobile web-app), I used the following lines at the beginning of my HTML:
+<p>To make the page behave well on mobile (and make it installable as an app), I used the following lines at the beginning of my HTML:
 <pre class=lang-html><code>&lt;meta name=viewport content="width=device-width,initial-scale=1">
 &lt;meta name=apple-mobile-web-app-capable content=yes>
 &lt;meta name=mobile-web-app-capable content=yes></code></pre>
+<p>NB: I forgot to add "<b>,user-scalable=0</b>" in the first line. As a result, my game is zoomable with two fingers, but not with a double-tap.
+<br>No big deal. 🤷
+
 <br>
+
 <p><b>Total</b>: 1h30, 1.2kb. <a href="https://www.youtube.com/watch?v=TNFbeIYd87Q">Watch timelapse</a>
 
 <br><br><hr><br>
 
 <h2>Day 3: draw me a snake</h2>
 
-<p>I started this day by completing my menu with <a href="https://twitter.com/MaximeEuziere/status/1426812340574502915">a nice scrollbar</a> that will look the same on all browsers.
+<p>I started this day by making a <a href="https://twitter.com/MaximeEuziere/status/1426812340574502915">cross-browser scrollbar</a> in CSS, for my menus.
 
 <p>Then, I started working on my snake.
-<br>I really wanted to find a way to push CSS3D further, <a href="https://twitter.com/MaximeEuziere/status/1426986161591959559">like I did every year since 2017</a>, so I started placing CSS3D circles in my scene to represent the joints of my snake (still wondering how I'll do the "cylinders" between each pair of joints)...
-<br>But a happy accident while writing my for-loop rendered the circles too close from each other, which ended up rendering the volumetric snake I had always wanted, by surprise! yay #serendipity
+<p>I really wanted to find a way to push CSS3D further, <a href="https://twitter.com/MaximeEuziere/status/1426986161591959559">like I did every year since 2017</a>, so I started placing CSS3D circles in my scene to represent the joints of my snake (still wondering how I'll do the "cylinders" between the joints)...
+<br>But a happy accident occurred while writing my for-loop. I rendered the circles too close from each other, which ended up rendering the volumetric snake I had always wanted, by surprise! yay #serendipity!
 <br>So I went with that and never had to implement the cylinders :D 
 <p><img src="images/js13k21/3-1.gif" width=400>
 <p>The snake above takes "only" 44 divs. In my 2017 game LOSSST, a "cubic" snake with the same length required about 50 divs. So, against all odds, this snake is better-looking but also more efficient for the DOM!
 
-<p>After I tweeted it, our beloved judge <b>McFunkyPants</b> suggested that I alternate the colors of my circles, and it was an excellent idea. Doing this allowed me to offset my circles more and use even less divs (26):
+<p>After I tweeted it, our beloved judge <b>McFunkyPants</b> suggested that I alternate the colors of my circles, and it was an excellent idea. Doing this allowed me to offset my circles more and use even less divs (26 here):
 <p><img src="images/js13k21/3-2.png" width=400>
 
-<p>As you can see in that image (catured on Safari), the old-fashion emoji shadows (color:transparent + black text-shadow) don't work well with the Twemoji webfont. Only with the native emoji (which, unfortunately, areuugly, and ugly differently depending on the OS you're using).
+<p>As you can see in that image (catured on Safari), my old way to do emoji tree shadows (color:transparent + black text-shadow) doesn't work well with the Twemoji webfont. Instead, Safari continues to show the emoji's colors.
+<!--br>It only works with the native emoji (which, unfortunately, are ugly, and ugly differently depending on the OS you're using).!-->
 <p>So I searched a different, cross-browser way to shade these emoji, and I finally found it a few days later, using <b>Browserstack</b>'s remote iPhone & devtools:
 
 <pre class=lang-css><code>.emoji.shadow { filter: contrast(0)brightness(0); opacity: .6 }</code></pre>
@@ -214,7 +228,11 @@ onmousemove = ontouchmove = e => {
     
   // Rotate camera using CSS3DFramework
   C.camera({rx,rz});
-}</code></pre>
+}
+
+// Disable right click / long touch
+oncontextmenu = () => { return false; }
+</code></pre>
 </details>
 
 <br>
@@ -226,15 +244,15 @@ onmousemove = ontouchmove = e => {
 
 <p>My next goal was to make the snake controllable using the mouse or the finger, by dragging its head on the stage.
 <p>Working on this feature took almost two days, because desktops and mobiles had a very weird support for what I was looking for:
-<br>To make the snake follow the pointer (mouse or finger), I needed to know where the pointer is on the scene, and compare it to the head's position. But retrieving the mouse coordinates inside a div requires <b>e.layerX/layerY</b> on Firefox and <b>e.offsetX/offsetY</b> on Webkit. Though, touch events don't support this feature at all.
+<br>To make the snake follow the pointer (mouse or finger), I needed to know where the pointer is on the scene, and compare it to the head's position. But retrieving the mouse coordinates inside a div (the floor div) requires <b>e.layerX/layerY</b> on Firefox and <b>e.offsetX/offsetY</b> on Webkit. Though, touch events don't support this feature at all.
 
 <p><img src="images/js13k21/day5.gif">
 
-<p>So I went with another idea that I had found while I was working on LOSSST HD: put 4 almost transparent divs around the snake's head, and make it move as soon as one of these divs is touched with the mouse or finger, using <b>document.elementFromPoint(e.clientX,e.clientY)</b>
+<p>So I went with another idea that I had found while I was working on LOSSST HD: put 4 almost transparent divs around the snake's head, and make it move as soon as one of these divs is touched with the pointer, using <b>document.elementFromPoint(e.clientX,e.clientY)</b>
 
 <p><img src="images/js13k21/day6b.gif">
 
-<p>Unfortunately, this way to control the snake wasn't precise enough on little screens, and even confusing for wall puzzles and 3D puzzles, so a few days later I scraped it entirely to save a few dozen bytes.<br>Instead, desktop players will use the arrow keys, and mobile players a virtual D-pad.
+<p>Unfortunately, this way to control the snake wasn't precise enough on little screens, and even confusing for wall puzzles and 3D puzzles, so a few days later I scraped it entirely to save a few dozens of bytes.<br>Instead, desktop players will use the arrow keys, and mobile players a virtual D-pad.
 
 <p>Like every year, the end of the first week is also the occasion to clean up my code and split my project into multiple files... (getting used to this hierarchy always takes a few days, but it's better than a single, 200kb index.html file, I guess.)
 <p><img src="images/js13k21/day6.png">
@@ -264,6 +282,8 @@ So I went with it!
 <p>... and wrote the code responsible to check if the puzzles are solved.
 <p><img src="images/js13k21/day7c.gif" width=500>
 
+<p><i>Note from september 13: my <b>snake.js</b> file has become the heaviest of all the project (25kb commented, 2.3kb minified/zipped), because it had to handle head movements and rotations, body movements, collisions, smart backtracking, plus all the puzzle mechanics (walls, wraps, teleporters, gravity) and a ton of edge cases. Phew.</i>
+<br>
 
 <br>
 <p><b>Total</b>: 17h30, 26kb, 4kb zipped. <a href="https://www.youtube.com/watch?v=T_-CYHQYMRk">Watch timelapse</a>
@@ -273,42 +293,264 @@ So I went with it!
 
 <h2>Days 8/9: puzzled</h2>
 
-<p>I developed new puzzle types: the ones with wall, and the ones with floor + wall...
+<p>I developed new puzzle types: the ones with a wall, the ones with floor + wall...
 <br>
 <br>
 <video src="images/js13k21/8.mp4" width=600 height=450 controls style=background:#000>
 
 <p>And the ones with wrapping:
+<br>(contrary to previous games, the snake can exit wrapping puzzles by backtracking. It's more convenient and much easier to implement!)
 <br>
 <br>
 <video src="images/js13k21/day9.mp4" width=600 height=450 controls style=background:#000>
 
-<p>This is when I added keyboard controls an realized I'll have to scrap the "drag head to move" mechanic, which will become too complex to maintain and keep intuitive for the player.
+<p>This was the moment when I added keyboard controls and realized I'll have to scrap the "drag head to move" mechanic, which will become too complex to maintain and keep intuitive for the player.
 
 <p>Though, despite the hours spent, I still felt that I had absolutely no game yet, only an engine, so I made this meme to represent my impression:
 <p><img src="images/js13k21/day8.png" width=400>
 
 <p>At the end, I started looking for a way to produce music... (super early compared to the other years!)
-<p>I started by trying to reproduce classic melodies from their piano partitions, but it ended up being a dead-end. Partitions are an unbelievable mess of complexity, I don't have to work them out and develop a game at the same time!
+<p>I started by trying to reproduce classic melodies from their piano partitions, but it ended up being a dead-end. Partitions are an <a href="https://alphabeticjazzband.files.wordpress.com/2013/12/partition-complexe.jpg">unbelievable mess of complexity</a>, I don't have the time (or the patience) to figure them out and develop a game at the same time!
 
+<br>
 <br>
 <p><b>Total</b>: 27h15, 39kb. <a href="https://www.youtube.com/watch?v=WL_7_bZi9MM">Watch day 8 timelapse</a> / <a href="https://www.youtube.com/watch?v=2lHMBZIT8D4">Watch day 9 timelapse</a>
 
 <br><br><hr><br>
+<h2>Day 10: music!</h2>
+
+<p>I woke up with a strong determination to produce music for my game... but how?
+<br>After thinking about it, I figured out I could try to extract notes from classical music MIDI files instead of their partitions.
+<br>I launched the idea on Twitter, and <b>AndreJaenisch</b> pointed me to <a href="https://galactic.ink/midi-js/">midi-js</a>, which helped me find an older, unmaintained project (<a href="https://github.com/gasman/jasmid">jasmid</a>) that does exactly what I want: list all the notes from all the tracks of a MIDI file.
+<p>So I took jasmid with me and spent a few hours creating my new tool: <a href="xem.github.io/midi2array/">midi2array</a> !
+<br>I put buttons and textareas everywhere to navigate between the tracks, play the notes, apply thresholds, and especially, keep the notes I want in a separate array, ready to be used with the <a href="https://xem.github.io/js1k19/miniSynth/">micro piano synth</a> I wrote in 2019.
+<p><video src="images/js13k21/day10.mp4" width=600 height=450 controls style=background:#000>
+
+<p>Also, it's sunday, so let's conclude this second week with a little compression test:
+<p><img src="images/js13k21/day10.png">
+
+<br>
+<p><b>Total</b>: 30h30, 41.6kb commented, 5.85kb zipped. <a href="https://www.youtube.com/watch?v=7tX9UD0BNqE">Watch timelapse</a>
+
+
+<br><br><hr><br>
+
+<h2>Day 11: scenery</h2>
+
+<p>It becomes urgent to start making puzzles for my... puzzle game.
+<br>But before that, a few details need to be completed:
+<br>A Virtual D-pad for mobile devices;
+<br>Trees and flowers, placed procedurally (pseudo-randomly) on the scene;
+<p><img src="images/js13k21/day11.jpg">
+
+<p>And brick blocks, which will have a real importance inside the puzzles, because the snake will collide with them.
+<br>It's actually not trivial to design brick block textures, and I've seeked help on Slack and in Super Mario 3D World to design them correctly.
+
+<p><img src="images/js13k21/day11b.jpg" width=500>
+
+<br>To optimize things, I ended up designing 2 micro-textures in SVG ( A: <svg style="fill:#f60" width=50 height=17><rect x=0 y=0 width=25 height=17 stroke="#000"/><rect x=25 y=0 width=25 height=17 stroke="#000"/></svg> and 
+   B: <svg style="fill:#f60" width=50 height=17><rect x=0 y=0 width=50 height=17 stroke="#000"/><path d="M17 0L17 17M34 0L34 17" stroke="#000"/></svg> ), 
+<br>then I filled the top and front faces of the cubes with <b>A + B + A</b>, and the left and right faces with <b>B + A + B</b>.
+
+<p><img src="images/js13k21/day11d.jpeg">
+
+<p>Fine! Hmm, not really. Call me a nitpicker, but when I put multiple brick blocks side to side, I find that their textures are not satisfying to watch.
+
+<p><img src="images/js13k21/day11e.jpeg">
+
+<p>But after alternating the top/front textures and the sides textures according to the Y coordinate of the cube, it's cool!
+<p>In bonus, since these textures are simple SVG rectangles with a "stroke", they can be filled with any color we want in CSS.<br>So I'll customize them in every world of my game.
+<br>And in the snow world, I can even make them semi-transparent blue to make them look like ice bricks.<br>I'm very happy of this little discovery 🥰
+
+<p><img src="images/js13k21/day11f.jpg">
+
+<p>Also, every time I make a CSS3D game, a fancy "undefined" pops up in my scene at one moment or another. This year, it was here:
+<p><img src="images/js13k21/day11c.jpeg">
+
+
+<br>
+<br>
+<p><b>Total</b>: 33h15, 43kb. <a href="https://www.youtube.com/watch?v=WFGft5bl5tw">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 12: animals and music</h2>
+
+<p>I wanted to display random animals in my scene, but... I forgot to call <b>Math.random()</b> and they all came together!
+
+<p><video src="images/js13k21/day12.mp4" width=600 height=450 controls style=background:#000>
+
+<p>Besides that, I spent some time playing with midi2Array, and created the first two melodies of the game (<i>Morning Mood</i> and <i>Dance of the mirlitons</i>).
+
+<p><video src="images/js13k21/day12b.mp4" width=600 height=450 controls style=background:#000><video src="images/js13k21/day12c.mp4" width=600 height=450 controls style=background:#000>
+
+<br>By chance, while working on LOSSST HD, I had made <a href="https://github.com/xem/LOSSST#readme">a list of my favourite classical musics</a>, so I just have to pick in that list to choose the soundtrack of my js13k entry. 
+
+
+
+<br>
+<p><b>Total</b>: 37h, 46.7kb. <a href="https://www.youtube.com/watch?v=zkXfnGP3nGg">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 13: what's on the menu?</h2>
+
+<p>I got tired of the menu I made on day 2, so I remade it entirely, by imitating the style of LOSSST 2017:
+<br>white text, black background, and a little angle using CSS3D.
+<br>Oh, and it's responsive too.
+<p><img src="images/js13k21/day13.png" width=400>
+
+<p>I also added a 3rd song (<i>Alla Turca</i>), debugged mobile controls, and finally implemented my first puzzle (woohoo!)
+
+<p><img src="images/js13k21/day13b.jpg" width=300>
+
+<p>(Though the "final" first puzzle will be rotated 90° and won't have the wrap walls around it, today they were present for debug purposes.)
+
+
+<br>
+<p><b>Total</b>: 39h30, 50.2kb. <a href="https://www.youtube.com/watch?v=pYeIqitmK5o&feature=youtu.be">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 14: a bit of everything</h2>
+
+<p>I spent this day on plenty of little details:
+<br>- continued the menus,
+<br>- designed the in-game HUD,
+<br>- made a puzzle completion animation (with a star, but in the final game we earn coins instead),
+<br>- added a 4th song (<i>Eine Kleine Nachtmusik</i>),
+<br>- finalized the first 3 puzzles...
+
+<p><video src="images/js13k21/day14.mp4" width=600 height=450 controls style=background:#000>
+
+<p>... and started the intro animation, because a good game needs to start with a "wow effect".
+<p><video src="images/js13k21/day14b.mp4" width=600 height=450 controls style=background:#000>
+<p>A friend asked me how I managed to do animations like that, and the answer is: by hand.
+<br>More exactly, I abuse the magic of CSS transitions.
+<br>Anytime I want to move or rotate an object, or change its size or opacity, I just need to give it the values I want at a moment A, the values I want at a moment B, and let it transition for the time that separates A and B.
+<p>And to give the impression that I move the camera, the trick is to move the whole scene.
+<br>Scene going up == camera going down, scene going left == camera going right, and vice versa.
+<br>CSS3DFramework facilitates these operations with its <b>C.move()</b> and <b>C.camera()</b> methods.
+<p>Finally, all the timings are fine-tuned manually using <b>setTimeout</b>'s. The final game has 2 cutscenes and 64 setTimeouts.
+<p><details><summary>Here's what the beginning of this intro looks like in my source code</summary>
+<br>
+<pre class="lang-js"><code>// Move right 7 times
+for(i = 0; i &lt; 7; i++){
+  setTimeout(()=>{r=1;move_snake();r=0;}, 300 + i * 250);
+}
+  
+// Look up
+setTimeout(()=>C.move({n:"head_tilt", z:28,ry:-45}), 3000);
+setTimeout(()=>C.camera({rx:120, z:-100,y:-300}),3500);
+  
+// Look down
+setTimeout(()=>{
+  C.c({x:-200,y:50,z:-200,rx:50,rz:30});
+  C.plane({w:100,h:100,x:397,y:145,z:72,H:svg[1],rx:-90,ry:-22,sx:4,sy:4.5,sz:4});
+}, 10200);
+  
+// Tilt head down
+setTimeout(()=>{C.move({n:"head_tilt",ry:0})}, 14000);
+
+// Move right twice
+setTimeout(()=>{r=1;move_snake();r=0}, 15500);
+setTimeout(()=>{r=1;move_snake();r=0}, 15700);
+
+// Show rocket
+setTimeout(()=>{C.camera({x:450,y:-70,z:-100,rx:60,rz:-20})}, 18500);
+
+// Show sign
+setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
+
+(...)</code></pre>
+</details>
+
+<br>
+<p><b>Total</b>: 44h30, 53.1kb. <a href="https://www.youtube.com/watch?v=Hmw3IvaVM_k">Watch timelapse</a>
+<br><br><hr><br>
+
+<h2>Day 15: puzzles for realsies</h2>
+
+<p>After completing (more or less) my intro cutscene...
+
+<p><video src="images/js13k21/day15.mp4" width=600 height=450 controls style=background:#000>
+
+<p>... and writing <a href="https://twitter.com/MaximeEuziere/status/1431221194213236739">a few new tips and tricks</a> on Twitter...
+
+<p>... I finally, really, started creating my puzzles, 100% by hand.
+<p>I made 26 puzzles for the world 1, and immediately requested beta-testers to check if everything was going in the right direction.
+<br>(at this moment, I still imagine I'll be making making a game with 5 worlds and 5 x 100 puzzles :D)
+<br>At least, the feedbacks were very good, and the few bugs found on Mac and iOS (ugh, Apple) were quite easy to fix.
+
+<p>A cute detail that appeared randomly: when the snake walks behind a tree, its eyes stand out in front of the tree, and I kept it like that, it makes a nice cartoony effect.
+
+<p><img src="images/js13k21/day15.png" width=400>
+
+<br>
+<p><b>Total</b>: 49h, 65.1kb. <a href="https://www.youtube.com/watch?v=Qal3-49D5C4">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Days 16/17/18/19: how many puzzles is too many puzzles?</h2>
+
+<p>The puzzle factory now runs pretty well, I take the best puzzles from LOSSST 2017 and LOSSST HD and add many new ones that I invent on my notepad or using my old <a href="https://xem.github.io/js13k21/generator/">generator</a>.
+
+<p><video src="images/js13k21/day16.mp4" width=600 height=450 controls style=background:#000>
+
+<p>On day 16, I reached a total of 60 puzzles for the World 1. All coded manually.
+<br>And that's when the beta-testers started telling me I should remove a few, to not let my game become too repetitive.<br><b>Frank Force</b> suggested that I stick to 30-40. I decided to do 50.
+<br>It was hard to remove some of them, but they're not gone forever, you can play them in the bonus page's NEAR shop.
+
+<p>On day 17, I added my "developer records" for all the puzzles. They will add an extra challenge for the best players.
+<br>Then, I started working on the second world:
+<br>New ambiance (desert texture, cactii instead of trees, rocks instead of flowers, and different animals)...
+<br>and a new mechanic invented in LOSSST HD: teleporters!
+
+<p><video src="images/js13k21/day16.mp4" width=600 height=450 controls style=background:#000>
+
+<p>Teleporters are much harder to implement than the wrap.
+<br>Not only can they be placed anywhere (on the floor, on the wall), they also come in two flavours (purple and orange), so the snake can teleport at up to two different places in each puzzle.
+<br>The most complex thing with the teleporters, which is not really visible by the player, is that they force the snake to move twice forward: <br>If the move made by the player places the head on top of a teleporter, it must automatically go through it and reappear on the other end, which is equivalent to a second step forward.
+<p>Once the head has been teleported, it must be able to move in the four directions around it, which was not the case until now (one of the directions was reserved for backtracking).
+<p>And finally, when the snake has moved past a teleporter, and then decides to backtrack back to it, then the head can't really go back through the teleporter, because the result would be very confusing (the body would need to go back 3 times in total, to leave the head on a tile that doesn't contain a teleporter).
+<!--<br>So when the head is back to a teleporter, it should be able to move freely in the four directions around it, as if it just came out of the teleporter.-->
+
+<p>I spent many hours implementing them on day 17, but continued enhancing and fixing them until the last week of the compo, as a lot of edge cases occurred with the new puzzles. (my testers have been very good at finding them)
+
+<p><img src="images/js13k21/day17.jpg" width=600>
+
+<p>I also added a 5th song: <i>La Primavera</i>.
+
+<p>It's already the end of the 3rd week, so a little compression test allowed me to see that my zip was 10.5kb... or 9.5kb after using RoadRoller. This tool is crazy! 🤯
+
+<p>On day 18, a weird feeling appeared. I was in holidays, but it was monday, and working on my game felo like "real work", not a hobby. Ew.
+<br>To chase that feeling away, I <a href="https://twitter.com/MaximeEuziere/status/1432396233423958025">went to the pool</a> and when I got back, I started working on a puzzle editor!
+<br>Then I implementied the double-teleporter puzzle mechanic, and continued designing puzzles for the world 2.
+<br>I ran out of ideas after 25. So long for my original idea of 100 puzzles per world, hehe...
+
+<p><img src="images/js13k21/day18.jpg" width=400>
+
+<p>Thanks to the beta-testers feedbacks, I could also tweak and reorganize many puzzles from World 1, to make their difficulty curve a bit better.
+
+<p>On day 19, I found back my best tool to invent more puzzles for World 2. And this tool is... a notepad.
+
+<p><img src="images/js13k21/day19c.jpg">
+
+<p>I was happy to finally have "really hard" puzzles in world 2...
+<br>And could even started working on the 3rd world (which is much more inspiring): snow, with pines, snowflakes and polar animals! This world will introduce the "wrapping puzzles" mechanic.
+
+<p>Oh, and did you notice that the snake has different styles and eyes on each world? (sunglasses in world 2, ski glasses in world 3).
+
+<p><img src="images/js13k21/day19b.jpg">
+
+
+<br>
+<p><b>Total</b>: 68h45, 104kb. <a href="https://www.youtube.com/watch?v=7no517FS_TU">Day 16 timelapse</a> / <a href="https://www.youtube.com/watch?v=JOHGshqGxco">Day 17 timelapse</a> / <a href="https://www.youtube.com/watch?v=K88rIsHRI8E">Day 18 timelapse</a> / <a href="https://www.youtube.com/watch?v=9QhNBumPuRQ">Day 19 timelapse</a>
+<br><br><hr><br>
+
 <!--
-<h2>Day 10</h2>
 
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-
-<br><br><hr><br>
-
-<h2>Day 11</h2>
+<h2>Day 20</h2>
 
 
 
@@ -319,7 +561,7 @@ So I went with it!
 
 <br><br><hr><br>
 
-<h2>Day 12</h2>
+<h2>Day 21</h2>
 
 
 
@@ -327,11 +569,120 @@ So I went with it!
 
 <br>
 <p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+<br><br><hr><br>
+
+<h2>Day 22</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+<br><br><hr><br>
+
+<h2>Day 23</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 24</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 25</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+<br><br><hr><br>
+
+<h2>Day 26</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 27</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 28</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 29</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 30</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 31</h2>
+
+
+
+
+
+<br>
+<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
+
 
 <br><br><hr><br>
 
 <h2>To be continued...</h2>
 
+<!--
 
 -->
 
