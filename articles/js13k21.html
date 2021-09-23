@@ -344,22 +344,31 @@ So I went with it!
 <p><img src="images/js13k21/day11.jpg">
 
 <p>And brick blocks, which will have a real importance inside the puzzles, because the snake will collide with them.
-<br>It's actually not trivial to design brick block textures, and I've seeked help on Slack and in Super Mario 3D World to design them correctly.
+
+<br>It's actually not trivial to design brick block textures. (and I hadn't done that before: in my previous games, I just used grass cubes).
+<br>At first I tried to imitate this pot-holder (seen in front of a neighbour's house)...
+
+<p><img src="images/js13k21/souspot.jpg" width=500>
+
+<p>But it wasn't as good as I hoped. Why is there a hole on top?!
 
 <p><img src="images/js13k21/day11b.jpg" width=500>
 
-<br>To optimize things, I ended up designing 2 micro-textures in SVG ( A: <svg style="fill:#f60" width=50 height=17><rect x=0 y=0 width=25 height=17 stroke="#000"/><rect x=25 y=0 width=25 height=17 stroke="#000"/></svg> and 
+<br>So I took a little help from Slack and from Super Mario 3D World to make a design that's more realistic.
+
+<p>To optimize things, I ended up designing 2 micro-textures in SVG ( A: <svg style="fill:#f60" width=50 height=17><rect x=0 y=0 width=25 height=17 stroke="#000"/><rect x=25 y=0 width=25 height=17 stroke="#000"/></svg> and 
    B: <svg style="fill:#f60" width=50 height=17><rect x=0 y=0 width=50 height=17 stroke="#000"/><path d="M17 0L17 17M34 0L34 17" stroke="#000"/></svg> ), 
 <br>then I filled the top and front faces of the cubes with <b>A + B + A</b>, and the left and right faces with <b>B + A + B</b>.
 
 <p><img src="images/js13k21/day11d.jpeg">
 
-<p>Fine! Hmm, not really. Call me a nitpicker, but when I put multiple brick blocks side to side, I find that their textures are not satisfying to watch.
+<p>And everyone liked that!
+<br>Hmm, almost. Call me a nitpicker, but when I put multiple brick blocks side to side, I find that their textures are not satisfying to watch.
 
 <p><img src="images/js13k21/day11e.jpeg">
 
 <p>But after alternating the top/front textures and the sides textures according to the Y coordinate of the cube, it's cool!
-<p>In bonus, since these textures are simple SVG rectangles with a "stroke", they can be filled with any color we want in CSS.<br>So I'll customize them in every world of my game.
+<p>In bonus, since these textures are simple SVG rectangles with a black "stroke", they can be filled with any color we want in CSS.<br>So I'll customize them in every world of my game.
 <br>And in the snow world, I can even make them semi-transparent blue to make them look like ice bricks.<br>I'm very happy of this little discovery 🥰
 
 <p><img src="images/js13k21/day11f.jpg">
@@ -548,9 +557,8 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <p><b>Total</b>: 68h45, 104kb. <a href="https://www.youtube.com/watch?v=7no517FS_TU">Day 16 timelapse</a> / <a href="https://www.youtube.com/watch?v=JOHGshqGxco">Day 17 timelapse</a> / <a href="https://www.youtube.com/watch?v=K88rIsHRI8E">Day 18 timelapse</a> / <a href="https://www.youtube.com/watch?v=9QhNBumPuRQ">Day 19 timelapse</a>
 <br><br><hr><br>
 
-<!--
 
-<h2>Day 20</h2>
+<h2>Days 20/21: [edited]</h2>
 
 
 
@@ -559,6 +567,7 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <br>
 <p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
 
+<!--
 <br><br><hr><br>
 
 <h2>Day 21</h2>
