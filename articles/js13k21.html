@@ -510,7 +510,7 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <pre class="lang-html"><code>&lt;link rel=icon href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22>&lt;text y=%22.9em%22 font-size=%2290%22>🐍&lt;/text>&lt;/svg>"></code></pre>
 
-<p>It looks great on PC (Windows) and also in the mobile web-app (Android):
+<p>I didn't manage to make it use the Twemoji font, but it still looks nice on PC (Windows) and in the mobile web-app (Android):
 
 <p><img src="images/js13k21/fav.png">
 
@@ -574,9 +574,13 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <p>I was happy to finally have "really hard" puzzles in world 2...
 <br>And could even started working on the 3rd world (which is much more inspiring): snow, with pines, snowflakes and polar animals! This world will introduce the "wrapping puzzles" mechanic.
 
+<p>I also added two more songs: <i>In the Hall Of The Mountain King</i> and <i>L'arlésienne</i>. 
+
 <p>Oh, and did you notice that the snake has different styles and eyes on each world? (sunglasses in world 2, ski glasses in world 3).
 
 <p><img src="images/js13k21/day19b.jpg">
+
+
 
 
 <br>
@@ -622,79 +626,96 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <p>Then I made the cutscene showing the snake fly to the moon and started working on the Moon environment: starry sky, grey shiny ground, craters, and the rocket on the back of the first puzzle (to show a continuity with the cutscene).
 
+<p><img src="images/js13k21/day23.jpg" width=400>
+
+<br>
+<br>
+<p><b>Total</b>: 81h15, 111kb. <a href="https://www.youtube.com/watch?v=YEXOov7NiFk">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Day 24: to the Moon!</h2>
+
+<p>I spent most of that sunday to implement my snake's Moon controls:
+<br>Moving up and down, feeling gravity, climbing on brick cubes, etc.
+
+<p><video src="images/js13k21/day24.mp4" width=600 height=450 controls style=background:#000>
+
+<p>And it's the end of the 4th week already!
+<br>I start to worry about my byte budget, but fortunately, I'm still under the limit (13.1kb without RoadRoller, 11.3kb with it. Wow).
+
+<p><img src="images/js13k21/day24.png">
+
+<p>So, I'll use the remaining space to polish the game with these 4 worlds.
+<br>(I initially planned to have 5 worlds, and introduce another new mechanic, but it wouldn't have fitted, so maybe another time!).
+
+<p>No precise planning for the last few days of the compo, but I know I still have to work on:
+<ul>
+<li>The final puzzles list, and their Par scores
+<li>Adding musics
+<li>Adding a game end screen
+<li>Saving the user's progress in LocalStorage
+<li>Implementing the easter-eggs
+<li>Adding decentralized bonuses
+</ul>
+
+<br>
+<p><b>Total</b>: 84h45, 116kb. <a href="">Watch timelapse</a>
+
+<br><br><hr><br>
+
+<h2>Days 25/26/27/28/29: all the little things</h2>
+
+<p>Day 25 was mostly spent recording my final dev scores and improving gameplay and mobile UI.
+
+<p>On day 26, I finally managed to embed all my svg floor textures directly inside my CSS code, and save a few hundred bytes, thanls to this <a href="https://yoksel.github.io/url-encoder/">url-encoder tool</a>.
+
+<p><img src="images/js13k21/day26.png">
+
+<p>I also completed localStorage saving, improved the rhythm of my musics, and displayed the completed puzzles in the menu.
+
+<p><img src="images/js13k21/day26b.png" width=400>
+
+<p>Finally, I worked on improving my Moon craters and shadows, and Finnhvman made me a SVG Moon texture. I liked it but it didn't seem "Moony" enough for the testers.
+
+<p><img src="images/js13k21/day26c.png" width=400>
+
+<p>On day 27, I made the virtual D-pad only visible on mobiles (it was about time), completed the first easter-egg and debugged the snake's controls.
+
+<p>Big shoot-out to the website <a href="https://www.unicompat.com/1F845?search=%F0%9F%A1%85">Unicompat</a> that helped me pick my Unicode arrows and triangles with the best possible browser support.
+
+<p>On day 28, finnhvman came up with a brand new Moon SVG teture, which was absolutely fabulous.
+
+<p><img src="images/js13k21/day28.jpg">
+
+<p>I also implemented the final easter-egg (which is also the end of the game), and added two musics (<i>Für Elise</i> and <i>Badinerie</i>).
+
+<br>In bonus, I wanted to show you how I was using midi2array with my few hours of experience, so I recorded it here:
+
+<p><video src="images/js13k21/day28.mp4" width=600 height=450 controls style=background:#000>
+
+<p>After extracting my notes with midi2array, I insert a few silences in the melody (empty indices), and test it in-game:
+
+<p><video src="images/js13k21/day28b.mp4" width=600 height=450 controls style=background:#000>
+
+<p>Sadly, I'm a bit discouradged by the complexity of the Decentralized features, so I'm still supr late on this.
+
+<p>On day 29, I added a "continue" button for returning users, made the worlds 2 to 4 unlockable with coins, made the final music (<i>Blue Danube</i>) and finished including the 4 worlds' mechanics in the puzzle editor:
+
+<p><video src="images/js13k21/day29.mp4" width=600 height=450 controls style=background:#000>
+
+<p>And it's time for a feature freeze: the game will have 165 puzzles and 10 musics. All the remaining time will be reserved for debug, polish and testing!
+
+<p>(Replaying my game at 100% made me realize for the first time how long it is. So long that I had to split my playthrough on 2 days :D)
+
+<br>
+<br>
+<p><b>Total</b>: 100h30h, 127kb. Timelapse for <a href="https://www.youtube.com/watch?v=Mfc-LkYPG00">day 25</a> / <a href="https://www.youtube.com/watch?v=UqwLzN4K7WE">day 26</a> / <a href="https://www.youtube.com/watch?v=MsI9SYUV7ss">day 27</a> / <a href="https://www.youtube.com/watch?v=cLU17WZZKnY">day 28</a> / <a href="https://www.youtube.com/watch?v=cLU17WZZKnY">day 29</a>
+<br><br><hr><br>
+
+<h2>Days 30 / 31: GOLFING</h2>
 <!--
 
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
-<h2>Day 24</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
-<h2>Day 25</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-<br><br><hr><br>
-
-<h2>Day 26</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
-<h2>Day 27</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
-<h2>Day 28</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
-<h2>Day 29</h2>
-
-
-
-
-
-<br>
-<p><b>Total</b>: ...h, ...kb. <a href="">Watch timelapse</a>
-
-<br><br><hr><br>
-
-<h2>Day 30</h2>
 
 
 
