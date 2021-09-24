@@ -75,6 +75,7 @@ ul { padding-left: 15px }
 <p>I scribbled a list of ideas, removed the ones that risked to be over-represented among the other entries, and replayed some of my favourite space-themed mobile games, in particular <b>Escape</b>, <b>Space Frontier</b> and <b>Armory & Machine</b>
 <p><img src="images/js13k21/1.jpg">
 <p>But the last idea I wrote in my notepad was "a sequel to a puzzle game of mine, in space", and that's what I picked:<br>I'll do a sequel to <b>LOSSST</b>, my entry from 2017!
+<p>I'm aware that making a sequel of a popular puzzle-game with snakes risks to create a "déjà-vu" impression and rank it lower than the first time, maybe out of the top 10, but at least it will be the game I want to make and it will be publishable on app stores after the compo.
 <br>
 <br>
 <p><b>The history of LOSSST</b>
@@ -282,7 +283,7 @@ So I went with it!
 <p>... and wrote the code responsible to check if the puzzles are solved.
 <p><img src="images/js13k21/day7c.gif" width=500>
 
-<p><i>Note from september 13: my <b>snake.js</b> file has become the heaviest of all the project (25kb commented, 2.3kb minified/zipped), because it had to handle head movements and rotations, body movements, collisions, smart backtracking, plus all the puzzle mechanics (walls, wraps, teleporters, gravity) and a ton of edge cases. Phew.</i>
+<p><i>Note from september 13: my <a href="https://github.com/xem/js13k21/blob/559e0eecfb3ee429af43815692ca522677336ecb/src/snake.js">snake.js</a> file has become the heaviest of all the project (26.9kb commented, 2.4kb minified/zipped), because it had to handle head movements and rotations, body movements, collisions, smart backtracking, plus all the puzzle mechanics (walls, wraps, teleporters, gravity) and a ton of edge cases. Phew.</i>
 <br>
 
 <br>
@@ -495,6 +496,26 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <p><img src="images/js13k21/day15.png" width=400>
 
+
+<p>By the way, in the intro cutscene, I first used the rocket emoji, thinking it would save me a few bytes, but it turned out that it was a dead-end, because of its angle, and because of the fact that, even after rotating it correctly, it would look super blurry at this size because the Twemoji webfont I use contains bitmaps, not vectorial art.
+
+<p><img src="images/js13k21/rocket.png">
+
+<p>At first, I tried to use the official Twemoji SVG file in my source code but it was heavy (499b after a strong optimization) and still had this weird angle...
+<br>So I finally redesigned it myself using my <b>MiniSVGCreator</b> tool: correct angle, 344 bytes and still this flame under it (which will stay hidden under the ground during the intro, but visible when the rocket starts moving)
+
+<p><img src="images/js13k21/rocket-end.jpg">
+
+<p>And while we're talking about SVG's, I also added a cheap emoji favicon to my game using <a href="https://css-tricks.com/emojis-as-favicons/">this simple trick</a>:
+
+<pre class="lang-html"><code>&lt;link rel=icon href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22>&lt;text y=%22.9em%22 font-size=%2290%22>🐍&lt;/text>&lt;/svg>"></code></pre>
+
+<p>It looks great on PC (Windows) and also in the mobile web-app (Android):
+
+<p><img src="images/js13k21/fav.png">
+
+
+
 <br>
 <p><b>Total</b>: 49h, 65.1kb. <a href="https://www.youtube.com/watch?v=Qal3-49D5C4">Watch timelapse</a>
 
@@ -513,6 +534,11 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <p>On day 17, I added my "developer records" for all the puzzles. They will add an extra challenge for the best players.
 <br>Then, I started working on the second world:
 <br>New ambiance (desert texture, cactii instead of trees, rocks instead of flowers, and different animals)...
+
+<p>I also tried to add some CSS3D pyramids but they didn't look nice enough, and would have wasted too many bytes, so I discarded them.
+
+<p><img src="images/js13k21/py.jpg"
+
 <br>and a new mechanic invented in LOSSST HD: teleporters!
 
 <p><video src="images/js13k21/day16.mp4" width=600 height=450 controls style=background:#000>
@@ -582,12 +608,19 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <br>
 <p><b>Total</b>: 78h, 108kb. <a href="https://www.youtube.com/watch?v=c5ab5xIHzSs">Day 20 timelapse</a> / <a href="https://www.youtube.com/watch?v=L-yznYJ30PU">Day 21 timelapse</a> / <a href="https://www.youtube.com/watch?v=IGr_05ySeKQ">Day 22 timelapse</a>
 
+<br><br><hr><br>
 
+<h2>Day 23: par ici</h2>
 
-<h2>Day 23</h2>
+<p>It's time to exploit the dev records I've recorded for all my puzzles.
+<br>The records in question consist in completing each puzzle with the smallest possible number of moves, and I had to play a lot of puzzles many, many times to record my best score for each.
+<br>So I added a little signpost on the side of each puzzle, showing the number of steps done so far, and the "Par" (my score).
 
+<p><video src="images/js13k21/day23.mp4" width=600 height=450 controls style=background:#000>
 
+<p>I discussed a lot with my fellow gamedevs to find the best name: par? goal? record? a trophy emoji? ... and finally decided to keep "Par", which is short and also a good Golf reference.
 
+<p>Then I made the cutscene showing the snake fly to the moon and started working on the Moon environment: starry sky, grey shiny ground, craters, and the rocket on the back of the first puzzle (to show a continuity with the cutscene).
 
 <!--
 
