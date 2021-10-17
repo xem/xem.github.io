@@ -62,13 +62,13 @@ ul { padding-left: 15px }
 <p>- A <a href="images/js13k21/ideas.png">list of ideas</a>
 <br>- A <a href="https://twitter.com/MaximeEuziere/status/1416651465951690753">successful Twitter thread</a> full of JS13k-specific tips and tools
 <br>- A <a href="//xem.github.io/miniSVGcreator/">SVG creation tool</a>
-<br>- A Unicode 13 "recap": <a href="https://xem.github.io/unicode13/all-js.html">all chars</a> / <a href="https://xem.github.io/unicode13/shapes-js.html">all shapes</a> / <a href="https://xem.github.io/unicode13/emoji.html">all emoji</a> (and an emoji webfont useable in JS13k entries)
 <br>- A <a href="https://xem.github.io/3Dmapeditor/">3D map editor</a> in CSS3D
 <br>- A <a href="https://github.com/xem/mini2DPlatformer">Mini 2D platformer bootstrap</a>
 <br>- A <a href="https://github.com/xem/mini3DPlatformer">Mini 3D platformer bootstrap</a>
 <br>- A <a href="https://xem.github.io/int2unicode/">tool to convert a list of numbers into an ASCII or Unicode string</a>
 <br>- <a href="https://twitter.com/MaximeEuziere/status/1425504758173945864">One-div CSS3D cubes</a> (while doing them, I found a super simple way to <a href="https://github.com/xem/css3dcube/blob/gh-pages/camera/index.html#L38-L43"> control the "camera" in CSS3D!</a>)
-<br>- Updated my <a href="http://localhost/xem.github.io/articles/jsgamesinputs.html">keyboard inputs blog post</a>
+<br>- A Unicode 13 "recap": <a href="https://xem.github.io/unicode13/all-js.html">all chars</a> / <a href="https://xem.github.io/unicode13/shapes-js.html">all shapes</a> / <a href="https://xem.github.io/unicode13/emoji.html">all emoji</a> (and an emoji webfont useable in JS13k entries)
+<br>- An update to my <a href="http://localhost/xem.github.io/articles/jsgamesinputs.html">keyboard inputs blog post</a>
 
 <p>All these tools plus all the others I made earlier are available in the <a href="https://js13kgames.github.io/resources/">JS13k resource page</a>.
 
@@ -77,6 +77,8 @@ ul { padding-left: 15px }
 <p>But an impressive, game-changing tool also appeared this year, developed by <b>Yurume</b>:
 <br>an entry compressor called <a href="https://lifthrasiir.github.io/roadroller/">RoadRoller</a>, allowing to lose an extra 1-2kb in a fully optimized 13kb zip file! 🤯 
 
+<p><img src="images/js13k21/rr.jpg" width=600 style="border:2px solid">
+
 <br><br><hr><br>
 
 <h2>Day 1: the theme</h2>
@@ -84,7 +86,7 @@ ul { padding-left: 15px }
 <p>So the theme is <b>SPACE</b>!
 <p>No code today: day one is dedicated to brainstorming!
 <p>I kinda had in mind to do a 3D platformer a la Mario 64, but it wouldn't really fit that theme. So let's find something else!
-<p>I scribbled a list of ideas, removed the ones that risked to be over-represented among the other entries, and replayed some of my favourite space-themed mobile games, in particular <b>Escape</b>, <b>Space Frontier</b> and <b>Armory & Machine</b>. (you should try them)
+<p>I scribbled a list of ideas, removed the ones that risked to be over-represented among the other entries, and replayed some of my favourite space-themed mobile games, in particular <b>Escape</b>, <b>Space Frontier</b> and <b>Armory & Machine</b>. (you should try them!)
 <p><img src="images/js13k21/1.jpg"> 
 <p>But the last idea I wrote in my notepad was "a sequel to a puzzle game of mine, in space", and that's what I picked:<br>I'll do a sequel to <b>LOSSST</b>, my entry from 2017!
 <p>I was aware that making a sequel of a popular puzzle-game with snakes risks to create a "déjà-vu" impression and rank it lower than the first time, maybe out of the top 10, but at least it will be the game I want to make and it will be publishable on app stores after the compo.
@@ -121,11 +123,11 @@ ul { padding-left: 15px }
 <p><b>How I will proceed</b>
 
 <p>I will make the game I want: a lot of puzzles, with quick transitions, various mechanics, environments and musics, a bit of storytelling, and at the end, puzzles that take place in space (to fit the theme)... and I'll do it with CSS3D (but good CSS3D this time).
-<p>No exploration, no apples, no barely-visible tutorial signposts.
-<br>No planning: each day I will work on whatever I feel like working the most.
-<br>No IDE or automation: only Notepad++, my browsers and my favourite online tools.
-<br>No burn out: 2 to 5 hours of work per day, with pauses. Self-care is important. (CSS3Dframework will also help me to iterate quickly)
-<br>No staying stuck for hours because of a problem. Pro tip: if a problem occurs, go take a walk or go to sleep, or work on something else, let your subconscious think about it, and the solution will be trivial when you'll get back.
+<p>- No exploration, no apples, no barely-visible tutorial signposts.
+<br>- No planning: each day I will work on whatever I feel like working the most.
+<br>- No IDE or automation: only Notepad++, my browsers and my favourite online tools.
+<br>- No burn out: 2 to 5 hours of work per day, with pauses. Self-care is important. (CSS3Dframework will also help me to iterate quickly)
+<br>- No staying stuck for hours because of a problem. Pro tip: if a problem occurs, go take a walk or go to sleep, or work on something else, let your subconscious think about it, and the solution will be trivial when you'll get back.
 <p>Stats: every day, I'll <a href="https://twitter.com/MaximeEuziere/status/1426588514767052800">record my screen</a> while I code, and share the number of hours spent, the size of my commented code and my progress on Twitter. I'll check out the zipped size once a week.
 <p>Last but not least: leave time for beta-testing, debugging and golfing...
 <br>And don't fall in the trap of leaving something for the last minute (like mobile controls, or the music... like I do every year)
@@ -135,20 +137,20 @@ ul { padding-left: 15px }
 
 <p>Brainstorming continues... my idea for now is to build a rocket from different worlds by completing their puzzles.
 <p>I scribbled ideas in my notepad and started coding a first draft of my menu... mobile-first:
-<p><video src="images/js13k21/2-1.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/2-1.mp4" width=600 height=450 controls style=background:#000></video>
 <p>I drew the rocket pieces in my SVG creator tool, and made a stars pattern with a tiny SVG snippet inspired by old codegolf projects like <a href="https://xem.github.io/miniCliffordAttractor/">miniCliffordAttractor</a>:
 <pre class=lang-html><code>&lt;svg fill="#aaa" onload="for(i=500;i--;)innerHTML+=`&lt;text x=${Math.random()*5000} y=${Math.random()*5000}>.&lt;/text>`">&lt;/svg></code></pre>
 
 Demo:
 <br>
-<svg style="background:#000" onload="for(i=100;i--;)innerHTML+=`<text fill='#aaa' x=${Math.random()*300} y=${Math.random()*150}>.</text>`"></svg>
+<svg style="background:#000;width:100%;height:400px" onload="for(i=500;i--;)innerHTML+=`<text fill='#aaa' x=${Math.random()*900} y=${Math.random()*400}>.</text>`"></svg>
 
 <p>To make the page behave well on mobile (and make it installable as an app), I used the following lines at the beginning of my HTML:
 <pre class=lang-html><code>&lt;meta name=viewport content="width=device-width,initial-scale=1">
 &lt;meta name=apple-mobile-web-app-capable content=yes>
 &lt;meta name=mobile-web-app-capable content=yes></code></pre>
-<p>NB: I forgot to add "<b>,user-scalable=0</b>" in the first line. As a result, my game is zoomable with two fingers, but not with a double-tap.
-<br>No big deal. 🤷
+<p>NB: I forgot to add "<b>,user-scalable=0</b>" in the first line.
+<br>As a result, my game is zoomable with two fingers on mobile, but not with a double-tap. No big deal. 🤷
 
 <br>
 <br>
@@ -175,7 +177,7 @@ Demo:
 
 <p>As you can see in that image (catured on Safari), my old way to do emoji tree shadows (color:transparent; text-shadow:0 0 #0007) doesn't work well with the Twemoji webfont. Instead, Safari continues to show the emoji's colors.
 <!--br>It only works with the native emoji (which, unfortunately, are ugly, and ugly differently depending on the OS you're using).!-->
-<p>So I searched a different, cross-browser way to shade these emoji, and I finally found it a few days later, using <b>Browserstack</b>'s remote iPhone & devtools:
+<p>So I searched a different, cross-browser way to shade these emoji, and I finally found it a few days later, by fiddling with <b>Browserstack</b>'s remote iPhone devtools:
 
 <pre class=lang-css><code>.emoji.shadow { filter: contrast(0)brightness(0); opacity: .6 }</code></pre>
 
@@ -195,7 +197,7 @@ Demo:
 <p><img src="images/js13k21/4-2.jpg">
 
 <p>The banded grass looks gorgeous, compared to a simple green radial-gradient: 
-<p><video src="images/js13k21/4.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/4.mp4" width=600 height=450 controls style=background:#000></video>
 <p>In my CSS, I applied a transparent-to-black radial background on top of the SVG background to make the ground look less flat, and more like a sphere (but in reality, it's just a rounded div).
 
 <p>Besides that, implementing the camera rotation with the mouse / finger required very little JS code:
@@ -261,7 +263,7 @@ oncontextmenu = () => { return false; }
 
 <p>My next goal was to make the snake controllable using the mouse or the finger, by dragging its head on the stage.
 <p>Working on this feature took almost two days, because desktops and mobiles had a very weird support for what I was looking for:
-<br>To make the snake follow the pointer (mouse or finger), I needed to know where the pointer is on the scene, and compare it to the head's position. But retrieving the mouse coordinates inside a div (the floor div) requires <b>e.layerX/layerY</b> on Firefox and <b>e.offsetX/offsetY</b> on Webkit. Though, touch events don't support this feature at all.
+<br>To make the snake follow the pointer (mouse or finger), I needed to know where the pointer is on the scene, and compare it to the head's position. But retrieving the mouse coordinates inside a 3D div (the floor div) requires <b>e.layerX/layerY</b> on Firefox and <b>e.offsetX/offsetY</b> on Webkit. Though, touch events don't support this feature at all.
 
 <p><img src="images/js13k21/day5.gif">
 
@@ -269,14 +271,14 @@ oncontextmenu = () => { return false; }
 
 <p><img src="images/js13k21/day6b.gif">
 
-<p>Unfortunately, this way to control the snake wasn't precise enough on little screens, and even confusing for wall puzzles and 3D puzzles, so a few days later I scraped it entirely to save a few dozens of bytes.<br>Instead, desktop players will use the arrow keys, and mobile players a virtual D-pad.
+<p>Unfortunately, this way to control the snake wasn't precise enough on little screens, and even confusing for wall puzzles and 3D puzzles, so a few days later I scraped it entirely to save a few hundred bytes.<br>Instead, desktop players will use the arrow keys, and mobile players a virtual D-pad.
 
-<p>Like every year, the end of the first week is also the occasion to clean up my code and split my project into multiple files... (getting used to this hierarchy always takes a few days, but it's better than a single, 200kb index.html file, I guess.)
+<p>Like every year, the end of the first week is also the occasion to clean up my code and split my project into multiple files... (getting used to this hierarchy always takes a few days, but in the end it's better than a single, 200kb index.html file...)
 <p><img src="images/js13k21/day6.png">
 
 <p>I also made a comparison of my scene with and without CSS radial gradients and shadows. Quite impressive:
 <p><img src="images/js13k21/day5.png" width=600>
-<p>(The final game has much less shadows than the right image, I tried to use as few shadows as possible to not overwhelm people with them)
+<p>(The final game has much less shadows than the right image, I used many of them but kept them subtle)
 
 
 <br>
@@ -315,13 +317,13 @@ So I went with it!
 <p>I developed new puzzle types: the ones with a wall, the ones with floor + wall...
 <br>
 <br>
-<video src="images/js13k21/8.mp4" width=600 height=450 controls style=background:#000>
+<video src="images/js13k21/8.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>And the ones with wrapping:
 <br>(contrary to previous games, the snake can exit wrapping puzzles by backtracking. It's more convenient and much easier to implement!)
 <br>
 <br>
-<video src="images/js13k21/day9.mp4" width=600 height=450 controls style=background:#000>
+<video src="images/js13k21/day9.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>This was the moment when I added keyboard controls and realized I'll have to scrap the "drag head to move" mechanic, which will become too complex to maintain and keep intuitive for the player.
 
@@ -343,7 +345,7 @@ So I went with it!
 <br>I launched the idea on Twitter, and <b>AndreJaenisch</b> pointed me to <a href="https://galactic.ink/midi-js/">midi-js</a>, which helped me find an older, unmaintained project (<a href="https://github.com/gasman/jasmid">jasmid</a>) that does exactly what I want: list all the notes from all the tracks of a MIDI file.
 <p>So I took jasmid with me and spent a few hours creating my new tool: <a href="xem.github.io/midi2array/">midi2array</a> !
 <br>I put buttons and textareas everywhere to navigate between the tracks, play the notes, apply thresholds, and especially, keep the notes I want in a separate array, ready to be used with the <a href="https://xem.github.io/js1k19/miniSynth/">micro piano synth</a> I wrote in 2019.
-<p><video src="images/js13k21/day10.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day10.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>Also, it's sunday, so let's conclude this second week with a little compression test:
 <p><img src="images/js13k21/day10.png">
@@ -382,12 +384,12 @@ So I went with it!
 
 <p><img src="images/js13k21/day11d.jpeg">
 
-<p>And everyone liked that!
+<p>And people liked that!
 <br>Hmm, almost. Call me a nitpicker, but when I put multiple brick blocks side to side, I find that their textures are not satisfying to watch.
+<br>Though, after alternating the top/front textures and the sides textures according to the Y coordinate of the cube, it's cool!
 
 <p><img src="images/js13k21/day11e.jpeg">
 
-<p>But after alternating the top/front textures and the sides textures according to the Y coordinate of the cube, it's cool!
 <p>In bonus, since these textures are simple SVG rectangles with a black "stroke", they can be filled with any color we want in CSS.<br>So I'll customize them in every world of my game.
 <br>And in the snow world, I can even make them semi-transparent blue to make them look like ice bricks.<br>I'm very happy of this little discovery 🥰
 
@@ -395,6 +397,7 @@ So I went with it!
 
 <p>Also, every time I make a CSS3D game, a fancy "undefined" pops up in my scene at one moment or another. This year, it was here:
 <p><img src="images/js13k21/day11c.jpeg">
+<p>(a little typo in the middle SVG of my top and front faces)
 
 
 <br>
@@ -407,15 +410,19 @@ So I went with it!
 
 <p>I wanted to display random animals in my scene, but... I forgot to call <b>Math.random()</b> and they all came together!
 
-<p><video src="images/js13k21/day12.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day12.mp4" width=600 height=450 controls style=background:#000></video>
 
-<p>Besides that, I spent some time playing with midi2Array, and created the first two melodies of the game (<i>Morning Mood</i> and <i>Dance of the mirlitons</i>).
-
-<p><video src="images/js13k21/day12b.mp4" width=600 height=450 controls style=background:#000><video src="images/js13k21/day12c.mp4" width=600 height=450 controls style=background:#000>
-
-<br>By chance, while working on LOSSST HD, I had made <a href="https://github.com/xem/LOSSST#readme">a list of my favourite classical musics</a>, so I just have to pick in that list to choose the soundtrack of my js13k entry. 
+<p>Besides that, I spent some time playing with midi2Array, and created the first two melodies of the game: <i>Morning Mood</i>:
 
 
+<p><video src="images/js13k21/day12b.mp4" width=600 height=450 controls style=background:#000></video>
+<p> and <i>Dance of the mirlitons</i>:
+<p>
+<video src="images/js13k21/day12c.mp4" width=600 height=450 controls style=background:#000></video>
+
+<p>By chance, while working on LOSSST HD, I had made <a href="https://github.com/xem/LOSSST#readme">a list of my favourite classical musics</a>, so I just have to pick in that list to choose the soundtrack of my js13k entry. 
+
+<p>(These videos were filmed with my phone because I didn't find a good screen capture tool that records audio and exports videos accepted by Twitter. I found a workaround the next day, using Windows 10's Xbox Game Bar recorder: <b>Win + G</b>)
 
 <br>
 <br>
@@ -452,10 +459,10 @@ So I went with it!
 <br>- added a 4th song (<i>Eine Kleine Nachtmusik</i>),
 <br>- finalized the first 3 puzzles...
 
-<p><video src="images/js13k21/day14.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day14.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>... and started the intro animation, because a good game needs to start with a "wow effect".
-<p><video src="images/js13k21/day14b.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day14b.mp4" width=600 height=450 controls style=background:#000></video>
 <p>A friend asked me how I managed to do animations like that, and the answer is: by hand.
 <br>More exactly, I abuse the magic of CSS transitions.
 <br>Anytime I want to move or rotate an object, or change its size or opacity, I just need to give it the values I want at a moment A, the values I want at a moment B, and let it transition for the time that separates A and B.
@@ -496,6 +503,8 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 (...)</code></pre>
 </details>
 
+<p><img src="images/js13k21/buzz.jpg" width=400>
+
 <br>
 <br>
 <p><b>Total</b>: 44h30, 53.1kb. <a href="https://www.youtube.com/watch?v=Hmw3IvaVM_k">Watch timelapse</a>
@@ -505,13 +514,13 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <p>After completing (more or less) my intro cutscene...
 
-<p><video src="images/js13k21/day15.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day15.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>... and writing <a href="https://twitter.com/MaximeEuziere/status/1431221194213236739">a few new tips and tricks</a> on Twitter...
 
 <p>... I finally, really, started creating my puzzles, 100% by hand.
 <p>I made 26 puzzles for the world 1, and immediately requested beta-testers to check if everything was going in the right direction.
-<br>(at this moment, I still imagine I'll be making making a game with 5 worlds and 5 x 100 puzzles :D)
+<br>(at this moment, I still imagined I'll be making making a game with 5 worlds and 5 x 100 puzzles :D)
 <br>At least, the feedbacks were very good, and the few bugs found on Mac and iOS (ugh, Apple) were quite easy to fix.
 
 <p>A cute detail that appeared randomly: when the snake walks behind a tree, its eyes stand out in front of the tree, and I kept it like that, it makes a nice cartoony effect.
@@ -519,7 +528,7 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <p><img src="images/js13k21/day15.png" width=400>
 
 
-<p>By the way, in the intro cutscene, I first used the rocket emoji, thinking it would save me a few bytes, but it turned out that it was a dead-end, because of its angle, and because of the fact that, even after rotating it correctly, it would look super blurry at this size because the Twemoji webfont I use contains bitmaps, not vectorial art.
+<p>By the way, in the intro cutscene, I first used Twemoji's rocket emoji, thinking it would save me a few bytes, but it turned out that it was a dead-end, because of its angle, and because of the fact that, even after rotating it correctly, it would look super blurry at this size because the webfont I use contains bitmaps, not vectorial art.
 
 <p><img src="images/js13k21/rocket.png">
 
@@ -546,56 +555,56 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <h2>Days 16/17/18/19: how many puzzles is too many puzzles?</h2>
 
-<p>The puzzle factory now runs pretty well, I take the best puzzles from LOSSST 2017 and LOSSST HD and add many new ones that I invent on my notepad or using my old <a href="https://xem.github.io/js13k21/generator/">generator</a>.
+<p>The puzzle factory now runs pretty well, I take the best puzzles from LOSSST 2017 and LOSSST HD and add many new ones that I invent or generate procedurally.
 
-<p><video src="images/js13k21/day16.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day16.mp4" width=600 height=450 controls style=background:#000></video>
 
-<p>On day 16, I reached a total of 60 puzzles for the World 1. All coded manually.
+<p>On <b>day 16</b>, I reached a total of 60 puzzles for the World 1. All coded manually.
 <br>And that's when the beta-testers started telling me I should remove a few, to not let my game become too repetitive.<br><b>Frank Force</b> suggested that I stick to 30-40. I decided to do 50.
 <br>It was hard to remove some of them, but they're not gone forever, you can play them in the bonus page's NEAR shop.
 
-<p>On day 17, I added my "developer records" for all the puzzles. They will add an extra challenge for the best players.
+<p>On <b>day 17</b>, I added my "developer records" for all the puzzles. They will add an extra challenge for the best players.
 <br>Then, I started working on the second world:
 <br>New ambiance (desert texture, cactii instead of trees, rocks instead of flowers, and different animals)...
 
-<p>I also tried to add some CSS3D pyramids but they didn't look nice enough, and would have wasted too many bytes, so I discarded them.
-
-<p><img src="images/js13k21/py.jpg">
-
 <br>and a new mechanic invented in LOSSST HD: teleporters!
 
-<p><video src="images/js13k21/day17.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day17.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>Teleporters are much harder to implement than the wrap.
 <br>Not only can they be placed anywhere (on the floor, on the wall), they also come in two flavours (purple and orange), so the snake can teleport at up to two different places in each puzzle.
 <br>The most complex thing with the teleporters, which is not really visible by the player, is that they force the snake to move twice forward: <br>If the move made by the player places the head on top of a teleporter, it must automatically go through it and reappear on the other end, which is equivalent to a second step forward.
 <p>Once the head has been teleported, it must be able to move in the four directions around it, which was not the case until now (one of the directions was reserved for backtracking).
 <p>And finally, when the snake has moved past a teleporter, and then decides to backtrack back to it, then the head can't really go back through the teleporter, because the result would be very confusing (the body would need to go back 3 times in total, to leave the head on a tile that doesn't contain a teleporter).
-<!--<br>So when the head is back to a teleporter, it should be able to move freely in the four directions around it, as if it just came out of the teleporter.-->
+<p>Overall, plenty of little edge cases combined that took a big amount of code to solve, and a decision I had to take (not liked by everyone): the snake's head can't backtrack through a teleporter.
 
-<p>I spent many hours implementing them on day 17, but continued enhancing and fixing them until the last week of the compo, as a lot of edge cases occurred with the new puzzles. (my testers have been very good at finding them)
+<p>I spent many hours implementing this mechanic on day 17, but continued enhancing and fixing it until the last week of the compo, as a lot of edge cases occurred with the new puzzles. (my testers have been very good at finding them)
 
 <p><img src="images/js13k21/day17.jpg" width=600>
 
-<p>I also added a 5th song: <i>La Primavera</i>.
+<p>I also tried to add some CSS3D pyramids but they didn't look nice enough, and would have wasted too many bytes, so I discarded them.
+
+<p><img src="images/js13k21/py.jpg">
+
+<p>Finally, I added a 5th song: <i>La Primavera</i>.
 
 <p>It's already the end of the 3rd week, so a little compression test allowed me to see that my zip was 10.5kb... or 9.5kb after using RoadRoller. This tool is crazy! 🤯
 
-<p>On day 18, a weird feeling appeared. I was in holidays, but it was monday, and working on my game felo like "real work", not a hobby. Ew.
-<br>To chase that feeling away, I <a href="https://twitter.com/MaximeEuziere/status/1432396233423958025">went to the pool</a> and when I got back, I started working on a puzzle editor!
+<p>On <b>day 18</b>, a weird feeling appeared. I was in holidays, but it was monday, and working on my game felo like "real work", not a hobby. Ew.
+<br>To chase that feeling away, I <a href="https://twitter.com/MaximeEuziere/status/1432396233423958025">went to the pool</a> and when I got back, I started working on something different: a puzzle editor!
 <br>Then I implementied the double-teleporter puzzle mechanic, and continued designing puzzles for the world 2.
 <br>I ran out of ideas after 25. So long for my original idea of 100 puzzles per world, hehe...
 
 <p><img src="images/js13k21/day18.jpg" width=400>
 
-<p>Thanks to the beta-testers feedbacks, I could also tweak and reorganize many puzzles from World 1, to make their difficulty curve a bit better.
+<p>Thanks to the testers feedbacks, I could also tweak and reorganize many puzzles from World 1, to make their difficulty curve a bit better.
 
-<p>On day 19, I found back my best tool to invent the hardest puzzles for World 2. And this tool is... a notepad.
+<p>On <b>day 19</b>, I found back my best tool to invent the hardest puzzles for World 2. And this tool is... a notepad.
 
 <p><img src="images/js13k21/day19.jpg">
 
 <p>I was happy to finally have "really hard" puzzles in world 2...
-<br>And could even started working on the 3rd world (which is much more inspiring): snow, with pines, snowflakes and polar animals! This world will introduce the "wrapping puzzles" mechanic.
+<br>And could even start working on the 3rd world (which is much more inspiring): snow, with pines, snowflakes and polar animals! This world will introduce the "wrapping puzzles" mechanic.
 
 <p>I also added two more songs: <i>In the Hall Of The Mountain King</i> and <i>L'arlésienne</i>. 
 
@@ -616,7 +625,7 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <p>I spent two days making a "good" puzzle editor, able to create puzzles of any size, and with all the worlds/mechanics present in my game.
 
-<p><video src="images/js13k21/day20.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day20.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>This editor is 6.9kb minified, but it won't be included in my 13kb entry.
 <br>I'll host it on github, and propose to use it as a WebMonetization bonus.
@@ -627,7 +636,7 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <br>(including the ones designed on my notepad).
 <p>Speaking of which, my world 3 now has 40 puzzles, the game has a total of 120 puzzles and I recorded dev records for all of them!
 
-<p>Finally, I finally fould a solution to include easter-eggs in my game, like the 2017 ones (for those who have seen them), but with different puzzles!
+<p>Finally, I found a solution to include easter-eggs in my game, like the 2017 ones (for those who have seen them), but with different puzzles!
 
 <p><img src="images/js13k21/day21.png" width=400>
 
@@ -645,9 +654,10 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <br>The records in question consist in completing each puzzle with the smallest possible number of moves, and I had to play a lot of puzzles many, many times to record my best score for each.
 <br>So I added a little signpost on the side of each puzzle, showing the number of steps done so far, and the "Par" (my score).
 
-<p><video src="images/js13k21/day23.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day23.mp4" width=600 height=450 controls style=background:#000></video>
 
-<p>I discussed a lot with my fellow gamedevs to find the best name: par? goal? record? a trophy emoji? ... and finally decided to keep "Par", which is short and also a good Golf reference.
+<p>I discussed a lot with my fellow gamedevs to find the best name: par? goal? record? a trophy emoji? ...
+<br>and finally decided to keep "Par", which is short and also a good Golf reference.
 
 <p>Then I made the cutscene showing the snake fly to the moon and started working on the Moon environment: starry sky, grey shiny ground, craters, and the rocket on the back of the first puzzle (to show a continuity with the cutscene).
 
@@ -664,7 +674,7 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <p>I spent most of that sunday to implement my snake's Moon controls:
 <br>Moving up and down, feeling gravity, climbing on brick cubes, etc.
 
-<p><video src="images/js13k21/day24.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day24.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>And it's the end of the 4th week already!
 <br>I start to worry about my byte budget, but fortunately, I'm still under the limit (13.1kb without RoadRoller, 11.3kb with it. Wow).
@@ -691,9 +701,11 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <h2>Days 25/26/27/28/29: all the little things</h2>
 
-<p>Day 25 was mostly spent recording my final dev scores and improving gameplay and mobile UI.
+<p><b>Day 25</b> was mostly spent recording my final dev scores and improving gameplay and mobile UI.
 
-<p>On day 26, I finally managed to embed all my svg floor textures directly inside my CSS code, and save a few hundred bytes, thanls to this <a href="https://yoksel.github.io/url-encoder/">url-encoder tool</a>.
+<p>On <b>day 26</b>, I finally managed to embed all my svg floor textures directly inside my CSS code thanks to this <a href="https://yoksel.github.io/url-encoder/">url-encoder tool</a>
+<br>This saves a few hundred precious bytes compared to keeping the textures as separate svg files inside my zip.
+<br>(zip files add a ~100 bytes overhead for each extra file you put in them, so having very few files - ideally, just an index.html - is important).
 
 <p><img src="images/js13k21/day26.png">
 
@@ -705,37 +717,39 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <p><img src="images/js13k21/day26c.png" width=400>
 
-<p>On day 27, I made the virtual D-pad only visible on mobiles (it was about time), completed the first easter-egg and debugged the snake's controls.
+<p>On <b>day 27</b>, I made the virtual D-pad only visible on mobiles (it was about time), completed the first easter-egg and debugged the snake's controls.
 
 <p>Big shoot-out to the website <a href="https://www.unicompat.com/1F845?search=%F0%9F%A1%85">Unicompat</a> that helped me pick my Unicode arrows and triangles with the best possible browser support.
 
-<p>On day 28, finnhvman came up with a brand new Moon SVG teture, which was absolutely fabulous.
+<p>On <b>day 28</b>, finnhvman came up with a brand new Moon SVG teture, which was absolutely fabulous.
 
 <p><img src="images/js13k21/day28.jpg">
+
+<p>(The craters are added on top of the texture using CSS circles + inset/outset shadows)
 
 <p>I also implemented the final easter-egg (which is also the end of the game), and added two musics (<i>Für Elise</i> and <i>Badinerie</i>).
 
 <br>In bonus, I wanted to show you how I was using midi2array with my few hours of experience, so I recorded it here:
 
-<p><video src="images/js13k21/day28.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day28.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>After extracting my notes with midi2array, I insert a few silences in the melody (empty indices), and test it in-game:
 
-<p><video src="images/js13k21/day28b.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day28b.mp4" width=600 height=450 controls style=background:#000></video>
 
-<p>Sadly, I'm a bit discouradged by the complexity of the Decentralized features, so I'm still supr late on this.
+<p>Sadly, I'm a bit discouradged by the complexity of the Decentralized features, so I'm still super late on this.
 
-<p>On day 29, I added a "continue" button for returning users, made the worlds 2 to 4 unlockable with coins, made the final music (<i>Blue Danube</i>) and finished including the 4 worlds' mechanics in the puzzle editor:
+<p>On <b>day 29</b>, I added a "continue" button for returning users, made the worlds 2 to 4 unlockable with coins, made the final music (<i>Blue Danube</i>) and finished including the 4 worlds' mechanics in the puzzle editor:
 
-<p><video src="images/js13k21/day29.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day29.mp4" width=600 height=450 controls style=background:#000></video>
 
 <p>And it's time for a feature freeze: the game will have 165 puzzles and 10 musics. All the remaining time will be reserved for debug, polish, testing and golfing!
 
 <p>(Replaying my game at 100% made me realize for the first time how long it is. So long that I had to split my playthrough on 2 days :D)
 
-<p>Here's the puzzle screen with all the dev records completed:
+<p>Here's the puzzle screen with all the dev records completed and an example of puzzle of each world:
 
-<p><video src="images/js13k21/day30.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/day30.mp4" width=600 height=450 controls style=background:#000></video>
 
 <br>
 <br>
@@ -744,7 +758,7 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <h2>Days 30 / 31: GOLFING</h2>
 
-<p>Day 30: it's a luxury to have two full days to finalize my game and golf it a little.
+<p><b>Day 30</b>: it's a luxury to have two full days to finalize my game and golf it a little.
 <br>The current size after RoadRoller, Zip and Zopfli is 13.3kb. Shouldn't be too hard, eh?
 
 
@@ -760,14 +774,14 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <p><img src="images/js13k21/day30.png">
 
-<p>...but unfortunately, the magic of Zip compression wasn't impressed by this little trick: the minified file lost 2260 bytes, but the zip was only 8 bytes smaller! Kolmogorov didn't like this idea.
+<p>...but unfortunately, Kolmogorov wasn't impressed by this little trick: the minified file lost 2260 bytes, but the zip was only 8 bytes smaller!
 
 <p><b>Step 3: manual mangling</b>
 
 <p>Mangling is usually the art of renaming long JS varnames or object properties into 1-char to save space.
 <br>JS minifiers generally do it automatically inside functions, and we can force them to also do it on global vars and functions (and as always, my entry has a ton of global vars and functions: 94).
 <br>And there are other long names that can also be reduced: HTML ids and HTML classes. Some build processes mangle these too, but I don't use any.
-<br>Mangling these things is very error-prone, because: <a href="https://xem.github.io/articles/getelementbyid.html">HTML ids are also JS global vars</a>, and I abuse that a lot in my code, so I have to avoid having a JS var overwriting an id.
+<p>Mangling these things is very error-prone, because: <a href="https://xem.github.io/articles/getelementbyid.html">HTML ids are also JS global vars</a>, and I abuse that a lot in my code, so I have to avoid having a JS var overwriting an id.
 <br>Moreover, CSS classes and ids are case-insensitive, so I must take care to not have, for example, a class <b>.c</b> and a class <b>.C</b>.
 <br>Finally, I have to take care to not break inline JS code or eval'd JS code with my mangling.
 <br>For all these reasons, I made my mangling manually and very carefully: I made <a href="https://github.com/xem/js13k21/blob/gh-pages/src/mangle.txt">a list</a> of my longest/most used vars/ids/classes, and replaced most of them one by one in my source code.
@@ -776,7 +790,82 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 
 <p><img src="images/js13k21/day30b.png">
 
-<p>Day 31: I summonned my beta-testers for a last test, and could fix a couple final bugs and add a link to the (semi-joke) "HARD MODE" once the game is completed at 100%.
+<p><b>Step 4 (cancelled): compressing puzzles</b>
+
+<p>My final idea (that I didn't need to try finally) was to encode each level in a little ASCII string instead of a JS object:
+
+<pre class=lang-js><code>// Before: JSON
+
+puzzle2_25 = [
+    
+  // Floor
+  [
+    0b1000101, // only the last 3 bits represent the tiles of the current puzzle:
+    0b1000101, // the "1" at the beginning is here to have a value between 64 and 127
+    0b1000101, // so that each line can be encoded as a printable ASCII char
+    0b1000101, // ex: 0b1000101 = "@"
+  ],
+  
+  // Wall
+  [
+    0b1000000,
+    0b1000000,
+    0b1000101,
+    0b1000101,
+  ],
+  
+  // Width
+  3,
+  
+  // Height
+  4,
+  
+  // Snake length
+  13,
+  
+  // PAR moves
+  20,
+  
+  // Brick blockss
+  [[-1,2,0],[3,2,0],[-1,1,0],[3,1,0]],
+  
+  // Portals 1: [x,y,z] * 2 (z = 0: floor, z>0: wall)
+  [[0,0,1],[2,2,0]],
+  
+  // Portals 2
+  [[2,0,1],[0,2,0]],
+]
+
+// After: a string containing:
+// - Width
+// - Height
+// - Snake length (2 digits or 1 ASCII char)
+// - Par score (2 digits or 1 ASCII char)
+// - floor / wall (encoded in ASCII)
+// - portals 1 / portals 2 (if any, otherwise use "ZZZ")
+// - bricks (coordinates incremented by 1 to avoid negative numbers)
+
+puzzle2_25 = "341320EEEE@@EE001220201020031431021421"
+</code></pre>
+
+<p>Without this compression, the 165 puzzles encoded in JSON take 7.9kb minified, 2.2kb zipped (about 13 bytes per puzzle).
+
+<br>After the compo, I tried to encode the puzzles in ASCII, and the result was impressive: 2.4kb minified, 1.5kb zipped (~9 bytes per puzzle)
+
+<br>In other words, if I had used this compression trick and had more inspiration, I would have had enough room for about 80 more puzzles! 
+
+<!--
+str="";
+for(i in data)
+for(j in data[i])
+if(z=data[i][j])
+str+=z[2]+(z[3]?z[3]:z[2])+String.fromCharCode(64+z[4])+String.fromCharCode(64+z[5])+(z[0]?z[0].map(a=>String.fromCharCode(a)).join(""):"")+(z[1]?z[1].map(a=>String.fromCharCode(a)).join(""):"")+(z[7]?z[7][0].join("")+z[7][1].join(""):"")+(z[8]?z[8][0].join("")+z[8][1].join(""):"")+((z[6]&&z[6][0])?z[6][0].join(""):"")+((z[6]&&z[6][1])?z[6][1].join(""):"")+((z[6]&&z[6][2])?z[6][2].join(""):"")+((z[6]&&z[6][3])?z[6][3].join(""):"")+((z[6]&&z[6][4])?z[6][4].join(""):"")+((z[6]&&z[6][5])?z[6][5].join(""):"")+((z[6]&&z[6][6])?z[6][6].join(""):"")+((z[6]&&z[6][7])?z[6][7].join(""):"")+((z[6]&&z[6][8])?z[6][8].join(""):"")+((z[6]&&z[6][9])?z[6][9].join(""):"")+((z[6]&&z[6][10])?z[6][10].join(""):"")+"_"
+-->
+
+<p>
+
+<p><b>Day 31</b>: I summonned my beta-testers for a last test, and could fix a couple final bugs...
+<p>and I added a link to the (semi-joke) "HARD MODE" once the game is completed at 100%.
 
 <p><img src="images/js13k21/day30c.jpg">
 
@@ -785,6 +874,11 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <p>As I said earlier, I have absolutely no automatic build process, so I concatenate, minify, RoadRoll, zip and zopflify my game manually. It's a long process, but I only do it a handful of time during the month, so I guess it's not that bad. If you're curious, I recorded it and you can see it here:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2A6jXu1di6U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<br>
+<br>
+<p>PS: I talk a lot about my byte budget, but another counter is also very important to optimize: the CSS3D divs. And I think I did pretty well: in the biggest puzzle of the game, the scene contains a total of 240 divs, and even there, everything seems super fluid.
+
+<p><img src="images/js13k21/230.jpg" width=400>
 
 <br>
 <br>
@@ -802,9 +896,38 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <br>- IPFS bonus: IPFS hosting, jukebox, leaderboards (soon)
 <br>- NEAR bonus: an e-shop with coins & extra levels
 
-<p><video src="images/js13k21/week1.mp4" width=600 height=450 controls style=background:#000>
+<p><video src="images/js13k21/week1.mp4" width=600 height=450 controls style=background:#000></video>
 
-<p>I also sent a mini fix to <b>End3r</b> after discovering a couple minor issues in my final build (misplaced signpost, unclear rule in world 4, and confusing colors in the puzzle selection screen). He kindly agreed to update my entry.
+<p>Unfortulately, I had serious problems with pretty much all of them.
+
+<p>The next section is sponsored by:
+<p><img src="images/js13k21/297.jpg" width=400>
+<ul>
+<li><b>WebMonetization</b>: according to <a href="https://js13kgames.com/webmonetization">the doc</a>, enabling WebMonetizarion is as easy as creating a wallet, enabling a browser plug-in and inserting a meta tag in the page's &lt;HEAD>. Then, the JS program can check for a <b>document.monetization</b> object and enable bonus features accordingly. Unfortunately, this never worked on my PC (maybe because of an adblocker or antivirus?). So I decided to enable the puzzle editor for everyone, and in the editor's page, I just added the meta tag, so technically, I can say I used the feature (I will receive credits if people use the editor with their WebMonetization plug-in enabled). I just made it non-blocking.
+
+<li><b>FLUX</b>: the snake editor was made entirely after the compo, but I didn't plan any method to load custom skins inside the game. All I had was the custom puzzle loader that did something like: 
+<pre class="language-js"><code>if(location.hash)custom=eval(location.hash.slice(1)),start_puzzle(custom)</code></pre>
+So I had to hack my own game to shoehorn the custom skins loading through the custom puzzle loader. That's why the URLs generated by my skin editor have a hash that looks like this: 
+<pre style="background:#222;color:#fff"><code>#document.body.insertAdjacentHTML('beforeEnd','&lt;style>(CSS code for the custom skin)&lt;/style>; custom=null;world=0;puzzle=0;start_puzzle_backup=start_puzzle;start_puzzle=main_menu;setTimeout(()=>{start_puzzle=start_puzzle_backup,location.hash='';},1000)</code></pre>
+When this code is evaluated, it adds custom CSS inside the page, tell the game that start_puzzle() is now main_menu(), wait for the game to call start_puzzle(), and when the menu is displayed, restore the original start_puzzle() function.
+<br>Besides that, I wanted to enable custom skins sharing / browsing on the FLUX network (because this editor was a FLUX bonus), but sadly I didn't find any decent js api or tutorial explaining how to do that, so I gave up.
+
+<li><b>IPFS</b>: this was the network in which I had the highest hopes, because its official <a href="https://js.ipfs.io/">JS api</a> is well presented and seems easy to use. The homepage even contains live examples that seem to work just fine. So I took a few hours to try to do do simple things in JS, like uploading a file to the network, or having a leaderboards folder that anyone can update with thair high scores. Unfortunately, I never found a way to "push" my files to the network, the files were only accessible when my PC was on and my IPFS client was open. "Pinning" the files and waiting for a few hours so they can spread on the network didn't change anything.
+<br>Not only that, but all the <a href="https://anarkrypto.github.io/upload-files-to-ipfs-from-browser-panel/public/">online</a>... <a href="https://globalupload.io/">IPFS</a>... <a href="https://upload2ipfs.smitop.com/">file</a>... <a href="https://share.ipfs.io/#/">uploaders</a> that I found online also didn't seem to work. None of all the solutions I tried gave me a persistent URL that I could easily use and share. But I think it's also my fault. I must be missing something super important but I don't know what yet. So to this day, my leaderboards still isn't useable, and all the files I tried to upload on the IPFS network have a mirror on Github so people can actually see them.
+
+<li><b>NEAR</b>: I also spent many hours trying to use NEAR's <a href="https://docs.near.org/docs/api/javascript-library">JS api</a>. It is probably the best documented of all the Decentralized js13k sponsors, and very kind people like <b>Sasha</b> and <b>Vlad</b> contacted me on Twitter and Discord to offer their help. The thing is, you can use JS to connect to your NEAR wallet pretty easily. You can manage authorizations and show the remaining balance without problem. But as soon as you try to create a "contract" (send NEAR coins so someone or write data on the network), nothing works anymore, the browser console gets filled with cryptic JS errors, and the doc says absolutely nothing about that. After asking a lot of people, the answer seems to be that the contracts can't be signed using JS alone. I must somehow set up a server that will act as an intermediate between the browser and the network. And I clearly don't have the time or the knowledge to do that. Especially if there's no clear doc explaining it! So in my final e-shop, you can log in to your NEAR wallet and see its balance, and that's pretty much all. 
+</ul>
+
+<p>So overall, I'm pretty sad because I attempted the four JS13k bonus challenges, spent a gigantic amount of time trying to learn them from scratch with my JS skills only, and I  managed to implement properly zero of them.
+
+<p>Fortunately, I still qualified for the WebMonetization and Decentralized categories and won some cool prizes, since all the other competing entries didn't actually manage to achieve much more than me. 
+<br>But for me it's a sign that these technologies are too hard to use. A lot of people work on these things and want us to adopt them more widely, but in my opinion they should really work on making them much more accessible.
+<br>Why does no one provide a simple tutorial / source code / live example package that explains me how to do the most basic stuff (sending data / exchanging currencies) as if I was 5 years old? And if I have to set up a server, explain me how to do that too!
+<p>Damn.
+<p>&lt;/rant>
+
+
+<!--<p>I also sent a mini fix to <b>End3r</b> after discovering a couple minor issues in my final build (misplaced signpost, unclear rule in world 4, and confusing colors in the puzzle selection screen). He kindly agreed to update my entry.-->
 
 <br><br><hr><br>
 
@@ -832,14 +955,33 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 <p>Unfortunately, everything I tried so far either doesn't work at all (at least on my PC), or costs a fortune, or creates an app that is too slow and/or watermarked and/or handicapped with very bad touch inputs (click or touchstart/touchend events don't work or work after a long delay, which makes the game unplayable)
 
 <p>I'll continue to try but it'll take much more efforts than I anticipated :(
+<br>
+<br>
+<p>PS: I tweeted a list of my <a href="https://twitter.com/MaximeEuziere/status/1438889803886514188">27 super-favoutite entries</a> if you're interested!
+
+<br><br><hr><br>
+
+<h2>One month later...</h2>
+
+<p>My game was very well ranked, yay!
+<p>As a result, many people contacted me to offer extra help about Decentralized features and mobile app building, and that's super wholesome. I was also offered to promote my game in a youtube video (coming soon) and on Enclave Games.
+
+<p>I also started a new project with <b>Stas</b>, a friend from JS13kGames slack: a micro WebGL library (~1.5kb) as easy to use as WebGLFramework. You can follow its progress <a href="https://twitter.com/MaximeEuziere/status/1443875900253261853">here</a> and visit the project's homepage <a href="https://xem.github.io/WebGLFramework/">here</a>.
+
+<p>So I'll continue working on all these things and will keep you posted!
+<br>
+<br>
+<p>PS: after forgetting the puzzles for a whole month, I recorded a 100% playthrough (with all the Par scores beaten) in 1h30. You can see the full video <a href="https://www.youtube.com/watch?v=6HR70P3gIMs">HERE</a> (SPOILERS WARNING), or a sped-up version below (SPOILERS + EPILEPSY WARNING):
+<p><iframe width="560" height="415" src="https://www.youtube.com/embed/XFHpHf0CaRg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 <br><br><hr><br>
 
 <h2>Feedbacks</h2>
 
-<p>I got a ton of feedbacks this year (and I love them). Here they are:
+<p>I got a ton of feedbacks this year (thank you so much!)... Here they are:
 
-<p><details><summary>Feedbacks about my <a href="https://twitter.com/MaximeEuziere/status/1416651465951690753">list of tips and tools</a></summary>:
+<p><details><summary>Feedbacks about my <a href="https://twitter.com/MaximeEuziere/status/1416651465951690753">list of tips and tools</a>:</summary>
 <ul>
 <li><b>Alex_ADEdge</b>: A huge thread of great tips and tricks for #js13k by @MaximeEuziere, defs worth a read through, lots of info to be found! 
 <li><b>McFunkyPants</b>: AMAZING JS GAMEDEV TIPS EVERY DAY IN THIS THREAD!
@@ -852,7 +994,7 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 </ul>
 </details>
 
-<p><details><summary>Feedbacks about my game when it was a work in progress</summary>
+<p><details><summary>Feedbacks about my game when it was a work in progress:</summary>
 
 <ul><b>McFunkypants</b> (on Twitter): Looking for #gamedev inspiration? Check out LOSSST! This entire game fits in a 13kb .zip file! Including the art, which is all done in CSS!!!!!! Not using webGL or canvas etc! Amazing.
 <li><b>Herebefrogs</b> (on Slack): I feel your game had an opportunity to make a pun on Samuel L Jackon’s movie Snakes on a Plane… LOSSST: Snake on a Spaceshuttle or something
@@ -873,12 +1015,12 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 </details>
 
 <p>
-<details><summary>Feedbacks from the jury experts and the voting page</summary>
+<details><summary>Feedbacks from the jury experts and the voting page:</summary>
 <ul>
 <li><b>Sasha Hudzilin</b>: enjoyed the gameplay
 <li><b>Joep van Duinen </b>: Really cool puzzler. Love the music integration and the cinematic opening. The difficulty ramps up pretty evenly too. Great work overall!
 <li><b>Nathan Lie</b>: Nice and puzzling game with an nice atmosphere that's cool and relaxing. The puzzle editor is a big feature to have as a Web Monetization feature, but since it doesn't affect the gameplay it's effective as a bonus.
-<li><b>Nathan Lie</b>: Nice and puzzling game with an nice atmosphere that's cool and relaxing. The puzzle editor is a big feature to have as a Web Monetization feature, but since it doesn't affect the gameplay it's effective as a bonus.
+<li><b>Ewa Mazur</b>: Although the game is very cute and extremely addictive, I have doubts that the WM implementation is working properly. I appreciate the marking of the bonus items in the main menu, but they are available both when I am logged in to Coil and when I am not, which means the editor is not a bonus for Coil subscribers, but a bonus for everyone.
 <li><b>Michelle Mannering</b>: - super cute graphics - snake is adorable - music and sound effects are a nice touch - cross combability is nice - simple graphics, but very effective - very intuitive, takes the user through a journey - camera rotation is awesome (nice addition) - puzzle games are my favourite! - this is very cool - love the fact you can go backwards and take time figuring things out - be cool if you got more coins for finishing in less steps - a reset button might be awesome too; for a cost!
 <li><b>Tim Sulmone</b>: Game was much longer than i expected. Enjoyable fun cute challenge. Multiple aspects of decentralized features were implemented in. I can tell that a lot of care/passion went into making this :-)
 <li><b>Vlad Grichina</b>: Nice and engaging puzzle game. Integrations are a bit unclear however, e.g. what I'm supposed to do with items purchased in NEAR shop?
@@ -919,38 +1061,78 @@ setTimeout(()=>{C.camera({x:370,y:0,z:-400,rx:60,rz:-40})}, 23500);
 </ul>
 </details>
 
-<p>People also tested the game in video:
+<p><details><summary>Video tests / feedbacks:</summary>
+<ul>
+<li><b>Jupiter Hadley</b> found it cute and liked the music
+<p><iframe width="560" height="415" src="https://www.youtube.com/embed/dbhtCRwhGPc?start=43" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<p>TODO.
+<li><b>Pable Telescopar</b> found it very good and polished and found a fun glitch where you can move the snake during the intro
+<p><iframe width="560" height="415" src="https://www.youtube.com/embed/972OtZcz2Xw?start=2643" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</ul>
+</details>
+<br>
+<br>
+<p>Wow, that was a lot to read. Thank you so much! Let's answer the main issues:
+<ul>
+<li><b>I disliked / muted the music</b>: I get it, I muted it too after hearing it hundreds of times. But I hope you noticed there were 10 tracks though
+<li><b>WebMonetization seems broken</b> Yep. It's checked in background but doesn't block the access to the puzzle editor.
+<li><b>A reset button would be cool</b>: There is one, at the bottom right... 🤔 
+<li><b>What am I supposed to do with NEAR purchases?</b> You can buy in-game coins to unlock worlds 2-4 earlier.
+<li><b>I wasn't able to get any of the decentralised features working</b>: haha, me neither.
+<li><b>Maybe that's because you didn't setup a CID server</b>: most probably. I never found how to do that, and I think it really should be easier to setup, or even better: serverless. (JS only)
+<li><b>Would be rad to implement NFTs</b>: I'm not really into money laundering. And I'm afraid of <a href="images/js13k21/nft.gif">right clicks</a> :P
+<li><b>Shop prices are quite steep, and on the mainnet</b>: Too expensive indeed. Besides that, what's the point of having a shop using testnet?
+<li><b>Too repetitive</b>: sorry, that's what I tried to avoid, but I didn't succeed entirely.
+<li><b>Not in the theme</b>: how can a game where a snake goes on the Moon and plays with the Moon's low gravity not be in the theme?!
+<li><b>Too bad we can't see the snale's length at the beginning of a puzzle</b>: exactly! When the puzzles start, I wanted to show the snake entirely, rolled on itself or in a <a href="images/js13k21/zigzag.png">zig-zag shape</a>, so that the player can have an idea of its length, but I never had the time to implement it. 
+<li><b>Very similar to LOSSST 2017</b>: thanks for remembering it! It's a reboot-sequel of that game, but about half of the puzzles are brand new. 
+<li><b>Could not play</b>: huh?
+<li><b>Graphics are inconsistent: billboard trees vs fixed signpost. Gradient vs textures</b>: Huh. now that you say it... it's true indeed!
+<li><b>Reaching Par scores isn't an interesting enough challenge. It consists too much in redoing it without errors</b>: I agree, it should have another goal than just displaying a medal in the puzzle selection screen. Steps backwards (to fix a mistake) should also reduce the steps count to make this challenge less annoying! 
+<li><b>It was a lot longer than I thought</b>: ugh, same.
+<li><b>Too many puzzles / too easy / hard puzzles arrive too late in the game</b>: you're totally right. I've been a bit stubborn to keep most of the easy puzzles in, but the difficulty curve could/should have been much steeper!
+<br>A stricter selection would also have solved the "too repetitive" issue if each new puzzle brought one important change or challenge, instead of having sometimes many puzzles revolving around the same idea.
+</ul>
 
-<br><br><hr><br>
+<br><hr><br>
 
-<h2>Conclusion and thank yous</h2>
+<h2>Conclusion</h2>
 
-<p>The main conclusion of this jam is of course its results:
-
-<br><b>TODO</b>
-
-<p>But it's also a huge thank you to everyone involved in the organization, the people making tools, the people making games, the people testing our games... as every year, it was a great pleasure to exchange and play with y'all!
+<br>A huge thank you to everyone involved in the organization, the people making tools, the people making games, the people testing our games... as every year, it was a great pleasure to exchange and play with y'all!
 
 <p>Here are a few highlights:
 
 <ul>
-<li><b>Bence</b>: Thank you so much for your SVG textures, and for playing my entry at 100% while providing valuable feedbacks.
-<li><b>Jsgreg</b>: thanks for testing the game and showing me that the wall projection's logic was not intuitive for all the players. (i.e. when the snake activates wall tiles even if it's not against the wall)
-<li><b>Calada2</b>: thanks for all your help and expertise with CSS3D.
-<li><b>Slashie</b>, <b>Gogoprog</b>, <b>Barhatsor</b>, <b>Cino_power</b>, <b>Matthieu_me</b>, <b>Elsassph</b>, <b>Benjymous</b>: thanks for helping me with my mobile app build issues <a href="https://twitter.com/MaximeEuziere/status/1441696502280302592">on Twitter</a>
-<li><b>People who used my tools/tips in their entries</b>: Ed Lynch's space in space (GameAudioBundleMp3), Faisal Rahman's Fill the space (miniSoundEditor), Slashie + Mapedorr + QuietGecko's Distant friends (miniSVGcreator), Harsanalif's Slip (miniSoundEditor), Johan Wigert's Moon Buggy racing (alphabet-piano), Mattia Fortunati's <a href="https://github.com/MattiaFortunati/js13kGames-2021-template">game template</a> (favicon emoji), ...
-<li><b>Sam</b>, <b>Damien</b>, <b>Anouk</b> and <b>Julien</b>: + <a href="images/js13k21/pulsion.jpg">this image</a>
-<li><b></b>:
-<li><b></b>:
+<li><b>Bence</b>: Thank you so much for your <a href="https://codepen.io/collection/DRMKdB">SVG textures</a>, and for playing my entry at 100% while providing precious feedbacks.
+<li><b>Jsgreg</b>: thanks for testing the game and showing me how the wall projection's logic could be unintuitive at first.
+<li><b>Calada2</b>: thanks for all your help and expertise with CSS3D. Your <a href="https://js13kgames.com/entries/space-portal">CSS3D portal</a> is also super impressive!
+<li>My friends <b>Adrien</b>, <b>Sam</b>, <b>Damien</b>, <b>Anouk</b> and <b>Julien</b>: thanks for all the beta-testing, emotional support and constructive criticism during this month!
+<li>Sam even designed a tricky puzzle for me (<a href="images/js13k21/sam.jpg">3-25</a>) !
+<li>Damien helped me design and find the shortest solutions for a puzzle that I spent a lot of time making (<a href="images/js13k21/dam.jpg">1-49</a>)
+<li><b>Jaburns</b>: thanks for being present on Slack all this time, for brainstorming new mechanics with me and for all the beta-testing and bug-hunting you did for my game. I really like your game <a href="https://js13kgames.com/entries/galaxy-rider">Galaxy rider</a> too!
+<li><b>Ed Lynch</b> for using my MP3 collection <a href="http://localhost/xem.github.io/projects/gameaudiobundle.html">GameBundleAudioMp3</a> in his entry <a href="https://js13kgames.com/entries/space-in-space">Space in space</a>
+<li><b>Faisal Rahman</b> for using my <a href="http://localhost/xem.github.io/codegolf/minisoundeditor.html">miniSoundEditor</a> tool in his entry <a href="https://js13kgames.com/entries/fill-the-space">Fill the space</a>
+<li>Harsanalif</b> for also using <b>miniSoundEditor</b> in his entry <a href="https://js13kgames.com/entries/slip">Slip</a>
+<li><b>Slashie + Mapedorr + QuietGecko</b> for using my <a href="https://xem.github.io/miniSVGcreator/">miniSVGcreator</a> tool in their entry <a href="https://js13kgames.com/entries/distant-friends">Distant friends</a>
+<li><b>Johan Wigert</b> for using my tool <a href="https://xem.github.io/alphabet-piano/">amphabet-piano</a> in his entry <a href="https://js13kgames.com/entries/moon-buggy-racing">Moon Buggy Racing</a>
+<li>Mattia Fortunati</b> for mentioning the favicon emoji trick in his <a href="https://github.com/MattiaFortunati/js13kGames-2021-template">game template</a>
+<li><b>AndreJaenish</b>: thanks for pointing me to the right midi parsing library!
+<li><b>Slashie</b>, <b>Gogoprog</b>, <b>Barhatsor</b>, <b>Cino_power</b>, <b>Matthieu_me</b>, <b>Elsassph</b>, <b>Benjymous</b>: thanks for helping me to <a href="https://twitter.com/MaximeEuziere/status/1441696502280302592">build my mobile app</a>
+<li><b>Herebefrogs</b> for mentioning my miniSynth tool in the <a href="https://medium.com/@herebefrogs/2021-a-space-opera-a-js13kgames-2021-post-mortem-94cc2e061031">making-of</b> of his game <a href="https://js13kgames.com/entries/2021-a-space-opera">2001: A space Opera</a>. It made me realize that this tool, that I coded by reverse-engineering <a href="https://github.com/keithwhor/audiosynth">an existing JS synth</a>, had been double-reverse-engineered by <b>Vertfromage</b> <a href="https://github.com/Vertfromage/miniPiano/blob/gh-pages/js13kDropIn.js">here</a> to produce a code snippet that was useful for both of them.
+<li><b>Sasha, Near and Dietrich</b> (NEAR/IPFS evangelists) that have been super patient and helpful with me despite me being absolutely incompetent with their technologies.
+
+<br>
+<br>
+<p>To conclude, I'm very happy with my tenth game, ranked tenth in the tenth edition of js13kgames, and I hope my next entries (in WebGL this time?) will be as interesting to make and to play.
+<p>And if you read until here, here's a little cheat-code for you: you can use keys N and P in-game to quickly pass to the next or previous puzzle. 
+<p>See you next year! (and on the App stora until then if all goes well)
+
+<p><i>Maxime</i>
 
 <br><br><hr><br>
 <br>
 <br>
 <br>
-
-TODO: talk about decentralized, skin editor, 1-49...
 </div>
 
 
