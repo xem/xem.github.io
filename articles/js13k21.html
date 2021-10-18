@@ -874,12 +874,18 @@ str+=z[2]+(z[3]?z[3]:z[2])+String.fromCharCode(64+z[4])+String.fromCharCode(64+z
 <p>As I said earlier, I have absolutely no automatic build process, so I concatenate, minify, RoadRoll, zip and zopflify my game manually. It's a long process, but I only do it a handful of time during the month, so I guess it's not that bad. If you're curious, I recorded it and you can see it here:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2A6jXu1di6U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<br>
+<br>
+<p>Here's a breakdown of the minified source code:
+<p><img src="images/js13k21/breakdown.png">
+
+
 <br>
 <br>
 <p>PS: I talk a lot about my byte budget, but another counter is also very important to optimize: the CSS3D divs. And I think I did pretty well: in the biggest puzzle of the game, the scene contains a total of 240 divs, and even there, everything seems super fluid.
 
 <p><img src="images/js13k21/230.jpg" width=400>
-
 <br>
 <br>
 
