@@ -10,6 +10,7 @@ menus = {
   
   articles: {
     intro: "Intro",
+    switchfatigue: "Switch hacking fatigue",
     js13k21: "JS13kgames 2021",
     nes: "Golfing a NES emulator (WIP)",
     "webgl-guide": "WebGL guide part 1",
@@ -255,7 +256,7 @@ header = function(){
 
 
 
-footer = function(){
+footer = function(comments = 1){
 
   $("footer").insertAdjacentHTML("beforeEnd", 
   ` 
@@ -277,7 +278,7 @@ footer = function(){
   if(section == "xem.github.io" && page == ""){
     section = "home";
   }
-  if(section != "home" && page != "" && page != "intro"){    
+  if(comments && section != "home" && page != "" && page != "intro"){    
     s = document.createElement("SCRIPT");
     s.src = "https://utteranc.es/client.js";
     s.setAttribute("repo","xem/xem.github.io");
