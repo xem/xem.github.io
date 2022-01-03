@@ -26,8 +26,10 @@
   <p><b>Multiline ellipsis</b>
   
 	<p>CSS ellipsis are handy but they only work with one line of text.
-  <p>Multiline ellipsis can be achieved with <a href="https://web.archive.org/web/20160313155557/https://www.mobify.com/blog/multiline-ellipsis-in-pure-css/" target=_blank>this CSS hack</a>, but it's hard to set up and it doesn't work very well on old IE versions.
-  <p>Here's an alternative written in just 10 lines of JS code, plus a bit of CSS.</p>
+  
+  <p>On modern browsers, multiline ellipsis can be achieved with <b>-webkit-line-clamp</b> + <b>text-overflow: ellipsis</b> (<a href="https://stackoverflow.com/a/41137262/3124943">SEE DEMO</a>).
+  
+  <p>Here's an alternative that works on IE and written in just 10 lines of JS code, plus a bit of CSS:</p>
   <pre><code class="lang-js">// Detect if the ellipsis is necessary and set the "overflow" class accordingly
 function toggleEllipsis(p){
   
