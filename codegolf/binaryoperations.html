@@ -24,10 +24,19 @@
 		Binary operations in JavaScript are a trap. I wrote a wtfjs post about this. (<a href="https://wtfjs.com/wtfs/2012-09-19-Hexadecimal-weirdness" target=_blank>link</a>)
 		<br>
     So I wrote a 137 bytes lib allowing to do "left shifts", "right shifts", and extracting some bits from a number, safely.
-    <pre><code class="lang-js">M=Math;function l(a,b){return a*M.pow(2,b)}function r(a,b){return M.floor(a/M.pow(2,b))}function b(a,b,c){return r(a,b)&M.pow(2,c-b+1)-1}</code></pre>
-    <button onclick="source_binaire.style.display='block';this.style.display='none'">See the source code</button>
-  <br>
-  <pre id=source_binaire style="display:none"><code class="lang-js">// M is a shortcut for Math
+    <pre><code class="lang-js">M=Math // Math alias
+function l(a,b){return a*M.pow(2,b)} // Left shift
+function r(a,b){return M.floor(a/M.pow(2,b))} // Right shift
+function b(a,b,c){return r(a,b)&M.pow(2,c-b+1)-1} // Bit extraction</code></pre>
+
+  <p><b>2022 update</b>: ES6 version (73 bytes)
+
+<pre><code class="lang-js">l=(n,o)=>n*2**o // Left shift
+r=(n,o)=>~~(n/2**o) // Right shift
+b=(n,o,a)=>r(n,o)&2**(a-o+1)-1 // Bit extraction</code></pre>
+
+  <p><b>Source code</b>:
+  <pre id=source_binaire><code class="lang-js">// M is a shortcut for Math
 M = Math;
 
 // Left shift
@@ -48,7 +57,6 @@ function r(a,b){
 function b(a,b,c){
   return r(a,b) & M.pow(2, c - b + 1) - 1;
 }</code></pre>
-	</p>
 </div>
 
 </main>
