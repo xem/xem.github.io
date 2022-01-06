@@ -18,17 +18,18 @@
 
 <div class=section id=keypressed>
 	<h2>Keys pressed</h2>
-	<h3>September to December 2013</h3>
-	<p>A way to know at any moment if a key is being pressed, in just 60 bytes.</p>
-	<pre><code class="lang-js">k={};onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5]}</code></pre>
+	<h3>September 2013 - january 2022</h3>
+	<p>A way to know at any moment if a key is being pressed, in just 44 bytes.</p>
+	<pre><code class="lang-js">k={};onkeydown=onkeyup=e=>k[e.key]=e.type[5]</code></pre>
 	<p>
-    To use it, all you have to do is choosing "n" - a keycode - and test k[n]. This is true when the corresponding key is pressed, and false when it's not pressed anymore.
+    To use it, test k[n] (where n is the name of a keyboard key).
     <br>
-    (If it has never been pressed, k[n] will be undefined, which is considered false in a test.)
+    k[n] is truthy when the key is pressed, and falsy when it's not pressed (or has been released).
     <br>
-    <button onclick="source_touchesfoncees.style.display='block';this.style.display='none'">See the source code</button>
+    <br>
+    <b>Source code</b>
   <br>
-  <pre id=source_touchesfoncees style="display:none"><code class="lang-js">// Initialize the global k (the array representing the keys currently pressed).
+  <pre id=source_touchesfoncees><code class="lang-js">// Initialize the global k (the array representing the keys currently pressed).
 // Also works with k = [].
 k = {};
 
@@ -41,15 +42,16 @@ onkeydown = onkeyup = function(e){
   // On keydown, e.type == "keydown", and e.type[5] == "w" (truthy)
   // On keyup, e.type == "keyup", and e.type[5] == undefined (falsy)
   // !! converts e.type[5] to a boolean. It can be removed but it's a little dirtier.
-  k[e.keyCode] = !!e.type[5];
+  k[e.key] = !!e.type[5];
 
 }</code></pre>
   <br>
-  <b>Demo:</b> Here is the state of k in real time. Press any key to make it change.
+  <br>
+  <b>Demo:</b> k is displayed below. Press any key to see it change.
     <script>
-      k=[];onkeydown=onkeyup=function(e){k[e.keyCode]=!!e.type[5];demo_touchesfoncees.innerHTML="k = ["+k+"]"}
+      k={};onkeydown=onkeyup=function(e){console.log(e);k[e.key]=!!e.type[5];demo_touchesfoncees.innerHTML="k = "+JSON.stringify(k,null,2) + ""}
     </script>
-    <div class=demo><pre id=demo_touchesfoncees><code class="lang-js">k = [ ]</code></pre></div>
+    <div class=demo><pre id=demo_touchesfoncees><code class="lang-js">k = { }</code></pre></div>
   </p>
 </div>
 

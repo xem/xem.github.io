@@ -150,7 +150,7 @@ menus = {
     "32b": "32b",
     deletedlines: "Deleted lines",
     paste: "Paste",
-    keypressed: "Keys pressed",
+    keyspressed: "Keys pressed",
     minisweeper: "Mini Sweeper",
     asciinotused: "ASCII chars not used",
     snail: "Snail",
