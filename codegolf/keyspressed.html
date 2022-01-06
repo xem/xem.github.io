@@ -22,7 +22,7 @@
 	<p>A way to know at any moment if a key is being pressed, in just 44 bytes.</p>
 	<pre><code class="lang-js">k={};onkeydown=onkeyup=e=>k[e.key]=e.type[5]</code></pre>
 	<p>
-    To use it, test k[n] (where n is the name of a keyboard key).
+    To use it, test k[n] (where n is the name of a keyboard key. Ex: "a", "A", "1", ".", "Space", "Control", etc).
     <br>
     k[n] is truthy when the key is pressed, and falsy when it's not pressed (or has been released).
     <br>
@@ -35,13 +35,15 @@ k = {};
 
 // Add two event handlers to the window object:
 // window.onkeydown and window.onkeyup.
-// They don't need the window prefix (it's implicit)
+// They don't need the "window." prefix (it's implicit)
 // And they both get the same callback function
 onkeydown = onkeyup = function(e){
 
   // On keydown, e.type == "keydown", and e.type[5] == "w" (truthy)
   // On keyup, e.type == "keyup", and e.type[5] == undefined (falsy)
   // !! converts e.type[5] to a boolean. It can be removed but it's a little dirtier.
+  // e.key can be replaced with e.keyCode (in that case, each key is mapped to a given number)
+  
   k[e.key] = !!e.type[5];
 
 }</code></pre>
