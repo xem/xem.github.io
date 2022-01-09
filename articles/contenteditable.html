@@ -19,7 +19,7 @@
 <div class=section id=contenteditable_en>
   
 	<h2>The HTML5 contenteditable attribute</h2>
-	<h3>July 2013</h3>
+	<h3>July 2013 ~ January 2020</h3>
 	<div id=contenteditablecontent_en>
 		<p>The <b>contenteditable</b> attribute makes any HTML element editable with the mouse and/or the keyboard.</p>
 		<p>
@@ -27,73 +27,78 @@
 		<br>
 		It's also one of those features that existed in browsers for a long time before W3C standardization.
 		<br>
-		Indeed, <a href="http://caniuse.com/contenteditable">we can use this attribute</a> on browser as old as IE 5 and Firefox 3! Microsoft created it, by the way.
+		Indeed, <a href="http://caniuse.com/contenteditable">we can use this attribute</a> on browsers as old as IE 5 and Firefox 3! Microsoft created it, by the way.
 		</p>
 		<p>
 		It's easy to use: like <b>id</b> or <b>class</b>, you can use <b>contenteditable="true"</b> on any element, or simply <b>contenteditable</b>.
 		<br>
-		Note that this attribute is inherited by default. So the value <b>contenteditable="inherit"</b> is completely useless (but it exists).
+		This attribute is inherited by default by child elements, but it can also be forced using <b>contenteditable="inherit"</b>.
 		<br>
-		However, if you want to make an element editable, but not its children, these children must have <b>contenteditable="false"</b>.
+		On the other hand, if you want to make an element editable, but not its children, these children must have <b>contenteditable="false"</b>.
 		</p>
-		<p contenteditable><b>Example:</b> click on this paragraph to edit the text inside.</p>
-		<hr>
-		<p>Here's the list of crazy facts about <b>contenteditable</b>:</p>
-		<ul>
+    <p><b>Demo</b>:
+    
+		<p contenteditable spellcheck=false>click on this <b>paragraph</b> to edit the text inside.</p>
+		<br>
+    <p><b>Fun facts about contenteditable</b>:<ul>
+      <li>It's generally a good idea to use contenteditable with another attribute: <b>spellcheck=false</b>, to avoid red waves when an element is being focused / edited.
 			<li>
 				Like we saw earlier, we can make an element non-editable if its parent is editable. The non-editable element can still be selected, moved and deleted.
-				<p contenteditable><b>Example:</b> In this editable paragraph, <b contenteditable="false">this text in bold</b> can't be edited, but you can move and delete it with the mouse.</p>
-				On Firefox, we can't move text from an editable container to another editable container... that's a bug.
+        <br><b>Example</b>:
+				<p contenteditable spellcheck=false> In this editable paragraph, <b contenteditable="false">this text in bold</b> can't be edited, but you can totally select it, move it, and delete it with the mouse and/or the DELETE key of your keyboard</p>
 			</li>
 			<li>
-				Firefox allows to resize images that have or inherit the <b>contenteditable</b> behavior.<br><br>
-				<b>Example:</b><br>
-				<p contenteditable> Click on this image <img src="http://placehold.it/200x50" style="vertical-align: middle"> to resize it.</p>
+				Firefox used to have little widgets allowing to resize contenteditable images. It's not the case anymore.
 			</li>
 			<li>
-				Any HTML code can be inserted in an editable element
-				<div contenteditable><b>Example:</b> You can copy-paste here<br><br>- The content of another Webpage:<br><br><br><br>- The content of a Word / Excel document:<br><br><br><br></div>
+				Any HTML code can be inserted in an editable element. You can try copy-pasting a Webpage of your choice, or a Word/Excel document below:
+				<div contenteditable spellcheck=false><br><br><br><br><br><br><br><br></div>
 			</li>
 			<li>
-				Thanks to this attribute, we can make complete WYSIWYG editors, like <a href="http://ckeditor.com/demo#full">CKEditor</a>.
+				This attribute allows to make complete WYSIWYG online editors, like <a href="http://ckeditor.com/demo#full">CKEditor</a>.
 			</li>
 			<li>
-				You can also access to a quick notepad by typing <b>data:text/html, &lt;html contenteditable></b> in the address bar of your browser (or by clicking <a href="data:text/html, <html contenteditable>" target="_blank">here</a>).
-				This trick comes from <a href="https://coderwall.com/p/lhsrcq">Jose Jesus Perez Aguinaga</a>.
-				You can find many variations of this notepad <a href="https://news.ycombinator.com/item?id=5135194" target="_blank">here</a>. 
+				You can create a quick notepad by typing <b>data:text/html,&lt;html contenteditable></b> in the address bar of your browser (<a href="data:text/html, <html contenteditable>" target="_blank">DEMO</a>).
+        <br>This trick was first documented by <a href="https://coderwall.com/p/lhsrcq">Jose Jesus Perez Aguinaga</a>.
+        <br>You can find many variations of this notepad <a href="https://news.ycombinator.com/item?id=5135194" target="_blank">in these HN comments</a>!
 			</li>
-			<li>If you make a <b>style</b> element visible and editable, this can make a crazy auto-recursive editor, in which you can edit in real time the style of the block you're writing into.<br>Try it:<br>
-				<style spellcheck="false" contenteditable>style[contenteditable] {
-	display: block;          /* make <style> blocks visible */
-	white-space: pre;        /* presentation */
-	font-family: monospace;  /* typography */
-	background: #ddeeff;     /* background color */
+			<li>If you force a <b>&lt;style></b> element to be visible and editable, it becomes a libe CSS editor for your page!
+      <li>Here's an example where you can alter the style of a &lt;style> by writing directly inside it:
+				<style spellcheck="false" contenteditable spellcheck=false>style[contenteditable] {
+	display: block;          /* make &lt;style> blocks visible */
+	white-space: pre;        /* display spaces and newlines */
+	font-family: monospace;  /* use a monospace typography */
+	background: #8fd6ff;     /* background color */
 	color: #112233;          /* text color */
 }</style>
 			</li>
 			<li>
-				<b>script</b> elements can also be visible and editable (here's an exemple). However, the JavaScript code isn't executed when you edit it. It's a simple text block.<br>
-				<script contenteditable>console.log("Log unique");</script>
+				<b>&lt;script></b> elements can also be visible and editable! However, the JavaScript code isn't executed when you edit it. It's a simple text block. Here's an example:
+				<script contenteditable spellcheck=false>console.log("One log");</script>
 				<br>
 				(open your F12 console to see this message)
 				<br>
-				But JavaScript itself allows to detect changes happening in a <b>script</b> element and execute its content.<br>
-				Warning: don't do this at home (XSS attacks can occur). This example is only a proof of concept.<br> 
-				<script id="js" contenteditable>// This block has the id "js".
+        <br>
+				If you want to force the execution of a contenteditable script block at each input (which I don't recomment), here's a solution:
+        <br>
+				<script id="js" contenteditable spellcheck=false style=display:block>// This block has the id "js".
 var js = document.getElementById("js");
 js.onkeyup = function(){
 	eval(js.innerText);
 }
 console.log("Log at each edition");</script>
 				<br>
-				This works fine on Chrome and IE 10. Sadly, Firefox and IE9 can't listen to keystrokes events on <b>script</b> elements... But you can replace them with textareas, which are natively editable.
+				(Firefox used to have a bug where key events couldn't be listened on a &lt;script> tag, but it's fixed now, which makes this hack cross-browser down to IE10)
 			</li>
 		</ul>
 		<br>
 		<br>
-		Cheers!
+		See ya!
 		<br>
 		<b>@MaximeEuziere</b>
+    <br>
+    <br>
+    <br>
 	</div>
 </div>
 
@@ -112,3 +117,13 @@ menu();
 
 </body>
 </html>
+
+<style>
+li, .section { margin-bottom: 10px; line-height: 22px; }
+[contenteditable] {
+	background: #ffe0ab;
+  padding: 5px;
+  margin: 5px 0;
+  white-space: pre;
+}
+</style>
