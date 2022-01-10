@@ -56,7 +56,7 @@
 			<li>You should avoid the type attribute, and use CSS instead (we'll come to this later)</li>
 			<li><b>&lt;ol></b> can have a "start" attribute telling where the numbering should begin, and its <b>&lt;li></b>s can have a "value" attribute to change their default number, and the following ones. (This works on IE6+)</li>
 		</ul>
-		<p><b>Démo:</b></p>
+		<p><b>Demo:</b></p>
 		<pre><code class="lang-html">&lt;ol start="10">
   &lt;li>Element 10
   &lt;li>Element 11
@@ -68,7 +68,7 @@
   &lt;li>Element 6
   &lt;li>Element 7
 &lt;/ol></code></pre>
-		Ce qui donne:
+		Which gives yus:
 		<div class=demo>
 			<ol start="10">
 				<li>Element 10
@@ -104,6 +104,7 @@
 		<p>&nbsp;&bull;
 			If you apply a <a href="http://meyerweb.com/eric/tools/css/reset/" target=_blank>CSS reset</a> to your page, it will delete the paddings on <b>ul</b> and <b>ol</b> elements, and their ticks will be hidden.
 			<br>
+			<br>
 			<b>Solution 1</b>: put the ticks inside the <b>li</b> with this rule:
 			<pre><code class="lang-css">ul, ol { list-style-position: inside }</code></pre>
 			The ticks reappear, but we still lose the indentation of nested lists.
@@ -126,7 +127,8 @@
 					</ol>
 				</ul>
 			</div>
-
+<br>
+<br>
 			<b>Solution 2 (the good one)</b>: don't change the ticks position, but re-set a padding-left to the lists, like this:
 			<br>
 			<pre><code class="lang-css">ul, ol { padding-left: 2em }</code></pre>
