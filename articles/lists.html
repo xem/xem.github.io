@@ -18,10 +18,10 @@
 
 <div class=section id=lists_en>
 	<h2>Ordered and unordered lists</h2>
-	<h3>August 2013</h3>
+	<h3>August 2013, january 2022</h3>
 	<div id=listscontent_en>
 		<p>HTML lists... we all know them by heart: they exist since the first versions of HTML and XHTML, and they almost didn't change since then. They also work on all browsers.</p>
-		<p>Let's study their HTML.<br><b>&lt;ul></b> means "unordered list", <b>&lt;ol></b> means "ordered list", et <b>&lt;li></b> means "list item".<br>Here is their simplest form (note that the &lt;/li> are optionals)</p>
+		<p>Let's study their HTML.<br><b>&lt;ul></b> means "unordered list", <b>&lt;ol></b> means "ordered list", and <b>&lt;li></b> means "list item".<br>Here is their simplest form (note that the &lt;/li> are optionals)</p>
 		<p><b>Demo:</b></p>
 		<pre><code class="lang-html">&lt;ul>
   &lt;li>Element 1
@@ -96,7 +96,7 @@
 		<ul>
 			<li><b>list-style-type</b> (that can have <a href="https://developer.mozilla.org/fr/docs/CSS/list-style-type" target=_blank>many many values</a>),</li>
 			<li><b>list-style-position</b> (that can have the value "inside", "outside" or "inherit". Inside allows them to contain their own ticks, instead of letting them stay in their parent's padding.)</li>
-			<li><b>list-style-image</b>, which is "none" by default, but it can also be the url of an image. If the URL is invalid (or if the image isn't fount), there is a fallback on the default list-style-type (disc, decimal, ...).</li>
+			<li><b>list-style-image</b>, which is "none" by default, but it can also be the url of an image. If the URL is invalid (or if the image isn't found), there is a fallback on the default list-style-type (disc, decimal, ...).</li>
 		</ul>
 		</p>
 		<hr>
@@ -156,15 +156,15 @@ ol ol ol ol { list-style: lower-alpha }</code></pre>
 				<li>level 1</li>
 				<li>item</li>
 				<li>item</li>
-				<li><ol>
+				<li><ol style="list-style: upper-alpha">
 						<li>level 2</li>
 						<li>item</li>
 						<li>item</li>
-						<li><ol>
+						<li><ol style="list-style:  lower-roman">
 								<li>level 3</li>
 								<li>item</li>
 								<li>item</li>
-								<li><ol>
+								<li><ol style="list-style: lower-alpha">
 										<li>level 4</li>
 										<li>item</li>
 										<li>item</li>
@@ -175,7 +175,7 @@ ol ol ol ol { list-style: lower-alpha }</code></pre>
 			</div>
 		</p>
 		<p>
-		&nbsp;&bull;
+		<!--&nbsp;&bull;
 				The CSS resets generally set a vertical-align: baseline and a line-height: 1.5em to all the elements of the page, and this causes a problem on IE &lt; 8 when we have nested lists.
 				<br>
 				Indeed, if you watch the following list on IE &lt; 8, you will see the numbers "fall" at the bottom of the sub-lists, and the ticks will be misaligned with the text ahead.
@@ -249,21 +249,23 @@ ol ol ol ol { list-style: lower-alpha }</code></pre>
 			<p>Each sub-list has a huge gap on top. It's not a margin or a padding, it's an IE bug. To get rid of it, you can set float: left to the lists (but it could lead to flow issues), or put them in display: inline-block (that's what I recommend):</p>
 			<pre><code class="lang-css">li ul, li ol { display: inline-block }</code></pre>
 			<p>So, everything is correct now.</p>
-			<p>Other list-related bugs and their solutions are described <a href="http://stylisticweb.com/design-tutorials/15-ie6-bugs-and-simple-solutions" target=_blank>here</a>, but I won't talk about them because they are too much specific.</p>
+			<p>Other list-related bugs and their solutions are described <a href="http://stylisticweb.com/design-tutorials/15-ie6-bugs-and-simple-solutions" target=_blank>here</a>, but I won't talk about them because they are too much specific.</p-->
 			<hr>
-			<p>Instead, let's talk about the original things that we can do with HTML lists:</p>
+			<p>Let's talk about the original things that we can do with HTML lists:</p>
 			<ul>
 				<li>
 					A &lt;li> can live without a &lt;ol> or a &lt;ul> around it. In this case, it will have a circle-shaped tick (on all the browsers).
 				</li>
 				<li>
-					A &lt;ul> / &lt;ol> can contain elements that are not &lt;li>. (or even some text). These elements won't have a tick or a number.
+					A &lt;ul> / &lt;ol> can contain elements that are not &lt;li>, or text. These elements won't have a tick or a number, contrary to &lt;li> elements.
 				</li>
 				<li>
-					There are several easy ways to display a list on many columns.<br><a href="http://alistapart.com/article/multicolumnlists" target=_blank>This article</a> is exhaustive on this subject.
+					In modern browsers, lists can be reneered on many columns using the CSS property <b>columns: 2;</b>.
+          But back in 2013, it required all kinds of hacks, as described in <a href="http://alistapart.com/article/multicolumnlists" target=_blank>this article</a>.
 				</li>
 				<li>
 					A list can look like a file tree with a simple 1px image and some ingenious CSS code: <a href="http://css-tricks.com/style-a-list-with-one-pixel/" target=_blank>take a look at this</a>.
+          <br><img style=margin:15px src="https://i2.wp.com/css-tricks.com/wp-content/uploads/2021/02/list-onepixel.png?w=570&ssl=1">
 				</li>
 				<li>
 					The &lt;li> elements can use one (or many) unicode character(s) as their ticks, thanks to CSS3 (and it works on IE8+):
@@ -283,9 +285,7 @@ li:before { content: ">>"; margin:0 1em 0 -3em;  }</code></pre>
 					</div>
 				</li>
 			</ul>
-			<p>I'll stop here, and I invite you to look at <a href="//github.com/xem/Basis" target="_blank">my last project, Basis</a>: a basic "boilerplate" for HTML/CSS/JS pages, with a custom CSS reset that contains all these best practices, and many others.</p>
-			<br>
-			<br>
+			<p>
 			Cheers!
 			<br>
 			<b>@MaximeEuziere</b>

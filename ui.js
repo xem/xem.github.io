@@ -45,7 +45,7 @@ menus = {
     textshadows: "Text-shadows",
     lists: "Lists", 
     contenteditable: "Contenteditable",
-    doctype: "Doctype (FR)",
+    //doctype: "Doctype (FR)",
     hexadecimalweirdness: "Hexadecimal weirdness",
   },
   
@@ -155,7 +155,7 @@ menus = {
     asciinotused: "ASCII chars not used",
     snail: "Snail",
     heylisten: "HeyListen: custom events",
-    lazy: "Lazy: JS shortcuts",
+    //lazy: "Lazy: JS shortcuts",
     binaryoperations: "Binary operations",
 
   },
