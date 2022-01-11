@@ -42,7 +42,7 @@ menus = {
     domoddities: "DOM oddities",
     js1k14: "JS1k 2014",
     getelementbyid: "getElementById",
-    textshadows: "Text-shadows",
+    //textshadows: "Text-shadows",
     lists: "Lists", 
     contenteditable: "Contenteditable",
     //doctype: "Doctype (FR)",

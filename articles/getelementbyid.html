@@ -51,11 +51,15 @@ alert(present);                           // --> false
     <p>It's also important to note that if an id is not a valid JS identifier (for example if it contains a "-" or starts with a number), you can't access it directly, but you can still access it with <b>window["invalid-identifier"]</b>.
     <p>For the record, Mathias Bynens wrote <a href="https://mathiasbynens.be/notes/html5-id-class">a very interesting article about ids and Unicode</a>. Crazy!
     <p>On my side, I experimented with this "feature" and found some funny things:</p>
-    <p><b>An implicit id can't have the same name as a protected JS keyword:</b></p>
+    <p><b>An implicit id can have the same name as a protected JS keyword, but needs a "window" prefix to be read:</b></p>
     <pre><code class="lang-html">&lt;div id=function>&lt;/div>
-&lt;script>alert(function) // SyntaxError: Unexpected token )&lt;/script></code></pre>
+&lt;script>
+  alert(function) // SyntaxError: Unexpected token
+  alert(window["function"]) // [object HTMLDivElement]
+  alert(window.function) // [object HTMLDivElement]
+&lt;/script></code></pre>
 		<br>
-    <p><b>An implicit getElementById can't overload a native global var, such as window.screen:</b></p>
+    <p><b>An implicit getElementById can NOT overload a native global var, such as window.screen:</b></p>
     <pre><code class="lang-html">&lt;div id=screen>&lt;/div>
 
 &lt;script>
@@ -63,7 +67,7 @@ alert(present);                           // --> false
   alert(screen);                        // --> [object Screen]
 &lt;/script></code></pre>
 		<br>
-    <p><b>Also, it can't redefine a global var defined earlier</b></p>
+    <p><b>Also, it can NOT overwrite a global JS var defined earlier:</b></p>
     <pre><code class="lang-html">&lt;script>
   global0 = 1;
 &lt;/script>
@@ -75,7 +79,7 @@ alert(present);                           // --> false
   alert(global0);                // --> 1
 &lt;/script></code></pre>
 		<br>
-    <p><b>A global var defined with the "window." prefix can overload an implicit getElementById</b></p>
+    <p><b>A global var defined with the "window." prefix can overload an implicit getElementById:</b></p>
     <pre><code class="lang-html">&lt;div id=global1>&lt;/div>
 
 &lt;script>
@@ -112,6 +116,8 @@ alert(present);                           // --> false
 		Cheers!
 		<br>
 		<b>@MaximeEuziere</b>
+    <br>
+    <br>
 	</div>
 </div>
 
