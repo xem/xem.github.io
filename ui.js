@@ -55,6 +55,7 @@ menus = {
     miniphotobooth: "Mini Photo Booth",
     minicamrecording: "Mini Cam Recording",
     minisoundeditor: "Mini Sound Editor",
+    //minidraganddrop: "Mini Drag And Drop", // TODO
     minimandelbox: "Mini Mandelbox (JS1k19)",
     miniridinglight: "Mini Riding Light (JS1k19)",
     minitwo3d: "MiniTwo3D (JS1k19)",
@@ -134,6 +135,7 @@ menus = {
     hypercube: "hypeRcube (JS1k15)",
     minijsperf: "MiniJSPerf",
     minishadowart: "MiniShadowArt",
+    //quintessence: "Quintessence (JS13k14)", // TODO
     alchemixer: "Alchemixer (JS13k14)",
     minicountdown: "MiniCountdown",
     innout: "In-n-out",
