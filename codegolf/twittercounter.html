@@ -18,27 +18,17 @@
 
 <div class=section id=twitter_counter>
   <h2>Twitter character counter</h2>
-	<h3>November 2015</h3>
-	<p>A tiny Twitter char counter in 78b, inspired by and golfed with <a href="//twitter.com/innovati">Tommy Hodgins</a> and <a href="//twitter.com/subzey">Subzey</a>.
+	<h3>November 2015 - Febuary 2022</h3>
+	<p>A tiny Twitter char counter in 78b, golfed with <a href="//twitter.com/innovati">Tommy Hodgins</a> and <a href="//twitter.com/subzey">Subzey</a>.
+  <p><b>2022 update</b>: Chars U-0000-U+10FF count as 1/280, chars > U+10FF count as 2/280. Here's an updated demo that implements this rule.
 	<br>
-  <pre><code class="lang-html">&lt;input onkeyup=c.color=(c.innerHTML=140-value.length)&lt;0?"red":0>&lt;font id=c>140</code></pre>
+  <pre><code class="lang-html">&lt;input oninput="z=280;[...value].map(a=>c.innerHTML=z-=1+(a>'ჿ'))">&lt;a id=c>280</code></pre>
 	<br>
   <b>Demo:</b>
   <br>
-  <input id=twittercounterinput onkeyup=twittercounter.color=(twittercounter.innerHTML=140-value.length)<0?"red":0> <font id=twittercounter>140</font>
-  <script>twittercounterinput.value=""</script>
+  <input oninput="z=280;[...value].map(a=>ca.innerHTML=z-=1+(a>'ჿ'))"> <a id=ca>280</a>
   <br>
   <br>
-  <hr>
-  <br>
-  With this counter, astral Unicode glyphs (like "&#128169;") count as two characters. Here's a more precise version that counts each Unicode character as 1 char, in 104 bytes:
-  <br>
-  <pre><code class="lang-html">&lt;input onkeyup=c.color=(c.innerHTML=141-value.split(/[^\udc00-\udfff]/).length)&lt;0?"red":0>&lt;font id=c>140</code></pre>
-  <br>
-  <b>Demo:</b>
-  <br>
-  <input id=twittercounterunicodeinput onkeyup=twittercounterunicode.color=(twittercounterunicode.innerHTML=141-value.split(/[^\udc00-\udfff]/).length)<0?"red":0> <font id=twittercounterunicode>140</font>
-  <script>twittercounterunicodeinput.value=""</script>
 </div>
 
 </main>
