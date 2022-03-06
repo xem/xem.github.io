@@ -155,6 +155,7 @@ menus = {
     keyspressed: "Keys pressed",
     minisweeper: "Mini Sweeper",
     asciinotused: "ASCII chars not used",
+    atree: "Xmas tree golf",
     snail: "Snail",
     heylisten: "HeyListen: custom events",
     //lazy: "Lazy: JS shortcuts",
