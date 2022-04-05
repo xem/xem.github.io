@@ -111,15 +111,15 @@ menus = {
     miniproxy: "MiniProxy",
     minisplitscreen: "miniSplitScreen",
     miniconwayserpinski: "MiniConwaySerpinski",
-    minispeechrecognitionandsynthesis: "MiniSpeechRecognition/Synth",
+    minispeechrecognitionandsynthesis: "MiniSpeech",
     minicodeshaper: "MiniCodeShaper",
     miniwebrtc: "MiniWebRTC",
     minicam: "MiniCam",
-    "26gamesin1": "26 games in 1 (JS13k16)",
+    "26gamesin1": "26 games in 1 (JS13k16)", // todo
     scpm: "SCPM (JS13k16)",
     minipi: "MiniPi",
     minisnake: "MiniSnake",
-    minicosmiccall: "MiniCosmicCall",
+    minicosmiccall: "MiniCosmicCall", // todo
     miniasciiart: "MiniAsciiArt",
     minidoodle: "MiniDoodle",
     miniburningship: "MiniBurningShip",
@@ -166,7 +166,7 @@ menus = {
   
   projects: {
     intro: "Intro",
-    house: "Ma maison (thread Twitter)",
+    house: "My house (FR)",
     terseronline: "Terser-online",
     miniorchestra: "Mini Orchestra",
     inktober18: "inktober 2018",
@@ -248,7 +248,7 @@ header = function(){
     </div>
     <menu>
     <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
-    <a href="${section == "home" ? "" : "../"}articles"${section == "articles" ? ' class="active"' : ""} target=_self>Articles</a>
+    <a href="${section == "home" ? "" : "../"}articles"${section == "articles" ? ' class="active"' : ""} target=_self>Blog</a>
     <a href="${section == "home" ? "" : "../"}codegolf"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
     <br class="mobileonly">
     <a href="${section == "home" ? "" : "../"}projects"${section == "projects" ? ' class="active"' : ""} target=_self>Projects, games & experiments</a>
