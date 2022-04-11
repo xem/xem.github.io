@@ -111,8 +111,7 @@ menus = {
     miniproxy: "MiniProxy",
     minisplitscreen: "miniSplitScreen",
     miniconwayserpinski: "MiniConwaySerpinski",
-    minispeechrecognitionandsynthesis: "MiniSpeech",
-    minicodeshaper: "MiniCodeShaper",
+    minispeechrecognitionandsynthesis: "MiniSpeech", // todo: fix
     miniwebrtc: "MiniWebRTC",
     minicam: "MiniCam",
     "26gamesin1": "26 games in 1 (JS13k16)", // todo
@@ -189,6 +188,7 @@ menus = {
     css3dprototypes: "CSS3D prototypes",
     js13kgraphics: "JS13k graphics editor",
     js13kleveleditor: "JS13k level editor",
+    minicodeshaper: "MiniCodeShaper",
     cellularandom: "Random cellular automata",
     codegolfide: "Codegolf IDE",
     "3ddoodle": "3Ddoodle",
