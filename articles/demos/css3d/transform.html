@@ -22,7 +22,7 @@
 
 <div id=container>
   <div id=plane>
-    <div id=origin></div>
+    <div id=origind></div>
   </div>
 </div>
 
@@ -48,7 +48,7 @@
   height: 200px;
 }
 
-#origin {
+#origind {
   width: 5px;
   height: 5px;
   background: red;
@@ -62,8 +62,8 @@
 
 onload = oninput = function(){
   plane.style.transformOrigin = originX.value + "% " + originY.value + "%";
-  origin.style.left = originX.value + "%";
-  origin.style.top = originY.value + "%";
+  origind.style.left = originX.value + "%";
+  origind.style.top = originY.value + "%";
   plane.style.transform = "translateX(" + translateX.value + "px) translateY(" + translateY.value + "px) translateZ(" + translateZ.value + "px) rotateX(" + rotateX.value + "deg) rotateY(" + rotateY.value + "deg)  rotateZ(" + rotateZ.value + "deg)";
 }
 
