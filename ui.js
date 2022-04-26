@@ -10,6 +10,7 @@ menus = {
   
   articles: {
     intro: "Intro",
+    "money": "Le pouvoir d'achat (FR)",
     switchfatigue: "Switch hacking fatigue",
     js13k21: "JS13kgames 2021",
     nes: "Golfing a NES emulator (WIP)",
@@ -26,7 +27,7 @@ menus = {
     golfctober17: "Golfctober 2017",
     js13k17: "JS13kGames 2017",
     webgl_quest_2: "WebGL quest #2",
-    js1k17: "JS1k 2017",
+    js1k17: "JS1k 2017", // Todo: remove jsgolf.club
     gameoflife: "Golfing the Game of Life",
     webspeech: "Web Speech API golfing",
     css3dgames: "CSS3D game tutorial",
@@ -188,7 +189,7 @@ menus = {
     css3dprototypes: "CSS3D prototypes",
     js13kgraphics: "JS13k graphics editor",
     js13kleveleditor: "JS13k level editor",
-    minicodeshaper: "MiniCodeShaper",
+    minicodeshaper: "MiniCodeShaper", // todo
     cellularandom: "Random cellular automata",
     codegolfide: "Codegolf IDE",
     "3ddoodle": "3Ddoodle",
