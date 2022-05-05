@@ -10,8 +10,7 @@ menus = {
   
   articles: {
     intro: "Intro",
-    "money": "Le pouvoir d'achat (FR)",
-    switchfatigue: "Switch hacking fatigue",
+    gamedevjs2022: "GamedevJS 2022",
     js13k21: "JS13kgames 2021",
     nes: "Golfing a NES emulator (WIP)",
     "webgl-guide": "WebGL guide part 1",
@@ -33,8 +32,6 @@ menus = {
     css3dgames: "CSS3D game tutorial",
     jsgamesinputs: "JS keyboard inputs",
     js13k16 :"JS13kGames 2016",
-    eqcss: "EQCSS",
-    fatigue: "Shitty systems fatigue",
     webgl_quest: "WebGL quest",
     js1k16: "JS1k 2016",
     js13k15: "JS13kGames 2015",
@@ -48,6 +45,15 @@ menus = {
     contenteditable: "Contenteditable",
     //doctype: "Doctype (FR)",
     hexadecimalweirdness: "Hexadecimal weirdness",
+    techwatch: "tech watch" // todo
+  },
+  
+  articles2: {
+    intro2: "Intro",
+    "money": "Le pouvoir d'achat (FR)",
+    switchfatigue: "Switch hacking fatigue",
+    house: "Ma maison (FR)",
+    fatigue: "Shitty systems fatigue",
   },
   
   codegolf: {
@@ -166,7 +172,6 @@ menus = {
   
   projects: {
     intro: "Intro",
-    house: "My house (FR)",
     terseronline: "Terser-online",
     miniorchestra: "Mini Orchestra",
     inktober18: "inktober 2018",
@@ -218,7 +223,7 @@ menus = {
     lipdub: "Lipdub",
   },
   
-  techwatch: {
+  /*techwatch: {
     
     "intro": "intro",
     "techwatch2019": "2019",
@@ -231,7 +236,7 @@ menus = {
     "techwatch2012": "2012 (FR)", 
     "techwatch2011": "2011 (FR)", 
     
-  }
+  }*/
 }
 
 header = function(){
@@ -241,6 +246,9 @@ header = function(){
   if(section == "xem.github.io" && page == ""){
     section = "home";
   }
+  
+  if(Object.keys(menus.articles2).includes(page)) section = "articles2";
+  
   $("header").innerHTML = 
   `
     <div class=logo>
@@ -249,11 +257,12 @@ header = function(){
     </div>
     <menu>
     <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
-    <a href="${section == "home" ? "" : "../"}articles"${section == "articles" ? ' class="active"' : ""} target=_self>Blog</a>
+    <a href="${section == "home" ? "" : "../"}articles/intro.html"${section == "articles" ? ' class="active"' : ""} target=_self>Dev blog</a>
+    <a href="${section == "home" ? "" : "../"}articles/intro2.html"${section == "articles2" ? ' class="active"' : ""} target=_self>Life blog</a>
     <a href="${section == "home" ? "" : "../"}codegolf"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
+    <!--a href="${section == "home" ? "" : "../"}videos"${section == "videos" ? ' class="active"' : ""} target=_self>Videos</a-->
     <br class="mobileonly">
     <a href="${section == "home" ? "" : "../"}projects"${section == "projects" ? ' class="active"' : ""} target=_self>Projects, games & experiments</a>
-    <a href="${section == "home" ? "" : "../"}techwatch"${section == "techwatch" ? ' class="active"' : ""} target=_self>Tech watch</a>
     </menu>
   `;
 }
@@ -282,7 +291,7 @@ footer = function(comments = 1){
   if(section == "xem.github.io" && page == ""){
     section = "home";
   }
-  if(comments && section != "home" && page != "" && page != "intro"){    
+  if(comments && section != "home" && page != "" && page != "intro" && page != "intro2"){    
     s = document.createElement("SCRIPT");
     s.src = "https://utteranc.es/client.js";
     s.setAttribute("repo","xem/xem.github.io");
@@ -296,27 +305,39 @@ footer = function(comments = 1){
 }
 
 
-menu = function(container){
+menu = function(container, nointro){
   
   var section = "home";
   var page = "";
   var scroll = 0;
+  
+  // Router
+  
+  // Parse url
   location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
-  //console.log(section, page);
+  
+  // Old link
   if(section == "codegolf" && location.hash == "#jstweet_en"){
     location = "./obfuscatweet.html";
     return;
   }
+  
+  // Redirect to home
   if(section == "xem.github.io" && page == ""){
     section = "home";
   }
-  if(menus[section] && !page && (section == "articles" || section == "projects" || section == "codegolf")){
+  
+  // redirect to first page of the section
+  if(menus[section] && !page && (section == "articles" || section == "articles2" || section == "projects" || section == "codegolf")){
     for(var i in menus[section]){
       location = i + ".html";
       break;
     }
   }
   
+  // Menu's HTML
+  
+  if(Object.keys(menus.articles2).includes(page)) section = "articles2";
   if(menus[section]){
     
     var nb = 0;
@@ -328,9 +349,9 @@ menu = function(container){
     <ul>`;
     var counter = menus[section].length;
     for(i in menus[section]){
-      if(section != "articles" && section != "projects" && section != "codegolf")
+      if(section != "articles" && section != "articles2" && section != "projects" && section != "codegolf")
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}' target=_self>${menus[section][i]}</a>`;
-      else if(!(section=="articles" && page=="intro" && i == "intro")){
+      else if(nointro && !(i == "intro" || i=="intro2")){
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html' target=_self>${menus[section][i]}</a>`;
       }
       
