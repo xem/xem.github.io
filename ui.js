@@ -45,7 +45,6 @@ menus = {
     contenteditable: "Contenteditable",
     //doctype: "Doctype (FR)",
     hexadecimalweirdness: "Hexadecimal weirdness",
-    techwatch: "tech watch" // todo
   },
   
   articles2: {
@@ -221,22 +220,8 @@ menus = {
     easy: "Easy classic flash game",
     scan: "Polytech-o-scan",
     lipdub: "Lipdub",
+    techwatch: "Tech watch (2011-2019)",
   },
-  
-  /*techwatch: {
-    
-    "intro": "intro",
-    "techwatch2019": "2019",
-    "techwatch2018": "2018",
-    "techwatch2017": "2017", 
-    "techwatch2016": "2016", 
-    "techwatch2015": "2015", 
-    "techwatch2014": "2014", 
-    "techwatch2013": "2013", 
-    "techwatch2012": "2012 (FR)", 
-    "techwatch2011": "2011 (FR)", 
-    
-  }*/
 }
 
 header = function(){
@@ -259,10 +244,10 @@ header = function(){
     <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
     <a href="${section == "home" ? "" : "../"}articles/intro.html"${section == "articles" ? ' class="active"' : ""} target=_self>Dev blog</a>
     <a href="${section == "home" ? "" : "../"}articles/intro2.html"${section == "articles2" ? ' class="active"' : ""} target=_self>Life blog</a>
-    <a href="${section == "home" ? "" : "../"}codegolf"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
-    <!--a href="${section == "home" ? "" : "../"}videos"${section == "videos" ? ' class="active"' : ""} target=_self>Videos</a-->
+    <a href="${section == "home" ? "" : "../"}codegolf/intro.html"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
+    <!--a href="${section == "home" ? "" : "../"}videos/intro.html"${section == "videos" ? ' class="active"' : ""} target=_self>Videos</a-->
     <br class="mobileonly">
-    <a href="${section == "home" ? "" : "../"}projects"${section == "projects" ? ' class="active"' : ""} target=_self>Projects, games & experiments</a>
+    <a href="${section == "home" ? "" : "../"}projects/intro.html"${section == "projects" ? ' class="active"' : ""} target=_self>Projects, games & experiments</a>
     </menu>
   `;
 }
@@ -351,7 +336,7 @@ menu = function(container, nointro){
     for(i in menus[section]){
       if(section != "articles" && section != "articles2" && section != "projects" && section != "codegolf")
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}' target=_self>${menus[section][i]}</a>`;
-      else if(nointro && !(i == "intro" || i=="intro2")){
+      else if(!nointro || (nointro && !(i == "intro" || i=="intro2"))){
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html' target=_self>${menus[section][i]}</a>`;
       }
       
