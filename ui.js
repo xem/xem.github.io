@@ -10,8 +10,8 @@ menus = {
   
   articles: {
     intro: "Intro",
-    gamedevjs2022: "GamedevJS 2022",
-    js13k21: "JS13kgames 2021",
+    gamedevjs2022: "GamedevJS 2022", // todo: github blog, grant?
+    js13k21: "JS13kgames 2021", // todo: anya, grant
     nes: "Golfing a NES emulator (WIP)",
     "webgl-guide": "WebGL guide part 1",
     "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
@@ -19,10 +19,10 @@ menus = {
     obfuscatweet: "Obfusc-a-tweet reloaded",
     js13k19: "JS13kGames 2019",
     projection: "3D projection",
-    js1k19: "JS1K 2019",
+    js1k19: "JS1K 2019", // todo: fix links for synth, escape, inline code
     codegolfctober18: "Codegolfctober 2018",
-    js13k18: "JS13kGames 2018",
-    js1k18: "JS1k 2018",
+    js13k18: "JS13kGames 2018", // todo: fix geoquiz link play
+    js1k18: "JS1k 2018", // todo: fix nes disassembler links, ascii chars not used link
     golfctober17: "Golfctober 2017",
     js13k17: "JS13kGames 2017",
     webgl_quest_2: "WebGL quest #2",
@@ -55,8 +55,48 @@ menus = {
     fatigue: "Shitty systems fatigue",
   },
   
+  games: {
+    
+    "lossst-a-snake-in-space": "LOSSST a snake in space (JS13k21)",
+    shift2k20: "SHIFT 2K20 (2K+Jam 2020)",
+    tracknotfound: "Track not found?! (JS13k20)",
+    backontrack: "Back on Track (JS13k19)",
+    smb11k: "SMB1-1k (JS1k19)",
+    manonwire: "Man on Wire (JS13k18)",
+    envelope: "envelope (JS13k18)",
+    geoquiz2: "GEOQUIZ 2 (JS13k18)",
+    sn1ke: "SN1KE (JS1k18)",
+    "2048": "Mini2048",
+    minigameoflife: "MiniGameOfLife", // todo fix iframe 
+    minitetris: "MiniTetris",
+    lossst: "LOSSST (JS13k17)",
+    canihaz1karrot: "Can I haz 1Karrot? (JS1k17)",
+    color: "Color",
+    "26gamesin1": "26 games in 1 (JS13k16)", // todo
+    miniflappybraille: "MiniFlappyBraille",
+    scpm: "SCPM (JS13k16)",
+    minisnake: "MiniSnake",
+    geoquiz: "GeoQuiz (JS13k15)",
+    //quintessence: "Quintessence (JS13k14)", // TODO
+    alchemixer: "Alchemixer (JS13k14)",
+    minipoptiles: "MiniPopTiles",
+    minisimon: "MiniSimon",
+    "2Pgames": "2P games (JS1k14)",
+    floppydragon: "Floppy dragon (JS1k14)",
+    chip8: "Chip8 emulator",
+    minisweeper: "Mini Sweeper",
+    wiiufps: "WiiU FPS",
+    karoshids: "Karoshi DS",
+    easy: "Easy classic flash game",
+    scan: "Polytech-o-scan",
+    
+    // todo: PING
+    // todo: PACMAN
+  },
+  
   codegolf: {
     intro: "Intro",
+    // todo: FFT 1D
     css3dframework: "CSS3D framework",
     miniphotobooth: "Mini Photo Booth",
     minicamrecording: "Mini Cam Recording",
@@ -70,47 +110,38 @@ menus = {
     peach1kastle: "Peach1Kastle (JS1k19)",
     period1k: "PERIOD1K (JS1k16/17/19)",
     minisynth: "MiniSynth (JS1k19)",
-    smb11k: "SMB1-1k (JS1k19)",
     emojysics: "Emojysics (JS1k19)",
-    manonwire: "Man on Wire (JS13k19)",
-    envelope: "envelope (JS13k19)",
-    geoquiz2: "GEOQUIZ 2 (JS13k18)",
     mini2Dphysics: "mini2Dphysics",
     minifacedetection: "Mini Face Detection",
     minimusic: "Mini Music (JS1k18)",
     epiccycles: "Epic Cycles (JS1k18)",
     shaderandom: "ShadeRandom (JS1k18)",
     minifourier: "Mini Fourier (JS1k18)",
-    sn1ke: "SN1KE (JS1k18)",
     miniworld: "Mini World",
     minidwitter: "Mini Dwitter",
     miniminifier: "Mini Minifier",
     minicodeeditor: "Mini Code Editor",
     miniasciiserpinski: "miniAsciiSerpinski",
     miniplot: "miniPlot",
-    minigameoflife: "MiniGameOfLife",
     minipeterdejongattractor: "MiniPeterDeJongAttractor",
     minicliffordattractor: "MiniCliffordAttractor",
     attractorandom: "AttractoRandom",
-    tetristheme: "TetrisTheme",
+    tetristheme: "TetrisTheme", // todo fix links
     audioviz: "MiniAudioViz",
     atree: "Atree reloaded",
     sheet: "Sheet",
     miniburrowswheeler: "MiniBurrowsWheeler",
-    minitetris: "MiniTetris",
-    miniunicode: "MiniUnicode",
+    miniunicode: "MiniUnicode", // todo fix
     miniserpinskitriangle: "MiniSerpinskiTriangle",
     minipixelfont: "MiniPixelFont",
     minidragoncurve: "MiniDragonCurve",
     minikeycode: "MiniKeyCode",
     miniuri: "miniURI converter",
-    minibookmarklet: "Mini Bookmarklet",
-    outline: "Outline every element", // https://gist.github.com/addyosmani/fd3999ea7fce242756b1
+    minibookmarklet: "Mini Bookmarklet", // todo: add the examples
+    // outline: "Outline every element", // todo // https://gist.github.com/addyosmani/fd3999ea7fce242756b1
     miniarecibo: "Mini Arecibo",
-    lossst: "LOSSST (JS13k17)",
     minimandelbrot: "MiniMandelbrot",
     "1kindofmagic": "1Kind of magic (JS1k17)",
-    canihaz1karrot: "Can I haz 1Karrot? (JS1k17)",
     moon1px: "If the moon was 1px (JS1k17)",
     minishadertoy: "MiniShadertoy (JS1k17)",
     minishadertoylite: "MiniShadertoyLite",
@@ -120,10 +151,7 @@ menus = {
     minispeechrecognitionandsynthesis: "MiniSpeech", // todo: fix
     miniwebrtc: "MiniWebRTC",
     minicam: "MiniCam",
-    "26gamesin1": "26 games in 1 (JS13k16)", // todo
-    scpm: "SCPM (JS13k16)",
     minipi: "MiniPi",
-    minisnake: "MiniSnake",
     minicosmiccall: "MiniCosmicCall", // todo
     miniasciiart: "MiniAsciiArt",
     minidoodle: "MiniDoodle",
@@ -136,30 +164,22 @@ menus = {
     minibeautifier: "MiniBeautifier (JS1k16)",
     obfuscatweet: "Obfusc-a-tweet",
     twittercounter: "Twitter character counter",
-    geoquiz: "GeoQuiz (JS13k15)",
     hypercube: "hypeRcube (JS1k15)",
     minijsperf: "MiniJSPerf",
     minishadowart: "MiniShadowArt",
-    //quintessence: "Quintessence (JS13k14)", // TODO
-    alchemixer: "Alchemixer (JS13k14)",
     minicountdown: "MiniCountdown",
     innout: "In-n-out",
-    minipoptiles: "MiniPopTiles",
-    minisimon: "MiniSimon",
     golfer: "ASCII-art golfer",
     cssprite: "CSSprite",
     postit: "Post-it",
     prettycode: "Pretty code",
-    floppydragon: "Floppy dragon (JS1k14)",
     helloworld: "Hello World",
-    chip8: "Chip8 emulator",
     hex: "Hex editor",
     "32b": "32b",
     deletedlines: "Deleted lines",
     paste: "Paste",
     keyspressed: "Keys pressed",
-    minisweeper: "Mini Sweeper",
-    asciinotused: "ASCII chars not used",
+    asciinotused: "ASCII chars not used", // todo: new solution from golfctober
     atree: "Xmas tree golf",
     snail: "Snail",
     heylisten: "HeyListen: custom events",
@@ -204,7 +224,6 @@ menus = {
     cssslider: "CSSslider",
     windowall: "Window.all",
     escape: "EscApe Unicode converter",
-    wiiufps: "WiiU FPS",
     charsets: "Charsets experiments",
     strftime: "Strftime date formatter",
     braille_art: "Braille Art generator",
@@ -216,9 +235,6 @@ menus = {
     video: "HTML5 video experiments",
     gba: "GBA emulator",
     lol: "LOL",
-    karoshids: "Karoshi DS",
-    easy: "Easy classic flash game",
-    scan: "Polytech-o-scan",
     lipdub: "Lipdub",
     techwatch: "Tech watch (2011-2019)",
   },
@@ -244,10 +260,9 @@ header = function(){
     <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
     <a href="${section == "home" ? "" : "../"}articles/intro.html"${section == "articles" ? ' class="active"' : ""} target=_self>Dev blog</a>
     <a href="${section == "home" ? "" : "../"}articles/intro2.html"${section == "articles2" ? ' class="active"' : ""} target=_self>Life blog</a>
+    <a href="${section == "home" ? "" : "../"}games/intro.html"${section == "games" ? ' class="active"' : ""} target=_self>Games</a>
     <a href="${section == "home" ? "" : "../"}codegolf/intro.html"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
-    <!--a href="${section == "home" ? "" : "../"}videos/intro.html"${section == "videos" ? ' class="active"' : ""} target=_self>Videos</a-->
-    <br class="mobileonly">
-    <a href="${section == "home" ? "" : "../"}projects/intro.html"${section == "projects" ? ' class="active"' : ""} target=_self>Projects, games & experiments</a>
+    <a href="${section == "home" ? "" : "../"}projects/intro.html"${section == "projects" ? ' class="active"' : ""} target=_self>Other projects</a>
     </menu>
   `;
 }
@@ -313,7 +328,7 @@ menu = function(container, nointro){
   }
   
   // redirect to first page of the section
-  if(menus[section] && !page && (section == "articles" || section == "articles2" || section == "projects" || section == "codegolf")){
+  if(menus[section] && !page && (section == "articles" || section == "articles2" || section == "games" || section == "projects" || section == "codegolf")){
     for(var i in menus[section]){
       location = i + ".html";
       break;
