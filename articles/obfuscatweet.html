@@ -28,7 +28,7 @@
   <h3>Backlog</h3>
   
 	<ul>
-  <li>In 2014, <b>Subzey</b> and I introduced <a href="../golfing/#jstweet_en">Obfusc-a-tweet</a>, allowing to fit 190 chars of JavaScript in a single 140-chars tweet, by packing a pair of ASCII chars in 95 Unicode symbols and using the other 45 chars to unpack and execute them.
+  <li>In 2014, <b>Subzey</b> and I introduced <a href="../codegolf/#jstweet_en">Obfusc-a-tweet</a>, allowing to fit 190 chars of JavaScript in a single 140-chars tweet, by packing a pair of ASCII chars in 95 Unicode symbols and using the other 45 chars to unpack and execute them.
   <li>In 2015, the idea was to take advantage of Twitter's URL shortener: pack js code in up to 4 URLs and add just enough glue to make the chole tweet executable.
   <li>In 2020, we extended it to take advantage of the new limit of 8 URLs in a single tweet.
   </ul>
@@ -111,7 +111,7 @@ _%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~</code></pre>
   <p>With the previous version, a 14-chars string like "Hello World ^^" was URL-encoded as "Hello%20World%20%5E%5E" (which is 22 chars long). With this "shift", it's converted to "ňťŬŬůĠŗůŲŬŤĠŞŞ" (which is only 14 chars long).
   <p>Of course, this shifted code is not directly executable, it needs to be unshifted first. Here's the unshifter I wrote with the help of <b>Subzey</b>:
   <pre><code class="lang-js">eval(unescape(escape('...shifted code...').replace(/u../g,'')))</code></pre>
-  <p>If you're confused by this code, you can read an explanation <a href="http://xem.github.io/golfing/#jstweet_en">here</a>. (we used the same principle in the original obfusc-a-tweet app)
+  <p>If you're confused by this code, you can read an explanation <a href="http://xem.github.io/codegolf/#jstweet_en">here</a>. (we used the same principle in the original obfusc-a-tweet app)
   <p>We don't have room in the tweet itself to include this unshifter, because the tweet is already filled with the URLs and their unpacker and executer, so we need to place this code directly inside our URLs.
   <p>Here's an example of a complete tweet:
   <pre><code class="lang-js">eval(decodeURI(" http://a.fr/eval%28unescape%28escape%28'SSS http://a.fr/TTT http://a.fr/UUU http://a.fr/VVV http://a.fr/WWW http://a.fr/XXX http://a.fr/YYY http://a.fr/ZZZ'%29.replace(/u../g,'')%29%29".replace(/ .{1,12}/g,'')))</code></pre>

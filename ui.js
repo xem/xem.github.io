@@ -10,6 +10,7 @@ menus = {
   
   articles: {
     intro: "Intro",
+    js13k22: "JS13kgames 2022", // todo: anya, grant
     gamedevjs2022: "GamedevJS 2022", // todo: github blog, grant?
     js13k21: "JS13kgames 2021", // todo: anya, grant
     nes: "Golfing a NES emulator (WIP)",
@@ -57,23 +58,24 @@ menus = {
   
   games: {
     
-    "lossst-a-snake-in-space": "LOSSST a snake in space (JS13k21)",
-    shift2k20: "SHIFT 2K20 (2K+Jam 2020)",
-    tracknotfound: "Track not found?! (JS13k20)",
-    backontrack: "Back on Track (JS13k19)",
+    //"lossst-a-snake-in-space": "LOSSST a snake in space (JS13k21)",
+    //shift2k20: "SHIFT 2K20 (2K+Jam 2020)",
+    //tracknotfound: "Track not found?! (JS13k20)",
+    //backontrack: "Back on Track (JS13k19)",
     smb11k: "SMB1-1k (JS1k19)",
     manonwire: "Man on Wire (JS13k18)",
     envelope: "envelope (JS13k18)",
     geoquiz2: "GEOQUIZ 2 (JS13k18)",
     sn1ke: "SN1KE (JS1k18)",
-    "2048": "Mini2048",
+    //mini2048: "Mini2048",
     minigameoflife: "MiniGameOfLife", // todo fix iframe 
     minitetris: "MiniTetris",
+    losssthd: "LOSSST HD",
     lossst: "LOSSST (JS13k17)",
     canihaz1karrot: "Can I haz 1Karrot? (JS1k17)",
-    color: "Color",
+    //color: "Color",
     "26gamesin1": "26 games in 1 (JS13k16)", // todo
-    miniflappybraille: "MiniFlappyBraille",
+    //miniflappybraille: "MiniFlappyBraille",
     scpm: "SCPM (JS13k16)",
     minisnake: "MiniSnake",
     geoquiz: "GeoQuiz (JS13k15)",
@@ -81,14 +83,14 @@ menus = {
     alchemixer: "Alchemixer (JS13k14)",
     minipoptiles: "MiniPopTiles",
     minisimon: "MiniSimon",
-    "2Pgames": "2P games (JS1k14)",
+    //"2Pgames": "2P games (JS1k14)",
     floppydragon: "Floppy dragon (JS1k14)",
     chip8: "Chip8 emulator",
     minisweeper: "Mini Sweeper",
-    wiiufps: "WiiU FPS",
-    karoshids: "Karoshi DS",
-    easy: "Easy classic flash game",
-    scan: "Polytech-o-scan",
+    //wiiufps: "WiiU FPS",
+    //karoshids: "Karoshi DS",
+    //easy: "Easy classic flash game",
+    //scan: "Polytech-o-scan",
     
     // todo: PING
     // todo: PACMAN
@@ -254,13 +256,13 @@ header = function(){
   `
     <div class=logo>
     <h2>XEM</h2>
-    <h3>game design <span>&</span> front-end hacking</h3>
+    <h3>game designer <span>&nbsp;&nbsp;&amp;&nbsp;&nbsp;</span> JS hacker</h3>
     </div>
     <menu>
     <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
+    <a href="${section == "home" ? "" : "../"}games/intro.html"${section == "games" ? ' class="active"' : ""} target=_self>Games</a>
     <a href="${section == "home" ? "" : "../"}articles/intro.html"${section == "articles" ? ' class="active"' : ""} target=_self>Dev blog</a>
     <a href="${section == "home" ? "" : "../"}articles/intro2.html"${section == "articles2" ? ' class="active"' : ""} target=_self>Life blog</a>
-    <a href="${section == "home" ? "" : "../"}games/intro.html"${section == "games" ? ' class="active"' : ""} target=_self>Games</a>
     <a href="${section == "home" ? "" : "../"}codegolf/intro.html"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
     <a href="${section == "home" ? "" : "../"}projects/intro.html"${section == "projects" ? ' class="active"' : ""} target=_self>Other projects</a>
     </menu>
@@ -349,7 +351,7 @@ menu = function(container, nointro){
     <ul>`;
     var counter = menus[section].length;
     for(i in menus[section]){
-      if(section != "articles" && section != "articles2" && section != "projects" && section != "codegolf")
+      if(section != "articles" && section != "articles2" && section != "games" && section != "projects" && section != "codegolf")
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}' target=_self>${menus[section][i]}</a>`;
       else if(!nointro || (nointro && !(i == "intro" || i=="intro2"))){
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html' target=_self>${menus[section][i]}</a>`;
