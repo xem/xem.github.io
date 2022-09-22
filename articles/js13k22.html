@@ -103,11 +103,88 @@ ul { padding-left: 15px }
 
 <p>I showed it to some friends, they said it was fun, so I decided to get started on this game!
 
-<p>By the way: cheers to Salvatore Previtti (author of <a href="https://js13kgames.com/entries/dante">Dante</a>), Adrien Guéret (author of <a href="https://js13kgames.com/entries/terror-defense">Terror Defense</a>), and Julien Laville, who were there during all the development of my entry.<br>We brainstormed, joked and heped each other stay kind of motivated during all this month, and God knows it hasn't been easy!
+<p>By the way: cheers to Salvatore Previtti (author of <a href="https://js13kgames.com/entries/dante">Dante</a>), Adrien Guéret (author of <a href="https://js13kgames.com/entries/terror-defense">Terror Defense</a>), and Julien Laville, who were there during all the development of my entry.<br>We brainstormed, shared tips, beta-tested, joked and heped each other stay kind of motivated during all this month, and God knows it hasn't been easy!
 
 <p><img src="images/js13k22/3.jpg">
 
-<p><b>Day 3: ...
+<p>Speaking of which, there's a reference to Salvatore in my entry and a reference to me in his entry, as a souvenir of how we helped each other during this month...
+
+<details><summary>SPOILERS</summary>
+<p>He's the angel of salvaion in my game, and I'm one of the damned souls to collect in his game.
+<p><img src="images/js13k22/4.jpg">
+</details>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 2:<br>Still scribbling random stuff on paper but I don&#39;t know what to do 😢<br>Maybe death isn&#39;t fun after all 🤔 <a href="https://t.co/oI2RAjQ4L3">pic.twitter.com/oI2RAjQ4L3</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1558731643006947331?ref_src=twsrc%5Etfw">August 14, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p><b>Days 3 & 4: do the intro while brainstorming...</b>
+
+<p>As it wasn't yet super clear for me what my game would look like and contain, I started animating my intro sequence, without music. 
+<p>I know I wanted the graphics to be original compared to my last entries, so instead of pixel art or CSS3D, I drew everything in SVG (with my tool <a href="https://xem.github.io/miniSVGcreator/">MiniSVGCreator</a>) and CSS gradients, and animated it using CSS transitions and JS timeouts.
+
+<p><img src="images/js13k22/5.jpg">
+
+<p>It's only towards the end of this art exploration that I decided that my game would be monochrome, like LIMBO and INSIDE.
+
+<p>Here's all the art I've drawn in SVG: characters, sweat drop, evil eyes, thunder, fire, speech bubbles. (2kb minified / 0.7kb zipped)... (I ended up only using the characters.)
+
+<p><img src="images/js13k22/6.jpg">
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 4:<br><br>Mostly brainstorming, but also continuing my intro sequence... <a href="https://t.co/Kd7OAG6FRZ">pic.twitter.com/Kd7OAG6FRZ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1559629638527320065?ref_src=twsrc%5Etfw">August 16, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<p>Also, here are two dialogs that have been cut from the intro, after the devil says that,we're not dead but in a puzzle game. (they were cut because the intro was already long enough)
+
+<p><img src="images/js13k22/7.jpg">
+
+<p>At the end of day 4, I already felt bad for not having started the game yet... but at least the intro ocupied 1946 bytes of my zip.
+
+<br>
+<br>
+<br>
+<br><p><b>Days 5 & 6: Drawing the character</b><br>
+
+<p>I opened MiniSVGCreator again to draw my character various poses (stand, walk, jump and hold), and wrote some code to render it in any direction (left, right, and upside-down for when the gravity will be reversed)
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 6:<br><br>Today, I drew my character&#39;s limbs in various poses (arms: idle/holding stuff, legs: idle/walking/jumping), and wrote a function that displays him with any combination of arms + legs, with optional X-mirroring. (540b zipped)<br><br>The intro was 1.9kb zipped btw. <a href="https://t.co/GFfk5uN6J7">pic.twitter.com/GFfk5uN6J7</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1560324606489251842?ref_src=twsrc%5Etfw">August 18, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<br><p><b>Days 7 & 8: Platform engine</b><br>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 8:<br><br>Today I worked on the hero&#39;s hitbox (here in yellow) and the collisions with the environment (still a bit buggy).<br>This is just a dummy level, real levels are coming soon, I hope.<br><br>1579b zipped. <a href="https://t.co/s7lDOVRtpY">pic.twitter.com/s7lDOVRtpY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1561086497167536128?ref_src=twsrc%5Etfw">August 20, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<br><p><b>Days 9, 10, 11, 12: cubes physics</b><br>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 9 again:<br><br>Invisible work this evening... I&#39;m refactoring my code and preparing my data structures to account for the upcoming game mechanics. I finally found a convenient model after brainstorming with <a href="https://twitter.com/SN74HC00?ref_src=twsrc%5Etfw">@SN74HC00</a>, hope I can test it tomorrow... 👨‍🔬</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1561437975573135360?ref_src=twsrc%5Etfw">August 21, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 11:<br><br>Big cleanup of my platform engine today.<br>Yellow dots mark the center of each cube and the center + hit box of the character.<br>Cubes can be stacked, don&#39;t get stuck into walls or into each other, and the cube grabbing/release is smoother, yay!<br>2006 bytes zipped <a href="https://t.co/RttSKntQjf">pic.twitter.com/RttSKntQjf</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1562162783168466945?ref_src=twsrc%5Etfw">August 23, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 13:<br><br>Removed debug points, fixed little details, and created some extra SVG art, especially the cubes. The heart is an tributeto Portal (of course), and making a heart-shaped hole in the middle contributes to the &quot;all in black&quot; aesthetic of the game.<br><br>2013 bytes <a href="https://t.co/qXpma8zBUX">pic.twitter.com/qXpma8zBUX</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1562531516819062786?ref_src=twsrc%5Etfw">August 24, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+
+
+<br><p><b>Days 13, 14, 15, 16: inversed gravity</b><br>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 14:<br><br>Dang, already mid-compo and I feel like I haven&#39;t started yet. Worse, I feel like I don&#39;t know how to code anymore.<br>Spent hours working on cubes physics and just started trying to make the gravity inversion work but I&#39;m far from done...<br><br>(2522 bytes) <a href="https://t.co/AidZwNHZbM">pic.twitter.com/AidZwNHZbM</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1563250055783403522?ref_src=twsrc%5Etfw">August 26, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 15:<br><br>Reversed gravity is taking shape!<br>And you have absolutely no proof that I copy pasted all my normal gravity physics engine and inverted the signs to do a reversed gravity physics engine. (except my github repo). Thanks <a href="https://twitter.com/SN74HC00?ref_src=twsrc%5Etfw">@SN74HC00</a> for not losing hope. <a href="https://t.co/yUddzEPwxI">pic.twitter.com/yUddzEPwxI</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1563437391725346816?ref_src=twsrc%5Etfw">August 27, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> end of day 16:<br><br>Today I continued fine-tuning the cubes physics and the reversing-gravity pads.<br><br>In this crazy test (not representing the final game) you can see various interactions between character, gravity inverters, cubes, inverted cubes and stacking. <a href="https://t.co/kYvo9Llk3s">pic.twitter.com/kYvo9Llk3s</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1563919954256490498?ref_src=twsrc%5Etfw">August 28, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<br><p><b>Days 17, 18, 19, 20, 21, 22: inversed time </b><br>
+<br><p><b>Day 23: menus</b><br>
+<br><p><b>Day 24: level editor</b><br>
+<br><p><b>Days 25, 26, 27: levels</b><br>
+<br><p><b>Days 28 & 29: end cinemtic, reversed puzzles and music</b><br>
+<br><p><b>Days 30 & 31: mobile mode and final build</b><br>
+
+
+
+
+
 
 
 <br>
