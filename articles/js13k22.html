@@ -42,7 +42,7 @@ ul { padding-left: 15px }
 <p><b>Since js13kgames 2021, I've made a few games:</b>
 <br>
 <br>- IT'S TOO RAW!, my entry for GamedevJS 2022 (<a href="https://itch.io/jam/gamedevjs-2022/rate/1502403">PLAY</a> / <a href="https://github.com/xem/gamedevjs2022">Github</a>)
-<br>- MiniWordle, a Wordle clone in 214 bytes (<a href="https://xem.github.io/MiniWordle/">PLAY</a> / <a href="https://github.com/xem/MiniWordle">Github</a>)
+<br>- MiniWordle, a Wordle clone golfed with p01, subzey and l4m2 in 214 bytes (<a href="https://xem.github.io/MiniWordle/">PLAY</a> / <a href="https://github.com/xem/MiniWordle">Github</a>)
 <br>
 <p><b>... and tools:</b>
 <br>
@@ -50,6 +50,7 @@ ul { padding-left: 15px }
 <br>- Midi2Array, a more complete tool to extract notes from MIDI files (<a hef="https://xem.github.io/midi2array/">DEMO</a> / <a href="https://github.com/xem/midi2array">Github</a>)
 <br>- W, a WebGL2 micro-framework developed with @stas (<a hef="https://xem.github.io/W/">DEMO</a> / <a href="https://github.com/xem/W">Github</a>)
 <br>- Zipzop, a tool to compress a file with Zip and Zopfli, online (<a hef="https://xem.github.io/zipzop/">DEMO</a> / <a href="https://github.com/xem/zipzop">Github</a>)
+<br>- JS13k-pack, an online tool that does minifies, concatenates, roadrolls, zips and zopflies your source code (<a hef="https://xem.github.io/js13k-pack/">DEMO</a> / <a href="https://github.com/xem/js13k-pack">Github</a>)
 <br>- MiniCode, to easily find the event.code of Keyboard events (<a hef="https://xem.github.io/miniCode/">DEMO</a> / <a href="https://github.com/xem/miniCode">Github</a>)
 <br>- Unicode13, lists and tools for Unicode 13.0 glyphs and emoji (<a href="https://github.com/xem/unicode13">Github</a>)
 <br>- Mini GLSL minifier, a micro WebGL 1.0/2.0 shader minifier made with 10 regexes (<a hef="https://xem.github.io/miniGLSLminifier/">DEMO</a> / <a href="https://github.com/xem/miniGLSLminifier">Github</a>)
@@ -90,7 +91,7 @@ ul { padding-left: 15px }
 
 <p>I also hacked my <a href="https://xem.github.io/js1k19/miniSynth/">mini Piano/Guitar synth</a> to make it play notes backwards, as you can see <a href="https://codepen.io/xem/pen/LYdJKyL">on Codepen</a>.
 
-<p>Demo:
+<p>But since I'm a nice guy, here's a live demo:
 
 <p>
 
@@ -195,7 +196,7 @@ n = (e, i1, i2) => {
 <p>But nothing clicked.
 
 <p>I knew I didn't want to remake an existing game like Karoshi (where you have to die to go to the next level) or Life Goes On (where you need to use your past corpses to reach the exit of each level).
-<br>And it's been a good decision: 2 other entries used these mechanics and they are very well done.
+<br>And it's been a good decision: 2 other entries ended up using these mechanics and they are very well done.
 
 <br>
 
@@ -222,13 +223,13 @@ n = (e, i1, i2) => {
 <p><b>Days 3 & 4: do the intro while brainstorming...</b>
 
 <p>As it wasn't yet super clear for me what my game would look like and contain, I started animating my intro sequence, without music. 
-<p>I know I wanted the graphics to be original compared to my last entries, so instead of pixel art or CSS3D, I drew everything in SVG (with my tool <a href="https://xem.github.io/miniSVGcreator/">MiniSVGCreator</a>) and CSS gradients, and animated it using CSS transitions and JS timeouts.
+<p>I know I wanted the graphics to be original compared to my last entries, so instead of pixel art or CSS3D, I drew everything in SVG (with my tool <a href="https://xem.github.io/miniSVGcreator/">MiniSVGCreator</a>) and CSS gradients, and animated it using CSS transitions / animations and JS timeouts.
 
 <p><img src="images/js13k22/5.jpg">
 
 <p>It's only towards the end of this art exploration that I decided that my game would be monochrome, like LIMBO and INSIDE.
 
-<p>Here's all the art I've drawn in SVG: characters, sweat drop, evil eyes, thunder, fire, speech bubbles. (2kb minified / 0.7kb zipped)... (I ended up only using the characters.)
+<p>Here's all the art I've drawn in SVG: characters, sweat drop, evil eyes, thunder, fire, speech bubbles. (2kb minified / 0.7kb zipped)...<br>(I ended up only using the characters.)
 
 <p><img src="images/js13k22/6.jpg">
 
@@ -241,7 +242,7 @@ n = (e, i1, i2) => {
 
 <p><img src="images/js13k22/7.jpg">
 
-<p>At the end of day 4, I already felt bad for not having started the game yet... but at least I had some work done. And the intro ocupied 1946 bytes of my zip.
+<p>At the end of day 4, I already felt bad for not having started the game yet... but at least I had some work done.<br>And the intro already ocupied 1946 bytes of my zip.
 
 <br>
 <br>
@@ -256,27 +257,97 @@ n = (e, i1, i2) => {
 
 <br><p><b>Days 7 & 8: Platform engine</b><br>
 
-<p>It's time to start working on some interactivity now!
+<p>It's time to start working on some interactivity now! Even Salvatore says it.
+
+<p><img src="images/js13k22/start.jpg">
+
 <p>As in all my 2D platform games, I started implementing the gravity, then the ground collisions, then the jumps, then the collisions on all four sides of the character.
 <p>There is one thing that made the development of this platform engine much harder though: the character is taller than one block of the map. So even when he walks, its head and its feet are aligned with different "slices" of the map. During jumps, it can even touch 3 different blocks.
 <p>This design choice made me implement a 8-point hit box around the character...
 <br>(and had me spend countless hours debugging my code)
+
+<p>I also started working on the cube grabbing code but in a very dirty, non-generic way (all the cube could do was being held or fall on the ground, no other collisions were implemented yet).
+<br>The cubes at this moment were just semi-transarent black squares.
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 8:<br><br>Today I worked on the hero&#39;s hitbox (here in yellow) and the collisions with the environment (still a bit buggy).<br>This is just a dummy level, real levels are coming soon, I hope.<br><br>1579b zipped. <a href="https://t.co/s7lDOVRtpY">pic.twitter.com/s7lDOVRtpY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1561086497167536128?ref_src=twsrc%5Etfw">August 20, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
 <br><p><b>Days 9, 10, 11, 12: cubes physics</b><br>
 
+<p>The net four days were spent implementing the cubes physics "correctly"<br>(or, as correctly as possible. They're still a bit buggy in the final release):
+<br>- Hero's collisions that become different when he holds a cube
+<br>- Cubes collisions with the map when they are not held
+<br>- Cubes stacking
+
+<p>I also organized my code so that at each frame, all the player's variables and all the cubes' variables could be easily stored in memory, because I knew this would be mandatory for the time inversion mechanic.
+<p>NB: I did not spoil the time inversion idea in my tweets during the dev, and only referred to it as "the other mechanic" or "the secret thing".
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 9 again:<br><br>Invisible work this evening... I&#39;m refactoring my code and preparing my data structures to account for the upcoming game mechanics. I finally found a convenient model after brainstorming with <a href="https://twitter.com/SN74HC00?ref_src=twsrc%5Etfw">@SN74HC00</a>, hope I can test it tomorrow... 👨‍🔬</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1561437975573135360?ref_src=twsrc%5Etfw">August 21, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>I spent almost an entire day trying to figure out why sometimes my cubes stayed mid-air instead of falling after being grabbed and released.
+<br>Can you spot the mistake?
+
+<pre class="language-js"><code>// at each frame:
+for(i in cubes){
+  if(!held(i)){
+    cube_fall(i);
+  }
+}
+
+// when we press space:
+if(space_pressed){
+  for(i in cubes){
+    if(cube_is_near_enough(i){
+      mark_cube_as_grabbed(i)
+      hero.cube_held = i;
+    }
+  }
+}</code></pre>
+
+<details><summary>SPOILERS:</summary>
+<p>It was missing a "break" statement at the end. Without this break, many cubes close to the hero could be marked as held, while the hero could only hold one cube at the time.
+<p>Fix:
+
+<pre class="language-js"><code>// at each frame:
+for(i in cubes){
+  if(!held(i)){
+    cube_fall(i);
+  }
+}
+
+// when we press space:
+if(space_pressed){
+  for(i in cubes){
+    if(cube_is_near_enough(i){
+      mark_cube_as_grabbed(i)
+      hero.cube_held = i;
+      break;
+    }
+  }
+}</code></pre>
+</details>
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 11:<br><br>Big cleanup of my platform engine today.<br>Yellow dots mark the center of each cube and the center + hit box of the character.<br>Cubes can be stacked, don&#39;t get stuck into walls or into each other, and the cube grabbing/release is smoother, yay!<br>2006 bytes zipped <a href="https://t.co/RttSKntQjf">pic.twitter.com/RttSKntQjf</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1562162783168466945?ref_src=twsrc%5Etfw">August 23, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
+<p>After that long debugging phase, I designed the cubes in SVG, with a little Portal touch.
+<br>If anyone wonders how to draw a hole in a svg path: the answer is to dran it in the opposite direction.
+
+<p><img src="images/js13k22/8.jpg">
+
+<p>For example here, the cube's exterior is drawn clockwise, and the inner heart is drawn anti-clockwise.
+<br>On top of it, I drew a semi-transparent heart to make it look like a glassy interior.
+<br>The source code to draw an entire cube looks like this:
+
+<p><pre class="language-js"><code>ctx.fillStyle = "#000"; // black
+ctx.fill(new Path2D("M9 0.5L40 0.5A10 9 0 0 1 50 9L50 40A10 10 0 0 1 40 50L9 50A9 10 0 0 1 1 40L0 9A9 9 0 0 1 9 0M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20")); // cube
+ctx.fillStyle = "#7008"; // semi transparent black
+ctx.fill(new Path2D("M35 20A3 3 0 0 0 25 20A5 5 0 0 0 15 20Q15 25 25 35Q35 25 35 20")); // heart</code></pre>
+
+<p>The string passed to "Path2D()" is simply the SVG path generated by MiniSVGCreator.
+
+
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 13:<br><br>Removed debug points, fixed little details, and created some extra SVG art, especially the cubes. The heart is an tributeto Portal (of course), and making a heart-shaped hole in the middle contributes to the &quot;all in black&quot; aesthetic of the game.<br><br>2013 bytes <a href="https://t.co/qXpma8zBUX">pic.twitter.com/qXpma8zBUX</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1562531516819062786?ref_src=twsrc%5Etfw">August 24, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-Note: the last tweet says "Day 13" but it's a typo. It's actually "Day 12")
 <br><br>
-
-
 
 <br><p><b>Days 13, 14, 15, 16: inversed gravity</b><br>
 
