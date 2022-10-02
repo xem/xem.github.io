@@ -491,8 +491,7 @@ flip_v = () => v.style.transform = "rotateX(" + (vx = 180 - vx) + "deg)";
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 27:<br><br>Fixed some nasty bugs.<br><br>Also, 11 levels done! (3 are made by my friend <a href="https://twitter.com/AdrienGueret?ref_src=twsrc%5Etfw">@AdrienGueret</a>)<br><br>My index.html is now 1451 lines long, 46kb, 25kb minified, 5770b zipped.<br><br>Add ~3kb for the menu, intro and CSS.<br><br>~4kb left for music, mobile mode, bonuses &amp; final levels!</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1568169339022450688?ref_src=twsrc%5Etfw">September 9, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<p>At the end of day 27, I had 10 levels created by me and 3 bu my friend Adrien, thanks to him!
-<p>(Actually, I forgot that I had started counting them at 0, so there are actually 14 puzzles. One more for the same price, yay!)
+<p>At the end of day 27, I had 10 levels created by me and 3 by my friend Adrien, huge thanks to him! He brought fresh level ideas that I wouldn't have had alone.
 
 
 <br><p><b>Days 28 & 29: end cinemtic, reversed puzzles, music and dialogs</b><br>
@@ -503,12 +502,16 @@ flip_v = () => v.style.transform = "rotateX(" + (vx = 180 - vx) + "deg)";
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 29:<br><br>The game is playable from start to end. 🥳<br><br>2 x 14 levels (I wanted to do 2 x 13 but I forgot I started counting at 0, so you get one more for free!)<br><br>index.html: 1897 lines / 61kb / 34kb minified / 7967b zipped.<br><br>TODO:<br>- mobile mode<br>- in-game music</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1568956718515642370?ref_src=twsrc%5Etfw">September 11, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<p>The normal and the reversed levels are separated by a cinematic where the sky turns blue and the angel Salvatore saves us from going to hell and explains us how to reach the heaven's gate.
+<p>The normal and the reversed levels are separated by a cinematic where the sky turns blue and the angel Salvatore saves us from going to hell and explains us how to reach the heaven's gate. Spoilers:
+
+<p><video src="images/js13k22/15.mp4" width=500 controls>
+
+<p>These are technically the levels 13 (in red) and 14 (in blue).
 
 <p><b>The music</b>
 <br>
 
-<p>At the end of day 29, I picked two classical musics (O Fortuna for the intro and Dance of the knights for the rest of the game), converted them from MIDI into JS arrays and wrote my melody player:
+<p>At the end of day 29, I picked two classical musics ("O Fortuna" for the intro and "Dance of the knights" for the rest of the game), converted them from MIDI into JS arrays and wrote my melody player:
 <br>- In the intro and the first levels, the music auto plays normally (by the way, I adjusted my intro sequence to match the music better)
 <br>- When the gravity gets inverted (in the levels >= 3), the melody is played backwards
 <br>- When the time is reversed (in the levels >= 5), the notes themselves are played in reverse
@@ -517,37 +520,68 @@ flip_v = () => v.style.transform = "rotateX(" + (vx = 180 - vx) + "deg)";
 <p><b>The dialogs</b>
 <br>
 <p>I wondered for a long time how I would explain how the game works to the player. Moving, handling cubes, inversed gravity, reversed time, etc, need a bit of introduction.
-<p>So I tried to write some humorous dialogs for each tutorial level. I made the player exchange sarcastically with the Devil, while he learns how to play the game. To my luck, the testers found that very funny, so it stayed like that in the final release.
+<p>So I tried to write some humorous dialogs for each tutorial level: I made the player exchange sarcastically with the Devil, while he learns how to play the game. To my luck, the testers found that very funny, so it stayed like that in the final release.
 
-<p>A big thanks to <a href="https://twitter.com/mvasilkov/status/1561273717413511170">Mark Vasilkov on Twitter for inspiring me the Amazon warehouse joke in level 2!</a>
+<p>A big thanks to <a href="https://twitter.com/mvasilkov/status/1561273717413511170">Mark Vasilkov on Twitter</a> for inspiring me the Amazon warehouse joke in level 2!
 
-<p><img src="images/js13k22/12.jpg" width=600>
+<p><img src="images/js13k22/14.jpg" width=600>
 
 <br><p><b>Days 30 & 31: mobile mode and final build(s)</b><br>
 
+<p>I am now reassured that the game is pretty much done. The last two days are only for polishing and adding a mobile mode, in the form of a virtual keyboard:
+
+<p><img src="images/js13k22/16.jpg" width=600>
+
+<p>It actually took me a few hours to debug this, until I realised that the music player was leaking some variables in the global scope and made some of the buttons only work half of the time...
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Hmm... maybe the meta tag is correct after all.<br><br>Chrome dev tools shows the image above, but Firefox scales the page properly.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/YYODmyIKGO">pic.twitter.com/YYODmyIKGO</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1569215981578502144?ref_src=twsrc%5Etfw">September 12, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>Making the page responsive on mobile was also tricky, so here's the right head content:
+
+<pre class=language-html><code>&lt;!doctype html>
+&lt;meta name="viewport" content="width=1400,user-scalable=no,initial-scale:1">
+&lt;meta name=apple-mobile-web-app-capable content=yes>
+&lt;meta name=mobile-web-app-capable content=yes></code></pre>
+
+<p>The first meta tag in particular needs to be written like that, only the value "1400" can be edited to suit your content's width.
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">- HTML: 438 bytes minified (doctype / head only)<br>- CSS: 5503b =&gt; 4545b minified<br>- JS: 65943b =&gt; 40675b minified<br><br>Total: 45774 bytes<br><br>Here it is fitting in a single screen:<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/3X6tVKrOgY">pic.twitter.com/3X6tVKrOgY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1569377803165908993?ref_src=twsrc%5Etfw">September 12, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
+<p>The final step (which has been the hardest in the previous years, but not this time) was to bundle my game in a single file and zip it.
+<p>With all that I have put inside, my game is no bigger than 11.5kb, without even running RoadRoller or ECT.
 
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">And after zipping... oh. it&#39;s only 11.4kb 🤔<br><br>Too bad, no need to golf, mangle the vars names or use RoadRoller this year...<br><br>Let&#39;s submit 🥳<a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> <a href="https://t.co/fToP72K1FK">pic.twitter.com/fToP72K1FK</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1569378484987875334?ref_src=twsrc%5Etfw">September 12, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<br>
-<br>
-<br>
-<br>
-<br>
+<br><p><b>Days 32 & 33: post-jam fixes</b><br>
+
+<p>Unforunately, two bugs sneaked in the final build of my game, but Andrzej was kind enough to allow me to do two hotfixes:
+<br>1- levels created with the level editor didn't launch properly when we opened the shareable URL. (the URL hash was not read properly, fixed)
+<br>2- it was impossible to reset a level by pressing R (or the reload button on mobile). WTF?! It works perfectly on the unminified version of my code!
+
+<p>Turns out, my JS minifier (Terser) somehow decided to remove completey one line of code from my game: <b>if(R) restart();</b>
+<br>Here's a very simplified case where I only put that line into my draw() method and as you can see, it's minified into the value "0".
+<p><img src="images/js13k22/17.jpg" width=600>
+<p>That's a weird choice from Terser. Especially when we see that it works normally if we write "module: false" in the top-left options...
 
 
+<br><p><b>Day 51: the results</b><br>
+
+<p>COMING SOON.
 
 
+<br><p><b>All the feedbacks!</b><br>
 
+<p>COMING SOON.
 
+<br><p><b>Conclusion</b><br>
 
-<br>
-TO BE CONTINUED...
-<br>
-<br>
+<p>Thanks everyone!
+<br>I'm glad that I managed to release something.
+<br>I wish I were more available/motivated during that month to optimize my game better, and add more content to it.
+<br>I also think that I should stick to 3D entries in the future, as the 2D ones have much less "wow effect" for the players and the judges.
+<p>So... see you next year!
+<p>xem
+<p>
 <br>
 <br>
 
