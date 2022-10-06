@@ -35,8 +35,9 @@ ul { padding-left: 15px }
 
 <hbr><hr><br>
 <h3>The results</h3>
-<p>Coming soon...
-
+<br>- PUZZLATORY arrived 29th overall, 17th on mobile, 16th in Web Monetization, 7th in decentralized
+<br>- 10 Years of Game Golfing arrived 122nd overall
+<br>
 <br><hr><br>
 <h3>Before the jam</h3>
 <p><b>Since js13kgames 2021, I've made a few games:</b>
@@ -560,26 +561,241 @@ flip_v = () => v.style.transform = "rotateX(" + (vx = 180 - vx) + "deg)";
 
 <p>Turns out, my JS minifier (Terser) somehow decided to remove completey one line of code from my game: <b>if(R) restart();</b>
 <br>Here's a very simplified case where I only put that line into my draw() method and as you can see, it's minified into the value "0".
-<p><img src="images/js13k22/17.jpg" width=600>
-<p>That's a weird choice from Terser. Especially when we see that it works normally if we write "module: false" in the top-left options...
+<p><img src="images/js13k22/17.jpg">
+<p>The explanation was brought to me by <a href="https://github.com/xem/js13k22/issues/1">Schnarck</a>: Terser enables JS modules by default, and JS modules consider "window[...]" vars as falsy.
 
+<p>During these two days, I also polished the decentralized bonuses for my entry: e-shop (for NEAR) and speedrun mode + leaderboards (for Arcadia and OP Games)
 
-<br><p><b>Day 51: the results</b><br>
+<p>Speaking of speedruns, <a href="https://www.speedrun.com/puzzlatory">PUZZLATORY was added to speedrun.com</a> so anyone can run it in any+, any% NG+ (speedrun mode) or any% segmented (video editing allowed).
 
-<p>COMING SOON.
+<p>If you want to try the segmented run, here's a build of the game where you can easily choose your level with buttons at the bottom of the screen: <a href="https://xem.github.io/js13k22/anypercent.html">anypercent.html</a>.
 
+<p><img src="images/js13k22/sr.png">
+
+<br><p><b>My top entries</b>
+
+<p>A thread of my favourite entries is available <a href="https://twitter.com/MaximeEuziere/status/1569398422414790659">here</a>.
+
+<p>An unrolled version is available <a href="https://threadreaderapp.com/thread/1569398422414790659.html?fbclid=IwAR3GEciAEZliz9UePHnsqX-wt9hmOaSl4fuv-nz4KuBAzn6QBA5kY7h_E44">HERE</a>
+ 
+
+<br><p><b>Day 53: the results</b><br>
+
+<p>Here are two images from the awards ceremony:
+
+<br>Me being silly in the chat:
+
+<p><img src="images/js13k22/results.jpg">
+
+<p>And the family photo with everyone smiling for the camera:
+<p><img src="images/js13k22/results2.jpg">
+
+<p>The full ceremony is available on Youtube.
+
+<p>Congrats to Salvatore for the 1st place with his game <a href="https://js13kgames.com/entries/dante">Dante</a>! He totally deserves it.
+<br>And thanks to him for mentioning how he had fun talking with me while developing his game in his speech!
 
 <br><p><b>All the feedbacks!</b><br>
 
-<p>COMING SOON.
+<p>Here's a video test for both of my entries (individual tests are available at 0:02:25 and 0:45:39):
 
-<br><p><b>Conclusion</b><br>
+<p>
 
-<p>Thanks everyone!
+<iframe width="500" height="400" src="https://www.youtube.com/embed/QLQhykBxWro" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<p><u><b>Feedbacks for "10 Years of Game Golfing":</b></u>
+<p>- <b>roblouie</b>: It's a little hard to vote on considering it's a compilation. It purposely doesn't fit the theme, but it's really cool. I especially love how you show all the code next to the game, and the book presentation is really great. Seeing the code there for the chip8 emulator was really impressive. 
+
+
+
+<p>- <b>jagenjo</b>: It is hard to rate this collection of games, as it is more an achivement of golfing than a polished game. But my jaw dropped with some of the pages of this book. Amazing entry, and very inspiring work. I will come back to this code for ideas and tricks for a very long time. congratulations. 
+
+
+
+<p>- <b>SalvatorePreviti</b>: I love JS13k :) nice celebrative piece. 
+
+
+
+<p>- <b>lopis</b>: Fitting so many games in 13kb is seriously impressive. It doesn't really fit the theme "death" nor the spirit of the competition (no reused games) but it's still a very interesting submission. Still very technically impressive though! 
+
+
+
+<p>- <b>MartinTale</b>: Love the project :) Can't believe all this fits in 13kb &lt;3 
+
+
+
+<p>- <b>remvst</b>: This one is really impressive on the technical side, but of course the game side of it suffers. While I couldn't give it a great rating, I find it is a great achievement and hope to see more entries like this one! 
+
+
+
+<p>- <b>picosonic</b>: Great to see this celebration. I love a good minigame and despite some of them being really simple there are some gems in there too, and how's about a NES emulator included - very impressive. 
+
+
+
+<p>- <b>tyler6699</b>: Really nice idea and in the ethos of JS13k, cool to see and fun to try out the games. 
+
+
+
+<p>- <b>robertocapuano</b>: Great compilation of classic games, but for some games I don't understand the rules. I could suggest to adopt a graphics with blocks in style old 8-bit and some simple audio beeps. It doesn't fit well to this year theme. 
+
+
+
+<p>- <b>KilledByAPixel</b>: Some amazing work here, very impressed by the nes emulator, I loaded up a mario bros rom and it worked perfectly! 
+
+
+
+<p>- <b>Schnark</b>: Since you already proved that it is possible to pack 26 games into 13k the fact that you can also stuff 30 ones into it isn't as impressive as it should be. Anyway an amazing entry, though I can't award much stars for it. 
+
+
+
+<p>- <b>johnedvard</b>: Congratulations! I can't rate many stars, but I'm happy this entry is here. 
+
+
+
+<p>- <b>matthewdiamant</b>: Really impressive to cram 30 games into this entry. 
+
+
+<p>- <b>Christer Kaitila (expert)</b>: What an amazing compilation. It contains so much hard work! It is a testament to persistence and creativity, and is a great learning resource because people can learn from seeing the source code for each game, too. Very cool. 
+
+
+<p>- <b>Richard Davey (expert)</b>: This may have nothing to do with the js13k theme this year, but as a stand-alone entry of just what is humanly possible, it's nothing short of staggering. There are 30 games collected together inside of 13,331 bytes of JavaScript and you can see the source code right next to each one as you play them. As you'd expect, they vary in quality quite dramatically. Yet you'll still find a highly playable version of Minesweeper, Super Mario Bros. done in 1k, various versions of Tic-tac-Toe and snake, and a really nice platformer based on the VVVVV concept (press shift to turn the world upside down!) just for starters. Then, to top it off, there are two full emulators included as well - one for Chip8 and one for the NES. Yes, the Nintendo Entertainment System. I loaded up Excitebike, Galaga, Burger Time and Road Figher ROMs from my PC and played them perfectly! Sure, there's no sound. But come on, this is an NES, inside of a 30-game compilation package, inside of 13k of JavaScript. It's freaking mind blowing. So sure, it's wildly outside the theme of js13k this year, but that doesn't belie the technical achievement on display here. 
+
+
+
+<p>- <b>cuongdcdev</b>: really amazing, I never thought that people can make a fully functioning nes emulator AND 9 more other games/apps into less than 13k 
+
+
+
+<p>- <b>Matt Hackett (expert)</b>: Wow there's an unbelievable amount of games in here! Each so simple but mostly well executed. Hard to believe so much was packed into just 13k! Amazing job. 
+
+<p>
+<p>
+<p><u><b>Feedbacks for my entry PUZZLATORY:</b></u>
+
+<p>- <b>santiHerranz</b>:    Impressive reverse gravity and reverse time puzzle! really hard to me 
+
+
+
+<p>- <b>tyler6699</b>:    A great entry as always, very well made.
+
+    To have music, sounds, intro and some story is great.
+
+    Love the flipping of the screen and box physics, some really neat puzzle ideas, some challenging too.
+
+    Not tried out the bonus features but I have tested your level editor as you sent me a direct link and its very impressive.
+
+    Also a great name ;) 
+
+
+
+<p>- <b>johnedvard</b>:    Impressive and fun game mechanics. I always say a game with an intro screen is always promising, and I was right this time too. I like the timing with the music with the dialog. Fun story, and I like the messages in between levels. The difficulty curve is good, and I like the way new mechanics are presented.
+
+     The hitboxes on the gravity switches are maybe too large? I felt I touched then when I didn't. The gravity switch sound is screeching a little bit, but other than that the sound effects are good. The music is also mysterious and doesn't get in the way of gameplay. Maybe if it were a couple of bars longer it wouldn't feel to repetitive. That being said, it's impressive to get this much in a game under 13kb. Solid entry! 
+
+
+
+<p>- <b>Schnark</b>:    As always, an interesting puzzle game, though I don't really like this time reversal stuff.
+
+    A bit nitpicking</b>:
+    Sometimes the triggers seem a bit too sensitive, I several times accidentally activated a gravity inverter when I just stood near it to throw a cube there. On the other hand, some levels with two adjacent targets can actually be solved with just one cube.
+
+    Also, restarting a level doesn't work for me. Probably you forgot to call `.preventDefault()` for keyboard events, so my search kicks in and prevents it from working. 
+
+
+
+<p>- <b>michaelprimo</b>:    Tried the game! It was fun, especially the cutscenes. Surely you need a bit of time understanding the puzzles, like one I solved by stucking two boxes in midair and some weird jumps I have done for example in one of the beginning levels where you had three blocks and you needed to put one of them to the other side. Really good and challenging game! 
+
+
+
+<p>- <b>picosonic</b>:    Pretty impressive.
+
+    The whole time rewinding and having to work out what to make the white and black versions of yourself do and with the right timings got complicated. The level flip was a nice mechanic.
+
+    It was impressive the way you got the music to play backwards.
+
+    I tried the level editor via Coil and couldn't find a way out of it back to the main game, so had to restart. 
+
+
+
+<p>- <b>lopis</b>:    Impressive game, technically speaking. Very polished.
+    However, I was stuck early on, on the first level with all the reverse cubes. No idea what I'm supposed to do, but reading other comments, I must have missed some detail.
+    The controls are simple and very responsive, but the jumping physics is a bit frustrating. I think the jump is too short or too vertical, not sure.
+    The music is really well made, although the intro is a tad too loud.
+    The graphics are really nice, a throwback to old flash games.
+    The puzzles are super interesting, I wish I didn't get stuck so early on. 
+
+
+
+<p>- <b>matthewdiamant</b>:    Really thoughtout level design. Impressive to have all the dialogue and cutscene while putting in the monetization and decentralized stuff. Tons of awesome mechanics. Great job. 
+
+
+
+<p>- <b>thiagorb</b>:    This reverse black and white levels destroyed my brain, and I thought the way back would be easy.. boy I was wrong. Very challenging. Just nitpicking, the controls could be a bit easier, cause it was not so easy to time the jumping. 
+
+
+
+<p>- <b>herebefrogs</b>:    Only you can dream up some evil, mind-bending puzzles like this!
+    Bonus points for the cinematic intro (and in-game jokes/sass) 
+
+
+
+<p>- <b>roblouie</b>:    Very clever puzzle mechanics and nicely polished intro and dialog throughout. Gives the game a nice feeling, plus is fun, plus acts as a guide, which is really smart.
+
+    There were a couple things though that at least for me negatively affected my experience. The biggest is the upside down screen transition, it kind of hurt my eyes and gave me some motion sickness. As someone who plays vr and does a lot of sim racing, I don't get motion sickness too easily, but the quick full screen flip effect  was just really unpleasant for me.
+
+    Imo, the whole thing would be much smoother if you simply reversed gravity and inverted the player and the box sprites, but kept the entire screen in place. However, thinking about it I'm not sure if that would negatively affect the gameplay.
+
+    And to a lesser degree, I do think the jumping and movement are a little small/slow. It made some puzzles feel a bit frustrating and fiddly. I had solved it but it was too hard to move to the right place.
+
+    However, I still enjoyed the game, and the thought behind the puzzles is super impressive, especially the reverse time stuff. Very smart and very polished. Great work! 
+
+
+
+<p>- <b>Anurag Banerjee (expert)</b>:   The game was engaging, the intro was very cool and caught my attention for sure. The controls were good and self explanatory but the reverse puzzle was a bit too much for my taste. 
+    I had some issues in connecting to my wallet but was able to resolve it. The decentralized aspect was well covered and a few different aspects like Leaderboards, E-Shop were implemented. 
+    So, overall, it is a well though out and fun game. 
+
+
+
+<p>- <b>Taufik Sani (expert)</b>:    Creepy soundtrack, nice touch. Intro cutscenes are long, no way to skip them. 
+
+
+
+<p>- <b>SalvatorePreviti</b>:    You are crazy :D in a good way! followed the development of this on twitter and I am happy you finished it. The puzzles are really intense and challenging, out of ordinary, the "tenet" like time mess is quite mind bending. Love the texts and dialogs, made me crack some laugh! Is definitely very innovative! The music does get a bit annoying after a while 
+
+
+
+<p>- <b>Paul Gadi (expert)</b>:    Cool mechanics, the reverse time broke my brain! Nice narrative in the beginning and engaging text throughout the levels. Love the play on words in the title 
+
+
+
+<p>- <b>Nathan Lie (expert)</b>:    Nice puzzle game with some slightly janky platforming elements. The gravity reversers would trigger before it appeared as though I actually reached it. The sound balancing was a little off - the sound effects seemed much louder than the music. Otherwise it's pretty solid. 
+
+
+
+<p>- <b>Tim Sulmone  (expert)</b>:   Cool puzzle game with a lot of decentralized bonuses :D
+    Really enjoyed the intro and ever-changing physics mechanics. 
+
+
+
+<p>- <b>Ewa Mazur  (expert)</b>:    I really like the way you're showing what the bonus for Coil Subscribers is - it's well-visible, the bonus is also something that shows your effort and love to Supporters, but why is it also active when I'm a non-Subscriber? Is something not working correctly? 
+
+
+
+
+<br>
+<br>
+<br>
+<br><p><h3>Conclusion</h3><br>
+
+<p>Thanks everyone! Especially Andrzej, Salvatore, Adrien, Kang and Anders.
 <br>I'm glad that I managed to release something.
+<br>I'm amazed that many great entries have been made using my tools (expecially the ones for sound and music).
 <br>I wish I were more available/motivated during that month to optimize my game better, and add more content to it.
 <br>I also think that I should stick to 3D entries in the future, as the 2D ones have much less "wow effect" for the players and the judges.
 <p>So... see you next year!
+<p>Cheers,
 <p>xem
 <p>
 <br>
