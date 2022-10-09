@@ -25,7 +25,7 @@ menus = {
     js13k18: "JS13kGames 2018", // todo: fix geoquiz link play
     js1k18: "JS1k 2018", // todo: fix nes disassembler links, ascii chars not used link
     golfctober17: "Golfctober 2017",
-    js13k17: "JS13kGames 2017",
+    js13k17: "JS13kGames 2017", // todo: XNOR
     webgl_quest_2: "WebGL quest #2",
     js1k17: "JS1k 2017", // Todo: remove jsgolf.club
     gameoflife: "Golfing the Game of Life",
