@@ -7,7 +7,7 @@ h1, h2, h3 { margin: 0 }
 hr { border-color: #ccc; }
 pre { padding: 10px; border-radius: 3px; background: #def; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
 
-body { margin: auto; font: 14px/22px arial, helvetica, sans serif; max-width: 1200px; padding: 30px 20px 0; min-width: 490px; background: #333; }
+body { margin: auto; font: 14px/22px arial, helvetica, sans serif; max-width: 1200px; padding: 30px 20px 0; min-width: 490px; background: #444; }
 body.large { max-width: 1900px; }
 header { text-align: center; }
 header .logo { width: 490px; padding: 0 0; overflow: hidden; margin: 0 auto 20px; }

@@ -276,14 +276,6 @@ footer = function(comments = 1){
   $("footer").insertAdjacentHTML("beforeEnd", 
   ` 
     © ${new Date().getFullYear()} Maxime EUZIERE
-    <br>
-    <a href="//github.com/xem" target=_blank>Github</a> - 
-    <a href="//twitter.com/maximeeuziere" target=_blank>Twitter</a> - 
-    <a href="//www.dwitter.net/u/xem" target=_blank>Dwitter</a> - 
-    <a href="//maximeeuziere.itch.io/" target=_blank>Itch</a> - 
-    <a href="mailto:maxime.euziere(at)gmail.com">Mail</a> - 
-    <a href="/cv" target=_blank>CV</a>
-    <div class=backtotop onclick="document.body.scrollTop = document.documentElement.scrollTop = 0">⤊</div>
     <iframe src="https://visits.xem.workers.dev/" width=1 height=1 style="opacity:.1">
   `);
   
