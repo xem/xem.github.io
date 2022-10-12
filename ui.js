@@ -83,7 +83,7 @@ menus = {
     alchemixer: "Alchemixer (JS13k14)",
     minipoptiles: "MiniPopTiles",
     minisimon: "MiniSimon",
-    //"2Pgames": "2P games (JS1k14)",
+    "2pgames": "2P games (JS1k14)",
     floppydragon: "Floppy dragon (JS1k14)",
     chip8: "Chip8 emulator",
     minisweeper: "Mini Sweeper",
