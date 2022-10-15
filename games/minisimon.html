@@ -16,13 +16,32 @@
 
 <main>
 
-<div class=section id=minisimon>
-  <h2>MiniSimon</h2>
-	<h3>July 2014</h3>
-	<p>A simon game (with sound!) in less than 500b
-	<br><br>
-  <b>Website:</b> <a href=//xem.github.io/minisimon/ target=_blank>http://xem.github.io/minisimon</a>
+<div class=section>
+	<h2>Mini Simon</h2>
+	<h3>July 2014 - August 2022</h3>
+  
+  <h4>Introduction:</h4>
+  <p>A Simon game with sound in 486 bytes of HTML/JS.
+  <p>The game's graphics are made by a rounded HTML element with huge colored borders.
+  <p>Reproduce the melody with the arrow keys. After each good answer, the melody becomes one note longer.
+  <p>The sound is a bit loud, but there's also a <a href="http://xem.github.io/minisimon/lower.html">lower</a> version in 517 bytes.
+  <p>A <a href="http://xem.github.io/minisimon/tiny.html">tiny</a> version with no sound and simpler graphics also exists in 306 bytes.
+  <br>
+  <h4>Github:</h4>
+  <p><a href="https://github.com/xem/minisimon" target=_blank>https://github.com/xem/minisimon</a>
+  
+  <h4>Play:</h4>
+  <p><a href="http://xem.github.io/minisimon" target=_blank>http://xem.github.io/minisimon</a>
+  
+  <h4>Source code:</h4>
+  <p>
+  <pre><code class="lang-html">&lt;body onload="a=(k,q)=>{z=['00F','FF0','F00','080'];~k&&new Audio((b='data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU')+Array(z[(3+k)%4]=333).join(b.slice(60+k*2))).play(s(a,250,-1));p.style.borderColor='#'+z.join('#');if(q)k^f[j]?alert(':('):++j^g||h()};(h=z=>{for(i=g=f.push(new Date%4);j=i;s(a,500*i--,f[i]))s=setTimeout})(f=[])"onkeyup=a(event.keyCode-37,1)>&lt;center>&lt;p style="background:#000;width:9em;height:9em;border-radius:50%;border:9em solid"id=p></code></pre>
+  
+  <h4>Demo (with lower sound):</h4>
+  <p><iframe id=f width=270 height=270 style="width:270px;border:2px solid"></iframe>
+  <br><button onclick="f.src='http://xem.github.io/minisimon/lower.html'">START</button>
 </div>
+
 
 </main>
 
