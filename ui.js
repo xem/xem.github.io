@@ -10,6 +10,7 @@ menus = {
   
   articles: {
     intro: "Intro",
+    gamedevjs2023: "GamedevJS 2023",
     js13k22: "JS13kgames 2022", // todo: anya, grant
     gamedevjs2022: "GamedevJS 2022", // todo: github blog, grant?
     js13k21: "JS13kgames 2021", // todo: anya, grant
@@ -58,6 +59,7 @@ menus = {
   
   games: {
     
+    chronorobot: "Chrono Robot (Gamedev23)",
     //"lossst-a-snake-in-space": "LOSSST a snake in space (JS13k21)",
     //shift2k20: "SHIFT 2K20 (2K+Jam 2020)",
     //tracknotfound: "Track not found?! (JS13k20)",

@@ -1,0 +1,103 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=2022-10">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=codegolfctober18>
+<style>
+
+</style>
+
+<h2>Gamedev JS 2023: CHRONO ROBOT</h2>
+<h3>April-May 2023</h3>
+
+<br>
+<hr>
+<br>
+<h3>Links</h3>
+<br>
+<b>
+<a href="https://maximeeuziere.itch.io/chrono-robot">Play CHRONO ROBOT</a> on Itch.
+<p><a href="https://github.com/xem/gamedevjs2023/">Source code</a> on Github.
+</b>
+<br>
+<br>
+<hr>
+<br>
+<h3>Making-of</h3>
+<p><img src="https://img.itch.zone/aW1nLzExOTYyNzk0LnBuZw==/315x250%23c/o1%2BPr2.png">
+<p>
+Hi!
+<p>This year's edition of GamedevJS 2023 had a theme: TIME. (yay!)
+<p>As usual, the deadline was very short: 13 days.
+<p>It also had 6 challenges: Open Source (on Github), Flash revival (remake a Flash classic with a twist), Web3, use lore from Overlord and Arcadia platforms, and Interoperability (for games that compete in the last 3 challenges). I decided to do them all!
+<p>I already made many games that played with time, but one in particular caught my attention: Super Chrono Portal Maker (aka SCPM), my 2016 Js13kGames entry that combined elements from Mario Maker, Portal, and Chronotron... a Flash game that I liked a lot two decades ago.
+<p>SCPM is still played by some speedrunners un 2023... one of them, who became a friend, has beaten my dev times by a total of over 2 minutes!
+<p>So... what if I unearthed that game's engine, removed the Mario and Portal elements, updated the graphics, update the engine's source code to fit my needs more accurately, and make a standalone game with a list of completely new levels?
+<p>I asked end3r (the jam's organizer), and he said that yep, it was enough to consider my entry as a new game... so I got myself to work!
+<p><br><p><b>Days 1-2</b>
+<p>I took the first two days to work on a title screen, an intro cinematic explaining why and how the game uses the Arcadian and Overlord's lore, and finally the main menu, where all the levels and bonuses will be available. I also redesigned the SCPM tileset to resemble the one used in the flash game Chronotron, without copy-pasting! (I drew everything with paint.Net, and scaled it 200% to make the robot look better (32 px high instead of 16).
+<p><img src="https://user-images.githubusercontent.com/1225909/234069410-529e3b5d-c8b1-40cf-a120-233e526c9ccb.png">
+
+<p>Finally, I took the music that my 2016 teammate Anders Kaare from SCPM and reworked it to produce a brand new (but very short) looping theme, that can be heard in the intro and in-game.
+<p>Anders also made me incredible sound effects back in the day, which are also present in this entry, that's why I have put him in the game's credits.
+
+
+<p><br><p><b>Days 3-7</b>
+<p>Let's work on the in-game engine. First, I resized the canvas and adapted the code so that everything in the game measures 32 x 32px. Compared to SCPM, the maps will be nearly 4 times smaller (20 x 12 tiles on screen instead of 40 x 20), which is enough to reproduce accurately some of the best levels from Chronotron, while allowing to display better graphics.
+<p>Indeed, for the levels design, I decided to take a big inspiration from Chronotron's best levels (to match the Flash Revival challenge), and completed them with my own creations in the last days of the jam. Overall, 13 levels are more or less inspired by Chronotron, and 7 are completely invented.
+<p>Notable changes made in the engine compared to SCPM include:
+<br>- No more portals
+<br>- No more end flags (the time machine is now the start and end of every level, like in Chronotron)
+<br>- No more cube throwing
+<br>- Jump and walk speed tweaked a little
+<br>- ... and a change that took me an entire day to implement, because it was very tricky and brought plenty of weird bugs: if there are multiple robots on screen, we now have to wait that every robot reaches the exit safely before considering the level completed (if the time crystal is gathered) or spawn a new robot (if not).
+<p><br><p><b>Days 8-11</b>
+<p>I took these 3 days to readapt SCPM's level editor into this new game and used it to create the 20 levels present in the entry. The level editor itself is available as a bonus in the main menu once ll the mechanics have been discovered by the player.
+<p>For each level, I played and recorded my best times to propose a challenge to the players (try to beat the dev's times). A video of these times is available <a href="https://www.youtube.com/watch?v=A_T6wQzO_w0">on Youtube</a> (warning: spoilers).
+<p>My friend speedrunner, who helped a lot in the game's beta-testing, had already beaten all my times before the end of the jam. He is very fast.
+<p>By the way, a game mechanic not present in Chronotron is present here (as a "twist"), without spoilers it's the one introduced in the level 17. Two mechanics of Chronotron aren't present in my game by lack of time: bombs and catapults.
+<p><br><p><b>Days 12-13</b>
+<p>Speaking of fast times, I spent the last 2 days adding bonuses to the game, to obey to all the challenges of the game jam. My Web3 implementation in particular, includes a leaderboards (with the best overall times and the best times for each level) and an e-shop where I will propose extra content for the game after the release.
+<p>Entering in the Web3 leaderboards (and the shop) is reserved to the players that have completed the game fast enough, but I added a button allowing to see the leaderboards in readonly, too.
+<p>I worked on the Itch page (presentation is always important).
+<p>And as I had a few hours left, I decided to add even more Arcadian and Overlord lore in the game by proposing a character selection screen featuring Chronotron's robot, Overlord's robot-chicken, and Arcadia's cat-ninja-ghost (I guess? I don't know its name or species).
+<p><img src="https://user-images.githubusercontent.com/1225909/234671346-28c2675e-fd7a-44f1-9773-cbb1cddb3a9d.png" width=400>
+<p>It took a big mount of extra work in pixel art and code to add them, but at least now no one can tall that I half-assed the challenges integration. I did them all as thoroughly as possible.
+<p><br><p><b>Results</b>
+<p>TODO
+
+<br>
+<br>
+
+</div>
+
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js?v=2022-10"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
