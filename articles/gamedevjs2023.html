@@ -48,7 +48,7 @@ Hi!
 <p>SCPM is still played by some speedrunners in 2023... one of them, who became a friend, has beaten my dev times by a total of over 2 minutes!
 <p>So... what if I unearthed that game's engine, removed the Mario and Portal elements, updated the graphics, update the engine's source code to fit my needs more accurately, and make a standalone game with a nice list of new levels?
 <p>I asked end3r (the jam's organizer), and he said that yep, it was enough to consider my entry as a new game... so I got myself to work!
-<p><br><p><b>Days 1-2</b>
+<p><br><p><h3>Days 1-2</h3>
 <p>I took the first two days to work on a title screen, an intro cinematic explaining why and how the game uses the Arcadian and Overlord's lore, and finally the main menu, where all the levels and bonuses will be available.
 <p><img src="https://user-images.githubusercontent.com/1225909/236121423-a083c5f0-64da-4139-be93-66f573eeff48.png">
 <p>I also redesigned the SCPM tileset to resemble the one used in the flash game Chronotron, without copy-pasting! (I drew everything with paint.Net, and scaled it 200% to make the robot look better (32 px high instead of 16).
@@ -57,7 +57,7 @@ Hi!
 <p>Anders also made me incredible sound effects back in the day, which are also present in this entry, that's why I have put him in the game's credits.
 
 
-<p><br><p><b>Days 3-7</b>
+<p><br><p><h3>Days 3-7</h3>
 <p>Let's work on the in-game engine. First, I resized the canvas and adapted the code so that everything in the game measures 32 x 32px. Compared to SCPM, the maps will be nearly 4 times smaller (20 x 12 tiles on screen instead of 40 x 20), which is enough to reproduce accurately some of the best levels from Chronotron, while allowing to display better graphics.
 <p><img src="https://user-images.githubusercontent.com/1225909/234069410-529e3b5d-c8b1-40cf-a120-233e526c9ccb.png">
 <p>Indeed, for the levels design, I decided to take a big inspiration from Chronotron's best levels (to match the Flash Revival challenge), and completed them with my own creations in the last days of the jam. Overall, 13 levels are more or less inspired by Chronotron, and 7 are completely invented.
@@ -68,32 +68,74 @@ Hi!
 <br>- Simpler controls (use space to go back in time and to pick up/drop objects)
 <br>- Jump and walk speed tweaked a little
 <br>- ... and a change that took me an entire day to implement, because it was very tricky and brought plenty of weird bugs: if there are multiple robots on screen, we now have to wait that every robot reaches the exit safely before considering the level completed (if the time crystal is gathered) or spawn a new robot (if not). Thanks to Adrien for helping me debug my game while working on his entry <a href="https://adrien-gueret.itch.io/timenigma">TimEnigma</a>!
-<p><br><p><b>Days 8-11</b>
+<p><br><p><h3>Days 8-11</h3>
 <p>I took these 3 days to readapt SCPM's level editor into this new game and used it to create the 20 levels present in the entry. The level editor itself is available as a bonus in the main menu once all the mechanics have been discovered by the player.
 <p><img src="https://user-images.githubusercontent.com/1225909/236121043-08717e47-38a7-49b1-a179-25fe45993b49.png">
 <p>For each level, I played and recorded my best times to propose a challenge to the players (try to beat the dev's times). A video of these times is available <a href="https://www.youtube.com/watch?v=A_T6wQzO_w0">on Youtube</a> (warning: spoilers).
 <p>My friend speedrunner Jakub, who helped a lot in the game's beta-testing, had already beaten all my times before the end of the jam. He is very fast.
 <p>By the way, a game mechanic not present in Chronotron is present here (as a "twist"), without spoilers it's the one introduced in the level 17. Three mechanics of Chronotron aren't present in my game by lack of time: bombs, catapults and pause crystals.
-<p><br><p><b>Days 12-13</b>
+<p><br><p><h3>Days 12-13</h3>
 <p>Speaking of fast times, I spent the last 2 days adding bonuses to the game, to obey to all the challenges of the game jam. My Web3 implementation in particular, includes a leaderboards (with the best overall times and the best times for each level) and an e-shop where I will propose extra content for the game after the release.
 <p>Entering in the Web3 leaderboards (and the shop) is reserved to the players that have completed the game fast enough, but I added a button allowing to see the leaderboards in readonly, too.
 <p>I also worked on the Itch page (presentation is always important), and added a feature to delete the saved data in localStorage (to replay the game from scratch).
 <p>And as I had a few hours left, I decided to add even more Arcadian and Overlord lore in the game by proposing a character selection screen featuring Chronotron's robot, Overlord's robot-chicken, and Arcadia's cat-ninja-ghost (I guess? I don't know its name or species).
 <p><img src="https://user-images.githubusercontent.com/1225909/234671346-28c2675e-fd7a-44f1-9773-cbb1cddb3a9d.png" width=400>
 <p>It took a big mount of extra work in pixel art and code to add them, but at least now no one can tall that I half-assed the challenges integration! I did them all as thoroughly as possible... :p
-<p><br><p><b>Results</b>
+<p><br><p><h3>Results</h3>
 <p>According to <a href="https://gamedevjs.com/competitions/best-entries-from-all-the-challenges-in-gamedev-js-jam-2023/">the results page</a>, Chrono Robot was ranked:
 <br>- 41st in the Overall ranking
 <br>- 7th in Github's Open Source challenge ($50 shop gift card)
 <br>- 6th in CrazyGames' Flash Revival challenge (no prize)
-<br>- 6th in Game7's Web3 challenge (100 USDC)
+<br>- 2nd in Game7's Web3 challenge (1000 USDC)
 <br>- 2nd in OP Games' Arcadians Challenge (300 USDC + 1 Arcadian NFT)
 <br>- 2nd in Overlord's Arena Challenge (no prize)
 <br>- 1st in the interoperability challenge! (250 USDC + 1 Arcadian NFT)
 
 <p>Wow!
 
-<p><br><p><b>Conclusion</b>
+<p><br><p><h3>Feedbacks</h3>
+
+<p><b>TheRulerMeasure:</b> The game was confusing for me because of the first time played reason. This is well made game, even though I always lose to these puzzles, but I still find this game well done.
+
+<p><b>Tulenväki Productions:</b> Nice, creative, simple, yet challenging. synchronization is the key and that makes things a bit more harder :D Great jam entry &lt;3
+
+<p><b>Johnonym:</b> Really creative game mechanics. It requires a lot of patience and thinking to solve all puzzles (I’m happy that we could unlock 3 and 3 levels at the same time.) The characters you can chose from are cute, and some animation could help elevate the game (I know the time limit was short, so some corners had to be cut). Jumping and moving also feels right. It took some tries to understand that I had to get all clones into the time machine before spawning a new clone, or completing the level. In turn, I got an “aha”-moment once I understood it, and it became easier to sync all clones by looking at when they started to return to the time machine. I like these “aha”-moments. I’d love to play it in full screen, and maybe enable music by default (though I appreciate the switch to turn music ON/OFF.)
+
+<p><b>KorHosik:</b> Maybe the only game in this jam trying to handle ALL the challenges, it's quite impressive :) Time travel is really mastered here, with very challenging and smart puzzles (too smart for me :D). Graphics and audio could be a bit fine-tuned, but the game is very well made. Congrats !
+
+<p><b>Stiggstogg:</b> Cool game! Had fun solving some time puzzles. It took my quite a while to realize that I had to go back to the time machine to use it... Maybe I am the only one, but mentioning that in the instructions could maybe help. Congratulations to a nice game!
+
+<p><b>Michael Primo:</b> All hail to the Almighty Overlord! Well, I liked this game. It’s really well done and I hope this will help you win what you deserve (much :D ).
+
+<p><b>ovk:</b> Very fun and challenging game, really takes “time” theme to the extreme with creating past clones of yourself, paradoxes, and having to get timing perfect in order to finish level.I liked how you’ve managed to build many unique puzzles from the same basic elements (button, platforms, weight platforms etc.) without it becoming too repetitive. The cube mechanics is my favorite, very fun to mess with.
+
+<p><b>Agent Amian:</b> Not only I have to clone myself but I also need to take timing and position in to account. This is a really good concept of a puzzle game and the theme was applied greatly. Well done!
+
+<p><b>JeffryGames:</b> Great game, <s>lacking background music tho</s>. Just a tip, should be enabled by default.
+
+<p><b>Retro_Pigeon:</b> Nice game! I like the time-travel concept, great game! Wait, what!? All of challenges at once? Good job!
+
+<p><b>FidelDelgado:</b> Great concept. The rewind/timetravel effect reminds me of super meat boy. I wish there were some music and a bit more variation in the sfx. Otherwise, great job!
+
+<p><b>Abdallah Alwarawreh:</b> Cool concept, the art needs some work, but overall very fun style and concept
+
+<p><b>sandiph:</b> You never fail to amaze us bro 😍
+
+<p><b>abhishan:</b> Thank you for playing my game. I have published it now with all levels completed. I like your game too!
+
+<p><b>Ania Kubów (judge):</b> Having to time your movements in order to be able to wrk with them in the 'future' is always a fun spin in games. The dev leaderboard is also a nice touch.
+
+<p><b>Raf Mertens (judge):</b> Interesting and clever puzzles.
+
+<p><b>Brett Cleary (judge):</b> The web3 element seems to only be possible if the player beats the game with really good scores. This takes a very long time so I couldn't test this. It would be nice to see the web3 elements more prominent and for them to affect gameplay. Other than that, the game was extremely fun and the level design was S tier. Art is okay. Music is fun.
+
+<p><b>Paul Gadi (judge):</b> Fun braid-like mechanic, cute intro story and sounds. Solid pacing, almost a complete game. Nice bonus level editor and web 3 login.
+
+<p><b>Taufik Sani (judge):</b> Able to play as an animated Triska. There is a light storyline that involves Triska, as well as integrating a web3 leaderboard.
+
+<p><b>Allan Patel (judge):</b> Good work, I think the integration is satisfactory. The game is quite fun, would have love to see more characters integrated from Overlord.
+
+<p><br><p><h3>Conclusion</h3>
 
 <p>Thanks for reading this mini making-of and see you at the next js13kgames!
 <br>
