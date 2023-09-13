@@ -44,10 +44,13 @@ ul { padding-left: 15px }
 <p><b><i>This making-of includes my daily <s>tweets</s> X posts with extra explanations and spoilers.<br>Please try the game first!</i></b>
 <br><br>
 
-<p><b>Day 0 (August 13th)</b>
+<p><b>Intro</b>
+<p>In 2023, it's been the first year where I competed to JS13k while being unemployed. However, that didn't mean I had more spare time or energy to spend on my entry, as I'm quite busy on other projects, and my eyesight is becoming less and less good with time... So during the first 3 weeks of the jam, I only spent 1-2 hours per day working on my entry (a bit more if you count all the off-screen thinking and brainstorming), and in the last 4 days I put a bit more hours in (4-5 per day) in order to release on time and in the byte budget. Here's how it went...
+
+<br><br><p><b>Day 0 (August 13th)</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1691134696665632771?ref_src=twsrc%5Etfw"></a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>Tough theme indeed, none of the vague ideas I had before starting the jam could fit in or include something about the 13th century. 
+<p><b>13th century</b>, tough theme indeed! None of the vague ideas I had before starting the jam could fit in that theme or even include a litttle something about the 13th century. 
 <p>So I started from scratch, by looking on Wikipedia what was invented and discovered in that epoch, to make this list.
 <p>You can note that many items of this list have bacome elements of my final game (cannon, clock, paper, astronomy...). Some others were considered for some of my puzzles but didn't get implemented (mirror, soap...).
 
@@ -70,98 +73,73 @@ The two days were spent drawing a 16-room castle on paper and imagining all sort
 <p><img src="images/js13k23/3.jpg"><br><br>
 <p><img src="images/js13k23/4.jpg"><br><br>
 <p>All the elements and ideas of the final game are here, minus some adjustments (rooms inversions) and some ideas I had to abandon to release on time (using mirrors to reflect light, or seed plus bathroom water plus time to grow a plant, or a music room where you'd have to play some kind of Simon game to solve a puzzle). Fortunately, I think I made the good decisions, as the puzzles and events present in the final game are quite well balanced and sequenced.
+<p>By the way, in order to find some inspiration, I watched gameplays of old, cheap, flash games which are all more or less copy-pasted from each other, such as <a href="https://gamaverse.com/kings-castle-escape-game/">King Castle Escape</a>, <a href="https://gamaverse.com/gold-castle-escape-game/">Gold Castle Escape</a>, <a href="https://gamaverse.com/princess-castle-escape-game/">Princess Castle Escape</a> and <a href="https://gamaverse.com/medieval-castle-escape-game/">Medieval Castle Escape</a>.
+You'll find obvious similarities between these games and mine (shields, lock combinations, torches, broken drawbridge), but I tried to do something as original as possible, even though all castle escape games tend to resemble each other a little, with all these grey bricks, towers, gates, windows, knights, etc... Welp, it is what it is! As long as we have some fun...
 <br><br>
-<p><b>Day 5</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1692596358128025933?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 5-6</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1692903723410890810?ref_src=twsrc%5Etfw"></a></blockquote>
+<p>Let's start coding, finally! At this moment, my game scenario is far from complete, I still have no idea in which order the puzzles must be solved and the items must be used to beat the game, but it won't stop me from defrosting my CSS3D framework, trim all the methods I don't need (actually I just kept "plane" and "move", which take about 1.5kb minified and 0.8 zipped), and start implementing the first room of the game (the top of the left tower).
+<p>Here already, 5 different technologies are used to render the scene (I never used so many together before): CSS3D (to make the brick tower cylindric), emoji (door, lock, bed, hole, frame, man and crown in the frame), CSS (for the backgrounds, dynamic brick lighting proportional to their depth, radial-gradient for the sun, filters to make everything a bit sepia, etc), custom SVGs (for the window, bars, staircase and frame hanger), and Canvas 2D (to draw the sunbeam pasing through the window).
+<p>The result convinced me so I got prepared: I built all the room layouts I'll need for my game, out in CSS3D (tower top, tower bottom, first floor under a tower, first floor not under a tower, ground floor... plus walls on the sides for the square rooms on the left or on the right of the building). The hardest part was probably not the one you'd imagine... no, what took me the most code and pbainpower was to draw the half-bricks an quarter-bricks on each side of the rooms.
+<p>I showed a snippet of my "brick code" on Slack for fun, and someone had it analyzed by chatGPT, which surprisingly, guessed exactly what were my intentions when I used <b>Math.random()</b> in the  brick's coordinates. It was a fun moment:
+<p><img src="images/js13k23/6.png"><br><br>
+
+<p>Another thing harder than it seems is to make holes (windows) inside the tower's wall. After a lot of head-scratching, I finally decided to draw a SVG with a sky blue background <b>#def</b> and render it in front of the wall. Looks exactly like a hole to me, without having to do any complex clipping technique!
+<p>The 2D canvas id placed between the background (wall, window, door, bed, etc) and the foreground (clear bricks), and it really looks like the sunlight comes through the window, when in reality it's all fake.
+
+It's also much flatter than it appears:
+<p><img src="images/js13k23/7.jpg"><br><br>
+
+Finally, I counted the (CSS3D) divs in my scene and it's "only" 179... I've made many games with much more CSS3D complexity than that! But none with so many SVGs and Canvas 2D elements on top. Turns out, browser seem support it pretty well.
+
 <br><br>
-<p><b>Day 6</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1692903723410890810?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 7-8</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1693667920189030426?ref_src=twsrc%5Etfw"></a></blockquote>
 <br><br>
-<p><b>Day 7</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1693172814201712788?ref_src=twsrc%5Etfw"></a></blockquote>
-<br><br>
-<p><b>Day 8</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1693667920189030426?ref_src=twsrc%5Etfw"></a></blockquote>
-<br><br>
-<p><b>Day 9</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1693987300391506382?ref_src=twsrc%5Etfw"></a></blockquote>
-<br><br>
-<p><b>Day 10</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1694410018966077654?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 9-10</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1694410018966077654?ref_src=twsrc%5Etfw"></a></blockquote>
 <br><br>
 <p><b>Day 11</b>
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1694803942981423285?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
-<p><b>Day 12</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1694998727818113484?ref_src=twsrc%5Etfw"></a></blockquote>
-<br><br>
-<p><b>Day 13</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1695435647534747921?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 12-13</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1695435647534747921?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
-<p><b>Day 14</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1695883294565339194?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 14-15</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1696236475325575552?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
-<p><b>Day 15</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1696236475325575552?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 16-17</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1696964164801954188?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
-<p><b>Day 16</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1696634240178237448?ref_src=twsrc%5Etfw"></a></blockquote>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1697699205672776120?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
-<p><b>Day 17</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1696964164801954188?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 20-21</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1698335155532800471?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
-<p><b>Day 18</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1697334050493534483?ref_src=twsrc%5Etfw"></a></blockquote>
-
-<br><br>
-<p><b>Day 19</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1697699205672776120?ref_src=twsrc%5Etfw"></a></blockquote>
-
-<br><br>
-<p><b>Day 20</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1698005964262101250?ref_src=twsrc%5Etfw"></a></blockquote>
-
-<br><br>
-<p><b>Day 21</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1698335155532800471?ref_src=twsrc%5Etfw"></a></blockquote>
-
-<br><br>
-<p><b>Day 22</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1698791726880546980?ref_src=twsrc%5Etfw"></a></blockquote>
-
-<br><br>
-<p><b>Day 23</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1699107061395534270?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 22-23</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1699107061395534270?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
 <p><b>Day 24</b>
 <blockquote class="twitter-tweet" ><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1699521678907256990?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
-<p><b>Day 25</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1699856375600369813?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 25-26</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1700232496305061951?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
-<p><b>Day 26</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1700232496305061951?ref_src=twsrc%5Etfw"></a></blockquote>
-
-<br><br>
-<p><b>Day 27</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1700590510753128558?ref_src=twsrc%5Etfw"></a></blockquote>
-
-<br><br>
-<p><b>Day 28</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1700918187292832058?ref_src=twsrc%5Etfw"></a></blockquote>
+<p><b>Days 27-28</b>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1700918187292832058?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
 <p><b>Day 29</b>
-<blockquote class="twitter-tweet" ><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1701290254328627450?ref_src=twsrc%5Etfw"></a></blockquote>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1701290254328627450?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
 <p><b>Day 30</b>

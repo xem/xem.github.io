@@ -253,6 +253,8 @@ header = function(){
     section = "home";
   }
   
+  document.title = `Maxime Euzière / ${section} / ${page}`;
+  
   if(Object.keys(menus.articles2).includes(page)) section = "articles2";
   
   $("header").innerHTML = 
