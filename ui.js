@@ -10,10 +10,11 @@ menus = {
   
   articles: {
     intro: "Intro",
+    js13k23: "JS13kGames 2023",
     gamedevjs2023: "GamedevJS 2023",
-    js13k22: "JS13kgames 2022", // todo: anya, grant
+    js13k22: "JS13kGames 2022", // todo: anya, grant
     gamedevjs2022: "GamedevJS 2022", // todo: github blog, grant?
-    js13k21: "JS13kgames 2021", // todo: anya, grant
+    js13k21: "JS13kGames 2021", // todo: anya, grant
     nes: "Golfing a NES emulator (WIP)",
     "webgl-guide": "WebGL guide part 1",
     "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
