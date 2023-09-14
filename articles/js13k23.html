@@ -46,7 +46,7 @@ ul { padding-left: 15px }
 <br><br>
 
 <p><b>Intro</b>
-<p>In 2023, it's been the first year where I competed to JS13k while being unemployed. However, that didn't mean I had more spare time or energy to spend on my entry, as I'm quite busy on other projects, and my eyesight is becoming less and less good with time... So during the first 3 weeks of the jam, I only spent 1-2 hours per day working on my entry (a bit more if you count all the off-screen thinking and brainstorming), and in the last 4 days I put a bit more hours in (4-5 per day) in order to release on time and in the byte budget. Here's how it went...
+<p>In 2023, it's been the first year where I competed to JS13k while being unemployed. However, that didn't mean I had more spare time or energy to spend on my entry, as I'm quite busy on other projects, and my eyesight is becoming less and less good with time... So during the first 3 weeks of the jam, I only spent 1-2 hours per day working on my entry (a bit more if you count all the off-screen thinking and brainstorming), and in the last 4 days I put a bit more hours in (4-5 per day) in order to release on time and in the byte budget. In total it took about 75 hours. Here's how it went...
 
 <br><br><p><b>Day 0 (August 13th)</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1691134696665632771?ref_src=twsrc%5Etfw"></a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -109,9 +109,10 @@ My zip is still smaller than 2.5kb, good news so far! My goal is to have the who
 <p>...and the building emoji, that looks a lot like a fireplace when you put a grey rectangle on top and some little fire emoji in front of it:
 <p><img src="images/js13k23/10.jpg"><br><br>
 <p>On the other hand, I was quite bummed to find that there were no emoji as basic as: a cannon, an anvil, a table, a haystack or hayball, a knight, a witch, a chest, a witch, big castle doors, etc... so I spent a lot of time (and bytes) drawing them myself, in svg, with my <a href="https://xem.github.io/miniSVGcreator/">MinSVGcreator tool</a>.
-<br>By chance, SVGs are small, text-based and very repetitive, so they zip extremely well: my 28 svgs take 7.7kb minified and about 1.8kb zipped
-
 <p><img src="images/js13k23/9.jpg"><br><br>
+<p>By chance, SVGs are small, text-based and very repetitive, so they zip extremely well: my 28 svgs take 7.7kb minified and about 1.8kb zipped.
+<p><img src="images/js13k23/11.jpg"><br><br>
+
 <p><b>Day 11</b>
 <blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1694803942981423285?ref_src=twsrc%5Etfw"></a></blockquote>
 <p>No code today! (I was occupied renovating my house and inviting friends)
@@ -120,12 +121,25 @@ My zip is still smaller than 2.5kb, good news so far! My goal is to have the who
 <p><b>Days 12-13</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1695435647534747921?ref_src=twsrc%5Etfw"></a></blockquote>
 
+<p>I spent these two days completing and polishing all the rooms of my castle, and implemented the very first interactivity of the game: hover texts.
+<p>Every object present on screen (except bricks, ground, ceiling, sky, mountain and light beams) can be hovered with the mouse when you play on a PC. 
+<p>I had this idea since day 3, because I thought it would make my entry look more like a LucasArts point&click game, but also because I wanted to impress players by the verbosity of my game, even if it's only 13kb. 
+<p>The best part is that it cost me virtually 0 extra bytes, because since the beginning, I gave all my items a CSS className equal to their name in english. So all I had to do (in the source code of the CSS3DFramework) was something like this in the plane creation method: <b>scene.innerHTML+=`&lt;div id="${t.id}"class="${t.css}"onmouseover="writeCaption('${t.css}')">`</b>
+
+<p>Unfortunately, now that my items had hitboxes (for mouse hover, and later, clicks), I realized that their sizes were all wrong, especially the ones containing custom svgs. So I had to go through my 16 finished rooms and fix manually the width, height and thus, the position of absolutely everything, which caused a huge time loss...
+
+<p>The good news is that I'm still very low in size, my zip is even smaller than I had hoped (5.07kb)!
+
 <br><br>
 <p><b>Days 14-15</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1696236475325575552?ref_src=twsrc%5Etfw"></a></blockquote>
 
+<p>I put myself in front of the computer and didn't quit it until all the hitboxes and positions were fixed, that was extremely boring, but it worked.
+<p>Then I could finally start implementing clicks, and started with room transitions! Each open door and staircase has either a "up" button, a "down" button, or both (when in the middle of a tower), while the big square rooms also have left and right arrows, when applicable.
+<p>It's a real pleasure to finally be able to visit my castle entirely!
+
 <br><br>
-<p><b>Days 16-17</b>
+<p><b>Days 16-19</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1696964164801954188?ref_src=twsrc%5Etfw"></a></blockquote>
 
 <br><br>
