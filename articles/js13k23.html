@@ -98,7 +98,6 @@ My zip is still smaller than 2.5kb, good news so far! My goal is to have the who
 <br><br>
 <p><b>Days 7-10</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1693667920189030426?ref_src=twsrc%5Etfw"></a></blockquote>
-<br><br>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1694410018966077654?ref_src=twsrc%5Etfw"></a></blockquote>
 <br><br>
 <p>Those 4 days were exclusively spent filling and decorating my castle's rooms with emoji, custom svgs and sometimes just colored divs (boulders, chimney, books)...
@@ -114,7 +113,6 @@ My zip is still smaller than 2.5kb, good news so far! My goal is to have the who
 <p><img src="images/js13k23/11.jpg"><br><br>
 
 <p><b>Day 11</b>
-<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1694803942981423285?ref_src=twsrc%5Etfw"></a></blockquote>
 <p>No code today! (I was occupied renovating my house and inviting friends)
 
 <br><br>
@@ -142,16 +140,38 @@ My zip is still smaller than 2.5kb, good news so far! My goal is to have the who
 <p><b>Days 16-19</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1696964164801954188?ref_src=twsrc%5Etfw"></a></blockquote>
 
+<p>I'm officially late! It's the middle of the month and I have zero gameplay yet... and so many things to do!
+<p>But first thing first: I started with an inventory system, where we can store items gathered in the castle, then a system allowing to pick an item for an inventory and use it on an element in the room (ex: "use frame hanger on lock"). I also put in place all the architecture allowing special things to happen when objects are taken, dropped or used, and the hardest part: keep the state of each room in memory to be able to see it unchanged when you exit it and re-enter it later. In total, 41 global vars were used to store the game's state!
+<p>Unfortunately again, I should have directly put these in a single JS object, to make localStorage persistence trivial. The idea of making the game progression saveable and loadable only arrived at the very end of the development and I had to fix each of these variables and the 562 places where they are used in the source code...
+<p>To continue with mouse interactivity, I completed the first room of the game (it's playable from start to end, yay), and made the notes on the walls and books in the library readable!
+<p>After implementing all the other collectable items, I doubled the inventory space, to 12 slots. There are more than 12 collectibles in the game, but you can never have all of them at once, so it's fine. 
+
 <br><br>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1697699205672776120?ref_src=twsrc%5Etfw"></a></blockquote>
+
+<p>I'm progressibely making all my rooms playable, but also implement "puzzle rooms" (when the scene changes to show a puzzle to solve, such as the sword-in-rock mini-game or the lock combinations).
+<p>Even after writing some book of my library, I'm glad to see that the zip size is still not exploding (7.65kb).
 
 <br><br>
 <p><b>Days 20-21</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1698335155532800471?ref_src=twsrc%5Etfw"></a></blockquote>
 
+<p>Already day 20, time to make a TODO list and see how much work is left... and unfortunately it's a lot: 20 item interactions to implement, as well as 4 animations, 5 puzzles, 2 big svgs, all the music and sound effects, testing, golfing and think of some decentralized bonuses.
+
+<p>Days 20 and 21 added 1kb to the zip (puzzle rooms tend to use a lot of code).
+
 <br><br>
 <p><b>Days 22-23</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1699107061395534270?ref_src=twsrc%5Etfw"></a></blockquote>
+
+<p>During these two days, I added another kibibyte to my zip with just one feature, certainly the most complex of the game: the witch's time wheel. This one took a lot of time both for brainstorming, and for implementing it.
+<p>Fortunately, with CSS transitions, all the rotations and color changes didn't require a lot of effort. The hardest part was to set and update the right variables when the wheel turns, in order to determine the current day, hour, wheel angle, wheel angle modulo 360, and consequently, the phase of the moon, the haystack-burning setup, and of course, the presence of 0, 1 or 2 prisoners in the right tower if it's not full moon, the presence of the werewolf if it's full moon, and its absence when it's dead.
+<p>After letting people test my game, I realized that no one had the idea to get back in time to talk to the second prisoner before he dies, or to get back even further to see the cell empty, even though it's hinted by the dialogs... bummer! But I'm glad I still implemented all  these situations for completion's sake. Also, the second prisoner gives a hint for the end of the game, so it may not be totally useless.
+<p><img src="images/js13k23/12.png"><br><br>
+<p>There are also little details that are not visible but that I had to think through such as dynamically changing the moon phase emoji at the middle of the day in order to display the right graphics when the night comes (hence the bottom half of the time wheel that is always hidden), or making the sun or moon closer to the rotation point at midday and midnight to have it visible on screen all the time (in the witch room at least); and of course changing the windows backgrounds to dark blue when it's night time.
+<br>(I even did it in the window lock puzzle even though almost no one will ever see it)
+<p><img src="images/js13k23/13.png"><br><br>
+<p>The only hing I didn't bother to implement was causality (when you solve a puzle then go back in time, it stays solved). It's more convenient like that for the players and for me.
 
 <br><br>
 <p><b>Day 24</b>
