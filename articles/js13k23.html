@@ -184,13 +184,15 @@ My zip is still smaller than 2.5kb, good news so far! My goal is to have the who
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1700232496305061951?ref_src=twsrc%5Etfw"></a></blockquote>
 <p>On days 25 and 26 I did a big effort to implement 100% of the gameplay, room by room, which would leave me about 5 days for testing, polishing, sound, music and golfing (even though I still have a comfortable margin, with my 11.6kb zip).
 <p>It's been quite hard to draw the "outside view" from the castle's gates: there's the same issue as I have had earlier for the windows: I had to draw a SVG representing a hole on the wall, a floor, a closed drawbridge and mountains in the background, which wasn't trivial for my SVG skills.
+<p>I spent a lot of time implementing FOUR different animations for the cannon, corresponding to every possible scenario where it's fired (without wood, with wood but without unlocking the window in the second tower, with wood and open window but without the wolf, and finally, with the wolf). The hardest part in these animations was to give the impression that the cannonball was passing through the window, when in fact it was traversing an opaque window svg placed in front of the brick wall... fortunately, with some fine-tuning and enough speed, it looks fine.
 <p>I finished with the end cinematic, where the drawbridge finally opens, created from scratch with 5 CSS3D divs (one for the floor, one for the bridge, two for the bridge supports, and one for the mountains. Quite simple, but I think it's convincing!
 
 <br><br>
 <p><b>Days 27-28</b>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/MaximeEuziere/status/1700918187292832058?ref_src=twsrc%5Etfw"></a></blockquote>
-<p>As I wrote on Twitter (X), those two days were spent beta-testing my game with 3 friends and fixing absolutely everything that wasn't perfect (bugs, graphics, browser compatibility (ughh, Firefox didn't like scaled SVGs so I had to rewrite most of them 10x bigger and scale them *down* with a 0.1 ratio to avoid having them all blurry), saving and loading, hover cursors, etc), which resulted in a huge Github changeset containing in total 1030 edits (impacting almost half of my source code).
-<p>So it's been very busy, but the good thing is that the game is finally playable from start to end 
+<p>As I wrote on Twitter (X), those two days were spent beta-testing my game with 3 friends and fixing absolutely everything that wasn't perfect (bugs, graphics, browser compatibility (ughh, Firefox didn't like scaled up 99x99px SVGs so I had to rewrite most of them 10x bigger and scale them *down* to avoid having them all blurry), saving and loading, hover cursors, etc), which resulted in a huge Github changeset containing in total 1030 edits (impacting almost half of my source code).
+<p>So it's been very busy, but the good thing is that the game is finally playable from start to end !
+<p>A little (important) detail was also added at this moment: fade-in and fade-out transitions between rooms. This allowed to hide the fact that a room takes 0.25s to 0.5s to load entirely. Without the black transition, every click on an arrow button seemed to lag, which was pretty incomfortable. Now it's cool.
 <p>You know how I'm bad at composing music... By chance, on day 27, <b>Ryan Malm</b> (co-winner of js13k 2017 with me) proposed his help to compose a theme for anyone interested, and I jumped on the occasion.
 <p>He asked me what tool I wanted him to use, and we picked <a href="https://xem.github.io/miniOrchestra/">MiniOrchestra</a>, a tool I created a few years ago but which is far from perfect (it sometimes creates corrupted outputs and doesn't let users move notes or listen to a song in a loop easily).
 <p>Nonetheless, on the span of a couple days, he managed to compose a theme that (I think) matches perfectly the ambiance of my game. It's a 26-second loop that I can listen repeatedly without ever getting tired of, so congrats and thank you a thousand times, Ryan!
@@ -202,6 +204,8 @@ My zip is still smaller than 2.5kb, good news so far! My goal is to have the who
 <textarea rows=20 cols=60 id=code hidden></textarea>
 <canvas id=canvas width=600 hidden></canvas>
 <div id=d></div>
+
+
 
 <script>
 
