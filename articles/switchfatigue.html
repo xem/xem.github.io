@@ -18,25 +18,40 @@
 
 <div class=section id=fatigue>
   <h2>Switch hacking fatigue</h2>
-  <h3>November 2021</h3>
+  <h3>November 2021 - Febuary 2024</h3>
   <p><mark style="padding:5px">Disclaimer: I do not condone piracy. This page only talks about legal stuff you can do with your console.</mark>
   <p><mark style="padding:5px">Disclaimer 2: I am not responsible of any damage you may do to your console. Try this at your own risk.</mark>
-  <p>Sigh. I spent a whole evening hacking my switch, as usual, because of the terrible documentation and explanations online.
-  <br><a href="https://switch.homebrew.guide/">Very good guides</a> exist, but unfortunately, they only explain half of the stuff we need, and must be completed by doing dozens of Google searches and skimming many forum posts to gather the whole picture...
+  <p>Sigh. It's so complex to find accurate, complete and up-to-date information to hack a Switch.
+  <br>I did my own research and summarized it here:
+  <br><br><h3>Hardware:</h3>
+  <br>You need a <a href="https://ismyswitchpatched.com/">hackable Switch</a> kept on the lowest possible firmware, an empty microSD card >= 64GB formatted in exFAT (or FAT32 if you don't care about files bigger than 4GB... but I recommend ExFAT), and a way to boot in RCM mode (SX Pro or <a href="https://fr.aliexpress.com/wholesale?catId=0&initiative_id=SB_20211101235930&SearchText=switch+jig+rcm">jig + dongle</a>).
   
-  <p>But running homebrews, backing up/modding your cartridges, installing a custom firmware... were quite easy when Team Xecuter still existed. Unfortunately, they closed years ago, abandoning support for the most recent Switch firmwares.
-  <p>So I finally decided to jump to the open-source alternatives, and here's a summary if you ever want to do it too without tearing your hair off:
-  <ul>
-  <li><b>Hardware:</b> you need a <a href="https://ismyswitchpatched.com/">hackable Switch</a> kept on the lowest possible firmware, an empty microSD card >= 64GB formatted in exFAT (or FAT32 if you don't care about files bigger than 4GB... but I recommend ExFAT), and a SX Pro (or any <a href="https://fr.aliexpress.com/wholesale?catId=0&initiative_id=SB_20211101235930&SearchText=switch+jig+rcm">jig + dongle</a> you want. It's also doable with a paperclip + a PC and a USB cable but it's much less convenient).
-  <li><b>SD setup:</b> download the recommended setup <a href="https://www.sdsetup.com/console?switch">here</a>, put the contents of the "sd" folder + the content of the "payloads" folder at the root of your SD card. Download the latest firmwre supported by Atmosphere <a href="https://darthsternie.net/switch-firmwares/">here</a> (the supported firmwares are mentioned in Atmosphere's <a href="https://github.com/Atmosphere-NX/Atmosphere/releases">release notes</a>, for example 13.1 is supported in november 2021) and unzip it at the root of the SD card. Download <a href="https://tinfoil.io/Download">Tinfoil</a>'s NRO installer and put it at the root of the SD card. If you have an activated SX pro, copy your boot.dat + license files at the root of your SD card. If you want to back up and restore your own cartridges, you'll also need to download these Atmosphere's <a href="https://hackintendo.com/download/sigpatches-atmosphere-esfsloader/">patches</a> and copy the two patch folders at the root of your SD card. Do NOT put anything else on the SD card yet.
-  <li><b>EmuMMC:</b> this is a virtual internal memory where you can install a custom firmware, also known as emuNAND. insert the jig and the dongle in your Switch, boot it whille pressing the "volume +" button, and open Hekate. Go to Tools > Partition SD card > OK > 29GB emuMMC > Next step > Start. When it's done, go to Home > emuMMC > create emuMMC > SD partition > Part 1. When it's done, tap "close" and launch the emuMMC. (screenshots available on <a href="https://switch.homebrew.guide/emummc/emummc.html">this page</a>). Atmosphere will boot. You can access the homebrews by opening the photo gallery. You can check the emuMMC firmware version by opening System Settings > system > system update. (The "E" at the end of the version number stands for "Emulated")
-  <li><b>Plane mode</b>: I recommend disabling Wi-fi to avoid bans.
-  <li><b>Firmware update</b>: let's put our emuMMC to the latest version. Go to Photo gallery > Daybreak > choose the firmware folder > Continue > Preserve settings > Install (FAT + exFAT).
-  <li><b>All that you want</b>: put homebrews or anything you want on your SD card, then you can launch NRO files from the photo gallery or install NSP files via the Tinfoil app (which is also in your photo gallery). Tinfoil requires a password to enable unsigned code installation, the password is: "up up down down left right left right B A +" (but take care to not install anything malicious).
-  <li><b>Troubleshooting SX pro</b>: when using SX PRO to boot Atmosphere, it says an error has occurred, just press "Power" like the error screen says and it will boot normally.
-  <li><b>Troubleshooting corruptions</b>: Tinfoil may crash while installing a NSP. The worst that can happen is that it corrupts the NSP and/or itself on the SD card. In that case, replace the tinfoil and nsp files on the SD card with correct ones and try again.
-  <li><b>Troubleshooting black screen, freeze, etc</b>: hard-power-off the Switch by pressing the power button for ~15 seconds, and retry.
-</ul>
+  <br><br><h3>The very first time you hack your Switch:</h3>
+  <br>Go into <b>Plane Mode</b> to avoid bans, and copy / extract the following items at the root of an SD card:
+  <br>- <a href="https://github.com/CTCaer/hekate/releases">Hekate</a>
+  <br>- <a href="https://hackintendo.com/download/sigpatches/">Sigpatches</a>
+  <br>- <a href="https://github.com/switchbrew/nx-hbmenu/releases">Hbmenu</a>
+  <br>- <details style="display:inline;background:#ccc;width:calc(100% - 100px);vertical-align:top"><summary>Create an <b>EmuMMC</b> (emulated internal memory, a.k.a emuNAND. Click for details)</summary> Insert the jig and dongle in your Switch, boot it whille pressing the "volume +" button, and open Hekate. Go to Tools > Partition SD card > OK > 29GB emuMMC > Next step > Start. When it's done, go to Home > emuMMC > create emuMMC > SD partition > Part 1. When it's done, tap "close" and launch the emuMMC. (screenshots available on <a href="https://switch.homebrew.guide/emummc/emummc.html">this page</a>). Atmosphere will boot. 
+  </details>
+  <br>- You can now install homebrews on your SD card (and access them through the photo gallery app), and upgrade virtual firmware any time.
+  
+  
+  <br><br><h3>To upgrade your virtual firmware and homebrews:</h3>
+  <br>Delete existing /atmosphere and /bootoader folders from your SD card,<br>then download and put following items at the root of your SD card, in this order:
+  <br>- <a href="https://github.com/CTCaer/hekate/releases">Hekate</a>
+  <br>- <a href="https://github.com/Atmosphere-NX/Atmosphere/releases/">Atmosphere</a>
+  <br>- <a href="https://darthsternie.net/switch-firmwares/">Globa Firmware</a> (use the latest that is supported by Atmosphere, check the <a href="https://github.com/Atmosphere-NX/Atmosphere/releases">release notes</a> to be sure)
+  <br>- <a href="https://hackintendo.com/download/sigpatches/">Sigpatches</a>
+  <br>- <a href="https://github.com/switchbrew/nx-hbmenu/releases">Hbmenu</a>
+  <br>- <a href="https://tinfoil.io/Download">Tinfoil</a> (NRO or NSP version)
+  <br>- Any other homebrew or content you want to upgrade or install
+  <br>- Run the DayBreak homebrew to install the new firmware. (Choose the options "Preserve settings" and "Fat + ExFat").
+  
+  <br><br>
+  
+  PS: <a href="https://www.sdsetup.com/console?switch">sdsetup</a> is not maintained anymore, and doesn't support firmwares > 16.0. You can still use it to get interesting homebrews.
+  <br><br>PS2: Tinfoil requires a password to enable unsigned code installation, the password is: "up up down down left right left right B A +" (but take care to not install anything malicious).
+
 <p>Cheers,
 <p>Xem
 
