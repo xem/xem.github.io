@@ -10,6 +10,7 @@ menus = {
   
   articles: {
     intro: "Intro",
+    gamedevjs2024: "GamedevJS 2024",
     js13k23: "JS13kGames 2023",
     gamedevjs2023: "GamedevJS 2023",
     js13k22: "JS13kGames 2022", // todo: anya, grant
@@ -19,6 +20,7 @@ menus = {
     "webgl-guide": "WebGL guide part 1",
     "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
     js13k20: "JS13kGames 2020",
+    "2kplusjam2020": "2KPlus Jam 2020",
     obfuscatweet: "Obfusc-a-tweet reloaded",
     js13k19: "JS13kGames 2019",
     projection: "3D projection",
