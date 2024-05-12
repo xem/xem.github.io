@@ -27,7 +27,7 @@
 <br>
 <hr>
 <br>
-<h3>Links</h3>
+<h2>Links</h2>
 <br>
 <b>
 <a href="https://maximeeuziere.itch.io/the-power-of-two">Play The Power Of Two</a> on Itch.
@@ -38,12 +38,138 @@
 <br>
 <hr>
 <br>
-<h3>Making-of</h3>
-<p><img src="https://img.itch.zone/aW1nLzE1ODc4MzU5LnBuZw==/315x250%23c/Rc4yoQ.png">
-<p>Coming soon!
-<br>
-<br>
 
+<p><img src="images/gamedevjs2024/0.png"><br><br>
+
+<h2>Making-of</h2>
+<p><h3>Day 1: Brainstorming</h3>
+<p>The theme is POWER and the deadline is in 13 days only. I have to find an idea for a mini-game.
+<br>Here's the list I sent to my friends:
+<br><br><img src="images/gamedevjs2024/2.png"><br>
+<br>Power of love had the most success, but I couldn't find a fun idea...
+
+<p><h3>Day 2: PoC</h3>
+<p>I finally decided to go with the idea "The power of two".
+<br>It could be a little maths puzzle game where only the number two is allowed.
+<br>I thought it was a good play on words with the "powers of two", which reign in computer science.
+<br>I had a vague memory of a paper game that existed when I was a kid, where we had to complete a list of 4 identical numbers with math operators to reach different results.
+<br>I found an example on Google called TWOS CHALLENGE:
+<br><br><img src="images/gamedevjs2024/1.png"><br>
+<br>To ease the user experience, I decided to go with a calculator interface, and spent the second day PoC'ing it with HTML and CSS:
+<br><br><img src="images/gamedevjs2024/3.jpg"><br>
+<br>The calculator is also a good way to surprise the player with the ability to use concatenation (22, 222, 2222...).
+<br>I first imagined letting the player solve every number from 0 to 32 with four twos, but I tried it on paper and it was not only boring, but most of the time impossible.
+<br><br><img src="images/gamedevjs2024/5.jpg"><br>
+<br>Many "solutions" require bit shift, floor and ceil operators to work, which I didn't really want to include in my game.
+<br>Though, I have a little tenderness for the solution I found for 17: <b>ceil(sqrt(222))+2</b>
+<br>... and the one for 32: <b>sqrt(2**(2&lt;&lt;2)&lt;&lt;2)</b>.
+<br>Anyway, my game needs to be much simpler than that.
+
+<p><h3>Day 3: skeumorphism</h3>
+<p>I showed the original design to my friends and included their remarks: the total should be displayed on screen and the buttons should be bigger. I also decided to use Unicode characters for +, −, × and ÷.
+<p>More importantly, I made all the calculator functional (all the buttons work, and most of the bugs, weird edge cases invalid equations are handled by a simple "eval" placed inside a big "try / catch", if you know what I mean).
+<br><br><img src="images/gamedevjs2024/4.png"><br>
+
+<p><h3>Day 4: let's go for real</h3>
+<p>The PoC is ready (and a bit messy), so I refactored everything properly, made the first two (tutotial) levels, implemented level transitions, limited the number of twos allowed in each level, and started working on the intro cutscene.
+<br>The in-game screen now shows the available twos and the goal.
+<br>My source code is already 7kb...
+<br><br><img src="images/gamedevjs2024/6.png"><br>
+
+<p><h3>Days... 5 to 12</h3>
+<p>Unfortunately, I fell sick for a whole week, forcing me to drastically reduce the scope of my entry.
+<br>I didn't have the strength to work on my game except adding one or two levels per day (which is close to nothing, each level being stored as an array of two numbers in the game's code... but the important thing is that I could select the ones that I considered the most interesting to play).
+<br><br><img src="images/gamedevjs2024/8.png"><br>
+<br>As you can see, few levels remain, and we are far from the original list that goes from 0 to 32, but it's for the better!
+<br>On day 12, I added a new line of buttons on the calculator, for power and parenthesis. (I really wanted to have powers, because of the theme, and because I found interesting that power 1/2 corresponds to a square root).
+<br><br><img src="images/gamedevjs2024/7.png"><br>
+
+<p><h3>Day 13: polishing and... AI?</h3>
+<p>I spent the final hours I had before the deadline fixing the last bugs and finalizing my animations, transitions and hints...
+<p>For the game's ending, my friend Adrien and I had an idea: reference each other's entries in our own game. <br>His game is playable here: <a href="https://adrien-gueret.itch.io/powered-by-hi">Powered by HI</a>.
+<br>In his game, an AI creates a mini game where equations must be solved using the number three.
+<br><br><img style="border:2px solid" src="images/gamedevjs2024/9.png"><br>
+<br>It finally points to my entry after a few turns. Nice!
+<br>On my side, I added an AI button on level 17 that mimicks requesting Adrien's AI to get a hint (the hint about power 1/2).
+<br>After level 17, I made the AI decide to hack my game and add 1000 levels, where the player has 8 twos at their disposal to compute every number from 1 to 1000. 
+<br>Talk about artificial lifespan in video games! This one is literally artificial.
+<br>After the 10th digit, helper buttons appear to help input the values 1 to 10 in the equation.
+<br>For the music, I didn't have the time, so I used the sample music I had made for <a href="https://xem.github.io/alphabet-piano/">Alphabet-piano</a>, in loop.
+<p>I released the game on itch the 13th day, competing in the Github, NPC (thanks to the AI) and js13kgames categories.
+<br>Indeed, my zipped entry is only 5kb, without even having to golf it. It does load a font from Google Font for the game's title, but it doesn't take more than 2kb thanks to <a href="https://developers.google.com/fonts/docs/getting_started#optimizing_your_font_requests">font optimization with text parameter</a> (only loading a subset of the font, to cover the letters I need in my game, and nothing more).
+<p>I spent the following 2 seeks testing every entry of the jam, and rating most of them before the vote deadline.
+<br>I listed <a href="https://twitter.com/MaximeEuziere/status/1784599876568777190">my top 17 on X</a>.
+
+<br>
+<br>
+<p><h2>Comments received on my entry</h2>
+
+<p><b>hendrikras</b>: Very original but educational too. Did you come up with al those problems yourself? (yep) 
+<p><b>Stiggstogg</b>: On my sheet where I did my brainstorming there is also somewhere written "Math" as an interpretation for "POWER". I sounded really cool, but I struggeled a lot to come up with a fun game mechanic. Looks like you made it! I really liked this entry: Simple but captivating and after a while you get to know a lot of tricks on how to combine the twos to get to certain numbers. I have not much feedback to improve this entry. Maybe the music, as it is a bit short, but I know that this is hard within the limitations of 13kb.Congratulations to this cool entry!
+<p><b>CGpepper</b>: That is genius! Really fun game and a great use of the theme
+
+<p><b>xMD7x</b>:This was an interesting use of the theme. Very cool.
+
+<p><b>Cagey Games</b>: Really fun interpretation of the theme. Reminds me of being distracted in math class and pushing random button on the calculator for fun. Great concept for a puzzle. Good job!
+
+<p><b>Cinevva Game Engine</b>: It's a simple on one side and challenging on another side  math puzzle! Well implemented! You know it made it into another submission as a mini-game? (yep, it's Adrien's entry)
+
+<p><b>Paolo</b>: That's a great concept and very well implemented!
+
+<p><b>spookyrobloxman999</b>: good concept and i like the music!
+
+<p><b>MOHMOH</b>: Such a clever concept, and so much fun to play!
+
+
+<p><b>kebobo</b>: fun game its been a while since i used my brain gg
+
+<p><b>Raptorspank</b>: Really simple puzzle but I was quite impressed by how many challenges you were able to make using such a simple set-up. Nicely done!
+
+<p><b>Josep Valls</b>: Great game. I got impatient and the transitions take too long, but that is a sign I was hooked. Some button sounds would had been great as well.
+
+<p><b>Yhac10</b>: This, is the greatest game that this jam- no, any jam has ever graced the witness of. The story of a simple number trying to make it in life, while a negative is always pushing him down, braking the number to division. I cried when the number finally was saved out of the situation by a positive, causing the number number to multiply in happiness. And the gameplay, simply beautiful. I give this experience a 2/2, truly one of the great video games, among the likes of Super Multiplyrio, and Subtractemon: addition and division. --- But on a serious note, interesting concept for a game. I am a bit disappointed with the lack of music, but that's more on me for expecting some in a calculator game. (there *is* music, but that's a fun comment)
+
+
+<p><b>jkimmyboi</b>: Our group talked about this interpretation of the prompt but I'm glad to see someone actually turned it into an interesting puzzle game! Good job :)
+
+<p><b>ahmaddx900</b>: great concept, never thought I'll enjoy math this way, loved it, but the 36 got me ×-(
+
+<p><b>carelesslabs</b>: Clever idea, lots of fun!
+
+
+<p><b>unique chars</b>: Hi! I got to the point where I had to find the number 36. Original topic! Judging by the description, there was something else interesting, but 36 beat me :). The music sounded nice, it was fun and easy to play, I had fun and congratulations!
+
+<p><b>Imaad Phoplunker</b>: Great game! A simple yet fun puzzle game, with solid implementation. Nice work!
+
+<p><b>Brave Kings Studio</b>: How could you make all these levels? Ahahah! It's simple but the take on the theme is very clever and, if you like puzzles and math conundrums it's great! Great job!
+
+<p><b>tictacs</b>: Interesting puzzle game - would have loved being able to use the numpad!
+
+i find it fascinating because it is such a simple game, yet you just keep wanting to play more levels.
+
+<p><b>skycreator</b>: Got stuck on 137 before going to bed
+
+<p><b>summitgame</b>: Nice work. I completed the demo but there was some head scratching moments.  
+
+<p><b>trich3ma</b>: omg i really liked the game and music 
+the AI(?) is implemented so nicely, if it is a real AI. I hope you win this challenge bc the game turned out to be soooo nice and simple, but most importantly entertaining and rewarding. Really enjoyed the notes teehee :)
+
+<p><b>WipeFire</b>: I like this simple and nice game. You definitely better than me in math.
+
+
+
+
+
+
+<br><br>
+<p><h2>Results</h2>
+<p>My entry was ranked 36th overall and FIRST in the js13kgames category, out of 233 entries !
+
+<p>It was also ranked 3rd overall for its innovation and 9th for the theme.
+
+<p>No ranking for the Github and NPC challenges, unfortunately.
+
+<p>See you next time!
 </div>
 
 
