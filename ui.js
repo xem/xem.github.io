@@ -84,7 +84,7 @@ menus = {
     scpm: "SCPM (JS13k16)",
     minisnake: "MiniSnake",
     geoquiz: "GeoQuiz (JS13k15)",
-    //quintessence: "Quintessence (JS13k14)", // TODO
+    quintessence: "Quintessence (JS13k14)", // TODO
     alchemixer: "Alchemixer (JS13k14)",
     minipoptiles: "MiniPopTiles",
     minisimon: "MiniSimon",
