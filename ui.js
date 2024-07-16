@@ -66,7 +66,7 @@ menus = {
     //"lossst-a-snake-in-space": "LOSSST a snake in space (JS13k21)",
     //shift2k20: "SHIFT 2K20 (2K+Jam 2020)",
     //tracknotfound: "Track not found?! (JS13k20)",
-    //backontrack: "Back on Track (JS13k19)",
+    backontrack: "Back on Track (JS13k19)",
     smb11k: "SMB1-1k (JS1k19)",
     manonwire: "Man on Wire (JS13k18)",
     envelope: "envelope (JS13k18)",
