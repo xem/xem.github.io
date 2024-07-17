@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=2022-10">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=geoquiz2>
+  <h2>SHIFT 2K20</h2>
+	<h3>March 2020</h3>
+	<p>A 2kb demake of the famous Flash game Shift, made for 2KPlus Jam 2020.
+  <p><img src="https://xem.github.io/articles/images/2kplus20.png">
+  <p>- <a href="https://github.com/xem/2kplus20">Github</a>
+  <p>- <a href="https://itch.io/jam/2kplus-jam/rate/578133">Entry page</a>
+  <p>- <a href="https://xem.github.io/2kplus20/">PLAY</a>
+  <p>- <a href="//xem.github.io/articles/2kplusjam2020.html">Mini making-of</a>
+  
+</div>
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js?v=2022-10"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
