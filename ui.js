@@ -63,6 +63,7 @@ menus = {
   games: {
     
     chronorobot: "Chrono Robot (Gamedev23)",
+    "its-too-raw": "It's too raw! (Gamedev22)",
     "lossst-a-snake-in-space": "LOSSST (JS13k21)",
     tracknotfound: "Track not found?! (JS13k20)",
     shift2k20: "SHIFT 2K20 (2K+Jam 2020)",
