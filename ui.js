@@ -62,6 +62,7 @@ menus = {
   
   games: {
     
+    "castle-escape": "Castle Escape (JS13k23)",
     chronorobot: "Chrono Robot (Gamedev23)",
     "puzzlatory": "Puzzlatory (JS13k22)",
     "10-years-of-game-golfing": "10 years game golfing (JS13k22)",
