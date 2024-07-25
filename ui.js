@@ -62,6 +62,7 @@ menus = {
   
   games: {
     
+    "the-power-of-two": "The Power of Two (Gamedev24)",
     "castle-escape": "Castle Escape (JS13k23)",
     chronorobot: "Chrono Robot (Gamedev23)",
     "puzzlatory": "Puzzlatory (JS13k22)",
