@@ -268,6 +268,7 @@ header = function(){
   document.title = `Maxime Euzière / ${section} / ${page}`;
   
   if(Object.keys(menus.articles2).includes(page)) section = "articles2";
+  if(Object.keys(menus.tutorials).includes(page)) section = "tutorials";
   
   $("header").innerHTML = 
   `
@@ -278,9 +279,9 @@ header = function(){
     <menu>
     <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
     <a href="${section == "home" ? "" : "../"}games/intro.html"${section == "games" ? ' class="active"' : ""} target=_self>Games</a>
-    <a href="${section == "home" ? "" : "../"}tutorials/intro.html"${section == "tutorials" ? ' class="active"' : ""} target=_self>Tutorials</a>
-    <a href="${section == "home" ? "" : "../"}articles/intro.html"${section == "articles" ? ' class="active"' : ""} target=_self>Dev blog</a>
-    <a href="${section == "home" ? "" : "../"}articles/intro2.html"${section == "articles2" ? ' class="active"' : ""} target=_self>Life blog</a>
+    <a href="${section == "home" ? "" : "../"}articles/tutorials.html"${section == "tutorials" ? ' class="active"' : ""} target=_self>Tutorials</a>
+    <a href="${section == "home" ? "" : "../"}articles/devblog.html"${section == "articles" ? ' class="active"' : ""} target=_self>Dev blog</a>
+    <a href="${section == "home" ? "" : "../"}articles/lifeblog.html"${section == "articles2" ? ' class="active"' : ""} target=_self>Life blog</a>
     <a href="${section == "home" ? "" : "../"}codegolf/intro.html"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
     <a href="${section == "home" ? "" : "../"}projects/intro.html"${section == "projects" ? ' class="active"' : ""} target=_self>Other projects</a>
     </menu>
