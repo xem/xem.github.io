@@ -321,7 +321,6 @@ footer = function(comments = 1){
 
 
 menu = function(container, nointro){
-  
   var section = "home";
   var page = "";
   var scroll = 0;
@@ -329,7 +328,7 @@ menu = function(container, nointro){
   // Router
   
   // Parse url
-  location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
+  location.pathname.replace(/([^\/]*?)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(a) section = a; if(b) page = b; });
   
   // Old link
   if(section == "codegolf" && location.hash == "#jstweet_en"){
@@ -352,8 +351,10 @@ menu = function(container, nointro){
   
   // Menu's HTML
   
-  if(Object.keys(menus.articles2).includes(page)) section = "articles2";
-  if(Object.keys(menus.tutorials).includes(page)) section = "tutorials";
+  if(Object.keys(menus.articles2).includes(page) || page == "lifeblog") section = "articles2";
+  if(Object.keys(menus.tutorials).includes(page) || page == "tutorials") section = "tutorials";
+  console.log(section, page);
+  
   if(menus[section]){
     
     var nb = 0;
