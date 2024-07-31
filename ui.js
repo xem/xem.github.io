@@ -57,11 +57,11 @@ menus = {
   
   games: {
     
-    "the-power-of-two": "The Power of Two (Gamedev24)",
+    "the-power-of-two": "The Power of 2 (Gamedev24)",
     "castle-escape": "Castle Escape (JS13k23)",
     chronorobot: "Chrono Robot (Gamedev23)",
     "puzzlatory": "Puzzlatory (JS13k22)",
-    "10-years-of-game-golfing": "10 years game golfing (JS13k22)",
+    "10-years-of-game-golfing": "10 y. game golfing (JS13k22)",
     "its-too-raw": "It's too raw! (Gamedev22)",
     "lossst-a-snake-in-space": "LOSSST (JS13k21)",
     tracknotfound: "Track not found?! (JS13k20)",
