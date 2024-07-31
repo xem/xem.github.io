@@ -15,7 +15,7 @@ header span { font-size: 10px; display: inline-block; transform: scale(1.5,1); c
 header menu { padding: 0; margin: 0 0 25px 0; }
 header h2 { font-size: 90px; line-height: 70px; margin: 20px 0 0; transform: perspective(130px)rotateX(-60deg); transform-origin: bottom center; color: #fff; }
 header h3 { font-size: 13px; line-height: 20px; margin: 0 0 10px; transform: scale(1,1.5); color: #fff; background: -webkit-linear-gradient(#ddd, #fff); -webkit-background-clip: text; }
-header a { background: #d1d2d3; min-width: 147px; height: 30px; line-height: 30px; border-radius: 3px; display: inline-block; margin: 0 0 5px 0; padding: 0 10px; font-weight: bold; }
+header a { background: #d1d2d3; min-width: 100px; height: 30px; line-height: 30px; border-radius: 3px; display: inline-block; margin: 0 3px 5px 0; padding: 0 10px; font-weight: bold; }
 header a.home { min-width: 40px }
 header a:hover, header a.active { background: #38c; color: #fff }
 .wrapper { min-height: calc(100vh - 85px) }
@@ -60,7 +60,6 @@ max-width: calc(100% - 10px); }
   main { padding-left: 0 }
   .mobileonly { display: block }
   #hidemenu { display: none; position: fixed; top: 0; left: 0;  width: 100%; height: 100%; background: rgba(0,0,0,.5); cursor: pointer; }
-  header a { min-width: 100px; margin: 0 3px 10px 0; }
 }
 
 

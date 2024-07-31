@@ -17,13 +17,10 @@ menus = {
     gamedevjs2022: "GamedevJS 2022", // todo: github blog, grant?
     js13k21: "JS13kGames 2021", // todo: anya, grant
     nes: "Golfing a NES emulator (WIP)",
-    "webgl-guide": "WebGL guide part 1",
-    "webgl-guide-part-2": "WebGL guide part 2 (WIP)",
     js13k20: "JS13kGames 2020",
     "2kplusjam2020": "2KPlus Jam 2020",
     obfuscatweet: "Obfusc-a-tweet reloaded",
     js13k19: "JS13kGames 2019",
-    projection: "3D projection",
     js1k19: "JS1K 2019", // todo: fix links for synth, escape, inline code
     codegolfctober18: "Codegolfctober 2018",
     js13k18: "JS13kGames 2018", // todo: fix geoquiz link play
@@ -34,8 +31,6 @@ menus = {
     js1k17: "JS1k 2017", // Todo: remove jsgolf.club
     gameoflife: "Golfing the Game of Life",
     webspeech: "Web Speech API golfing",
-    css3dgames: "CSS3D game tutorial",
-    jsgamesinputs: "JS keyboard inputs",
     js13k16 :"JS13kGames 2016",
     webgl_quest: "WebGL quest",
     js1k16: "JS1k 2016",
@@ -106,6 +101,16 @@ menus = {
     // todo: PACMAN
   },
   
+  tutorials: {
+    "3D-physics": "3D physics engine",
+    "webgl-guide": "WebGL guide part 1",
+    "webgl-guide-part-2": "WebGL guide part 2",
+    projection: "3D projection",
+    css3dgames: "CSS3D game tutorial",
+    jsgamesinputs: "JS keyboard inputs",
+    
+  },
+  
   codegolf: {
     intro: "Intro",
     // todo: FFT 1D
@@ -113,7 +118,7 @@ menus = {
     miniphotobooth: "Mini Photo Booth",
     minicamrecording: "Mini Cam Recording",
     minisoundeditor: "Mini Sound Editor",
-    //minidraganddrop: "Mini Drag And Drop", // TODO
+    //minidraganddrop: "Mini Drag & Drop", // TODO
     minimandelbox: "Mini Mandelbox (JS1k19)",
     miniridinglight: "Mini Riding Light (JS1k19)",
     minitwo3d: "MiniTwo3D (JS1k19)",
@@ -273,6 +278,7 @@ header = function(){
     <menu>
     <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
     <a href="${section == "home" ? "" : "../"}games/intro.html"${section == "games" ? ' class="active"' : ""} target=_self>Games</a>
+    <a href="${section == "home" ? "" : "../"}tutorials/intro.html"${section == "tutorials" ? ' class="active"' : ""} target=_self>Tutorials</a>
     <a href="${section == "home" ? "" : "../"}articles/intro.html"${section == "articles" ? ' class="active"' : ""} target=_self>Dev blog</a>
     <a href="${section == "home" ? "" : "../"}articles/intro2.html"${section == "articles2" ? ' class="active"' : ""} target=_self>Life blog</a>
     <a href="${section == "home" ? "" : "../"}codegolf/intro.html"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
