@@ -260,10 +260,12 @@ menus = {
 header = function(){
   var section = "home";
   var page = "";
-  location.pathname.replace(/(\/xem.github.io)?\/(.*)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(b) section = b; if(c) page = c; });
-  if(section == "xem.github.io" && page == ""){
+  location.pathname.replace(/([^\/]*?)\/([^\/]*?)(\.html)?$/, (z,a,b,c) => { if(a) section = a; if(b) page = b; });
+  if(section == "xem.github.io" && (page == "" || page == "index")){
     section = "home";
   }
+  if(section.startsWith("C:")) section = "home";
+  if(page == "tutorials" || page == "lifeblog") section = page;
   
   document.title = `Maxime Euzière / ${section} / ${page}`;
   
@@ -277,11 +279,11 @@ header = function(){
     <h3>game designer <span>&nbsp;&nbsp;&amp;&nbsp;&nbsp;</span> JS hacker</h3>
     </div>
     <menu>
-    <a href="${section == "home" ? "." : "../"}" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
+    <a href="${section == "home" ? "" : "../"}index.html" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
     <a href="${section == "home" ? "" : "../"}games/intro.html"${section == "games" ? ' class="active"' : ""} target=_self>Games</a>
-    <a href="${section == "home" ? "" : "../"}articles/tutorials.html"${section == "tutorials" ? ' class="active"' : ""} target=_self>Tutorials</a>
-    <a href="${section == "home" ? "" : "../"}articles/devblog.html"${section == "articles" ? ' class="active"' : ""} target=_self>Dev blog</a>
-    <a href="${section == "home" ? "" : "../"}articles/lifeblog.html"${section == "articles2" ? ' class="active"' : ""} target=_self>Life blog</a>
+    <a href="${section == "home" ? "" : "../"}articles/tutorials.html"${section == "tutorials" || page == "tutorials" ? ' class="active"' : ""} target=_self>Tutorials</a>
+    <a href="${section == "home" ? "" : "../"}articles/devblog.html"${section == "articles" || page == "devblog" ? ' class="active"' : ""} target=_self>Dev blog</a>
+    <a href="${section == "home" ? "" : "../"}articles/lifeblog.html"${section == "articles2" || page == "lifeblog" ? ' class="active"' : ""} target=_self>Life blog</a>
     <a href="${section == "home" ? "" : "../"}codegolf/intro.html"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
     <a href="${section == "home" ? "" : "../"}projects/intro.html"${section == "projects" ? ' class="active"' : ""} target=_self>Other projects</a>
     </menu>
