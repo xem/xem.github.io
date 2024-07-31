@@ -340,7 +340,7 @@ menu = function(container, nointro){
   }
   
   // redirect to first page of the section
-  if(menus[section] && !page && (section == "articles" || section == "articles2" || section == "games" || section == "projects" || section == "codegolf")){
+  if(menus[section] && !page && (section == "articles" || section == "articles2" || section == "games" || section == "tutorials" || section == "projects" || section == "codegolf")){
     for(var i in menus[section]){
       location = i + ".html";
       break;
@@ -350,6 +350,7 @@ menu = function(container, nointro){
   // Menu's HTML
   
   if(Object.keys(menus.articles2).includes(page)) section = "articles2";
+  if(Object.keys(menus.tutorials).includes(page)) section = "tutorials";
   if(menus[section]){
     
     var nb = 0;
@@ -361,7 +362,7 @@ menu = function(container, nointro){
     <ul>`;
     var counter = menus[section].length;
     for(i in menus[section]){
-      if(section != "articles" && section != "articles2" && section != "games" && section != "projects" && section != "codegolf")
+      if(section != "articles" && section != "articles2" && section != "tutorials" && section != "games" && section != "projects" && section != "codegolf")
         html += `<li><a ${page == i ? 'class="active"' : ""}href='#${i}' target=_self>${menus[section][i]}</a>`;
       else if(!nointro || (nointro && !(i == "intro" || i=="intro2"))){
         html += `<li><a ${page == i ? 'class="active"' : ""}href='${i}.html' target=_self>${menus[section][i]}</a>`;
