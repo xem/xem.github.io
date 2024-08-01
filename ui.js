@@ -31,6 +31,7 @@ menus = {
     js1k17: "JS1k 2017", // Todo: remove jsgolf.club
     gameoflife: "Golfing the Game of Life",
     webspeech: "Web Speech API golfing",
+    fatigue: "Shitty systems fatigue",
     js13k16 :"JS13kGames 2016",
     webgl_quest: "WebGL quest",
     js1k16: "JS1k 2016",
@@ -47,13 +48,10 @@ menus = {
     hexadecimalweirdness: "Hexadecimal weirdness",
   },
   
-  articles2: {
+  /*articles2: {
     intro2: "Intro",
     "money": "Le pouvoir d'achat (FR)",
-    switchfatigue: "Switch hacking fatigue",
-    house: "Ma maison (FR)",
-    fatigue: "Shitty systems fatigue",
-  },
+  },*/
   
   games: {
     
@@ -61,9 +59,9 @@ menus = {
     "castle-escape": "Castle Escape (JS13k23)",
     chronorobot: "Chrono Robot (Gamedev23)",
     "puzzlatory": "Puzzlatory (JS13k22)",
-    "10-years-of-game-golfing": "10 y. game golfing (JS13k22)",
+    "10-years-of-game-golfing": "10 years of golfing (JS13k22)",
     "its-too-raw": "It's too raw! (Gamedev22)",
-    "lossst-a-snake-in-space": "LOSSST (JS13k21)",
+    "lossst-a-snake-in-space": "LOSSST in space (JS13k21)",
     tracknotfound: "Track not found?! (JS13k20)",
     shift2k20: "SHIFT 2K20 (2K+Jam 2020)",
     backontrack: "Back on Track (JS13k19)",
@@ -108,12 +106,14 @@ menus = {
     projection: "3D projection",
     css3dgames: "CSS3D game tutorial",
     jsgamesinputs: "JS keyboard inputs",
+    switchfatigue: "Switch homebrews",
     
   },
   
   codegolf: {
     intro: "Intro",
     // todo: FFT 1D
+    w: "W (WebGL framework)",
     css3dframework: "CSS3D framework",
     miniphotobooth: "Mini Photo Booth",
     minicamrecording: "Mini Cam Recording",
@@ -208,6 +208,7 @@ menus = {
   
   projects: {
     intro: "Intro",
+    house: "My house (FR)",
     terseronline: "Terser-online",
     miniorchestra: "Mini Orchestra",
     inktober18: "inktober 2018",
@@ -269,7 +270,6 @@ header = function(){
   
   document.title = `Maxime Euzière / ${section} / ${page}`;
   
-  if(Object.keys(menus.articles2).includes(page)) section = "articles2";
   if(Object.keys(menus.tutorials).includes(page)) section = "tutorials";
   
   $("header").innerHTML = 
@@ -283,7 +283,6 @@ header = function(){
     <a href="${section == "home" ? "" : "../"}games/intro.html"${section == "games" ? ' class="active"' : ""} target=_self>Games</a>
     <a href="${section == "home" ? "" : "../"}articles/tutorials.html"${section == "tutorials" || page == "tutorials" ? ' class="active"' : ""} target=_self>Tutorials</a>
     <a href="${section == "home" ? "" : "../"}articles/devblog.html"${section == "articles" || page == "devblog" ? ' class="active"' : ""} target=_self>Dev blog</a>
-    <a href="${section == "home" ? "" : "../"}articles/lifeblog.html"${section == "articles2" || page == "lifeblog" ? ' class="active"' : ""} target=_self>Life blog</a>
     <a href="${section == "home" ? "" : "../"}codegolf/intro.html"${section == "codegolf" ? ' class="active"' : ""} target=_self>JS code golf</a>
     <a href="${section == "home" ? "" : "../"}projects/intro.html"${section == "projects" ? ' class="active"' : ""} target=_self>Other projects</a>
     </menu>
@@ -351,9 +350,7 @@ menu = function(container, nointro){
   
   // Menu's HTML
   
-  if(Object.keys(menus.articles2).includes(page) || page == "lifeblog") section = "articles2";
   if(Object.keys(menus.tutorials).includes(page) || page == "tutorials") section = "tutorials";
-  console.log(section, page);
   
   if(menus[section]){
     

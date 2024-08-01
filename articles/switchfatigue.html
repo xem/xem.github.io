@@ -17,11 +17,11 @@
 <main>
 
 <div class=section id=fatigue>
-  <h2>Switch hacking fatigue</h2>
-  <h3>November 2021 - Febuary 2024</h3>
+  <h2>Switch homebrew installation fatigue</h2>
+  <h3>November 2021 - August 2024</h3>
   <p><mark style="padding:5px">Disclaimer: I do not condone piracy. This page only talks about legal stuff you can do with your console.</mark>
   <p><mark style="padding:5px">Disclaimer 2: I am not responsible of any damage you may do to your console. Try this at your own risk.</mark>
-  <p>Sigh. It's so complex to find accurate, complete and up-to-date information to hack a Switch.
+  <p>Sigh. It's so complex to find accurate, complete and up-to-date information to install stuff on Switch.
   <br>I did my own research and summarized it here:
   <br><br><h3>Hardware:</h3>
   <br>You need a <a href="https://ismyswitchpatched.com/">hackable Switch</a> kept on the lowest possible firmware, an empty microSD card >= 64GB formatted in exFAT (or FAT32 if you don't care about files bigger than 4GB... but I recommend ExFAT), and a way to boot in RCM mode (SX Pro or <a href="https://fr.aliexpress.com/wholesale?catId=0&initiative_id=SB_20211101235930&SearchText=switch+jig+rcm">jig + dongle</a>).
@@ -36,7 +36,7 @@
   <br>- You can now install homebrews on your SD card (and access them through the photo gallery app), and upgrade virtual firmware any time.
   
   
-  <br><br><h3>To upgrade your virtual firmware and homebrews:</h3>
+  <br><br><h3>To upgrade your virtual firmware and homebrews (up to june 2024):</h3>
   <br>Delete existing /atmosphere and /bootoader folders from your SD card,<br>then download and put following items at the root of your SD card, in this order:
   <br>- <a href="https://github.com/CTCaer/hekate/releases">Hekate</a>
   <br>- <a href="https://github.com/Atmosphere-NX/Atmosphere/releases/">Atmosphere</a>
@@ -47,10 +47,14 @@
   <br>- Any other homebrew or content you want to upgrade or install
   <br>- Run the DayBreak homebrew to install the new firmware. (Choose the options "Preserve settings" and "Fat + ExFat").
   
-  <br><br>
+  <br><br><h3>June 2023 update</h3>
+  <br><br>Since june 2024, fusée, tinfoil, atmosphere 1.7.1, FW 1.8.1 and hbmenu aren't compatible with each other anymore, god damn it. 
+  <br><b>The current fix consists in using <a href="https://gbatemp.net/threads/sigpatches-for-atmosphere-hekate-fss0-fusee-package3.571543/page-172#post-10437379">a hacked fusee.bin</a> and <a href="https://gbatemp.net/download/sys-patch-1-5-2-binary-fw-18-1-0-atmosphere-1-7-1.38686/">these sys patches</a>.
   
+  <br>
+  <br>
   PS: <a href="https://www.sdsetup.com/console?switch">sdsetup</a> is not maintained anymore, and doesn't support firmwares > 16.0. You can still use it to get interesting homebrews.
-  <br><br>PS2: Tinfoil requires a password to enable unsigned code installation, the password is: "up up down down left right left right B A +" (but take care to not install anything malicious).
+  <br><br>PS: Tinfoil requires a password to enable unsigned code installation, the password is: "up up down down left right left right B A +" (but take care to not install anything malicious).
 
 <p>Cheers,
 <p>Xem
