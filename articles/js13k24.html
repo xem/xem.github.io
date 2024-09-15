@@ -1,0 +1,341 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=2024-07">
+<title>Maxime Euzière</title>
+<base target=_blank>
+</head>
+<body>
+
+<style>
+.twitter-tweet { margin: 30px 0 !important; border: 3px solid #ccc; border-radius: 30px; overflow: hidden; transform: scale(.95)}
+ul { padding-left: 15px }
+</style>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=codegolfctober18>
+
+<h2>JS13k'24: GREAT PLUMBER 65, EMOJIPHOBIA & O HIII BAD SKATEPARK</h2>
+<br><h3>August-September 2024</h3>
+<br><hr><br>
+<img src="images/js13k24/cover.jpg" width=500>
+<br>
+<br>
+<hr>
+<br>
+Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b> (the phobia of number 13).
+<br>
+<br>
+<hr>
+<br>
+<h3>TL;DR</h3>
+
+<p>This year I released 3 entries:
+<p>- <a href="https://dev.js13kgames.com/2024/games/great-plumber-65">GREAT PLUMBER 65</a> (a 3D platformer tech demo inspired by a childhood game, ranked ...th)
+
+<br>- <a href="https://dev.js13kgames.com/2024/games/emojiphobia">EMOJIPHOBIA</a> (a quiz game about phobias... and emoji, ranked ...th)
+
+<br>- <a href="https://dev.js13kgames.com/2024/games/o-hiii-bad-skatepark">O HIII BAD SKATEPARK</a> (a "Line Rider" clone with skates and extra challenges, ranked ...th)
+
+<p>... and 3 new tools:
+
+<p>- <a href="https://xem.github.io/pxtex/">Pxtex</a>: a random pixelized texture generator
+
+<br>- <a href="https://xem.github.io/microW/">MicroW</a>: a basic WebGL renderer in less than 1kb
+
+<br>- <a href="https://github.com/xem/miniGameTemplate">MiniGameTemplate</a>: a modern, editable HTML5 game template in just 100 lines of code
+
+
+<br>
+<br>
+<hr>
+<br>
+<h3>The full story (with spoilers)</h3>
+
+<p><b>JULY 2024</b>
+
+<p>At the beginning of July, I hadn't really been able to enjoy coding for a couple years, and had serious doubts about competing to js13kgames this year. Focusing on code had become too hard for me.
+<p>By chance, I stumbled upon <a href="https://www.youtube.com/watch?v=b0hL4mJInm0">JaidenAnimations video "I found out I have ADHD."</a>, which made me decide to consult a specialist, get an actual ADHD diagnosis, and the appropriate medication.
+<p>And it was exactly what I needed. After a couple days, my brain was fixed and I was again (actually, more than ever) able to think, focus and create stuff, many hours a day... and do it with actual pleasure!
+<p>JS13K 2024 is officially uncancelled! Get ready for an unusually productive summer...
+<p>While waiting for JS13k to start, I spent most of July replaying every single JS game I had made for the past 10 years, <a href="https://x.com/MaximeEuziere/status/1807668217734660294">in the form of a X thread</a>. The playthroughs durations range from a couple minutes to almost <a href="https://www.youtube.com/watch?v=nznC5jv0Vg8">3 hours</a> (for my 2021 entry LOSSST).
+<blockquote class="twitter-tweet" data-theme="dark" data-media-max-width="560"><p lang="en" dir="ltr">On august 13th starts the 13th edition of <a href="https://twitter.com/js13kGames?ref_src=twsrc%5Etfw">@js13kGames</a>.<br>I&#39;ve also been making code golfed JS games for 10 years.<br>Instead of a tips/tools thread, I will do a thread of me replaying all the games that I have developed so far and see if thay still work and if I can beat them in 2024!</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1807668217734660294?ref_src=twsrc%5Etfw">July 1, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<p>I was overall very pleased to rediscover my old creations, most of them being playable in 2024 and offering a real experience to the player (especially the ones released since JS13K 2015).
+<br>
+<br>
+<hr>
+<br>
+<p><b>AUGUST 2024</b>
+<br>
+<p>August has arrived, and there are another 13 days to wait until the start of the jam. How about working on tools that could become handy if I make an actual 3D WebGL entry this year? (after 7 years of making all my 3D games with CSS3D)
+<p>The vague idea of an entry inspired by Mario 64 has been in my head for many years, and if I actually try to do it in this edition of JS13K, one thing I will need for sure is a tiny pixellized texture generator to represent surfaces like rock, grass, sand or water. LOSSST 2021 used <a href="https://codepen.io/collection/DRMKdB">Bence's amazing SVG textures</a>, but this time I want something much, much smaller, more generic, and pixel-y!
+<p>And that's how I invented <a href="https://xem.github.io/pxtex/">ptex</a>: a 228 bytes long JS function that takes a HTML canvas, a HSL color, a noise coefficient and a size, and outputs some yummy randomized pixel-art textures ready to use as base64 pngs.
+<br><br>
+<p><img src=images/js13k24/4.png width=600>
+<br><br>
+<p>The tool is actually as simple as it sounds (it draws colored squares on a canvas), but was still very well received in the js13k community:
+<p>- It was featured in GamedevJS's newsletter and on X:
+<blockquote class="twitter-tweet" data-theme="dark" data-media-max-width="560"><p lang="en" dir="ltr">Just before the start of <a href="https://twitter.com/js13kGames?ref_src=twsrc%5Etfw">@js13kGames</a> tomorrow, long time participant and legendary creator of multiple useful mini tools, <a href="https://twitter.com/MaximeEuziere?ref_src=twsrc%5Etfw">@MaximeEuziere</a>, released another one: Pxtex – mini randomized pixel-art textures.<a href="https://t.co/6PKkqfZsyB">https://t.co/6PKkqfZsyB</a><a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/gamedev?src=hash&amp;ref_src=twsrc%5Etfw">#gamedev</a> <a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> <a href="https://twitter.com/hashtag/JavaScript?src=hash&amp;ref_src=twsrc%5Etfw">#JavaScript</a> <a href="https://twitter.com/hashtag/codegolf?src=hash&amp;ref_src=twsrc%5Etfw">#codegolf</a></p>&mdash; Gamedev.js (@Gamedevjs) <a href="https://twitter.com/Gamedevjs/status/1822996864787947820?ref_src=twsrc%5Etfw">August 12, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>- And another dev, Lewis Nakao, made <a href="https://lewdev.github.io/apps/pxtex-tool/">a cool UI around it</a>:
+<blockquote class="twitter-tweet" data-theme="dark" data-media-max-width="560"><p lang="en" dir="ltr">Just so I could play around with <a href="https://twitter.com/hashtag/pxtex?src=hash&amp;ref_src=twsrc%5Etfw">#pxtex</a> by <a href="https://twitter.com/MaximeEuziere?ref_src=twsrc%5Etfw">@MaximeEuziere</a>, I made a tool and figured it might be useful to others in the <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a>. I had to figure out the &quot;max&quot; values for each parameter. The Hue value wraps at 360.<br><br>⛏️ <a href="https://t.co/PH0IJ7OgRN">https://t.co/PH0IJ7OgRN</a><br><br>Source Code: <a href="https://t.co/bNfMNPXFgJ">https://t.co/bNfMNPXFgJ</a> <a href="https://t.co/PpBB7np7Zz">pic.twitter.com/PpBB7np7Zz</a></p>&mdash; Lewis Nakao (@lewdev) <a href="https://twitter.com/lewdev/status/1825480343014854919?ref_src=twsrc%5Etfw">August 19, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>The second tool that I wanted to make is an absolute minimal WebGL boilerplate to display 3D shapes on screen.<p>I created <a href="https://xem.github.io/W/">W.js</a> in 2020 with the help of <b>@Stas</b> and <b>@Kchplr</b>, which was full of cool features and as small as possible (2kb zipped), but I wanted to see how low we could go by keeping only the bare essentials:
+<p>- Render planes and cubes out-of-the-box
+<br>- Render custom 3D models based on vertex / uv arrays
+<br>- Coloring, texturing and support for transparency
+<br>- Easily set camera and objects' position, rotation and scale.
+<br>- Automatic shading from diffuse and ambient light
+<p>The features left out are: billboards, animations, smooth shading, normal arrays, indexed models and groups.<p>They were amazing features of course, but took too much space.
+<p>I first tried to start om W's source code and trimming everything I didn't need, but the result remained too verbose. So I restarted from scratch, with a different model.
+<p>Now, the scene (with its clear color, camera, light and 3D objects) is entirely defined in a JSON object.
+<p>WebGL's z-index is not friend with transparency. W.js had a built-in function reordering every item on-the-fly, but here, to make things simpler, the objects with transparency just need to be declared in the correct order (from back to front) to be displayed properly.
+<p>The library only contains a function called <b>W.render()</b>, that can easily be called once, or 60 times per second for a game loop, and the cube's 3D model. (the plane model comes for free, by ony rendering the front face of a cube). 
+<p>Thanks to these extreme simplifications, I was very proud to see the result fit in 1kb zipped.
+<p>I released it with 3 interactive demos and called it <a href="https://xem.github.io/microW/">MicroW</a>.
+<br><br>
+<p><img src=images/js13k24/5.jpg width=900>
+<br><br>
+<blockquote class="twitter-tweet" data-theme="dark" data-media-max-width="560"><p lang="en" dir="ltr">New mini gamedev resource for <a href="https://twitter.com/Gamedevjs?ref_src=twsrc%5Etfw">@gamedevjs</a> &amp; <a href="https://twitter.com/js13kGames?ref_src=twsrc%5Etfw">@js13kgames</a> 2024...<br>MicroW: a WebGL renderer in less than 1kb!<br>- Built-in shapes (cube, plane)<br>- Custom shapes<br>- Coloring, texturing, alpha-blending, lighting<br>- Free position, transformation for camera &amp; objects<a href="https://t.co/X422ZQrODB">https://t.co/X422ZQrODB</a> <a href="https://t.co/I7GE5ZOPsA">pic.twitter.com/I7GE5ZOPsA</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1823244897375187331?ref_src=twsrc%5Etfw">August 13, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<p>Some feedbacks on MicroW:
+<p><b>@mcfunkypants</b>: "WOW!!! amazing work!"
+<p><b>@joao</b>: "Awesome :) i used your W in my gamedevjs entry this year"
+<p><b>@mvasilkov</b>: "Epic as always :) I pledged I'd learn WebGL for this year's compo but alas :("
+<p><b>@FrankForce</b>: "amazing work! i will be using this for reference as i am planning to go 3d this year!"
+<p><b>@soylentgraham</b> showed me an even more compact way to declare the vertex coordinates of my 3D models, using gl_vertexid (skipping attribute buffers entirely):
+<pre class=language-js><code>// GLSL cube
+vec3 GetLocalPosition(int v){
+  int x = ivec4(915775499,923195439,642272978,49129)[v/30]>>v%30;
+  return sign(vec3(x&1,x&2,x&4));
+}</code></pre>
+<p>Seems magic. I'll look into this!
+<p>Another challenge I started at the end of July is implementing my own 3D physics engine in JS (because all the existing ones weigh more than 100kb). I've read many <a href="https://www.amazon.com/s?k=physics+engine+game&crid=2629HQH2ISLU4&sprefix=physics+engine+game%2Caps%2C312&ref=nb_sb_noss_1">books</a> and <a href="https://gamephysicsweekend.github.io/">ebooks</a> related to this topic but didn't manage to get past collision detection yet.<p>I will try again later!
+<br>
+<br>
+<hr>
+<br>
+<p><b>DWEETS</b>
+<p>In early August, <b>@end3r</b> advertised js13kgames 2024 on Dwitter with <a href="https://www.dwitter.net/d/32204">a 140b countdown</a>.
+<p>It gave me the idea to make a series of little Dweets to advertize the jam, too:
+<p>- <a href="https://dwitter.net/d/32224">What are 13,312 bytes?</a>
+<br>- <a href="https://dwitter.net/d/32232">Typical js13k project size</a>
+<br>- <a href="https://dwitter.net/d/32234">JS13k logo</a> (using a Path2D) 
+<br>- <a href="https://dwitter.net/d/32244">JS13k 2024 tshirt</a> (using a black t-shirt emoji and little red Unicode characters that look like gamepads)
+<br><br>
+<p><img src=images/js13k24/6.png width=900>
+<br><br>
+
+<p>While doing these, I also contributed to Dwitter with <a href="https://www.dwitter.net/d/32233">an easier-than-ever Dweet packer</a>: paste your code in the field (up to 194 ASCII chars) and it's instantly converted into a 140-chars snippet...
+<br><br>
+<p><img src=images/js13k24/7.png width=500>
+<br><br>
+
+<p>...and <a href="https://www.dwitter.net/d/32220">a dweet about olympic games</a> held in my country at that moment (I didn't have enough room to make the rings overlap correctly).
+<br><br>
+<p><img src=images/js13k24/12.png width=400>
+<br>
+<br>
+<hr>
+<br>
+<p><b>DAY 1</b>
+<p>It's finally August 13th! The theme is <b>Tristaidekaphobia</b> and it inspires me... nothing at all.
+<p>I scribbled some vague ideas on my notepad such as "maths game", "fear game", "puzzle with 13 pieces", "puzzle where you're limited to 13 moves", "Apollo 13", "avoid number 13", "avoid good luck"...
+<p>But nothing clicked do far.
+<p>(At the end of the jam, I was pleased to see that other contestants had made very good games based on some of these ideas, and much better than I would have done myself.)
+<br>
+<p>I looked on <a href="https://wordsmith.org/anagram/index.html">Wordsmith.org</a> if there are good anagrams of the theme.
+<p>Triskaidekaphobia contains the letters of interesting words such as <b>skateboard, skatepark, karate kid, bishop, parakite, parasitoid, idiopathies, apartheids, editorship</b> and <b>database</b>...
+<p>It's hard to make a full sentence with these letters though.
+<br>We can write weird things like:
+<br>
+<b>"I, bishop, karate kaid"
+<br>"I'd hoist a bike parka"
+<br>"A pariah debit kiosk"
+<br>"It spied a khaki bro"</b>
+<br>... or even...<br><b>"Bad skatepark, o hiii"</b>.
+<p>None of these phrases really inspire me. The last one could maybe be a pretext to do a Line Rider clone... 
+<p>While waiting for a better idea to come, I tried to make a quick prototype of 2D skate simulation based on my <a href="https://xem.github.io/mini2Dphysics/">Mini2DPhysics engine</a>, with the skate and the skater being two different entities, and found that it worked quite well! Who knows, it could become my plan B...
+<br>
+<br>
+<video src=images/js13k24/1.mp4 controls></video>
+<br>
+<hr>
+<br>
+<p><b>DAY 2</b>
+<p>Hmm. Yeah, there's that skate idea, but it lacks some "Wow effect".
+<p>I'd like to do something more impressive... such as the Mario 64 demake idea I've had for years...
+<p>Then it hit me: Nintendo sometimes strikes the fan games that infringe their IPs. A deformed version of the theme could look like "Strika-Nintendoka-Phobia", which would be a made-up fear of being striked by Nintendo. Okay, let's do that!
+<p>I'll show my progress on X and Slack, but I will hide all the Mario references, to avoid spoiling people!
+<p>Ideally, I'd like to do a complete demake of Mario 64 in 5 chapters, five actual JS13K entries that would be able to share data and assets with each other, and I would call the game something like "GREAT PLUMBER 65", because 65kb = 5 x 13kb. Though, I know the task would be too immense for a single dev, with such size and time constraints, so I'll probably go with something much smaller, in a single entry, but as impressive as possible.
+
+<p>I started by unearthing and connecting together two of the tools I invented a few years ago:
+<p>- <a href="https://xem.github.io/3Dmapeditor/">3Dmapeditor</a>
+<br>- <a href="https://github.com/xem/mini3DPlatformer">Mini3DPlatformer</a>
+<br><br>
+<p><img src=images/js13k24/8.png width=900>
+<br><br>
+<p>Both tools weren't made to communicate with each other, and do not share any code whatsoever (the former is made in CSS3D and the latter in WebGL), but I made them communcate through a common ASCII export that represents the level. 3Dmapeditor outputs it, and Mini3Dplatformer parses it to construct its scene.
+<p>To make this (rather unholy) communication work as I want, I first had to make Mini3DPlatformer able to display different kinds of cubes (grass, sand, rock, roof and water).
+<p>Then, I added slope blocks in both tools:
+
+<p>In 3Dmapeditor, the edits made to my generic 200*200*200px cube consisted in hiding the up face, slanting the front face, and clipping the left and right faces as triangles, with CSS:
+
+<pre class=language-css><code>/* slope */
+.s3 .up { display: none }
+.s3 .front { height: 282px; transform: translate3D(0,-82px,0) rotateX(-45deg) }
+.s3 .left { clip-path: path('M0 0L200 200L0 200Z') }
+.s3 .right { clip-path: path('M200 0L200 200L0 200Z') }</code></pre>
+
+
+<p>In Mini3DPlatformer, which is based on W.js, I added the slope 3D model manually:
+
+<pre class=language-js><code>// SLOPE
+//
+//  /\
+// |\ \
+// | \ \
+// |  \ \
+// |___\/
+
+W.add("slope", {
+  vertices: [
+    .5, .5,-.5,  -.5, .5,-.5,  -.5,-.5, .5, // front
+    .5, .5,-.5,  -.5,-.5, .5,   .5,-.5, .5,
+    .5, .5,-.5,   .5,-.5, .5,   .5,-.5,-.5, // right
+   -.5,-.5,-.5,  -.5, -.5, .5, -.5, .5,-.5, // left
+   -.5, .5,-.5,   .5, .5,-.5,   .5,-.5,-.5, // back
+   -.5, .5,-.5,   .5,-.5,-.5,  -.5,-.5,-.5,
+    .5,-.5, .5,  -.5,-.5, .5,  -.5,-.5,-.5, // down
+    .5,-.5, .5,  -.5,-.5,-.5,   .5,-.5,-.5
+  ],
+  uv: [
+    1, 1,   0, 1,   0, 0, // front
+    1, 1,   0, 0,   1, 0,            
+    1, 1,   0, 0,   0, 1, // right
+    0, 1,   0, 0,   1, 1, // left
+    1, 1,   0, 1,   0, 0, // back
+    1, 1,   0, 0,   1, 0,
+    1, 1,   0, 1,   0, 0, // down
+    1, 1,   0, 0,   1, 0
+  ]
+});</code></pre>
+
+<br><br>
+<p><img src=images/js13k24/14.png width=900>
+<br><br>
+
+<p>I ended the day by making a little sample level containing pretty much all the items I'll need in my entry: ground (made of grass, sand and water blocks), obstacles (walls and slopes) made of rock, and a billboard tree.
+<p>This area will be my 3D platforming playfield for a few days! 
+
+<br><br>
+<p><img src=images/js13k24/15.png width=700>
+<br><br>
+
+<blockquote class="twitter-tweet"  data-theme="dark" data-media-max-width="560" data-lang="en"><p lang="en" dir="ltr">So I&#39;m unearthing the 3D map editor (in CSS) &amp; the 3D platformer template (in WebGL) that I started making years ago, and trying to connect the two.<br><br>If I don&#39;t get stuck, I&#39;ll try to make a 3D platformer that could maybe fit the theme.<br><br>Otherwise... I&#39;ll need a plan B!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/m2P16YR9UY">pic.twitter.com/m2P16YR9UY</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1823803231174349287?ref_src=twsrc%5Etfw">August 14, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br>
+<br>
+<hr>
+<br>
+<p><b>DAY 3</b>
+
+<p>Let's start by including the unminified version of W.js and mini3Dplatformer with a little sample level into my index.html. Bam! It's already 31kb.
+<p>The Mario 3D model that was present in the platformer engine is replaced with a brown parallelepiped.
+<p>By the way, I'll keep using W.js (instead of MicroW) in my code because this project requires groups, animations and billboards, which are only present in W.js.
+
+<br>
+<p>My little PoC (Proof of Concept) is taking shape, with ground collisions, (kind of) wall collisions, plus some basic character movement and rotations.
+<p>Contrary to Mario 64, I took the liberty to always have the camera behind the character, otherwise the code required to make pleasant and fluid controls would have been too complex to implement.
+
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 3<br>Added movement, rotation, cube collisions and billboards (the tree plane always facing the camera).<br>Since it&#39;s a PoC, my collision code is still hacky.<br>To makes the slopes work, I have to rewrite it in a more clean and generic way.<br>Hopefully it&#39;ll be done tomorrow!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/mznhUdf5WA">pic.twitter.com/mznhUdf5WA</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824125900096495742?ref_src=twsrc%5Etfw">August 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>In the meantime, I secretly worked on the title screen of my entry. I wanted it to look like Super Mario 64's title, but with a different name (Great Plumber 65). Instead of drawing it on a canvas or using SVG, I decided to use a Web font specially created for this: <a href="https://www.fontspace.com/typeface-mario-64-font-f60208">Typeface Mario 64</a>.
+
+<p>The font is in otf, weighs 10kb and contains way more characters than I actually need, so I searched (and found) a great software called <a href="https://fontforge.org/en-US/">FontForge</a>, which allowed me to edit the font, delete all the chars I didn't need and save it in woff2 format, reducing it to just 1.5kb!
+
+<br><br>
+<p><img src=images/js13k24/9.png width=700>
+<br><br>
+
+<p>With some HTML and CSS on top of this font (namely, custom colors, scale, letter-spacing, text-stroke and multiple text-shadows for the depth effect), I managed to make this (very convincing ?) title screen!
+
+<br><br>
+<p><img src=images/js13k24/10.png width=500>
+<br><br>
+
+<a href="https://xem.github.io/js13k24/1-intro/">LIVE DEMO</a> <p>(click to start! As a bonus, you'll see a little entrance animation and hear a coin sound from <a href="https://xem.github.io/MiniSoundEditor/">MiniSoundEditor</a>).
+<p>The whole intro weighs 2.4kb zipped.
+
+<p>I tried <a href="https://xem.github.io/js13k24/2-intro/">another version</a>, spelling the word StrikaNintendokaPhobia, but it was not as good.
+
+<br><br>
+<p><img src=images/js13k24/11.png width=500>
+
+<p>In a desperate hope to save a few hundred bytes in my zip, I suggested <b>@end3r</b> to do a poll about allowing to load Webfonts for free, but it didn't convince enough people. So I'll keep my woff2 file on board!
+
+<br><br>
+<p><img src=images/js13k24/13.jpg width=500>
+<br>
+
+<p>I also made some quick tests of <a href="https://xem.github.io/miniSpeechRecognitionAndSynthesis/miniSpeechSynthesis/lang.html">speech synth</a> with a male and a female voice (before realizing how deep the rabbit hole of speech synth voices can be):
+
+<br><video src=images/js13k24/2.mp4 controls width=300 height=200></video>
+&nbsp; <video src=images/js13k24/3.mp4 controls width=300 height=200></video>
+
+<br>
+<br>
+<hr>
+<br>
+<p><b>DAY 4</b>
+
+
+<!--
+Remarks:
+
+Mvasilkov: @xem takes the entire top-10 this year :)
+
+Feedbacks on emojiphobia:
+
+Cody: fun quick game, I feel like I learned something
+
+Feedbacks on Great Plumber 65:
+
+Cody: Very impressive opening sequence. He does flips and yahoos! Looking great! 😍
+
+Joao: pretty amazing :sourire: a bit too much for my poor computer maybe
+
+Remvst: the sound effect when you hit "start" really hurts my ears (...) the rest of the demo is super impressive
+
+Curtastic: The raw emotion in Plumber's voice when he says woohoo is the best part
+
+Herebefrogs: I love it that you still manage to sneak emoji everywhere
+
+bb: Wow, Great Plumber 65 is a work of art... Amazing
+-->
+
+</div>
+
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js?v=2024-07"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
