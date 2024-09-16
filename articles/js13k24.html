@@ -165,7 +165,7 @@ vec3 GetLocalPosition(int v){
 <p>While waiting for a better idea to come, I tried to make a quick prototype of 2D skate simulation based on my <a href="https://xem.github.io/mini2Dphysics/">Mini2DPhysics engine</a>, with the skate and the skater being two different entities, and found that it worked quite well! Who knows, it could become my plan B...
 <br>
 <br>
-<video src=images/js13k24/1.mp4 controls></video>
+<video src=images/js13k24/1.mp4 controls width=600></video>
 <br>
 <hr>
 <br>
@@ -173,7 +173,14 @@ vec3 GetLocalPosition(int v){
 <p>Hmm. Yeah, there's that skate idea, but it lacks some "Wow effect".
 <p>I'd like to do something more impressive... such as the Mario 64 demake idea I've had for years...
 <p>Then it hit me: Nintendo sometimes strikes the fan games that infringe their IPs. A deformed version of the theme could look like "Strika-Nintendoka-Phobia", which would be a made-up fear of being striked by Nintendo. Okay, let's do that!
-<p>I'll show my progress on X and Slack, but I will hide all the Mario references, to avoid spoiling people!
+
+<p>Let's make a pact with <s>the devil</s> <b>@end3r</b> to launch the project!
+<br><br>
+<p><img src=images/js13k24/1.png width=800>
+<br>
+<br>
+
+<p>I'll show my progress on X and Slack, but I will hide all the Mario references, to avoid spoiling people! (even the Mario 3D model present in Midi3Dplatformer got replaced by a brown parallelepiped).
 <p>Ideally, I'd like to do a complete demake of Mario 64 in 5 chapters, five actual JS13K entries that would be able to share data and assets with each other, and I would call the game something like "GREAT PLUMBER 65", because 65kb = 5 x 13kb. Though, I know the task would be too immense for a single dev, with such size and time constraints, so I'll probably go with something much smaller, in a single entry, but as impressive as possible.
 
 <p>I started by unearthing and connecting together two of the tools I invented a few years ago:
@@ -247,13 +254,12 @@ W.add("slope", {
 <br>
 <p><b>DAY 3</b>
 
-<p>Let's start by including the unminified version of W.js and mini3Dplatformer with a little sample level into my index.html. Bam! It's already 31kb.
-<p>The Mario 3D model that was present in the platformer engine is replaced with a brown parallelepiped.
-<p>By the way, I'll keep using W.js (instead of MicroW) in my code because this project requires groups, animations and billboards, which are only present in W.js.
+<p>After yesterday's quick prototyping, let's include the unminified version of W.js and the code of mini3Dplatformer with my little sample level into my index.html file. Bam! It's already 31kb.
 
-<br>
-<p>My little PoC (Proof of Concept) is taking shape, with ground collisions, (kind of) wall collisions, plus some basic character movement and rotations.
+<p>Here, my little PoC (Proof of Concept) is taking shape, with ground collisions, (buggy) wall collisions, plus some basic character movement and rotations.
 <p>Contrary to Mario 64, I took the liberty to always have the camera behind the character, otherwise the code required to make pleasant and fluid controls would have been too complex to implement.
+
+<p>By the way, I'll keep using W.js (instead of MicroW) in my code because this project requires groups, animations and billboards, which are only present in W.js.
 
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 3<br>Added movement, rotation, cube collisions and billboards (the tree plane always facing the camera).<br>Since it&#39;s a PoC, my collision code is still hacky.<br>To makes the slopes work, I have to rewrite it in a more clean and generic way.<br>Hopefully it&#39;ll be done tomorrow!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/mznhUdf5WA">pic.twitter.com/mznhUdf5WA</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824125900096495742?ref_src=twsrc%5Etfw">August 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -296,6 +302,134 @@ W.add("slope", {
 <br>
 <p><b>DAY 4</b>
 
+<p>On day 4, I had so much progress to share that I made four X posts, instead of the usual 1 or 2.
+<p>The first one shows how I added black debug spheres on every integer coordinate of the ground, and red ones at the corners of my hero. These spheres not only ensure that all the assets are well aligned with their coordinates (a 0.5 or 1 unit offset offset can easily go unnoticed!), they also surround the hero with an axis-aligned box (if you look closely, the red spheres never rotate with the hero, they stay aligned with the integer grid. This is the first step towards good collision detection.
+<p>The second post shows a new set of (blue) debug spheres at the bottom of the hero. In fact, I implemented a "collision()" function that tells for any (x, z) coordinates, what's the height of the level geometry at these exact coordinates. The four blue spheres that follow the hero's bounding box, represent the result of this function. That's why you can see these spheres climb on slopes and cubes in the video (collisions were removed entirely at this moment).
+  
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 4<br>I added a blue set of debug spheres at the bottom corners of the AABB: at each frame, I place them at the height of the scenery block present at their coordinates (1 for cubes, 0 to 1 for slopes).<br>Now let&#39;s use that data to do the collisions and slopes work properly.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/0SY7vs02ks">pic.twitter.com/0SY7vs02ks</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824436056344731974?ref_src=twsrc%5Etfw">August 16, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>The "collision" function that computes the level's height at given coordinates was surprisingly <a href="https://github.com/xem/js13k24/blob/gh-pages/index.html#L1527-L1548">easy to implement</a> (it always returns 1 for cubes, and the decimal part of the X coordinate for a slope going to the east. the 3 other slopes directions are computed in a similar way, by using the decimal part of Z for a slope going to the south, and by substracting these values to 1 for the east and north slopes).
+
+<p>The next step is to use the height of the blue spheres to interact with the environment:
+<p>- hero.y represent the height of the hero's bottom (hero.y = 0 means that he's standing on the ground)
+<br>- If a blue sphere has a height > hero.y + 0.2, a wall is hit. Stop moving.
+<br>- If a blue sphere has a height between hero.y and hero.y + 0.2, we're at the beginning of a slope. Set hero.y to the height of the highest blue sphere.
+
+<pre class=language-js><code>hero.y = Math.max(nw, ne, sw, se);</code></pre>
+
+<p>I spent the rest of the day trying to make "sliding" wall collisions, because it feels weird to be completely stopped when we touch a wall in a platform game. It's much more pleasant to see the hero slide against it. To do so, I tried to apply an opposite force every time we try to walk against a wall. Unfortunately, it gets buggy every time we walk into a cube's corner. Both adjacent faces fail to properly reject the hero at the same time and he's able to walk inside the cube...
+
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 4, part 4:<br>Sliding collisions against walls work almost fine, as well as going up and down slopes, and all it took was that small code on the left.<br>It&#39;s not perfect though (see at the end of the video, it still bugs a little from certain angles)<br>But enough for today!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/7lEsbItZys">pic.twitter.com/7lEsbItZys</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824510946284540193?ref_src=twsrc%5Etfw">August 16, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<hr>
+<br>
+<p><b>DAY 5</b>
+
+<p>It took me many, many hours between days 4 and 5 to find the correct way to implement these (damned) sliding collisions, but I finally managed to do it. The good and probably unique way to do this properly and without bugs is this one:
+
+
+<pre class=language-js><code>// At each frame
+// (...)
+
+// Save previous hero X and Z coordinates
+lastx = hero.x;
+lastz = hero.z;
+        
+// Go front / back
+if(keys.u || keys.d){
+
+  // Compute new deltaX and deltaZ based on hero's angle and walk speed
+  dz = (-keys.u + keys.d) * Math.cos(-hero.rcamera*Math.PI/180) / 20;
+  dx = (-keys.u + keys.d) * Math.sin(-hero.rcamera*Math.PI/180) / 20;
+  
+  // Add deltaX do hero.x
+  hero.x += dx;
+  
+  // Check collisions all around the hero
+  nw = (collision(hero.x-.15, hero.y, hero.z-.15));
+  ne = (collision(hero.x+.15, hero.y, hero.z-.15));
+  sw = (collision(hero.x-.15, hero.y, hero.z+.15));
+  se = (collision(hero.x+.15, hero.y, hero.z+.15));
+  
+  // If one collision is with a wall ( > hero.y + 0.2 ) 
+  if(
+    nw > hero.y + .2 || ne > hero.y + .2 || sw > hero.y + .2 || se > hero.y + .2
+  ){
+  
+    // Go back to the last non-colliding x position
+    hero.x = lastx;
+  }
+  
+  // Then do exactly the same with deltaZ and hero.z
+  hero.z += dz;
+  nw = (collision(hero.x-.15, hero.y, hero.z-.15));
+  ne = (collision(hero.x+.15, hero.y, hero.z-.15));
+  sw = (collision(hero.x-.15, hero.y, hero.z+.15));
+  se = (collision(hero.x+.15, hero.y, hero.z+.15));
+  if(
+    nw > hero.y + .2 || ne > hero.y + .2 || sw > hero.y + .2 || se > hero.y + .2
+  ){
+    hero.z = lastz;
+  } 
+}
+
+// (...)</code></pre>
+
+<p>This problem being out of the way, I can finally start working on my textures!
+
+
+<p>I generated four 20x20px textures with pxtex and put them in &lt;img> elements at the end of my html page, as well as a &lt;svg> element containing a tree emoji 🌳. It was super easy to tell W.js use these 5 textures in my scene instead of flat colors.
+<p>I also had the idea to make the grass, sand and water blocks have slightly different heights, to make the ground look less flat. Since their hit boxes aren't modified, it will give the impression that the hero's feet go deeper in the grass than they do in the sand.
+
+<br><br>
+<p><img src=images/js13k24/18.jpg width=900>
+<br>
+<br>
+
+<p>(As you can see, I tried different textures for the water until I found the one that I liked)
+
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 5, part 2:<br>Micro texturing time!<br>- Removed the debug spheres.<br>- Stylized my grass/sand/rock pieces with different heights and four 20*20px textures generated with pxtex (featured in GameDevJS newsletter!).<br>- Used &lt;svg&gt;&lt;text&gt;🌳&lt;/text&gt;&lt;/svg&gt; in an img as my tree texture.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/UuhvNB1UQh">pic.twitter.com/UuhvNB1UQh</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824813534305255543?ref_src=twsrc%5Etfw">August 17, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>I spent the rest of the day making a different level, with more "layers" of cubes, more slopes, and red pyramids (to represent the castle's roofs). By chance, pyramids already existed in 3Dmapeditoe and W.js.
+<p>To make things simpler, these pyramids don't have collision boxes at all. You can walk through them.
+
+<p>I also made the jumps smoother and added a basic swimming state (the hero's height gets a bit lower when itts four hit spheres touch water).
+ 
+<p>In the end, the thing that took most of my time that day was the tree. I've been doing js13k entries with emoji since 2017, and every time they cause problems. The main problem being that they don't appear with the same graphics on every OS and browser. Some OS will only show them in black and white, or not at all. Worse even, depending on the OS and browser used, they will have different horizontal and vertical offsets. The same tree could be fine on Windows, buried in the ground on Mac or flying in the air on Android. 
+
+<p>The solution I found in 2018 was to convince <b>@end3r</b> to allow emoji webfonts polyfills for free in the jam's rules. Ever since, I've released many projects aiming to democratize uniformized emoji for js13k entries, the latest being soberly named <a href="https://github.com/xem/unicode13">unicode13</a> (the polyfill itself can be found in the <a href="https://xem.github.io/unicode13/emoji.html">emoji</a> page).
+
+<p>So, I loaded this polyfill in my game and wanted to use it for the tree texture. I couldn't make it work while the tree texture was a svg, so I reused pxtex's canvas to draw a big emoji tree with the right font, on a transparent background, export this canvas as a png image, and use this image as a WebGL texture. That's the tree you can see in the video below.
+
+<blockquote class="twitter-tweet" data-conversation="none" data-theme="dark"><p lang="en" dir="ltr">DAY 5, part 3:<br>- Changed the map<br>- Added pyramids and a roof texture<br>- Added swimming<br>- Replaced svg emoji textures with emoji rendered on a canvas with the Twemoji webfont (for cross-browser consistency)<br>- Trees are bigger<br>- Your feet get lower than the grass surface<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/ooXSSIuUtd">pic.twitter.com/ooXSSIuUtd</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824898584585674855?ref_src=twsrc%5Etfw">August 17, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>Here's my texture atlas so far: five 20x20 pxtex images, and one 200x200px tree emoji. Thanks to them, the scene will look the same for everyone!
+
+<br><br>
+<p><img src=images/js13k24/19.png width=500>
+<br>
+<br>
+
+<hr>
+<br>
+<p><b>DAY 6</b>
+
+<hr>
+<br>
+<p><b>DAY 7</b>
+
+<hr>
+<br>
+<p><b>DAY 8</b>
+
+<hr>
+<br>
+<p><b>DAY 9</b>
+
+<hr>
+<br>
+<p><b>DAY 10</b>
 
 <!--
 Remarks:
@@ -319,6 +453,12 @@ Curtastic: The raw emotion in Plumber's voice when he says woohoo is the best pa
 Herebefrogs: I love it that you still manage to sneak emoji everywhere
 
 bb: Wow, Great Plumber 65 is a work of art... Amazing
+
+https://www.youtube.com/watch?v=HT2HMWjh2ls
+
+https://js13k.bandcamp.com/album/triskaidekaphobia-js13k-2024
+
+https://openclassrooms.com/forum/sujet/image-dans-un-select-10327
 -->
 
 </div>
