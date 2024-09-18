@@ -181,7 +181,7 @@ vec3 GetLocalPosition(int v){
 <br>
 
 <p>I'll show my progress on X and Slack, but I will hide all the Mario references, to avoid spoiling people! (even the Mario 3D model present in Midi3Dplatformer got replaced by a brown parallelepiped).
-<p>Ideally, I'd like to do a complete demake of Mario 64 in 5 chapters, five actual JS13K entries that would be able to share data and assets with each other, and I would call the game something like "GREAT PLUMBER 65", because 65kb = 5 x 13kb. Though, I know the task would be too immense for a single dev, with such size and time constraints, so I'll probably go with something much smaller, in a single entry, but as impressive as possible.
+<p>Ideally, I'd like to do a complete demake of Mario 64 in 5 chapters, five actual JS13K entries that would be able to share data and assets with each other, and I would call the game something like "GREAT PLUMBER 65", because 65kb = 5 x 13kb. Though, I know the task would be too immense for a single dev, with such size and time constraints, so I'll probably go with something much smaller, in a single entry, but as impressive as possible. <a href="https://www.youtube.com/clip/UgkxzZJ4oTvJFhEzQ4Z3Pc-4iT2owIfoEPGO">The intro and castle's outdoors</a> will certainly be enough.
 
 <p>I started by unearthing and connecting together two of the tools I invented a few years ago:
 <p>- <a href="https://xem.github.io/3Dmapeditor/">3Dmapeditor</a>
@@ -274,7 +274,7 @@ W.add("slope", {
 <p>With some HTML and CSS on top of this font (namely, custom colors, scale, letter-spacing, text-stroke and multiple text-shadows for the depth effect), I managed to make this (very convincing ?) title screen!
 
 <br><br>
-<p><img src=images/js13k24/10.png width=500>
+<p><img src=images/js13k24/10.png width=900>
 <br><br>
 
 <a href="https://xem.github.io/js13k24/1-intro/">LIVE DEMO</a> <p>(click to start! As a bonus, you'll see a little entrance animation and hear a coin sound from <a href="https://xem.github.io/MiniSoundEditor/">MiniSoundEditor</a>).
@@ -404,7 +404,7 @@ if(keys.u || keys.d){
 
 <blockquote class="twitter-tweet" data-conversation="none" data-theme="dark"><p lang="en" dir="ltr">DAY 5, part 3:<br>- Changed the map<br>- Added pyramids and a roof texture<br>- Added swimming<br>- Replaced svg emoji textures with emoji rendered on a canvas with the Twemoji webfont (for cross-browser consistency)<br>- Trees are bigger<br>- Your feet get lower than the grass surface<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/ooXSSIuUtd">pic.twitter.com/ooXSSIuUtd</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824898584585674855?ref_src=twsrc%5Etfw">August 17, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<p>Here's my texture atlas so far: five 20x20 pxtex images, and one 200x200px tree emoji. Thanks to them, the scene will look the same for everyone!
+<p>Here's my texture atlas so far: five 20x20 pxtex images, and one 200x200px tree emoji. Thanks to them, the scene will look the same for everyone! (the tree doesn't touch the bottom of the image to compensate the grass's extra height.)
 
 <br><br>
 <p><img src=images/js13k24/19.png width=500>
@@ -415,17 +415,147 @@ if(keys.u || keys.d){
 <br>
 <p><b>DAY 6</b>
 
-<hr>
+<p>Here's the last public update made on X about this entry: it contains a new map with more trees, doors, fences and a flag.
+
+
+<blockquote class="twitter-tweet" data-conversation="none" data-theme="dark"><p lang="en" dir="ltr">DAY 6:<br>- Added new elements (fence, flag, doors)<br>- Made trees and hero bigger, compared to the scene<br>- When swimming, movement speed and jump height are lower.<br>- On land, it&#39;s possible to double-jump (the second jump is a bit higher).<br>No more spoilers until release! 👋<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/ZkYrKsIJC7">pic.twitter.com/ZkYrKsIJC7</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1825159386722914310?ref_src=twsrc%5Etfw">August 18, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+<p>The doors and flag are generated from the emoji webfont. The fence is drawn on a canvas with "fillrect()" (and enhanced with a horizontal gradient a bit later).
+<p>Fences and doors are fixed planes, contrary to the trees and flags that are billboards (always facing the camera).
+<p>The left door is the same as the right one, but flipped horizontally. The left door is aligned on the right and the right door to the left, so they can easily be applied as textures over two neighbour blocks.
+<p>I also added hitboxes to the fences, but here too, it's very basic. The collision function says that their height is 1 if the decimal part of the Z coordinate is over 0.8, and 0 otherwise.
+<p>You can see in the video that the fences don't have back faces: they become invisible when you walk behind them. To fix that, I had to use two planes, one for the front, and one for the back (rotated 180 degrees).
+
+<p>A weird Webkit bug occurred while setting ids for my fence texture image:
+
+<p>HTML: 
+<pre class=language-html><code>&lt;img src="..." id=fence></code></pre>
+
+<p>JS:
+<pre class=language-js><code>console.log(fence) // null
+
+console.log(window.fence) // null
+
+fence = "test";
+
+console.log(fence) // null</code></pre>
+
+<p>Yup. "fence" is somehow a reserved word in Webkit browsers, you can't use it as a variable. It's always null. It took a lot of head-scratching before figuring this out (I thought the problem came from my texture), but when I finally realized what it really was, I just renamed my fence as "fenc". Suddenly, everything worked fine.
+
+<p>THis is the texture atlas at the end of day 6:
+<br><br>
+<p><img src=images/js13k24/20.png width=800>
 <br>
-<p><b>DAY 7</b>
 
 <hr>
 <br>
-<p><b>DAY 8</b>
+<p><b>DAYS 7 to 11</b>
 
-<hr>
+<p>The last 5 days of development were not shared publicly. I'm gonna tell you here what happened during that period. I worked on a bunch of things simultaneously, so I'll present them to you in 10 chapters...
+</p>
 <br>
-<p><b>DAY 9</b>
+<hr>
+<br><b>1) Speech synth</b>: while I was working on the title screen, I made a few tests of Speech Synth, and started explaining that it was a deep rabbit hole. It became even deeper when I started working on the second screen, where the princess reads the letter. The thing you need to know about the JS Speech Synth API is that the browsers barely have control on it. The only thing browsers do is request the OS to read a given text using a given voice. Many problems can occur at this point:
+<br>- Warm-up delay: some browsers (especially Firefox and Android's mobile browsers) can't request the OS's list of voices and return them instantly. <pre class=inline><code class="lang-js">speechSynthesis.getVoices()</code></pre> will return an empty array on the first call, and an actual list if it's called again a few seconds later.
+</p>
+<br><img src=images/js13k24/21.png width=800>
+<br>
+
+<br>- The list of available voices is pretty much unpredictable, as it depends entirely on the OS. The list returned by the API includes names and language codes, but there's no way to know if a voice is male or female. I can only try to predict if a voice is male or female based on its name.
+<br>So I asked on js13k's slack for volunteers to execute this line of JavaScript on their setup and show me the results:<br><br><pre class=inline><code class="lang-js">speechSynthesis.getVoices().filter(a=>a.lang.startsWith("en"))</code></pre>.<br><br>I received <a href="images/js13k24/22.png">enough samples</a> to create a list of 21 female and 16 male english voices, which I put in two regexes.
+
+<pre class=language-js><code>// Known male/memale speech synth voices (thanks to people on Slack for giving me their)
+female = /Female|Google US English|Susan|Hazel|Zira|Shelley|Grandma|Sandy|Martha|Aria|Priya|Heather|Hayley|Samantha|Catherine|Karen|Tessa|Moira|Kathy|Rishi|Libby/;
+male = /Male|George|Rocko|Daniel|Grandpa|Eddy|Reed|Fred|Ralph|Mark|David|Arthur|Guy|Aaron|Albert|Jester/;</code></pre>
+
+<br>When I have a text ro read with a male voice (ex: "It's a me, the great plumber"), I check if any of the available voice matches the male regex. If one does, use it. Else, use the first english voice available by default (even if it's female). The same thing goes for when I need a female voice (ex: "Dear plumber, please come to the castle...") and the female regex.
+
+
+<br><br><hr><br><p><b>2) The princess' letter</b>: Between the title screen and the introduction, I wanted to reproduce the scene from Mario 64 where princess Peach reads a letter to Mario. I decided to reproduce this scene with HTML, emoji and CSS.
+
+<br><br>
+<br><img src=images/js13k24/23.png width=800>
+<br>
+<br>
+
+<p>The thing is, there's no emoji that represents a side view of a princess. My griend <b>@KorHosik</b> and I looked through all the emoji available, and found the crown emoji (already used in my 2023 entry) and an emoji representing a blonde woman, looking down, in side view, holding/feeding a baby. After some resizing, positioning, rotation and cropping, I think I managed to do something quite resembling!
+
+<br><br>
+<br><img src=images/js13k24/24.png width=400>
+<br>
+<br>
+
+<p>Another thing I needed to do well was the letter's font. There's no system font using pixel-art and I don't want to draw one by hand. Thankfully, the game's font <a href="https://fontmeme.com/fonts/mario-64-font/">is also available in ttf format</a> (and weighs 15kb).
+
+<p>After a bit of trimming with FontForge (and editing the lowercase L that was strangely too much on the left - so much that "click to start" written in this font really looked like "dick to start" - by chance FontForge includes a very nice glyph editor too), I could export a 2.1kb woff2 file containing all the letters I needed for my game.
+
+<br><br>
+<br><img src=images/js13k24/25.png width=700>
+<br>
+<br>
+
+<p>The rest of the letter is basic HTML and CSS. 
+
+<br><br><hr><br><p><b>3) The final map</b>
+
+<p>When I considered my platformer engine good enough, it was finally time to create the actual princess castle...
+<p>I started by making sketches on paper, with the help of the amazing <a href="https://noclip.website/#sm64ds/1;ShareData=AMXG/Uke5VTCFLg8GuueV~q[B5eMsKT{?T5UrC4SWsyyxTQs@m92$TbT*67UWPA">noclip.website visualizer</a>, to determine the size of my map, which was initially 28x25 blocks, then reduced to 25x20, when seen from above. 
+
+<br><br>
+<br><img src=images/js13k24/26.png width=900>
+<br>
+<br>
+
+<p>Of course, it's a demake, so a lot of details will be omitted to make it fit in 13kb, and everything will look more flat and cubic than in the original, however I already knew that it could look good because I had already made a (much smaller) 1kb Peach Castle demo for js1k 2019:
+<br><br>
+<br><img src=images/js1k19/peach1k.gif width=400>
+<br>
+<br>
+
+<p>Then, I drew my castle with 3Dmapeditor, layer by layer, by leaving every invisible block (inside the castle and below the ground) empty to save space and improve rendering performances. It took me half a day, and iniaially took 21 layers. (Later, after realizing that my slopes collision detection didn't work well on heights higher than 1, I edited it down to 18 layers, reducing the ground's height to a single layer, at water level.
+
+<p>I was surprised to see 3Dmapeditor, made in CSS3D, support very well the creation of such a big map. Below are some work-in-progress screenshots. You can remark that I added basic window 🪟, fence 🚧 and princess 👸 emoji in the editor and that the roofs are in "ice" color instead of red. The roof pyramids are also shown as one little block, but in the final entry, they will be scaled up to cover a larger area (like I had done in JS1K, by the way).
+
+<br><br>
+<br><img src=images/js13k24/27.png width=900>
+<br>
+<br>
+
+<p>After copying the editor's ASCII output into my index.html, feeding it to my 3D platformer's renderer and making dozens of little adjustments manually, it was indeed much more pleasant to look at!
+
+<br><br>
+<br><img src=images/js13k24/28.jpg width=500>
+<br>
+<br>
+
+Oops, that's an off-by-one error.
+
+<br><br>
+<br><img src=images/js13k24/29.jpg width=900>
+<br>
+<br>
+
+Ah, that's a good first draft. Take a look at the water pool blending with the background sea, compared to the original on N64:
+
+<br><br>
+<br><img src=images/js13k24/30.jpg width=900>
+<br>
+<br>
+
+<p>I iterated on the castle's map, textures and overall rendering for 5 days to reach the version that you can see in the final release.   
+
+<br><br><hr><br><p><b>4) The performance issues</b>
+<br><br><hr><br><p><b>5) The additional textures and sky</b>
+<br><br><hr><br><p><b>6) The intro sequence</b>
+<br><br><hr><br><p><b>7) The hero's apparition and interactions</b>
+<br><br><hr><br><p><b>8) The audio</b>
+<br><br><hr><br><p><b>9) Inside the castle</b>
+<br><br><hr><br><p><b>10) The entry's release</b>
+
+
+
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 10 (update):<br>I forgot to run ECT on my zip. I won&#39;t need to golf it finally. It&#39;s already 10 bytes under the 13kb budget with a simple command line.<br>Also, it doesn&#39;t use Roadroller because it needs to do stuff as soon as the page opens, and other things after onload.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/0bj54COoLv">pic.twitter.com/0bj54COoLv</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1826521112882098280?ref_src=twsrc%5Etfw">August 22, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <hr>
 <br>
@@ -476,6 +606,7 @@ header();
 footer();
 menu();
 </script>
-
+<style>
+.inline, .inline * { display: inline; padding: 2px !important; }</style>
 </body>
 </html>
