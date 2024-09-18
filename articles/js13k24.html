@@ -60,10 +60,22 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <hr>
 <br>
 <h3>The full story (with spoilers)</h3>
+<br>
+<hr>
+<br>
+<p><b>SUMMARY</b>
+<p>- <a href="#intro">Introduction</a>
+<br>- <a href="#game1">Days 1-11: GREAT PLUMBER 65</a>
+<br>- <a href="#game2">Days 12-21: EMOJIPHOBIA</a>
+<br>- <a href="#game3">Days 22-31: O HIII BAD SKATEPARK</a>
+<br>- <a href="#conclusion">Conclusion</a>
+<br>
+<br>
+<hr>
+<br>
+<p><b id=intro>Introduction</b>
 
-<p><b>JULY 2024</b>
-
-<p>At the beginning of July, I hadn't really been able to enjoy coding for a couple years, and had serious doubts about competing to js13kgames this year. Focusing on code had become too hard for me.
+<p>At the beginning of July 2024, I hadn't really been able to enjoy coding for a couple years, and had serious doubts about competing to js13kgames this year. Focusing on code had become too hard for me.
 <p>By chance, I stumbled upon <a href="https://www.youtube.com/watch?v=b0hL4mJInm0">JaidenAnimations video "I found out I have ADHD."</a>, which made me decide to consult a specialist, get an actual ADHD diagnosis, and the appropriate medication.
 <p>And it was exactly what I needed. After a couple days, my brain was fixed and I was again (actually, more than ever) able to think, focus and create stuff, many hours a day... and do it with actual pleasure!
 <p>JS13K 2024 is officially uncancelled! Get ready for an unusually productive summer...
@@ -73,8 +85,6 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <br>
 <br>
 <hr>
-<br>
-<p><b>AUGUST 2024</b>
 <br>
 <p>August has arrived, and there are another 13 days to wait until the start of the jam. How about working on tools that could become handy if I make an actual 3D WebGL entry this year? (after 7 years of making all my 3D games with CSS3D)
 <p>The vague idea of an entry inspired by Mario 64 has been in my head for many years, and if I actually try to do it in this edition of JS13K, one thing I will need for sure is a tiny pixellized texture generator to represent surfaces like rock, grass, sand or water. LOSSST 2021 used <a href="https://codepen.io/collection/DRMKdB">Bence's amazing SVG textures</a>, but this time I want something much, much smaller, more generic, and pixel-y!
@@ -122,7 +132,6 @@ vec3 GetLocalPosition(int v){
 <br>
 <hr>
 <br>
-<p><b>DWEETS</b>
 <p>In early August, <b>@end3r</b> advertised js13kgames 2024 on Dwitter with <a href="https://www.dwitter.net/d/32204">a 140b countdown</a>.
 <p>It gave me the idea to make a series of little Dweets to advertize the jam, too:
 <p>- <a href="https://dwitter.net/d/32224">What are 13,312 bytes?</a>
@@ -141,6 +150,11 @@ vec3 GetLocalPosition(int v){
 <p>...and <a href="https://www.dwitter.net/d/32220">a dweet about olympic games</a> held in my country at that moment (I didn't have enough room to make the rings overlap correctly).
 <br><br>
 <p><img src=images/js13k24/12.png width=400>
+<br>
+<br>
+<hr>
+<br>
+<p><b id=game1>DAYS 1-11: GREAT PLUMBER 65</b>
 <br>
 <br>
 <hr>
@@ -529,7 +543,7 @@ male = /Male|George|Rocko|Daniel|Grandpa|Eddy|Reed|Fred|Ralph|Mark|David|Arthur|
 <br>
 <br>
 
-Oops, that's an off-by-one error.
+Oops, that's an off-by-one error. Here it is:
 
 <br><br>
 <br><img src=images/js13k24/29.jpg width=900>
@@ -546,12 +560,28 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <p>I iterated on the castle's map, textures and overall rendering for 5 days to reach the version that you can see in the final release.   
 
 <br><br><hr><br><p><b>4) The performance issues</b>
-<br><br><hr><br><p><b>5) The additional textures and sky</b>
+
+<p>The castle's map contained more than 1200 blocks in the first version, and 1003 after removing a few layers. Each block represents either a cube, a slope, a plane or a billboard, with textures and transparency (for the planes and billboards). W.js had never been tested with such a charge, and performance was crawling, even on my high-end PC.
+<p>But I've never optimized a game! How do we do that? where should I start? 
+<p>Oh, I know, sorting things is expensive. I remembered that W.js reorders all textured objects from back to front before drawing the scene (because WebGL needs that to handle transparency). But in my scene, everything is textured, and it's ridiculous to reorder 1003 elements 60 times per second!
+<p>So I plunged into W's source code and created a "transparent" array containing only the planes and billboards of my scene. Suddenly, the sorting was done on 49 items instead of 1003 (yeah, the trees, doors, windows, flags and double-sided fences represent 49 elements).
+<p>The second improvement I could think of was to perform the sorting once per second (i.e. once every 60 frames) instead of doing it at each frame, which is largely enough, as the transparent elements order doesn't change very quickly when we walk through the map.
+<p>After that, the game became fluid on my PC, but also on my phone, so I didn't bother looking further.
+<p>I know that a huge improvement could have been to do some sort of batch rendering instead of doing 1003 draw calls at each frame, but unfortunately, I haven't learned how to do that yet and didn't want to lose time learning that during the jam, so I'll stop there for the optimizations!
+
+
+<br><br><hr><br><p><b>5) Background and extra textures</b>
+<p>COMING SOON
 <br><br><hr><br><p><b>6) The intro sequence</b>
+<p>COMING SOON
 <br><br><hr><br><p><b>7) The hero's apparition and interactions</b>
-<br><br><hr><br><p><b>8) The audio</b>
-<br><br><hr><br><p><b>9) Inside the castle</b>
+<p>COMING SOON
+<br><br><hr><br><p><b>8) Inside the castle</b>
+<p>COMING SOON
+<br><br><hr><br><p><b>9) The audio</b>
+<p>COMING SOON
 <br><br><hr><br><p><b>10) The entry's release</b>
+<p>COMING SOON
 
 
 
@@ -560,6 +590,26 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <hr>
 <br>
 <p><b>DAY 10</b>
+<p>COMING SOON
+
+<br>
+<br>
+<hr>
+<br>
+<p><b id=game2>DAYS 12-21: EMOJIPHOBIA</b>
+<p>COMING SOON
+<br>
+<br>
+<hr>
+<br>
+<p><b id=game3>DAYS 22-31: O HIII BAD SKATEPARK</b><br>
+
+<p>COMING SOON
+<br>
+<hr>
+<br>
+<p><b id=conclusion>Conclusion</b>
+<p>COMING SOON
 
 <!--
 Remarks:
