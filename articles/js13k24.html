@@ -75,11 +75,11 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <br>
 <p><b id=intro>Introduction</b>
 
-<p>At the beginning of July 2024, I hadn't really been able to enjoy coding for a couple years, and had serious doubts about competing to js13kgames this year. Focusing on code had become too hard for me.
+<p>At the beginning of July 2024, I hadn't really been able to enjoy coding for a couple years, and had serious doubts about competing in js13kgames this year. Focusing on code had become too hard for me.
 <p>By chance, I stumbled upon <a href="https://www.youtube.com/watch?v=b0hL4mJInm0">JaidenAnimations video "I found out I have ADHD."</a>, which made me decide to consult a specialist, get an actual ADHD diagnosis, and the appropriate medication.
 <p>And it was exactly what I needed. After a couple days, my brain was fixed and I was again (actually, more than ever) able to think, focus and create stuff, many hours a day... and do it with actual pleasure!
 <p>JS13K 2024 is officially uncancelled! Get ready for an unusually productive summer...
-<p>While waiting for JS13k to start, I spent most of July replaying every single JS game I had made for the past 10 years, <a href="https://x.com/MaximeEuziere/status/1807668217734660294">in the form of a X thread</a>. The playthroughs durations range from a couple minutes to almost <a href="https://www.youtube.com/watch?v=nznC5jv0Vg8">3 hours</a> (for my 2021 entry LOSSST).
+<p>While waiting for JS13k to start, I spent most of July replaying every single JS game I had made for the past 10 years, <a href="https://x.com/MaximeEuziere/status/1807668217734660294">in the form of an X thread</a>. The playthroughs durations range from a couple minutes to almost <a href="https://www.youtube.com/watch?v=nznC5jv0Vg8">3 hours</a> (for my 2021 entry LOSSST).
 <blockquote class="twitter-tweet" data-theme="dark" data-media-max-width="560"><p lang="en" dir="ltr">On august 13th starts the 13th edition of <a href="https://twitter.com/js13kGames?ref_src=twsrc%5Etfw">@js13kGames</a>.<br>I&#39;ve also been making code golfed JS games for 10 years.<br>Instead of a tips/tools thread, I will do a thread of me replaying all the games that I have developed so far and see if thay still work and if I can beat them in 2024!</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1807668217734660294?ref_src=twsrc%5Etfw">July 1, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 <p>I was overall very pleased to rediscover my old creations, most of them being playable in 2024 and offering a real experience to the player (especially the ones released since JS13K 2015).
 <br>
@@ -87,7 +87,7 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <hr>
 <br>
 <p>August has arrived, and there are another 13 days to wait until the start of the jam. How about working on tools that could become handy if I make an actual 3D WebGL entry this year? (after 7 years of making all my 3D games with CSS3D)
-<p>The vague idea of an entry inspired by Mario 64 has been in my head for many years, and if I actually try to do it in this edition of JS13K, one thing I will need for sure is a tiny pixellized texture generator to represent surfaces like rock, grass, sand or water. LOSSST 2021 used <a href="https://codepen.io/collection/DRMKdB">Bence's amazing SVG textures</a>, but this time I want something much, much smaller, more generic, and pixel-y!
+<p>The vague idea of an entry inspired by Mario 64 has been in my head for many years, and if I actually try to do it in this edition of JS13K, one thing I will need for sure is a tiny pixelized texture generator to represent surfaces like rock, grass, sand or water. LOSSST 2021 used <a href="https://codepen.io/collection/DRMKdB">Bence's amazing SVG textures</a>, but this time I want something much, much smaller, more generic, and pixel-y!
 <p>And that's how I invented <a href="https://xem.github.io/pxtex/">ptex</a>: a 228 bytes long JS function that takes a HTML canvas, a HSL color, a noise coefficient and a size, and outputs some yummy randomized pixel-art textures ready to use as base64 pngs.
 <br><br>
 <p><img src=images/js13k24/4.png width=600>
@@ -98,17 +98,17 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 
 <p>- And another dev, Lewis Nakao, made <a href="https://lewdev.github.io/apps/pxtex-tool/">a cool UI around it</a>:
 <blockquote class="twitter-tweet" data-theme="dark" data-media-max-width="560"><p lang="en" dir="ltr">Just so I could play around with <a href="https://twitter.com/hashtag/pxtex?src=hash&amp;ref_src=twsrc%5Etfw">#pxtex</a> by <a href="https://twitter.com/MaximeEuziere?ref_src=twsrc%5Etfw">@MaximeEuziere</a>, I made a tool and figured it might be useful to others in the <a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a>. I had to figure out the &quot;max&quot; values for each parameter. The Hue value wraps at 360.<br><br>⛏️ <a href="https://t.co/PH0IJ7OgRN">https://t.co/PH0IJ7OgRN</a><br><br>Source Code: <a href="https://t.co/bNfMNPXFgJ">https://t.co/bNfMNPXFgJ</a> <a href="https://t.co/PpBB7np7Zz">pic.twitter.com/PpBB7np7Zz</a></p>&mdash; Lewis Nakao (@lewdev) <a href="https://twitter.com/lewdev/status/1825480343014854919?ref_src=twsrc%5Etfw">August 19, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p>The second tool that I wanted to make is an absolute minimal WebGL boilerplate to display 3D shapes on screen.<p>I created <a href="https://xem.github.io/W/">W.js</a> in 2020 with the help of <b>@Stas</b> and <b>@Kchplr</b>, which was full of cool features and as small as possible (2kb zipped), but I wanted to see how low we could go by keeping only the bare essentials:
+<p>The second tool that I wanted to make was an absolute minimal WebGL boilerplate to display 3D shapes on screen.<p>I created <a href="https://xem.github.io/W/">W.js</a> in 2020 with the help of <b>@Stas</b> and <b>@Kchplr</b>, which was full of cool features and as small as possible (2kb zipped), but I wanted to see how low we could go by keeping only the bare essentials:
 <p>- Render planes and cubes out-of-the-box
 <br>- Render custom 3D models based on vertex / uv arrays
 <br>- Coloring, texturing and support for transparency
 <br>- Easily set camera and objects' position, rotation and scale.
 <br>- Automatic shading from diffuse and ambient light
 <p>The features left out are: billboards, animations, smooth shading, normal arrays, indexed models and groups.<p>They were amazing features of course, but took too much space.
-<p>I first tried to start om W's source code and trimming everything I didn't need, but the result remained too verbose. So I restarted from scratch, with a different model.
+<p>I first tried to start from W's source code and trim everything I didn't need, but the result remained too verbose. So I restarted from scratch, with a different model.
 <p>Now, the scene (with its clear color, camera, light and 3D objects) is entirely defined in a JSON object.
-<p>WebGL's z-index is not friend with transparency. W.js had a built-in function reordering every item on-the-fly, but here, to make things simpler, the objects with transparency just need to be declared in the correct order (from back to front) to be displayed properly.
-<p>The library only contains a function called <b>W.render()</b>, that can easily be called once, or 60 times per second for a game loop, and the cube's 3D model. (the plane model comes for free, by ony rendering the front face of a cube). 
+<p>WebGL's z-index is not friends with transparency. W.js had a built-in function reordering every item on-the-fly, but here, to make things simpler, the objects with transparency just need to be declared in the correct order (from back to front) to be displayed properly.
+<p>The library only contains a function called <b>W.render()</b>, which can easily be called once, or 60 times per second for a game loop, and the cube's 3D model. (the plane model comes for free, by ony rendering the front face of a cube). 
 <p>Thanks to these extreme simplifications, I was very proud to see the result fit in 1kb zipped.
 <p>I released it with 3 interactive demos and called it <a href="https://xem.github.io/microW/">MicroW</a>.
 <br><br>
@@ -160,9 +160,9 @@ vec3 GetLocalPosition(int v){
 <hr>
 <br>
 <p><b>DAY 1</b>
-<p>It's finally August 13th! The theme is <b>Tristaidekaphobia</b> and it inspires me... nothing at all.
+<p>It's finally August 13th! The theme is <b>Tristaidekaphobia</b> and... it gives me no ideas at all.
 <p>I scribbled some vague ideas on my notepad such as "maths game", "fear game", "puzzle with 13 pieces", "puzzle where you're limited to 13 moves", "Apollo 13", "avoid number 13", "avoid good luck"...
-<p>But nothing clicked do far.
+<p>But nothing clicked so far.
 <p>(At the end of the jam, I was pleased to see that other contestants had made very good games based on some of these ideas, and much better than I would have done myself.)
 <br>
 <p>I looked on <a href="https://wordsmith.org/anagram/index.html">Wordsmith.org</a> if there are good anagrams of the theme.
@@ -194,7 +194,7 @@ vec3 GetLocalPosition(int v){
 <br>
 <br>
 
-<p>I'll show my progress on X and Slack, but I will hide all the Mario references, to avoid spoiling people! (even the Mario 3D model present in Midi3Dplatformer got replaced by a brown parallelepiped).
+<p>I'll show my progress on X and Slack, but I will hide all the Mario references, to avoid spoilers! (even the Mario 3D model present in Midi3Dplatformer got replaced by a brown parallelepiped).
 <p>Ideally, I'd like to do a complete demake of Mario 64 in 5 chapters, five actual JS13K entries that would be able to share data and assets with each other, and I would call the game something like "GREAT PLUMBER 65", because 65kb = 5 x 13kb. Though, I know the task would be too immense for a single dev, with such size and time constraints, so I'll probably go with something much smaller, in a single entry, but as impressive as possible. <a href="https://www.youtube.com/clip/UgkxzZJ4oTvJFhEzQ4Z3Pc-4iT2owIfoEPGO">The intro and castle's outdoors</a> will certainly be enough.
 
 <p>I started by unearthing and connecting together two of the tools I invented a few years ago:
@@ -203,11 +203,11 @@ vec3 GetLocalPosition(int v){
 <br><br>
 <p><img src=images/js13k24/8.png width=900>
 <br><br>
-<p>Both tools weren't made to communicate with each other, and do not share any code whatsoever (the former is made in CSS3D and the latter in WebGL), but I made them communcate through a common ASCII export that represents the level. 3Dmapeditor outputs it, and Mini3Dplatformer parses it to construct its scene.
+<p>Both tools weren't made to communicate with each other, and do not share any code whatsoever (the former is made in CSS3D and the latter in WebGL), but I made them communicate through a common ASCII export that represents the level. 3Dmapeditor outputs it, and Mini3Dplatformer parses it to construct its scene.
 <p>To make this (rather unholy) communication work as I want, I first had to make Mini3DPlatformer able to display different kinds of cubes (grass, sand, rock, roof and water).
 <p>Then, I added slope blocks in both tools:
 
-<p>In 3Dmapeditor, the edits made to my generic 200*200*200px cube consisted in hiding the up face, slanting the front face, and clipping the left and right faces as triangles, with CSS:
+<p>In 3Dmapeditor, the edits made to my generic 200*200*200px cube consisted of hiding the up face, slanting the front face, and clipping the left and right faces as triangles, with CSS:
 
 <pre class=language-css><code>/* slope */
 .s3 .up { display: none }
@@ -493,7 +493,7 @@ male = /Male|George|Rocko|Daniel|Grandpa|Eddy|Reed|Fred|Ralph|Mark|David|Arthur|
 <br>
 <br>
 
-<p>The thing is, there's no emoji that represents a side view of a princess. My griend <b>@KorHosik</b> and I looked through all the emoji available, and found the crown emoji (already used in my 2023 entry) and an emoji representing a blonde woman, looking down, in side view, holding/feeding a baby. After some resizing, positioning, rotation and cropping, I think I managed to do something quite resembling!
+<p>The thing is, there's no emoji that represents a side view of a princess. My friend <b>@KorHosik</b> and I looked through all the emoji available, and found the crown emoji (already used in my 2023 entry) and an emoji representing a blonde woman, looking down, in side view, holding/feeding a baby. After some resizing, positioning, rotation and cropping, I think I managed to do something quite resembling!
 
 <br><br>
 <br><img src=images/js13k24/24.png width=400>
@@ -566,12 +566,98 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <p>Oh, I know, sorting things is expensive. I remembered that W.js reorders all textured objects from back to front before drawing the scene (because WebGL needs that to handle transparency). But in my scene, everything is textured, and it's ridiculous to reorder 1003 elements 60 times per second!
 <p>So I plunged into W's source code and created a "transparent" array containing only the planes and billboards of my scene. Suddenly, the sorting was done on 49 items instead of 1003 (yeah, the trees, doors, windows, flags and double-sided fences represent 49 elements).
 <p>The second improvement I could think of was to perform the sorting once per second (i.e. once every 60 frames) instead of doing it at each frame, which is largely enough, as the transparent elements order doesn't change very quickly when we walk through the map.
+
 <p>After that, the game became fluid on my PC, but also on my phone, so I didn't bother looking further.
 <p>I know that a huge improvement could have been to do some sort of batch rendering instead of doing 1003 draw calls at each frame, but unfortunately, I haven't learned how to do that yet and didn't want to lose time learning that during the jam, so I'll stop there for the optimizations!
 
+<p>Note: it's still possible to see the effect of this 60-frame refresh time when you go between two trees and rotate the camera quickly:
+
+<br><br>
+<br><img src=images/js13k24/38.gif width=600>
+<br>
+<br>
 
 <br><br><hr><br><p><b>5) Background and extra textures</b>
-<p>COMING SOON
+<p>While experimenting with my 3D platformer engine, I got bored with my blue uniform background color, so I wondered if it would be difficult to do some kind of skybox, or skysphere, like the ones present in Mario 64.
+
+<p>I set my texture canvas size to 512 x 512 px, filled the bottom half with the same pxtex formula used for the water (most of the entry's loading time is spent generating it, by the way), and the top half with a blue gradient with some cloud emoji.
+
+<br><br>
+<br><img src=images/js13k24/31.png width=800>
+<br>
+<br>
+
+<p>I tried applying this texture to a big sphere, 5 times bigger than the level, but there was a problem called backface culling! In other words, the sphere is made of triangles whose normals point to the exterior, making the exterior of the sphere textured and the interior transparent (similarly to fences planes only visible from one side).
+
+<p>And how do we invert the normal of a triangle? Easy (when we know it): declare the triangle's vertices in reverse order. If the triangle ABC points to the exterior, then the triangle ACB points to the interior.
+
+<br><br>
+<br><img src=images/js13k24/32.png width=600>
+<br>
+<br>
+
+<p>So, I edited the W.js function that generates spheres to make it output the vertices coordinates in reverse order, and it worked like a charm on the first try! (NB: this function is not written by me, I understand very little of how it works).
+<p>To make the sphere look good visually in real conditions, I had to adjust some cloud positions, as close to the horizon as possible, so they don't get cut because of a triangle edge, or distorted because of their closeness to the sphere's north pole.
+
+<br><br>
+<br><img src=images/js13k24/33.png width=800>
+<br>
+<br>
+
+<p>Fun fact: during developmentI couldn't understand why the cloud emoji were cut when they were placed too close to the edge of a triangle, but I realize it now while writing these lines: I reversed the triangles vertices coordinates, but forgot to reverse the uv (texture) coordinates. That means that every triangle of my sky sphere has a texture flipped horizontally! Fortunately, with every cloud carefully positioned, this has no incidence on the final result.
+
+<p>The castle's walls looked to monotonous for me. On N64, the bricks are visible.
+<p>After many attempts, my solution was to make the brick's pxtex texture 40x40px, and trace light gray lines over it with a repeating pattern:
+
+<br><br>
+<br><img src=images/js13k24/35.png width=800>
+<br>
+<br>
+
+<p>For the princess mosaic, once again, I was ready to put a basic princess emoji there, but my friend <b>@Korhosik</b> was here to motivate me to do something better.
+<p>So I combined a crown 👑, a kneeling woman 🧎‍♀️ and a flower emojis 💐, and with the correct position, rotation, scale and cropping, plus a golden ellipse and a blue background, it made a mosaic pattern that I enjoy a lot!
+<p>(I don't know why I made an ellipse instead of this pointy shape... I guess in my memories it was an ellipse and I forgot to double-check when I coded it!)
+
+<br><br>
+<br><img src=images/js13k24/36.png width=800>
+<br>
+<br>
+
+<p>I created a gradient texture very close to the cone used for the fence, to apply on the wooden bridge:
+
+
+<br><br>
+<br><img src=images/js13k24/37.png width=800>
+<br>
+<br>
+
+<p>On the last day of the project, I had a few dozen free bytes and decided to use them to represent the closed cannon near the lake, with a custom texture (it kinda looks 3D but it's just made of a circle and a few lines)
+
+<br><br>
+<br><img src=images/js13k24/38.png width=800>
+<br>
+<br>
+
+<p>Last but not least (it's actually my favourite one!), I browsed the emoji list one more time to look for an emoji that could resemble Mario 64's windows a little, and stumbled upon... the pie emoji! 🥧
+
+<p>With the Twemoji Webfont polyfill, it can totally pass as a window, so I decided to use it, not without a lot of amusement! There are pies on walls in my js13k entry and no one will remark it unless I tell them, haha!
+
+
+<br><br>
+<br><img src=images/js13k24/39.png width=800>
+<br>
+<br>
+
+<p>Here's the full texture atlas at the end of the development:
+<p>You can remark that there are two wall textures (I kept one without bricks to put around the mosaic), and that the roof texture is bigger than the others (because the roof pyramids are scaled up).
+
+<br><br>
+<br><img src=images/js13k24/34.png width=900>
+<br>
+<br>
+
+
+
 <br><br><hr><br><p><b>6) The intro sequence</b>
 <p>COMING SOON
 <br><br><hr><br><p><b>7) The hero's apparition and interactions</b>
