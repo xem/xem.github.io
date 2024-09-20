@@ -127,7 +127,8 @@ vec3 GetLocalPosition(int v){
   return sign(vec3(x&1,x&2,x&4));
 }</code></pre>
 <p>Seems magic. I'll look into this!
-<p>Another challenge I started at the end of July is implementing my own 3D physics engine in JS (because all the existing ones weigh more than 100kb). I've read many <a href="https://www.amazon.com/s?k=physics+engine+game&crid=2629HQH2ISLU4&sprefix=physics+engine+game%2Caps%2C312&ref=nb_sb_noss_1">books</a> and <a href="https://gamephysicsweekend.github.io/">ebooks</a> related to this topic but didn't manage to get past collision detection yet.<p>I will try again later!
+<p>Another challenge I started at the end of July is implementing my own 3D physics engine in JS (because all the existing ones weigh more than 100kb). I've read many <a href="https://www.amazon.com/s?k=physics+engine+game&crid=2629HQH2ISLU4&sprefix=physics+engine+game%2Caps%2C312&ref=nb_sb_noss_1">books</a> and <a href="https://gamephysicsweekend.github.io/">ebooks</a> related to this topic but didn't manage to get past collision detection yet.
+<p>I will try again later, but shared my favourite books with <b>@cody</b> who will try to use it for his own entry... good luck to him !
 <br>
 <br>
 <hr>
@@ -557,7 +558,18 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <br>
 <br>
 
-<p>I iterated on the castle's map, textures and overall rendering for 5 days to reach the version that you can see in the final release.   
+<p>I iterated on the castle's map, textures and overall rendering for 5 days to reach the version that you can see in the final release.
+
+<p>After showing the first draft (using W.js's directional light) to my friend <b>Julien</b>, he suggested that I improve the light, because everything looked too flat.
+
+<p>So I reopened <a href="https://xem.github.io/articles/webgl-guide.html">my WebGL tutorial</a> from 2020 and used it to replace W's directional with a point light, placed in the sky, near the entrance of the castle. I also added a little offset to the 3 roofs of the castle, to have them stand out a little from the walls below them.
+
+<br><br>
+<br><img src=images/js13k24/41.png width=800>
+<br>
+<br>
+
+<p>It's a few small changes overall, but I believe it makes the scene look much, much better, so thanks for the idea!
 
 <br><br><hr><br><p><b>4) The performance issues</b>
 
@@ -606,8 +618,18 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 
 <p>Fun fact: during developmentI couldn't understand why the cloud emoji were cut when they were placed too close to the edge of a triangle, but I realize it now while writing these lines: I reversed the triangles vertices coordinates, but forgot to reverse the uv (texture) coordinates. That means that every triangle of my sky sphere has a texture flipped horizontally! Fortunately, with every cloud carefully positioned, this has no incidence on the final result.
 
-<p>The castle's walls looked to monotonous for me. On N64, the bricks are visible.
-<p>After many attempts, my solution was to make the brick's pxtex texture 40x40px, and trace light gray lines over it with a repeating pattern:
+<p>Other fun fact: I had to make the sky sphere immune to the scene's point light, otherwise it would have been weirdly shaded. Thankfully, W.js got me covered, as it supported a "ns" (no shading) property, that I used on the sky sphere to avoid this:
+
+
+<br><br>
+<br><img src=images/js13k24/42.png width=800>
+<br>
+<br>
+
+<p>The other items that were made immude to lighting are the trees, because I didn't want them to become randomby lighter or darker when ther rotate to face the camera. 
+
+<p>The castle's walls still looked too monotonous for me. On N64, the bricks are visible.
+<p>After many attempts, my solution was to make the brick's pxtex texture 40 x 40px, and trace light gray lines over it with a repeating pattern:
 
 <br><br>
 <br><img src=images/js13k24/35.png width=800>
@@ -640,7 +662,7 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 
 <p>Last but not least (it's actually my favourite one!), I browsed the emoji list one more time to look for an emoji that could resemble Mario 64's windows a little, and stumbled upon... the pie emoji! 🥧
 
-<p>With the Twemoji Webfont polyfill, it can totally pass as a window, so I decided to use it, not without a lot of amusement! There are pies on walls in my js13k entry and no one will remark it unless I tell them, haha!
+<p>With the Twemoji Webfont polyfill, it can totally pass as a window, so I decided to use it with a bit of rotation and scaling, and a lot of amusement! There are pies on walls in my js13k entry and no one will remark it unless I tell them, haha!
 
 
 <br><br>
@@ -659,9 +681,88 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 
 
 <br><br><hr><br><p><b>6) The intro sequence</b>
-<p>COMING SOON
-<br><br><hr><br><p><b>7) The hero's apparition and interactions</b>
-<p>COMING SOON
+
+<p>In my 3D platformer engine, the camera is placed in the same group as the hero, to follow him "for free". 
+<p>But if I want to make an intro sequence that looks like <a href="https://noclip.website/#sm64ds/1;ShareData=AMXG/Uke5VTCFLg8GuueV~q[B5eMsKT{?T5UrC4SWsyyxTQs@m92$TbT*67UWPA">the original</a>, I must move the camera freely from the sky, to the ground, up to the hero's spawning point.
+<p>And, as you may know, in gamedev, <a href="https://www.gamedeveloper.com/programming/dirty-coding-tricks">dirty coding tricks</a> are often the best solutions for a problem, so instead of finding a way to detach the camera from the hero's group until the end of the cutscene, I simply moved the hero's group around the map, just to have the camera follow it, and the hero's geometry was simply moved 10 units downwards on the Y axis to stay off-screen.
+<p>W.js already has an animation feature allowing to move/rotate an item from a position to another. I "only" had to find a way to chain animations in a fluid way to make the camera move between 12 different positions without any glitch (frame drop or animation overlap). The implementation I ended up doing was rather elegant, where the animation code itself determines when the animation is complete and triggers the next one instantly.
+<p>It was also quite easy to make the 3D platform engine start at the end of the sequence (it would have been weird if the gravity, collisions and keyboard controls worked during the intro). The whole platformer engine code is simply placed in the 12th and final step of the intro, just when the hero appears on screen and the green pipe disappears. You can see the engine kick in when the hero falls on the ground.
+
+<pre class=language-js><code>// Intro animation
+introstep = -1;
+
+// intro() is called by W.js at the end of the animation routine, while introstep is &lt; 12 
+intro = () => {
+
+  introstep++;
+
+  if(introstep === 0){
+
+    // Hide princess letter
+    princess.style.opacity = letter.style.opacity = 0;
+    
+    // Move hero/camera at the top of the castle (hero is hidden)
+    hero.y = 12;
+    hero.z = -.5;
+    hero.x = 10;
+    W.move({n: "H", x: hero.x, y: hero.y, z: hero.z, a: 5000}) // move hero group for 5 seconds
+  }
+  else if(introstep === 1){
+    // ...
+  }
+
+  else if(introstep === 2){
+    //...
+  }
+
+  // etc...
+  
+  else if(introstep === 12){
+  
+    // Hide pipe
+    W.move({n: "pipe", y: -100, size: .01, a: 1});
+
+    // End of intro, start game loop
+    setInterval(()=>{
+      
+      // entire game engine here...
+      
+    }, 16);
+  }
+}</code></pre>
+<p>At first I wasn't motivated to make the green pipe thing (I just wanted to make the hero fall from the sky), but my friends <b>@Korhosik</b> and <b>Mia</b> convinced me to do it and I must admit that it's much better like that... (It's just two green cubes, though, not what I'd call a lot of work).
+<p>One thing I voluntatily didn't include in my intro is the Lakitu (the little guy flying on a cloud with a camera).
+<p>When I made the intro's music afterwards, I adjusted the intro's timing so that it synchronizes perfectly with the duration of the melody.
+
+<p>At the end of the intro, mobile controls appear on mobiles and tablets. Making the buttons was not difficult, but detecting mobiles and tablets has become difficult in 2024, since Android browsers stopped including "Android" or "Mobile" in their user-agents.
+
+<br><br>
+<br><img src=images/js13k24/40.png width=700>
+<br>
+<br>
+
+<p>I searched for a reliable way to detect handheld devices, but didn't find a lot of solutions (most of the StackOverflow answers still rely on user-agent). I ended up finding a window property that seems to be undefined on most desktops and an integer >= 0 on most mobiles and tablets: <b>window.orientation</b>, so I used that. I guess it works fine, as no one has complained since.
+
+<br><br><hr><br><p><b>7) The hero</b>
+<p>It was finally time to replace my brown elongated cube with a real character that looks like Mario. I coded it from to to bottom, with a bunch of cubes: 3 for the hat and head, 3 for the body and arms, 4 for the legs and shoes, colored with flat colors. I didn't bother modeling or texturing the hero's face as it's almost never visible.
+
+<p>When the hero moves to the front or the back, a walk frame counter is incremented, and the arms and legs receive an angle proportional to the cosine of this counter, making them swing from front to back and giving a good illusion of walk animation.
+
+<p><b>Korhosik</b> suggested that an arm of the hero stays in the air when it jumps. I guess it's a reference to <u>Hitler</u> the jump sprite in Super Mario Bros. Anyway, I implemented it.
+
+<p>When the hero jumps three times consecutively in a short period, I implemented a triple-jump system similar to <a href="https://youtu.be/FR6PG-MAV3M?t=3">the one in Mario 64</a>: the second jump is a bit higher and the third one is even higher and adds a "roulade" in the air. It's the kind of small additions that add very few bytes and act as a fun easter-egg for people who discover it.
+
+<p>I also added colisions to the trees because it was weird to see the hero walking through them. However, to keep things simple, they have the same hitbox than a cube.
+
+<p>Finally, there's the question of water. I already implemented a basic "swim" position in my platformer prototype, but I enhanced it a little here, by adding an animation between the "standing up" and "swimming" positions. I also made the movement in water slower than on land, and the jumps from water reach a lower height. 
+
+<p>I showed the result to <b>@end3r</b>, and he didn't judged that my work deserved a strike... I don't know how I should take it, haha! (For his defense, the castle's lacked its final mosaic and a few windows when I show it to him. It's probably more realistic now!)
+
+<br><br>
+<br><img src=images/js13k24/2.png width=700>
+<br>
+<br>
+
 <br><br><hr><br><p><b>8) Inside the castle</b>
 <p>COMING SOON
 <br><br><hr><br><p><b>9) The audio</b>
@@ -725,6 +826,9 @@ https://www.youtube.com/watch?v=HT2HMWjh2ls
 https://js13k.bandcamp.com/album/triskaidekaphobia-js13k-2024
 
 https://openclassrooms.com/forum/sujet/image-dans-un-select-10327
+
+https://github.com/codyebberson/js13k-3dphysics-for-xem
+live demo: https://js13k-3dphysics-for-xem.vercel.app/
 -->
 
 </div>
