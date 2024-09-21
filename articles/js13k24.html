@@ -40,11 +40,11 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <h3>TL;DR</h3>
 
 <p>This year I released 3 entries:
-<p>- <a href="https://dev.js13kgames.com/2024/games/great-plumber-65">GREAT PLUMBER 65</a> (a 3D platformer tech demo inspired by a childhood game, ranked ...th)
+<p>- <a href="https://dev.js13kgames.com/2024/games/great-plumber-65">GREAT PLUMBER 65</a> (a 3D platformer tech demo inspired by a childhood game, ranked ...th) - <a href="https://github.com/xem/js13k24">Github</a>
 
-<br>- <a href="https://dev.js13kgames.com/2024/games/emojiphobia">EMOJIPHOBIA</a> (a quiz game about phobias... and emoji, ranked ...th)
+<br>- <a href="https://dev.js13kgames.com/2024/games/emojiphobia">EMOJIPHOBIA</a> (a quiz game about phobias... and emoji, with more than 280 to discover, ranked ...th) - <a href="https://github.com/xem/js13k24-phobia">Github</a>
 
-<br>- <a href="https://dev.js13kgames.com/2024/games/o-hiii-bad-skatepark">O HIII BAD SKATEPARK</a> (a "Line Rider" clone with skates and extra challenges, ranked ...th)
+<br>- <a href="https://dev.js13kgames.com/2024/games/o-hiii-bad-skatepark">O HIII BAD SKATEPARK</a> (a "Line Rider" clone with skates and extra challenges, ranked ...th) - <a href="https://github.com/xem/js13k24-skate">Github</a>
 
 <p>... and 3 new tools:
 
@@ -81,11 +81,12 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <p>JS13K 2024 is officially uncancelled! Get ready for an unusually productive summer...
 <p>While waiting for JS13k to start, I spent most of July replaying every single JS game I had made for the past 10 years, <a href="https://x.com/MaximeEuziere/status/1807668217734660294">in the form of an X thread</a>. The playthroughs durations range from a couple minutes to almost <a href="https://www.youtube.com/watch?v=nznC5jv0Vg8">3 hours</a> (for my 2021 entry LOSSST).
 <blockquote class="twitter-tweet" data-theme="dark" data-media-max-width="560"><p lang="en" dir="ltr">On august 13th starts the 13th edition of <a href="https://twitter.com/js13kGames?ref_src=twsrc%5Etfw">@js13kGames</a>.<br>I&#39;ve also been making code golfed JS games for 10 years.<br>Instead of a tips/tools thread, I will do a thread of me replaying all the games that I have developed so far and see if thay still work and if I can beat them in 2024!</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1807668217734660294?ref_src=twsrc%5Etfw">July 1, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-<p>I was overall very pleased to rediscover my old creations, most of them being playable in 2024 and offering a real experience to the player (especially the ones released since JS13K 2015).
+<p>I was overall very pleased to rediscover my old creations, most of them being playable in 2024 and offering a real experience to the player (that's the case of all the js13k entries made since 2015, but more particularly the ones made after I got into CSS3D and emoji).
 <br>
 <br>
 <hr>
 <br>
+<p><b>August 2024</b>
 <p>August has arrived, and there are another 13 days to wait until the start of the jam. How about working on tools that could become handy if I make an actual 3D WebGL entry this year? (after 7 years of making all my 3D games with CSS3D)
 <p>The vague idea of an entry inspired by Mario 64 has been in my head for many years, and if I actually try to do it in this edition of JS13K, one thing I will need for sure is a tiny pixelized texture generator to represent surfaces like rock, grass, sand or water. LOSSST 2021 used <a href="https://codepen.io/collection/DRMKdB">Bence's amazing SVG textures</a>, but this time I want something much, much smaller, more generic, and pixel-y!
 <p>And that's how I invented <a href="https://xem.github.io/pxtex/">ptex</a>: a 228 bytes long JS function that takes a HTML canvas, a HSL color, a noise coefficient and a size, and outputs some yummy randomized pixel-art textures ready to use as base64 pngs.
@@ -127,8 +128,9 @@ vec3 GetLocalPosition(int v){
   return sign(vec3(x&1,x&2,x&4));
 }</code></pre>
 <p>Seems magic. I'll look into this!
-<p>Another challenge I started at the end of July is implementing my own 3D physics engine in JS (because all the existing ones weigh more than 100kb). I've read many <a href="https://www.amazon.com/s?k=physics+engine+game&crid=2629HQH2ISLU4&sprefix=physics+engine+game%2Caps%2C312&ref=nb_sb_noss_1">books</a> and <a href="https://gamephysicsweekend.github.io/">ebooks</a> related to this topic but didn't manage to get past collision detection yet.
-<p>I will try again later, but shared my favourite books with <b>@cody</b> who will try to use it for his own entry... good luck to him !
+<p>Another challenge I started at the end of July is implementing my own 3D physics engine in JS (because all the existing ones weigh more than 100kb). I've bought and read some <a href="https://www.amazon.com/s?k=physics+engine+game&crid=2629HQH2ISLU4&sprefix=physics+engine+game%2Caps%2C312&ref=nb_sb_noss_1">books</a> and <a href="https://gamephysicsweekend.github.io/">ebooks</a> related to this topic but didn't manage to get past collision detection yet. 
+<p><a href="https://xem.github.io/GamePhysicsJS/">This project</a> shows how far I could get while waiting for js13k to start.
+<p>It's incomplete, but I will try again later. In the meantime, I shared my favourite books with <b>@cody</b> who will try to use it for his own entry... good luck to him !
 <br>
 <br>
 <hr>
@@ -278,7 +280,7 @@ W.add("slope", {
 
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 3<br>Added movement, rotation, cube collisions and billboards (the tree plane always facing the camera).<br>Since it&#39;s a PoC, my collision code is still hacky.<br>To makes the slopes work, I have to rewrite it in a more clean and generic way.<br>Hopefully it&#39;ll be done tomorrow!<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/mznhUdf5WA">pic.twitter.com/mznhUdf5WA</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824125900096495742?ref_src=twsrc%5Etfw">August 15, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<p>In the meantime, I secretly worked on the title screen of my entry. I wanted it to look like Super Mario 64's title, but with a different name (Great Plumber 65). Instead of drawing it on a canvas or using SVG, I decided to use a Web font specially created for this: <a href="https://www.fontspace.com/typeface-mario-64-font-f60208">Typeface Mario 64</a>.
+<p>In the meantime, I secretly worked on the title screen of my entry. I wanted it to look like Super Mario 64's title, but with a different name (Great Plumber 65). Instead of drawing it on a canvas or using SVG, I decided to use a Web font that I found online, specially created for this: <a href="https://www.fontspace.com/typeface-mario-64-font-f60208">Typeface Mario 64</a>.
 
 <p>The font is in otf, weighs 10kb and contains way more characters than I actually need, so I searched (and found) a great software called <a href="https://fontforge.org/en-US/">FontForge</a>, which allowed me to edit the font, delete all the chars I didn't need and save it in woff2 format, reducing it to just 1.5kb!
 
@@ -288,11 +290,13 @@ W.add("slope", {
 
 <p>With some HTML and CSS on top of this font (namely, custom colors, scale, letter-spacing, text-stroke and multiple text-shadows for the depth effect), I managed to make this (very convincing ?) title screen!
 
+<p>(I realize a bit late that I could have added a bit of CSS3D to slant the text a little...)
+
 <br><br>
 <p><img src=images/js13k24/10.png width=900>
 <br><br>
 
-<a href="https://xem.github.io/js13k24/1-intro/">LIVE DEMO</a> <p>(click to start! As a bonus, you'll see a little entrance animation and hear a coin sound from <a href="https://xem.github.io/MiniSoundEditor/">MiniSoundEditor</a>).
+<p><a href="https://xem.github.io/js13k24/1-intro/">LIVE DEMO</a> <p>(click to start! As a bonus, you'll see a little entrance animation and hear a coin sound from <a href="https://xem.github.io/MiniSoundEditor/">MiniSoundEditor</a>).
 <p>The whole intro weighs 2.4kb zipped.
 
 <p>I tried <a href="https://xem.github.io/js13k24/2-intro/">another version</a>, spelling the word StrikaNintendokaPhobia, but it was not as good.
@@ -300,7 +304,7 @@ W.add("slope", {
 <br><br>
 <p><img src=images/js13k24/11.png width=500>
 
-<p>In a desperate hope to save a few hundred bytes in my zip, I suggested <b>@end3r</b> to do a poll about allowing to load Webfonts for free, but it didn't convince enough people. So I'll keep my woff2 file on board!
+<p>In a desperate hope to save a few hundred bytes in my zip, I suggested <b>@end3r</b> to do <a href="https://x.com/js13kGames/status/1823825897872613586">a poll about allowing to load Webfonts for free</a>, but it didn't convince enough people. So I'll keep my woff2 file on board!
 
 <br><br>
 <p><img src=images/js13k24/13.jpg width=500>
@@ -325,7 +329,7 @@ W.add("slope", {
 
 <p>The "collision" function that computes the level's height at given coordinates was surprisingly <a href="https://github.com/xem/js13k24/blob/gh-pages/index.html#L1527-L1548">easy to implement</a> (it always returns 1 for cubes, and the decimal part of the X coordinate for a slope going to the east. the 3 other slopes directions are computed in a similar way, by using the decimal part of Z for a slope going to the south, and by substracting these values to 1 for the east and north slopes).
 
-<p>The next step is to use the height of the blue spheres to interact with the environment:
+<p>The next step was to use the height of the blue spheres to interact with the environment:
 <p>- hero.y represent the height of the hero's bottom (hero.y = 0 means that he's standing on the ground)
 <br>- If a blue sphere has a height > hero.y + 0.2, a wall is hit. Stop moving.
 <br>- If a blue sphere has a height between hero.y and hero.y + 0.2, we're at the beginning of a slope. Set hero.y to the height of the highest blue sphere.
@@ -391,11 +395,11 @@ if(keys.u || keys.d){
 
 // (...)</code></pre>
 
-<p>This problem being out of the way, I can finally start working on my textures!
+<p>This problem being out of the way, I could finally start working on my textures!
 
 
 <p>I generated four 20x20px textures with pxtex and put them in &lt;img> elements at the end of my html page, as well as a &lt;svg> element containing a tree emoji 🌳. It was super easy to tell W.js use these 5 textures in my scene instead of flat colors.
-<p>I also had the idea to make the grass, sand and water blocks have slightly different heights, to make the ground look less flat. Since their hit boxes aren't modified, it will give the impression that the hero's feet go deeper in the grass than they do in the sand.
+<p>I also had the idea to make the grass, sand and water blocks have slightly different heights, to make the ground look less flat. Since their hit boxes aren't modified, it will even give the impression that the hero's feet go deeper in the grass than they do in the sand.
 
 <br><br>
 <p><img src=images/js13k24/18.jpg width=900>
@@ -406,14 +410,14 @@ if(keys.u || keys.d){
 
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 5, part 2:<br>Micro texturing time!<br>- Removed the debug spheres.<br>- Stylized my grass/sand/rock pieces with different heights and four 20*20px textures generated with pxtex (featured in GameDevJS newsletter!).<br>- Used &lt;svg&gt;&lt;text&gt;🌳&lt;/text&gt;&lt;/svg&gt; in an img as my tree texture.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/UuhvNB1UQh">pic.twitter.com/UuhvNB1UQh</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1824813534305255543?ref_src=twsrc%5Etfw">August 17, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<p>I spent the rest of the day making a different level, with more "layers" of cubes, more slopes, and red pyramids (to represent the castle's roofs). By chance, pyramids already existed in 3Dmapeditoe and W.js.
+<p>I spent the rest of the day making a different level, with more "layers" of cubes, more slopes, and red pyramids (to represent the castle's roofs). By chance, pyramids already existed in 3Dmapeditor and W.js.
 <p>To make things simpler, these pyramids don't have collision boxes at all. You can walk through them.
 
-<p>I also made the jumps smoother and added a basic swimming state (the hero's height gets a bit lower when itts four hit spheres touch water).
+<p>I also made the jumps smoother and added a basic swimming state (the hero's height gets a bit lower when its four blue hit spheres touch water).
  
 <p>In the end, the thing that took most of my time that day was the tree. I've been doing js13k entries with emoji since 2017, and every time they cause problems. The main problem being that they don't appear with the same graphics on every OS and browser. Some OS will only show them in black and white, or not at all. Worse even, depending on the OS and browser used, they will have different horizontal and vertical offsets. The same tree could be fine on Windows, buried in the ground on Mac or flying in the air on Android. 
 
-<p>The solution I found in 2018 was to convince <b>@end3r</b> to allow emoji webfonts polyfills for free in the jam's rules. Ever since, I've released many projects aiming to democratize uniformized emoji for js13k entries, the latest being soberly named <a href="https://github.com/xem/unicode13">unicode13</a> (the polyfill itself can be found in the <a href="https://xem.github.io/unicode13/emoji.html">emoji</a> page).
+<p>The solution I found in 2018 was to convince <b>@end3r</b> to allow emoji webfonts polyfills for free in the jam's rules. Ever since, I've released many projects aiming to democratize uniformized emoji for js13k entries, the latest being soberly named <a href="https://github.com/xem/unicode13">unicode13</a> (the polyfill itself can be found in the <a href="https://xem.github.io/unicode13/emoji.html">unicode13/emoji</a> page).
 
 <p>So, I loaded this polyfill in my game and wanted to use it for the tree texture. I couldn't make it work while the tree texture was a svg, so I reused pxtex's canvas to draw a big emoji tree with the right font, on a transparent background, export this canvas as a png image, and use this image as a WebGL texture. That's the tree you can see in the video below.
 
@@ -458,7 +462,7 @@ console.log(fence) // null</code></pre>
 
 <p>Yup. "fence" is somehow a reserved word in Webkit browsers, you can't use it as a variable. It's always null. It took a lot of head-scratching before figuring this out (I thought the problem came from my texture), but when I finally realized what it really was, I just renamed my fence as "fenc". Suddenly, everything worked fine.
 
-<p>THis is the texture atlas at the end of day 6:
+<p>This is the texture atlas at the end of day 6:
 <br><br>
 <p><img src=images/js13k24/20.png width=800>
 <br>
@@ -528,7 +532,7 @@ male = /Male|George|Rocko|Daniel|Grandpa|Eddy|Reed|Fred|Ralph|Mark|David|Arthur|
 <br>
 <br>
 
-<p>Then, I drew my castle with 3Dmapeditor, layer by layer, by leaving every invisible block (inside the castle and below the ground) empty to save space and improve rendering performances. It took me half a day, and iniaially took 21 layers. (Later, after realizing that my slopes collision detection didn't work well on heights higher than 1, I edited it down to 18 layers, reducing the ground's height to a single layer, at water level.
+<p>Then, I drew my castle with 3Dmapeditor, layer by layer, by leaving every invisible block (inside the castle and below the ground) empty to save space and improve rendering performances. It took me half a day, and initially took 21 layers. (Later, after realizing that my slopes collision detection didn't work well on heights higher than 1, I edited it down to 18 layers, reducing the ground's height to a single layer, at water level.
 
 <p>I was surprised to see 3Dmapeditor, made in CSS3D, support very well the creation of such a big map. Below are some work-in-progress screenshots. You can remark that I added basic window 🪟, fence 🚧 and princess 👸 emoji in the editor and that the roofs are in "ice" color instead of red. The roof pyramids are also shown as one little block, but in the final entry, they will be scaled up to cover a larger area (like I had done in JS1K, by the way).
 
@@ -580,9 +584,9 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <p>The second improvement I could think of was to perform the sorting once per second (i.e. once every 60 frames) instead of doing it at each frame, which is largely enough, as the transparent elements order doesn't change very quickly when we walk through the map.
 
 <p>After that, the game became fluid on my PC, but also on my phone, so I didn't bother looking further.
-<p>I know that a huge improvement could have been to do some sort of batch rendering instead of doing 1003 draw calls at each frame, but unfortunately, I haven't learned how to do that yet and didn't want to lose time learning that during the jam, so I'll stop there for the optimizations!
+<p>I know that a huge improvement could have been to do some sort of batch rendering instead of doing 1003 draw calls at each frame, but unfortunately, I haven't learned how to do that yet and didn't want to lose time learning that during the jam, so I stopped there for the optimizations!
 
-<p>Note: it's still possible to see the effect of this 60-frame refresh time when you go between two trees and rotate the camera quickly:
+<p>Note: it's still possible to see the effect of this 60-frame refresh time when you go between two trees and rotate the camera quickly: the "far" one will overlap the "close" one for a few frames.
 
 <br><br>
 <br><img src=images/js13k24/38.gif width=600>
@@ -616,7 +620,7 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <br>
 <br>
 
-<p>Fun fact: during developmentI couldn't understand why the cloud emoji were cut when they were placed too close to the edge of a triangle, but I realize it now while writing these lines: I reversed the triangles vertices coordinates, but forgot to reverse the uv (texture) coordinates. That means that every triangle of my sky sphere has a texture flipped horizontally! Fortunately, with every cloud carefully positioned, this has no incidence on the final result.
+<p>Fun fact: during development, I couldn't understand why the cloud emoji were cut when they were placed too close to the edge of a triangle, but I realize it now while writing these lines: I reversed the triangles vertices coordinates, but forgot to reverse the uv (texture) coordinates. This means that every triangle of my sky sphere has its texture flipped horizontally! Fortunately, with every cloud carefully positioned, this has no incidence on the final result.
 
 <p>Other fun fact: I had to make the sky sphere immune to the scene's point light, otherwise it would have been weirdly shaded. Thankfully, W.js got me covered, as it supported a "ns" (no shading) property, that I used on the sky sphere to avoid this:
 
@@ -626,7 +630,7 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <br>
 <br>
 
-<p>The other items that were made immude to lighting are the trees, because I didn't want them to become randomby lighter or darker when ther rotate to face the camera. 
+<p>The other items that were made immune to shadting are the trees, because I didn't want them to become randomly lighter or darker when ther rotate to face the camera. 
 
 <p>The castle's walls still looked too monotonous for me. On N64, the bricks are visible.
 <p>After many attempts, my solution was to make the brick's pxtex texture 40 x 40px, and trace light gray lines over it with a repeating pattern:
@@ -645,7 +649,7 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <br>
 <br>
 
-<p>I created a gradient texture very close to the cone used for the fence, to apply on the wooden bridge:
+<p>I created a gradient texture very close to the one used for the fence, to apply on the wooden bridge:
 
 
 <br><br>
@@ -685,7 +689,7 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <p>In my 3D platformer engine, the camera is placed in the same group as the hero, to follow him "for free". 
 <p>But if I want to make an intro sequence that looks like <a href="https://noclip.website/#sm64ds/1;ShareData=AMXG/Uke5VTCFLg8GuueV~q[B5eMsKT{?T5UrC4SWsyyxTQs@m92$TbT*67UWPA">the original</a>, I must move the camera freely from the sky, to the ground, up to the hero's spawning point.
 <p>And, as you may know, in gamedev, <a href="https://www.gamedeveloper.com/programming/dirty-coding-tricks">dirty coding tricks</a> are often the best solutions for a problem, so instead of finding a way to detach the camera from the hero's group until the end of the cutscene, I simply moved the hero's group around the map, just to have the camera follow it, and the hero's geometry was simply moved 10 units downwards on the Y axis to stay off-screen.
-<p>W.js already has an animation feature allowing to move/rotate an item from a position to another. I "only" had to find a way to chain animations in a fluid way to make the camera move between 12 different positions without any glitch (frame drop or animation overlap). The implementation I ended up doing was rather elegant, where the animation code itself determines when the animation is complete and triggers the next one instantly.
+<p>W.js already has an animation feature allowing to move/rotate an item from a position to another. I "only" had to find a way to chain animations in a fluid way to make the camera move between 12 different positions without any glitch (such as frame drops or animation overlaps). The implementation I ended up doing was rather elegant, where the animation code itself determines when the animation is complete and triggers the next one instantly.
 <p>It was also quite easy to make the 3D platform engine start at the end of the sequence (it would have been weird if the gravity, collisions and keyboard controls worked during the intro). The whole platformer engine code is simply placed in the 12th and final step of the intro, just when the hero appears on screen and the green pipe disappears. You can see the engine kick in when the hero falls on the ground.
 
 <pre class=language-js><code>// Intro animation
@@ -744,11 +748,11 @@ intro = () => {
 <p>I searched for a reliable way to detect handheld devices, but didn't find a lot of solutions (most of the StackOverflow answers still rely on user-agent). I ended up finding a window property that seems to be undefined on most desktops and an integer >= 0 on most mobiles and tablets: <b>window.orientation</b>, so I used that. I guess it works fine, as no one has complained since.
 
 <br><br><hr><br><p><b>7) The hero</b>
-<p>It was finally time to replace my brown elongated cube with a real character that looks like Mario. I coded it from to to bottom, with a bunch of cubes: 3 for the hat and head, 3 for the body and arms, 4 for the legs and shoes, colored with flat colors. I didn't bother modeling or texturing the hero's face as it's almost never visible.
+<p>It was finally time to replace my brown elongated cube with a real character that looks like Mario. I coded it from top to bottom, with a bunch of cubes: 3 for the hat and head, 3 for the body and arms, 4 for the legs and shoes, colored with flat colors. I didn't bother modeling or texturing the hero's face as it's almost never visible.
 
 <p>When the hero moves to the front or the back, a walk frame counter is incremented, and the arms and legs receive an angle proportional to the cosine of this counter, making them swing from front to back and giving a good illusion of walk animation.
 
-<p><b>Korhosik</b> suggested that an arm of the hero stays in the air when it jumps. I guess it's a reference to <u>Hitler</u> the jump sprite in Super Mario Bros. Anyway, I implemented it.
+<p><b>Korhosik</b> suggested that an arm of the hero should stay in the air when he jumps. I guess it's a reference to <s>Hitler</s> the jump sprite in Super Mario Bros. Anyway, I implemented it.
 
 <p>When the hero jumps three times consecutively in a short period, I implemented a triple-jump system similar to <a href="https://youtu.be/FR6PG-MAV3M?t=3">the one in Mario 64</a>: the second jump is a bit higher and the third one is even higher and adds a "roulade" in the air. It's the kind of small additions that add very few bytes and act as a fun easter-egg for people who discover it.
 
@@ -766,7 +770,7 @@ intro = () => {
 <br><br><hr><br><p><b>8) Inside the castle</b>
 <p>My entry needed some sort of ending, besides wandering around the castle. I first imagined modeling the interior of the castle with my map editor, but it would have taken a lot of time and a lot of bytes, for virtually no advantage (even if the castle's interior existed, it wouldn't have lead to any rooms or stages from Mario 64, it would just have been an empty room).
 <p>So I decided to do something simpler: I remembered that we talk to a Toad when we enter the castle in Mario 64, so I made a fixed screen containing a talking mushroom. It is composited in HTML using mushroom 🍄, mouth 👅 and eyes 👀 emojis.
-<p>I made it read a letter with a female voice and a fast pitch. Overall, a lot of the code from the princess' letter could be reused there. The letter was a good way to mention that the mushroom is a NPC (one of the decentralized challenges was to use NPCs) and to mention the strika-nintendoka-phobia (which is the only link between my entry and the theme of the jam!).
+<p>I made it read a letter with a high-pitch female voice and a fast voice. Overall, a lot of the code from the princess' letter could be reused there. This letter was a good way to mention that the mushroom is a NPC (one of the decentralized challenges was to use NPCs) and to mention the strika-nintendoka-phobia (which is the only link between my entry and the theme of the jam!).
 
 <br><br>
 <br><img src=images/js13k24/43.png width=900>
@@ -784,7 +788,7 @@ intro = () => {
 
 <br><br><hr><br><p><b>10) Golfing and release</b>
 
-<p>Keep in mind that besides prototypes, all my entry has been developed in a single index.html file. It is 2263 lines long. 636 lines are used by W.js and its shapes, 415 lines by the ASCII map, 223 lines by the 3D platformer engine and 170 lines by music, sounds and voices. All the rest was coded by me during the jam, except the sometimes with a little help from  a few tools of course... especially for audio.
+<p>Keep in mind that besides prototypes, all my entry has been developed in a single index.html file. It is 2263 lines long. 636 lines are used by W.js and its shapes, 415 lines by the ASCII map, 223 lines by the 3D platformer engine and 170 lines by music, sounds and voices. All the rest was coded by me during the jam.
 
 <p>This year, I got no trouble navigating and editing this long file for 10 days. The same thing actually happened with my two other entries. After 10 years of competing with a ton of JS and CSS files, 2024 seems to be the year of the monolith.
 
@@ -795,15 +799,21 @@ intro = () => {
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 10 (update):<br>I forgot to run ECT on my zip. I won&#39;t need to golf it finally. It&#39;s already 10 bytes under the 13kb budget with a simple command line.<br>Also, it doesn&#39;t use Roadroller because it needs to do stuff as soon as the page opens, and other things after onload.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/0bj54COoLv">pic.twitter.com/0bj54COoLv</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1826521112882098280?ref_src=twsrc%5Etfw">August 22, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
-<p>I actually ended up renaming a few variables to have enough room for tiny improvements here and there (the pipe, the cannon and grid texture, and the extended end-screen music), but nothing very complex.
+<p>I actually ended up renaming a few variables to have enough room for tiny improvements here and there (the pipe, the cannon, the grid texture and the extended final music), but nothing very complex.
 
-<p>One thing I did not use for once was <a href="https://github.com/lifthrasiir/roadroller">RoadRoller</a>. As I explained on X, my entry had to execute some JS code instantly when the page loads (preheat the Speech synth, display the pre-title "loading" screen), and the rest of the code after the fonts were entirely loaded.
+<p>One thing I did not use for once was <a href="https://github.com/lifthrasiir/roadroller">RoadRoller</a>. As I explained on X, my entry had to execute some JS code instantly when the page loads (preheat the Speech synth, preload the fonts, display the pre-title "loading" screen), and the rest of the code after the fonts were entirely loaded.
 
-<p>If I really wanted to incorporate more content into my game, such as other areas to explore, it would have been quite easy to save at least two kilobytes. RoadRoaller would have been useable if I had tweaked my code a little to make it work with it, but most importantly, the two woff2 custom fonts could have been removed entirely: the title screen would have easily beed drawable as a single svg file, and the alphabet pixel font, used for all the other text present in the game, could have been reproduced with some basic JS code (each character being represented by a grid of 5x7 monochrome pixels, easily encodable on 5 ASCII chars).
+<p>For the record, I forced the loading of the title font "m" and the twemoji webfont "emoji" by using them at the end of the "loading..." message (just hidden from plain sight, but here anyway):
 
-<p>But on day 10, I had to make a choice: continue to compress and improve / augment my game until the end of the jam, or make another entry.
+<pre class=language-html><code>&lt;h2 id=load>loading...&lt;span style='font:1px emoji;opacity:0'>🌳&lt;/span>&lt;span style='font:1px m;opacity:0'>G&lt;/h2></code></pre>
 
-<p>I chose to stop there and make another entry, because whatever I had done for the remaining 20 days, my GREAT PLUMBER 65 entry would have remained a tech demo, only a slightly more impressive one. But if I made another entry, then it would be an opportunity to make a real and original game. And that's what I decided.
+<p>Thanks to these two spans at the end of my loading title, the wondow.onload event didn't trigger until all the fonts were entirely loaded!
+
+<p>If I had really wanted to incorporate more content into my game, such as other areas to explore, it would have been quite easy to save at least two kilobytes. RoadRoaller would have been useable if I had tweaked my code a little to make it work with it, but most importantly, the two woff2 custom fonts could have been removed entirely: the title screen would have easily been drawable as a single svg file, and the alphabet pixel font, used for all the other text present in the game, could have been reproduced with some basic JS code (each character being represented by a grid of 5x7 monochrome pixels, easily encodable on 5 ASCII chars).
+
+<p>But on day 10, I had to make a choice: continue to compress and improve / augment my game until the end of the jam, or make another entry?
+
+<p>I chose to stop there, <a href="https://github.com/xem/js13k24/blob/gh-pages/index.html"><b>comment my code</b></a> to help curious visitors understand how it was done, and then make another entry... because whatever I could have done in it for the remaining 20 days, my GREAT PLUMBER 65 entry would have remained a tech demo, only a slightly more impressive one. But if I made another entry, then it would be an opportunity to make a real and original game. And that's what I decided.
 
 <p>I released GREAT PLUMBER 65 right when the submit form opened, making it the very first and most visible entry in the list! I felt a bit lonely at first, but other entries quickly joined me in the games list.
 
