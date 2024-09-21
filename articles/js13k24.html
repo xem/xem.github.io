@@ -64,11 +64,11 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <hr>
 <br>
 <p><b>SUMMARY</b>
-<p>- <a href="#intro">Introduction</a>
-<br>- <a href="#game1">Days 1-11: GREAT PLUMBER 65</a>
-<br>- <a href="#game2">Days 12-21: EMOJIPHOBIA</a>
-<br>- <a href="#game3">Days 22-31: O HIII BAD SKATEPARK</a>
-<br>- <a href="#conclusion">Conclusion</a>
+<p>- <a href="#intro" target=_self>Introduction</a>
+<br>- <a href="#game1" target=_self>Days 1-11: GREAT PLUMBER 65</a>
+<br>- <a href="#game2" target=_self>Days 12-21: EMOJIPHOBIA</a>
+<br>- <a href="#game3" target=_self>Days 22-31: O HIII BAD SKATEPARK</a>
+<br>- <a href="#conclusion" target=_self>Conclusion</a>
 <br>
 <br>
 <hr>
@@ -764,20 +764,53 @@ intro = () => {
 <br>
 
 <br><br><hr><br><p><b>8) Inside the castle</b>
-<p>COMING SOON
+<p>My entry needed some sort of ending, besides wandering around the castle. I first imagined modeling the interior of the castle with my map editor, but it would have taken a lot of time and a lot of bytes, for virtually no advantage (even if the castle's interior existed, it wouldn't have lead to any rooms or stages from Mario 64, it would just have been an empty room).
+<p>So I decided to do something simpler: I remembered that we talk to a Toad when we enter the castle in Mario 64, so I made a fixed screen containing a talking mushroom. It is composited in HTML using mushroom 🍄, mouth 👅 and eyes 👀 emojis.
+<p>I made it read a letter with a female voice and a fast pitch. Overall, a lot of the code from the princess' letter could be reused there. The letter was a good way to mention that the mushroom is a NPC (one of the decentralized challenges was to use NPCs) and to mention the strika-nintendoka-phobia (which is the only link between my entry and the theme of the jam!).
+
+<br><br>
+<br><img src=images/js13k24/43.png width=900>
+<br>
+<br>
+
+<p>So yeah, it could have looked much better, but I chose to end up like that and use the remaining time to go work on other entries.
+
 <br><br><hr><br><p><b>9) The audio</b>
-<p>COMING SOON
-<br><br><hr><br><p><b>10) The entry's release</b>
-<p>COMING SOON
+<p>The audio part takes an important place in this entry:
+<p>- Speech synth was used for the title screen, the princess' letter and the mushroom's dialogue, but also for the plumber's triple jumps. Most of the players found these little "woo", "hoohoo" and "yahoo" voice clips funny, so I'm glad I kept them in.
+<p>- Both music tracks (the one you can hear during the intro, and the one you can hear after the mushroom's speech) were made from a list of notes extracted from <a href="https://www.khinsider.com/midi/n64/super-mario-64">Mario 64 MIDI files that I found online</a>, using my <a href="https://xem.github.io/midi2array/">midi2array</a> tool. The first song has two instruments playing together, and the second, just one. The final song was 45 seconds long at the beginning, but I extended it to 1min35 before release because I had enough room to include the extra notes. The tracks are played using <a href="https://xem.github.io/js1k19/miniSynth/index.html">my mini piano synth</a>.
+<p>- Finally, the sound effects. There are 7 of them: the coin sound (for the title screen), the wobwobby sound (for the pipe animation), the step soud (when the hero walks), the splash sound (when he enters water), the mini splash (when he swims), the water jump sound (when he jumps out of water) and the door opening sound (when he enters the castle). All of them come from my beloved tool <a href="https://xem.github.io/MiniSoundEditor/">MiniSoundEditor</a>, created by <b>Anders Kaare</b> in 2016 and maintained by me since then.
 
 
+<br><br><hr><br><p><b>10) Golfing and release</b>
+
+<p>Keep in mind that besides prototypes, all my entry has been developed in a single index.html file. It is 2263 lines long. 636 lines are used by W.js and its shapes, 415 lines by the ASCII map, 223 lines by the 3D platformer engine and 170 lines by music, sounds and voices. All the rest was coded by me during the jam, except the sometimes with a little help from  a few tools of course... especially for audio.
+
+<p>This year, I got no trouble navigating and editing this long file for 10 days. The same thing actually happened with my two other entries. After 10 years of competing with a ton of JS and CSS files, 2024 seems to be the year of the monolith.
+
+<p>Anyways, I knew the weight of my custom fonts (3.6kb) and I knew that W.js was about 2kb zipped. I didn't really keep track of my project size until the last day of development, imagining that there would always be enough time to golf and apply extreme compression tricks afterwards if needed. As a result, index.html is 71kb, and when I minified and zipped it for the first time on day 10, the index.html got reduced to 31kb, and the zip file reached 13,654b (13.3kb).
+
+<p>I thought I would have to golf my code a little (at least rename some variables names to 1 char), but I remembered that multi-file zips were optimizable with <a href="https://github.com/fhanau/Efficient-Compression-Tool">ECT</a>, and when I used it, my zip containing the minified index.html and two woff2 fonts suddenly dropped to 13,302b (12.9kb).
 
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">DAY 10 (update):<br>I forgot to run ECT on my zip. I won&#39;t need to golf it finally. It&#39;s already 10 bytes under the 13kb budget with a simple command line.<br>Also, it doesn&#39;t use Roadroller because it needs to do stuff as soon as the page opens, and other things after onload.<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/0bj54COoLv">pic.twitter.com/0bj54COoLv</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1826521112882098280?ref_src=twsrc%5Etfw">August 22, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<hr>
+
+<p>I actually ended up renaming a few variables to have enough room for tiny improvements here and there (the pipe, the cannon and grid texture, and the extended end-screen music), but nothing very complex.
+
+<p>One thing I did not use for once was <a href="https://github.com/lifthrasiir/roadroller">RoadRoller</a>. As I explained on X, my entry had to execute some JS code instantly when the page loads (preheat the Speech synth, display the pre-title "loading" screen), and the rest of the code after the fonts were entirely loaded.
+
+<p>If I really wanted to incorporate more content into my game, such as other areas to explore, it would have been quite easy to save at least two kilobytes. RoadRoaller would have been useable if I had tweaked my code a little to make it work with it, but most importantly, the two woff2 custom fonts could have been removed entirely: the title screen would have easily beed drawable as a single svg file, and the alphabet pixel font, used for all the other text present in the game, could have been reproduced with some basic JS code (each character being represented by a grid of 5x7 monochrome pixels, easily encodable on 5 ASCII chars).
+
+<p>But on day 10, I had to make a choice: continue to compress and improve / augment my game until the end of the jam, or make another entry.
+
+<p>I chose to stop there and make another entry, because whatever I had done for the remaining 20 days, my GREAT PLUMBER 65 entry would have remained a tech demo, only a slightly more impressive one. But if I made another entry, then it would be an opportunity to make a real and original game. And that's what I decided.
+
+<p>I released GREAT PLUMBER 65 right when the submit form opened, making it the very first and most visible entry in the list! I felt a bit lonely at first, but other entries quickly joined me in the games list.
+
+<br><br>
+<br><img src=images/js13k24/44.png width=800>
 <br>
-<p><b>DAY 10</b>
-<p>COMING SOON
+<br>
 
 <br>
 <br>
@@ -829,6 +862,88 @@ https://openclassrooms.com/forum/sujet/image-dans-un-select-10327
 
 https://github.com/codyebberson/js13k-3dphysics-for-xem
 live demo: https://js13k-3dphysics-for-xem.vercel.app/
+
+https://suno.com/song/fb201967-958c-44e9-beea-deb52240b936
+https://suno.com/song/5b122393-60de-4fef-95cd-1c3ebc958d87
+
+
+[Verse]
+Late night coding for the game jam
+Thirteen kilobytes the goal
+Compress it down respecting theme
+Each line of code a story told
+
+[Verse]
+Theme drops panic in the air
+Competitors unaware
+Seconds tick feel the heat
+Ideas flash computers greet
+
+[Verse]
+Fear of thirteen runs so deep
+Bytes and bits in dreams they creep
+Graphics tight and music clear
+One month to conquer all the fear
+
+[Chorus]
+Thirteen bytes and sleepless nights
+Code the dreams take flight
+Phobia diminishing
+In the game we’re finishing
+
+[Verse]
+Tools created by the team
+Code and assets in the dream
+VR worlds AI brains
+Physics engines drive insane
+
+[Verse]
+Design so slim yet rich and grand
+Every pixel by my hand
+Puzzle play and tension high
+In our small world you must try
+
+[Bridge]
+Procedural worlds set us free
+Game dev magic hard to see
+Laughs and tears the journey great
+In this jam we create
+
+[Chorus]
+Debug nights assets flow
+3D worlds they start to glow
+Thirteen kilobytes to fit
+Masterpieces bit by bit
+
+[Verse]
+Debugging till the morning rise
+Each solution a surprise
+Soundtrack echoes as I type
+Rhythms match the coder’s vibe
+
+[Verse]
+Playtesters join the fun
+Feedback given empires run
+Emoji rain for top of line
+Votes and ranks we shine we climb
+
+[Verse]
+Post-mortem tales we write
+Chasing dawn through endless nights
+Every glitch and every leap
+Coding mountains feeling steep
+
+
+
+
+
+
+
+
+
+
+
+
 -->
 
 </div>
