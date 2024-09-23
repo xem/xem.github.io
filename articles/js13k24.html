@@ -640,7 +640,7 @@ Ah, that's a good first draft. Take a look at the water pool blending with the b
 <br>
 <br>
 
-<p>For the princess mosaic, once again, I was ready to put a basic princess emoji there, but my friend <b>@Korhosik</b> was here to motivate me to do something better.
+<p>For the princess mosaic, once again, I was ready to put a basic princess emoji there, but my friend <b>@KorHosik</b> was here to motivate me to do something better.
 <p>So I combined a crown 👑, a kneeling woman 🧎‍♀️ and a flower emojis 💐, and with the correct position, rotation, scale and cropping, plus a golden ellipse and a blue background, it made a mosaic pattern that I enjoy a lot!
 <p>(I don't know why I made an ellipse instead of this pointy shape... I guess in my memories it was an ellipse and I forgot to double-check when I coded it!)
 
@@ -734,7 +734,7 @@ intro = () => {
     }, 16);
   }
 }</code></pre>
-<p>At first I wasn't motivated to make the green pipe thing (I just wanted to make the hero fall from the sky), but my friends <b>@Korhosik</b> and <b>Mia</b> convinced me to do it and I must admit that it's much better like that... (It's just two green cubes, though, not what I'd call a lot of work).
+<p>At first I wasn't motivated to make the green pipe thing (I just wanted to make the hero fall from the sky), but my friends <b>@KorHosik</b> and <b>Mia</b> convinced me to do it and I must admit that it's much better like that... (It's just two green cubes, though, not what I'd call a lot of work).
 <p>One thing I voluntatily didn't include in my intro is the Lakitu (the little guy flying on a cloud with a camera).
 <p>When I made the intro's music afterwards, I adjusted the intro's timing so that it synchronizes perfectly with the duration of the melody.
 
@@ -752,7 +752,7 @@ intro = () => {
 
 <p>When the hero moves to the front or the back, a walk frame counter is incremented, and the arms and legs receive an angle proportional to the cosine of this counter, making them swing from front to back and giving a good illusion of walk animation.
 
-<p><b>Korhosik</b> suggested that an arm of the hero should stay in the air when he jumps. I guess it's a reference to <s>Hitler</s> the jump sprite in Super Mario Bros. Anyway, I implemented it.
+<p><b>KorHosik</b> suggested that an arm of the hero should stay in the air when he jumps. I guess it's a reference to <s>Hitler</s> the jump sprite in Super Mario Bros. Anyway, I implemented it.
 
 <p>When the hero jumps three times consecutively in a short period, I implemented a triple-jump system similar to <a href="https://youtu.be/FR6PG-MAV3M?t=3">the one in Mario 64</a>: the second jump is a bit higher and the third one is even higher and adds a "roulade" in the air. It's the kind of small additions that add very few bytes and act as a fun easter-egg for people who discover it.
 
@@ -807,7 +807,7 @@ intro = () => {
 
 <pre class=language-html><code>&lt;h2 id=load>loading...&lt;span style='font:1px emoji;opacity:0'>🌳&lt;/span>&lt;span style='font:1px m;opacity:0'>G&lt;/h2></code></pre>
 
-<p>Thanks to these two spans at the end of my loading title, the wondow.onload event didn't trigger until all the fonts were entirely loaded!
+<p>Thanks to these two spans at the end of my loading title, the window.onload event didn't trigger until all the fonts were entirely loaded!
 
 <p>If I had really wanted to incorporate more content into my game, such as other areas to explore, it would have been quite easy to save at least two kilobytes. RoadRoaller would have been useable if I had tweaked my code a little to make it work with it, but most importantly, the two woff2 custom fonts could have been removed entirely: the title screen would have easily been drawable as a single svg file, and the alphabet pixel font, used for all the other text present in the game, could have been reproduced with some basic JS code (each character being represented by a grid of 5x7 monochrome pixels, easily encodable on 5 ASCII chars).
 
@@ -822,12 +822,133 @@ intro = () => {
 <br>
 <br>
 
+<blockquote class="twitter-tweet" data-conversation="none" data-theme="dark"><p lang="en" dir="ltr">DAY 11:<br>After adding a few details, longer musics, commenting my code and golfing/optimizing my zip, I&#39;m once again a few bytes below budget and ready to release my &quot;tech demo&quot; entry!<br>Does someone recognize this hint?<br>I&#39;ll spend the next 20 days on my second game! :3<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/distwibG4s">pic.twitter.com/distwibG4s</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1826939106426851411?ref_src=twsrc%5Etfw">August 23, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
 <br>
 <br>
 <hr>
 <br>
 <p><b id=game2>DAYS 12-21: EMOJIPHOBIA</b>
-<p>COMING SOON
+
+<br><br><hr><br>
+
+<p><b>Brainstorming</b>
+
+<p>On day 12, I asked my friend <b>@KorHosik</b> if he had an idea for my next game. Something with actual gameplay and a strong link with the theme. We brainstormed for a bit about a game where we would hold some kind of shop where people could come and buy things that scare them. For example, someone enters and asks for a cynophobia, and if we give them a dog, it scares them and we score points.
+<p>I said I'll try to do something like that, and started by imagining how phobias could be represented in such a game. Naturally, the answer that came to me was EMOJI.
+
+<br><br><hr><br>
+
+<p><b>Listing</b>
+
+<p>I spent about 5 days (on and off), constituting <a href="https://github.com/xem/js13k24-phobia/blob/f4f2fe14b855a6770cc136a65259d875d88708fb/index.html#L53">a list of 700+ real phobias</a> from different online sources.
+<p>For each phobia of the list, I had the name, the definition, and little by little, I took the time to manually add an emoji for every phobia that could be represented by an emoji.
+<p>You may have heard of the wiki of phobias <a href="https://phobia.fandom.com/wiki/Phobia_wiki">Phobiapedia</a>, containing more than 5300 articles. This website is NOT a reliable source of information, as it allows real and made-up phobias. My list was only comprised of phobias found in at least 2 other sources than this wiki, to ensure that they are legit.
+
+<br><br><hr><br>
+
+<p><b>Emojification</b>
+
+<p>After adding an emoji everywhere I could, I remarked a few things:
+<ul><li>There are a lot of duplicates. More precisely, a single phobia could have 3, 4 or more different names. For example: "Cryophobia, Frigophobia, Cheimaphobia, Psychrophobia: fear of cold".
+<li>I was sad to see that many emoji from <a href="https://xem.github.io/unicode13/emoji.html">my emoji list</a> didn't appear on my list. So I took the most interesting ones, and googled them one by one: "Fear of ears", "fear of suitcases", etc. This process allowed me to add an extra 44 elements to my list, mostly phobias specific to some animals (there's almost no animals that no one fears), but a few interesting others too.
+<li>Fears of colors are a thing that exists. I listed 11 of them, and since only 9 had a corresponding emoji (🔴⚪⚫🟣🟡🟠🔵🟤🟢), I cheated a little and added pink and gray as two rounded divs.
+<li>Fears of numbers are in vast majority, almost every number has its phobia. To not bloat my game with such phobias, I kept the list simple: every number from 0 to 20, plus 30, 69, 99, 100 and 666. I represented them with Emoji digits.
+<li>Some phobias could nt be easily represented by a single emoji, but sometimes a non-emoji unicode character could do the trick (ex: wind ࿓༄  , stairs 𓊍...), or a combination of multiple emoji (ex: accidents 🚗💥🚗, being tickled 👣🪶, constipation 💩❌...), or even a mix of emoji and non-emoji characters (ex: dust .･:･🧹). Many combos were found thanks to the help of <a href="https://emojidb.org/">emojidb</a>.
+</ul>
+
+<br><br><hr><br>
+<p><b>Final list and categorization</b>
+
+<p>After cleaning up the majority of phobias that didn't correspond to an emoji (for example: fear of imperfection, 
+fear of being forgotten, fear of missiles, fear of coitus, fear of hearing good news, fear of novelty, etc...), and gathering together the ones corresponding to a single emoji, I arrived to a total of 280 emoji, with corresponding name(s) and definitions.
+
+<br><br>
+<br><img src=images/js13k24/45.png width=900>
+<br>
+<br>
+
+<p>After adding them into different categories (Easy / medium / hard / colors / animals / numbers / countries), they formed my <a href="https://github.com/xem/js13k24-phobia/blob/gh-pages/index.html#L191-L519">final list</a>, and I was finally ready to start working on my game!
+
+<br><br><hr><br>
+
+<p><b>New game design</b>
+
+<p>While working on my list, I thought about this shop idea and wondered how long it would be fun to play it... For me, it would be too limited or repetitive. But if we reduce the concept to its simplest form possible, what is the game about? It's about matching phobias and emoji. In that case, why not drop the shop idea completely and make a quiz game?
+<p>Sure, a quiz game where we match emoji and phobia names can be repetitive too, but I can surely find 13 original ways to ask my questions.
+<p>Here's my original ideas list:
+<ul>
+<li>Name my phobia! You see an emoji and need to find the right name among 3.
+<li>Scare me! You see a name and must pick the correct emoji among 3
+<li>Save me! You see a phobia name and must find its solution
+<li>Which phobia exists? You see 3 phobias emoji and find the real one
+<li>Which phobia doesn't exist? You see 3 phobias emoji and find the false one
+<li>Which phobia exists? You see 3 phobias names and find the real one
+<li>Which phobia doesn't exist? You see 3 phobias names and find the false one
+<li>name that phobia: rearrange syllabs
+<li>Who do I scare? see a phobia name and pick who is affected by it
+<li>Xenophobia: find the correct flag
+<li>name my phobia: rearrange letters
+<li>Scare me! You see a name and must pick the correct emoji in all the keyboard
+<li>name that phobia: type the phobia name
+<li>Associate 3 phobias with the right name (3 vs 3)
+<li>find the phobia accociated to the right name (2 wrong / 1 correct)
+<li>Numerophobia: fear of numbers
+<li>Chromophobia: fear of colors
+</ul>
+
+<p>The best (and most doable) ideas ended up in the final game, with a few additions (to address the easy, medium and hard categories more explicitly).
+<p>The ideas where we have to rearrange letters or syllabs to form words, or to match N emoji with N names on the same screen were too complicated. I liked the ideas of "finding the solution to that phobia" or "find who is affected by that phobia" but in practice, these questions were too vague and not super interesting to answer.
+
+<br><br><hr><br>
+
+<p><b>Development</b>
+
+<p>I spent the last 5 days creating the visual identity of the entry, and implementing the title screen, the encyclophobia, the 13 questions one by one, the sudden death part and the score screen (with a basic web3 leaderboard). 
+
+<br><br>
+<br><img src=images/js13k24/46.png width=900>
+<br>
+<br>
+
+<p>To be a bit more technical, there's no canvas, it's all HTML and CSS.
+<p>It's fully responsive and (as always) uses the Twemoji webfont polyfill to ensure a similar display on all devices and OS's.
+<p>It's playable on mobiles too, but a weird bug happens on iPhones, on the title screen. Even if I force my title's text to be written in black with CSS, for some reason, the characters placed after an emoji get colored with the main color of the emoji. That's unexplainable, and probably unfixable in a reasonable amount of time, so I kept it like that.
+
+<br><br>
+<br><img src=images/js13k24/47.png width=500>
+<br>
+<br>
+
+<p>Besides that, the only little challenge that I encountered in this entry was data management. Each question displays one or many emoji plus one or many phobias names, but I didn't want them to appear twice in the game.
+<p>So after each question, all the phobias that appeared in the question (with their name or their emoji) get deleted from the global data object. 
+<p>When the 13 questions have passed, 150 phobias remain in the "data" object, still grouped by categories.
+<p>At this moment, the categores get grouped  by increasing order of difficulty, then randomly ordered, and put in in a big "suddendeathquestions" array:
+
+<pre class=language-js><code>suddendeathquestions = [];
+suddendeathquestions.push(...[...data.easy, ...data.animaleasy, ...data.numbereasy].sort((a,b)=>0.5 - Math.random()))
+suddendeathquestions.push(...[...data.medium, ...data.color, ...data.country].sort((a,b)=>0.5 - Math.random()))
+suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 - Math.random()))</code></pre>
+
+<p>After that, sudden death mode starts, and questions are taken 3 by 3 in this array, and deleted after each correct alswer, alowing for about 50 good answers before the game runs out of questions and displays the final score.
+
+<br><br><hr><br>
+
+<p><b>Release</b>
+
+<p>Once again, 10 days were enough to complete and polish my entry.
+<p>No golf or minification was needed at all, since the unminified code was 51kb unzipped and 10.7 kb zipped. As a result, the released entry contains my raw source code.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This edition of <a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> definitely can&#39;t keep me occupied for more than 10 days at a time. So I&#39;ll make 3 entries!<br><br>- Days 1-11: GREAT PLUMBER 65 (preview: <a href="https://t.co/EwVwQBynTO">https://t.co/EwVwQBynTO</a>)<br><br>- Days 11-22: EMOJIPHOBIA (<a href="https://t.co/FE24Xv46uh">https://t.co/FE24Xv46uh</a>)<br><br>- Days 22-31: 🛹🤫<br><br>Feedbacks welcome! <a href="https://t.co/4Ro1yFqjDz">pic.twitter.com/4Ro1yFqjDz</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1831383334112653667?ref_src=twsrc%5Etfw">September 4, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>Let's go for a third entry? Slack was amused by this idea...
+
+<br><br>
+<br><img src=images/js13k24/3.png width=700>
+<br>
+<br>
+
 <br>
 <br>
 <hr>
@@ -865,6 +986,7 @@ Herebefrogs: I love it that you still manage to sneak emoji everywhere
 bb: Wow, Great Plumber 65 is a work of art... Amazing
 
 https://www.youtube.com/watch?v=HT2HMWjh2ls
+https://www.youtube.com/watch?v=aB_I3mn5HI8
 
 https://js13k.bandcamp.com/album/triskaidekaphobia-js13k-2024
 
