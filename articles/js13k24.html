@@ -59,7 +59,7 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <br>
 <hr>
 <br>
-<h3>The full story (with spoilers)</h3>
+<h2>The full story (with spoilers)</h2>
 <br>
 <hr>
 <br>
@@ -157,8 +157,7 @@ vec3 GetLocalPosition(int v){
 <br>
 <hr>
 <br>
-<p><b id=game1>DAYS 1-11: GREAT PLUMBER 65</b>
-<br>
+<p><h2 id=game1>DAYS 1-11: GREAT PLUMBER 65</h2>
 <br>
 <hr>
 <br>
@@ -829,9 +828,9 @@ intro = () => {
 <br>
 <hr>
 <br>
-<p><b id=game2>DAYS 12-21: EMOJIPHOBIA</b>
+<p><h2 id=game2>DAYS 12-21: EMOJIPHOBIA</h2>
 
-<br><br><hr><br>
+<br><hr><br>
 
 <p><b>Brainstorming</b>
 
@@ -851,18 +850,18 @@ intro = () => {
 <p><b>Emojification</b>
 
 <p>After adding an emoji everywhere I could, I remarked a few things:
-<ul><li>There are a lot of duplicates. More precisely, a single phobia could have 3, 4 or more different names. For example: "Cryophobia, Frigophobia, Cheimaphobia, Psychrophobia: fear of cold".
-<li>I was sad to see that many emoji from <a href="https://xem.github.io/unicode13/emoji.html">my emoji list</a> didn't appear on my list. So I took the most interesting ones, and googled them one by one: "Fear of ears", "fear of suitcases", etc. This process allowed me to add an extra 44 elements to my list, mostly phobias specific to some animals (there's almost no animals that no one fears), but a few interesting others too.
+<ul><li>There are a lot of duplicates. More precisely, a single phobia could have 2, 3, 4 or more different names. For example: "Cryophobia, Frigophobia, Cheimaphobia, Psychrophobia: fear of cold".
+<li>I was sad to see that many emoji from <a href="https://xem.github.io/unicode13/emoji.html">my emoji list</a> didn't appear on my list. So I took the most interesting ones, and googled them one by one: "Fear of ears", "fear of suitcases", etc. Most of them actually existed! This process allowed me to add an extra 44 elements to my list, mostly phobias specific to some animals (there's almost no animals that no one fears), but a few interesting others too. It also allowed me to create a separate list of phobias that DO NOT exist, that could be used in the game too. (For these made-up phobias, I invented the name myself based on the latin translation of the emoji name).
 <li>Fears of colors are a thing that exists. I listed 11 of them, and since only 9 had a corresponding emoji (🔴⚪⚫🟣🟡🟠🔵🟤🟢), I cheated a little and added pink and gray as two rounded divs.
 <li>Fears of numbers are in vast majority, almost every number has its phobia. To not bloat my game with such phobias, I kept the list simple: every number from 0 to 20, plus 30, 69, 99, 100 and 666. I represented them with Emoji digits.
-<li>Some phobias could nt be easily represented by a single emoji, but sometimes a non-emoji unicode character could do the trick (ex: wind ࿓༄  , stairs 𓊍...), or a combination of multiple emoji (ex: accidents 🚗💥🚗, being tickled 👣🪶, constipation 💩❌...), or even a mix of emoji and non-emoji characters (ex: dust .･:･🧹). Many combos were found thanks to the help of <a href="https://emojidb.org/">emojidb</a>.
+<li>Some phobias could not be easily represented by a single emoji, but sometimes a non-emoji unicode character could do the trick (ex: wind ࿓༄  , stairs 𓊍...), or a combination of multiple emoji (ex: accidents 🚗💥🚗, being tickled 👣🪶, constipation 💩❌...), or even a mix of emoji and non-emoji characters (ex: dust .･:･🧹). Many combos were found thanks to the help of <a href="https://emojidb.org/">emojidb</a>.
 </ul>
 
 <br><br><hr><br>
 <p><b>Final list and categorization</b>
 
 <p>After cleaning up the majority of phobias that didn't correspond to an emoji (for example: fear of imperfection, 
-fear of being forgotten, fear of missiles, fear of coitus, fear of hearing good news, fear of novelty, etc...), and gathering together the ones corresponding to a single emoji, I arrived to a total of 280 emoji, with corresponding name(s) and definitions.
+fear of being forgotten, fear of missiles, fear of coitus, fear of hearing good news, fear of novelty, etc...), and gathering together the ones that had multiple names, I arrived to a total of 280 emoji, with corresponding name(s) and definitions.
 
 <br><br>
 <br><img src=images/js13k24/45.png width=900>
@@ -921,31 +920,44 @@ fear of being forgotten, fear of missiles, fear of coitus, fear of hearing good 
 <br>
 <br>
 
+I remarked after the release that the title is too big for some Linux players (but not on all browsers). I don't understand how it's possible, since the title is supposed to be centered. For these people, the title screen will stay like that:
+
+<br><br>
+<br><img src=images/js13k24/54.png width=500>
+<br>
+<br>
+
 <p>Besides that, the only little challenge that I encountered in this entry was data management. Each question displays one or many emoji plus one or many phobias names, but I didn't want them to appear twice in the game.
 <p>So after each question, all the phobias that appeared in the question (with their name or their emoji) get deleted from the global data object. 
-<p>When the 13 questions have passed, 150 phobias remain in the "data" object, still grouped by categories.
+<p>When the 13 questions have passed, 250 phobias remain in the "data" object, still grouped by categories.
 <p>At this moment, the categores get grouped  by increasing order of difficulty, then randomly ordered, and put in in a big "suddendeathquestions" array:
 
 <pre class=language-js><code>suddendeathquestions = [];
+
+// All the easy ones
 suddendeathquestions.push(...[...data.easy, ...data.animaleasy, ...data.numbereasy].sort((a,b)=>0.5 - Math.random()))
+
+// All the medium ones
 suddendeathquestions.push(...[...data.medium, ...data.color, ...data.country].sort((a,b)=>0.5 - Math.random()))
+
+// All the hard ones
 suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 - Math.random()))</code></pre>
 
-<p>After that, sudden death mode starts, and questions are taken 3 by 3 in this array, and deleted after each correct alswer, alowing for about 50 good answers before the game runs out of questions and displays the final score.
+<p>After that, sudden death mode starts, and questions are taken 3 by 3 in this array, and deleted after each correct alswer, allowing for about 80 good answers before the game runs out of questions and displays the final score.
 
 <br><br><hr><br>
 
 <p><b>Release</b>
 
-<p>Once again, 10 days were enough to complete and polish my entry.
-<p>No golf or minification was needed at all, since the unminified code was 51kb unzipped and 10.7 kb zipped. As a result, the released entry contains my raw source code.
+<p>As for my first entry, 10 days were enough to complete and polish my quiz.
+<p>This time, no golf or minification were needed at all, since the unminified code was 51kb unzipped and 10.7 kb zipped. As a result, the released entry contains my raw source code.
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">This edition of <a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> definitely can&#39;t keep me occupied for more than 10 days at a time. So I&#39;ll make 3 entries!<br><br>- Days 1-11: GREAT PLUMBER 65 (preview: <a href="https://t.co/EwVwQBynTO">https://t.co/EwVwQBynTO</a>)<br><br>- Days 11-22: EMOJIPHOBIA (<a href="https://t.co/FE24Xv46uh">https://t.co/FE24Xv46uh</a>)<br><br>- Days 22-31: 🛹🤫<br><br>Feedbacks welcome! <a href="https://t.co/4Ro1yFqjDz">pic.twitter.com/4Ro1yFqjDz</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1831383334112653667?ref_src=twsrc%5Etfw">September 4, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p>Let's go for a third entry? Slack was amused by this idea...
 
 <br><br>
-<br><img src=images/js13k24/3.png width=700>
+<br><img src=images/js13k24/3.png width=500>
 <br>
 <br>
 
@@ -953,9 +965,78 @@ suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 
 <br>
 <hr>
 <br>
-<p><b id=game3>DAYS 22-31: O HIII BAD SKATEPARK</b><br>
+<p><h2 id=game3>DAYS 22-31: O HIII BAD SKATEPARK</h2>
+<br>
+<hr>
 
-<p>COMING SOON
+
+<p><b>A new tool approaches</b>
+
+<p>Before starting my third game, I realized that my two first entries and had a similar structure:
+<br>- Single-file
+<br>- SVG favicon
+<br>- Emoji polyfill
+<br>- State management
+<br>- Click handler
+<br>- Disabled touch/text-select events
+
+<p>Great Plumber 65 also has a useful keyboard management system and a 60 fps gme loop.
+
+<p>So before starting my third game, I wanted to try making a game template with all these features in less than 100 lines of code.
+
+<p>It took me a few hours to make <a href="https://github.com/xem/miniGameTemplate?tab=readme-ov-file#minigametemplate">MiniGameTemplate</a>, 100 lines long with comments, 0.8kb minified, and 0.6kb zipped.
+<p>According to me, it has everything needed to start making a game in great conditions, and I'll definitely use it for my future games!
+
+
+<blockquote class="twitter-tweet" data-conversation="none" data-theme="dark"><p lang="en" dir="ltr">I wrote a 2024 update for my 100-lines HTML5 game template:<a href="https://t.co/6DgTELfrRp">https://t.co/6DgTELfrRp</a><br>- Standalone<br>- SVG favicon<br>- Twemoji polyfill<br>- Disable text select &amp; touch gestures crap<br>- Keyboard input manager<br>- State machine + 60fps game loop/click handler <br>- 0.8kb minified<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/gamedev?src=hash&amp;ref_src=twsrc%5Etfw">#gamedev</a> <a href="https://t.co/6VtDuBtPin">pic.twitter.com/6VtDuBtPin</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1831670699531870526?ref_src=twsrc%5Etfw">September 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br>
+<br>
+<hr>
+
+<p><b>Title screen</b>
+<p>Let's start my skate entry, by showing that its name is an annagram of the theme! (it wouldn't have much interest otherwise).
+<p>I wrote TRISKAIDEKAPHOBIA and O HIII BAD SKATEPARK on a 2D canvas, to use as a model.
+<p>Then for each letter, I measured and saved in a JS array its X position in the first text and in the second one.
+
+<br><br>
+<br><img src=images/js13k24/48.png width=800>
+<br>
+<br>
+
+<p>(Note: the upppercase "i"'s didn't have dots in the font that I used. I added a white rectangle on each "i" myself to make the "HIII" more readable)
+
+<p>I first tried making all the letters move straight to their final position at the same time, with a lerp (linear interpolation), but it wasn't clear enough and the movement was too rigid.
+
+<br><br>
+<br><img src=images/js13k24/49.gif width=600>
+<br>
+<br>
+
+<p>So I found a smooth lerp function online, and used it to make each letter move one after another, as if they were pushed by a man on a skate (represented by a dancer emoji and a skate emoji).
+
+<br><br>
+<br><img src=images/js13k24/50.gif width=600>
+<br>
+<br>
+
+<p>Then, to add the idea that the levels will be drawable with the mouse, I added a crayon drawing a line, and made the skater ride on that line (as you can see in the final game, with the proper emoji webfont and a subtle radial gradient in the background).
+
+<br><br>
+<br><img src=images/js13k24/51.png width=800>
+<br>
+<br>
+
+<p>To conclude this screen, I wanted to add a cool 3D shadow effect on the text. 2D canvases can't do that directly, but they can be used to isolate a line of pixels, and redraw it in another place, with a different scale and a different opacity, just like a Mode 7 game would have done on the Super Nitendo!
+
+<p>After a few hours of trial and error, I managed to make a convincing shadow for the title and the "PLAY" button using this technique. I even made it appear progressively at the end of the intro.
+
+<br><br>
+<br><img src=images/js13k24/52.png width=800>
+<br>
+<br>
+
+
 <br>
 <hr>
 <br>
@@ -988,6 +1069,8 @@ bb: Wow, Great Plumber 65 is a work of art... Amazing
 https://www.youtube.com/watch?v=HT2HMWjh2ls
 https://www.youtube.com/watch?v=aB_I3mn5HI8
 
+https://www.twitch.tv/invadium
+
 https://js13k.bandcamp.com/album/triskaidekaphobia-js13k-2024
 
 https://openclassrooms.com/forum/sujet/image-dans-un-select-10327
@@ -997,7 +1080,7 @@ live demo: https://js13k-3dphysics-for-xem.vercel.app/
 
 https://suno.com/song/fb201967-958c-44e9-beea-deb52240b936
 https://suno.com/song/5b122393-60de-4fef-95cd-1c3ebc958d87
-
+https://suno.com/song/9cef13b6-1e3a-4d42-9851-2e97b8db97f8
 
 [Verse]
 Late night coding for the game jam
