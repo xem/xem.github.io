@@ -950,7 +950,7 @@ suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 
 <p><b>Release</b>
 
 <p>As for my first entry, 10 days were enough to complete and polish my quiz.
-<p>This time, no golf or minification were needed at all, since the unminified code was 51kb unzipped and 10.7 kb zipped. As a result, the released entry contains my raw source code.
+<p>This time, no golf or minification were needed at all, since the unminified file (containing 1451 lines of code) was 51kb unzipped and 10.7 kb zipped. As a result, the released entry contains my raw source code.
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">This edition of <a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> definitely can&#39;t keep me occupied for more than 10 days at a time. So I&#39;ll make 3 entries!<br><br>- Days 1-11: GREAT PLUMBER 65 (preview: <a href="https://t.co/EwVwQBynTO">https://t.co/EwVwQBynTO</a>)<br><br>- Days 11-22: EMOJIPHOBIA (<a href="https://t.co/FE24Xv46uh">https://t.co/FE24Xv46uh</a>)<br><br>- Days 22-31: 🛹🤫<br><br>Feedbacks welcome! <a href="https://t.co/4Ro1yFqjDz">pic.twitter.com/4Ro1yFqjDz</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1831383334112653667?ref_src=twsrc%5Etfw">September 4, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -969,7 +969,7 @@ suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 
 <br>
 <hr>
 
-
+<br>
 <p><b>A new tool approaches</b>
 
 <p>Before starting my third game, I realized that my two first entries and had a similar structure:
@@ -980,23 +980,21 @@ suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 
 <br>- Click handler
 <br>- Disabled touch/text-select events
 
-<p>Great Plumber 65 also has a useful keyboard management system and a 60 fps gme loop.
+<p>Great Plumber 65 also has a useful keyboard management system and a 60 fps game loop.
 
-<p>So before starting my third game, I wanted to try making a game template with all these features in less than 100 lines of code.
+<p>So before starting my third game, I wanted to try making a game template with all these features in a small package.
 
 <p>It took me a few hours to make <a href="https://github.com/xem/miniGameTemplate?tab=readme-ov-file#minigametemplate">MiniGameTemplate</a>, 100 lines long with comments, 0.8kb minified, and 0.6kb zipped.
-<p>According to me, it has everything needed to start making a game in great conditions, and I'll definitely use it for my future games!
+<p>I think it has everything needed to start making a game in great conditions, and I'll definitely use it for my future games!
 
 
 <blockquote class="twitter-tweet" data-conversation="none" data-theme="dark"><p lang="en" dir="ltr">I wrote a 2024 update for my 100-lines HTML5 game template:<a href="https://t.co/6DgTELfrRp">https://t.co/6DgTELfrRp</a><br>- Standalone<br>- SVG favicon<br>- Twemoji polyfill<br>- Disable text select &amp; touch gestures crap<br>- Keyboard input manager<br>- State machine + 60fps game loop/click handler <br>- 0.8kb minified<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://twitter.com/hashtag/gamedev?src=hash&amp;ref_src=twsrc%5Etfw">#gamedev</a> <a href="https://t.co/6VtDuBtPin">pic.twitter.com/6VtDuBtPin</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1831670699531870526?ref_src=twsrc%5Etfw">September 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<br>
-<br>
 <hr>
-
+<br>
 <p><b>Title screen</b>
-<p>Let's start my skate entry, by showing that its name is an annagram of the theme! (it wouldn't have much interest otherwise).
-<p>I wrote TRISKAIDEKAPHOBIA and O HIII BAD SKATEPARK on a 2D canvas, to use as a model.
+<p>Let's start my skate entry with a title screen showing that the game's name is an annagram of the theme! (it wouldn't have much interest otherwise).
+<p>I wrote TRISKAIDEKAPHOBIA and O HIII BAD SKATEPARK on a 2D canvas, as a model.
 <p>Then for each letter, I measured and saved in a JS array its X position in the first text and in the second one.
 
 <br><br>
@@ -1004,7 +1002,7 @@ suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 
 <br>
 <br>
 
-<p>(Note: the upppercase "i"'s didn't have dots in the font that I used. I added a white rectangle on each "i" myself to make the "HIII" more readable)
+<p>(Note: the upppercase "i" didn't have dots by default. I added a white rectangle on each "i" myself to make the "HIII" / "Hiii" more readable)
 
 <p>I first tried making all the letters move straight to their final position at the same time, with a lerp (linear interpolation), but it wasn't clear enough and the movement was too rigid.
 
@@ -1027,7 +1025,7 @@ suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 
 <br>
 <br>
 
-<p>To conclude this screen, I wanted to add a cool 3D shadow effect on the text. 2D canvases can't do that directly, but they can be used to isolate a line of pixels, and redraw it in another place, with a different scale and a different opacity, just like a Mode 7 game would have done on the Super Nitendo!
+<p>To conclude this screen, I wanted to add a cool 3D shadow effect on the text. 2D canvases can't do that natively, but the "drawImage()" function can be used to isolate a line of pixels and redraw it in another place, with a different scale and a different opacity, just like a "Mode 7" game would have done on the Super Nintendo!
 
 <p>After a few hours of trial and error, I managed to make a convincing shadow for the title and the "PLAY" button using this technique. I even made it appear progressively at the end of the intro.
 
@@ -1036,12 +1034,176 @@ suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 
 <br>
 <br>
 
+<p>Unfortunately, after developing my title screen with Chrome, I tested it on Firefox and the browser got completely stuck when the shadows appeared. It wouldn't even accept click events on the "PLAY" button anymore. A complete freeze, everytime. I even tried disabling the game loop entirely, but no luck: Firefox even froze if the shadows were drawn during a single frame.
+<p>I concluded that Firefox probably has a bug or a memory leak that prevents to do so many "Mode 7"-ish things on its 2D canvas without freezing. As a result, I added a Firefox user-agent check in my code. Every browser gets the shadows, and Firefox doesn't get any.
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+<p><b>Editor and player</b>
+
+<p>Little by little, I made my editor interface, with a basic JS state machine allowing me to activate buttons, draw lines and circles with the mouse, scroll with the arrow keys, then undo, clear, load, save (in JSON)... and finally, a "play" button to launch the 2D physics simulation, and a "return to editor" button to stop it.
+
+<br>
+<br>
+<video src=images/js13k24/55.mp4 controls width=600></video>
+<br>
+<br>
+
+<p>I hesitated a lot about keeping the skater and the skate as two separate entities or keep them glued together, but when I finally made the final graphics for the skate and the skater, it appeared obvious that it was much more interesting to see them being independant.
+
+<br>
+<br>
+<video src=images/js13k24/56.mp4 controls width=600></video>
+<br>
+<br>
+
+<p>The biggest "math" challenge I had to face was: how to convert a line drawn in my editor (going from a point A to a point B) into an equivalent rectangle (with a center position, width, height and angle) compatible with Mini2DPhysics?
+<p>The solution arrived relatively quickly, by taking each item separately:
+<br>- the rectangle's center point is at the middle of points A and B: center.x = (A.x+B.x) / 2; center.y = (A.y+B.y) / 2.
+<br>- the rectangle's width can be measured with the dist() finction already present in the physics engine: w = dist(A, B)
+<br>- the height is a constant, equal to the line's width: h = 8
+<br>- and finally, the angle is Math.atan2(B.y-A.y, B.x-A.x).<br>(the atan2 method is magic for finding angles from lines! It's just super weird that its parameters are atan2(y,x) and not atan2(x,y) ...?!)
+
+
+
+<p>Once again, I asked my friend <b>KorHosik</b> what else could be added to offer a better experience to the player, and he hit me with some good ideas: 
+<br>- Allowing to scroll vertically using the mouse wheel
+<br>- Replacing the "undo" button with an "erase" tool.
+<br>- Showing a ghost of the skater in the editor to see where we should place the next lines
+<br>- Add some kind of missions, such as reaching a certain zone or using a limited set of items to do something... to have a real game and not a "basic" Line Rider clone.
+
+<p>I implemented all these ideas, the most complex being the "missions" (or "challenges", as I called them). I had to invent them, make sure they were doable, then implement all the tests in the simulation to check if a challenge is cleared or not.
+
+<br><br>
+<br><img src=images/js13k24/57.jpg width=900>
+<br>
+<br>
+
+<p>I started with 3, then with my friend's help, I ended up with 10 challenges in total, from very easy ones to super difficult.
+<p>To match the theme a little more, I decided that all these challenges had to be completed under 13 seconds, and with a maximum of 13 drawn items. 
+<p>Some of them were actually hard to achieve AND hard to check for their completion, like this one where we must return the skate and land the skater, standing up, on it.
+
+
+<p><b>Challenge solution (SPOILERS)</b> 
+<br>
+<br>
+<video src=images/js13k24/58.mp4 controls width=600></video>
+<br>
+<br>
+
+<p><b>JS code to check its completion:</b>
+<br>
+<br>
+
+<pre class=language-js><code>// Check challenge 3 completion
+   
+if(
+  challenge3 == 0 // challenge not yet completed
+  && objects.length &lt;= 15 // less than 13 items drawn (15 simulated objects including skater and skate)
+  && frame &lt; 13*60 // less than 13 seconds
+  && objects[0].G > 2.7 && objects[0].G &lt; 3.5 // skater is standing up (-ish)
+  && (objects[1].G > 5.5 || objects[1].G &lt; .5) // skate is upside-down (-ish)
+  && distance(Vec2(objects[0].C.x, objects[0].C.y), Vec2(objects[1].C.x, objects[1].C.y)) &lt; 35 // skater is close to the skate
+  && objects[1].C.y &lt; objects[0].C.y // skater is on top of the skate
+){
+  challenge3 = 1; // Challenge 3 is completed
+  localStorage.hiii_3 = 1; // save in local storage
+  ch3.setAttribute("checked", "true"); // check box in the challenge page
+  challengeok.className = ""; // show popup
+  challengeok.innerHTML += "Challenge cleared: flip the skate upside-down then make the skater stand up on it";
+}</code></pre>
+
+<br>
+<br>
+<p>Since some of them involved touching a certain number of balls with the skater, with limited time and items drawn, my friend suggested that I show the number of items drawn in the editor and the elapsed time in the simulation, and color the balls differently when they get touched, so we can see more clearly how many balls are completing the "touch X balls" challenges. (this "blue balls" thing ended up becoming a joke in the game's feedbacks).
+
+<br>
+<br>
+<video src=images/js13k24/59.mp4 controls width=600></video>
+    
+<br>
+<br>
+<br>
+<hr>
+<br>
+
+<p><b>Release</b>
+<p>After doing all the debugging and polishing I was able to make, I zipped my unminified 1412 lines, 44kb index.html (which was also developed as a single-file) into a 11.2kb zip and released it like that, the day before the deadline!
+<p>My friends and I tried it with many, MANY items and I was pleased to see that the simulation remained super stable and fluid, even in a pool full of balls or a big track with plenty of lines.
+<p>I was especially proud of the challenges that were kind of added in the last minute, because without them the game would have been much less fun to play.
+
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">My three entries are released, here are the final links to test them<br><br>- GREAT PLUMBER 65: <a href="https://t.co/IndmLmSyx0">https://t.co/IndmLmSyx0</a><br><br>- EMOJIPHOBIA: <a href="https://t.co/DnlVJgdYwG">https://t.co/DnlVJgdYwG</a><br><br>- O HIII BAD SKATEPARK: <a href="https://t.co/atCn9M6oeZ">https://t.co/atCn9M6oeZ</a><br><br>(also available on <a href="https://t.co/Pxww9vnFai">https://t.co/Pxww9vnFai</a> &amp; <a href="https://t.co/jpaqewsvdT">https://t.co/jpaqewsvdT</a>)<a href="https://twitter.com/hashtag/js13k?src=hash&amp;ref_src=twsrc%5Etfw">#js13k</a> <a href="https://t.co/P2NAiVfnDV">pic.twitter.com/P2NAiVfnDV</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1834468828199170152?ref_src=twsrc%5Etfw">September 13, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <br>
 <hr>
 <br>
-<p><b id=conclusion>Conclusion</b>
-<p>COMING SOON
+<p><h2 id=conclusion>CONCLUSION</h2>
+<br>
+<hr>
+<br>
+<p><b>Productivity</b>
+<br>
+<p>I believe 2024 was the year where I produced the most lines of code for js13k: 3 tools, 3 entries, 4 dweets and this (too long?) making-of!
+<br>
+<br>
+<hr>
+<br>
+
+<p><b>The sound of JS13k24</b>
+<br>
+<p>- I contributed to the js13k24 soundtrack album with my GREAT PLUMBER 65 intro and outro, and my EMOJIPHOBIA classical music (stolen from LOSSST 2021). I didn't add O HIII BAD SKATEPARK's music because it was already present in EMOJIPHOBIA (I realized AFTER the jam that I used the same song twice, once taken from a preious entry, and the other one... recreated from a MIDI file. 🤦)
+<p>- end3r showed us suna.com, an AI site that generates songs from a prompt: lyrics, music, vocals, rhymes, everything. I tried it myself with a prompt containing js13k24's theme (phobia of thirteen), and a few details about the jam (theme announcement, limited time and space, creating tools, using VR, AI, procedural generation, coding, creating assets, debugging, playtesting and finally, writing post-mortems.
+<p>It's an euphemism to say that I was extremely impressed by the song that came out of this prompt. You can find it <a href="https://suno.com/song/9cef13b6-1e3a-4d42-9851-2e97b8db97f8">here</a>, or play it below:
+
+
+<br>
+<br>
+<video src=images/js13k24/60.mp4 controls width=500></video>
+<br>
+
+<p>Some feedbacks on the song:
+<p><b>CarelessLabs</b>: That’s awesome. It’s so catchy! 
+<br><b>John Edvard</b>: 13 bytes and sleepless nights. Quite accurate.
+<br><b>Tricsi</b>: catchy
+<br><b>end3r</b>: damn that's so good!
+
+<br>
+<br>
+<hr>
+<br>
+<p><b>My favourite entries</b>
+<br>
+<p>I spent the days following september 13th testing and voting for all the entries submitted during the jam. When <b>Alkor</b> released some stats at the end of september, I was the top 1 voter on the app, haha!
+<p>I remarked that the overall quality was pretty high this year. I found 24 outstanding games, and <a href="https://x.com/MaximeEuziere/status/1834585315434016795">posted them on X</a>:
+<br>
+<p>- <a href="https://dev.js13kgames.com/2024/games/economy-of-motion">Economy of motion</a> (One of my ideas this year was to make a game where we're limited to 13 moves. Glad to see this entry achieve it as a 2D platformer!)
+<br>- <a href="https://dev.js13kgames.com/2024/games/cooler">Cooler</a> (Nice controls & music!)
+<br>- <a href="https://dev.js13kgames.com/2024/games/squad-13">Squad 13</a> (Amazing helico simulation, particles system and audio, reminds me old Choplifter games.)
+<br>- <a href="https://dev.js13kgames.com/2024/games/dimension-13">Dimension 13</a> (Difficult and sadly WASD-only, but retro-pigeon delivers really impressive visuals in 13kb and at 13yo!)
+<br>- <a href="https://js13kgames.com/2024/games/ghosted">Ghosted</a> (I hate sokoban but love good twists on sokoban's rules. Well done. A bit hard.)
+<br>- <a href="https://js13kgames.com/2024/games/those-final-seconds">Those final seconds</a> (The graphics are amazing)
+<br>- <a href="https://js13kgames.com/2024/games/brewing-disaster">Brewing Disaster</a> (Simple concept, good variety of characters, items, effects and challenges)
+<br>- <a href="https://js13kgames.com/2024/games/unloved-13">Unloved 13</a> (Lovely idea, cute graphics, story and music)
+<br>- <a href="https://js13kgames.com/2024/games/dungeon-of-curse">Dungeon of Curse</a> (Impressive graphics)
+<br>- <a href="https://js13kgames.com/2024/games/kyabetsu">Kyabetsu</a> (Yay, a cute point&amp;click game)
+<br>- <a href="https://js13kgames.com/2024/games/coup-ahoo">Coup Ahoo</a> (A kind of game I hadn't seen before, cute and nice music)
+<br>- <a href="https://js13kgames.com/2024/games/escape-from-planet-xiii">Escape from planet XIII</a> (Super impressive graphics and tech.)
+<br>- <a href="https://js13kgames.com/2024/games/cool-dolphin">Cool dolphin</a> (I liked the graphics and controls)
+<br>- <a href="https://js13kgames.com/2024/games/sup3rfr1ght-vr">SUP3RFR1GHT VR</a> (Couldn't play it as it's VR but seems amazing)
+<br>- <a href="https://js13kgames.com/2024/games/cursed-elevator">Cursed Elevator</a> (Wow, an impressive entry using my tools W and pxtex! Graphics, sounds and ambiance are amazing. Boss fight is a bit long.)
+<br>- <a href="https://js13kgames.com/2024/games/the-kings-crowns">The king's crowns</a> (Incredible graphics and ambiance)
+<br>- <a href="https://js13kgames.com/2024/games/13th-floor">13th floor</a> (Incredible graphics and ambiance. "it" made me chilly!)
+<br>- <a href="https://js13kgames.com/2024/games/deep13">Deep13</a> (Here too, amazing visuals and atmosphere)
+<br>- <a href="https://js13kgames.com/2024/games/phantomicus">Phantomicus</a> (Amazing hommage to Luigi Mansion, is that a real 3D physics engine?! I want to see its source code with a standalone demo!)
+<br>- <a href="https://js13kgames.com/2024/games/bubble-burst">Bubble burst</a> (Curious to know how the bubble is implemented!)
+<br>- <a href="https://js13kgames.com/2024/games/king-longlegs">King LongLegs</a> (Very interesting platformer with some depth)
+<br>- <a href="https://js13kgames.com/2024/games/sub13">Sub13</a> (Awesome 3D ans music, too bad the power ups look like walls)
+<br>- <a href="https://js13kgames.com/2024/games/do-not-make-13">Do not make 13</a> (Very original concept with maths and drawings)
+<br>- <a href="https://js13kgames.com/2024/games/dr1v3n-wild">Dr1v3n wild</a> (Spectacular "false" 3D graphics with a lot of variety. Convincing gameplay and sound. Cute billboards.)
+
 
 <!--
 Remarks:
