@@ -174,7 +174,7 @@ vec3 GetLocalPosition(int v){
 <p>But nothing clicked so far.
 <p>(At the end of the jam, I was pleased to see that other contestants had made very good games based on some of these ideas, and much better than I would have done myself.)
 <br>
-<p>I looked on <a href="https://wordsmith.org/anagram/index.html">Wordsmith.org</a> if there are good anagrams of the theme.
+<p>I looked on <a href="https://wordsmith.org/anagram/index.html">Wordsmith.org</a> if there were good anagrams of the theme.
 <p>Triskaidekaphobia contains the letters of interesting words such as <b>skateboard, skatepark, karate kid, bishop, parakite, parasitoid, idiopathies, apartheids, editorship</b> and <b>database</b>...
 <p>It's hard to make a full sentence with these letters though.
 <br>We can write weird things like:
@@ -203,7 +203,6 @@ vec3 GetLocalPosition(int v){
 <br>
 <br>
 
-<p>I'll show my progress on X and Slack, but I will hide all the Mario references, to avoid spoilers! (even the Mario 3D model present in Midi3Dplatformer got replaced by a brown parallelepiped).
 <p>Ideally, I'd like to do a complete demake of Mario 64 in 5 chapters, five actual JS13K entries that would be able to share data and assets with each other, and I would call the game something like "GREAT PLUMBER 65", because 65kb = 5 x 13kb. Though, I know the task would be too immense for a single dev, with such size and time constraints, so I'll probably go with something much smaller, in a single entry, but as impressive as possible. <a href="https://www.youtube.com/clip/UgkxzZJ4oTvJFhEzQ4Z3Pc-4iT2owIfoEPGO">The intro and castle's outdoors</a> will certainly be enough.
 
 <p>I started by unearthing and connecting together two of the tools I invented a few years ago:
@@ -213,6 +212,7 @@ vec3 GetLocalPosition(int v){
 <p><img src=images/js13k24/8.png width=900>
 <br><br>
 <p>Both tools weren't made to communicate with each other, and do not share any code whatsoever (the former is made in CSS3D and the latter in WebGL), but I made them communicate through a common ASCII export that represents the level. 3Dmapeditor outputs it, and Mini3Dplatformer parses it to construct its scene.
+<p>I'll show my progress on X and Slack, but I will hide all the Mario references, to avoid spoilers! (even the Mario 3D model present in Mini3Dplatformer got replaced by a brown parallelepiped).
 <p>To make this (rather unholy) communication work as I want, I first had to make Mini3DPlatformer able to display different kinds of cubes (grass, sand, rock, roof and water).
 <p>Then, I added slope blocks in both tools:
 
@@ -490,11 +490,11 @@ console.log(fence) // null</code></pre>
 <br>- The list of available voices is pretty much unpredictable, as it depends entirely on the OS. The list returned by the API includes names and language codes, but there's no way to know if a voice is male or female. I can only try to predict if a voice is male or female based on its name.
 <br>So I asked on js13k's slack for volunteers to execute this line of JavaScript on their setup and show me the results:<br><br><pre class=inline><code class="lang-js">speechSynthesis.getVoices().filter(a=>a.lang.startsWith("en"))</code></pre>.<br><br>I received <a href="images/js13k24/22.png">enough samples</a> to create a list of 21 female and 16 male english voices, which I put in two regexes.
 
-<pre class=language-js><code>// Known male/memale speech synth voices (thanks to people on Slack for giving me their)
+<pre class=language-js><code>// Known male/memale speech synth voices (thanks to people on Slack for giving me theirs)
 female = /Female|Google US English|Susan|Hazel|Zira|Shelley|Grandma|Sandy|Martha|Aria|Priya|Heather|Hayley|Samantha|Catherine|Karen|Tessa|Moira|Kathy|Rishi|Libby/;
 male = /Male|George|Rocko|Daniel|Grandpa|Eddy|Reed|Fred|Ralph|Mark|David|Arthur|Guy|Aaron|Albert|Jester/;</code></pre>
 
-<br>When I have a text ro read with a male voice (ex: "It's a me, the great plumber"), I check if any of the available voice matches the male regex. If one does, use it. Else, use the first english voice available by default (even if it's female). The same thing goes for when I need a female voice (ex: "Dear plumber, please come to the castle...") and the female regex.
+<br>When I have a text to read with a male voice (ex: "It's a me, the great plumber"), I check if any of the available voice matches the male regex. If one does, use it. Else, use the first english voice available by default (even if it's female). The same thing goes for when I need a female voice (ex: "Dear plumber, please come to the castle...") and the female regex.
 
 
 <br><br><hr><br><p><b>2) The princess' letter</b>: Between the title screen and the introduction, I wanted to reproduce the scene from Mario 64 where princess Peach reads a letter to Mario. I decided to reproduce this scene with HTML, emoji and CSS.
@@ -766,7 +766,7 @@ intro = () => {
 
 <p>Finally, there's the question of water. I already implemented a basic "swim" position in my platformer prototype, but I enhanced it a little here, by adding an animation between the "standing up" and "swimming" positions. I also made the movement in water slower than on land, and the jumps from water reach a lower height. 
 
-<p>I showed the result to <b>@end3r</b>, and he didn't judged that my work deserved a strike... I don't know how I should take it, haha! (For his defense, the castle's lacked its final mosaic and a few windows when I show it to him. It's probably more realistic now!)
+<p>I showed the result to <b>@end3r</b>, and he didn't judge that my work deserved a strike... I don't know how I should take it, haha! (For his defense, the castle's lacked its final mosaic and a few windows when I show it to him. It's probably more realistic now!)
 
 <br><br>
 <br><img src=images/js13k24/2.png width=700>
@@ -1583,6 +1583,7 @@ The quality and accuracy of the physics are pretty amazing. The game could use a
 <br>I also got 3 prizes in the <a href="https://js13kgames.com/2024/blog/decentralized-winners">Decentralized categories</a>:
 <br>- O HIII BAD SKATEPARK was ranked #1 for the OP Games NPC challenge (yay!)
 <br>- EMOJIPHOBIA was ranked #3 in Avalanche challenge and #6 in Thirdweb challenge (yay.)
+<p>Another fun fact is that GREAT PLUMBER 65 has had exactly 64 votes.
 <br>
 <br>
 <hr>
