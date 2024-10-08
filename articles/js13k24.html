@@ -39,20 +39,27 @@ Hello! It's the 13th edition of JS13KGames. The theme is <b>Triskaidekaphobia</b
 <br>
 <h3>TL;DR</h3>
 
-<p>This year I released 3 entries:
-<p>- <a href="https://dev.js13kgames.com/2024/games/great-plumber-65">GREAT PLUMBER 65</a> (a 3D platformer tech demo inspired by a childhood game, ranked 100th on mobile, 50th on mobile) - <a href="https://github.com/xem/js13k24">Github</a>
-
-<br>- <a href="https://dev.js13kgames.com/2024/games/emojiphobia">EMOJIPHOBIA</a> (a quiz game about phobias... and emoji, with more than 280 to discover, ranked 63rd overall, 32nd on mobile) - <a href="https://github.com/xem/js13k24-phobia">Github</a>
-
-<br>- <a href="https://dev.js13kgames.com/2024/games/o-hiii-bad-skatepark">O HIII BAD SKATEPARK</a> (a "Line Rider" clone with skates and extra challenges, ranked 110th) - <a href="https://github.com/xem/js13k24-skate">Github</a>
-
-<p>... and 3 new tools:
+<p>This year I released 3 new tools:
 
 <p>- <a href="https://xem.github.io/pxtex/">Pxtex</a>: a random pixelized texture generator
 
 <br>- <a href="https://xem.github.io/microW/">MicroW</a>: a basic WebGL renderer in less than 1kb
 
 <br>- <a href="https://github.com/xem/miniGameTemplate">MiniGameTemplate</a>: a modern, editable HTML5 game template in just 100 lines of code
+
+<br><br>
+<p>... and 3 games:
+<p>- <a href="https://dev.js13kgames.com/2024/games/great-plumber-65">GREAT PLUMBER 65</a>, a 3D platformer tech demo inspired by a childhood game...
+<br>Ranked 100th on mobile and 50th on mobile
+<br>See the <a href="https://github.com/xem/js13k24">source code on Github</a>!
+
+<p>- <a href="https://dev.js13kgames.com/2024/games/emojiphobia">EMOJIPHOBIA</a>, a quiz game about phobias and emoji, with more than 280 to discover...
+<br>Ranked 63rd overall, 32nd on mobile, 3rd on Avalanche and 6th on Thirdweb 
+<br>See the <a href="https://github.com/xem/js13k24-phobia">source code on Github</a>!
+
+<p>- <a href="https://dev.js13kgames.com/2024/games/o-hiii-bad-skatepark">O HIII BAD SKATEPARK</a>, a "Line Rider" clone with skates, balls and extra challenges...
+<br>ranked 110th overall and 1st in OP Guild challenge
+<br>See the <a href="https://github.com/xem/js13k24-skate">source code on Github</a>!
 
 
 <br>
@@ -904,14 +911,21 @@ fear of being forgotten, fear of missiles, fear of coitus, fear of hearing good 
 
 <p><b>Development</b>
 
-<p>I spent the last 5 days creating the visual identity of the entry, and implementing the title screen, the encyclophobia, the 13 questions one by one, the sudden death part and the score screen (with a basic web3 leaderboard). 
+<p>I spent the last 5 days creating the visual identity of the entry, and implementing the title screen, the encyclophobia, the 13 questions one by one, the sudden death part and the score screen (with a basic web3 leaderboard).
 
 <br><br>
 <br><img src=images/js13k24/46.png width=900>
 <br>
 <br>
 
-<p>To be a bit more technical, there's no canvas, it's all HTML and CSS.
+<p>The leaderboards implementation was very hacky to be honest, using a bit of Thirdweb's SDK and a bit of Avalanche's network, plus some local JS stuff to work properly. I didin't make it super foolproof against forged urls, but besides one or two little jokers, people used it nicely and I was surprised to see a list with more than 300 high scores one month after release (corresponding to more than 1300 entries before deduplication, as I only keep the best score when a single person submits multiple times).
+
+<br><br>
+<br><img src=images/js13k24/70.png width=900>
+<br>
+<br>
+
+<p>To be a bit more technical on the game itself, there's no canvas, it's all HTML and CSS.
 <p>It's fully responsive and (as always) uses the Twemoji webfont polyfill to ensure a similar display on all devices and OS's.
 <p>It's playable on mobiles too, but a weird bug happens on iPhones, on the title screen. Even if I force my title's text to be written in black with CSS, for some reason, the characters placed after an emoji get colored with the main color of the emoji. That's unexplainable, and probably unfixable in a reasonable amount of time, so I kept it like that.
 
@@ -1563,18 +1577,19 @@ The quality and accuracy of the physics are pretty amazing. The game could use a
 <br>
 <p><b>Rankings</b>
 
-<p>Not the best, but still fine:
-<br>My first two games ended up in the top 100 overall, and in the top 50 on mobile.
+<p>My first two games ended up in the <a href="https://js13kgames.com/#winners-overall">top 100 overall</a>, and in the <a href="https://js13kgames.com/#winners-mobile">top 50 on mobile</a>.
 <br>The third game arrived 110th overall.
-<br>My friend <b>KorHosik</b> arrived in the top 10 for the first time!
+<br>My friend <b>KorHosik</b> arrived in the top 10 overall for the first time!
+<br>I also got 3 prizes in the <a href="https://js13kgames.com/2024/blog/decentralized-winners">Decentralized categories</a>:
+<br>- O HIII BAD SKATEPARK was ranked #1 for the OP Games NPC challenge (yay!)
+<br>- EMOJIPHOBIA was ranked #3 in Avalanche challenge and #6 in Thirdweb challenge (yay.)
 <br>
 <br>
 <hr>
 <br>
-
 <p><b>Conclusion</b>
 
-<p>The lesson learned from this is that next time, I should focus on one big game instead of 3 little experiences.
+<p>The lesson learned from this edition is that next time, I should focus on one big game instead of 3 little experiences. It was still a very pleasant couple of months preparing, competing to this jam and writing this making-of :)
 
 <p>See you next year!
 <p>Xem
