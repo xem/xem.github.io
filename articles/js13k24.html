@@ -858,7 +858,7 @@ intro = () => {
 
 <p>After adding an emoji everywhere I could, I remarked a few things:
 <ul><li>There are a lot of duplicates. More precisely, a single phobia could have 2, 3, 4 or more different names. For example: "Cryophobia, Frigophobia, Cheimaphobia, Psychrophobia: fear of cold".
-<li>I was sad to see that many emoji from <a href="https://xem.github.io/unicode13/emoji.html">my emoji list</a> didn't appear on my list. So I took the most interesting ones, and googled them one by one: "Fear of ears", "fear of suitcases", etc. Most of them actually existed! This process allowed me to add an extra 44 elements to my list, mostly phobias specific to some animals (there's almost no animals that no one fears), but a few interesting others too. It also allowed me to create a separate list of phobias that DO NOT exist, that could be used in the game too. (For these made-up phobias, I invented the name myself based on the latin translation of the emoji name).
+<li>I was sad to see that many emoji from <a href="https://xem.github.io/unicode13/emoji.html">my emoji list</a> didn't appear on my list. So I took the most interesting ones, and googled them one by one: "Fear of ears", "fear of suitcases", etc. Most of them actually existed! This process allowed me to add an extra 44 elements to my list, mostly phobias specific to some animals (there are pretty much no animals that no one fears), but a few interesting others too. It also allowed me to create a separate list of phobias that DO NOT exist, which could be used in the game too. (For these made-up phobias, I invented the name myself based on the latin translation of the emoji name).
 <li>Fears of colors are a thing that exists. I listed 11 of them, and since only 9 had a corresponding emoji (🔴⚪⚫🟣🟡🟠🔵🟤🟢), I cheated a little and added pink and gray as two rounded divs.
 <li>Fears of numbers are in vast majority, almost every number has its phobia. To not bloat my game with such phobias, I kept the list simple: every number from 0 to 20, plus 30, 69, 99, 100 and 666. I represented them with Emoji digits.
 <li>Some phobias could not be easily represented by a single emoji, but sometimes a non-emoji unicode character could do the trick (ex: wind ࿓༄  , stairs 𓊍...), or a combination of multiple emoji (ex: accidents 🚗💥🚗, being tickled 👣🪶, constipation 💩❌...), or even a mix of emoji and non-emoji characters (ex: dust .･:･🧹). Many combos were found thanks to the help of <a href="https://emojidb.org/">emojidb</a>.
@@ -942,9 +942,9 @@ I remarked after the release that the title is too big for some Linux players (b
 <br>
 
 <p>Besides that, the only little challenge that I encountered in this entry was data management. Each question displays one or many emoji plus one or many phobias names, but I didn't want them to appear twice in the game.
-<p>So after each question, all the phobias that appeared in the question (with their name or their emoji) get deleted from the global data object. 
+<p>So after each question, all the randomly chosen phobias that appeared in the question (with their name or their emoji) get deleted from the global data object. 
 <p>When the 13 questions have passed, 250 phobias remain in the "data" object, still grouped by categories.
-<p>At this moment, the categores get grouped  by increasing order of difficulty, then randomly ordered, and put in in a big "suddendeathquestions" array:
+<p>At this moment, I gather the categories by increasing order of difficulty, then order these super-groups randomly, and put them in a big "suddendeathquestions" array:
 
 <pre class=language-js><code>suddendeathquestions = [];
 
@@ -1079,7 +1079,7 @@ suddendeathquestions.push(...[...data.hard, ...data.numberhard].sort((a,b)=>0.5 
 <br>- the rectangle's center point is at the middle of points A and B: center.x = (A.x+B.x) / 2; center.y = (A.y+B.y) / 2.
 <br>- the rectangle's width can be measured with the dist() finction already present in the physics engine: w = dist(A, B)
 <br>- the height is a constant, equal to the line's width: h = 8
-<br>- and finally, the angle is Math.atan2(B.y-A.y, B.x-A.x).<br>(the atan2 method is magic for finding angles from lines! It's just super weird that its parameters are atan2(y,x) and not atan2(x,y) ...?!)
+<br>- and finally, the angle is Math.atan2(B.y-A.y, B.x-A.x).<br>(the atan2 method is magic for finding angles based on slanted lines! It's just super weird that its parameters are atan2(y,x) and not atan2(x,y) ...?!)
 
 
 
@@ -1132,7 +1132,7 @@ if(
 
 <br>
 <br>
-<p>Since some of them involved touching a certain number of balls with the skater, with limited time and items drawn, my friend suggested that I show the number of items drawn in the editor and the elapsed time in the simulation, and color the balls differently when they get touched, so we can see more clearly how many balls are completing the "touch X balls" challenges. (this "blue balls" thing ended up becoming a joke in the game's feedbacks).
+<p>Since some of these challenges involved touching a certain number of balls with the skater, with limited time and items drawn, my friend suggested that I show the number of items drawn in the editor and the elapsed time in the simulation, and color the balls differently when they get touched, so we can see more clearly how many balls are completing the "touch X balls" challenges. (this "blue balls" thing ended up becoming a joke in the game's feedbacks).
 
 <br>
 <br>
@@ -1178,7 +1178,7 @@ if(
 <p><b>The sound of JS13k24</b>
 <br>
 <p>- I contributed to the js13k24 soundtrack album with my GREAT PLUMBER 65 intro and outro, and my EMOJIPHOBIA classical music (stolen from LOSSST 2021). I didn't add O HIII BAD SKATEPARK's music because it was already present in EMOJIPHOBIA (I realized AFTER the jam that I used the same song twice, once taken from a preious entry, and the other one... recreated from a MIDI file. 🤦)
-<p>- <b>end3r</b> showed us suna.com, an AI site that generates songs from a prompt: lyrics, music, vocals, rhymes, everything. I tried it myself with a prompt containing js13k24's theme (phobia of thirteen), and a few details about the jam (theme announcement, limited time and space, creating tools, VR, AI, 3D, procedural generation, coding, creating assets, using emoji, debugging, playtesting, voting, rankings and finally, writing post-mortems.
+<p>- <b>end3r</b> showed us suna.com, an AI site that generates songs from a prompt: lyrics, music, vocals, rhymes, everything. I tried it myself with a prompt containing js13k24's theme (phobia of thirteen), and a few details about the jam (theme announcement, limited time and space, creating tools, VR, AI, 3D, procedural generation, coding, creating assets, using emoji, debugging, playtesting, voting, rankings and finally, writing post-mortems.)
 <p>I was extremely impressed by the song that came out of this prompt. You can find it <a href="https://suno.com/song/9cef13b6-1e3a-4d42-9851-2e97b8db97f8">here</a>, or play it below:
 
 
@@ -1282,7 +1282,7 @@ if(
 <li>2014 #2: <a href="https://js13kgames.com/2014/games/alchemixer">AlcheMixer</a> 
 </ul>
 
-<p>While recording the video of O HIII BAD SKATEPARK, I managed to do a great stunt on the first try: make the skater stand up on the flipped skae, with just 3 lines:
+<p>While recording the video of O HIII BAD SKATEPARK, I managed to do a great stunt on the first try: make the skater stand up on the flipped skate, with just 3 lines:
 
 <br><br>
 <br><img src=images/js13k24/67.gif width=400>
