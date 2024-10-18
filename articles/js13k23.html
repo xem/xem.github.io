@@ -56,7 +56,7 @@ ul { padding-left: 15px }
 <p><b>13th century</b> is a tough theme indeed! None of the vague ideas I had before starting the jam could fit in that theme or even include a little something about the 13th century. 
 <p>So I started from scratch, by looking on Wikipedia what was invented and discovered in that epoch, to make this list:
 <p><img src="images/js13k23/1.jpg"><br><br>
-<p>You can note that many items of this list have bacome elements of my final game (cannon, clock, paper, astronomy...). Some others were considered for some of my puzzles but didn't get implemented (mirror, soap...).
+<p>You can note that many items of this list have become elements of my final game (cannon, clock, paper, astronomy...). Some others were considered for some of my puzzles but didn't get implemented (mirror, soap...).
 
 <p>I scribbled some game ideas at the bottom of the page, the "escape game" is at the very end. I wish I had decided to start with that immediately...
 <br><br>
@@ -151,7 +151,7 @@ My zip is still smaller than 2.5kb, good news so far! My goal is to have the who
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/js13kgames?src=hash&amp;ref_src=twsrc%5Etfw">#js13kgames</a> day 19:<br><br>Two more rooms are feature complete (knight in armor room and throne room, where a mini game inspired by excalibur takes place), and I have enough collectible items to fill my 12-slots inventory! (blurred here)<br><br>Source : 44kb<br>Min: 33kb<br>RR: 9.85kb<br>Zip: 7.65kb <a href="https://t.co/oqmKDAUnBn">pic.twitter.com/oqmKDAUnBn</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1697699205672776120?ref_src=twsrc%5Etfw">September 1, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p>I'm progressibely making all my rooms playable, but also implement "puzzle rooms" (when the scene changes to show a puzzle to solve, such as the sword-in-rock mini-game or the lock combinations).
-<p>Even after writing some book of my library, I'm glad to see that the zip size is still not exploding (7.65kb).
+<p>Even after writing some books of my library, I'm glad to see that the zip size is still not exploding (7.65kb).
 
 <br><br>
 <p><b>Days 20-21</b>
@@ -383,7 +383,7 @@ draw = function() {
 
 <p>48 hours left! I spent this day adding a simple title screen (with a nice 3D effect though), fixing even more bugs, and since I had some spare bytes, I allowed Ryan to add a few notes to his song, to make the theme that you can hear in the final game. In total he composed for 3 instruments played in parallel. The song takes about 2.4kb minified, and for the first time, my zip is now over the 13kb budget (13.3kb)... which means I finally get the chance to golf my code a little!
 <p><img src="images/js13k23/14.jpg"><br><br>
-<p>I did a quick test by manually mangling my longest ids var names, function names and CSS classes (except the ones used for mouseover, of course) to 1 or 2 characters, and it was enough to reach 13.1kb... but every extra step of mangling that I tried to add made RoadRoller and Zip less efficient and added bytes instead of removing them.
+<p>I did a quick test by manually mangling my longest ids, var names, function names and CSS classes (except the ones used for mouseover, of course) to 1 or 2 characters, and it was enough to reach 13.1kb... but every extra step of mangling that I tried to add made RoadRoller and Zip less efficient and added bytes instead of removing them.
 <p>So I reverted all that, went to bed and decided to tackle that more seriously the next day... 
 
 <br><br>
@@ -406,10 +406,9 @@ draw = function() {
 <p>Some people began to play my game and seem to like it a lot... they find fun bugs that I had never seen before (infinite soup, infinite mice, infinite sword...), so I made the fixes and sent an update to King Andrzej.
 <p><img src="images/js13k23/16.jpg"><br><br>
 <p>Coincidentally, the same week as the release, numerous mouses and mouse holes have started appearing in my apartment! (I'm still trying to chase them as we speak.)
-<p>Coincidentally, the same week as the release, numerous mouses and mouse holes have started appearing in my apartment! (I'm still trying to chase them as we speak).
-<p>There's another bug that happens after tou kill the werewolf: if you use the time wheel to go in the future, the prisoner is still alive. I forgot to check the wolf's death when drawing the non-full-moon variant of the jail...
-<p>Wall... Now I know how hard it is to make a flawless point&click game.
-<p>Another surprising remark from many testers is that they saw the "KONAMI" initials easte-egg rightaway, but didn't read the text in the book "How Arthur Became King" until I told them that the text actually explained how to do the Konami code. They they re-read it and found it very smart... Welp, ok.
+<p>There's another bug that happens after you kill the werewolf: if you use the time wheel to go in the future, the prisoner is still alive. I forgot to check the wolf's death when drawing the non-full-moon variant of the jail...
+<p>Well... Now I know how hard it is to make a flawless point&click game.
+<p>Another surprising remark from many testers is that they saw the "KONAMI" initials easter-egg rightaway, but didn't read the text in the book "How Arthur Became King" until I told them that the text actually explained how to do the Konami code. They they re-read it and found it very smart... Welp, ok.
 
 
 <br><br><hr><br>
