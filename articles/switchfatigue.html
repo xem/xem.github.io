@@ -26,11 +26,12 @@
   <br><br><h3>Hardware:</h3>
   <br>You need a <a href="https://ismyswitchpatched.com/">hackable Switch</a> kept on the lowest possible firmware, an empty microSD card >= 64GB formatted in exFAT (or FAT32 if you don't care about files bigger than 4GB... but I recommend ExFAT), and a way to boot in RCM mode (SX Pro or <a href="https://fr.aliexpress.com/wholesale?catId=0&initiative_id=SB_20211101235930&SearchText=switch+jig+rcm">jig + dongle</a>).
   
-  <br><br><h3>The very first time you hack your Switch:</h3>
+  <br><br><h3>The very first time you hack your Switch (or if you have a new microSD card)</h3>
   <br>Go into <b>Plane Mode</b> to avoid bans, and copy / extract the following items at the root of an SD card:
   <br>- <a href="https://github.com/CTCaer/hekate/releases">Hekate</a>
   <br>- <a href="https://hackintendo.com/download/sigpatches/">Sigpatches</a>
   <br>- <a href="https://github.com/switchbrew/nx-hbmenu/releases">Hbmenu</a>
+  <br>- A boot.dat file (ex: <a href="../files/boot.dat" download>the one from SX</a>)
   <br>- <details style="display:inline;background:#ccc;width:calc(100% - 100px);vertical-align:top"><summary>Create an <b>EmuMMC</b> (emulated internal memory, a.k.a emuNAND. Click for details)</summary> Insert the jig and dongle in your Switch, boot it whille pressing the "volume +" button, and open Hekate. Go to Tools > Partition SD card > OK > 29GB emuMMC > Next step > Start. When it's done, go to Home > emuMMC > create emuMMC > SD partition > Part 1. When it's done, tap "close" and launch the emuMMC. (screenshots available on <a href="https://switch.homebrew.guide/emummc/emummc.html">this page</a>). Atmosphere will boot. 
   </details>
   <br>- You can now install homebrews on your SD card (and access them through the photo gallery app), and upgrade virtual firmware any time.
@@ -47,9 +48,9 @@
   <br>- Any other homebrew or content you want to upgrade or install
   <br>- Run the DayBreak homebrew to install the new firmware. (Choose the options "Preserve settings" and "Fat + ExFat").
   
-  <br><br><h3>June 2023 update</h3>
-  <br><br>Since june 2024, fusée, tinfoil, atmosphere 1.7.1, FW 1.8.1 and hbmenu aren't compatible with each other anymore, god damn it. 
-  <br><b>The current fix consists in using <a href="https://gbatemp.net/threads/sigpatches-for-atmosphere-hekate-fss0-fusee-package3.571543/page-172#post-10437379">a hacked fusee.bin</a> and <a href="https://gbatemp.net/download/sys-patch-1-5-2-binary-fw-18-1-0-atmosphere-1-7-1.38686/">these sys patches</a>.
+  <br><br><h3>June 2024 update</h3>
+  <br>Since june 2024, fusée, tinfoil, atmosphere 1.7.1, FW 1.8.1 and hbmenu aren't compatible with each other anymore, god damn it. 
+  <br><br>The current fix consists in using <a href="https://gbatemp.net/threads/sigpatches-for-atmosphere-hekate-fss0-fusee-package3.571543/page-172#post-10437379">a hacked fusee.bin</a> and <a href="https://gbatemp.net/download/sys-patch-1-5-2-binary-fw-18-1-0-atmosphere-1-7-1.38686/">these sys patches</a>.
   
   <br>
   <br>
