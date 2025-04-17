@@ -120,7 +120,7 @@ menus = {
     minicamrecording: "Mini Cam Recording",
     minisoundeditor: "Mini Sound Editor",
     //minidraganddrop: "Mini Drag & Drop", // TODO
-    minimandelbox: "Mini Mandelbox (JS1k19)",
+    //minimandelbox: "Mini Mandelbox (JS1k19)",
     miniridinglight: "Mini Riding Light (JS1k19)",
     minitwo3d: "MiniTwo3D (JS1k19)",
     escape: "EscApe (JS1k19)",
