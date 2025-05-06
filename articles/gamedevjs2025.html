@@ -1,0 +1,106 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=2024-07">
+<title>Maxime Euzière</title>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=gamedevjs2024>
+<style>
+
+</style>
+
+<h2>Gamedev JS 2025: Hold Your Noodles...And Your Meatballs & Brutalist Mandelbox</h2>
+<h3>April-May 2025</h3>
+
+<br>
+<hr>
+<br>
+<h2>Links</h2>
+<br>
+<b>
+- <a href="https://maximeeuziere.itch.io/the-power-of-two">Hold Your Noodles... And Your Meatballs</a> on Itch.
+<p>- <a href="https://xem.github.io/gamedevjs25/vshader/">Brutalist Mandelbox shader</a> on my repo.
+<p>- <a href="https://itch.io/jam/gamedevjs-2025/rate/3488813">See the entry's ranking </a> on Itch.
+<p>- <a href="https://github.com/xem/gamedevjs25/">Source code</a> on Github.
+</b>
+<br>
+<br>
+<hr>
+<br>
+
+<p><img src="images/gamedevjs25/cover.png" width=800><br><br>
+
+<h2>Making-of</h2>
+<p>Hey, this won't be a detailed making-of as usual, because I actually competed in this jam with very, very few free time.
+<p>The theme of the jam was <b>BALANCE</b>, and there were extra challenges involving Phaser, Vibe coding, Noodles and WebGL shaders.
+<p>I decided to take all the challenges at once, and do a mini-game about balancing a plate of noodles, vibe-coded with Phaser.
+<p>For the shader contest (which is separate from the game entry), I released an old dream of mine: a Mandelbox flythrough.
+<br><br><hr><br>
+<h2>The Game</h2>
+<p>So, I have about 10 hours to create a game, about one hour per day for 10 days. I need to be efficient, and do something simple, but memorable and a bit fun.
+<p>The theme <b>balance</b> and the challenge <b>noodles</b> gave me the idea to balance a plate of noodles on one hand, for as long as possible.
+<p>Since vibe-coding and Phaser were also part of the challenges, I decided to embrace them all and not code a single line of my game by hand.
+<p>I installed Github Copilot, made it create a Phaser project with Matter.js (for the 2D physics), then proceeded to send detailed prompts explaining exactly what I wanted to happen in my game: from the title screen, clicks, UI, display, physics, shapes (bowl, noodles and meatballs), keyboard controls, gravity, timing, score, death, retry, textures, fonts, music...
+<p>Overall, about 40 prompts were necessary to produce the final game, and one hour of manual work on Paint was necessary to create all the images.
+<p>Fine-tuning the shape of the plate (bowl) and how noodles and meatballs shall behave when falling in it is what took me the most time, and shall I say, more time than necessary, because Copilot proved to be quite uncooperative when it came to make the bowl controllable with the arrow keys while new objects fell from the sky and had to collide with it in a natural way.
+<p>Anyway, after many attempts and adjustments, I could release my entry on time!
+<p>In the videos below, you can see what my prototype looked (and feeled) like when it was only comprised of a flat plate and falling cubes, before I enhanced the shapes and visuals in the last days of the development.
+
+<p><b>Broken physics: 
+<p><video controls src="images/gamedevjs25/0.mp4"></video>
+
+<p>Unbroken Physics:
+<p><video controls src="images/gamedevjs25/1.mp4"></video>
+
+<p>Final game:</b>
+<p><video controls src="images/gamedevjs25/2.mp4"></video>
+
+
+<br><br><hr><br>
+<h2>The Shader</h2>
+
+Coming soon
+
+<br><br><hr><br>
+<p><h2>Feedbacks</h2>
+
+Coming soon
+
+<br><br><hr><br>
+<p><h2>Results</h2>
+
+Coming soon
+
+<br><br><hr><br>
+
+<p>See you next time!
+</div>
+
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js?v=2024-07"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+
+</body>
+</html>
