@@ -30,10 +30,10 @@
 <h2>Links</h2>
 <br>
 <b>
-- <a href="https://maximeeuziere.itch.io/the-power-of-two">Hold Your Noodles... And Your Meatballs</a> on Itch.
-<p>- <a href="https://xem.github.io/gamedevjs25/vshader/">Brutalist Mandelbox shader</a> on my repo.
-<p>- <a href="https://itch.io/jam/gamedevjs-2025/rate/3488813">See the entry's ranking </a> on Itch.
-<p>- <a href="https://github.com/xem/gamedevjs25/">Source code</a> on Github.
+- Play <a href="https://maximeeuziere.itch.io/the-power-of-two">Hold Your Noodles... And Your Meatballs</a> on Itch.
+<p>- Watch <a href="https://xem.github.io/gamedevjs25/vshader/">Brutalist Mandelbox shader</a> on my repo.
+<p>- See <a href="https://itch.io/jam/gamedevjs-2025/rate/3488813">the entry's ranking </a> on Itch.
+<p>- Read <a href="https://github.com/xem/gamedevjs25/">the source code</a> on Github.
 </b>
 <br>
 <br>
@@ -52,7 +52,7 @@
 <p>So, I have about 10 hours to create a game, about one hour per day for 10 days. I need to be efficient, and do something simple, but memorable and a bit fun.
 <p>The theme <b>balance</b> and the challenge <b>noodles</b> gave me the idea to balance a plate of noodles on one hand, for as long as possible.
 <p>Since vibe-coding and Phaser were also part of the challenges, I decided to embrace them all and not code a single line of my game by hand.
-<p>I installed Github Copilot, made it create a Phaser project with Matter.js (for the 2D physics), then proceeded to send detailed prompts explaining exactly what I wanted to happen in my game: from the title screen, clicks, UI, display, physics, shapes (bowl, noodles and meatballs), keyboard controls, gravity, timing, score, death, retry, textures, fonts, music...
+<p>I installed Github Copilot, made it create a Phaser project with Matter.js (for the 2D physics), then proceeded to send detailed prompts explaining exactly what I wanted to happen in my game: from the title screen, clicks, UI, display, physics, shapes (bowl, noodles and meatballs), keyboard controls, gravity, timing, score, death, retry, textures, fonts, music, responsive canvas...
 <p>Overall, about 40 prompts were necessary to produce the final game, and one hour of manual work on Paint was necessary to create all the images.
 <p>Fine-tuning the shape of the plate (bowl) and how noodles and meatballs shall behave when falling in it is what took me the most time, and shall I say, more time than necessary, because Copilot proved to be quite uncooperative when it came to make the bowl controllable with the arrow keys while new objects fell from the sky and had to collide with it in a natural way.
 <p>Anyway, after many attempts and adjustments, I could release my entry on time!
@@ -70,11 +70,35 @@
 <p>Final game:</b>
 <p><video controls src="images/gamedevjs25/2.mp4" width=400></video>
 
+<p>My feedback on this experiment is that Phaser is nice, Matter.js is too weird (especially with textured shapes), and vibe-coding is only suitable for small games like this. It's far from perfect, and wouldn't really help me on a complete js13kgames entry for example. In the current context, vibe-coding prevented me from learning how Phaser works, and from writing code myself, which I must admit, is already an accomplishment. We'll see next year(s) if it gets even better.
 
 <br><br><hr><br>
 <h2>The Shader</h2>
 
-Coming soon
+<p>The shader competition was hosted by v-shader, separately from GamedevJS, and had to be minted as NFTs.
+<p>Their website was broken for the first two weeks, but I joined their Telegram channel and had them fix it.
+<p>I submitted a shader featuring a Mandelbox flythrough, along with the following explanations:
+
+<p><video controls src="images/gamedevjs25/4.mp4" width=400></video>
+
+<p style="background: #fff; margin: 5px; border-radius:15px; border: 2px solid; padding: 20px; font-style: italic">I love WebGL shaders and minimalism.
+<br>A few years ago, I developed a small Shadertoy clone and a raymarching algorithm able to display 3D shapes in real time using signed distance functions, in very few bytes of code.
+<br>A video of these experiments is available <a href="https://x.com/MaximeEuziere/status/861549757336100864">here</a>.
+<br> Once that was done, I had one big challenge left: to create my own Mandelbox renderer, a 3D shape inspired by the Mandelbrot set and whose formula is defined on <a href="https://en.wikipedia.org/wiki/Mandelbox">this Wikipedia page</a>.
+<br>This shader hackathon was the perfect occasion to try it.
+<br>I created a blank HTML file containing a WebGL canvas, a little CSS setup to make the page responsive, and a "script" block, where I inserted my mini WebGL setup (1.6kb), then started writing the fragment shader, starting with "map", the Mandelbox distance function (0.4 kb).
+<br>map is fed to my small raymarcher algorithm, implemented in MainImage (1.1kb).
+<br>This code displays a fixed, white, unshaded mandelbox on screen.
+<br>It's a nice start, but not good enough.
+<br>To enhance it, I set the background color to orange, then computed the color of each pixel of the box in regard to its normal direction (in which direction it reflects light, using the "n" function, 0.2kb).
+<br>This gives the box a greyscale coloring which goes well with the tracks I wanted to compete in (orange, black and white for the track "V-systems brand colors" and a concrete building appearance for the track "real world assets").
+<br>Finally, in order to animate the shader, I found the coordinates of a straight line that goes through the box without touching any walls (X = -0.4400540540540543, Y = 0.11305105105105107), and made the virtual camera travel on this line, backwards.
+<br>I added two points on the line (z = 15.8 and z = 10) where the camera speeds up a little (to avoid making the animation seem too long), and a final point (Z = 0.5) where the camera stops, showing the entire box in all its glory.
+<br>The end :)
+
+<br>PS: A fullscreen version of my shader is available <a href="https://xem.github.io/gamedevjs25/vshader/">here</a> and its source code is <a href="https://github.com/xem/gamedevjs25/blob/gh-pages/vshader/index.html">HERE</a>.
+</p>
+
 
 <br><br><hr><br>
 <p><h2>Feedbacks</h2>
@@ -89,6 +113,7 @@ Coming soon
 <br><br><hr><br>
 
 <p>See you next time!
+<p>Xem
 </div>
 
 
