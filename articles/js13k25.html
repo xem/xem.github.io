@@ -24,11 +24,338 @@ ul { padding-left: 15px }
 
 <div class=section id=codegolfctober18>
 
-<h2>JS13k'25: I GOT UP ON THE WRONG FOOT!</h2>
+<h2>JS13k'25: I GOT UP ON THE WRONG FOOT! (WIP)</h2>
 <br><h3>August-September 2025</h3>
-<br><hr><br>
+<p><img src="images/js13k25/small.png">
 
-<p>COMING SOON!
+<br>
+<p><b>TL;DR</b>
+<ul>
+<li>My game is playable <a href="https://js13kgames.com/2025/games/i-got-up-on-the-wrong-foot">HERE</a>
+<li>Source code is available <a href="https://github.com/xem/js13k25">HERE</a>
+<li>It was ranked ... / 190 (and ... / ... on Mobile) !
+<li>You can see a playthrough video here (spoilers!):
+<br><iframe width="560" height="315" src="https://www.youtube.com/embed/XwFYRf13knM?si=XN85rgJlaBA3lwuD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</ul>
+<br><hr>
+<p><b>Introduction</b>
+<p>Hello and welcome to this new edition of JS13kGames!
+<p>This year the theme was <b>BLACK CAT</b>, and I didn't approach the competition like the previous years:
+<p>First, I've had a busy (and pleasant 💙) summer, so I haven't really started working on my entry until August 21, one week after the beginning of the jam.
+<p>Besides that, this year's theme didn't really inspire me any game idea, or more precisely, nothing that I found fun enough.
+<p>I spent two full weeks wondering what I could create, or <b>if</b> I'd actually create something this year. I even asked repeatedly to my friends and various AI's what I could do, but nothing really clicked for me.
+<p>One AI suggested a game about Schrödinger's cat, that could switch between states (like alive/dead) to solve puzzles. That's definitely a game I'd like to play, but as a game dev, I wasn't inspired enough to build it myself.
+<p>For inspiration, my dear Severine drew these concept arts of black cats on paper, which helped me a lot when I ended up adding the black cat in my game!
+<p><img src="images/js13k25/s1.jpg">
+<br><br><hr>
+<p><b>August 13-20: brainstorming</b>
+<p>While the days were passing, I ended up considering to make a game about making superstitions come true to have bad luck. Extensive online searches (and a bit of AI) helped me gather a long list of events that were considered bad luck in different countries (to avoid having hyper specific beliefs only existing in Paraguay for example).
+<p>Here's the list I ended up with (mix of vaious french and english sources, so it contains duplicates):
+<details>
+<summary>Click to expand</summary>
+<ul>
+<li>Breaking a mirror is said to bring seven years of bad luck
+<li>A bird or flock of birds going from left to right
+<li>The number 13.
+<li>The number 666.
+<li>Friday the 13th
+<li>Failing to respond to a chain letter
+<li>Giving a clock as a gift (China)
+<li>Some believe hanging a horseshoe with the ends pointing down is bad luck
+<li>Opening an umbrella while indoors
+<li>On the Isle of Man, rats are referred to as "longtails" as saying "rat" is considered bad luck.
+<li>Ravens, crows and magpies
+<li>Saying the word "Macbeth" or wishing someone "Good Luck" while inside a theatre
+<li>Shoes on a table
+<li>Placing a hat on a bed
+<li>Three on a match
+<li>Tipping a salt shaker over
+<li>Viewing one's doppelgänger may be considered a harbinger of bad luck
+<li>Killing a ladybug
+<li>Walking under a ladder
+<li>Black cat crossing one's path
+<li>Picking up a penny with the tails side up
+<li>carry an empty bucket
+<li>put the bread upside down
+<li>cross knives on a table
+<li>light a candle using another candle
+<li>sweeping during the night
+<li>"trinquer" without looking in the eyes
+<li>bird looking inside from a window
+<li>getting up on the left foot
+<li>broken clock
+<li>wear green clothes
+<li>Briser un miroir : Apporte sept ans de malchance, car cela endommage l'âme reflétée.
+<li>Ouvrir un parapluie à l'intérieur : Invite la malchance ou des accidents domestiques.
+<li>Renverser du sel : Symbole de trahison ou de malheur ; il faut en jeter par-dessus l'épaule gauche pour contrer.
+<li>Passer sous une échelle : Brise un triangle sacré (représentant la Trinité ou la stabilité), attirant le malheur.
+<li>Un chat noir croisant le chemin : Annonce un malheur imminent, lié aux sorcières ou aux esprits.
+<li>Vendredi le 13 : Jour de malchance générale, avec risques d'accidents ou de pertes.
+<li>Le nombre 13 : Porte-malheur, souvent évité dans les bâtiments ou les vols.
+<li>Marcher sur une fissure dans le sol ou le trottoir : Peut causer du mal à un proche ou briser la chance.
+<li>Placer des chaussures sur une table : Symbolise la mort ou invite le malheur dans la maison.
+<li>Mettre un chapeau sur un lit : Attire la mort ou une dispute.
+<li>Siffler à l'intérieur ou la nuit : Attire les esprits maléfiques ou les serpents.
+<li>Tuer une araignée : Provoque de la pluie ou une perte de chance.
+<li>Voir un hibou ou une chouette : Annonce la mort ou un malheur.
+<li>Le nombre 4 : Sonnant comme "mort" en plusieurs langues asiatiques, il apporte le malheur.
+<li>Poser du pain à l'envers : Insulte symbolique qui attire la famine ou le malheur.
+<li>Couper les ongles la nuit : Attire les esprits ou cause une mort prématurée.
+<li>Balayer les pieds de quelqu'un : Condamne à la solitude ou au célibat éternel.
+<li>Dormir avec la tête vers le nord : Aligné avec les morts, attire la malchance ou la maladie.
+<li>Donner une horloge en cadeau : Symbolise la fin du temps, annonçant la mort.
+<li>Allumer une cigarette avec une bougie : Cause la mort d'un marin ou attire le malheur.
+<li>Placer des clés sur une table : Attire les voleurs ou la pauvreté.
+<li>S'asseoir au coin d'une table : Condamne au célibat ou à la solitude.
+<li>Le nombre 666 : Symbole du diable, apporte des catastrophes.
+<li>Voir un oiseau entrer dans la maison : Annonce la mort ou un malheur familial.
+<li>Pointer vers un arc-en-ciel : Attire la malchance ou des verrues.
+<li>Dormir avec un ventilateur allumé : Cause l'asphyxie ou attire les esprits.
+<li>Laisser des ciseaux ouverts : Invite les disputes ou le malheur.
+<li>Porter des perles ou opales (sauf si né en octobre) : Apporte des larmes ou du malheur.
+<li>Entrer et sortir par des portes différentes : Brise l'harmonie et attire les esprits.
+<li>Voir un corbeau seul : Omen de mort ou de solitude.
+<li>Renverser du poivre : Attire les disputes ou la malchance financière.
+<li>Placer deux miroirs face à face : Ouvre un portail pour le diable ou les esprits.
+<li>Laisser tomber un peigne : Annonce une déception ou une perte personnelle.
+<li>Croiser des couverts sur une table : Provoque des disputes ou des malentendus.
+<li>Porter des vêtements à l'envers : Attire la confusion ou des erreurs.
+<li>Regarder une nouvelle lune à travers une fenêtre : Apporte des revers financiers.
+<li>Entendre un coq chanter la nuit : Prédit une mort ou un désastre imminent.
+<li>Renverser de l'huile : Symbole de perte de richesse ou de chance.
+<li>Mettre des chaussettes dépareillées : Cause des malentendus ou des échecs.
+<li>Laisser une chaise vide basculer : Attire les esprits ou la malchance dans la maison.
+<li>Dire le mot "mort" dans une maison : Invite la mort ou les esprits.
+<li>Oublier de fermer une porte la nuit : Permet aux esprits d'entrer.
+<li>Compter les étoiles : Attire des malheurs ou raccourcit la vie.
+<li>Offrir un couteau en cadeau : Coupe l'amitié ou provoque des conflits.
+<li>Marcher sur une tombe : Dérange les morts et attire leur colère.
+<li>Laisser une assiette vide sur la table : Attire la pauvreté ou la faim.
+<li>Regarder directement un corbeau : Attire son attention maléfique.
+<li>Placer un balai à l'envers : Cause des problèmes domestiques.
+<li>Entendre un chien hurler la nuit : Annonce un décès ou un danger.
+<li>Renverser du vin : Gâche la chance ou provoque des pertes.
+<li>Laisser des lunettes sur une table : Attire la malchance ou des disputes.
+<li>Tuer une coccinelle : Détruit un symbole de chance, causant l'inverse.
+<li>Allumer trois cigarettes avec une seule allumette : Porte malheur, lié à des traditions de guerre.
+<li>Oublier de toucher du bois après une vantardise : Attire le mauvais sort.
+<li>Marcher à reculons : Invite les esprits ou provoque des accidents.
+<li>Laisser un livre ouvert à l'envers : Attire la malchance ou la confusion.
+<li>Porter des vêtements noirs à un mariage : Prédit l'échec du couple.
+<li>Faire tomber une icône ou un objet sacré : Offense le divin, causant le malheur.
+<li>S'asseoir sur une table : Attire la pauvreté ou des conflits familiaux.
+<li>Laisser une porte ouverte derrière soi : Permet aux mauvaises énergies d'entrer.
+<li>Tuer un criquet : Détruit un porte-bonheur, attirant la malchance.
+<li>Oublier de saluer un corbeau : Offense l'oiseau, attirant son courroux.
+<li>Renverser de l'encre : Symbole de perte de savoir ou de malentendus.
+<li>Laisser une bougie s'éteindre seule : Attire les esprits ou la malchance.
+<li>Passer un balai sur quelqu’un : Repousse la chance ou cause des disputes.
+<li>Porter un bijou cassé : Attire les échecs ou les ruptures.
+<li>Oublier une prière avant un voyage : Expose à des accidents ou des retards.
+<li>Laisser un miroir face à un lit : Attire les cauchemars ou les esprits.
+<li>Dire "bonne chance" directement : Ironiquement, attire la malchance.
+<li>Laisser des cendres dans une cheminée : Attire la pauvreté ou le froid.
+<li>Rencontrer un corbeau à gauche : Signe de malheur imminent.
+<li>Couper du bois la nuit : Attire les esprits ou des accidents.
+<li>Oublier de cracher après avoir vu un chat noir : Aggrave la malchance.
+<li>Laisser une fenêtre ouverte la nuit : Permet aux esprits d'entrer.
+<li>Marcher sous un arbre pendant un orage : Attire la foudre ou le malheur.
+<li>Renverser du sucre : Cause des pertes ou des disputes mineures.
+<li>Tuer un papillon de nuit : Attire la malchance ou des perturbations.
+<li>Laisser un parapluie ouvert à l'intérieur : Prolonge la malchance.
+<li>Compter les convives à 13 à table : Prédit la mort d’un des présents.
+<li>Laisser une chaise vide à table : Invite un esprit ou un malheur.
+<li>Porter des chaussures neuves à l’intérieur : Attire des échecs précoces.
+<li>Regarder une étoile filante sans faire un vœu : Gaspille la chance, attirant l’inverse.
+<li>Pointer du doigt un arc-en-ciel : Attire la malchance ou des problèmes physiques comme des verrues. 
+<li>Accrocher un fer à cheval pointe vers le bas : Laisse la chance s'échapper. 
+<li>Planter des baguettes droites dans un bol de riz : Symbolise la mort et invite le malheur. 
+<li>Prononcer "Macbeth" dans un théâtre : Porte malheur à la production, attirant des accidents. 
+<li>Allumer trois cigarettes avec une seule allumette : Attire la mort ou des catastrophes. 
+<li>Voir son doppelgänger : Annonce un malheur imminent ou la mort. 
+<li>Tuer une coccinelle : Détruit un symbole de chance, causant des revers. 
+<li>Ramasser une pièce côté pile visible : Apporte la malchance au lieu de la fortune. 
+<li>Les malheurs arrivent par trois : Les événements négatifs se produisent en série de trois. 
+<li>Laver des vêtements juste avant le Nouvel An : Attire la pauvreté ou des pertes toute l'année. 
+<li>Un oiseau ou un vol d'oiseaux passant de gauche à droite : Signe de malheur imminent. 
+<li>Offrir des opales ou des perles non achetées : Apporte des larmes ou des tragédies. 
+<li>Posséder une voiture verte : Augmente les risques d'accidents ou de pannes. 
+<li>Voir des rats comme omen : Prédit une catastrophe ou la mort. 
+<li>Larmes de la mariée au mauvais moment : Annonce un mariage malheureux. 
+<li>Se marier dans la même église où l'on a été baptisé : Porte malheur au couple. 
+<li>Tirer le quatre de trèfle aux cartes : Rend les bonnes mains mauvaises. 
+<li>Avoir la "main du mort" (as et huit) au poker : Symbole de défaite ou de mort. 
+<li>Laisser tomber une carte pendant une partie : Attire la défaite ou des erreurs. 
+<li>Couper un gâteau de Noël trop tôt : Coupe la chance pour l'année. 
+<li>Rembourser un prêt le jour du Nouvel An : Cause des dépenses constantes. 
+<li>Une femme en période menstruelle conserve des fruits : Fait pourrir les conserves. 
+<li>Une femme en période menstruelle fait du pain : La pâte ne lève pas. 
+<li>Mardi le 13 : Jour de violence et de malheur. 
+<li>Ignorer une chaîne de lettres : Attire des revers ou des punitions. 
+<li>Retourner chez soi après avoir commencé un voyage : Brise la chance du périple. 
+<li>Souhaiter un anniversaire en avance : Porte malheur au destinataire. 
+<li>Entendre ou voir une chouette hululer : Annonce la mort ou des problèmes de santé. 
+<li>Marcher sur les fissures d'un trottoir : Cause du mal à un proche. 
+<li>Voir un corbeau ou une pie comme omen : Prédit la solitude ou la trahison. 
+<li>Un coyote traversant le chemin : Signe de danger imminent. 
+<li>Apporter des bananes sur un bateau : Porte malheur à la pêche ou au voyage. 
+<li>Avoir une femme à bord d'un bateau : Attire les tempêtes ou les accidents. 
+<li>Porter du bleu sur un bateau : Couleur malchanceuse en mer. 
+<li>Retourner un poisson cuit : Fait chavirer un navire. 
+<li>Secouer les jambes assis : Fait fuir la richesse. 
+<li>Complimenter un bébé : Attire le mauvais œil sur l'enfant. 
+<li>Trébucher sur quelque chose : Signe de malchance à venir. 
+<li>Boire de l'eau reflétant la lune : Apporte des revers. 
+<li>Dire "bonne chance" dans un théâtre : Attire l'échec, mieux dire "merde" ou "break a leg". 
+<li>Porter des vêtements verts : Associe à des calamités dans certains folklores. 
+<li>Mélanger du vin et de la pastèque : Cause des maladies ou la mort. 
+<li>Entendre un crake des marais à gauche : Apporte la malchance. 
+<li>Couper les ongles d'un bébé avant 6 mois : Rend l'enfant voleur. 
+<li>Brûler les chiffons avant un déménagement : Évite que le malheur suive. 
+<li>Avoir une visiteuse féminine le 1er janvier : Porte malheur pour l'année. 
+<li>Mélanger des bières différentes : Attire des problèmes. 
+<li>Mettre des vêtements à l'envers : Invite une correction physique ou des erreurs. 
+<li>Se marier un mardi : Associe à des voyages ou des unions ratés. 
+<li>Éviter de manger de la viande de chèvre pour les femmes : Cause des anomalies physiques. 
+<li>Briser un miroir
+<li>Passer sous une échelle
+<li>Un chat noir traversant le chemin
+<li>Renverser du sel
+<li>Ouvrir un parapluie à l'intérieur
+<li>Le vendredi 13
+<li>Le nombre 13
+<li>Le malheur arrive par trois
+<li>Marcher sur une fente dans le trottoir
+<li>Tuer une coccinelle
+<li>Allumer une cigarette avec une bougie
+<li>Poser le pain à l'envers
+<li>Poser des chaussures sur une table
+<li>Verser de l'eau qui reflète la lune
+<li>Accrocher un fer à cheval pointe vers le bas
+<li>Tuer une araignée
+<li>Un oiseau entrant dans la maison
+<li>Renverser du poivre
+<li>Couper les cheveux ou les ongles un vendredi
+<li>Dormir la tête vers le nord
+<li>Poser un sac par terre (perte d'argent)
+<li>Un corbeau croassant près de la maison
+<li>Poser un chapeau sur un lit
+<li>Laisser des ciseaux ouverts
+<li>Voir une chouette en plein jour
+<li>Mettre des chaussures neuves sur la table
+<li>Balayer les pieds de quelqu'un
+<li>Donner des fleurs jaunes
+<li>Poser des clés sur une table (attire le malheur)
+<li>Un miroir brisé non enterré
+<li>Dormir avec un ventilateur allumé
+<li>Laisser une porte ouverte la nuit
+<li>Voir un seul corbeau
+<li>Placer deux miroirs face à face (ouvre un seuil au diable)  
+<li>Serrer la main ou embrasser à travers un seuil (transforme un ami en ennemi)  
+<li>Planter des baguettes droites dans un bol de riz (invite la mort)  
+<li>S'asseoir au coin d'une table (empêche le mariage)  
+<li>Mâcher du chewing-gum la nuit (se transforme en chair des morts)  
+<li>Porter du rouge pendant un orage (attire la foudre)     
+<li>Ouvrir et fermer des ciseaux sans couper   
+<li>Mélanger vin et pastèque  
+<li>Le vendredi 13 
+<li>Ramasser un peigne par terre   
+<li>Allumer trois cigarettes avec la même allumette  
+<li>Oiseaux noirs comme corbeaux ou pies  
+<li>Sac ou portefeuille par terre (perte financière)  
+<li>Refuser un baiser sous le gui  
+<li>Frapper quelqu'un avec un balai  
+<li>Balayer le jour du Nouvel An (balaye la bonne chance)  
+<li>Pointer un arc-en-ciel  
+<li>Une chouette survolant une maison  
+<li>Mettre un chapeau sur un lit  
+<li>Verser du sel renversé   
+</ul>
+</details>
+
+<p>I remarked that a lot of these things could somehow be made in a single day and a single place (like a small house with a garden).
+<p>So I picked my 40 favourite items and imagined a little story where a man would get up on the wrong foot (in french we say "on the left foot"), and started a game where he had one day to be as unlucky as possible.
+<p>I scribbled my list, a quick intro storyboard and a plan of the house on my old and faithful notepad:
+<p><img src="images/js13k25/1.jpg">
+<p>If you've already played the game, you can see how most of the final game was already present in this very early draft.
+<p>What you can also see is an ambitious art direction, where the camera sees everything from above, like a menacing presence over the hero's head.
+
+<br><br><hr>
+
+<p><b>August 21-31: Scene layout</b>
+
+<p>Speaking of ambitious point of view, I decided to use my (also faithful) <a href="https://xem.github.io/CSS3Dframework/">CSS3DFramework</a> to create a big scene containing a 4-rooms house, a garden and a toolshed, entirely using CSS3D planes and cubes. I stripped all the other shapes and features from the framework to make it use as little space as possible (~2kb minified, <a href="https://github.com/xem/js13k25/blob/gh-pages/c.js">see source code here</a>), omitted the top side of the cubes to be able to see each room's interior from above, and added a bit of CSS to let each side of the cube be colored in a slightly different shade of grey.
+
+<p><b>Bedroom:</b>
+<p><img src="images/js13k25/s5.jpg" width=300>
+<p>Looks nice, especially the black wall corners getting thicker when they approach the camera, which is not super easy to achieve in 2D, and comes for free here.
+
+<p><b>Whole world:</b>
+<p><img src="images/js13k25/2.jpg" width=300>
+<p>It seems to work well so far, and doesn't use too much space too: 1.5kb zipped! Let's go to the next step.
+
+<p>I wondered a but how to fill my room with various objects, drawn in SVG with my (still faithful) tool <a href="https://xem.github.io/miniSVGcreator/">MiniSVGCreator</a>. Some are on the floor, some are on walls. All of them must be seen with a zenithal perspective. The ony viable solution I could find to not have weird shape overlaps was to put my objects on a separate layer, above the cube, and to draw and position them in a way that make them look like they are in the room.
+
+<p><b>Bedroom draft with 3 SVGs</b>
+<p><img src="images/js13k25/3.jpg" width=300>
+
+<p><b>Elliot (on Slack) explained me how I could fix my perspective</b>
+<p><img src="images/js13k25/s6.jpg" width=300>
+<p>Thanks bro! Even though both our aproaches are equivalent as long as the camera is perfectly centered in the room, you are the only one who pointed the perspective issues in my screenshots.
+
+<p><b>Bedroom with more (draft) SVGs</b>
+<p><img src="images/js13k25/4.jpg" width=300>
+<p>Some things (window, doors, bed) look better than others (chair, cupbard).
+
+<p><b>Bathroom draft</b>
+<p><img src="images/js13k25/5.jpg" width=300>
+<p>It's surprisingly uneasy to draw a convincing shower from above. Toilet and sink are a challenge too.
+
+<p><b>Living room draft</b>
+<p><img src="images/js13k25/s7.jpg" width=300>
+<p>Here you can see a small fan on the floor. I intended to have it in the game initially ("sleeping with a fan on" brings bad luck) but it got scraped because it would have been too complicated to animate. Also, I was too lazy to implement all the code required to take it, bring it to the bedroom, plug it on a wall, and turn it on. I had better things to do! Also, the chairs and couch are weird, but they were drafted very quickly.
+
+<p><b>Kitchen draft</b>
+<p><img src="images/js13k25/k.jpg" width=300>
+<p>Almost nothing changed between this image and the final game, yay!
+
+<p><b>Garden draft</b>
+<p><img src="images/js13k25/s8.jpg" width=300>
+<p>The challenge here is to draw a tree from above.
+
+<p>Here's me drawing an item (broom facing down) in my editor. The text highlighted in blue is the SVG output. Raw SVG sizes range from 170 bytes (door) to 470 bytes (cupboard) depending on their complexity.
+
+<p><img src="images/js13k25/15.jpg" width=500 style="border:2px solid">
+
+<p>Without any interactivity, this early version of the game's world weighs 4.7kb zipped. It's a chance that SVG graphics compress very well, because I want to include as many as possible! (probably around 60).
+
+<br><br><hr>
+
+<p><b>September 1-7: interactivity (TODO)</b>
+
+<p>
+
+<br><br><hr>
+
+<p><b>September 8-13: a million final touches (TODO)</b>
+
+<p>
+
+<br><br><hr>
+
+<p><b>Feedbacks: TODO</b>
+
+<!--<p>Video: https://youtu.be/3qyM-1ISA7w?t=793-->
+
+<p>
+
+<br><br><hr>
+
+<p><b>Conclusion: TODO</b>
+
+<p>
+
+
 
 </main>
 
