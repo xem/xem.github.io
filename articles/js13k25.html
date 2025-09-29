@@ -325,7 +325,7 @@ ul { padding-left: 15px }
 <p><img src="images/js13k25/s8.jpg" width=300>
 <p>The challenge here is to draw a tree from above.
 
-<p>Here's a screenshot of when I'm drawing an item (broom facing down) in my editor. The text highlighted in blue is the SVG output. Raw SVG sizes range from 170 bytes (door) to 470 bytes (cupboard) depending on their complexity.
+<p>Here's a screenshot of when I was drawing an item (broom facing down) in my editor. The text highlighted in blue is the SVG output. Raw SVG sizes range from 170 bytes (door) to 470 bytes (cupboard) depending on their complexity.
 
 <p><img src="images/js13k25/15.jpg" width=500 style="border:2px solid">
 
@@ -379,29 +379,29 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <p><img src="images/js13k25/11.jpg">
 
-<p>But I realized it was only the case when the page was un-zoomed. At 100% it was not great, but good enough. And I'm already late so I won't lose extra time trying to fix a known official Firefox bug (it rasters SVGs when they have CSS transforms applied to them... and my SVGs are so tiny (99x99px) that the rastering becomes very visible, hence the blur).
+<p>But I realized it was only the case when the page was un-zoomed. At 100% it was not great, but good enough. And I'm already late so I won't lose extra time trying to fix a well-known Firefox bug (it's the only browser that rasterizes SVGs when they have CSS transforms applied to them... and my SVGs are so tiny (99x99px) that the rastering becomes very visible when they are scaled up, hence the blur).
 
 <br><br><hr>
 
 <p><b>September 1-7: interactivity</b>
 
-<p>Two weeks after the beginning of the jam, I finally started to code my first interactions, starting with the hover effects (to show the name of every object plus walls and floor), and some easy click interactions (rotate bed, open window, open cupboard). Of course, each piece of furniture that has two states (open/closed) requires two distinct SVG graphics, so I drew them little by little too.
+<p>Two weeks after the beginning of the jam, I finally started to code my first interactions, starting with the hover effects (to show the name of every object plus walls and floor), and some easy click interactions (rotate bed, open window, open cupboard). Of course, each piece of furniture that has two states (like "open" and "closed") requires two distinct SVG graphics, so I drew them little by little too.
 
 <p><video src="images/js13k25/12.mp4" controls></video>
 
-<p>Aaaand it's Webkit's turn to become buggy. Not a display bug, but a hover bug. For some reason, the upper half of east and west walls don't trigger mouseover/mousemove events, so in Chrome, Edge and Safari, there will be some blanks when you wander the mouse across the room. I actually spend a couple hours trying to find a fix, but nothing worked. Whatever.
+<p>Aaaand it's Webkit's turn to become buggy. Not a display bug, but a hover bug. For some reason, the upper half of east and west walls don't trigger mouseover/mousemove events, so in Chrome, Edge and Safari, there will be some blanks when you move the mouse across the room. I actually spent a couple hours trying to find a fix, but nothing worked. Whatever.
 
-<p>As you can see, I also drew the hero in the room and made him able to rotate towards the mouse pointer (thanks again to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2">Math.atan2</a> for making this easy, even though I will never not find it weird that atan2's arguments are (y,x) and not (x,y)...
+<p>As you can see, I also drew the hero in the room and made him able to rotate towards the mouse pointer (thanks again to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2">Math.atan2</a> for making this easy, even though I will never not find it weird that atan2's arguments are (y,x) and not (x,y)...).
 
-<p>However, allowing the hero to actually move around the room was more complex. So complex that I considered not implementing it at all, but I decided to do that effort so we could realize two of the game's achievements (walk under a ladder and walk on a crack).
+<p>However, allowing the hero to actually move around the room was more complex. So complex that I considered not implementing it at all, but I finally decided to do this effort so we could realize two of the game's achievements (walk under a ladder and walk on a crack).
 
-<p>What made the walk interaction difficult, you may ask? Well, the character's sprite is not placed in the room. It's not even placed on the SVGs layer. It's on an even higher plane. As a result, its X and Y coordinates must be precisely adjusted to make it look like he's actually on the floor. Otherwise, because of the perspective, all the movements would look completely exaggerated and the hero would move too far, often outside of the room, instead of following the mouse clicks.
+<p>What made the walk interaction difficult, you may ask? Well, the character's sprite is not placed in the room. It's not even placed on the SVGs layer. It's on an even higher plane (to make it visible above all the other objects in the room). As a result, its X and Y coordinates must be precisely adjusted to make it look like he's actually on the floor. Otherwise, because of the perspective, all the movements would look completely exaggerated and the hero would move too far, often outside of the room, instead of following the mouse clicks.
 
 <p>Here's a slightly exaggerated view of the 3 "layers" of the bedroom, seen from the side: the room, the SVGs just above, and the hero a bit higher. ✨ Everything is an illusion! ✨
 
 <p><img src="images/js13k25/o3.png">
 
-<p>Well, if the room's walls were drawn in 3D using SVGs instead of 3D, it would have made this part much easier to implement (everything could have been put on the same level), but now that it's done, I won't bother changing it.
+<p>Well, if the room's walls were drawn in 2D using SVGs instead of 3D, it would have made this part much easier to implement (the floor, the bjects and the hero could have been put more or less on the same level), but now that it's done, I won't bother changing it.
 
 <p>In the garden, there's a 4th layer of SVGs, for the tree top and the ladder that must be visible above the hero's head.
 
@@ -428,6 +428,10 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 <li>carry an empty bucket</li>
 </ul>
 
+<p>And the simple game over screen that I put together once we decide to go to sleep:
+
+<p><img src="images/js13k25/o5.png" width=400>
+
 <p>We're already September 7 and I don't have my black cat yet! Well, I know how I want to do it... but I'm super late!
 
 <br><br><hr>
@@ -436,7 +440,9 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <p>During this final week, I worked on the game 5-7 hours per day in order to finish it on time (and wish I had started a week earlier). During the two previous weeks, I only spent 1-2 hours a day on it, which also didn't help.
 
-<p>I modified the rooms layout and decoration a lot, and redrew most of my SVGs in their final version.
+<p>I modified the rooms layout and decoration a lot, and redrew most of my SVGs in their final version... including the cat!
+
+<p><img src="images/js13k25/s16.jpg">
 
 <p>The game contains a total of 74 svg graphics, including one left foot emoji (for the favicon) and 73 hand-drawn sprites. A new record! (Castle Escape only had 28. Amateur!)
 
@@ -444,15 +450,17 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <p>(click to enlarge)
 
-<p>Besides that, in the JS code, there is a total of 193 functions, 132 of them corresponding to actions that are triggered with the mouse, by the player, and the others being used for the music, sounds, timer, SVGs, menus, mouse events, intro, outro and setTimeouts.
+<p>Besides that, in the JS code, there is a total of 193 functions, 132 of them corresponding to actions that are triggered with the mouse, by the player, and the others being used for the music, sounds, timer, SVGs, menus, mouse events, intro, outro and setTimeouts (i.e. delays in the cutscenes).
 
 <p>Here's a little behind-the-scenes video showing how the camera moves between rooms, if I enable camera transitions and remove the fade-to-black transitions. As you can see, the whole world is present in memory (in the DOM) at any given time, which helps a lot in terms of rendering and object persistence. (In Castle Escape, I had to redraw each room in the right state everytime we passed a door, and it was tedious. Here, everything stays in place and it's just the camera that moves around.
 
-<p><video src="images/js13k25/bts.mp4" controls></video>
+<p><video src="images/js13k25/bts.mp4" controls width=500></video>
+
+<p>Even if everything is loaded at the same time, the page is not too heavy (483 DOM elements inside the &lt;body>).
 
 <p>The game's state, however, is still saved in a <a href="https://github.com/xem/js13k25/blob/gh-pages/state.js">big object</a>, in order to know if a given action has been done and if a specific achievement has been completed.
 
-<p>Then it's time to work on a big part of the game, the outside view, where we will see the entire day pass, but also the black cat, the rain and the rainbow (at various times of the day).
+<p>Then it's time to work on a big part of the game, the outside view, where we will see the entire day pass, but also the black cat, the rain and the rainbow (at various times of the day). Here's a ~15 minutes video showing a full day passing at the garden's gate:
 
 <p><video src="images/js13k25/21.mp4" controls></video>
 
@@ -462,7 +470,7 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <pre><code class="lang-css">@keyframes sky {
   5% { background: #000 }  /* 8h night */
-  8% { background: #F41 } /* 9h30 sunrise */
+  8% { background: #F41 }  /* 9h30 sunrise */
   10% { background: #d60 } /* 9h30 sunrise */
   20% { background: #8ce } /* 11h */
   30% { background: #8cc } /* 12h30 cat */
@@ -494,9 +502,13 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <p>For the rain's graphics, I decided to do the easiest possible thing: blue lines drawn on a canvas, at random positions, 20 times per second. In the outside view, they are parallel, and in the garden and the tool shed, they all point to the center of the screen.
 
-<p><video src="images/js13k25/20.mp4" mute controls></video>
+<p><video src="images/js13k25/20.mp4" controls width=500></video>
 
-<pre><code class="lang-js">// Rain
+<p>(Sorry, I recorded my music at the same time, hehehe)
+
+<p>Here's how I coded it:
+
+<p><pre><code class="lang-js">// Rain
 ctx = rain.getContext("2d");
 setInterval((x,y,i)=>{
   rain.width ^= 0;
@@ -618,7 +630,7 @@ b.buffer=p;b.connect(zx.destination);b.start()}</script>
 <p><b>DEMO</b>
 <p><button onclick="z(...[,,1100,.05,.2,.2,2,,2,-15,,,,.1,,,,.3,.05]);">MEOW</button>
 
-<p>Speaking of sounds, I also included my own player (from MiniSoundEditor) and 7 sounds effects (used for scribbling, walking, tipping the salt shaker, opening and closing the doors and windows, breaking the mirror, and finally, the thunder), adding another kilobyte to my minified code.
+<p>Speaking of sounds, I also included my own player (from MiniSoundEditor) and 7 sounds effects (used for scribbling, walking, tipping the salt shaker, opening and closing the doors and windows, breaking the mirror, and the thunder), adding another kilobyte to my minified code.
 
 <pre><code class="lang-js">// thunder sound
 thu = (i,q,n) => {
@@ -788,9 +800,9 @@ wn.connect(AA.destination);
 > <button onclick="room=4;this.disabled=true;">go outside</button> 
 > <button onclick="AA.close();this.disabled=true;">stop rain</button> 
 
-<p>And as if 3 different sound players were not enough, I completed the development of this entry by adding some music! I didn't have much time, or bytes left, but I also knew that a complete game session would last at least 15+ minutes... so I naturally thought about <a href="https://www.youtube.com/watch?v=7aXwTPQQ1_U">Ravel's Bolero</a> (which also lasts for 15+ minutes).
+<p>And as if 3 different sound players were not enough, I completed the development of this entry by adding some music! I didn't have much time or bytes left, but I also knew that a complete game session would last at least 15+ minutes... so I naturally thought about <a href="https://www.youtube.com/watch?v=7aXwTPQQ1_U">Ravel's Bolero</a> (which also lasts for 15+ minutes).
 
-<p>Instead of adding the entirety of the song in my code, I only extracted the first 30 seconds (about 140 notes) from a MIDI file and played them in a loop, but with a twist: at each loop, I play it one tone higher. It brings a bit of variety and the well-known crescendo effect for a relatively small price (900 bytes minified).
+<p>Instead of adding the entirety of the song in my code, I only extracted the first 45 seconds (about 140 notes) from a MIDI file, adjusted some notes and silences manually to make it sound good, and played them in a loop, but with a twist: at each loop, I play it two tones higher. It brings a bit of variety and the well-known crescendo effect for a relatively small price (900 bytes minified).
 
 <pre><code class="lang-js">// Music
 
@@ -815,7 +827,7 @@ play_music=()=>{setInterval(()=>{_n++,music[_n]&&piano(440*1.06**(music[_n]-80))
 
 <p>A few close friends playtested the game and helped me fix a few bugs (there are still a few bugs in the final release but whatever, almost no one will see them).
 
-<p>Thanks to <a href="https://lifthrasiir.github.io/roadroller/">Roadroller</a> and <a href="https://xem.github.io/js13k-pack/">js13k-pack</a>, almost no golfing was required to fit into 13kb (I only took a few minutes reducing the name of some variables and functions to one or two chars, and it was good)!
+<p>Thanks to <a href="https://lifthrasiir.github.io/roadroller/">Roadroller</a> and <a href="https://xem.github.io/js13k-pack/">js13k-pack</a>, almost no golfing was required to fit into 13kb (I only took ~30 minutes reducing the name of some variables and functions to one or two chars, and it was good)!
 
 <p>Here's a map of my minified code (click to enlarge):
 
@@ -826,10 +838,12 @@ play_music=()=>{setInterval(()=>{_n++,music[_n]&&piano(440*1.06**(music[_n]-80))
 <li>Commented code: 85.3kb (2203 lines of code)
 <li>Minified code: 69kb (a third of this size is used by SVGs)
 <li>Zipped: 17kb
-<li>Roadrolled + zipped: 12.7kb... So I could have added even more stuff if I had the time and the energy!
+<li>Roadrolled + zipped: 12.7kb... which means I could have added even more stuff if I had the time and the energy!
 </ul>
 
-<p>But it was enough for me. I was happy with the result and submitted my entry a few hours before the deadline. I don't know if people will find it fun, but at least I released something. Yayyy!
+<p>But it was enough for me. I was happy with the result and submitted my entry a few hours before the deadline.
+
+<p>I don't know if people will find it fun, but at least I released something. Yayyy!
 
 <br><br><hr>
 
