@@ -33,7 +33,7 @@ ul { padding-left: 15px }
 <ul>
 <li>My game is playable <a href="https://js13kgames.com/2025/games/i-got-up-on-the-wrong-foot">HERE</a>
 <li>Source code is available <a href="https://github.com/xem/js13k25">HERE</a>
-<li>It was ranked ... / 190 (and ... / ... on Mobile) !
+<li>It was ranked 17 / 176 (and 12 / 73 on Mobile) !
 <li>You can see a playthrough video here (spoilers!):
 <br><br><iframe width="560" height="315" src="https://www.youtube.com/embed/XwFYRf13knM?si=XN85rgJlaBA3lwuD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </ul>
@@ -49,7 +49,7 @@ ul { padding-left: 15px }
 <p><img src="images/js13k25/s1.jpg">
 <br><br><hr>
 <p><b>August 13-20: brainstorming</b>
-<p>While the days were passing, I ended up considering to make a game about making superstitions come true to have bad luck. Extensive online searches (and a bit of AI) helped me gather a long list of events that were considered bad luck in different countries (to avoid having hyper specific beliefs only existing in Paraguay for example).
+<p>While the days were passing, I ended up considering to make a game about making superstitions come true to have bad luck. Extensive online searches (and a bit of AI) helped me gather a long list of events that were considered bad luck in multiple different countries (to avoid having hyper specific beliefs only existing in Paraguay for example).
 <p>Here's the list I ended up with (mix of vaious french and english sources, so son't be surprised if it contains duplicates):
 <details>
 <summary>Click to expand</summary>
@@ -279,7 +279,7 @@ ul { padding-left: 15px }
 <p><img src="images/js13k25/1.jpg">
 <p>If you've already played the game, you can see how most of the final game was already present in this very early draft.
 <p>What you can also see is an ambitious art direction, where the camera sees everything from above, like a menacing presence over the hero's head.
-<p>And it's a good thing: I really want this year's entry to include things that I've never done before, or even things that were never seen before in any js13k entry... like a real day-night cycle, weather events, or an absurd amount of SVG graphics. I want it to be innovative, impressive and challenging (for me, to make).
+<p>And it's a good thing: I really want this year's entry to include things that I've never done before, or even things that were never seen before in any js13k entry... like a real day-night cycle, weather events, or an absurd amount of SVG graphics. I want it to be innovative, impressive and challenging (I mean, challenging for me, to make).
 
 <br><br><hr>
 
@@ -293,9 +293,9 @@ ul { padding-left: 15px }
 
 <p><b>Whole world:</b>
 <p><img src="images/js13k25/2.jpg" width=300>
-<p>It seems to work well so far, and doesn't use too much space too: 1.5kb zipped! Let's go to the next step.
+<p>It seems to work well so far, and doesn't use too much space too: 1.5kb zipped! Let's continue...
 
-<p>I wondered a bit how to fill my room with various objects, objects that i'd like to draw in SVG with my (still faithful) tool <a href="https://xem.github.io/miniSVGcreator/">MiniSVGCreator</a>. Some are on the floor, some are on walls. All of them must be seen with a zenithal perspective. The ony viable solution I could find to not have weird shape overlaps was to put my objects on a separate layer, above the cube, and to draw and position them in a way that make them look like they are in the room.
+<p>I wondered a bit how to fill my room with various objects, objects that i'd like to draw in SVG with my (still faithful) tool <a href="https://xem.github.io/miniSVGcreator/">MiniSVGCreator</a>. Some are on the floor, some are on walls. All of them must be seen with a zenithal perspective. The ony viable solution I could find to not have weird shape overlaps was to put my objects on a separate layer, above the cubes, and to draw and position them in a way that make them look like they are in the room.
 
 <p><b>Bedroom draft with 3 SVGs</b>
 <p><img src="images/js13k25/3.jpg" width=300>
@@ -315,7 +315,7 @@ ul { padding-left: 15px }
 
 <p><b>Living room draft</b>
 <p><img src="images/js13k25/s7.jpg" width=300>
-<p>Here you can see a small fan on the floor. I intended to have it in the game initially ("sleeping with a fan on" brings bad luck) but it got scraped because it would have been too complicated to animate. Also, I was too lazy to implement all the code required to take it, bring it to the bedroom, plug it on a wall, and turn it on. I had better things to do! Also, the chairs and couch are weird here, but I will redraw them better.
+<p>Here you can see a small fan on the floor. I intended to have it in the game initially ("sleeping with a fan on" brings bad luck) but it got scraped because it would have been too complicated to animate. Also, I was too lazy to implement all the code required to take it, bring it to the bedroom, plug it on a wall, and turn it on. I had better things to do! Also, the chairs and couch look weird here due to a bad perspective and incomplete SVG paths, but I will redraw them better.
 
 <p><b>Kitchen draft</b>
 <p><img src="images/js13k25/k.jpg" width=300>
@@ -395,19 +395,23 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <p>However, allowing the hero to actually move around the room was more complex. So complex that I considered not implementing it at all, but I finally decided to do this effort so we could realize two of the game's achievements (walk under a ladder and walk on a crack).
 
-<p>What made the walk interaction difficult, you may ask? Well, the character's sprite is not placed in the room. It's not even placed on the SVGs layer. It's on an even higher plane (to make it visible above all the other objects in the room). As a result, its X and Y coordinates must be precisely adjusted to make it look like he's actually on the floor. Otherwise, because of the perspective, all the movements would look completely exaggerated and the hero would move too far, often outside of the room, instead of following the mouse clicks.
+<p>What made the walk interaction difficult, you may ask? Well, the character's sprite is not placed in the room. It's not even placed on the SVGs layer. It's on an even higher plane (to make it visible above all the other objects in the room). As a result, its X and Y coordinates must be precisely adjusted to make it look like he's actually on the floor. Otherwise, if they simply followed the mouse click coordinates, all the movements would look completely exaggerated and the hero would move too far.
 
 <p>Here's a slightly exaggerated view of the 3 "layers" of the bedroom, seen from the side: the room, the SVGs just above, and the hero a bit higher. ✨ Everything is an illusion! ✨
 
 <p><img src="images/js13k25/o3.png">
 
-<p>Well, if the room's walls were drawn in 2D using SVGs instead of 3D, it would have made this part much easier to implement (the floor, the bjects and the hero could have been put more or less on the same level), but now that it's done, I won't bother changing it.
+<p>And here's what would happen if the hero followed the mouse clicks without any adjustment: the video below shows the hero's sprite at 3 different heights: ground level, middle of the room and top of the room. The one present in the game is the highest one, and due to its closeness to the camera and the perspective of the scene, it wouldn't have followed the mouse like the lowest one does. I hope it's clear enough?
+
+<p><video src="images/js13k25/o6.mp4" controls width=400></video>
+
+<p>Well, if the room's walls were drawn in 2D using SVGs instead of 3D, it would have made this part much easier to implement (the floor, the objects and the hero could have been put more or less on the same level), but now that it's done like that, I won't bother changing it.
 
 <p>In the garden, there's a 4th layer of SVGs, for the tree top and the ladder that must be visible above the hero's head.
 
 <p><img src="images/js13k25/o4.png">
 
-<p>But let's continue coding all the interactions in the game, shall we? The easy ones are to open/close a piece of furniture, and the most complex ones consist in grabbing an object, then use it on another object, or put it somewhere else, or wait a certain amount of time to trigger another event.
+<p>But let's continue coding all the interactions in the game, shall we? The easy ones are to open/close a piece of furniture, and the most complex ones consist in grabbing an object, then use it on another object, or put it somewhere else, and sometimes wait a certain amount of time to trigger another event.
 
 <p><video src="images/js13k25/13.mp4" controls></video>
 
@@ -438,7 +442,7 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <p><b>September 8-13: a million final touches</b>
 
-<p>During this final week, I worked on the game 5-7 hours per day in order to finish it on time (and wish I had started a week earlier). During the two previous weeks, I only spent 1-2 hours a day on it, which also didn't help.
+<p>During this final week, I worked on the game 5-7 hours per day in order to finish it on time (and wish I had started a week earlier). During the two previous weeks, I only spent 1-2 hours a day on it, which also didn't help progressing as much as I hoped.
 
 <p>I modified the rooms layout and decoration a lot, and redrew most of my SVGs in their final version... including the cat!
 
@@ -450,7 +454,7 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <p>(click to enlarge)
 
-<p>Besides that, in the JS code, there is a total of 193 functions, 132 of them corresponding to actions that are triggered with the mouse, by the player, and the others being used for the music, sounds, timer, SVGs, menus, mouse events, intro, outro and setTimeouts (i.e. delays in the cutscenes).
+<p>Besides that, in the JS code, there is a total of 193 functions, 132 of them corresponding to actions that are triggered with the mouse, by the player, and the others being used for the music, sounds, timer, SVGs, menus, mouse events, intro, outro and setTimeouts (i.e. delays/keyframes in the cutscenes).
 
 <p>Here's a little behind-the-scenes video showing how the camera moves between rooms, if I enable camera transitions and remove the fade-to-black transitions. As you can see, the whole world is present in memory (in the DOM) at any given time, which helps a lot in terms of rendering and object persistence. (In Castle Escape, I had to redraw each room in the right state everytime we passed a door, and it was tedious. Here, everything stays in place and it's just the camera that moves around.
 
@@ -460,11 +464,11 @@ C.cube({x:-100,y:-100,z:70,w:300,h:300,d:300,b:"#ddd",css:"cube"});
 
 <p>The game's state, however, is still saved in a <a href="https://github.com/xem/js13k25/blob/gh-pages/state.js">big object</a>, in order to know if a given action has been done and if a specific achievement has been completed.
 
-<p>Then it's time to work on a big part of the game, the outside view, where we will see the entire day pass, but also the black cat, the rain and the rainbow (at various times of the day). Here's a ~15 minutes video showing a full day passing at the garden's gate:
+<p>Then it's time to work on a big part of the game, the outside view, where we will see the entire day pass, but also the black cat, the rain, the thunder and a rainbow (at various times of the day). Here's a ~15 minutes video showing a full day passing at the garden's gate:
 
 <p><video src="images/js13k25/21.mp4" controls></video>
 
-<p>You can see the cat pass by at 13h13, the rain start at 15h30, the thunder start at 16h00 and a rainbow appear at 18h15.
+<p>You can see the cat pass by at 13h13, the rain start at 15h30, the thunder start at 16h00 and a rainbow appear at 18h15 (in-game time).
 
 <p>The sky color follows a simple (but convincing) CSS animation and the rainbow is made from a single radial-gradient on a big div:
 
@@ -757,7 +761,7 @@ play = (f,r,A,m,b,i,s) => {
 
 <p>Note that the "close" sound is the "open" sound played in reverse. I adapted the sound player in order to achieve this effect. The "step" sound is played multiple times (2 when walking inside a room, 3 when changing rooms). The "thunder" sound is played at a lower volume when we are indoors.
 
-<p>I added a third sound player just for the rain (a white noise generator):
+<p>I added a third sound player found on StackOverflow just for the rain (a white noise generator):
 
 <pre><code class="lang-js">// Rain
 AA = new AudioContext();
@@ -766,7 +770,7 @@ wn = AA.createScriptProcessor(bs, 1, 1);
 wn.onaudioprocess = (e,i,output) => {
   output = e.outputBuffer.getChannelData(0);
   for (i = 0; i < bs; i++) {
-    output[i] = (Math.random() * 2 - 1)/((room > 3 || (room == 0 &&state[0].window== 1) || (room == 2 && (state[2].window== 1 || state[2].door4 == 1)))  ? 50 : 220);
+    output[i] = (Math.random() * 2 - 1)/((room > 3 || (room == 0 &&state[0].window == 1) || (room == 2 && (state[2].window == 1 || state[2].door4 == 1)))  ? 50 : 220);
   }
 }
 wn.connect(AA.destination);
@@ -792,13 +796,15 @@ wn.connect(AA.destination);
 }
 </script>
 
-<p><b>DEMO</b>
+<p><b>DEMO (click buttons from left to right)</b>
 <p>
 <button onclick="room=0;state[0].window=0;startrain();this.disabled=true">start rain (inside)</button> 
 > <button onclick="room=0;state[0].window=1;this.disabled=true;">open window</button> 
 > <button onclick="room=0;state[0].window=0;this.disabled=true;">close window</button> 
 > <button onclick="room=4;this.disabled=true;">go outside</button> 
 > <button onclick="AA.close();this.disabled=true;">stop rain</button> 
+
+<p>I enjoyed changing the volume of the rain and thunder when they are heard inside the house depending on if the windows and/or entrance door are open or closed. It's a cool little detail for the most attentive players.
 
 <p>And as if 3 different sound players were not enough, I completed the development of this entry by adding some music! I didn't have much time or bytes left, but I also knew that a complete game session would last at least 15+ minutes... so I naturally thought about <a href="https://www.youtube.com/watch?v=7aXwTPQQ1_U">Ravel's Bolero</a> (which also lasts for 15+ minutes).
 
@@ -825,39 +831,193 @@ play_music=()=>{setInterval(()=>{_n++,music[_n]&&piano(440*1.06**(music[_n]-80))
 
 <p><iframe style="border: 0; width: 350px; height: 786px;" src="https://bandcamp.com/EmbeddedPlayer/album=3336566082/size=large/bgcol=ccc/linkcol=0f91ff/transparent=true/" seamless><a href="https://js13k.bandcamp.com/album/13k-cat-bites">13K Cat Bites de Various artists</a></iframe>
 
-<p>A few close friends playtested the game and helped me fix a few bugs (there are still a few bugs in the final release but whatever, almost no one will see them).
+<p>Speaking of sound, I have considered playing a little audio cue every time an achievement is done, and even implemented it, but quickly found it too repetitive and annoying. So I made the (bold?) choice to not tell anything to the players until they go back to sleep to see their score. It's one of the main complaints I received in the feedbacks, but I prefer it like that, so I guess I shouldn't have regrets.
+
+<p>During the last days of the jam, a few close friends playtested the game and helped me fix a few bugs (there are still a few bugs in the final release but whatever, almost no one will see them).
 
 <p>Thanks to <a href="https://lifthrasiir.github.io/roadroller/">Roadroller</a> and <a href="https://xem.github.io/js13k-pack/">js13k-pack</a>, almost no golfing was required to fit into 13kb (I only took ~30 minutes reducing the name of some variables and functions to one or two chars, and it was good)!
 
-<p>Here's a map of my minified code (click to enlarge):
+<p>However, someone pointed to me that my tool <b>js13k-pack</b> only roadrolled the JS code, which was non-optimal. I modified it after the jam to also allow roadrolling the HTML code and the CSS code, while allowing a little chunk of HTML (doctype, title, meta tags) to stay uncompressed if the user desires so.
+
+<p>And speaking of CSS, I also realized that using my own CSS minifier wasn't optimal either. I passed my CSS code into a CSS compressor that rewrote and reordered my CSS rules and it saved about 1kb minified. Wow! I'll try to add something like into js13k-pack for next year.
+
+<p>Anyway. Here's a map of my minified code (click to enlarge):
 
 <p><a href="images/js13k25/code.png"><img src="images/js13k25/code.png"></a>
 
-<p>And here are some stats about the byte budget on day 30:
+<p>And the roadrolled code:
+
+<p><a href="images/js13k25/code2.png"><img src="images/js13k25/code2.png"></a>
+
+
+<p>Here are some stats about my byte budget on day 30:
 <ul>
 <li>Commented code: 85.3kb (2203 lines of code)
 <li>Minified code: 69kb (a third of this size is used by SVGs)
 <li>Zipped: 17kb
-<li>Roadrolled + zipped: 12.7kb... which means I could have added even more stuff if I had the time and the energy!
+<li>Roadrolled + zipped: 12.7kb... Hey, we still have some free bytes! I could have added even more stuff if I had the time and the energy! ...
 </ul>
 
-<p>But it was enough for me. I was happy with the result and submitted my entry a few hours before the deadline.
+<p>... But it was enough for me. I was happy with the result and submitted my entry a few hours before the deadline.
 
-<p>I don't know if people will find it fun, but at least I released something. Yayyy!
+<p>I still didn't know if people would find it fun, but at least I released something. Yayyy!
+
+<p>P.S.: to be honest, I checked the "mobile" category when I released it but never played it on mobile nor optimize it whatsoever. I just made sure that the game started correctly on my phone and removed the blue tap highlights, however I didn't even add the correct meta-tags (I think I didn't have enough space for them). I learned later that the game is not completable at 100% on mobile because some actions don't work. Oops!
+
+<p>P.S. 2: this year, for the first time since 2017 (I think), my game doesn't rely on cross-browser emoji at all (only the game's favicon uses a native emoji), so I didn't load an emoji font fallback. There's a font fallback that I do load however, and it's called Anton. <a href="https://fonts.google.com/specimen/Anton">It's the closest font to Impact that I could find on Google Fonts</a>. The game is obviously still playable offline, and will fallback to Impact or Fantasy if Anton can't be loaded.
+
+<pre><code class="lang-css">@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+#title { font: 145px / 139px Anton, impact, fantasy; }</code></pre>
 
 <br><br><hr>
 
-<p><b>Feedbacks: TODO</b>
+<p><b>Feedbacks</b>
 
-<!--<p>Video: https://youtu.be/3qyM-1ISA7w?t=793-->
+<p>For the first time EVER, I left a note and wrote a feedback for ALL the entries submitted to the jam, after playing each of them for a couple minutes.
+
+<p>A list of my 24 absolute favourites is available <a href="https://x.com/MaximeEuziere/status/1967939026868113643">on X</a> or in the list below:
+
+<details><summary>See the list</summary>
+
+<ul>
+<li>Clawstrike by @remvst
+: <a href="https://js13kgames.com/games/clawstrike">https://js13kgames.com/games/clawstrike</a>
+
+<li>Celestial Paws: <a href="https://js13kgames.com/games/celestial-paws">https://js13kgames.com/games/celestial-paws</a>
+
+<li>Pawfect Stack by @AdrienGueret
+: <a href="https://js13kgames.com/games/pawfect-stack-oracle-of-chaos">pawfect-stack-oracle-of-chaos</a>
++ 
+<a href="https://js13kgames.com/games/pawfect-stack-oracle-of-order">pawfect-stack-oracle-of-order</a>
+
+<li>Gravity Cat: <a href="https://js13kgames.com/games/gravity-cat">https://js13kgames.com/games/gravity-cat</a>
+
+<li>Roni and Kira by @ostjh
+: <a href="https://js13kgames.com/games/roni-and-kira">https://js13kgames.com/games/roni-and-kira</a>
+
+<li>Triska the ninja cat by @ReitGames
+: <a href="https://js13kgames.com/games/triska-the-ninja-cat">https://js13kgames.com/games/triska-the-ninja-cat</a>
+
+<li>Edgar's mission: <a href="https://js13kgames.com/games/edgars-mission">https://js13kgames.com/games/edgars-mission</a>
+
+<li>Whiskers Witch Adventure by @rob_louie
+: <a href="https://js13kgames.com/games/whiskers-witch-adventure">https://js13kgames.com/games/whiskers-witch-adventure</a>
+
+<li>Midnight's Journey: <a href="https://js13kgames.com/games/midnights-journey">https://js13kgames.com/games/midnights-journey</a>
+
+<li>The Black Cat's Escape: <a href="https://js13kgames.com/games/the-black-cats-escape">https://js13kgames.com/games/the-black-cats-escape</a>
+
+<li>Miami Mice: <a href="https://js13kgames.com/games/miami-mice">https://js13kgames.com/games/miami-mice</a>
+
+<li>Witchcat: <a href="https://js13kgames.com/games/witchcat">https://js13kgames.com/games/witchcat</a>
+
+<li>Worms 13k: <a href="https://js13kgames.com/games/worms-13k">https://js13kgames.com/games/worms-13k</a>
+
+<li>Pacific Black Cats by @tamat
+: <a href="https://js13kgames.com/games/pacific-black-cats">https://js13kgames.com/games/pacific-black-cats</a>
+
+<li>Cat-apult: <a href="https://js13kgames.com/games/cat-apult">https://js13kgames.com/games/cat-apult</a>
+
+<li>Echoes of Nyx @CorentinPillet
+: <a href="https://js13kgames.com/games/echoes-of-nyx">https://js13kgames.com/games/echoes-of-nyx</a>
+
+<li>Alley Kitty @GaborHeja
+: <a href="https://js13kgames.com/games/alley-kitty">https://js13kgames.com/games/alley-kitty</a>
+
+<li>Meow mountain @mrlopis
+: <a href="https://js13kgames.com/games/meow-mountain">https://js13kgames.com/games/meow-mountain</a>
+
+<li>L1ttl3 Paws @KilledByAPixel
+: <a href="https://js13kgames.com/games/l1ttl3-paws">https://js13kgames.com/games/l1ttl3-paws</a>
+
+<li>Yarn Run @CarelessLabs
+: <a href="https://js13kgames.com/games/yarn-run">https://js13kgames.com/games/yarn-run</a>
+
+<li>Onamazu: <a href="https://js13kgames.com/games/onamazu">https://js13kgames.com/games/onamazu</a>
+
+<li>Kittens United: <a href="https://js13kgames.com/games/kittens-united">https://js13kgames.com/games/kittens-united</a>
+
+<li>Non-Mewtonian Cat by @rotttencandy
+: <a href="https://js13kgames.com/games/non-mewtonian-cat">https://js13kgames.com/games/non-mewtonian-cat</a>
+
+
+</ul>
+
+</details>
+
+<p>Some people were very pleased to get a feedback from me, which is always fun and surprising :D
+
+<p><img src="images/js13k25/o7.png" width=500>
+
+<p>Here are the feedbacks I received on my entry:
+
+<ul>
+
+<li>It was very interesting to discover the world that you built and see what you can do. Was thinking at some point if put a ladder next to the wall — I can get to the roof :D The idea is very unusual and feels very innovative. Slightly reminded me old picture based puzzle games :) And the sounds and music very nice! Good job! <b>Aleksey Litvinov</b>
+<li>Absolutely mind-blowing what you packed into 13 KB! The graphics, audio, and the entire point-and-click adventure mechanic in under the limit is insane. I never thought something like this was possible at this size. The superstition concept is super creative and unique. Only managed 8 out of 26 on my first try - some objectives were hard to figure out without more hints, but that’s part of the challenge I guess! The art style is gorgeous and the sound design fits perfectly. One of the most impressive technical achievements I’ve seen in this jam. Incredible work! <b>Kisimedia.de</b>
+<li>Great job fitting so much content within the size limit! The game is pretty unique with the perspective and the point-and-click concept, I don’t think I’ve seen another game like this in the compo. I feel like it’s risky to make something so dependent on cultural norms though, I found myself pretty much just randomly clicking on things eventually in hopes of triggering something because most of these superstitions were completely foreign to me, so I had no chance of figuring them out naturally. We just had different ones where I grew up I guess. I wish the game had some hints, at least in the game description and indicated somehow when I successfully found one. Other than that, the game is superbly done on a technical level, works and looks great! Very good job, congrats! <b>Attila Horváth</b>
+<li>Really interesting concept! The music and sounds fit the game very well. I was only able to complete 9 objectives in total, but it was fun and I loved the game design. <b>smiley405</b>
+<li>Probably one of the most unique games from this game jam. Nice graphics and good background music. I managed to get 20 out of 26 superstitions, not too bad. I heard a cat, but I didn’t see it so I am not sure it was black or not (most likely yes!). Thanks for your entry, I had a good time playing it. <b>Noël Meudec</b>
+<li>Great game and interesting graphics - fun times <b>Andrew Higson-Smith</b>
+<li>Fun game! Was this all done using SVG graphics? I would like to get feedback when I’ve done something which causes bad luck so that I know how I am progressing. <b>Björn Ritzl</b>
+<li>🔮 Great game — the ideas are very good! I didn’t know all the superstitions, but the interaction and point-and-click mechanics are really well made and intuitive. The top-down view even reminded me of Twelve Minutes. <b>Jonathan Vallet</b>
+<li>So impressive to get all this into 13k, well fit for the theme and who doesn’t love some point-and-click action? ^^ <b>cykelkatalogen</b>
+<li>Your game is totally hard for me (I don’t know any superstitions), but it’s very well designed, organised and programmed :) Congratulation! Point and click games are one of my favorites! <b>Kamil Żurek</b>
+<li>The graphics are amazing. Surprising amount of stuff packed into this. I love a good puzzle game. Something weird happens when I click “Play” there must be a weird interaction between the game and the js13k website: The background flickers in and out but then it settles. <b>Tiago Correia</b>
+<li>The perspective with all four walls visible is unusual, but works well. But in some cases it seems incorrect or at least awkward. E.g. in the bedroom the mirror looks very strange. Also the direction of the left leg of the desk seems to go into the wrong direction (I’d expect all lines perpendicular to the floor to meet in the center of the projection). And I assume you messed up the encoding in the favicon, at least I see there a ðŸ. <b>Michael M.</b>
+<li>It is a great idea with nice execution and a lot of content - sometimes it even feels a bit too much :) It would be nice to have some feedback when a goal is completed, maybe even have the list available in the game somewhere (so you could decide to pick it up and read it if you want to). Overall, great use of vector graphics and interactivity, I had fun playing it and trying to find as many of the superstitions by myself as I can - I got to around 17 (2 by mistake?) and I learned a lot of new ones. (SPOILERS: for some reason the ladder one was not registered for me, and also it must be a really hard mirror to break the hatchet too :D) <b>Gabor Héja</b>
+<li>Hah, this is great. At first I wasn’t sure if I would like it, but it really drew me in! Like any good point-and-click, it does involve lots of clicking on everything, but the puzzles are so well hidden and thought out that it’s not enough to just click mindlessly and hope for the best. I managed to get 16/26, although some of those were pure luck. Others were fully intentional, though–I was proud of myself when I managed to pull off the ladder one (not saying what it was to avoid spoilers). The simple graphics work really well and remind me of The Kingdom of Loathing a bit, except for the top-down view. Overall, I was impressed by how much detail and content there is, for example how you animate things like pulling up a chair. I also had a good laugh when I opened the umbrella and my little guy disappeared underneath it completely. <b>Stanisław Małolepszy</b>
+<li>pretty innovative game well done! I would suggest a little tutorial at first because I was stuck with the umbrella. But that the point of a point and click puzzle game I guess! <b>nihdao</b>
+<li>What a cool adventure game! So many options, it was like a collection of miniature puzzles where you mostly had to do one thing to each object, a brainstorm session of unlucky activities. What a good idea for a game, and it fits the theme perfectly. There were tons of superstitions that I’d never heard of before! I really liked the opening and closing cinematics of the foot and title, that was very stylish. The music didn’t fit the game and seemed to trivialize the feel for me, somehow, I think it was just the wrong choice of song. I wish it was a different, more sinister-sounding song, or even just some night wind howling or wooshes instead, or some unlucky sounding chords and dissonance rather. But the music wasn’t the point, and it was fine, that’s a very minor aesthetic opinion. The best part of the game was all the cool interactions. I had tons of fun clicking everything! Amazing work!! <b>Christer Kaitila</b>
+<li>I thought I was doing pretty good when I went to sleep, only to find out I was at 11/26 haha. Very different fun take on the theme. Minor suggestions: it’d be nice to give a little bit more indication of what is happening, I was getting PTSD from the old point-and-click adventure games where you just start mashing on everything in every room. Maybe e.g. an icon if it’s a thing you can pick up (like bread), whereas if it’s a place to put bread down, hovering over it could show a little bread next to your pointer. Something like that. All in all, fun and inventive! <b>Elliot Nelson</b>
+<li>I need more tutorial, I feel confuse when I start game. Good game and great idea, An innovative attempt at decoding games once again, with excellent graphics and music. <b>skyatmoon</b>
+<li>Nice graphics, music and sounds. Very original idea, a unique take on the black cat theme. I heard its meow but couldn’t find the cat. At first I wasn’t sure what to do, having superstitions available in a popup list would help. Even after checking the list, I couldn’t accomplish some of them. Since my own game is also SVG-based and looks fine on Firefox, I’m curious what issue you ran into that caused it to appear blurry. On mobile, when in portrait mode, the game was too small, it took me a while to realize I could zoom in. <b>Can Altıparmak</b>
+<li>I got 14/26. Cool game to play, but all I did was just random clicking on things hoping it helps. Definitely some tips would be welcomed. <b>Jan Krupiński</b>
+<li>I love the idea of fulfilling superstitions and how the game mixes weird/unlucky events with a quirky vibe. The randomness keeps things fun and unexpected, but sometimes it feels like things are a bit too chaotic to predict what comes next. <b>Gleb Volkov</b>
+<li>Really nice idea, I got 11, guessed a few of the others but did not quite know how to acocmlish them, like walking under the ladder. I picked it up but couldnt put it back down! Great entry! <b>Ryan Tyler</b>
+<li>Very innovative gameplay, I think it’s the only “Black cat” game without a black cat (maybe because I didn’t cross the one you are supposed to see, I only got a 13/26 score). I like how you use the belief part of the theme, not just the cat part. It’s what I wante to o at first, but I never found the right idea, congratulations because I fin it very original an well executed. Nice music to set the mood, and very clever challenges, I only got half of them because I don’t know much about superstition but they are very clever <b>Romain Arnaud</b>
+<li>Rare games that really wants me to try to the end. Or when you really don’t know what else to do with the items. Nice animations and atmosphere. By theme, the black cat should been more in focus, though. <b>Sami Heikkinen</b>
+<li>I got 12/26! Wearing green is bad luck!? This was very unique and amusing! By the end of the game, I was just walking around my house with an open umbrella. I really like the graphics. Of course I’ve played top-down games before, but never with this sort of skewed perspective. It’s very cool! One thing that might be made more clear– I wasn’t immediately aware that I could move freely around the rooms. I thought I was just supposed to click various items. (I only realized I could move by misclicking.) I’m also curious– that’s Ravel’s Bolero, right? How come? Haha! Overall very impressive and original entry! Nice job! <b>Benjamin Boyd Austin</b>
+<li>Well done implementing such highly detailed visuals elements in such a small size. The audio is also very high quality. The gameplay leaves a very strong first impression visually, but that impression doesn’t hold up for me once I started playing. The SVG artwork looks ambitious and stylish at a glance, yet it comes across blurry depending on the browser, which makes the presentation feel unfinished. The visuals set a high expectation of depth and polish, but the actual gameplay is extremely simple and quickly gets cheated after you first decide to sleep. Instead of discovering mechanics naturally, you’re left guessing at obscure superstitions, most of which are unfamiliar and confusing just to get them all spoiled at the end. This undermines the sense of fun and replaces it with frustration, because the only way forward is to consult a list that reads more like a trivia. I was able to memorize and find most of the list in just a few minutes after reading it. Really good job on the sounds and theme the game was pretty fun the first few times around :) <b>Jake Turner</b>
+<li>Exquisitely thematic. Gameplay and graphics are reminiscent of some long-gone Flash games, so I couldn’t help but feel a bit of nostalgia… all while playing a brand new game–the contradictions! Amazing entry and good use of the space available. Congrats <b>Federico Tibaldo</b>
+<li>I really like the way you have respect the theme by the use of superstition. The music is a good choice for the game and the sound effects are funny. I have been surprised by the miaou the first time. Graphism are simple but very clear. <b>sdeseille</b>
+<li>This was a cool concept! It was amazing that you got it to 13kb! I got 10 / 26 on my playthough. The problem was that I dont know much of superstitions so I just went around and clicked on things and hoped it was a superstition. <b>Daivan Trinh</b>
+<li>Interesting concept! I missed some way to know I’m having a bad day. Something to tell me I’m progressing in the game. Loved that I can double click to zoom on mobile. BTW I noticed that the menu doesn’t render on click if the screen is not expanded, only if I zoom in. I can see how much work you had, very solid entry! Congrats. <b>Michel Sabchuk</b>
+<li>took me a while to understand how things work, the intro and graphics are well done and effort is shown in every aspect of the game, sound and music, the gameplay, great work <b>Mohammad Jawad</b>
+<li>Funny idea, and amazed that you managed to create so much art in 13KBs. Btw, I did the walk below the stairs but it didnt register :/ I feel there should be a sound when one goal is completed, to guide the player, or even displaying the string. Also, most of the puzzles are just directly in the action to perform, the good ones are the ones you had to use your own creativity (loved the mirrors and the umbrella) anyway, a refreshing entry, great work <b>Javi Agenjo</b>
+<li>Wow this one was amazing, got me hooked trying to find all the superstitions although I don’t really knew most of them. Awesome graphics and sound, really one of my fav entries this year. <b>Camilo Ramírez</b>
+<li>I had a ton of fun playing this game. And for everyone who didn’t know, the checklist is there when you sleep/check score. Excellent use of SVGs btw. I looks very nice and unique. Can’t believe you’ve packed in so much in under 13kb! <b>F肯尼</b>
+<li>Some tips/checklist would be great. I’m not superstitios enough to figre 26 bad luck signs. <b>Alexander Petrov</b>
+<li>I always love a point & click adventure, the art and color scheme is really pleasant. The live changing weather is very impressive. And it’s funny how these actions considered unlucky are so widespread, I recognized some of those and never expected them to be known outside of my culture. <b>Mohammed Saud</b>
+<li>Ha, a nice little point’n’click adventure. I think Knife is the singular and knives the plural ;)  Man you packed a heap in there, great job as usual! <b>Cliff Earl</b>
+<li>It’s amazing how much you were able to pack into this and be under the 13KB limit. I really like the idea, only a few times I felt like I was clicking on things at random to see what I could interact with (but I think that happens in many point and click games at times, the game can’t tell the player every single thing they should do) but it was fun to try to figure things out! <b>Anthony Cosgrave</b>
+<li>Very original concept. Personally like point’n’click games. On mobile elements are small (yes, I would zoom in, but sometimes game just stuck in some point). Thank you for the fun! Great work! Waiting for post-mortem ;) <b>Elias Ku</b>
+</ul>
 
 <p>
 
 <br><br><hr>
 
-<p><b>Conclusion: TODO</b>
+<p><b>Videos</b>
 
-<p>
+<p>To my knowledge, only Dobuki Gamer played my entry in a video, thanks to him:
+
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/3qyM-1ISA7w?si=ctEIML9LFUH8als6&amp;start=775" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+<br><br><hr>
+
+<p><b>Conclusion</b>
+
+<p>My game arrived 17th overall and 12th on mobile, which is great!
+<p>The details of the votes show a very high score in innovation too, yay!
+<p><img src="images/js13k25/o8.png">
+<p>I also appeared in two other rankings: <a href="https://bacionejs.github.io/stuff/games.html">I made the most js13k entries ever</a> (17, even though I missed the first two years) and <a href="https://js13kgames.com/2025/results/voters.json">I left the most feedbacks this year</a>!
+<p>I think I'll continue making only one entry per year and focusing on the wow effect (2D/3D, lots of graphics, music and sound effects). It seems to work better like that :)
+<p>My only tiny regret is that I didn't make it more visible somehow when a goal is completed, and didnt't tell the player somehow that he black cat passes outside at 13h13...
+<p>Besides that, I think I'll try to make a heavily compressed word game in the future, as I saw that @senokay (the creator of RoadRoller and <a href="https://js1024.fun/demos/2022/18">epyt</a> (the <a href="https://js1024.fun/demos/2022/18/source">readme</a> mentions me by the way)) released <a href="https://gist.github.com/lifthrasiir/1c7f9c5a421ad39c1af19a9c4f060743">a HTML compressor based on Brotli's dictionnary</a>... that's interesting!
+<p>See you soon, and thanks to everyone who helped, tested, played and voted for my game! 💙
+<p>Xem
 
 
 
