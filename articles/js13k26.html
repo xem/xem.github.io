@@ -1,0 +1,124 @@
+﻿<!doctype html>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<html>
+<head>
+<link rel=stylesheet href="../style.css?v=2024-07">
+<title>Maxime Euzière</title>
+<base target=_blank>
+</head>
+<body>
+
+<style>
+.twitter-tweet { margin: 30px 0 !important; border: 3px solid #ccc; border-radius: 30px; overflow: hidden; transform: scale(.95)}
+ul { padding-left: 15px }
+</style>
+
+<div class="wrapper">
+
+<header></header>
+
+<div id=menu></div>
+
+<main>
+
+<div class=section id=codegolfctober18>
+
+<h2>JS13k 2026: </h2>
+<br><h3>August-September 2026</h3>
+
+
+<!--
+<p><img src="images/js13k26/banner.png">
+
+<br>
+<p><h3>TL;DR</h3>
+<ul>
+<li>Hi! My game is playable <a href="">HERE</a>
+<li>Source code is available <a href="https://github.com/xem/js13k26">HERE</a>
+<li>It was ranked ...
+<li>You can see a playthrough video here (spoilers!):
+<br><br>
+</ul>
+
+-->
+
+<br><hr>
+<p><h3>Before the jam</h3>
+
+
+<p><b>A future word game? (October 2024)</b>
+
+<p>At the end of JS13k 2025, I remembered that Senokay, the author of <a href="https://lifthrasiir.github.io/roadroller/">RoadRoller</a>, had made a 1kb typing game ("epyt") containing 1,903 english words, thanks to the magic of WOFF2's Brotli dictionnary (you can play the game and read the explanations <a href="https://js1024.fun/demos/2022/18/readme">HERE</a>), and it made me wonder if I could use that to make a word game for JS13K. Imagine a 13kb game containing an english dictionnary!
+<p>By chance, Senokay released a standalone script that compresses any JS file into a self-extracting WOFF2 file in HTML form. And it's compatible with Firefox! (epyt is not playable on modern versions of Firefox). His script is available <a href="https://gist.github.com/lifthrasiir/1c7f9c5a421ad39c1af19a9c4f060743">HERE</a> and I made a more complete package with all the necessary data and instructions <a href="https://github.com/xem/woff2">HERE</a>.
+
+<p>My next step was to think about which words exactly I would like to put in a 13kb game. Indeed, I quickly realized that the whole english or french dictionnary (300k+ words each) could never fit in an entry, even with the WOFF2 compressor. So I took some time to search relevant lists of words (the 10k most used words in french / english, the official Scrabble words, etc..) and started making little compression tests on my PC. The results were promising, so I rolled up my sleeves and made a complete tool that generates lists of words in french and english with tons of cool options (3 different corpus, number of letters, order by size or alphabetically, normalize special chars, remove words with repeated letters, etc): I called it <a href="https://xem.github.io/words">WORDS</a>.
+
+<p><img src="images/js13k26/words.png" width=400>
+
+<p><b>With this tool in hand, I could make much more tests and here's what I found:</b>
+<br>1) Compressing a long list of words (for a project bigger than 1kb) is much more efficient with Roadroller than with WOFF2.
+<br>2) The compression is much more efficient if we order the words alphabetially than if we order them by length first.
+<br>3) For some reason, the compression is much better if the list is in JSON instead of TXT (i.e. with double quotes around the words).
+<br>
+<p><b>The conclusions of my tests are the following:</b>
+<br>- We can compress ALL the french and ALL the english 5-letter Scrabble words together (17,541 words, 140kb) in 15.3kb (impresive but too big for js13k). <a href="files/js13k26/1.html">See the result here</a>.
+<br>- We can compress the french AND english 5-letter Scrabble words where all the letters are different (11,074 words, 88kb) in 10.5kb (ok for js13k!). <a href="files/js13k26/2.html">See the result here</a>.
+<br>- We can compress ALL the english 1- to 5-letter Scrabble words (14,915 words, 112kb) in 12.8kb (ok for js13k!). <a href="files/js13k26/3.html">See the result here</a>.
+<br>- We can compress all the french 1- to 5-letter Scrabble words (11444 words, 87.3kb) in 9.8kb (ok for js13k!). <a href="files/js13k26/4.html">See the result here</a>.
+<br>- As soon as we try to include 6 (or more) letter words, the size explodes, so they are sadly disqualified for a js13k word game. For example, the 16,706 6-letter english Scrabble words alone weigh 150kb and compress in 21kb.
+<br>- The 10k most used english words (95kb) compress in 19.7kb. (or 25kb/4.9kb for the 1-5 letter words only) 
+<br>- The 10k most used french words (without the compound words, 85kb) compress in 16kb. (or 12kb/3kb for the 1-5 letter words only) 
+<br>- RoadRoller is kinda unpredictable: for example, compressing the french 1-5 letter words THEN the english 1-5 letter words without reloading the page in between, makes the english words compress better (about 300 bytes less, which is not negligeable when zipped!)
+
+<p>Note that in each test involving 1 to 5 letter words, amazingly, EACH WORD gets compressed in UNDER ONE BYTE in average. RoadRoller and Zip are truly magical!
+
+<p>Also: I tried to be a smartass and save some bytes by not repeating the prefixes of consecutive words. I even <a href="https://xem.github.io/MiniPrefixRemover/">created a tool for that</a>. Unfortunately, every time I tried it, the output after compression was BIGGER than if I hadn't used it. (too bad, the padStart-based decompressor was really elegant!)
+
+<p>I tried other pre-optimizations (ex: only store the "distance" between the words instead of the words themselves), but it also made my zip bigger. In other words, nothing seems to be more efficient than RoadRoller and Zip as far as I can tell!
+
+<p>In conclusion, I think I will (someday) make a word game featuring all the english Scrabble words containing 1 to 5 letters. And maybe add a french version, in a sparate entry. Even if the dictionnary use 95%+ of the entry, the remaining space should be enough to implement my little word games. After all, I already code-golfed <a href="https://xem.github.io/MiniWordle/">a Mini Wordle in 214 bytes</a> and <a href="https://xem.github.io/spellingbee/index.html">a french spelling bee clone in ~2kb ungolfed and unzipped</a>.
+
+<p>To be continued...</p>
+
+
+<br><br>
+
+<p><b>A physics engine? (November 2024)</b>
+
+<p>To be continued...</p>
+
+
+<br><br>
+
+<p><h3>During the jam</h3>
+
+
+<p><h3>Conclusion</h3>
+
+
+<p><b>Xem</b>
+
+<br><br><br>
+<p>P.S: as mentioned earlier, I released and announced js13k-pack version 2.0 with a lot of improvements a few days after the end of the votes:
+
+<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Performance improvements:<br>- CSS is compressed (optimized), not just minified.<br>- Roadrolled code now includes HTML, JS and CSS code (except the HTML prefix that can be used for doctype, title, meta tags...)<br><br>My 2023 entry lost 400 bytes between 1.0 and 2.0.<br>My 2024 entry lost 200b</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1977774747606757685?ref_src=twsrc%5Etfw">October 13, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+
+</main>
+
+</div>
+
+<footer></footer>
+
+<script src="../ui.js?v=2024-07"></script>
+<script>
+header();
+footer();
+menu();
+</script>
+<style>
+.inline, .inline * { display: inline; padding: 2px !important; }</style>
+</body>
+</html>
