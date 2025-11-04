@@ -103,9 +103,10 @@ menus = {
   },
   
   tutorials: {
-    "3D-physics": "3D physics engine",
-    "webgl-guide": "WebGL guide part 1",
-    "webgl-guide-part-2": "WebGL guide part 2",
+    "2D-physics": "2D physics engine (wip)",
+    "3D-physics": "3D physics engine (wip)",
+    "webgl-guide": "WebGL guide",
+    //"webgl-guide-part-2": "WebGL guide part 2",
     projection: "3D projection",
     css3dgames: "CSS3D game tutorial",
     jsgamesinputs: "JS keyboard inputs",

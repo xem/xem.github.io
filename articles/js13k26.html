@@ -22,7 +22,7 @@ ul { padding-left: 15px }
 
 <main>
 
-<div class=section id=codegolfctober18>
+<div class=section>
 
 <h2>JS13k 2026: </h2>
 <br><h3>August-September 2026</h3>
@@ -68,23 +68,28 @@ ul { padding-left: 15px }
 <br>- We can compress french + english 5-letter Scrabble words without repeated letters (11,074 words, 88kb) in 10.5kb (ok for js13k!). <a href="files/js13k26/2.html">DEMO</a>.
 <br>- We can compress ALL the english 1- to 5-letter Scrabble words (14,915 words, 112kb) in 12.8kb (ok for js13k!). <a href="files/js13k26/3.html">DEMO</a>.
 <br>- We can compress all the french 1- to 5-letter Scrabble words (11444 words, 87.3kb) in 9.8kb (ok for js13k!). <a href="files/js13k26/4.html">DEMO</a>.
+<br>- We can compress all 3-10 letters english words that are both in top 10k and in the Scrabble (8,229 words, 79kb) in 12.8kb. <a href="files/js13k26/5.html">DEMO</a>.
 <br>- As soon as we try to include 6 (or more) letter words, the size explodes, so they are sadly disqualified for a js13k word game.
 <br>For example, the 16,706 6-letter english Scrabble words alone weigh 150kb and compress in 21kb.
 <br>- The 10k most used english words (95kb) compress in 19.7kb. (or 25kb/4.9kb for the 1-5 letter words only) 
 <br>- The 10k most used french words (without the compound words, 85kb) compress in 16kb. (or 12kb/3kb for the 1-5 letter words only) 
 <br>- RoadRoller is kinda unpredictable: for example, compressing the french 1-5 letter words THEN the english 1-5 letter words without reloading the page in between, makes the english words compress better (about 300 bytes less, which is not negligeable when zipped!)
-<br>- However, this remark is for the Web version of RoadRoller.
+<!--<br>- However, this remark is for the Web version of RoadRoller.
 <br>The CLI version can be used in "infinite mode" and produce outputs increasingly smaller.
 <br>The command line looks like this: <mark style="background:#def;padding:4px;font:12px bold courrier,monospace">node cli.mjs -t text -a write -M 1024 -D -S 9999 -OO raw.js -o raw.min.js</mark>.
 <br>For example, the 1-5 letters english Scrabble words compress in ... kb after letting the CLI run for 24 hours. <a href="files/js13k26/5.html">DEMO</a>.
+-->
 
 <p>Anyway, you can remark that in each test involving 1 to 5 letter words, amazingly, <b>each word gets compressed in under one byte</b> in average. RoadRoller and Zip are truly magical!
 
-<p>Also: I tried to be a smartass and save some bytes by not repeating the prefixes of consecutive words. I even <a href="https://xem.github.io/MiniPrefixRemover/">created a tool for that</a>. Unfortunately, every time I tried it, the output after compression was BIGGER than if I hadn't used it. (too bad, my padStart-based decompressor was really elegant! But it may be useful somewhere else some day...)
+<p>But that's not all! I tried to save some bytes by not repeating the prefixes of consecutive words. I even <a href="https://xem.github.io/MiniPrefixRemover/">created a tool for that</a>. When I first tried it on an array of 5-letter words, the output after compression was BIGGER than if I hadn't used it. So I thiught it was not useful compared to RoadRoller and Zip alone.
+<p>However, I tried to use it on words of different lengths, then I separated the consecutive words with a character that represents the different of lengths between the words, and finally I concatenated everything into a string. In that case, it does actually saved a lot of space! For example, the 3-10 letter english words present in the top 10k and in the Scrabble dictionnary (8,229 words, 79kb) now take 11.8kb. And if I put every word present in the two dictionnaries (8,332 words, 2 to 15 letters long, 82kb), it now fits into 11.2kb! <a href="files/js13k26/6.html">DEMO</a> 
 
-<p>I tried other pre-optimizations (ex: only store the "distance" between the words instead of the words themselves), but it also made my zip bigger. In other words, nothing seems to be more efficient than RoadRoller and Zip as far as I can tell! Only the alphabetical ordering and the double quotes seem to be a useful pre-optimization.
+<p>The compressed words look like this: <mark style="background:#def;padding:4px;font:12px bold courrier,monospace">abandoned2ilities5ty2le2original4tion3ut3ve...</mark>
+<br>Which correspond to this after a little decompression: <mark style="background:#def;padding:4px;font:12px bold courrier,monospace">abandoned, abilities, ability, able, aboriginal, abortion, about, above...</mark>
+<p>And I added a tool for that <a href="https://xem.github.io/MiniPrefixRemover/any.html">here</a>:
 
-<p>In any case, I think I will probably make a word game featuring all the english Scrabble words containing 1 to 5 letters in the future. And maybe add a french version, in a sparate entry. Even if the dictionnary uses 95%+ of the entry, the remaining space should be enough to implement my little word games. After all, I already code-golfed <a href="https://xem.github.io/MiniWordle/">a Mini Wordle in 214 bytes</a> and <a href="https://xem.github.io/spellingbee/index.html">a french spelling bee clone</a> in ~2kb.
+<p>So, after all this progress, I think I will probably make a 13kb word game in the future. And maybe add a french version, in a sparate entry. Even if the dictionnary uses 95%+ of the entry, the remaining space should be enough to implement my little word games. After all, I already code-golfed <a href="https://xem.github.io/MiniWordle/">a Mini Wordle in 214 bytes</a> and <a href="https://xem.github.io/spellingbee/index.html">a french spelling bee clone</a> in ~2kb.
 
 <p>To be continued...</p>
 
