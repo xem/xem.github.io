@@ -34,7 +34,7 @@ ul { padding-left: 15px }
 <p>The problem was that this book, as every book I could find at the time, didn't go beyond basic interactions between spheres and discs.
 <p>Even <a href="https://link.springer.com/book/10.1007/978-1-4842-7377-7">this 599 pages book</a> released in 2022 by the same editor and some of the original authors, managed to be even more verbose in every aspect of 2D games, except one: advanced physics. And when I say "advanced physics", I'm not asking for really complex stuff, I just want to learn springs, fixed joints, hinge joints, and how to optimize speed and stability.
 <p>In 2021, 2022, 2023, 2024 and 2025 I tried many times to learn <a href="https://xem.github.io/articles/3D-physics.html">3D physics</a> because <a href="images/2D-physics/3D.jpg">a lot of good books actually cover this topic</a>, but I haven't managed to properly implement any of them in JS (so far)... and that was quite frustrating!
-<p><img src="images/2D-physics/book.jpg" style="float:right; margin: 0 20px; width: 220px">It's only in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, that I typed "2D physics JS" on Google and stumbled upon the holy Grail: <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS. The youtube playlist made me realize that not only <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">the code was already available and open-source on Gitlab</a>, but <a href="https://www.amazon.de/dp/B0FL1K2ZZ5">a physical book actually released in August 2025!</a>. And since I'm so enthusiastic (and probably one of the 10 person on Eart that could possibly be interested by this book), I got it. And I'm gonna summarize it and golf the source code here. Let's go!
+<p><img src="images/2D-physics/book.jpg" style="float:right; margin: 0 20px; width: 220px">It's only in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, that I typed "2D physics JS" on Google and stumbled upon the holy Grail: <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS. The youtube playlist made me realize that not only <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">the code was already available and open-source on Gitlab</a>, but <a href="https://www.amazon.de/dp/B0FL1K2ZZ5">a physical book actually released in August 2025!</a>. And since I'm so enthusiastic (and probably one of the 10 person on Eart that could possibly be interested by this book), I bought it. And I'm gonna read it and golf the source code here. Let's go!
 
 <p>My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial">a copy of the original Gitlab repo</a> is also there for reference and for the live demos (thanks to Github Pages).
 <br>
@@ -45,8 +45,13 @@ ul { padding-left: 15px }
 <p><pre><code class="lang-html">&lt;!doctype html>
 &lt;canvas id=a width=800 height=600 style="background:#eee">&lt;/canvas>
 &lt;script>
-  c = a.getContext("2d");
+
+// Canvas setup
+c = a.getContext("2d");
+
 &lt;/script></code></pre>
+
+
 <p><b>Links:</b>
 <br>- Original version: <a href="https://www.youtube.com/watch?v=H3HYsOvDymU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=2">video</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/1">source code</a>,
@@ -56,7 +61,20 @@ ul { padding-left: 15px }
 
 <br><hr>
 
-<p><b>Chapter 2: </b>
+<p><b>Chapter 2: Main loop</b>
+
+<p>I'm going with a fixed 60fps loop for simplicity, instead of using requestAnimationFrame and computing deltaTime.
+
+<p><pre><code class="lang-js">setInterval(()=>{
+
+}, 16);</code></pre>
+
+<p><b>Links:</b>
+<br>- Original version: <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=3">video</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/2">source code</a>,
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/2/Main.html">demo</a>
+<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/2">source code</a>,
+<a href="https://xem.github.io/2DPhysics/2/">demo</a>
 
 <br><hr>
 
