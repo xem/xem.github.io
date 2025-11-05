@@ -41,7 +41,8 @@ ul { padding-left: 15px }
 <br><hr>
 
 <p><b>Chapter 1: Setting up a Canvas</b>
-<p>Here we'll keep the HTML code to the absolute minimum: doctype, canvas and script tags. The canvas is called a and the 2D context x.
+<p>Here we'll keep the HTML code to the absolute minimum: doctype, canvas and script tags.
+<p>The canvas is called <b>a</b> and the 2D context <b>c</b>.
 <p><pre><code class="lang-html">&lt;!doctype html>
 &lt;canvas id=a width=800 height=600 style="background:#eee">&lt;/canvas>
 &lt;script>
@@ -65,7 +66,7 @@ c = a.getContext("2d");
 
 <p><b>Chapter 2: Main loop</b>
 
-<p>I'm going with a fixed 60fps loop for simplicity, instead of using requestAnimationFrame and computing deltaTime.
+<p>I'm going with a fixed 60fps setInterval loop for simplicity, instead of using requestAnimationFrame and computing deltaTime.
 
 <p><pre><code class="lang-js">// Main loop
 setInterval(() => {
@@ -110,21 +111,21 @@ onmouseup = e => {
 }
 
 a.oncontextmenu = () => {
-  return false;
+  return false; // prevent right click dropdown
 }
 
 onkeydown = e => {
-  console.log(e.code);
+  console.log(e.code); // Test logs
 }
 
 // Update the physics engine
 update = () => {
-  console.log(mx, my);
+  console.log(mx, my); // Test logs
 }
 
 // Render the scene
 draw = () => {
-  c.fillRect(100,100,20,20);  // Test: draw a black square
+  c.fillRect(100, 100, 20, 20);  // Test: draw a black square
 }
 
 // Main loop
@@ -145,7 +146,8 @@ setInterval(() => {
 
 <br><hr>
 
-<p><b>Chapter 4: 2D vectors</b>
+<p><img src="images/2D-physics/dir.png" style="float:right; margin: 0 20px 20px; width: 200px"><b>Chapter 4: 2D vectors</b>
+<p>2D vectors are objects containing two values (x and y).<p>They can represent a point (with x and y coordinates) or a movement (with x and y offsets).
 <p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now).
 
 <p><pre><code class="lang-js">// 2D vectors
@@ -175,16 +177,55 @@ scale = (v, n) => Vec2(v.x * n, v.y * n);
 
 <br><hr>
 
-<p><b>Chapter 5: </b>
+<p><b>Chapter 5: Drawing points and arrows</b>
 
+<p>At this chapter, I finally realized that the book I had in my hands was 100% AI-generated and 0% proofread. I already noticed that the same expressions were repeated too many times and the text didn't feel super natural, not to mention the AI cover, but here it got worse: the text accompanying the source code starts saying that the code makes no sense and is probably wrong. A human author would never say such a thing about his own code.
 
-<p><pre><code class="lang-js">
+<p>Anyway, that being said, let's pursue the reading because it may still lead me to a functional 2D physics engine!
 
-</code></pre>
+<p>This chapter explains how do draw bullets (filled arcs), discs (stroked arcs), lines and arrows, for debug purposes.
+
+<p>We'll settle with just two methods: drawPoint and drawLine.
+
+<p><pre><code class="lang-js">// Debug
+drawPoint = (center, radius = 5, color = "#888") => {
+  c.beginPath();
+  c.fillStyle = color;
+  c.arc(center.x, center.y, radius, 0, 7);
+  c.fill();
+  c.closePath();
+}
+
+drawLine = (start, end, color = "#888") => {
+  c.beginPath();
+  c.strokeStyle = color;
+  c.moveTo(start.x, start.y);
+  c.lineTo(end.x, end.y);
+  c.stroke();
+  c.closePath();
+}</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
-<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=7">video</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=7">video 1</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=8">video 2</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=9">video 3</a>, 
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/5/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/5">source code</a> (5.6kb)
+<br>- Mine:
+<a href="https://xem.github.io/2Dphysics/5/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (1.6kb)
+
+<br><hr>
+
+<p><b>Chapter 6: </b>
+
+
+<p><b>Links:</b>
+<br>- Original:  
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=7">video 1</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=8">video 2</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=9">video 3</a>, 
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/5/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/5">source code</a> (kb)
 <br>- Mine:
@@ -193,11 +234,18 @@ scale = (v, n) => Vec2(v.x * n, v.y * n);
 
 <br><hr>
 
-<p><b>Chapter 6: </b>
-
-<br><hr>
-
 <p><b>Chapter 7: </b>
+
+<p><b>Links:</b>
+<br>- Original:  
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=7">video 1</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=8">video 2</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=9">video 3</a>, 
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/5/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/5">source code</a> (kb)
+<br>- Mine:
+<a href="https://xem.github.io/2Dphysics/5/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (kb)
 
 <br><hr>
 
@@ -229,6 +277,8 @@ footer();
 menu();
 </script>
 <style>
-.inline, .inline * { display: inline; padding: 2px !important; }</style>
+.inline, .inline * { display: inline; padding: 2px !important; }
+pre { display: inline-block; min-width: 40vw }
+</style>
 </body>
 </html>
