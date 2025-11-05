@@ -54,10 +54,10 @@ c = a.getContext("2d");
 
 <p><b>Links:</b>
 <br>- Original version: <a href="https://www.youtube.com/watch?v=H3HYsOvDymU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=2">video</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/1">source code</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/1">source code</a> (0.4kb),
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/1/Main.html">demo</a>
-<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/1">source code</a>,
-<a href="https://xem.github.io/2DPhysics/1/">demo</a>
+<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/1">source code</a> (0.1kb),
+<a href="https://xem.github.io/2Dphysics/1/">demo</a>
 
 <br><hr>
 
@@ -65,20 +65,74 @@ c = a.getContext("2d");
 
 <p>I'm going with a fixed 60fps loop for simplicity, instead of using requestAnimationFrame and computing deltaTime.
 
-<p><pre><code class="lang-js">setInterval(()=>{
+<p><pre><code class="lang-js">// Main loop
+setInterval(()=>{
 
 }, 16);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original version: <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=3">video</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/2">source code</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/2">source code</a> (1.3kb),
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/2/Main.html">demo</a>
-<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/2">source code</a>,
-<a href="https://xem.github.io/2DPhysics/2/">demo</a>
+<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/2">source code</a> (0.2kb),
+<a href="https://xem.github.io/2Dphysics/2/">demo</a>
 
 <br><hr>
 
-<p><b>Chapter 3: </b>
+<p><b>Chapter 3: Mouse and keyboard events / Simulation class</b>
+
+<p>The golfed code won't use JS classes. User inputs and states are reduced to the bare minimum: left and right mouse buttons, mouse position, and keyboard key presses. Functions added in the loop: update and draw.
+
+<p><pre><code class="lang-js">// Globals
+mx = 0, my = 0,     // mouse x, y
+mlb = 0, mrb = 0,   // mouse left and right button
+
+// Event listeners
+onmousemove = e => {
+  mx = e.pageX - a.offsetLeft;
+  my = e.pageY - a.offsetTop;
+}
+
+onmousedown = e => {
+  if(e.button == 0) mlb = 1;
+  if(e.button == 2) mrb = 1;
+}
+
+onmouseup = e => {
+  if(e.button == 0) mlb = 0;
+  if(e.button == 2) mrb = 0;
+}
+
+a.oncontextmenu = () => {
+  return false;
+}
+
+onkeydown = e => {
+  console.log(e.code);
+}
+
+// Update the physics engine
+update = () => {
+  console.log(mx, my);
+}
+
+// Render the scene
+draw = () => {
+  c.fillRect(100,100,20,20);
+}
+
+// Main loop
+setInterval(() => {
+  update();
+  draw();
+}, 16);</code></pre>
+
+<p><b>Links:</b>
+<br>- Original version:  <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=4">video 1</a>, <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=5">video 2</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/3">source code</a> (2.8kb),
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/3/Main.html">demo</a>
+<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/3">source code</a> (0.8kb),
+<a href="https://xem.github.io/2Dphysics/3/">demo</a>
 
 <br><hr>
 
