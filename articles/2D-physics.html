@@ -34,7 +34,7 @@ ul { padding-left: 15px }
 <p>The problem was that this book, as every book I could find at the time, didn't go beyond basic interactions between spheres and discs.
 <p>Even <a href="https://link.springer.com/book/10.1007/978-1-4842-7377-7">this 599 pages book</a> released in 2022 by the same editor and some of the original authors, managed to be even more verbose in almost every aspect of 2D game mechanics, except one: advanced physics. And when I say "advanced physics", I'm not asking for really complex stuff, I just want to learn springs, fixed joints, hinge joints, and how to optimize speed and stability.
 <p>In 2021, 2022, 2023, 2024 and 2025 I tried many times to learn <a href="https://xem.github.io/articles/3D-physics.html">3D physics</a> because <a href="images/2D-physics/3D.jpg">a lot of good books actually cover this topic</a>, but I haven't managed to properly implement any of them in JS (so far)... and that was quite frustrating!
-<p>Finally, in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, I randomly typed "2D physics JS" on Google and stumbled upon the holy Grail: <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS. The playlist was accompanied by <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">complete source code on Gitlab</a> and <a href="https://www.amazon.de/dp/B0FL1K2ZZ5">a physical book released in August 2025!</a>. And since I'm so enthusiastic (and probably one of the 10 person on Eart that could possibly be interested by this book), I bought it. And I'm gonna read it and golf the source code here. Let's go!
+<p>Finally, in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, I randomly typed "2D physics JS" on Google and stumbled upon the holy Grail: <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS. The playlist was accompanied by <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">complete source code on Gitlab</a> and <a href="https://www.amazon.de/dp/B0FL1K2ZZ5">a physical book released in August 2025!</a>. And since I'm so enthusiastic (and probably one of the 10 person on Eart that could possibly be interested by this book), I bought it. And I'm gonna read it and golf the source code here (first, write a tiny and readable version, then make it as small as possible). Let's go!
 
 <p>My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial">a copy of the original Gitlab repo</a> is also there for reference and for the live demos (thanks to Github Pages).
 <br>
@@ -53,11 +53,13 @@ c = a.getContext("2d");
 
 
 <p><b>Links:</b>
-<br>- Original version: <a href="https://www.youtube.com/watch?v=H3HYsOvDymU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=2">video</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/1">source code</a> (0.4kb),
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/1/Main.html">demo</a>
-<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/1">source code</a> (0.1kb),
-<a href="https://xem.github.io/2Dphysics/1/">demo</a>
+<br>- Original: 
+<a href="https://www.youtube.com/watch?v=H3HYsOvDymU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=2">video</a>, 
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/1/Main.html">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/1">source code</a> (0.4kb)
+<br>- Mine:
+<a href="https://xem.github.io/2Dphysics/1/">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/1">source code</a> (0.1kb)
 
 <br><hr>
 
@@ -66,16 +68,20 @@ c = a.getContext("2d");
 <p>I'm going with a fixed 60fps loop for simplicity, instead of using requestAnimationFrame and computing deltaTime.
 
 <p><pre><code class="lang-js">// Main loop
-setInterval(()=>{
+setInterval(() => {
+
+  // TODO
 
 }, 16);</code></pre>
 
 <p><b>Links:</b>
-<br>- Original version: <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=3">video</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/2">source code</a> (1.3kb),
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/2/Main.html">demo</a>
-<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/2">source code</a> (0.2kb),
-<a href="https://xem.github.io/2Dphysics/2/">demo</a>
+<br>- Original:
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=3">video</a>, 
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/2/Main.html">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/2">source code</a> (1.3kb)
+<br>- Mine:
+<a href="https://xem.github.io/2Dphysics/2/">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/2">source code</a> (0.2kb)
 
 <br><hr>
 
@@ -118,7 +124,7 @@ update = () => {
 
 // Render the scene
 draw = () => {
-  c.fillRect(100,100,20,20);
+  c.fillRect(100,100,20,20);  // Test: draw a black square
 }
 
 // Main loop
@@ -128,19 +134,62 @@ setInterval(() => {
 }, 16);</code></pre>
 
 <p><b>Links:</b>
-<br>- Original version:  <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=4">video 1</a>, <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=5">video 2</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/3">source code</a> (2.8kb),
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/3/Main.html">demo</a>
-<br>- Golfed version: <a href="https://github.com/xem/2Dphysics/tree/gh-pages/3">source code</a> (0.8kb),
-<a href="https://xem.github.io/2Dphysics/3/">demo</a>
+<br>- Original: 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=4">video 1</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=5">video 2</a>, 
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/3/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/3">source code</a> (2.8kb)
+<br>- Mine:
+<a href="https://xem.github.io/2Dphysics/3/">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/3">source code</a> (0.8kb)
 
 <br><hr>
 
-<p><b>Chapter 4: </b>
+<p><b>Chapter 4: 2D vectors</b>
+<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now).
+
+<p><pre><code class="lang-js">// 2D vectors
+Vec2 = (x, y) => ({x, y});
+normalize = v => scale(v, 1 / (len(v) || 1));
+len = v => dot(v, v) ** .5;
+len2 = v => dot(v, v);
+normal = v => Vec2(v.y, -v.x);
+dot = (v, w) => v.x * w.x + v.y * w.y;
+copy = v => Vac2(v.x, v.y);
+add = (v, w) => Vec2(v.x + w.x, v.y + w.y);
+sub = (v, w) => add(v, scale(w, -1));
+scale = (v, n) => Vec2(v.x * n, v.y * n);
+<!-- //cross = (v, w) => v.x * w.y - v.y * w.x;
+//rotate = (v, center, angle, x = v.x - center.x, y = v.y - center.y) => Vec2(x * Math.cos(angle) - y * Math.sin(angle) + center.x, x * Math.sin(angle) + y * Math.cos(angle) + center.y);
+//dist = (v, w) => length(substract(v, w));
+-->
+</code></pre>
+
+<p><b>Links:</b>
+<br>- Original:  <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=6">video</a>
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/4/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/4">source code</a> (3.8kb)
+<br>- Mine: 
+<a href="https://xem.github.io/2Dphysics/4/">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/4">source code</a> (1.2kb)
 
 <br><hr>
 
 <p><b>Chapter 5: </b>
+
+
+<p><pre><code class="lang-js">
+
+</code></pre>
+
+<p><b>Links:</b>
+<br>- Original:  
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=7">video</a>, 
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/5/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/5">source code</a> (kb)
+<br>- Mine:
+<a href="https://xem.github.io/2Dphysics/5/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (kb)
 
 <br><hr>
 
