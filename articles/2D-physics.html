@@ -63,8 +63,11 @@ c = a.getContext("2d");
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/1">source code</a> (0.1kb)
 
 <br><hr>
+<p><i>From now on, the code snippets in each chapter will show what was added or modified in my Javascript code.</i>
+<br><hr>
 
 <p><b>Chapter 2: Main loop</b>
+
 
 <p>I'm going with a fixed 60fps setInterval loop for simplicity, instead of using requestAnimationFrame and computing deltaTime.
 
@@ -125,7 +128,12 @@ update = () => {
 
 // Render the scene
 draw = () => {
-  c.fillRect(100, 100, 20, 20);  // Test: draw a black square
+
+  // Reset canvas
+  a.width = a.width;
+
+  // Test: draw a black square
+  c.fillRect(100, 100, 20, 20);
 }
 
 // Main loop
@@ -179,9 +187,9 @@ scale = (v, n) => Vec2(v.x * n, v.y * n);
 
 <p><b>Chapter 5: Drawing points and arrows</b>
 
-<p>At this chapter, I finally realized that the book I had in my hands was 100% AI-generated and 0% proofread. I already noticed that the same expressions were repeated too many times and the text didn't feel super natural, not to mention the AI cover, but here it got worse: the text accompanying the source code starts saying that the code makes no sense and is probably wrong. A human author would never say such a thing about his own code.
+<p><i>At this chapter, I finally realized that the book I had in my hands was 100% AI-generated and not (or barely) proofread. I already noticed that the same expressions were repeated too many times and the text didn't feel super natural, not to mention the AI cover, but here it gets worse: the text accompanying the source code starts saying that the code makes no sense and is probably wrong. A human author would never say such a thing about his own code. Quite disappointing for a 35€ book!</i>
 
-<p>Anyway, that being said, let's pursue the reading because it may still lead me to a functional 2D physics engine!
+<p>That being said, let's pursue the reading because it may still lead me to a functional 2D physics engine!
 
 <p>This chapter explains how do draw bullets (filled arcs), discs (stroked arcs), lines and arrows, for debug purposes.
 
@@ -203,6 +211,17 @@ drawLine = (start, end, color = "#888") => {
   c.lineTo(end.x, end.y);
   c.stroke();
   c.closePath();
+}
+
+// Render the scene
+draw = () => {
+  // Reset canvas
+  a.width = a.width;
+
+  // Test: draw some shapes
+  c.fillRect(100, 100, 20, 20);
+  drawPoint(Vec2(200,200));
+  drawLine(Vec2(300, 50), Vec2(400, 150));
 }</code></pre>
 
 <p><b>Links:</b>
@@ -218,51 +237,212 @@ drawLine = (start, end, color = "#888") => {
 
 <br><hr>
 
-<p><b>Chapter 6: </b>
+<p><b>Chapter 6: Shapes</b>
+
+<p>The author creates a generic Shape class to create and draw the future rigid bodies: circles and polygons.
+<p>We'll have our own version in Chapter 8.
+
+<p><b>Links:</b>
+<br>- Original:  
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=10">video </a>
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/6/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/6">source code</a> (kb)
+
+<br><hr>
+
+<p><b>Chapter 7: Compute and display the centroid of a polygon</b>
+<p>We don't need to compute polygon centroids for this project, as all our shapes will be based on circles and Rectangles.
+
+<p><b>Links:</b>
+<br>- Original:  
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=11">video 1</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=12">video 2</a>
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/7/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/7">source code</a> (7.2 kb)
+
+<br><hr>
+
+<p><b>Chapter 8: Rotating and moving shapes</b>
+
+<p>Here, we start implementing our shape objects and the methods that allow them to translate (move) and rotate.
+<p>The code below only handles circles and rectangles, but other types of polygons can be added easily.
+<p>2D rotations (around the origin [0,0]) are performed by applying a 2D rotation matrix on 2D vectors.
+<p><img src="images/2D-physics/rot.png">
+<p>2D rotations around a pivot point are done by subtracting the pivot coordinates, performing the rotation around the origin, and adding the pivot back.
+
+<p><pre><code class="lang-js">// Globals
+shapes = [];
+
+// Vector2
+rotate = (v, center, angle) => {
+  var x = v.x - center.x;
+  var y = v.y - center.y;
+  return Vec2(
+    x * Math.cos(angle) - y * Math.sin(angle) + center.x,
+    x * Math.sin(angle) + y * Math.cos(angle) + center.y
+  );
+}
+
+// Shapes
+circle = (center, radius, angle) => {
+  var shape = {
+    type: "circle",
+    center: center,
+    radius: radius,
+    angle: angle
+  };
+  
+  shapes.push(shape);
+  return shape;
+}
+
+rectangle = (center, width, height, angle) => {
+  var shape = {
+    type: "rectangle",
+    center: center,
+    width: width,
+    height: height,
+    angle: angle,
+
+    // Rectangle vertices
+    vertices: [
+      Vec2(center.x - width / 2, center.y - height / 2), // top left
+      Vec2(center.x + width / 2, center.y - height / 2), // top right
+      Vec2(center.x + width / 2, center.y + height / 2), // bottom left
+      Vec2(center.x - width / 2, center.y + height / 2)  // bottom right
+    ]
+  };
+  
+  if(angle) {
+    rotateShape(shape, angle);
+  }
+  shapes.push(shape);
+  return shape;
+};
+
+// Translate a shape
+var translateShape = (shape, offset) => {
+
+  // Move center
+  shape.center = add(shape.center, offset);
+  
+  // Rectangle (move vertex)
+  if(shape.type == "rectangle"){
+    for(var i in shape.vertices){
+      shape.vertices[i] = add(shape.vertices[i], offset);
+    }
+  }
+}
+
+// Rotate a shape around its center
+var rotateShape = (shape, angle) => {
+
+  // Update angle
+  shape.angle += angle;
+  
+  // Rectangle (rotate vertices)
+  if(shape.type == "rectangle"){
+    for(var i in shape.vertices){
+      shape.vertices[i] = rotate(shape.vertices[i], shape.center, angle);
+    }
+  }
+}
+
+// Update the physics engine
+update = () => {
+
+  // Test: translate and rotate the shapes
+  for(i of shapes){
+    rotateShape(i, .01);
+    translateShape(i, Vec2(.1, .1));
+  }
+}
+
+// Render the scene
+draw = () => {
+
+  // Reset canvas
+  a.width = a.width;
+
+  // Draw shapes
+  for(i of shapes){
+    
+    if(i.type == "circle"){
+      c.save();
+      c.beginPath();
+      c.translate(i.center.x, i.center.y);
+      c.rotate(i.angle);
+      c.arc(0, 0, i.radius, 0, 7);
+      c.lineTo(0, 0);
+      c.closePath();
+      c.stroke();
+      c.restore();
+    }
+    
+    else if(i.type == "rectangle"){
+      c.save();
+      c.beginPath();
+      c.moveTo(i.vertices[0].x, i.vertices[0].y);
+      c.lineTo(i.vertices[1].x, i.vertices[1].y);
+      c.lineTo(i.vertices[2].x, i.vertices[2].y);
+      c.lineTo(i.vertices[3].x, i.vertices[3].y);
+      c.closePath();
+      c.stroke();
+      c.restore();
+    }
+  }
+}
+
+// Demo
+circle(Vec2(100, 100), 50);
+rectangle(Vec2(400, 100), 50, 100);
+</code></pre>
 
 
 <p><b>Links:</b>
 <br>- Original:  
-<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=7">video 1</a>, 
-<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=8">video 2</a>, 
-<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=9">video 3</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/5/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/5">source code</a> (kb)
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=13">video 1</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=14">video 2</a>
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/8/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/8">source code</a> (10.8 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/5/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (kb)
+<a href="https://xem.github.io/2Dphysics/8/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> (4.0 kb)
+<p><video controls src="images/2D-physics/8.mp4" width=600></video>
+
 
 <br><hr>
 
-<p><b>Chapter 7: </b>
+<!--<p><b>Chapter 9: </b>
 
 <p><b>Links:</b>
 <br>- Original:  
-<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=7">video 1</a>, 
-<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=8">video 2</a>, 
-<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=9">video 3</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/5/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/5">source code</a> (kb)
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=13">video 1</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=14">video 2</a>
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/8/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/8">source code</a> ( kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/5/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (kb)
-
-<br><hr>
-
-<p><b>Chapter 8: </b>
-
-<br><hr>
-
-<p><b>Chapter 9: </b>
+<a href="https://xem.github.io/2Dphysics/8/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> ( kb)
 
 <br><hr>
 
 <p><b>Chapter 10: </b>
 
+<p><b>Links:</b>
+<br>- Original:  
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=13">video 1</a>, 
+<a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=14">video 2</a>
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/8/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/8">source code</a> ( kb)
+<br>- Mine:
+<a href="https://xem.github.io/2Dphysics/8/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> ( kb)
+
 <br><hr>
 
 <p>
-
+-->
 
 </main>
 
@@ -279,6 +459,7 @@ menu();
 <style>
 .inline, .inline * { display: inline; padding: 2px !important; }
 pre { display: inline-block; min-width: 40vw }
+video { max-width: 70vw; border: 2px solid; }
 </style>
 </body>
 </html>
