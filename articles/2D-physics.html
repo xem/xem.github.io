@@ -212,6 +212,7 @@ drawPoint = (center, radius = 5, color = "#888") => {
 
 drawLine = (start, end, color = "#888") => {
   c.beginPath();
+  c.lineWidth = 3;
   c.strokeStyle = color;
   c.moveTo(start.x, start.y);
   c.lineTo(end.x, end.y);
@@ -337,7 +338,7 @@ translateShape = (shape, offset) => {
   
   // Rectangle (move vertices)
   if(shape.type == "rectangle"){
-    for(i in shape.vertices){
+    for(var i in shape.vertices){
       shape.vertices[i] = add(shape.vertices[i], offset);
     }
   }
@@ -351,7 +352,7 @@ rotateShape = (shape, angle) => {
   
   // Rectangle (rotate vertices)
   if(shape.type == "rectangle"){
-    for(i in shape.vertices){
+    for(var i in shape.vertices){
       shape.vertices[i] = rotate(shape.vertices[i], shape.center, angle);
     }
   }
@@ -361,7 +362,7 @@ rotateShape = (shape, angle) => {
 update = () => {
 
   // Test: translate and rotate the shapes
-  for(i of shapes){
+  for(var i of shapes){
     rotateShape(i, .01);
     translateShape(i, Vec2(.1, .1));
   }
@@ -374,7 +375,7 @@ draw = () => {
   a.width = a.width;
 
   // Draw shapes
-  for(i of shapes){
+  for(var i of shapes){
     c.save();
     c.beginPath();
     
@@ -428,8 +429,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>Previous chapters were just setup and cosmetics, the real work starts here!
 <p>Detecting collisions between two circles is very easy and convenient: if the distance between their centers is smaller than the sum of their radii, they are colliding.
-<p>In the code below, two circles are created (c1 and c2), a distance function is added for Vec2's and when the circles collide, they get colored in red.
-<p>The collision detection is just one line in the update method, but it will be more complete in the next chapters.
+<p>In the code below, two circles are created (c1 and c2), a distance function is added for Vec2's and when the circles collide, they get colored in red. The collision detection is just one line in the update method, but it will be more complete in the next chapters.
 
 <p><pre><code class="lang-js">// 2D vectors
 dist = (v, w) => len(sub(v, w));
@@ -438,7 +438,7 @@ dist = (v, w) => len(sub(v, w));
 update = () => {
 
   // Test: rotate all shapes
-  for(i of shapes){
+  for(var i of shapes){
     rotateShape(i, .01);
   }
   
@@ -480,13 +480,13 @@ c2 = circle(Vec2(300, 120), 50);</code></pre>
 <p><b>Chapter 10: Collision manifolds</b>
 
 <p>Physics engines use manifolds (temporary objects) to store information about a collision between two shapes: 
-<p>- <b>penetration depth</b> (overlap distance)
-<p>- <b>collision normal</b> (force direction, from one shape's center to the other)
-<p>- <b>contact point</b> (where the collision takes place on the surface of the first shape)
+<p>- penetration depth (overlap distance)
+<p>- collision normal (force direction, from one shape's center to the other)
+<p>- contact point (where the collision takes place on the surface of the first shape)
 
 <p>For each pair of shapes that collide, a single manifold object is created. Both shapes will respond to the same manifold: shape A will use the collision normal to move away from shape B, and B will use the inverse of the collision normal to move away from A.
 
-Our debug methods drawPoint and drawLine are used to show the manifold information, in blue.
+<p>Our debug methods drawPoint and drawLine are used to show the manifold information, in blue.
 
 <p><pre><code class="lang-js">// Globals
 manifold = null;
@@ -526,8 +526,8 @@ draw = () => {
 
   // Debug: draw manifold
   if(manifold){
-    drawPoint(manifold.contactPoint, 5, "blue");
-    drawLine(manifold.contactPoint, add(manifold.contactPoint, scale(manifold.normal, 50)), "blue");
+    drawPoint(manifold.contactPoint, 5, "#04F");
+    drawLine(manifold.contactPoint, add(manifold.contactPoint, scale(manifold.normal, 50)), "#04F");
   }
 }</code></pre>
 
@@ -550,7 +550,9 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>Pushing overlapping shapes apart is the first mechanism that takes action in a collision response.
 
-<p>It's possible to have just one shape being pushed, or both. For example, in this chapter, only one shape (c2) is pushed, while the other (c1) moves diagonally.
+<p>It's possible to have just one shape being pushed, or both.
+
+<p>For example, in this chapter, only one shape (c2) is pushed, while the other (c1) moves diagonally.
 
 <p><pre><code class="lang-js">// Update the physics engine
 update = () => {
@@ -629,7 +631,7 @@ rotateShape = (shape, angle) => {
   
   // Rectangle (rotate vertices and recompute normals)
   if(shape.type == "rectangle"){
-    for(i in shape.vertices){
+    for(var i in shape.vertices){
       shape.vertices[i] = rotate(shape.vertices[i], shape.center, angle);
     }
     calcNormals(shape);
@@ -639,7 +641,7 @@ rotateShape = (shape, angle) => {
 // Compute the normals of a polygon
 calcNormals = shape => {
   shape.normals = [];
-  for(i = 0; i &lt; shape.vertices.length; i++){
+  for(var i = 0; i &lt; shape.vertices.length; i++){
     shape.normals.push(normal(normalize(sub(shape.vertices[(i + 1) % shape.vertices.length], shape.vertices[i]))));
   }
 }
@@ -651,7 +653,7 @@ draw = () => {
   a.width = a.width;
 
   // Draw shapes
-  for(i of shapes){
+  for(var i of shapes){
     c.save();
     c.beginPath();
     
@@ -694,12 +696,112 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br><hr>
 
 
-<!--p><b>Chapter 13: </b>
+<p><b>Chapter 13: Rectangle-rectangle collisions</b>
 
-<p>
+<p>Collisions between rectangles (or any convex polygons) are detected using the Seprating-Axis Theorem (SAT):
+<p><img src="images/2D-physics/13.png" style="border:2px solid" width=500>
+<p>The idea is to project a pair of rectangles on different axis (in theory we have one axis for each side of each polygon to test, but in the case of two rectangles, many axis are parallel - and equivalent - so 4 tests are necessary at most).
+<p>- If the projections are separated on at least one axis, the shapes are definitely not colliding.
+<p>- If the ptojections overlap on every axis, the shapes collide. We use the axis with the smallest overlap to build the collision manifold.
+<p>Contrary to circle-circle collisions, the collision normal does not point to the center of the other shape: it is perpendicular to the rectangle side that has the smallest penetration depth.
 
-<p><pre><code class="lang-js">
-</code></pre>
+
+<p><pre><code class="lang-js">// SAT: test two rectangles against each other's axis and choose the minimal penetration depth
+rectangleRectangleCollision = (r1, r2) => {
+  var contact = null;
+  
+  var contactA = getContactPoint(r1, r2);
+  if(contactA == null) return null;
+  
+  var contactB = getContactPoint(r2, r1);
+  if(contactB == null) return null;
+  
+  if(contactA.depth &lt; contactB.depth){
+    contact = contactA;
+  }
+  else {
+    contact = contactB;
+    contact.normal = scale(contact.normal, -1);
+  }
+  
+  return contact;
+}
+
+// SAT: Test all normals of rectangle 1 as potential separating axis
+getContactPoint = (r1, r2) => {
+  var contact = null;
+  var minDepth = Number.MAX_VALUE;
+  var supportPoint = null;
+  for(var i = 0; i &lt; r1.normals.length; i++){
+    supportPoint = findSupportPoint(r1.normals[i], r1.vertices[i], r2.vertices);
+    if(supportPoint == null) return null;
+    if(supportPoint.depth &lt; minDepth){
+      minDepth = supportPoint.depth;
+      contact = {
+        depth: minDepth,
+        normal: r1.normals[i],
+        contactPoint: supportPoint.vertex
+      };
+    }
+  }
+  return contact;
+}
+
+// SAT: Find which vertex from other rectangle penetrates the deepest along a given axis
+findSupportPoint = (normalOnEdge, pointOnEdge, otherPolygonVertices) => {
+  var maxDepth = 0;
+  var supportPoint = null;
+  var depth = null;
+  for(var i = 0; i &lt; otherPolygonVertices.length; i++){
+    depth = dot(sub(otherPolygonVertices[i], pointOnEdge), scale(normalOnEdge, -1));
+    if(depth > maxDepth){
+      maxDepth = depth;
+      supportPoint = {
+        vertex: otherPolygonVertices[i],
+        depth: depth
+      };
+    }
+  }
+  return supportPoint;
+}
+
+// Update the physics engine
+update = () => {
+
+  var push;
+
+  // Test: rotate all shapes
+  for(var i of shapes){
+    rotateShape(i, .01);
+  }
+  
+  // Test: translate one shape
+  translateShape(r1, Vec2(.2, .2));
+  
+  // Test: detect rectangle-rectangle collisions
+  if(r1.type == "rectangle" && r2.type == "rectangle"){
+    manifold = rectangleRectangleCollision(r1, r2);
+    if(manifold){
+      r1.color = "red";
+      r2.color = "red";
+      push = scale(manifold.normal, manifold.depth * 0.5);
+      translateShape(r2, push);
+      translateShape(r1, scale(push, -1));
+    }
+    else {
+      r1.color = "#888";
+      r2.color = "#888";
+      manifold = null;
+    }
+  }
+  
+  // (...)
+  
+}
+
+// Demo
+r1 = rectangle(Vec2(100, 100), 100, 50);
+r2 = rectangle(Vec2(230, 150), 75, 75);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -709,8 +811,11 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/13">source code</a> (16.4 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/13/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> (8.0 kb)
 
+<p><video controls src="images/2D-physics/13.mp4" width=500></video>
+
+<p>Note: in this chapter, both shapes get pushed in response to the collision.
 <br><hr>
 
 
@@ -734,7 +839,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br><hr>
 
 
-<p><b>Chapter 15: </b>
+<!--<p><b>Chapter 15: </b>
 
 <p>
 
