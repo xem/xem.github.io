@@ -419,7 +419,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/8/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> (4.0 kb)
-<p><video controls src="images/2D-physics/8.mp4" width=500></video>
+<p><video controls src="images/2D-physics/8.mp4?v=2" width=500></video>
 
 <p>Note: a horizontal radius is drawn on the discs (2D physics engines usually do that to make the discs' rotations visible).
 
@@ -429,7 +429,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>Previous chapters were just setup and cosmetics, the real work starts here!
 <p>Detecting collisions between two circles is very easy and convenient: if the distance between their centers is smaller than the sum of their radii, they are colliding.
-<p>In the code below, two circles are created (c1 and c2), a distance function is added for Vec2's and when the circles collide, they get colored in red. The collision detection is just one line in the update method, but it will be more complete in the next chapters.
+<p>In the code below, two circles are created (<b>c1</b> and <b>c2</b>), a distance function is added for Vec2's and when the circles collide, they get colored in red. The collision detection is just one line in the update method, but it will be more complete in the next chapters.
 
 <p><pre><code class="lang-js">// 2D vectors
 dist = (v, w) => len(sub(v, w));
@@ -472,7 +472,7 @@ c2 = circle(Vec2(300, 120), 50);</code></pre>
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/9/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/9">source code</a> (4.5 kb)
-<p><video controls src="images/2D-physics/9.mp4" width=500></video>
+<p><video controls src="images/2D-physics/9.mp4?v=2" width=500></video>
 
 <br><hr>
 
@@ -540,7 +540,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/10/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/10">source code</a> (5.0 kb)
-<p><video controls src="images/2D-physics/10.mp4" width=500></video>
+<p><video controls src="images/2D-physics/10.mp4?v=2" width=500></video>
 
 <br><hr>
 
@@ -598,7 +598,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://xem.github.io/2Dphysics/11/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/11">source code</a> (5.1 kb)
 
-<p><video controls src="images/2D-physics/11.mp4" width=500></video>
+<p><video controls src="images/2D-physics/11.mp4?v=2" width=500></video>
 
 <br><hr>
 
@@ -609,7 +609,8 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><img src="images/2D-physics/12.png" style="border: 2px solid">
 
-<p>In the code below, all the code specific to the circles c1 and c2 is commented and a rectangle r1 is introduced. Its normals are represented in green.
+<p>In the code below, all the code specific to the circles c1 and c2 is removed.
+<p>A rectangle <b>r1</b> is introduced. Its normals are represented in green.
 
 <p><pre><code class="lang-js">// shapes
 rectangle = (center, width, height, angle = 0, color = "#ddd") => {
@@ -691,7 +692,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://xem.github.io/2Dphysics/12/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/12">source code</a> (5.7 kb)
 
-<p><video controls src="images/2D-physics/12.mp4" width=400></video>
+<p><video controls src="images/2D-physics/12.mp4?v=2" width=400></video>
 
 <br><hr>
 
@@ -813,9 +814,9 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://xem.github.io/2Dphysics/13/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> (8.0 kb)
 
-<p><video controls src="images/2D-physics/13.mp4" width=500></video>
+<p><video controls src="images/2D-physics/13.mp4?v=2" width=500></video>
 
-<p>Note: in this chapter, both shapes get pushed in response to the collision.
+<p>Note: in this chapter, both shapes get equally pushed in response to the collision.
 <br><hr>
 
 
