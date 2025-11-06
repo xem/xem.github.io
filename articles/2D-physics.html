@@ -13,6 +13,12 @@
 .twitter-tweet { margin: 30px 0 !important; border: 3px solid #ccc; border-radius: 30px; overflow: hidden; transform: scale(.95)}
 ul { padding-left: 15px }
 </style>
+<style>
+.inline, .inline * { display: inline; padding: 2px !important; }
+pre { display: inline-block; min-width: 40vw }
+video { max-width: 70vw; border: 2px solid; }
+code, code * { font-size: 12px !important }
+</style>
 
 <div class="wrapper">
 
@@ -276,8 +282,8 @@ shapes = [];
 
 // Vector2
 rotate = (v, center, angle) => {
-  var x = v.x - center.x;
-  var y = v.y - center.y;
+  x = v.x - center.x;
+  y = v.y - center.y;
   return Vec2(
     x * Math.cos(angle) - y * Math.sin(angle) + center.x,
     x * Math.sin(angle) + y * Math.cos(angle) + center.y
@@ -286,7 +292,7 @@ rotate = (v, center, angle) => {
 
 // Shapes
 circle = (center, radius, angle = 0, color = "#ddd") => {
-  var shape = {
+  shape = {
     type: "circle",
     center: center,
     radius: radius,
@@ -299,7 +305,7 @@ circle = (center, radius, angle = 0, color = "#ddd") => {
 }
 
 rectangle = (center, width, height, angle = 0, color = "#ddd") => {
-  var shape = {
+  shape = {
     type: "rectangle",
     center: center,
     width: width,
@@ -324,28 +330,28 @@ rectangle = (center, width, height, angle = 0, color = "#ddd") => {
 };
 
 // Translate a shape
-var translateShape = (shape, offset) => {
+translateShape = (shape, offset) => {
 
   // Move center
   shape.center = add(shape.center, offset);
   
   // Rectangle (move vertices)
   if(shape.type == "rectangle"){
-    for(var i in shape.vertices){
+    for(i in shape.vertices){
       shape.vertices[i] = add(shape.vertices[i], offset);
     }
   }
 }
 
 // Rotate a shape around its center
-var rotateShape = (shape, angle) => {
+rotateShape = (shape, angle) => {
 
   // Update angle
   shape.angle += angle;
   
   // Rectangle (rotate vertices)
   if(shape.type == "rectangle"){
-    for(var i in shape.vertices){
+    for(i in shape.vertices){
       shape.vertices[i] = rotate(shape.vertices[i], shape.center, angle);
     }
   }
@@ -422,7 +428,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>Previous chapters were just setup and cosmetics, the real work starts here!
 <p>Detecting collisions between two circles is very easy and convenient: if the distance between their centers is smaller than the sum of their radii, they are colliding.
-<p>In the code below, a distance function is added for Vec2's and the colliding circles are colored in red.
+<p>In the code below, two circles are created (c1 and c2), a distance function is added for Vec2's and when the circles collide, they get colored in red.
 <p>The collision detection is just one line in the update method, but it will be more complete in the next chapters.
 
 <p><pre><code class="lang-js">// 2D vectors
@@ -594,12 +600,83 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <br><hr>
 
-<p><b>Chapter 12: </b>
+<p><b>Chapter 12: Compute polygons normals</b>
 
-<p>
+<p>For rectangles (and other polygons), each side needs a normal vector, perpendicular to it and facing outwards.
+<p>The normals stay the same when the rectangle is translated, but they must be recomputed when it's rotated.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p><img src="images/2D-physics/12.png" style="border: 2px solid">
+
+<p>In the code below, all the code specific to the circles c1 and c2 is commented and a rectangle r1 is introduced. Its normals are represented in green.
+
+<p><pre><code class="lang-js">rectangle = (center, width, height, angle = 0, color = "#ddd") => {
+  
+  // (...)
+  
+  // Normals
+  calcNormals(shape);
+  
+  shapes.push(shape);
+  return shape;
+};
+
+// Rotate a shape around its center (angle in radians)
+rotateShape = (shape, angle) => {
+
+  // Update angle
+  shape.angle += angle;
+  
+  // Rectangle (rotate vertices and recompute normals)
+  if(shape.type == "rectangle"){
+    for(i in shape.vertices){
+      shape.vertices[i] = rotate(shape.vertices[i], shape.center, angle);
+    }
+    calcNormals(shape);
+  }
+}
+
+// Compute the normals of a polygon
+calcNormals = shape => {
+  shape.normals = [];
+  for(i = 0; i &lt; shape.vertices.length; i++){
+    shape.normals.push(normal(normalize(sub(shape.vertices[(i + 1) % shape.vertices.length], shape.vertices[i]))));
+  }
+}
+
+// Render the scene
+draw = () => {
+
+  // Reset canvas
+  a.width = a.width;
+
+  // Draw shapes
+  for(i of shapes){
+    c.save();
+    c.beginPath();
+    
+    if(i.type == "circle"){
+      
+      // (...)
+      
+    }
+    
+    else if(i.type == "rectangle"){
+      
+      // (...)
+      
+      // Test: draw normals
+      for(j = 0; j &lt; 4; j++){
+        middle = scale(sub(i.vertices[(j + 1) % i.vertices.length], i.vertices[j]), .5);
+        drawLine(add(i.vertices[j], middle), add(add(i.vertices[j], middle), scale(i.normals[j], 30)), "green");
+      }
+    }
+
+    c.restore();
+  }
+
+  // (...)
+
+}</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -609,12 +686,14 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/12">source code</a> (13.6 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/12/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/12">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/12">source code</a> (5.7 kb)
+
+<p><video controls src="images/2D-physics/12.mp4" width=400></video>
 
 <br><hr>
 
 
-<p><b>Chapter 13: </b>
+<!--p><b>Chapter 13: </b>
 
 <p>
 
@@ -782,7 +861,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 <a href="https://xem.github.io/2Dphysics/20/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/20">source code</a> ( kb)
 
-<br><hr>
+<br><hr-->
 
 
 
@@ -802,6 +881,7 @@ menu();
 .inline, .inline * { display: inline; padding: 2px !important; }
 pre { display: inline-block; min-width: 40vw }
 video { max-width: 70vw; border: 2px solid; }
+code * { font-size: 12px !important }
 </style>
 </body>
 </html>
