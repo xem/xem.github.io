@@ -17,7 +17,7 @@ ul { padding-left: 15px }
 .inline, .inline * { display: inline; padding: 2px !important; }
 pre { display: inline-block; min-width: 40vw }
 video { max-width: 70vw; border: 2px solid; }
-code, code * { font-size: 12px !important }
+pre, code, code * { font-size: 13px !important; line-height: 15px !important; letter-spacing: -.3px }
 </style>
 
 <div class="wrapper">
@@ -609,7 +609,8 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>In the code below, all the code specific to the circles c1 and c2 is commented and a rectangle r1 is introduced. Its normals are represented in green.
 
-<p><pre><code class="lang-js">rectangle = (center, width, height, angle = 0, color = "#ddd") => {
+<p><pre><code class="lang-js">// shapes
+rectangle = (center, width, height, angle = 0, color = "#ddd") => {
   
   // (...)
   
