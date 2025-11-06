@@ -34,11 +34,11 @@ ul { padding-left: 15px }
 <p>The problem was that this book, as every book I could find at the time, didn't go beyond basic interactions between spheres and discs (and it definitely didn't need so many pages to do that).
 <p>Then <a href="https://link.springer.com/book/10.1007/978-1-4842-7377-7">this 599 pages book</a> released in 2022 by the same editor and some of the original authors, managed to be even more verbose in almost every aspect of 2D game mechanics, except one: advanced physics. And when I say "advanced physics", I'm not asking for really complex stuff, I just want to learn springs, fixed joints, hinge joints, and how to optimize speed and stability.
 <p>In 2021, 2022, 2023, 2024 and 2025 I tried many times to learn <a href="https://xem.github.io/articles/3D-physics.html">3D physics</a> because <a href="images/2D-physics/3D.jpg">a lot of good books actually cover this topic</a>, but I haven't managed to completely implement any of them in JS (so far)... which was quite frustrating. (but stay tuned... I will be back!)
-<p>Finally, in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, I randomly typed "2D physics JS" on Google and stumbled upon (seemingly) my holy Grail: <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS. The playlist was accompanied by <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">complete source code on Gitlab</a> and <a href="https://www.amazon.de/dp/B0FL1K2ZZ5">a physical book released in August 2025</a>!
+<p>Finally, in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, I randomly typed "2D physics JS" on Google and stumbled upon (seemingly) my holy Grail: <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS. The playlist was accompanied by <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">complete source code on Gitlab</a> and <a href="https://www.amazon.fr/dp/B0FL1K2ZZ5">a physical book released in August 2025</a>!
 
-<p>And since I'm so enthusiastic (and probably one of the 10 persons on Earth that could possibly be interested by this book), I bought it, and I'm gonna read it, write my own tiny engine based on its wisdom, and explain everything in this page. Let's go!
+<p>And since I'm so enthusiastic (and probably one of the 10 persons on Earth that could possibly be interested by this book), I bought it, and I'm gonna read it, write my own tiny engine and demos based on its wisdom, and explain everything in this page. Let's go!
 
-<p>My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial">a copy of the original Gitlab repo</a> is also there for reference and for the live demos (thanks to Github Pages).
+<p>My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial">a copy of the original Gitlab repo</a> is also present there for reference..
 
 <!--<p>Our library will only cover 2D physics in side-view, with gravity (as in Angry Birds). Top-view 2D physics (as in pool games) are identical, just gravity-less-->
 <br>
@@ -164,7 +164,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><pre><code class="lang-js">// 2D vectors
 Vec2 = (x, y) => ({x, y});
-normalize = v => scale(v, 1 / (len(v) || 1));
+normalize = v => scale(v, 1 / len(v));
 len = v => dot(v, v) ** .5;
 len2 = v => dot(v, v);
 normal = v => Vec2(v.y, -v.x);
@@ -186,11 +186,10 @@ scale = (v, n) => Vec2(v.x * n, v.y * n);
 
 <br><hr>
 
+<p><i>At this point, I finally realized that the book I had in my hands was mostly AI-generated and not (or barely) proofread. I already noticed that the same expressions were repeated too many times and the text didn't feel super natural, not to mention the AI cover, but here it gets worse: the text accompanying the source code starts saying that the code makes no sense and is probably wrong. A human author would never say such a thing about his own code. Quite disappointing for a 35€ book! That being said, let's continue reading ir because it may still lead me to a functional 2D physics engine...</i>
+<br><hr>
+
 <p><b>Chapter 5: Drawing points and arrows</b>
-
-<p><i>At this chapter, I finally realized that the book I had in my hands was 100% AI-generated and not (or barely) proofread. I already noticed that the same expressions were repeated too many times and the text didn't feel super natural, not to mention the AI cover, but here it gets worse: the text accompanying the source code starts saying that the code makes no sense and is probably wrong. A human author would never say such a thing about his own code. Quite disappointing for a 35€ book!</i>
-
-<p>That being said, let's pursue the reading because it may still lead me to a functional 2D physics engine!
 
 <p>This chapter explains how do draw bullets (filled arcs), discs (stroked arcs), lines and arrows, for debug purposes.
 
@@ -235,19 +234,20 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/5/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (1.6kb)
+<p><img src="images/2D-physics/5.png" style="border:2px solid" width=400>
 
 <br><hr>
 
 <p><b>Chapter 6: Shapes</b>
 
 <p>The author creates a generic Shape class to create and draw the future rigid bodies: circles and polygons.
-<p>We'll have our own version in Chapter 8.
+<p>We'll make our own version in Chapter 8.
 
 <p><b>Links:</b>
-<br>- Original:  
+<br>Original:  
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=10">video</a>
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/6/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/6">source code</a> (kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/6">source code</a> (7.2 kb)
 
 <br><hr>
 
@@ -255,8 +255,8 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <p>We don't need to compute polygon centroids for this project, as all our shapes will be based on circles and Rectangles.
 
 <p><b>Links:</b>
-<br>- Original:  
-video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=11">video 1</a>, 
+<br>Original:  
+video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=11">1</a>, 
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=12">2</a>,
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/7/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/7">source code</a> (7.2 kb)
@@ -265,13 +265,11 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><b>Chapter 8: Rotating and moving shapes</b>
 
-<p>Here, we start implementing our shape objects and the methods that allow them to translate (move) and rotate.
-<p>The code below only handles circles and rectangles, but other types of polygons can be added easily.
-<p>2D rotations (around the origin [0,0]) are performed by applying a 2D rotation matrix on 2D vectors.
-<p><img src="images/2D-physics/rot.png">
-<p>2D rotations around a pivot point are done by subtracting the pivot coordinates, performing the rotation around the origin, and adding the pivot back.
-<p>A color attribute is added to the shapes (it will be useful in the next chapter).
-<p>A horizontal line is added to the discs (2D physics engines do that to show the discs' rotations).
+<p>Here, we start implementing our shape objects (circle and rectangle) and the methods that allow them to translate (move) and rotate.
+<p>- Translations are performed by adding an offset vector to the shape's center (and its vertices, if it's a rectangle).
+<p>- 2D rotations (around the origin [0,0]) are performed by applying a 2D rotation matrix on 2D vectors.
+<p><img src="images/2D-physics/rot.png" width=400>
+<p>- 2D rotations around a pivot point are done by subtracting the pivot point's coordinates from the point, rotating the point around the origin, and adding the pivot point back. A Vec2 function is added to perform these kinds of rotations.
 
 <p><pre><code class="lang-js">// Globals
 shapes = [];
@@ -331,7 +329,7 @@ var translateShape = (shape, offset) => {
   // Move center
   shape.center = add(shape.center, offset);
   
-  // Rectangle (move vertex)
+  // Rectangle (move vertices)
   if(shape.type == "rectangle"){
     for(var i in shape.vertices){
       shape.vertices[i] = add(shape.vertices[i], offset);
@@ -416,6 +414,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> (4.0 kb)
 <p><video controls src="images/2D-physics/8.mp4" width=500></video>
 
+<p>Note: a horizontal radius is drawn on the discs (2D physics engines usually do that to make the discs' rotations visible).
 
 <br><hr>
 
@@ -423,15 +422,11 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>Previous chapters were just setup and cosmetics, the real work starts here!
 <p>Detecting collisions between two circles is very easy and convenient: if the distance between their centers is smaller than the sum of their radii, they are colliding.
-<p>A distance function is added for Vec2's.
-<p>The colliding shapes are colored in red.
+<p>In the code below, a distance function is added for Vec2's and the colliding circles are colored in red.
+<p>The collision detection is just one line in the update method, but it will be more complete in the next chapters.
 
 <p><pre><code class="lang-js">// 2D vectors
 dist = (v, w) => len(sub(v, w));
-
-// Demo
-c1 = circle(Vec2(100, 100), 50);
-c2 = circle(Vec2(300, 120), 50);
 
 // Update the physics engine
 update = () => {
@@ -456,7 +451,11 @@ update = () => {
       c2.color = "#ddd";
     }
   }
-}</code></pre>
+}
+
+// Demo
+c1 = circle(Vec2(100, 100), 50);
+c2 = circle(Vec2(300, 120), 50);</code></pre>
 
 
 <p><b>Links:</b>
@@ -474,10 +473,57 @@ update = () => {
 
 <p><b>Chapter 10: Collision manifolds</b>
 
-<p>
+<p>Physics engines use manifolds (temporary objects) to store information about a collision between two shapes: 
+<p>- <b>penetration depth</b> (overlap distance)
+<p>- <b>collision normal</b> (force direction, from one shape's center to the other)
+<p>- <b>contact point</b> (where the collision takes place on the surface of the first shape)
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p>For each pair of shapes that collide, a single manifold object is created. Both shapes will respond to the same manifold: shape A will use the collision normal to move away from shape B, and B will use the inverse of the collision normal to move away from A.
+
+Our debug methods drawPoint and drawLine are used to show the manifold information, in blue.
+
+<p><pre><code class="lang-js">// Globals
+manifold = null;
+
+// Update the physics engine
+update = () => {
+
+  // (...)
+  
+  // Test: detect circle-circle collisions
+  if(c1.type == "circle" && c2.type == "circle"){
+    direction = sub(c2.center, c1.center);
+    distance = dist(c1.center, c2.center);
+    if(distance &lt; (c1.radius + c2.radius)){
+    
+      manifold = {
+        depth: (c1.radius + c2.radius) - distance,
+        normal: normalize(direction),
+        contactPoint: add(c1.center, scale(normalize(direction), c1.radius))
+      };
+      
+      c1.color = "red";
+      c2.color = "red";
+    }
+    else {
+      c1.color = "#ddd";
+      c2.color = "#ddd";
+      manifold = null;
+    }
+  }
+}
+
+// Render the scene
+draw = () => {
+
+  // (...)
+
+  // Debug: draw manifold
+  if(manifold){
+    drawPoint(manifold.contactPoint, 5, "blue");
+    drawLine(manifold.contactPoint, add(manifold.contactPoint, scale(manifold.normal, 50)), "blue");
+  }
+}</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -487,13 +533,14 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/10">source code</a> (12.2 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/10/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/10">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/10">source code</a> (5.0 kb)
+<p><video controls src="images/2D-physics/9.mp4" width=500></video>
 
 <br><hr>
 
 
 
-<p><b>Chapter 11: </b>
+<p><b>Chapter 11: Pushing circles apart</b>
 
 <p>
 
