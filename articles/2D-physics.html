@@ -160,7 +160,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><img src="images/2D-physics/dir.png" style="float:right; margin: 0 20px 20px; width: 200px"><b>Chapter 4: 2D vectors</b>
 <p>2D vectors are objects containing two values (x and y).<p>They can represent a point (with x and y coordinates) or a movement (with x and y offsets).
-<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now).
+<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now). Each of these functions returns a new Vec2.
 
 <p><pre><code class="lang-js">// 2D vectors
 Vec2 = (x, y) => ({x, y});
@@ -169,7 +169,7 @@ len = v => dot(v, v) ** .5;
 len2 = v => dot(v, v);
 normal = v => Vec2(v.y, -v.x);
 dot = (v, w) => v.x * w.x + v.y * w.y;
-copy = v => Vac2(v.x, v.y);
+copy = v => Vec2(v.x, v.y);
 add = (v, w) => Vec2(v.x + w.x, v.y + w.y);
 sub = (v, w) => add(v, scale(w, -1));
 scale = (v, n) => Vec2(v.x * n, v.y * n);
@@ -534,7 +534,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/10/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/10">source code</a> (5.0 kb)
-<p><video controls src="images/2D-physics/9.mp4" width=500></video>
+<p><video controls src="images/2D-physics/10.mp4" width=500></video>
 
 <br><hr>
 
@@ -542,10 +542,43 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><b>Chapter 11: Pushing circles apart</b>
 
-<p>
+<p>Pushing overlapping shapes apart is the first mechanism that takes action in a collision response.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p>It's possible to have just one shape being pushed, or both. For example, in this chapter, only one shape (c2) is pushed, while the other (c1) moves diagonally.
+
+<p><pre><code class="lang-js">// Update the physics engine
+update = () => {
+
+  // (...)
+  
+  // Test: translate one shape
+  translateShape(c1, Vec2(.2, .2));
+  
+  // Test: detect circle-circle collisions
+  if(c1.type == "circle" && c2.type == "circle"){
+    direction = sub(c2.center, c1.center);
+    distance = dist(c1.center, c2.center);
+    if(distance &lt; (c1.radius + c2.radius)){
+    
+      manifold = {
+        depth: (c1.radius + c2.radius) - distance,
+        normal: normalize(direction),
+        contactPoint: add(c1.center, scale(normalize(direction), c1.radius))
+      };
+      
+      // Push c2
+      c2.center = add(c2.center, scale(manifold.normal, manifold.depth));
+      
+      c1.color = "red";
+      c2.color = "red";
+    }
+    else {
+      c1.color = "#ddd";
+      c2.color = "#ddd";
+      manifold = null;
+    }
+  }
+}</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -555,7 +588,9 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/11">source code</a> (13 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/11/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/11">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/11">source code</a> (5.1 kb)
+
+<p><video controls src="images/2D-physics/11.mp4" width=500></video>
 
 <br><hr>
 
