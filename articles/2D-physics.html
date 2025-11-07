@@ -17,7 +17,7 @@ ul { padding-left: 15px }
 .inline, .inline * { display: inline; padding: 2px !important; }
 pre { display: inline-block; min-width: 40vw }
 video { max-width: 70vw; border: 2px solid; }
-pre, code, code * { font-size: 13px !important; line-height: 15px !important; letter-spacing: -.3px }
+pre, code, code * { font-size: 13px !important; line-height: 16px !important; letter-spacing: -.3px }
 </style>
 
 <div class="wrapper">
@@ -50,6 +50,10 @@ pre, code, code * { font-size: 13px !important; line-height: 15px !important; le
 <br>
 <br><hr>
 
+
+
+
+
 <p><b>Chapter 1: Setting up a Canvas</b>
 <p>Here we'll keep the HTML code to the absolute minimum: doctype, canvas and script tags.
 <p>The canvas is called <b>a</b> and the 2D context <b>c</b>.
@@ -76,6 +80,11 @@ c = a.getContext("2d");
 <p><i>From now on, the code snippets in each chapter will show what was added or modified in my Javascript code.</i>
 <br><hr>
 
+
+
+
+
+
 <p><b>Chapter 2: Main loop</b>
 
 
@@ -98,6 +107,10 @@ setInterval(() => {
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/2">source code</a> (0.2kb)
 
 <br><hr>
+
+
+
+
 
 <p><b>Chapter 3: Mouse and keyboard events / Simulation class</b>
 
@@ -164,7 +177,12 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <br><hr>
 
-<p><img src="images/2D-physics/dir.png" style="float:right; margin: 0 20px 20px; width: 200px"><b>Chapter 4: 2D vectors</b>
+
+
+
+
+<p><img src="images/2D-physics/dir.png" style="float:right; margin: 0 20px 20px; width: 200px">
+<b>Chapter 4: 2D vectors</b>
 <p>2D vectors are objects containing two values (x and y).<p>They can represent a point (with x and y coordinates) or a movement (with x and y offsets).
 <p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now). Each of these functions returns a new Vec2.
 
@@ -194,6 +212,8 @@ scale = (v, n) => Vec2(v.x * n, v.y * n);
 
 <p><i>At this point, I finally realized that the book I had in my hands was mostly AI-generated and not (or barely) proofread. I already noticed that the same expressions were repeated too many times and the text didn't feel super natural, not to mention the AI cover, but here it gets worse: the text accompanying the source code starts saying that the code makes no sense and is probably wrong. A human author would never say such a thing about his own code. Quite disappointing for a 35€ book! That being said, let's continue reading ir because it may still lead me to a functional 2D physics engine...</i>
 <br><hr>
+
+
 
 
 
@@ -243,7 +263,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/5">source code</a> (5.6kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/5/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (1.6kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (1.7kb)
 <p><img src="images/2D-physics/5.png" style="border:2px solid" width=400>
 
 <br><hr>
@@ -280,6 +300,11 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/7">source code</a> (7.2 kb)
 
 <br><hr>
+
+
+
+
+
 
 <p><b>Chapter 8: Rotating and moving shapes</b>
 
@@ -429,7 +454,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/8">source code</a> (10.8 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/8/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> (4.0 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> (4.1 kb)
 <p><video controls src="images/2D-physics/8.mp4?v=3" width=500></video>
 
 <p>Note: a horizontal radius is drawn on the discs (2D physics engines usually do that to make the discs' rotations visible).
@@ -491,6 +516,9 @@ c2 = circle(Vec2(80, 100), 60);</code></pre>
 <p><video controls src="images/2D-physics/9.mp4?v=3" width=500></video>
 
 <br><hr>
+
+
+
 
 
 <p><b>Chapter 10: Collision manifolds</b>
@@ -628,7 +656,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><b>Chapter 12: Compute polygons normals</b>
 
-<p>For rectangles (and other polygons), each side needs a normal vector, perpendicular to it and facing outwards.
+<p>For rectangles (and other polygons), each edge (side) needs a normal vector, perpendicular to it and facing outwards.
 <p>The normals stay the same when the rectangle is translated, but they must be recomputed when it's rotated.
 
 <p><img src="images/2D-physics/12.png" style="border: 2px solid">
@@ -714,7 +742,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/12">source code</a> (13.6 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/12/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/12">source code</a> (5.7 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/12">source code</a> (4.9 kb)
 
 <p><video controls src="images/2D-physics/12.mp4?v=3" width=400></video>
 
@@ -727,10 +755,10 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>Collisions between rectangles (or any convex polygons) are detected using the Seprating-Axis Theorem (SAT):
 <p><img src="images/2D-physics/13.png" style="border:2px solid" width=500>
-<p>The idea is to project a pair of rectangles on different axis (one axis for each side of each polygon to test).
+<p>The idea is to project a pair of rectangles on different axis (one axis for each edge of each polygon to test).
 <p>- If the projections are separated on at least one axis, the shapes are definitely not colliding.
 <p>- If the ptojections overlap on every axis, the shapes collide. We use the axis with the smallest overlap to build the collision manifold.
-<p>Contrary to circle-circle collisions, the collision normal does not point to the center of the other shape: it is perpendicular to the rectangle side that has the smallest penetration depth.
+<p>Contrary to circle-circle collisions, the collision normal does not point to the center of the other shape: it is perpendicular to the rectangle edge that has the smallest penetration depth.
 <p>In this chapter, we create three rectangles, and for each pair of rectangles, if a collision is detected, both shapes get pushed away from each other with the same force. The manifolds are put in an array, drawn in blue, and are attached to the first vertex of the axis that detects the collision.
 
 <p><pre><code class="lang-js">// Globals
@@ -861,18 +889,128 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/13">source code</a> (16.4 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/13/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> (8.0 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> (7.3 kb)
 
 <p><video controls src="images/2D-physics/13.mp4?v=3" width=500></video>
 <br><hr>
 
 
-<p><b>Chapter 14: </b>
+<p><b>Chapter 14: Circle-rectangle collisions</b>
+
+<p>To detect a collision between a rectangle and a circle, we need to find which point of the rectangle is closest to the center of the circle. This point can be a corner, or any point on one edge of the rectangle.
 
 <p>
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p><pre><code class="lang-js">// circle-rectangle collision
+circleRectangleCollision = (circle, rectangle) => {
+  var contact = circleVsRectangleEdges(circle, rectangle);
+  if(!contact){
+    contact = circleVsRectangleCorners(circle, rectangle);
+  }
+  return contact;
+}
+
+circleVsRectangleEdges = (circle, rectangle) => {
+  var nearestEdgeVertex = null;
+  var nearestEdgeNormal = null;
+  var dirToNext, circleDirToNextProjection, circleDirToNormalProjection;
+  
+  for(var i = 0; i &lt; rectangle.vertices.length; i++){
+    vertToCircle = sub(circle.center, rectangle.vertices[i]);
+    dirToNext = sub(rectangle.vertices[(i + 1) % rectangle.vertices.length], rectangle.vertices[i]);
+    circleDirToNextProjection = dot(vertToCircle, normalize(dirToNext));
+    circleDirToNormalProjection = dot(vertToCircle, rectangle.normals[i]);
+    
+    if(circleDirToNormalProjection >= 0 && circleDirToNextProjection > 0 && circleDirToNextProjection &lt; len(dirToNext)){
+      nearestEdgeNormal = rectangle.normals[i];
+      nearestEdgeVertex = rectangle.vertices[i];
+    }
+  }
+
+  if(nearestEdgeNormal == null || nearestEdgeVertex == null){
+    return null;
+  }
+
+  var projectionToEdgeNormal = dot(nearestEdgeNormal, sub(circle.center, nearestEdgeVertex));
+  if(projectionToEdgeNormal - circle.radius &lt; 0){
+    return {
+      depth: -(projectionToEdgeNormal - circle.radius),
+      normal: scale(nearestEdgeNormal, -1),
+      contactPoint: add(circle.center, scale(nearestEdgeNormal, -circle.radius))
+    };
+  }
+  return null;
+}
+
+circleVsRectangleCorners = (circle, rectangle) => {
+  var dirToCircleCenter;
+  for(var i = 0; i &lt; rectangle.vertices.length; i++){
+    dirToCircleCenter = sub(rectangle.vertices[i], circle.center);
+    if(len2(dirToCircleCenter) &lt; (circle.radius ** 2)){
+      return {
+        depth: circle.radius - len(dirToCircleCenter),
+        normal: normalize(dirToCircleCenter),
+        contactPoint: rectangle.vertices[i]
+      };
+    }
+  }
+  return null;
+}
+
+// Update the physics engine
+update = () => {
+
+  var push, manifold, circle, rectangle;
+  
+  // Reset manifolds
+  manifolds = [];
+  
+  // Reset shapes colors
+  for(var i of shapes){
+    i.color = "#888";
+  }
+
+  // Test: rotate a shape
+  rotateShape(r1, -.01);
+  
+  // Test: translate a shape
+  translateShape(r1, Vec2(.2, .1));
+  
+  // Consider all pairs of shapes
+  for(var i = 0; i &lt; shapes.length; i++){
+    for(var j = i; j &lt; shapes.length; j++){
+      if(i != j){
+        
+        // Detect circle-rectangle collisions
+        if(shapes[i].type == "rectangle" && shapes[j].type == "circle"){
+          rectangle = shapes[i];
+          circle = shapes[j];
+          manifold = circleRectangleCollision(circle, rectangle);
+        }
+        
+        else if(shapes[i].type == "circle" && shapes[j].type == "rectangle"){
+          circle = shapes[i];
+          rectangle = shapes[j];
+          manifold = circleRectangleCollision(circle, rectangle);
+        }
+        
+        // Collision response
+        if(manifold){
+          circle.color = "red";
+          rectangle.color = "red";
+          push = scale(manifold.normal, manifold.depth * 0.5);
+          translateShape(rectangle, push);
+          translateShape(circle, scale(push, -1));
+          manifolds.push(manifold);
+        }
+      }
+    }
+  }
+}
+
+// Demo
+r1 = rectangle(Vec2(80, 60), 120, 50);
+c2 = circle(Vec2(180, 130), 50);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -882,7 +1020,8 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/14">source code</a> (19.1 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/14/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/14">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/14">source code</a> (9.5 kb)
+<p><video controls src="images/2D-physics/14.mp4?v=3" width=500></video>
 
 <br><hr>
 
@@ -1031,11 +1170,5 @@ header();
 footer();
 menu();
 </script>
-<style>
-.inline, .inline * { display: inline; padding: 2px !important; }
-pre { display: inline-block; min-width: 40vw }
-video { max-width: 70vw; border: 2px solid; }
-code * { font-size: 12px !important }
-</style>
 </body>
 </html>
