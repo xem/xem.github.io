@@ -195,6 +195,9 @@ scale = (v, n) => Vec2(v.x * n, v.y * n);
 <p><i>At this point, I finally realized that the book I had in my hands was mostly AI-generated and not (or barely) proofread. I already noticed that the same expressions were repeated too many times and the text didn't feel super natural, not to mention the AI cover, but here it gets worse: the text accompanying the source code starts saying that the code makes no sense and is probably wrong. A human author would never say such a thing about his own code. Quite disappointing for a 35€ book! That being said, let's continue reading ir because it may still lead me to a functional 2D physics engine...</i>
 <br><hr>
 
+
+
+
 <p><b>Chapter 5: Drawing points and arrows</b>
 
 <p>This chapter explains how do draw bullets (filled arcs), discs (stroked arcs), lines and arrows, for debug purposes.
@@ -245,6 +248,10 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <br><hr>
 
+
+
+
+
 <p><b>Chapter 6: Shapes</b>
 
 <p>The author creates a generic Shape class to create and draw the future rigid bodies: circles and polygons.
@@ -257,6 +264,10 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/6">source code</a> (7.2 kb)
 
 <br><hr>
+
+
+
+
 
 <p><b>Chapter 7: Compute and display the centroid of a polygon</b>
 <p>We don't need to compute polygon centroids for this project, as all our shapes will be based on circles and Rectangles.
@@ -292,7 +303,7 @@ rotate = (v, center, angle) => {
 }
 
 // Shapes
-circle = (center, radius, angle = 0, color = "#ddd") => {
+circle = (center, radius, angle = 0, color = "#888") => {
   shape = {
     type: "circle",
     center: center,
@@ -305,7 +316,7 @@ circle = (center, radius, angle = 0, color = "#ddd") => {
   return shape;
 }
 
-rectangle = (center, width, height, angle = 0, color = "#ddd") => {
+rectangle = (center, width, height, angle = 0, color = "#888") => {
   shape = {
     type: "rectangle",
     center: center,
@@ -364,7 +375,7 @@ update = () => {
   // Test: translate and rotate the shapes
   for(var i of shapes){
     rotateShape(i, .01);
-    translateShape(i, Vec2(.1, .1));
+    translateShape(i, Vec2(.2, .2));
   }
 }
 
@@ -406,8 +417,8 @@ draw = () => {
 }
 
 // Demo
-circle(Vec2(100, 100), 50);
-rectangle(Vec2(400, 100), 50, 100);</code></pre>
+circle(Vec2(100, 100), 60);
+rectangle(Vec2(250, 100), 60, 100);</code></pre>
 
 
 <p><b>Links:</b>
@@ -419,11 +430,16 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/8/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> (4.0 kb)
-<p><video controls src="images/2D-physics/8.mp4?v=2" width=500></video>
+<p><video controls src="images/2D-physics/8.mp4?v=3" width=500></video>
 
 <p>Note: a horizontal radius is drawn on the discs (2D physics engines usually do that to make the discs' rotations visible).
 
 <br><hr>
+
+
+
+
+
 
 <p><b>Chapter 9: Circle-circle collision detection</b>
 
@@ -443,8 +459,8 @@ update = () => {
   }
   
   // Test: translate each shape
-  translateShape(c1, Vec2(.1, .1));
-  translateShape(c2, Vec2(-.1, .1));
+  translateShape(c1, Vec2(-.2, .2));
+  translateShape(c2, Vec2(.2, .2));
   
   // Test: detect circle-circle collisions
   if(c1.type == "circle" && c2.type == "circle"){
@@ -453,15 +469,15 @@ update = () => {
       c2.color = "red";
     }
     else {
-      c1.color = "#ddd";
-      c2.color = "#ddd";
+      c1.color = "#888";
+      c2.color = "#888";
     }
   }
 }
 
 // Demo
-c1 = circle(Vec2(100, 100), 50);
-c2 = circle(Vec2(300, 120), 50);</code></pre>
+c1 = circle(Vec2(220, 140), 60);
+c2 = circle(Vec2(80, 100), 60);</code></pre>
 
 
 <p><b>Links:</b>
@@ -472,7 +488,7 @@ c2 = circle(Vec2(300, 120), 50);</code></pre>
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/9/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/9">source code</a> (4.5 kb)
-<p><video controls src="images/2D-physics/9.mp4?v=2" width=500></video>
+<p><video controls src="images/2D-physics/9.mp4?v=3" width=500></video>
 
 <br><hr>
 
@@ -512,8 +528,8 @@ update = () => {
       c2.color = "red";
     }
     else {
-      c1.color = "#ddd";
-      c2.color = "#ddd";
+      c1.color = "#888";
+      c2.color = "#888";
       manifold = null;
     }
   }
@@ -540,9 +556,12 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/10/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/10">source code</a> (5.0 kb)
-<p><video controls src="images/2D-physics/10.mp4?v=2" width=500></video>
+<p><video controls src="images/2D-physics/10.mp4?v=3" width=500></video>
 
 <br><hr>
+
+
+
 
 
 
@@ -581,8 +600,8 @@ update = () => {
       c2.color = "red";
     }
     else {
-      c1.color = "#ddd";
-      c2.color = "#ddd";
+      c1.color = "#888";
+      c2.color = "#888";
       manifold = null;
     }
   }
@@ -598,9 +617,14 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://xem.github.io/2Dphysics/11/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/11">source code</a> (5.1 kb)
 
-<p><video controls src="images/2D-physics/11.mp4?v=2" width=500></video>
+<p><video controls src="images/2D-physics/11.mp4?v=3" width=500></video>
 
 <br><hr>
+
+
+
+
+
 
 <p><b>Chapter 12: Compute polygons normals</b>
 
@@ -613,7 +637,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <p>A rectangle <b>r1</b> is introduced. Its normals are represented in green.
 
 <p><pre><code class="lang-js">// shapes
-rectangle = (center, width, height, angle = 0, color = "#ddd") => {
+rectangle = (center, width, height, angle = 0, color = "#888") => {
   
   // (...)
   
@@ -692,22 +716,27 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://xem.github.io/2Dphysics/12/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/12">source code</a> (5.7 kb)
 
-<p><video controls src="images/2D-physics/12.mp4?v=2" width=400></video>
+<p><video controls src="images/2D-physics/12.mp4?v=3" width=400></video>
 
 <br><hr>
+
+
 
 
 <p><b>Chapter 13: Rectangle-rectangle collisions</b>
 
 <p>Collisions between rectangles (or any convex polygons) are detected using the Seprating-Axis Theorem (SAT):
 <p><img src="images/2D-physics/13.png" style="border:2px solid" width=500>
-<p>The idea is to project a pair of rectangles on different axis (in theory we have one axis for each side of each polygon to test, but in the case of two rectangles, many axis are parallel - and equivalent - so 4 tests are necessary at most).
+<p>The idea is to project a pair of rectangles on different axis (one axis for each side of each polygon to test).
 <p>- If the projections are separated on at least one axis, the shapes are definitely not colliding.
 <p>- If the ptojections overlap on every axis, the shapes collide. We use the axis with the smallest overlap to build the collision manifold.
 <p>Contrary to circle-circle collisions, the collision normal does not point to the center of the other shape: it is perpendicular to the rectangle side that has the smallest penetration depth.
+<p>In this chapter, we create three rectangles, and for each pair of rectangles, if a collision is detected, both shapes get pushed away from each other with the same force. The manifolds are put in an array, drawn in blue, and are attached to the first vertex of the axis that detects the collision.
 
+<p><pre><code class="lang-js">// Globals
+manifolds = [];
 
-<p><pre><code class="lang-js">// SAT: test two rectangles against each other's axis and choose the minimal penetration depth
+// SAT: test two rectangles against each other's axis and choose the minimal penetration depth
 rectangleRectangleCollision = (r1, r2) => {
   var contact = null;
   
@@ -769,40 +798,60 @@ findSupportPoint = (normalOnEdge, pointOnEdge, otherPolygonVertices) => {
 // Update the physics engine
 update = () => {
 
-  var push;
-
-  // Test: rotate all shapes
-  for(var i of shapes){
-    rotateShape(i, .01);
-  }
+  var push, manifold;
   
-  // Test: translate one shape
+  // Reset manifolds
+  manifolds = [];
+  
+  // Reset shapes colors
+  for(var i of shapes){
+    i.color = "#888";
+  }
+
+  // Test: rotate a shape
+  rotateShape(r1, -.01);
+  
+  // Test: translate a shape
   translateShape(r1, Vec2(.2, .2));
   
-  // Test: detect rectangle-rectangle collisions
-  if(r1.type == "rectangle" && r2.type == "rectangle"){
-    manifold = rectangleRectangleCollision(r1, r2);
-    if(manifold){
-      r1.color = "red";
-      r2.color = "red";
-      push = scale(manifold.normal, manifold.depth * 0.5);
-      translateShape(r2, push);
-      translateShape(r1, scale(push, -1));
-    }
-    else {
-      r1.color = "#888";
-      r2.color = "#888";
-      manifold = null;
+  // Consider all pairs of shapes
+  for(var i = 0; i &lt; shapes.length; i++){
+    for(var j = i; j &lt; shapes.length; j++){
+      if(i != j){
+        
+        // Detect rectangle-rectangle collisions
+        if(shapes[i].type == "rectangle" && shapes[j].type == "rectangle"){
+          manifold = rectangleRectangleCollision(shapes[i], shapes[j]);
+          if(manifold){
+            shapes[i].color = "red";
+            shapes[j].color = "red";
+            push = scale(manifold.normal, manifold.depth * 0.5);
+            translateShape(shapes[j], push);
+            translateShape(shapes[i], scale(push, -1));
+            manifolds.push(manifold);
+          }
+        }
+      }
     }
   }
+}
+
+// Render the scene
+draw = () => {
   
   // (...)
   
+  // Debug: draw manifolds
+  for(var i of manifolds){
+    drawPoint(i.contactPoint, 5, "#04F");
+    drawLine(i.contactPoint, add(i.contactPoint, scale(i.normal, 50)), "#04F");
+  }
 }
 
 // Demo
-r1 = rectangle(Vec2(100, 100), 100, 50);
-r2 = rectangle(Vec2(230, 150), 75, 75);</code></pre>
+r1 = rectangle(Vec2(100, 60), 100, 50);
+r2 = rectangle(Vec2(180, 170), 75, 75);
+r3 = rectangle(Vec2(240, 150), 20, 50);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -814,9 +863,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://xem.github.io/2Dphysics/13/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> (8.0 kb)
 
-<p><video controls src="images/2D-physics/13.mp4?v=2" width=500></video>
-
-<p>Note: in this chapter, both shapes get equally pushed in response to the collision.
+<p><video controls src="images/2D-physics/13.mp4?v=3" width=500></video>
 <br><hr>
 
 
