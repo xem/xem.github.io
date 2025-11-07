@@ -1026,12 +1026,58 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br><hr>
 
 
-<!--<p><b>Chapter 15: </b>
+<p><b>Chapter 15: RigidBody</b>
 
-<p>
+<p>This chapter introduces a rigidBody class with new properties: mass, invMass, forceAccumulator and velocity.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p>For simplicity, we will simply add them to our circles and rectangles.
+
+<p>- Mass is a number representing the object's weight. 
+
+<p>- Velocity is a Vec2 representing the object's speed.
+
+<p>- In physics, all forces applied to an object (gravity, friction, collision restitutions...) are equivalent to a single force equal to their sum.<br>We introduce forceAccumulator to represent this sum, and it is a Vec2.
+
+<p>- According to Newton's Law (F = ma or a = F/m), the acceleration (change of velocity) applied to an object is equal to its force accumulator divided by its mass. We introduce an invMass (1/mass) attribute specifically to avoid doing this expensive division repeatedly.
+
+<p>Fixed objects will have a mass equal to 0 and an invMass equal to 1/0 = Infinity.
+
+
+
+
+<p><pre><code class="lang-js">// Shapes
+circle = (center, radius, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
+  shape = {
+    type: "circle",
+    center: center,
+    radius: radius,
+    mass: mass,
+    invMass: 1 / mass,
+    velocity: velocity,
+    forceAccumulator: Vec2(0, 0),
+    angle: angle,
+    color: color
+  };
+  
+  shapes.push(shape);
+  return shape;
+}
+
+rectangle = (center, width, height, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
+  shape = {
+    type: "rectangle",
+    center: center,
+    width: width,
+    height: height,
+    mass: mass,
+    invMass: 1 / mass,
+    velocity: velocity,
+    forceAccumulator: Vec2(0, 0),
+    angle: angle,
+    color: color,
+
+    // (...)
+};</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1040,13 +1086,12 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/15/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/15">source code</a> (19.4 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/15/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/15">source code</a> ( kb)
+<a href="https://xem.github.io/2Dphysics/15/">demo</a> (nothing to see there), <a href="https://github.com/xem/2Dphysics/tree/gh-pages/15">source code</a> (9.7 kb),
 
 <br><hr>
 
 
-<p><b>Chapter 16: </b>
+<!--<p><b>Chapter 16: </b>
 
 <p>
 
