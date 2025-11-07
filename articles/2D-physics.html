@@ -1036,7 +1036,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>- Velocity is a Vec2 representing the object's speed.
 
-<p>- In physics, all forces applied to an object (gravity, friction, collision restitutions...) are equivalent to a single force equal to their sum.<br>We introduce forceAccumulator to represent this sum, and it is a Vec2.
+<p>- In physics, all forces applied to an object (gravity, friction, collision restitutions...) are equivalent to a single force equal to their sum.<br>We introduce a forceAccumulator Vec2 to represent this sum, and it wil replace all the code that modified the shapes position until now.
 
 <p>- According to Newton's Law (F = ma or a = F/m), the acceleration (change of velocity) applied to an object is equal to its force accumulator divided by its mass. We introduce an invMass (1/mass) attribute specifically to avoid doing this expensive division repeatedly.
 
@@ -1090,10 +1090,9 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <br><hr>
 
+<p><b>Chapter 16: Combining RigidBody and Shapes</b>
 
-<!--<p><b>Chapter 16: </b>
-
-<p>
+<p>This doesn't concern us because our shapes are already functional rigid bodies.
 
 <p><pre><code class="lang-js">
 </code></pre>
@@ -1104,14 +1103,11 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=">2</a>
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/16/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/16">source code</a> (18.9 kb)
-<br>- Mine:
-<a href="https://xem.github.io/2Dphysics/16/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/16">source code</a> ( kb)
 
 <br><hr>
 
 
-<p><b>Chapter 17: </b>
+<!--p><b>Chapter 17: </b>
 
 <p>
 
