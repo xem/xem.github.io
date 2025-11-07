@@ -1119,7 +1119,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>Integration consists in computing the shape's acceleration, velocity and position at the end of a frame.
 
-<p>The code below uses the semi-Euler method which is a good compromise between simplicity and stability.
+<p>The code below uses the semi-implicit Euler method, which is a good compromise between simplicity and stability.
 
 <p>According to Newton's first law of motion, objects keep the same trajectory and speed as long as they don't encounter another force.
 
@@ -1175,12 +1175,9 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 
 
-<!--p><b>Chapter 18: </b>
+<p><b>Chapter 18: Other integration methods</b>
 
-<p>
-
-<p><pre><code class="lang-js">
-</code></pre>
+<p>This chapter explores other ways to integrate rigid bodies. We'll ignore it for now.
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1188,9 +1185,6 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=">2</a>
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/18/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/18">source code</a> (21.1 kb)
-<br>- Mine:
-<a href="https://xem.github.io/2Dphysics/18/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/18">source code</a> ( kb)
 
 <br><hr>
 
@@ -1200,12 +1194,45 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 
 
-<p><b>Chapter 19: </b>
+<p><b>Chapter 19: Bouncing balls</b>
 
-<p>
+<p>This chapter introduces mechanics that make balls (circles) behave realistically: gravity, bouncing, friction and velocity attenuation over time (called damping).
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p>The bouncing on the ground is currently implemented by inverting the ball's velocity when it reaches a certain height threshold.
+
+<p><pre><code class="lang-js">// Shape integration
+integrate = (shape, deltaTime) => {
+  var acceleration = scale(shape.forceAccumulator, shape.invMass); // compute acceleration
+	shape.velocity = add(shape.velocity, scale(acceleration, 1)); // apply acceleration to velocity
+	translateShape(shape, scale(shape.velocity, 1)); // apply velocity to position
+	shape.forceAccumulator = Vec2(0, 0); // reset force accumulator
+  shape.velocity = scale(shape.velocity, .99); // velocity damping
+}
+
+// Update the physics engine
+update = () => {
+
+  // (...)
+  
+  // Ball update
+  for(i of shapes){
+  
+    // Apply gravity
+    i.forceAccumulator = add(i.forceAccumulator, gravity);
+    
+    // Integration
+    integrate(i, deltaTime);
+
+    // Bouncing (temp)
+    if(i.center.y > 300){
+      i.center.y = 300;
+      i.velocity = scale(i.velocity, -1);
+    }
+  }
+}
+
+// Demo
+c1 = circle(Vec2(100, 100), 20);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1218,7 +1245,8 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/19/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/19">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/19">source code</a> (9.4 kb)
+<p><video controls src="images/2D-physics/17.mp4?v=3" width=500></video>
 
 <br><hr>
 
