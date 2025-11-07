@@ -1026,6 +1026,11 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br><hr>
 
 
+
+
+
+
+
 <p><b>Chapter 15: RigidBody</b>
 
 <p>This chapter introduces a rigidBody class with new properties: mass, invMass, forceAccumulator and velocity.
@@ -1034,16 +1039,13 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>- Mass is a number representing the object's weight. 
 
-<p>- Velocity is a Vec2 representing the object's speed.
+<p>- Velocity is a Vec2 representing the object's speed (change of position over time).
 
-<p>- In physics, all forces applied to an object (gravity, friction, collision restitutions...) are equivalent to a single force equal to their sum.<br>We introduce a forceAccumulator Vec2 to represent this sum, and it wil replace all the code that modified the shapes position until now.
+<p>- In physics, all forces applied to an object (gravity, friction, collision restitutions...) are equivalent to a single force equal to their sum.<br>We introduce a forceAccumulator Vec2 to represent this sum. It will be reset after each frame, and it will replace all the code that modified the shapes positions until now.
 
-<p>- According to Newton's Law (F = ma or a = F/m), the acceleration (change of velocity) applied to an object is equal to its force accumulator divided by its mass. We introduce an invMass (1/mass) attribute specifically to avoid doing this expensive division repeatedly.
+<p>- According to Newton's 2nd law of motion (F = ma or a = F/m), the acceleration (change of velocity over time) applied to an object is equal to the sum of the forces applied to it (forceAccumulator) divided by its mass. We introduce an invMass (1/mass) attribute specifically to avoid doing this expensive division repeatedly.
 
 <p>Fixed objects will have a mass equal to 0 and an invMass equal to 1/0 = Infinity.
-
-
-
 
 <p><pre><code class="lang-js">// Shapes
 circle = (center, radius, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
@@ -1090,15 +1092,17 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <br><hr>
 
+
+
+
+
+
 <p><b>Chapter 16: Combining RigidBody and Shapes</b>
 
-<p>This doesn't concern us because our shapes are already functional rigid bodies.
-
-<p><pre><code class="lang-js">
-</code></pre>
+<p>No need to do that because our shapes are already functional rigid bodies.
 
 <p><b>Links:</b>
-<br>- Original:  
+<br>Original:  
 video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=">video 1</a>, 
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=">2</a>
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/16/Main.html">demo</a>, 
@@ -1107,12 +1111,51 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br><hr>
 
 
-<!--p><b>Chapter 17: </b>
 
-<p>
 
-<p><pre><code class="lang-js">
-</code></pre>
+
+
+<p><b>Chapter 17: Integration</b>
+
+<p>Integration consists in computing the shape's acceleration, velocity and position at the end of a frame.
+
+<p>The code below uses the semi-Euler method which is a good compromise between simplicity and stability.
+
+<p>According to Newton's first law of motion, objects keep the same trajectory and speed as long as they don't encounter another force.
+
+<p><pre><code class="lang-js">// Globals
+deltaTime = 1;
+
+// Shape integration
+integrate = (shape, deltaTime) => {
+  var acceleration = scale(shape.forceAccumulator, shape.invMass); // compute acceleration
+	shape.velocity = add(shape.velocity, scale(acceleration, 1)); // apply acceleration to velocity
+	translateShape(shape, scale(shape.velocity, 1)); // apply velocity to position
+	shape.forceAccumulator = Vec2(0, 0); // reset force accumulator
+}
+
+// Update the physics engine
+update = () => {
+
+  // (...)
+        
+  // Collision response
+  if(manifold){
+    circle.color = "red";
+    rectangle.color = "red";
+    push = scale(manifold.normal, manifold.depth * 0.5);
+    rectangle.forceAccumulator = add(rectangle.forceAccumulator, push);
+    circle.forceAccumulator = add(circle.forceAccumulator, scale(push, -1));
+    manifolds.push(manifold);
+  }
+
+  // (...)
+  
+  // Integration
+  for(i of shapes){
+    integrate(i, deltaTime);
+  }
+}</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1122,13 +1165,17 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/17">source code</a> (19.1 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/17/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/17">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/17">source code</a> (9.7 kb)
+<p><video controls src="images/2D-physics/17.mp4?v=3" width=500></video>
 
 <br><hr>
 
 
 
-<p><b>Chapter 18: </b>
+
+
+
+<!--p><b>Chapter 18: </b>
 
 <p>
 
@@ -1146,6 +1193,11 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/18">source code</a> ( kb)
 
 <br><hr>
+
+
+
+
+
 
 
 <p><b>Chapter 19: </b>
@@ -1169,6 +1221,11 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/19">source code</a> ( kb)
 
 <br><hr>
+
+
+
+
+
 
 
 <p><b>Chapter 20: </b>
