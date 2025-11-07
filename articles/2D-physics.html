@@ -1260,12 +1260,140 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 
 
-<p><b>Chapter 20: wip</b>
+<p><b>Chapter 20: Linear impulses</b>
 
-<p>
+<p>When we try to implement a realistic simulation, linear impulses help us create collision responses according to the relative velocities of the objects, their masses and their materials (with specific fricion and restitution coefficients).
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p>Restitution (bounciness) represents how much energy is conserved after a collision (0: no elasticity - 1: perfect elastic).
+<p>Friction (slidyness) will be used later in tangential collision responses (0: frictionless - 1: maximum friction).
+<p>In this chapter, the default values (friction = 0, restitution = 1) are used and the masses are ignored (all shapes are considered having the same mass).
+<p>Also, the update method and the demo setup now handles all three kinds of collisions, and the gravity is commented for now, to let shapes collide with each other.
+
+<p><pre><code class="lang-js">// Shapes
+circle = (center, radius, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0),  angle = 0, color = "#888") => {
+  shape = {
+    type: "circle",
+    center: center,
+    radius: radius,
+    mass: mass,
+    invMass: 1 / mass,
+    forceAccumulator: Vec2(0, 0),
+    friction: friction,
+    restitution: restitution,
+    velocity: velocity,
+    
+    // (...)
+}
+
+rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
+  shape = {
+    type: "rectangle",
+    center: center,
+    width: width,
+    height: height,
+    mass: mass,
+    invMass: 1 / mass,
+    friction: friction,
+    restitution: restitution,
+    velocity: velocity,
+    
+    // (...)
+};
+
+// Correct positioning
+positionalCorrection = (shape1, shape2, manifold) => {
+  // todo
+}
+
+// Resolve collision
+resolveCollision = (shape1, shape2, manifold) => {
+  var relativeVelocityAlongNormal = dot(sub(shape2.velocity, shape1.velocity), manifold.normal);
+  if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
+  var j = (-(1 + (Math.min(shape1.restitution, shape2.restitution))) * relativeVelocityAlongNormal) / (shape1.invMass + shape2.invMass);
+  var impulseVector = scale(manifold.normal, j);
+  shape1.velocity = add(shape1.velocity, scale(impulseVector, -shape1.invMass));
+  shape2.velocity = add(shape2.velocity, scale(impulseVector, shape2.invMass));
+}
+
+// Update the physics engine
+update = () => {
+
+  var push, manifold, shape1, shape2, direction, distance;
+  
+  // Reset manifolds
+  manifolds = [];
+  
+  // Reset shapes colors
+  for(var i of shapes){
+    i.color = "#888";
+  }
+  
+  // Consider all pairs of shapes
+  for(var i = 0; i &lt; shapes.length; i++){
+    for(var j = i; j &lt; shapes.length; j++){
+      if(i != j){
+      
+        shape1 = shapes[i];
+        shape2 = shapes[j];
+
+        // Reset manifold
+        manifold = null;
+        
+        // Detect circle-circle collisions
+        if(shape1.type == "circle" && shape2.type == "circle"){
+          direction = sub(c2.center, c1.center);
+          distance = dist(c1.center, c2.center);
+          if(distance &lt; (c1.radius + c2.radius)){
+            manifold = {
+              depth: (c1.radius + c2.radius) - distance,
+              normal: normalize(direction),
+              contactPoint: add(c1.center, scale(normalize(direction), c1.radius))
+            };
+          }
+        }
+      
+        // Detect rectangle-rectangle collisions
+        else if(shape1.type == "rectangle" && shape2.type == "rectangle"){
+          manifold = rectangleRectangleCollision(shape1, shape2);
+        }
+
+        // Detect circle-rectangle collisions
+        else if(shape1.type == "rectangle" && shape2.type == "circle"){
+          [shape1, shape2] = [shape2, shape1];
+          manifold = circleRectangleCollision(shape1, shape2);
+        }
+        
+        else if(shape1.type == "circle" && shape2.type == "rectangle"){
+          manifold = circleRectangleCollision(shape1, shape2);
+        }
+        
+        // Collision response
+        if(manifold){
+          circle.color = "red";
+          rectangle.color = "red";
+          push = scale(manifold.normal, manifold.depth * 0.5);
+          positionalCorrection(shape1, shape2, manifold);
+          resolveCollision(shape1, shape2, manifold);
+          manifolds.push(manifold);
+        }
+      }
+    }
+  }
+  
+  for(i of shapes){
+    // Apply gravity
+    //i.forceAccumulator = add(i.forceAccumulator, gravity);
+    
+    // Integration
+    integrate(i, deltaTime);
+  }
+}
+
+// Demo
+c1 = circle(Vec2(190, 100), 20, 1, 0, 1, Vec2(1, 1));
+c2 = circle(Vec2(320, 30), 20, 1, 0, 1, Vec2(-2, 2));
+r1 = rectangle(Vec2(200, 220), 100, 20);
+r2 = rectangle(Vec2(200, 280), 50, 50, 1, 0, 1, Vec2(0, -1));</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1293,7 +1421,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 
 
-<!--
+
 
 <p><b>Chapter 21: </b>
 
