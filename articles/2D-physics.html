@@ -1451,6 +1451,7 @@ rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, vel
     center: center,
     width: width,
     height: height,
+    mass: mass,
     invMass: mass == 0 ? 0 : 1 / mass,
     
     // (...)
@@ -1531,6 +1532,7 @@ resolveCollision = (shape1, shape2, manifold) => {
 
 <p>positionalCorrection is implemented to prevent objects from overlapping (objects are instantly moved away from each other proportionally to their invMass).
 <p>The restitution (bounciness) of the shapes is also included in the impulse magnitude.
+<p>Finally, the gravity is restored (and is now proportional to the mass) and a fixed ground is added to the demo.
 
 <p><pre><code class="lang-js">// Correct positioning
 positionalCorrection = (shape1, shape2, manifold) => {
@@ -1553,6 +1555,23 @@ resolveCollision = (shape1, shape2, manifold) => {
   var e = Math.min(shape1.restitution, shape2.restitution); // total elasticity
   
   // (...)
+}
+
+// Update the physics engine
+update = () => {
+
+  // Apply gravity
+  for(var i of shapes){
+    console.log(i.mass);
+    i.forceAccumulator = add(i.forceAccumulator, scale(gravity, i.mass));
+  }
+
+  // (...)
+  
+  // Integration
+  for(i of shapes){
+    integrate(i, deltaTime);
+  }
 }</code></pre>
 
 <p><b>Links:</b>
@@ -1563,8 +1582,9 @@ resolveCollision = (shape1, shape2, manifold) => {
 (25.9 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/23/">demo</a> (nothing new here),
+<a href="https://xem.github.io/2Dphysics/23/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/23">source code</a> (12.6 kb)
+<p><video controls src="images/2D-physics/23.mp4?v=3" width=500></video>
 
 <br><hr>
 
