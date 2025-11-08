@@ -600,6 +600,8 @@ draw = () => {
 
 <p>For example, in this chapter, only one shape (c2) is pushed, while the other (c1) moves diagonally.
 
+<p>This pushing will be implemented more rigorously in chapter 23.
+
 <p><pre><code class="lang-js">// Update the physics engine
 update = () => {
 
@@ -1426,8 +1428,8 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <p><b>Chapter 21: weight </b>
 
-<p>Objects react to impulses proportionally to their masses.
-<p>Fixed objects have an infinite mass and an invMass equal to 0. They are also called kinematic or immovable.
+<p>Objects react to impulses proportionally to their inverse masses.
+<p>Fixed objects (also called kinematic or immovable) have an infinite mass and an invMass equal to 0, hence no reaction to impulses.
 <p>For simplicity, we modify the shapes constructors to consider "mass = 0" as infinite mass. 
 <p>The demo is updated to include light, heavy and fixed shapes.
 
@@ -1461,7 +1463,7 @@ resolveCollision = (shape1, shape2, manifold) => {
   if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
   var e = 1; // total elasticity
   var invMassSum = shape1.invMass + shape2.invMass;
-  var j = (-(1 +e) * relativeVelocityAlongNormal) / invMassSum; // impulse magnitude
+  var j = (-(1 + e) * relativeVelocityAlongNormal) / invMassSum; // impulse magnitude
   var impulseVector = scale(manifold.normal, j);
   shape1.velocity = add(shape1.velocity, scale(impulseVector, -shape1.invMass));
   shape2.velocity = add(shape2.velocity, scale(impulseVector, shape2.invMass));
@@ -1507,11 +1509,10 @@ resolveCollision = (shape1, shape2, manifold) => {
   if(shape1.invMass == 0 && shape2.invMass == 0) return;
   
   // (...)
-}
-</code></pre>
+}</code></pre>
 
 <p><b>Links:</b>
-<br>- Original:  
+<br>Original:  
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=39">video</a>, 
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/22/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/22">source code</a> 
@@ -1526,12 +1527,33 @@ resolveCollision = (shape1, shape2, manifold) => {
 
 
 
-<p><b>Chapter 23: </b>
+<p><b>Chapter 23: Positional corrections</b>
 
-<p>
+<p>positionalCorrection is implemented to prevent objects from overlapping (objects are instantly moved away from each other proportionally to their invMass).
+<p>The restitution (bounciness) of the shapes is also included in the impulse magnitude.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p><pre><code class="lang-js">// Correct positioning
+positionalCorrection = (shape1, shape2, manifold) => {
+  var correction = 0.7;
+  var correctionAmount = manifold.depth / (shape1.invMass + shape2.invMass) * correction;
+  var correctionVector = scale(manifold.normal, correctionAmount);
+  if(shape1.invMass > 0){
+    translateShape(shape1, scale(correctionVector, -shape1.invMass));
+  }
+  if(shape2.invMass > 0){
+    translateShape(shape2, scale(correctionVector, shape2.invMass));
+  }
+}
+
+// Resolve collision
+resolveCollision = (shape1, shape2, manifold) => {
+  
+  // (...)
+  
+  var e = Math.min(shape1.restitution, shape2.restitution); // total elasticity
+  
+  // (...)
+}</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1541,9 +1563,8 @@ resolveCollision = (shape1, shape2, manifold) => {
 (25.9 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/23/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/23">source code</a> ( kb)
-<p><video controls src="images/2D-physics/23.mp4?v=3" width=500></video>
+<a href="https://xem.github.io/2Dphysics/23/">demo</a> (nothing new here),
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/23">source code</a> (12.6 kb)
 
 <br><hr>
 
