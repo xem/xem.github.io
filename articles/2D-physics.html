@@ -1052,7 +1052,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>- According to Newton's 2nd law of motion (F = ma or a = F/m), the acceleration (change of velocity over time) applied to an object is equal to the sum of the forces applied to it (forceAccumulator) divided by its mass. We introduce an invMass (1/mass) attribute specifically to avoid doing this expensive division repeatedly.
 
-<p>Fixed objects will have a mass equal to 0 and an invMass equal to 1/0 = Infinity.
+<p>We'll see in chapter 21 that fixed objects have an infinite mass and an invMass equal to 0.
 
 <p><pre><code class="lang-js">// Shapes
 circle = (center, radius, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
@@ -1266,8 +1266,8 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <p>Restitution (bounciness) represents how much energy is conserved after a collision (0: no elasticity - 1: perfect elastic).
 <p>Friction (slidyness) will be used later in tangential collision responses (0: frictionless - 1: maximum friction).
-<p>In this chapter, the default values (friction = 0, restitution = 1) are used and the masses are ignored (all shapes are considered having the same mass).
-<p>Also, the update method and the demo setup now handles all three kinds of collisions, and the gravity is commented for now, to let shapes collide with each other.
+<p>In this chapter, the default values (friction = 0, restitution = 1) are used, and the masses are ignored.
+<p>Also, the update method and the demo setup now handles all three kinds of collisions, and the gravity is disabled for now, to let shapes collide with each other.
 
 <p><pre><code class="lang-js">// Shapes
 circle = (center, radius, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0),  angle = 0, color = "#888") => {
@@ -1309,10 +1309,11 @@ positionalCorrection = (shape1, shape2, manifold) => {
 resolveCollision = (shape1, shape2, manifold) => {
   var relativeVelocityAlongNormal = dot(sub(shape2.velocity, shape1.velocity), manifold.normal);
   if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
-  var j = (-(1 + (Math.min(shape1.restitution, shape2.restitution))) * relativeVelocityAlongNormal) / (shape1.invMass + shape2.invMass);
+  var e = 1; // total elasticity (currently 100%)
+  var j = -(1 + e) * relativeVelocityAlongNormal; // impulse magnitude
   var impulseVector = scale(manifold.normal, j);
-  shape1.velocity = add(shape1.velocity, scale(impulseVector, -shape1.invMass));
-  shape2.velocity = add(shape2.velocity, scale(impulseVector, shape2.invMass));
+  shape1.velocity = add(shape1.velocity, scale(impulseVector, -.5));
+  shape2.velocity = add(shape2.velocity, scale(impulseVector, .5));
 }
 
 // Update the physics engine
@@ -1412,7 +1413,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/20/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/20">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/20">source code</a> (12.0 kb)
 <p><video controls src="images/2D-physics/20.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1423,12 +1424,54 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 
 
-<p><b>Chapter 21: </b>
+<p><b>Chapter 21: weight </b>
 
-<p>
+<p>Objects react to impulses proportionally to their masses.
+<p>Fixed objects have an infinite mass and an invMass equal to 0. They are also called kinematic or immovable.
+<p>For simplicity, we modify the shapes constructors to consider "mass = 0" as infinite mass. 
+<p>The demo is updated to include light, heavy and fixed shapes.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p><pre><code class="lang-js">// Shapes
+circle = (center, radius, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0),  angle = 0, color = "#888") => {
+  
+  shape = {
+    type: "circle",
+    center: center,
+    radius: radius,
+    mass: mass,
+    invMass: mass == 0 ? 0 : 1 / mass,
+    
+    // (...)
+
+rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
+  shape = {
+    type: "rectangle",
+    center: center,
+    width: width,
+    height: height,
+    invMass: mass == 0 ? 0 : 1 / mass,
+    
+    // (...)
+
+};
+
+// Resolve collision
+resolveCollision = (shape1, shape2, manifold) => {
+  var relativeVelocityAlongNormal = dot(sub(shape2.velocity, shape1.velocity), manifold.normal);
+  if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
+  var e = 1; // total elasticity
+  var invMassSum = shape1.invMass + shape2.invMass;
+  var j = (-(1 +e) * relativeVelocityAlongNormal) / invMassSum; // impulse magnitude
+  var impulseVector = scale(manifold.normal, j);
+  shape1.velocity = add(shape1.velocity, scale(impulseVector, -shape1.invMass));
+  shape2.velocity = add(shape2.velocity, scale(impulseVector, shape2.invMass));
+}
+
+// Demo
+c1 = circle(Vec2(190, 100), 20, 1, 0, 1, Vec2(1, 1));
+c2 = circle(Vec2(250, 120), 20, 0, 0, 1);
+r1 = rectangle(Vec2(200, 220), 100, 20, .2);
+r2 = rectangle(Vec2(200, 280), 50, 50, 10, 0, 1, Vec2(0, -1));</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1439,7 +1482,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/21/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/21">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/21">source code</a> (12.1 kb)
 <p><video controls src="images/2D-physics/21.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1451,11 +1494,20 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 
 
-<p><b>Chapter 22: </b>
+<p><b>Chapter 22: kinematic bodies</b>
 
-<p>
+<p>This chapter introduces an isKinematic property and returns early from collision resolution if both shapes are kinematic.
 
-<p><pre><code class="lang-js">
+<p>We will simply test if invMass is 0 instead.
+
+<p><pre><code class="lang-js">// Resolve collision
+resolveCollision = (shape1, shape2, manifold) => {
+  var relativeVelocityAlongNormal = dot(sub(shape2.velocity, shape1.velocity), manifold.normal);
+  if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
+  if(shape1.invMass == 0 && shape2.invMass == 0) return;
+  
+  // (...)
+}
 </code></pre>
 
 <p><b>Links:</b>
@@ -1464,11 +1516,6 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/22/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/22">source code</a> 
 (24.9 kb)
-
-<br>- Mine:
-<a href="https://xem.github.io/2Dphysics/22/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/22">source code</a> ( kb)
-<p><video controls src="images/2D-physics/22.mp4?v=3" width=500></video>
 
 <br><hr>
 
