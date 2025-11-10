@@ -36,21 +36,17 @@ pre, code, code * { font-size: 13px !important; line-height: 16px !important; le
 <p><img src="images/2D-physics/2D.png" style="float:right; margin: 0 20px; width: 200px"><b>Introduction</b>
 <p>I have a long love-hate story with physics in JS.
 <p>It all started in 2019, when I read <a href="https://link.springer.com/book/10.1007/978-1-4842-2583-7">this 134 pages book about 2D physics</a>, and summarized its contents in just <a href="https://xem.github.io/articles/images/js1k19/2.png">9 pages</a> on my little notepad.
-<p>I used that to create a 1.57kb lib called <a href="https://xem.github.io/codegolf/mini2Dphysics.html">Mini2DPhysics</a> and the JS1K entry <a href="https://xem.github.io/codegolf/emojysics.html">Emojysics</a>.
-<p>The problem was that this book, as every book I could find at the time, didn't go beyond basic interactions between spheres and discs (and it definitely didn't need so many pages to do that).
-<p>Then <a href="https://link.springer.com/book/10.1007/978-1-4842-7377-7">this 599 pages book</a> released in 2022 by the same editor and some of the original authors, managed to be even more verbose in almost every aspect of 2D game mechanics, except one: advanced physics. And when I say "advanced physics", I'm not asking for really complex stuff, I just want to learn springs, fixed joints, hinge joints, and how to optimize speed and stability.
+<p>I used that to create a 1.57kb lib called <a href="https://xem.github.io/codegolf/mini2Dphysics.html">Mini2DPhysics</a>, the JS1K entry <a href="https://xem.github.io/codegolf/emojysics.html">Emojysics</a> in 2019 and the JS13kGames entry <a href="https://js13kgames.com/2024/games/o-hiii-bad-skatepark">O HIII BAD SKATEPARK</a> in 2024.
+<p>The problem was that this book, as every book I could find at the time, didn't go beyond basic interactions between discs and rectangles (and it definitely didn't need so many pages to do that).
+<p>Then <a href="https://link.springer.com/book/10.1007/978-1-4842-7377-7">this 599 pages book</a> released in 2022 by the same editor and some of the original authors, managed to be even more verbose in almost every aspect of 2D game mechanics, except one: advanced physics. And when I say "advanced physics", I'm not asking for really complex stuff, I just want to learn springs, fixed joints, hinge joints, and how to optimize for speed and stability.
 <p>In 2021, 2022, 2023, 2024 and 2025 I tried many times to learn <a href="https://xem.github.io/articles/3D-physics.html">3D physics</a> because <a href="images/2D-physics/3D.jpg">a lot of good books actually cover this topic</a>, but I haven't managed to completely implement any of them in JS (so far)... which was quite frustrating. (but stay tuned... I will be back!)
-<p>Finally, in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, I randomly typed "2D physics JS" on Google and stumbled upon (seemingly) my holy Grail: <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS. The playlist was accompanied by <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">complete source code on Gitlab</a> and <a href="https://www.amazon.fr/dp/B0FL1K2ZZ5">a physical book released in August 2025</a>!
+<p>Finally, in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, I randomly typed "2D physics JS" on Google and stumbled upon <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS, with <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">complete source code on Gitlab</a>... I may have found the holy grail!
 
-<p>And since I'm so enthusiastic (and probably one of the 10 persons on Earth that could possibly be interested by this book), I bought it, and I'm gonna read it, write my own tiny engine and demos based on its wisdom, and explain everything in this page. Let's go!
+<p>In this page, I will follow each chapter of the playlist, show how I implemented my own mini 2D engine based on its source code, and how I enhanced a few things. My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial">a copy of the original Gitlab repo</a> is also present there for reference..
 
-<p>My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial">a copy of the original Gitlab repo</a> is also present there for reference..
+<p>I also ended up buying a copy of <a href="https://www.amazon.fr/dp/B0FL1K2ZZ5">the physical book released in August 2025</a>, which is (sadly) just a line-by-line code explanation written by an AI. I won't mention it in this project, but I still really encourage the author to pursue his work and teach us 3D physics in JS next, because my 2Dphysics engine mostly exists thanks to his great code and videos! &lt;3
 
-<!--<p>Our library will only cover 2D physics in side-view, with gravity (as in Angry Birds). Top-view 2D physics (as in pool games) are identical, just gravity-less-->
-<br>
-<br><hr>
-
-
+<br><br><hr>
 
 
 
@@ -77,7 +73,7 @@ c = a.getContext("2d");
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/1">source code</a> (0.1kb)
 
 <br><hr>
-<p><i>From now on, the code snippets in each chapter will show what was added or modified in my Javascript code.</i>
+<p><i>From now on, the code snippets in each chapter show what was added or modified in my Javascript code.</i>
 <br><hr>
 
 
@@ -88,7 +84,8 @@ c = a.getContext("2d");
 <p><b>Chapter 2: Main loop</b>
 
 
-<p>I'm going with a fixed 60fps setInterval loop for simplicity, instead of using requestAnimationFrame and computing deltaTime.
+<p>Let's create a fixed 60fps setInterval loop, for simplicity.
+<p>Indeed, many 2D engines actually use requestAnimationFrame and deltaTime, but it's more verbose, non-deterministic, and tends to be unpredictable on screens with high refresh rates.
 
 <p><pre><code class="lang-js">// Main loop
 setInterval(() => {
@@ -114,7 +111,7 @@ setInterval(() => {
 
 <p><b>Chapter 3: Mouse and keyboard events / Simulation class</b>
 
-<p>The golfed code won't use JS classes. User inputs and states are reduced to the bare minimum: left and right mouse buttons, mouse position, and keyboard key presses. Functions added in the loop: update and draw.
+<p>The golfed code won't use JS classes. User inputs and states are reduced to the bare minimum: left and right mouse buttons, mouse position, and keyboard key presses. Two functions added in the loop: <b>update</b> and <b>draw</b>.
 
 <p><pre><code class="lang-js">// Globals
 mx = 0, my = 0,     // mouse x, y
@@ -183,8 +180,8 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><img src="images/2D-physics/dir.png" style="float:right; margin: 0 20px 20px; width: 200px">
 <b>Chapter 4: 2D vectors</b>
-<p>2D vectors are objects containing two values (x and y).<p>They can represent a point (with x and y coordinates) or a movement (with x and y offsets).
-<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now). Each of these functions returns a new Vec2.
+<p>2D vectors are objects containing two values (<b>x</b> and <b>y</b>).<p>They can represent a point (with x and y coordinates) or a movement (with x and y offsets).
+<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now). Each of these functions returns an integer (for len, len2 and dot) or a new Vec2 object.
 
 <p><pre><code class="lang-js">// 2D vectors
 Vec2 = (x, y) => ({x, y});
@@ -210,9 +207,6 @@ scale = (v, n) => Vec2(v.x * n, v.y * n);
 
 <br><hr>
 
-<p><i>At this point, I finally realized that the book I had in my hands was mostly AI-generated and not (or barely) proofread. I already noticed that the same expressions were repeated too many times and the text didn't feel super natural, not to mention the AI cover, but here it gets worse: the text accompanying the source code starts saying that the code makes no sense and is probably wrong. A human author would never say such a thing about his own code. Quite disappointing for a 35€ book! That being said, let's continue reading ir because it may still lead me to a functional 2D physics engine...</i>
-<br><hr>
-
 
 
 
@@ -222,7 +216,7 @@ scale = (v, n) => Vec2(v.x * n, v.y * n);
 
 <p>This chapter explains how do draw bullets (filled arcs), discs (stroked arcs), lines and arrows, for debug purposes.
 
-<p>We'll settle with just two methods: drawPoint and drawLine.
+<p>We'll settle with just two methods: <b>drawPoint</b> and <b>drawLine</b>.
 
 <p><pre><code class="lang-js">// Debug
 drawPoint = (center, radius = 5, color = "#888") => {
@@ -272,9 +266,10 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 
 
+
 <p><b>Chapter 6: Shapes</b>
 
-<p>The author creates a generic Shape class to create and draw the future rigid bodies: circles and polygons.
+<p>This chapter introduces a generic Shape class to create and draw the future rigid bodies: circles and polygons.
 <p>We'll make our own version in Chapter 8.
 
 <p><b>Links:</b>
@@ -289,8 +284,9 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 
 
+
 <p><b>Chapter 7: Compute and display the centroid of a polygon</b>
-<p>We don't need to compute polygon centroids for this project, as all our shapes will be based on circles and Rectangles.
+<p>We don't need to compute polygon centroids for this project, as all our shapes will be based on circles and rectangles which already have a defined center point.
 
 <p><b>Links:</b>
 <br>Original:  
@@ -308,19 +304,23 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><b>Chapter 8: Rotating and moving shapes</b>
 
-<p>Here, we start implementing our shape objects (circle and rectangle) and the methods that allow them to translate (move) and rotate.
-<p>- Translations are performed by adding an offset vector to the shape's center (and its vertices, if it's a rectangle).
+<p>Here, we start implementing our shape objects (circles and rectangles) and the methods that allow them to translate (move) and rotate.
+<p>- Translations are performed by adding an offset vector to the shape's center (and all its vertices, if it's a rectangle).
 <p>- 2D rotations (around the origin [0,0]) are performed by applying a 2D rotation matrix on 2D vectors.
 <p><img src="images/2D-physics/rot.png" width=400>
 <p>- 2D rotations around a pivot point are done by subtracting the pivot point's coordinates from the point, rotating the point around the origin, and adding the pivot point back. A Vec2 function is added to perform these kinds of rotations.
+
+<p>A horizontal radius is drawn on the discs (2D physics engines usually do that to make the discs' rotations visible).
+
+<p>Realistic rotations based on gravity and inertia will beintroduced in chapter 24.
 
 <p><pre><code class="lang-js">// Globals
 shapes = [];
 
 // Vector2
 rotate = (v, center, angle) => {
-  x = v.x - center.x;
-  y = v.y - center.y;
+  var x = v.x - center.x;
+  var y = v.y - center.y;
   return Vec2(
     x * Math.cos(angle) - y * Math.sin(angle) + center.x,
     x * Math.sin(angle) + y * Math.cos(angle) + center.y
@@ -457,7 +457,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> (4.1 kb)
 <p><video controls src="images/2D-physics/8.mp4?v=3" width=500></video>
 
-<p>Note: a horizontal radius is drawn on the discs (2D physics engines usually do that to make the discs' rotations visible).
+
 
 <br><hr>
 
@@ -469,8 +469,10 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <p><b>Chapter 9: Circle-circle collision detection</b>
 
 <p>Previous chapters were just setup and cosmetics, the real work starts here!
-<p>Detecting collisions between two circles is very easy and convenient: if the distance between their centers is smaller than the sum of their radii, they are colliding.
-<p>In the code below, two circles are created (<b>c1</b> and <b>c2</b>), a distance function is added for Vec2's and when the circles collide, they get colored in red. The collision detection is just one line in the update method, but it will be more complete in the next chapters.
+<p>A physics engine has two main tasks: collision detection and collision response. Let's start with detection.
+<p>Since all our shapes will be either circles or rectangles, we need to detect three kinds of collisions: circle-circle, circle-rectangle and rectangle-rectangle.
+<p>We'll start by the easiest collision detection, between two circles: if the distance between their centers is smaller than the sum of their radii, they are colliding.
+<p>In the code below, two circles are created (<b>c1</b> and <b>c2</b>), a distance function <b>dist</b> is added for Vec2's and when the circles collide, they get colored in red. The collision detection is just one line in the update method, but it will be more complete in the next chapters.
 
 <p><pre><code class="lang-js">// 2D vectors
 dist = (v, w) => len(sub(v, w));
@@ -523,14 +525,14 @@ c2 = circle(Vec2(80, 100), 60);</code></pre>
 
 <p><b>Chapter 10: Collision manifolds</b>
 
-<p>Physics engines use manifolds (temporary objects) to store information about a collision between two shapes: 
-<p>- penetration depth (overlap distance)
-<p>- collision normal (force direction, from one shape's center to the other)
-<p>- contact point (where the collision takes place on the surface of the first shape)
+<p>Physics engines use manifolds (temporary objects) to store information about a collision between two shapes. They include: 
+<p>- a <b>penetration depth</b> (overlap distance)
+<p>- a <b>collision normal</b> (the force's direction, from one shape's center to the other)
+<p>- and a <b>contact point</b> (where the collision takes place on the surface of the first shape)
 
 <p>For each pair of shapes that collide, a single manifold object is created. Both shapes will respond to the same manifold: shape A will use the collision normal to move away from shape B, and B will use the inverse of the collision normal to move away from A.
 
-<p>Our debug methods drawPoint and drawLine are used to show the manifold information, in blue.
+<p>Here, our debug methods drawPoint and drawLine are used to show the manifold information, in blue.
 
 <p><pre><code class="lang-js">// Globals
 manifold = null;
@@ -596,7 +598,7 @@ draw = () => {
 
 <p>Pushing overlapping shapes apart is the first mechanism that takes action in a collision response.
 
-<p>It's possible to have just one shape being pushed, or both.
+<p>It's possible to have just one shape being pushed, or both, depending on their mass or mobility.
 
 <p>For example, in this chapter, only one shape (c2) is pushed, while the other (c1) moves diagonally.
 
@@ -662,7 +664,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><img src="images/2D-physics/12.png" style="border: 2px solid">
 
-<p>In the code below, all the code specific to the circles c1 and c2 is removed.
+<p>In the code below, all the code specific to circles is temporarily removed.
 <p>A rectangle <b>r1</b> is introduced. Its normals are represented in green.
 
 <p><pre><code class="lang-js">// shapes
@@ -761,7 +763,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <p><img src="images/2D-physics/13.png" style="border:2px solid" width=500>
 <p>The idea is to project a pair of rectangles on different axis (one axis for each edge of each polygon to test).
 <p>- If the projections are separated on at least one axis, the shapes are definitely not colliding.
-<p>- If the ptojections overlap on every axis, the shapes collide. We use the axis with the smallest overlap to build the collision manifold.
+<p>- If the projections overlap on every axis, the shapes collide. We use the axis with the smallest overlap to build the collision manifold.
 <p>Contrary to circle-circle collisions, the collision normal does not point to the center of the other shape: it is perpendicular to the rectangle edge that has the smallest penetration depth.
 <p>In this chapter, we create three rectangles, and for each pair of rectangles, if a collision is detected, both shapes get pushed away from each other with the same force. The manifolds are put in an array, drawn in blue, and are attached to the first vertex of the axis that detects the collision.
 
@@ -907,7 +909,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p>To detect a collision between a rectangle and a circle, we need to find which point of the rectangle is closest to the center of the circle. This point can be a corner, or any point on one edge of the rectangle.
 
-<p>
+<p><img src="images/2D-physics/14.png" style="border:2px solid">
 
 <p><pre><code class="lang-js">// circle-rectangle collision
 circleRectangleCollision = (circle, rectangle) => {
@@ -1042,19 +1044,19 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><b>Chapter 15: RigidBody</b>
 
-<p>This chapter introduces a rigidBody class with new properties: mass, invMass, forceAccumulator and velocity.
+<p>This chapter introduces a rigidBody class with new properties: <b>mass</b>, <b>invMass</b>, <b>velocity</b> and <b>forceAccumulator</b>.
 
 <p>For simplicity, we will simply add them to our circles and rectangles.
 
 <p>- Mass is a number representing the object's weight. 
 
-<p>- Velocity is a Vec2 representing the object's speed (change of position over time).
+<p>- Velocity is a Vec2 representing the object's speed (evolution of position over time).
 
-<p>- In physics, all forces applied to an object (gravity, friction, collision restitutions...) are equivalent to a single force equal to their sum.<br>We introduce a forceAccumulator Vec2 to represent this sum. It will be reset after each frame, and it will replace all the code that modified the shapes positions until now.
+<p>- Acceleration is the evolution of velocity over time.
 
-<p>- According to Newton's 2nd law of motion (F = ma or a = F/m), the acceleration (change of velocity over time) applied to an object is equal to the sum of the forces applied to it (forceAccumulator) divided by its mass. We introduce an invMass (1/mass) attribute specifically to avoid doing this expensive division repeatedly.
-
-<p>We'll see in chapter 21 that fixed objects have an infinite mass and an invMass equal to 0.
+<p>- According to Newton's 2nd law of motion (F = ma or a = F/m), the acceleration of an object is equal to the sum of the forces applied to it (pushes, gravity, friction...), divided by its mass.
+<br>A forceAccumulator Vec2 attribute is introduced to represent this sum of forces. It will be reset after each frame.
+<br>An invMass (1/mass) attribute is introduced specifically to avoid doing the "F/m" division repeatedly.
 
 <p><pre><code class="lang-js">// Shapes
 circle = (center, radius, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
@@ -1124,11 +1126,13 @@ rectangle = (center, width, height, mass = 1, velocity = Vec2(0, 0), angle = 0, 
 
 <p><b>Chapter 17: Integration</b>
 
-<p>Integration consists in computing the shape's acceleration, velocity and position at the end of a frame.
+<p>Integration consists in computing the shapes' acceleration, velocity and position at the end of a frame.
 
 <p>The code below uses the semi-implicit Euler method, which is a good compromise between simplicity and stability.
 
 <p>According to Newton's first law of motion, objects keep the same trajectory and speed as long as they don't encounter another force.
+
+<p>Since integration is implemented, and friction and gravity are not yet implemented, the shapes will keep a constant speed after a collision.
 
 <p><pre><code class="lang-js">// Globals
 deltaTime = 1;
@@ -1186,7 +1190,7 @@ update = () => {
 <p>This chapter explores other ways to integrate rigid bodies. We'll ignore it for now.
 
 <p><b>Links:</b>
-<br>- Original:  
+<br>Original:  
 video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=30">1</a>, 
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=31">2</a>
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/18/Main.html">demo</a>, 
@@ -1202,7 +1206,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><b>Chapter 19: Bouncing balls</b>
 
-<p>This chapter introduces mechanics that make balls (circles) behave realistically: gravity, bouncing, friction and velocity attenuation over time (called damping).
+<p>Let's make balls behave realistically: gravity, bouncing, friction and damping (velocity attenuation over time)
 
 <p>The bouncing on the ground is currently implemented by inverting the ball's velocity when it reaches a certain height threshold.
 
@@ -1264,12 +1268,12 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <p><b>Chapter 20: Linear impulses</b>
 
-<p>When we try to implement a realistic simulation, linear impulses help us create collision responses according to the relative velocities of the objects, their masses and their materials (with specific fricion and restitution coefficients).
+<p>Linear impulses (pushes) can help us create realistic collision responses according to the relative velocities of the objects, their masses and their materials (i.e. fricion and restitution coefficients).
 
-<p>Restitution (bounciness) represents how much energy is conserved after a collision (0: no elasticity - 1: perfect elastic).
-<p>Friction (slidyness) will be used later in tangential collision responses (0: frictionless - 1: maximum friction).
+<p>- Restitution (bounciness) represents how much energy is conserved after a collision (0: no elasticity - 1: perfect elastic).
+<p>- Friction (slidyness) will be used later in tangential collision responses (0: frictionless - 1: maximum friction).
 <p>In this chapter, the default values (friction = 0, restitution = 1) are used, and the masses are ignored.
-<p>Also, the update method and the demo setup now handles all three kinds of collisions, and the gravity is disabled for now, to let shapes collide with each other.
+<p>Also, the update method now handles all three kinds of collisions, and the gravity is disabled for now, to let shapes collide with each other.
 
 <p><pre><code class="lang-js">// Shapes
 circle = (center, radius, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0),  angle = 0, color = "#888") => {
@@ -1428,9 +1432,9 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <p><b>Chapter 21: weight </b>
 
-<p>Objects react to impulses proportionally to their inverse masses.
+<p>As we saw earlier, objects react to impulses proportionally to their inverse masses.
 <p>Fixed objects (also called kinematic or immovable) have an infinite mass and an invMass equal to 0, hence no reaction to impulses.
-<p>For simplicity, we modify the shapes constructors to consider "mass = 0" as infinite mass. 
+<p>For simplicity, the shapes constructors consider "mass = 0" as infinite mass. 
 <p>The demo is updated to include light, heavy and fixed shapes.
 
 <p><pre><code class="lang-js">// Shapes
@@ -1501,13 +1505,13 @@ r2 = rectangle(Vec2(200, 280), 50, 50, 10, 0, 1, Vec2(0, -1));</code></pre>
 
 <p>This chapter introduces an isKinematic property and returns early from collision resolution if both shapes are kinematic.
 
-<p>We will simply test if invMass is 0 instead.
+<p>We will simply test if their invMass is 0 instead.
 
 <p><pre><code class="lang-js">// Resolve collision
 resolveCollision = (shape1, shape2, manifold) => {
   var relativeVelocityAlongNormal = dot(sub(shape2.velocity, shape1.velocity), manifold.normal);
   if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
-  if(shape1.invMass == 0 && shape2.invMass == 0) return;
+  if(shape1.invMass == 0 && shape2.invMass == 0) return; // both shapes are kinematic
   
   // (...)
 }</code></pre>
@@ -1530,9 +1534,11 @@ resolveCollision = (shape1, shape2, manifold) => {
 
 <p><b>Chapter 23: Positional corrections</b>
 
-<p>positionalCorrection is implemented to prevent objects from overlapping (objects are instantly moved away from each other proportionally to their invMass).
+<p>positionalCorrection is implemented to prevent objects from overlapping: they are instantly moved away from each other proportionally to their invMass.
 <p>The restitution (bounciness) of the shapes is also included in the impulse magnitude.
-<p>Finally, the gravity is restored (and is now proportional to the mass) and a fixed ground is added to the demo.
+<p>Finally, the gravity is restored and a fixed ground is added to the demo.
+<p>In physics, all objects fall at the same speed. However, our integration method makes all the forces proportional to the inverse mass.
+<br>To compensate that, each object will receive a gravity force proportional to its mass in the update method ((G x m) / m = G).
 
 <p><pre><code class="lang-js">// Correct positioning
 positionalCorrection = (shape1, shape2, manifold) => {
@@ -1596,9 +1602,12 @@ update = () => {
 
 
 
-<p><b>Chapter 24: </b>
+<p><b>Chapter 24: Inertia</b>
 
-<p>
+<p>Inertia represents the resistance of an object to rotational forces.
+
+<p>In this chapter, we introduce inertia, inverseInertia and angularVelocity for circles and rectangles.
+<p>The angular velocity of a shape is also damped at each frame, and applied during integration.
 
 <p><pre><code class="lang-js">
 </code></pre>
