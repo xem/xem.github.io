@@ -44,7 +44,7 @@ pre, code, code * { font-size: 13px !important; line-height: 16px !important; le
 
 <p>In this page, I will follow each chapter of the playlist, show how I implemented my own mini 2D engine based on its source code, and how I enhanced a few things. My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial">a copy of the original Gitlab repo</a> is also present there for reference..
 
-<p>I also ended up buying a copy of <a href="https://www.amazon.fr/dp/B0FL1K2ZZ5">the physical book released in August 2025</a>, which is (sadly) just a line-by-line code explanation written by an AI. I won't mention it in this project, but I still really encourage the author to pursue his work and teach us 3D physics in JS next, because my 2Dphysics engine mostly exists thanks to his great code and videos! &lt;3
+<p>I also ended up buying a copy of <a href="https://www.amazon.fr/dp/B0FL1K2ZZ5">the physical book released in August 2025</a>, which is (sadly) just a line-by-line code explanation written by an AI, with a lot of mistakes. I won't mention it here, but I still really encourage the author to pursue his work (and teach us how to do 3D physics in JS next!), because my 2Dphysics engine mostly exists thanks to him! And if he makes a new edition of his book with better page layout, more legible text and some illustrations, I will gladly buy it too! &lt;3
 
 <br><br><hr>
 
@@ -181,7 +181,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <p><img src="images/2D-physics/dir.png" style="float:right; margin: 0 20px 20px; width: 200px">
 <b>Chapter 4: 2D vectors</b>
 <p>2D vectors are objects containing two values (<b>x</b> and <b>y</b>).<p>They can represent a point (with x and y coordinates) or a movement (with x and y offsets).
-<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now). Each of these functions returns an integer (for len, len2 and dot) or a new Vec2 object.
+<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now). Each of these functions returns a Number (for len, len2 and dot) or a new Vec2 object.
 
 <p><pre><code class="lang-js">// 2D vectors
 Vec2 = (x, y) => ({x, y});
@@ -575,7 +575,11 @@ draw = () => {
     drawPoint(manifold.contactPoint, 5, "#04F");
     drawLine(manifold.contactPoint, add(manifold.contactPoint, scale(manifold.normal, 50)), "#04F");
   }
-}</code></pre>
+}
+
+// Demo (inversed the circles temporarily to display c1 on top of c2)
+c2 = circle(Vec2(80, 100), 60);
+c1 = circle(Vec2(220, 140), 60);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1059,7 +1063,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <br>An invMass (1/mass) attribute is introduced specifically to avoid doing the "F/m" division repeatedly.
 
 <p><pre><code class="lang-js">// Shapes
-circle = (center, radius, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
+circle = (center, radius, mass = 1, angle = 0, velocity = Vec2(0, 0), color = "#888") => {
   shape = {
     type: "circle",
     center: center,
@@ -1067,8 +1071,8 @@ circle = (center, radius, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#
     mass: mass,
     invMass: 1 / mass,
     velocity: velocity,
-    forceAccumulator: Vec2(0, 0),
     angle: angle,
+    forceAccumulator: Vec2(0, 0),
     color: color
   };
   
@@ -1076,7 +1080,7 @@ circle = (center, radius, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#
   return shape;
 }
 
-rectangle = (center, width, height, mass = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
+rectangle = (center, width, height, mass = 1, angle = 0, velocity = Vec2(0, 0), color = "#888") => {
   shape = {
     type: "rectangle",
     center: center,
@@ -1085,8 +1089,8 @@ rectangle = (center, width, height, mass = 1, velocity = Vec2(0, 0), angle = 0, 
     mass: mass,
     invMass: 1 / mass,
     velocity: velocity,
-    forceAccumulator: Vec2(0, 0),
     angle: angle,
+    forceAccumulator: Vec2(0, 0),
     color: color,
 
     // (...)
@@ -1098,7 +1102,7 @@ rectangle = (center, width, height, mass = 1, velocity = Vec2(0, 0), angle = 0, 
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/15/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/15">source code</a> (19.4 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/15/">demo</a> (nothing to see there), <a href="https://github.com/xem/2Dphysics/tree/gh-pages/15">source code</a> (9.7 kb),
+<a href="https://xem.github.io/2Dphysics/15/">demo</a> (nothing new to see there), <a href="https://github.com/xem/2Dphysics/tree/gh-pages/15">source code</a> (9.7 kb),
 
 <br><hr>
 
@@ -1276,14 +1280,13 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 <p>Also, the update method now handles all three kinds of collisions, and the gravity is disabled for now, to let shapes collide with each other.
 
 <p><pre><code class="lang-js">// Shapes
-circle = (center, radius, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0),  angle = 0, color = "#888") => {
+circle = (center, radius, mass = 1, friction = 0, restitution = 1, angle = 0, velocity = Vec2(0, 0), color = "#888") => {
   shape = {
     type: "circle",
     center: center,
     radius: radius,
     mass: mass,
     invMass: 1 / mass,
-    forceAccumulator: Vec2(0, 0),
     friction: friction,
     restitution: restitution,
     velocity: velocity,
@@ -1291,7 +1294,7 @@ circle = (center, radius, mass = 1, friction = 0, restitution = 1, velocity = Ve
     // (...)
 }
 
-rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
+rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, angle = 0, velocity = Vec2(0, 0), color = "#888") => {
   shape = {
     type: "rectangle",
     center: center,
@@ -1397,10 +1400,10 @@ update = () => {
 }
 
 // Demo
-c1 = circle(Vec2(190, 100), 20, 1, 0, 1, Vec2(1, 1));
-c2 = circle(Vec2(320, 30), 20, 1, 0, 1, Vec2(-2, 2));
+c1 = circle(Vec2(190, 100), 20, 1, 0, 1, 0, Vec2(1, 1));
+c2 = circle(Vec2(320, 30), 20, 1, 0, 1, 0, Vec2(-2, 2));
 r1 = rectangle(Vec2(200, 220), 100, 20);
-r2 = rectangle(Vec2(200, 280), 50, 50, 1, 0, 1, Vec2(0, -1));</code></pre>
+r2 = rectangle(Vec2(200, 280), 50, 50, 1, 0, 1, 0, Vec2(0, -1));</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1438,7 +1441,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 <p>The demo is updated to include light, heavy and fixed shapes.
 
 <p><pre><code class="lang-js">// Shapes
-circle = (center, radius, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0),  angle = 0, color = "#888") => {
+circle = (center, radius, mass = 1, friction = 0, restitution = 1, angle = 0, velocity = Vec2(0, 0), color = "#888") => {
   
   shape = {
     type: "circle",
@@ -1449,7 +1452,7 @@ circle = (center, radius, mass = 1, friction = 0, restitution = 1, velocity = Ve
     
     // (...)
 
-rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, velocity = Vec2(0, 0), angle = 0, color = "#888") => {
+rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, angle = 0, velocity = Vec2(0, 0), color = "#888") => {
   shape = {
     type: "rectangle",
     center: center,
@@ -1475,10 +1478,10 @@ resolveCollision = (shape1, shape2, manifold) => {
 }
 
 // Demo
-c1 = circle(Vec2(190, 100), 20, 1, 0, 1, Vec2(1, 1));
+c1 = circle(Vec2(190, 100), 20, 1, 0, 1, 0, Vec2(1, 1));
 c2 = circle(Vec2(250, 120), 20, 0, 0, 1);
 r1 = rectangle(Vec2(200, 220), 100, 20, .2);
-r2 = rectangle(Vec2(200, 280), 50, 50, 10, 0, 1, Vec2(0, -1));</code></pre>
+r2 = rectangle(Vec2(200, 280), 50, 50, 10, 0, 1, 0, Vec2(0, -1));</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1537,8 +1540,9 @@ resolveCollision = (shape1, shape2, manifold) => {
 <p>positionalCorrection is implemented to prevent objects from overlapping: they are instantly moved away from each other proportionally to their invMass.
 <p>The restitution (bounciness) of the shapes is also included in the impulse magnitude.
 <p>Finally, the gravity is restored and a fixed ground is added to the demo.
-<p>In physics, all objects fall at the same speed. However, our integration method makes all the forces proportional to the inverse mass.
-<br>To compensate that, each object will receive a gravity force proportional to its mass in the update method ((G x m) / m = G).
+<br>In physics, gravity is a constant (all objects fall at the same speed).
+<br>However, our integration method makes all the forces applied to an object proportional to their inverse mass.
+<br>To compensate that, in the update method, each object will receive a gravity force proportional to its mass ((G x m) / m = G).
 
 <p><pre><code class="lang-js">// Correct positioning
 positionalCorrection = (shape1, shape2, manifold) => {
@@ -1606,8 +1610,16 @@ update = () => {
 
 <p>Inertia represents the resistance of an object to rotational forces.
 
-<p>In this chapter, we introduce inertia, inverseInertia and angularVelocity for circles and rectangles.
-<p>The angular velocity of a shape is also damped at each frame, and applied during integration.
+<p>In this chapter, we introduce the <b>inertia</b>, <b>inverseInertia</b> and <b>angularVelocity</b> properties for circles and rectangles.
+<p>Like the velocity, the angular velocity of each shape is also damped over time, and it is applied to its angle during integration.
+<p>Contrary to velocity, angularVelocity is a Number (because the angle is a Number too).
+
+<p>Inertia is also computed in the shapes' constructors:
+<p>- Circles inertia is equal to (mass * radius²) / 2.
+<p>- Rectangles inertia is equal to (mass * (width² + height²)) / 12.
+<p>- Complex polygons inertia is detailed in the original code but not used here.
+
+<p>Note: the original demo below features a rolling ball, but it will actually be implemented in the next chapter.
 
 <p><pre><code class="lang-js">
 </code></pre>
@@ -1621,7 +1633,7 @@ update = () => {
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/24/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/24">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/24">source code</a> (13.1 kb)
 <p><video controls src="images/2D-physics/24.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1990,7 +2002,9 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <p><video controls src="images/2D-physics/36.mp4?v=3" width=500></video>
 
 <br><hr>
--->
+
+
+TODO: remove ", 1" in integration? (in the videos it's ", deltaTime" )
 
 
 </main>
