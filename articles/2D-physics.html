@@ -181,7 +181,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <p><img src="images/2D-physics/dir.png" style="float:right; margin: 0 20px 20px; width: 200px">
 <b>Chapter 4: 2D vectors</b>
 <p>2D vectors are objects containing two values (<b>x</b> and <b>y</b>).<p>They can represent a point (with x and y coordinates) or a movement (with x and y offsets).
-<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with some modifications (added normal, lengh squared and copy, removed cross, rotate and distance for now). Each of these functions returns a Number (for len, len2 and dot) or a new Vec2 object.
+<p>Here again, no JS class. I will reuse the mini vector lib I created for Mini2DPhysics, with a few modifications to match the tuto's conventions.
 
 <p><pre><code class="lang-js">// 2D vectors
 Vec2 = (x, y) => ({x, y});
@@ -194,7 +194,6 @@ copy = v => Vec2(v.x, v.y);
 add = (v, w) => Vec2(v.x + w.x, v.y + w.y);
 sub = (v, w) => add(v, scale(w, -1));
 scale = (v, n) => Vec2(v.x * n, v.y * n);
-<!-- //cross = (v, w) => v.x * w.y - v.y * w.x;-->
 </code></pre>
 
 <p><b>Links:</b>
@@ -778,58 +777,81 @@ manifolds = [];
 rectangleRectangleCollision = (r1, r2) => {
   var contact = null;
   
+  // Check all axes from rectangle A against rectangle B
   var contactA = getContactPoint(r1, r2);
   if(contactA == null) return null;
   
+  // Check all axes from rectangle B against rectangle A
   var contactB = getContactPoint(r2, r1);
   if(contactB == null) return null;
   
+  // Choose the smallest penetration depth (most restrictive axis)
   if(contactA.depth &lt; contactB.depth){
     contact = contactA;
   }
   else {
     contact = contactB;
+    // Reverse the normal direction to ensure it points from A to B
     contact.normal = scale(contact.normal, -1);
   }
   
+  // Return the final contact information (depth, normal, contact point)
   return contact;
 }
 
-// SAT: Test all normals of rectangle 1 as potential separating axis
+// SAT: Test all normals of rectangle 1 as potential separating axes
 getContactPoint = (r1, r2) => {
   var contact = null;
   var minDepth = Number.MAX_VALUE;
   var supportPoint = null;
+
+  // For each normal of rectangle 1
   for(var i = 0; i &lt; r1.normals.length; i++){
+    // Find which vertex of rectangle 2 penetrates deepest along this normal
     supportPoint = findSupportPoint(r1.normals[i], r1.vertices[i], r2.vertices);
+
+    // If there is no overlap along this normal, there is no collision
     if(supportPoint == null) return null;
+
+    // Keep the smallest penetration depth found so far
     if(supportPoint.depth &lt; minDepth){
       minDepth = supportPoint.depth;
+
+      // Store the contact information for this axis
       contact = {
-        depth: minDepth,
-        normal: r1.normals[i],
-        contactPoint: supportPoint.vertex
+        depth: minDepth,              // penetration distance
+        normal: r1.normals[i],        // collision normal (axis of penetration)
+        contactPoint: supportPoint.vertex // point of contact on rectangle 2
       };
     }
   }
+  // Return the axis with the minimum overlap
   return contact;
 }
 
-// SAT: Find which vertex from other rectangle penetrates the deepest along a given axis
+// SAT: Find which vertex from the other rectangle penetrates the deepest along a given axis
 findSupportPoint = (normalOnEdge, pointOnEdge, otherPolygonVertices) => {
   var maxDepth = 0;
   var supportPoint = null;
   var depth = null;
+
+  // For each vertex of the other rectangle
   for(var i = 0; i &lt; otherPolygonVertices.length; i++){
+    // Project the vertex onto the axis defined by the current normal
+    // The 'depth' here represents how far the vertex is behind the edge (penetration distance)
     depth = dot(sub(otherPolygonVertices[i], pointOnEdge), scale(normalOnEdge, -1));
+
+    // Keep the vertex that penetrates the most (maximum depth)
     if(depth > maxDepth){
       maxDepth = depth;
       supportPoint = {
-        vertex: otherPolygonVertices[i],
-        depth: depth
+        vertex: otherPolygonVertices[i], // the vertex with the deepest penetration
+        depth: depth                     // its penetration distance
       };
     }
   }
+
+  // Return the vertex that is deepest along this normal
   return supportPoint;
 }
 
@@ -900,7 +922,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/13">source code</a> (16.4 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/13/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> (7.3 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> (8.5 kb)
 
 <p><video controls src="images/2D-physics/13.mp4?v=3" width=500></video>
 <br><hr>
@@ -915,59 +937,101 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><img src="images/2D-physics/14.png" style="border:2px solid">
 
-<p><pre><code class="lang-js">// circle-rectangle collision
+<p><pre><code class="lang-js">// Detect collision between a circle and a rectangle
 circleRectangleCollision = (circle, rectangle) => {
+  // First, try to detect a collision between the circle and the rectangle's edges
   var contact = circleVsRectangleEdges(circle, rectangle);
+
+  // If no edge collision was found, test against the rectangle's corners
   if(!contact){
     contact = circleVsRectangleCorners(circle, rectangle);
   }
+
+  // Return the resulting contact information (if any)
   return contact;
 }
 
+// Test collision between a circle and the edges of a rectangle
 circleVsRectangleEdges = (circle, rectangle) => {
   var nearestEdgeVertex = null;
   var nearestEdgeNormal = null;
   var dirToNext, circleDirToNextProjection, circleDirToNormalProjection;
-  
+
+  // Loop over each edge of the rectangle
   for(var i = 0; i &lt; rectangle.vertices.length; i++){
+    // Vector from the current vertex of the rectangle to the circle center
     vertToCircle = sub(circle.center, rectangle.vertices[i]);
+
+    // Direction vector along the current edge
     dirToNext = sub(rectangle.vertices[(i + 1) % rectangle.vertices.length], rectangle.vertices[i]);
+
+    // Project the circle center direction onto the edge direction
     circleDirToNextProjection = dot(vertToCircle, normalize(dirToNext));
+
+    // Project the circle center direction onto the edge normal
     circleDirToNormalProjection = dot(vertToCircle, rectangle.normals[i]);
-    
+
+    // Check if the circle center is within the edge segment bounds
+    // (projection along the edge is between 0 and edge length)
+    // and on the "inner" side of the edge (normal projection ≥ 0)
     if(circleDirToNormalProjection >= 0 && circleDirToNextProjection > 0 && circleDirToNextProjection &lt; len(dirToNext)){
+      // This edge is the nearest potential collision candidate
       nearestEdgeNormal = rectangle.normals[i];
       nearestEdgeVertex = rectangle.vertices[i];
     }
   }
 
+  // If no valid edge was found, no collision is possible along edges
   if(nearestEdgeNormal == null || nearestEdgeVertex == null){
     return null;
   }
 
+  // Compute how far the circle center is from the edge along the normal
   var projectionToEdgeNormal = dot(nearestEdgeNormal, sub(circle.center, nearestEdgeVertex));
+
+  // If the circle overlaps the edge (distance &lt; radius), report a collision
   if(projectionToEdgeNormal - circle.radius &lt; 0){
     return {
+      // Penetration depth (how far the circle intrudes)
       depth: -(projectionToEdgeNormal - circle.radius),
+
+      // Normal points from rectangle toward the circle
       normal: scale(nearestEdgeNormal, -1),
+
+      // Approximate contact point on the circle’s perimeter
       contactPoint: add(circle.center, scale(nearestEdgeNormal, -circle.radius))
     };
   }
+
+  // No edge collision
   return null;
 }
 
+// Test collision between a circle and the corners of a rectangle
 circleVsRectangleCorners = (circle, rectangle) => {
   var dirToCircleCenter;
+
+  // Loop over all rectangle vertices
   for(var i = 0; i &lt; rectangle.vertices.length; i++){
+    // Vector from the circle center to the current corner
     dirToCircleCenter = sub(rectangle.vertices[i], circle.center);
+
+    // If the corner is inside the circle’s radius, a collision occurs
     if(len2(dirToCircleCenter) &lt; (circle.radius ** 2)){
       return {
+        // Penetration depth (difference between radius and distance)
         depth: circle.radius - len(dirToCircleCenter),
+
+        // Normal pointing from circle center toward the corner
         normal: normalize(dirToCircleCenter),
+
+        // Contact point is the rectangle corner itself
         contactPoint: rectangle.vertices[i]
       };
     }
   }
+
+  // No corner inside the circle → no collision
   return null;
 }
 
@@ -1035,7 +1099,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/14">source code</a> (19.1 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/14/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/14">source code</a> (9.5 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/14">source code</a> (12.5 kb)
 <p><video controls src="images/2D-physics/14.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1102,7 +1166,7 @@ rectangle = (center, width, height, mass = 1, angle = 0, velocity = Vec2(0, 0), 
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/15/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/15">source code</a> (19.4 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/15/">demo</a> (nothing new to see there), <a href="https://github.com/xem/2Dphysics/tree/gh-pages/15">source code</a> (9.7 kb),
+<a href="https://xem.github.io/2Dphysics/15/">demo</a> (nothing new to see there), <a href="https://github.com/xem/2Dphysics/tree/gh-pages/15">source code</a> (12.7 kb),
 
 <br><hr>
 
@@ -1179,7 +1243,7 @@ update = () => {
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/17">source code</a> (19.1 kb)
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/17/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/17">source code</a> (9.7 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/17">source code</a> (13.3 kb)
 <p><video controls src="images/2D-physics/17.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1259,7 +1323,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/19/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/19">source code</a> (9.4 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/19">source code</a> (12.4 kb)
 <p><video controls src="images/2D-physics/19.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1351,13 +1415,13 @@ update = () => {
         
         // Detect circle-circle collisions
         if(shape1.type == "circle" && shape2.type == "circle"){
-          direction = sub(c2.center, c1.center);
-          distance = dist(c1.center, c2.center);
-          if(distance &lt; (c1.radius + c2.radius)){
+          direction = sub(shape2.center, shape1.center);
+          distance = dist(shape1.center, shape2.center);
+          if(distance &lt; (shape1.radius + shape2.radius)){
             manifold = {
-              depth: (c1.radius + c2.radius) - distance,
+              depth: (shape1.radius + shape2.radius) - distance,
               normal: normalize(direction),
-              contactPoint: add(c1.center, scale(normalize(direction), c1.radius))
+              contactPoint: add(shape1.center, scale(normalize(direction), shape1.radius))
             };
           }
         }
@@ -1422,7 +1486,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/20/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/20">source code</a> (12.0 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/20">source code</a> (15.0 kb)
 <p><video controls src="images/2D-physics/20.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1492,7 +1556,7 @@ r2 = rectangle(Vec2(200, 280), 50, 50, 10, 0, 1, 0, Vec2(0, -1));</code></pre>
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/21/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/21">source code</a> (12.1 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/21">source code</a> (15.1 kb)
 <p><video controls src="images/2D-physics/21.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1593,7 +1657,7 @@ update = () => {
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/23/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/23">source code</a> (12.6 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/23">source code</a> (15.7 kb)
 <p><video controls src="images/2D-physics/23.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1613,16 +1677,119 @@ update = () => {
 <p>In this chapter, we introduce the <b>inertia</b>, <b>inverseInertia</b> and <b>angularVelocity</b> properties for circles and rectangles.
 <p>Like the velocity, the angular velocity of each shape is also damped over time, and it is applied to its angle during integration.
 <p>Contrary to velocity, angularVelocity is a Number (because the angle is a Number too).
-
-<p>Inertia is also computed in the shapes' constructors:
+<p>The inertia is a constant computed in the shapes' constructors:
 <p>- Circles inertia is equal to (mass * radius²) / 2.
 <p>- Rectangles inertia is equal to (mass * (width² + height²)) / 12.
 <p>- Complex polygons inertia is detailed in the original code but not used here.
 
-<p>Note: the original demo below features a rolling ball, but it will actually be implemented in the next chapter.
+<p>The shapes now have all they need to rotate naturally after a collision, and the next two chapters will implement that.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p><pre><code class="lang-js">// Shapes
+circle = (
+  center,
+  radius,
+  mass = 1,
+  friction = 0,
+  restitution = 1,
+  angle = 0,
+  velocity = Vec2(0, 0),
+  angularVelocity = 0,
+  color = "#888"
+) => {
+
+  var inertia = (mass * (radius ** 2)) / 2;
+  
+  shape = {
+    type: "circle",
+    center: center,
+    radius: radius,
+    mass: mass,
+    invMass: mass == 0 ? 0 : 1 / mass,
+    friction: friction,
+    restitution: restitution,
+    angle: angle,
+    velocity: velocity,
+    angularVelocity: angularVelocity,
+    inertia: inertia,
+    invInertia: inertia == 0 ? 0 : 1 / inertia,
+    forceAccumulator: Vec2(0, 0),
+    color: color
+  };
+  
+  shapes.push(shape);
+  return shape;
+}
+
+rectangle = (
+  center,
+  width,
+  height,
+  mass = 1,
+  friction = 0,
+  restitution = 1,
+  angle = 0,
+  velocity = Vec2(0, 0),
+  angularVelocity = 0,
+  color = "#888"
+) => {
+
+  var inertia = (mass * ((width ** 2) + (height ** 2))) / 12;
+  
+  shape = {
+    type: "rectangle",
+    center: center,
+    width: width,
+    height: height,
+    mass: mass,
+    invMass: mass == 0 ? 0 : 1 / mass,
+    friction: friction,
+    restitution: restitution,
+    angle: angle,
+    velocity: velocity,
+    angularVelocity: angularVelocity,
+    inertia: inertia,
+    invInertia: inertia == 0 ? 0 : 1 / inertia,
+    forceAccumulator: Vec2(0, 0),
+    color: color,
+
+    // Rectangle vertices
+    vertices: [
+      Vec2(center.x - width / 2, center.y - height / 2), // top left
+      Vec2(center.x + width / 2, center.y - height / 2), // top right
+      Vec2(center.x + width / 2, center.y + height / 2), // bottom left
+      Vec2(center.x - width / 2, center.y + height / 2)  // bottom right
+    ]
+  };
+  
+  // Rotation
+  if(angle) {
+    rotateShape(shape, angle);
+  }
+  
+  // Normals
+  calcNormals(shape);
+  
+  shapes.push(shape);
+  return shape;
+};
+
+// Shape integration
+integrate = (shape, deltaTime) => {
+  var acceleration = scale(shape.forceAccumulator, shape.invMass); // compute acceleration
+  shape.velocity = add(shape.velocity, scale(acceleration, 1)); // apply acceleration to velocity
+  translateShape(shape, scale(shape.velocity, 1)); // apply velocity to position
+  rotateShape(shape, shape.angularVelocity * 1); // apply velocity to position
+  shape.forceAccumulator = Vec2(0, 0); // reset force accumulator
+  shape.velocity = scale(shape.velocity, .99); // velocity damping
+  shape.angularVelocity *= 0.99; // angular velocity damping
+}
+
+// Demo
+rectangle(Vec2(350, 350), 300, 20, 0, 0.5, .9, 0.2);
+circle(Vec2(190, 100), 30, 10, 1, .1);
+circle(Vec2(290, 100), 30, 10, .1, .1);
+circle(Vec2(390, 100), 30, 10, .01, .1);
+rectangle(Vec2(500, 100), 100, 50, 10, 1, .1);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1633,7 +1800,7 @@ update = () => {
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/24/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/24">source code</a> (13.1 kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/24">source code</a> (16.3 kb)
 <p><video controls src="images/2D-physics/24.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1646,15 +1813,87 @@ update = () => {
 
 
 
-<p><b>Chapter 25: </b>
+<p><b>Chapter 25: rotational impulses</b>
 
-<p>
+<p>Just like position has velocity and acceleration, angle has angular velocity and torque (angular acceleration).
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p>Angular impulses can affect an object's torque every time a force is not applied towards its center of gravity.
+
+<p>A <b>cross</b> function is added to Vec2, to compute a cross-product.
+<br>It returns a value between -1 and 1 representing the angle between two vectors (from 1: parallel, to 0: perpendicular, to -1: opposed).
+
+<p>The resolveCollision method is rewritten to allow rectangles to rotate after a collision. I left the code heavily commented for now.
+
+<p>Circles are not affected by this code because they are not polygons, so they can only rotate based on tangential impulses, which are caused by friction. Chapter 26 will cover this.
+
+<p><pre><code class="lang-js">cross = (v, w) => v.x * w.y - v.y * w.x;
+
+// Resolve collision
+resolveCollision = (shape1, shape2, manifold) => {
+
+  // If both objects are kinematic, skip
+  if(shape1.invMass == 0 && shape2.invMass == 0) return;
+
+  // Vectors from each object's center to the contact point
+  var penetrationToCentroidA = sub(manifold.contactPoint, shape1.center);
+  var penetrationToCentroidB = sub(manifold.contactPoint, shape2.center);
+
+  // Linear velocity contribution at the contact point due to angular velocity
+  var angularVelocityPenetrationCentroidA = Vec2(
+    -shape1.angularVelocity * penetrationToCentroidA.y,
+     shape1.angularVelocity * penetrationToCentroidA.x
+  );
+  var angularVelocityPenetrationCentroidB = Vec2(
+    -shape2.angularVelocity * penetrationToCentroidB.y,
+     shape2.angularVelocity * penetrationToCentroidB.x
+  );
+
+  // Total velocity at the contact point = linear + rotational
+  var relativeVelocityA = add(shape1.velocity, angularVelocityPenetrationCentroidA);
+  var relativeVelocityB = add(shape2.velocity, angularVelocityPenetrationCentroidB);
+
+  // Relative velocity between both contact points
+  var relativeVel = sub(relativeVelocityB, relativeVelocityA);
+
+  // Project relative velocity onto the collision normal
+  var velocityInNormal = dot(relativeVel, manifold.normal);
+
+  // If the objects are moving apart (positive relative velocity along the normal), skip
+  if(velocityInNormal > 0) return;
+
+  // Restitution coefficient (bounciness)
+  var e = Math.min(shape1.restitution, shape2.restitution);
+
+  // Compute the "lever arm" cross product (how far from the center the impulse acts)
+  var pToCentroidCrossNormalA = cross(penetrationToCentroidA, manifold.normal);
+  var pToCentroidCrossNormalB = cross(penetrationToCentroidB, manifold.normal);
+
+  // Effective inverse mass including both linear and rotational contributions
+  var invMassSum = shape1.invMass + shape2.invMass;
+  var rigiAInvInertia = shape1.invInertia;
+  var rigiBInvInertia = shape2.invInertia;
+  var crossNSum =
+    pToCentroidCrossNormalA * pToCentroidCrossNormalA * rigiAInvInertia +
+    pToCentroidCrossNormalB * pToCentroidCrossNormalB * rigiBInvInertia;
+
+  // Compute the scalar impulse magnitude (j)
+  var j = -(1 + e) * velocityInNormal;
+  j /= (invMassSum + crossNSum);
+
+  // Convert scalar impulse into a vector along the collision normal
+  var impulseVector = scale(manifold.normal, j);
+
+  // Apply impulse to linear velocities (in opposite directions)
+  shape1.velocity = sub(shape1.velocity, scale(impulseVector, shape1.invMass));
+  shape2.velocity = add(shape2.velocity, scale(impulseVector, shape2.invMass));
+
+  // Apply rotational impulse based on lever arm and inverse inertia
+  shape1.angularVelocity += -pToCentroidCrossNormalA * j * rigiAInvInertia;
+  shape2.angularVelocity +=  pToCentroidCrossNormalB * j * rigiBInvInertia;
+}</code></pre>
 
 <p><b>Links:</b>
-<br>- Original:  
+<br>Original:  
 video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=42">1</a>, 
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=43">2</a>, 
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=44">3</a>, 
@@ -1668,7 +1907,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/25/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/25">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/25">source code</a> (18.4 kb)
 <p><video controls src="images/2D-physics/25.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -1681,12 +1920,71 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 
 
-<p><b>Chapter 26: </b>
+<p><b>Chapter 26: frictional impulses</b>
 
-<p>
+<p>The last step needed to make balls roll on themselves after a collison, but also to make all the shapes fall along a slope with a specific resistance, is to implement friction.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p><pre><code class="lang-js">// Resolve collision
+resolveCollision = (shape1, shape2, manifold) => {
+
+  // If both objects are kinematic, skip
+  if(shape1.invMass == 0 && shape2.invMass == 0) return;
+  
+  // Normal impulse
+
+  // (...)
+
+  // Frictional impulse
+
+  // Compute the component of the relative velocity along the collision normal
+  var velocityInNormalDirection = scale(manifold.normal, dot(relativeVel, manifold.normal));
+
+  // Subtract that from the total relative velocity to get the tangential direction
+  var tangent = sub(relativeVel, velocityInNormalDirection);
+
+  // Reverse tangent direction (optional, depending on sign convention)
+  tangent = scale(tangent, -1);
+
+  // Use the smallest friction coefficient between the two shapes
+  var minFriction = Math.min(shape1.friction, shape2.friction);
+
+  // (Debug) If tangent has positive components, normalize and draw it
+  if(tangent.x > 0 || tangent.y > 0){
+    tangent = normalize(tangent);    
+    drawLine(shape1.center, add(shape1.center, scale(tangent, 40)));
+  }
+
+  // Compute lever arms (distance vectors crossed with tangent direction)
+  // Used to determine rotational influence for each body
+  var pToCentroidCrossTangentA = cross(penetrationToCentroidA, tangent);
+  var pToCentroidCrossTangentB = cross(penetrationToCentroidB, tangent);
+
+  // Effective inverse mass for the tangential direction (accounts for rotation)
+  var crossSumTangent =
+    pToCentroidCrossTangentA * pToCentroidCrossTangentA * rigiAInvInertia +
+    pToCentroidCrossTangentB * pToCentroidCrossTangentB * rigiBInvInertia;
+
+  // Compute the tangential (frictional) impulse magnitude
+  // This resists sliding motion along the tangent direction
+  var frictionalImpulse = -(1 + e) * dot(relativeVel, tangent) * minFriction;
+
+  // Divide by total effective mass (linear + rotational)
+  frictionalImpulse /= (invMassSum + crossSumTangent);
+
+  // Limit frictional impulse so it doesn’t exceed the normal impulse
+  if(frictionalImpulse > j){ frictionalImpulse = j; }
+
+  // Convert scalar friction impulse into a vector along the tangent
+  var frictionalImpulseVector = scale(tangent, frictionalImpulse);
+
+  // Apply friction impulse to linear velocities of both bodies
+  shape1.velocity = sub(shape1.velocity, scale(frictionalImpulseVector, shape1.invMass));
+  shape2.velocity = add(shape2.velocity, scale(frictionalImpulseVector, shape2.invMass));    
+
+  // Apply angular (rotational) impulse due to friction
+  shape1.angularVelocity += -pToCentroidCrossTangentA * frictionalImpulse * rigiAInvInertia;    
+  shape2.angularVelocity +=  pToCentroidCrossTangentB * frictionalImpulse * rigiBInvInertia;
+}</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1701,7 +1999,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/26/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/26">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/26">source code</a> (20.8 kb)
 <p><video controls src="images/2D-physics/26.mp4?v=3" width=500></video>
 
 <br><hr>
