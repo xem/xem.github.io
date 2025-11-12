@@ -89,7 +89,6 @@ c = a.getContext("2d");
 
 <p><pre><code class="lang-js">// Main loop
 setInterval(() => {
-
   // TODO
 
 }, 16);</code></pre>
@@ -143,6 +142,7 @@ onkeydown = e => {
 
 // Update the physics engine
 update = () => {
+
   console.log(mx, my); // Test logs
 }
 
@@ -238,6 +238,7 @@ drawLine = (start, end, color = "#888") => {
 
 // Render the scene
 draw = () => {
+
   // Reset canvas
   a.width = a.width;
 
@@ -775,6 +776,7 @@ manifolds = [];
 
 // SAT: test two rectangles against each other's axis and choose the minimal penetration depth
 rectangleRectangleCollision = (r1, r2) => {
+
   var contact = null;
   
   // Check all axes from rectangle A against rectangle B
@@ -801,6 +803,7 @@ rectangleRectangleCollision = (r1, r2) => {
 
 // SAT: Test all normals of rectangle 1 as potential separating axes
 getContactPoint = (r1, r2) => {
+
   var contact = null;
   var minDepth = Number.MAX_VALUE;
   var supportPoint = null;
@@ -831,6 +834,7 @@ getContactPoint = (r1, r2) => {
 
 // SAT: Find which vertex from the other rectangle penetrates the deepest along a given axis
 findSupportPoint = (normalOnEdge, pointOnEdge, otherPolygonVertices) => {
+
   var maxDepth = 0;
   var supportPoint = null;
   var depth = null;
@@ -898,6 +902,7 @@ update = () => {
 
 // Render the scene
 draw = () => {
+
   
   // (...)
   
@@ -939,6 +944,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><pre><code class="lang-js">// Detect collision between a circle and a rectangle
 circleRectangleCollision = (circle, rectangle) => {
+
   // First, try to detect a collision between the circle and the rectangle's edges
   var contact = circleVsRectangleEdges(circle, rectangle);
 
@@ -953,6 +959,7 @@ circleRectangleCollision = (circle, rectangle) => {
 
 // Test collision between a circle and the edges of a rectangle
 circleVsRectangleEdges = (circle, rectangle) => {
+
   var nearestEdgeVertex = null;
   var nearestEdgeNormal = null;
   var dirToNext, circleDirToNextProjection, circleDirToNormalProjection;
@@ -1009,6 +1016,7 @@ circleVsRectangleEdges = (circle, rectangle) => {
 
 // Test collision between a circle and the corners of a rectangle
 circleVsRectangleCorners = (circle, rectangle) => {
+
   var dirToCircleCenter;
 
   // Loop over all rectangle vertices
@@ -1207,10 +1215,18 @@ deltaTime = 1;
 
 // Shape integration
 integrate = (shape, deltaTime) => {
-  var acceleration = scale(shape.forceAccumulator, shape.invMass); // compute acceleration
-	shape.velocity = add(shape.velocity, scale(acceleration, 1)); // apply acceleration to velocity
-	translateShape(shape, scale(shape.velocity, 1)); // apply velocity to position
-	shape.forceAccumulator = Vec2(0, 0); // reset force accumulator
+
+  // compute acceleration
+  var acceleration = scale(shape.forceAccumulator, shape.invMass);
+  
+  // apply acceleration to velocity
+  shape.velocity = add(shape.velocity, scale(acceleration, 1));
+  
+  // apply velocity to position
+  translateShape(shape, scale(shape.velocity, 1));
+  
+  // reset force accumulator
+  shape.forceAccumulator = Vec2(0, 0);
 }
 
 // Update the physics engine
@@ -1280,6 +1296,7 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <p><pre><code class="lang-js">// Shape integration
 integrate = (shape, deltaTime) => {
+
   var acceleration = scale(shape.forceAccumulator, shape.invMass); // compute acceleration
 	shape.velocity = add(shape.velocity, scale(acceleration, 1)); // apply acceleration to velocity
 	translateShape(shape, scale(shape.velocity, 1)); // apply velocity to position
@@ -1375,11 +1392,13 @@ rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, ang
 
 // Correct positioning
 positionalCorrection = (shape1, shape2, manifold) => {
+
   // todo
 }
 
 // Resolve collision
 resolveCollision = (shape1, shape2, manifold) => {
+
   var relativeVelocityAlongNormal = dot(sub(shape2.velocity, shape1.velocity), manifold.normal);
   if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
   var e = 1; // total elasticity (currently 100%)
@@ -1531,6 +1550,7 @@ rectangle = (center, width, height, mass = 1, friction = 0, restitution = 1, ang
 
 // Resolve collision
 resolveCollision = (shape1, shape2, manifold) => {
+
   var relativeVelocityAlongNormal = dot(sub(shape2.velocity, shape1.velocity), manifold.normal);
   if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
   var e = 1; // total elasticity
@@ -1576,6 +1596,7 @@ r2 = rectangle(Vec2(200, 280), 50, 50, 10, 0, 1, 0, Vec2(0, -1));</code></pre>
 
 <p><pre><code class="lang-js">// Resolve collision
 resolveCollision = (shape1, shape2, manifold) => {
+
   var relativeVelocityAlongNormal = dot(sub(shape2.velocity, shape1.velocity), manifold.normal);
   if(relativeVelocityAlongNormal > 0) return; // shapes are already going away from each other
   if(shape1.invMass == 0 && shape2.invMass == 0) return; // both shapes are kinematic
@@ -1610,6 +1631,7 @@ resolveCollision = (shape1, shape2, manifold) => {
 
 <p><pre><code class="lang-js">// Correct positioning
 positionalCorrection = (shape1, shape2, manifold) => {
+
   var correction = 0.7;
   var correctionAmount = manifold.depth / (shape1.invMass + shape2.invMass) * correction;
   var correctionVector = scale(manifold.normal, correctionAmount);
@@ -1623,6 +1645,7 @@ positionalCorrection = (shape1, shape2, manifold) => {
 
 // Resolve collision
 resolveCollision = (shape1, shape2, manifold) => {
+
   
   // (...)
   
@@ -1775,13 +1798,27 @@ rectangle = (
 
 // Shape integration
 integrate = (shape, deltaTime) => {
-  var acceleration = scale(shape.forceAccumulator, shape.invMass); // compute acceleration
-  shape.velocity = add(shape.velocity, scale(acceleration, 1)); // apply acceleration to velocity
-  translateShape(shape, scale(shape.velocity, 1)); // apply velocity to position
-  rotateShape(shape, shape.angularVelocity * 1); // apply velocity to position
-  shape.forceAccumulator = Vec2(0, 0); // reset force accumulator
-  shape.velocity = scale(shape.velocity, .99); // velocity damping
-  shape.angularVelocity *= 0.99; // angular velocity damping
+
+  // compute acceleration
+  var acceleration = scale(shape.forceAccumulator, shape.invMass);
+  
+  // apply acceleration to velocity
+  shape.velocity = add(shape.velocity, scale(acceleration, 1));
+
+  // apply velocity to position
+  translateShape(shape, scale(shape.velocity, 1));
+
+  // apply velocity to position
+  rotateShape(shape, shape.angularVelocity * 1); 
+
+  // reset force accumulator
+  shape.forceAccumulator = Vec2(0, 0); 
+
+  // velocity damping
+  shape.velocity = scale(shape.velocity, .99); 
+
+  // angular velocity damping
+  shape.angularVelocity *= 0.99; 
 }
 
 // Demo
@@ -1986,6 +2023,18 @@ resolveCollision = (shape1, shape2, manifold) => {
   shape2.angularVelocity +=  pToCentroidCrossTangentB * frictionalImpulse * rigiBInvInertia;
 }</code></pre>
 
+
+<p>A little warning here: when I showed this code to ChatGPT, it suggested a few modifications (to take with a pinch of salt):
+<p>- "(1+e)" has no physical sense. We should do this instead:
+<br><pre><code class="lang-js">var frictionalImpulse = -dot(relativeVel, tangent) * minFriction;</code></pre>
+<br>- Coulomb friction must be clamped:
+<br><pre><code class="lang-js">if (Math.abs(frictionalImpulse) > j * minFriction)
+    frictionalImpulse = j * minFriction * Math.sign(frictionalImpulse);</code></pre>
+<br>- The direction test us useless and blocks some positive facts: remove this line: 
+<br><pre><code class="lang-js">(tangent.x > 0 || tangent.y > 0)</code></pre>
+
+<p>We will consider these ideas later.
+
 <p><b>Links:</b>
 <br>- Original:  
 video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=47">1</a>, 
@@ -2001,6 +2050,10 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 <a href="https://xem.github.io/2Dphysics/26/">demo</a>,
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/26">source code</a> (20.8 kb)
 <p><video controls src="images/2D-physics/26.mp4?v=3" width=500></video>
+
+<br><hr>
+
+<i>We are now at the same level as my 2019 library mini2Dphysics. The next 10 chapters will finally cover the last features that interest me.</i>
 
 <br><hr>
 
