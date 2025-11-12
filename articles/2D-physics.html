@@ -1826,7 +1826,8 @@ rectangle(Vec2(350, 350), 300, 20, 0, 0.5, .9, 0.2);
 circle(Vec2(190, 100), 30, 10, 1, .1);
 circle(Vec2(290, 100), 30, 10, .1, .1);
 circle(Vec2(390, 100), 30, 10, .01, .1);
-rectangle(Vec2(500, 100), 100, 50, 10, 1, .1);</code></pre>
+rectangle(Vec2(500, 100), 100, 50, 10, 1, .1);
+rectangle(Vec2(290, -700), 100, 50, 10, .01, .1);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -1985,12 +1986,6 @@ resolveCollision = (shape1, shape2, manifold) => {
   // Use the smallest friction coefficient between the two shapes
   var minFriction = Math.min(shape1.friction, shape2.friction);
 
-  // (Debug) If tangent has positive components, normalize and draw it
-  if(tangent.x > 0 || tangent.y > 0){
-    tangent = normalize(tangent);    
-    drawLine(shape1.center, add(shape1.center, scale(tangent, 40)));
-  }
-
   // Compute lever arms (distance vectors crossed with tangent direction)
   // Used to determine rotational influence for each body
   var pToCentroidCrossTangentA = cross(penetrationToCentroidA, tangent);
@@ -2025,13 +2020,11 @@ resolveCollision = (shape1, shape2, manifold) => {
 
 
 <p>A little warning here: when I showed this code to ChatGPT, it suggested a few modifications (to take with a pinch of salt):
-<p>- "(1+e)" has no physical sense. We should do this instead:
+<p>- "(1+e) * " has no physical sense in friction. We should do this instead:
 <br><pre><code class="lang-js">var frictionalImpulse = -dot(relativeVel, tangent) * minFriction;</code></pre>
 <br>- Coulomb friction must be clamped:
 <br><pre><code class="lang-js">if (Math.abs(frictionalImpulse) > j * minFriction)
     frictionalImpulse = j * minFriction * Math.sign(frictionalImpulse);</code></pre>
-<br>- The direction test us useless and blocks some positive facts: remove this line: 
-<br><pre><code class="lang-js">(tangent.x > 0 || tangent.y > 0)</code></pre>
 
 <p>We will consider these ideas later.
 
@@ -2065,12 +2058,96 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 
 
 
-<p><b>Chapter 27: </b>
+<p><b>Chapter 27: Anchor points</b>
 
-<p>
+<p>To start implementing joints between rigid bodies, we need a way to define anchor points.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p>These anchor points are defined relatively to a shape's center, and are recomputed in World coordinates when the shape is rotated or translated.
+
+<p>For debug purposes, they are drawn in green.
+
+<p><pre><code class="lang-js">// Shapes
+circle = ( /* ... */ ) => {
+  
+  var shape = {
+    // (...)
+    color: color,
+    anchorPoints: []
+  };
+  
+  shapes.push(shape);
+  return shape;
+}
+
+rectangle = ( /* ... */ ) => {
+ 
+  var shape = {
+    
+    // (...)
+    
+    color: color,
+    anchorPoints: [],
+
+    // (...)
+  };
+};
+
+// Add anchor point
+addAnchor = (anchor, shape) => {
+  shape.anchorPoints.push(add(anchor, shape.center));
+}
+
+// Translate a shape
+translateShape = (shape, offset) => {
+
+  // (...)
+  
+  // Move anchor points
+  for(var i in shape.anchorPoints){
+    shape.anchorPoints[i] = add(shape.anchorPoints[i], offset);
+  }
+}
+
+// Rotate a shape around its center (angle in radians)
+rotateShape = (shape, angle) => {
+
+  // (...)
+  
+  // Rotate anchor points
+  for(var i in shape.anchorPoints){
+    shape.anchorPoints[i] = rotate(shape.anchorPoints[i], shape.center, angle);
+  }
+}
+
+// Render the scene
+draw = () => {
+
+  // Reset canvas
+  a.width = a.width;
+
+  // Draw shapes
+  for(var i of shapes){
+    
+    // (...)
+    
+    // Debug: draw anchor points
+    for(var j of i.anchorPoints){
+      drawPoint(j, 5, "green");
+    }
+  }
+
+  // (...)
+}
+
+// Demo
+rectangle(Vec2(350, 350), 300, 20, 0, 0.5, .9, 0.2);
+circle(Vec2(190, 100), 30, 10, 1, .1);
+c1 = circle(Vec2(290, 100), 30, 10, .1, .1);
+circle(Vec2(390, 100), 30, 10, .01, .1);
+rectangle(Vec2(500, 100), 100, 50, 10, 1, .1);
+r1 = rectangle(Vec2(290, -700), 100, 50, 10, .01, .1);
+addAnchor(Vec2(15, 15), c1);
+addAnchor(Vec2(-30, 15), r1);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
