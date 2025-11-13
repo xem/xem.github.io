@@ -1082,8 +1082,8 @@ update = () => {
         
         // Collision response
         if(manifold){
-          circle.color = "red";
-          rectangle.color = "red";
+          shape1.color = "red";
+          shape2.color = "red";
           push = scale(manifold.normal, manifold.depth * 0.5);
           translateShape(rectangle, push);
           translateShape(circle, scale(push, -1));
@@ -1236,8 +1236,8 @@ update = () => {
         
   // Collision response
   if(manifold){
-    circle.color = "red";
-    rectangle.color = "red";
+    shape1.color = "red";
+    shape2.color = "red";
     push = scale(manifold.normal, manifold.depth * 0.5);
     rectangle.forceAccumulator = add(rectangle.forceAccumulator, push);
     circle.forceAccumulator = add(circle.forceAccumulator, scale(push, -1));
@@ -1359,6 +1359,7 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics
 <p>- Friction (slidyness) will be used later in tangential collision responses (0: frictionless - 1: maximum friction).
 <p>In this chapter, the default values (friction = 0, restitution = 1) are used, and the masses are ignored.
 <p>Also, the update method now handles all three kinds of collisions, and the gravity is disabled for now, to let shapes collide with each other.
+<p>The red coloring on collisions is commented.
 
 <p><pre><code class="lang-js">// Shapes
 circle = (center, radius, mass = 1, friction = 0, restitution = 1, angle = 0, velocity = Vec2(0, 0), color = "#888") => {
@@ -1462,8 +1463,8 @@ update = () => {
         
         // Collision response
         if(manifold){
-          circle.color = "red";
-          rectangle.color = "red";
+          //shape1.color = "red";
+          //shape2.color = "red";
           push = scale(manifold.normal, manifold.depth * 0.5);
           positionalCorrection(shape1, shape2, manifold);
           resolveCollision(shape1, shape2, manifold);
@@ -1808,7 +1809,7 @@ integrate = (shape, deltaTime) => {
   // apply velocity to position
   translateShape(shape, scale(shape.velocity, 1));
 
-  // apply velocity to position
+  // apply angular velocity to angle
   rotateShape(shape, shape.angularVelocity * 1); 
 
   // reset force accumulator
@@ -2092,7 +2093,7 @@ rectangle = ( /* ... */ ) => {
   };
 };
 
-// Add anchor point
+// Add anchor point (local coordinates)
 addAnchor = (anchor, shape) => {
   shape.anchorPoints.push(add(anchor, shape.center));
 }
@@ -2158,7 +2159,7 @@ addAnchor(Vec2(-30, 15), r1);</code></pre>
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/27/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/27">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/27">source code</a> (21.3 kb)
 <p><video controls src="images/2D-physics/27.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -2171,11 +2172,131 @@ addAnchor(Vec2(-30, 15), r1);</code></pre>
 
 
 
-<p><b>Chapter 28: </b>
+<p><b>Chapter 28: Apply a force outside the center</b>
 
-<p>
+<p>Anchor points will be used to apply forces on objects. When the anchor is not exactly on the center of a shape, their force provokes a linear and a rotational motion.
 
-<p><pre><code class="lang-js">
+<p>A <b>torqueAccumulator</b> (Number) is added to the shapes constructors.
+
+<p>Mouse inputs will be used to apply forces freely in the demo.
+<p>An <b>isPointInside</b> function is created to check if a shape is clicked.
+<p>The integrate method is completed too.
+
+<p><pre><code class="lang-js">// Globals
+selectedRigidBody = null;
+selectedPosition = null;
+selectedAnchorId = null;
+
+// Is point inside a shape
+isPointInside = (point, shape) => {
+
+  // Circle
+  if(shape.type == "circle"){
+		var distanceToCenter = len(sub(shape.center, point));	
+		return shape.radius > distanceToCenter;
+	}
+  
+  // Rectangle
+  else {
+    var isInside = false;
+		for(var i = 0; i &lt; shape.vertices.length; i++){
+			var vertex = shape.vertices[i];
+			var normal = shape.normals[i];
+			var vertToPoint = sub(point, vertex);
+			var d = dot(vertToPoint, normal);
+			if(d > 0) return false;
+			else isInside = true;
+		}
+		return isInside;
+  }
+}
+
+// Add force on a point (world coordinates)
+addForceAtPoint = (point, shape, force) => {
+  var direction = sub(point, shape.center);
+  shape.forceAccumulator = add(shape.forceAccumulator, force);
+  shape.torqueAccumulator += cross(direction, force);
+}
+
+// Shape integration
+integrate = (shape, deltaTime) => {
+
+  // compute acceleration and rotational acceleration
+  var acceleration = scale(shape.forceAccumulator, shape.invMass);
+  var rotationalAcceleration = shape.torqueAccumulator * shape.invInertia;
+  
+  // apply acceleration to velocity
+  shape.velocity = add(shape.velocity, scale(acceleration, 1));
+
+  // apply velocity to position
+  translateShape(shape, scale(shape.velocity, 1));
+  
+  // apply rotational acceleration to angular velocity
+  shape.angularVelocity += rotationalAcceleration * 1;
+
+  // apply angular velocity to angle
+  rotateShape(shape, shape.angularVelocity * 1); 
+
+  // velocity damping
+  shape.velocity = scale(shape.velocity, .99); 
+
+  // angular velocity damping
+  shape.angularVelocity *= 0.99; 
+
+  // reset force accumulator
+  shape.forceAccumulator = Vec2(0, 0); 
+  
+  // reset torque accumulator
+  shape.torqueAccumulator = 0;
+}
+
+// Mouse interactions
+handleMouseObjectInteraction = () => {
+  var mousePos = Vec2(mx, my);
+
+  // Left button pressed
+  if(mlb){
+    for(var i = 0; i &lt; shapes.length; i++){
+      var mouseInside = isPointInside(mousePos, shapes[i]);
+      if(mouseInside && selectedRigidBody == null){
+        selectedRigidBody = shapes[i];
+        selectedPosition = copy(mousePos);
+        var localPos = sub(mousePos, shapes[i].center);
+        addAnchor(localPos, shapes[i]);
+        selectedAnchorId = shapes[i].anchorPoints.length - 1;
+      }
+    }
+  }
+  
+  // Left button released
+  else {
+    if(selectedRigidBody != null){
+      selectedRigidBody.anchorPoints.pop();
+      selectedRigidBody = null;
+    }
+    selectedAnchorId = null;
+    selectedPosition = null;
+  }
+  
+  // Apply force
+  if(selectedRigidBody && selectedPosition){
+    var start = selectedRigidBody.anchorPoints[selectedAnchorId];
+    var force = sub(mousePos, start);
+    addForceAtPoint(start, selectedRigidBody, scale(force, 0.01));			
+  }
+}
+
+// Update the physics engine
+update = () => {
+
+  // (...)
+  
+  // Mouse interactions
+  handleMouseObjectInteraction();
+}
+
+// Demo
+rectangle(Vec2(350, 350), 400, 20, 0, 0.5, .9); // not tilted
 </code></pre>
 
 <p><b>Links:</b>
@@ -2188,18 +2309,12 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/28/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/28">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/28">source code</a> (23.8 kb)
 <p><video controls src="images/2D-physics/28.mp4?v=3" width=500></video>
 
 <br><hr>
 
-
-
-
-
-
-
-
+also: red on collision
 
 <p><b>Chapter 29: </b>
 
