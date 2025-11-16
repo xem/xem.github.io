@@ -2093,9 +2093,12 @@ rectangle = ( /* ... */ ) => {
   };
 };
 
-// Add anchor point (local coordinates)
+// Add anchor point
+// (anchor is in local coordinates)
 addAnchor = (anchor, shape) => {
-  shape.anchorPoints.push(add(anchor, shape.center));
+  var anchor = add(anchor, shape.center);
+  shape.anchorPoints.push(anchor);
+  return shape.anchorPoints.length - 1;
 }
 
 // Translate a shape
@@ -2211,7 +2214,8 @@ isPointInside = (point, shape) => {
   }
 }
 
-// Add force on a point (world coordinates)
+// Add force on a point
+// (point is in world coordinates)
 addForceAtPoint = (point, shape, force) => {
   var direction = sub(point, shape.center);
   shape.forceAccumulator = add(shape.forceAccumulator, force);
@@ -2314,14 +2318,81 @@ video <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDR
 
 <br><hr>
 
-also: red on collision
+<p><b>Chapter 29: Force joints</b>
 
-<p><b>Chapter 29: </b>
+<p>With anchor points that can apply forces, we can now implement joints by linking two anchor points together.
 
-<p>
+<p>The simplest kind of joint, the force joint, is elastic.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p><pre><code class="lang-js">// Globals
+joints = [];
+
+// Update the physics engine
+update = () => {
+
+  // (...)
+  
+  // joints
+  handleJoints();
+}
+
+// Render the scene
+draw = () => {
+
+  // (...)
+  
+  // Debug: draw joints
+  for(var i of joints){
+    drawLine(i.rigiA.anchorPoints[i.anchorA], i.rigiB.anchorPoints[i.anchorB], "orange");
+  }
+}
+
+// Joints
+
+// Force joint
+forceJoint = (rigiA, anchorA, rigiB, anchorB, strength) => {
+	var joint = {
+    type: "force",
+    rigiA: rigiA,
+		anchorA: anchorA,
+		rigiB: rigiB,
+		anchorB: anchorB,
+    strength: strength
+	};
+  
+  joints.push(joint);
+  return joint;
+}
+
+// Joint handler
+handleJoints = () => {
+  for(var i = 0; i &lt; joints.length; i++){
+    
+    var joint = joints[i];
+  
+    if(joint.type == "force"){
+      
+      // Update connection A
+      var anchorAPos = joint.rigiA.anchorPoints[joint.anchorA];
+      var anchorBPos = joint.rigiB.anchorPoints[joint.anchorB];
+      var direction = sub(anchorBPos, anchorAPos);
+      
+      addForceAtPoint(anchorBPos, joint.rigiA, scale(direction, joint.strength / 2));
+      
+      // Update connection b
+      direction = sub(anchorAPos, anchorBPos);
+      addForceAtPoint(anchorAPos, joint.rigiB, scale(direction, joint.strength / 2));
+    }
+  }
+}
+
+// Demo
+rectangle(Vec2(350, 550), 500, 20, 0, 0.5, .9);
+r1 = rectangle(Vec2(200, 200), 200, 100, 100);
+a1 = addAnchor(Vec2(50,25), r1);
+c1 = circle(Vec2(500, 100), 60, 100);
+a2 = addAnchor(Vec2(-60,0), c1);
+j1 = forceJoint(r1, a1, c1, a2, .1);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -2332,7 +2403,7 @@ also: red on collision
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/29/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/29">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/29">source code</a> (24.6 kb)
 <p><video controls src="images/2D-physics/29.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -2548,6 +2619,8 @@ also: red on collision
 
 
 TODO: remove ", 1" in integration? (in the videos it's ", deltaTime" )
+
+TODO: fix all youtube links
 
 
 </main>
