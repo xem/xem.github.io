@@ -2377,20 +2377,19 @@ handleJoints = () => {
   for(var i = 0; i &lt; joints.length; i++){
     
     var joint = joints[i];
+    var forceHalving = (joint.rigiA.invMass == 0 || joint.rigiB.invMass == 0) ? 1 : 0.5;
+    var anchorAPos = joint.rigiA.anchorPoints[joint.anchorA];
+    var anchorBPos = joint.rigiB.anchorPoints[joint.anchorB];
+    var direction = sub(anchorBPos, anchorAPos);
   
     // Force joint
     if(joint.type == "force"){
       
       // Update connection A
-      var anchorAPos = joint.rigiA.anchorPoints[joint.anchorA];
-      var anchorBPos = joint.rigiB.anchorPoints[joint.anchorB];
-      var direction = sub(anchorBPos, anchorAPos);
-      
-      addForceAtPoint(anchorBPos, joint.rigiA, scale(direction, joint.strength / 2));
+      addForceAtPoint(anchorBPos, joint.rigiA, scale(direction, joint.strength * forceHalving));
       
       // Update connection B
-      direction = sub(anchorAPos, anchorBPos);
-      addForceAtPoint(anchorAPos, joint.rigiB, scale(direction, joint.strength / 2));
+      addForceAtPoint(anchorAPos, joint.rigiB, scale(direction, -joint.strength * forceHalving));
     }
   }
 }
@@ -2452,6 +2451,7 @@ handleJoints = () => {
   for(var i = 0; i &lt; joints.length; i++){
     
     var joint = joints[i];
+    var forceHalving = (joint.rigiA.invMass == 0 || joint.rigiB.invMass == 0) ? 1 : 0.5;
     var anchorAPos = joint.rigiA.anchorPoints[joint.anchorA];
     var anchorBPos = joint.rigiB.anchorPoints[joint.anchorB];
     var direction = sub(anchorBPos, anchorAPos);
@@ -2461,16 +2461,15 @@ handleJoints = () => {
     if(joint.type == "force"){
       
       // Update connection A
-      addForceAtPoint(anchorBPos, joint.rigiA, scale(direction, joint.strength / 2));
+      addForceAtPoint(anchorBPos, joint.rigiA, scale(direction, joint.strength * forceHalving));
       
       // Update connection B
-      addForceAtPoint(anchorAPos, joint.rigiB, scale(direction, -joint.strength / 2));
+      addForceAtPoint(anchorAPos, joint.rigiB, scale(direction, -joint.strength * forceHalving));
     }
     
     // Spring joint
     else if(joint.type == "spring"){
-    
-      var forceHalving = (joint.rigiA.invMass == 0 || joint.rigiB.invMass == 0) ? 1 : 0.5;
+
       var restDistance = distance - joint.restLength;
       var forceMagnitude = restDistance * joint.restLength * joint.stiffness * forceHalving;
       var force = scale(normalize(direction), forceMagnitude);
@@ -2486,7 +2485,10 @@ handleJoints = () => {
       }
     }
   }
-}</code></pre>
+}
+
+// Demo
+j1 = springJoint(r1, a1, c1, a2, .005, 50);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -2511,12 +2513,39 @@ handleJoints = () => {
 
 
 
-<p><b>Chapter 31: </b>
+<p><b>Chapter 31: Reverse force joints</b>
 
-<p>
+<p>Reverse force joints are used to create a repulsion and maintaining a minimum distance between two objects.
+<p>They introduce the concept of distance-based force activation.
 
-<p><pre><code class="lang-js">
-</code></pre>
+<p>They have no attractive or repulsive effect when the distance is bigger than the minimum effect distance.
+
+<p><pre><code class="lang-js">// Joint handler
+handleJoints = () => {
+  for(var i = 0; i &lt; joints.length; i++){
+    
+    // (...)
+    
+    // Reverse force joint
+    else if(joint.type == "reverseForce"){
+
+      var forceMagnitude = Math.max(0, joint.maxEffectDistance - distance);
+
+      // Update connection A
+      if(joint.rigiA.invMass != 0){
+        addForceAtPoint(anchorBPos, joint.rigiA, scale(normalize(direction), -forceMagnitude * joint.strength * forceHalving));
+      }
+
+      // Update connection B
+      if(joint.rigiB.invMass != 0){
+        addForceAtPoint(anchorAPos, joint.rigiB, scale(normalize(direction), forceMagnitude * joint.strength * forceHalving));	
+      }
+    }
+  }
+}
+
+// Demo
+j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -2527,7 +2556,7 @@ handleJoints = () => {
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/31/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/31">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/31">source code</a> (26.5 kb)
 <p><video controls src="images/2D-physics/31.mp4?v=3" width=500></video>
 
 <br><hr>
