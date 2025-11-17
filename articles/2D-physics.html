@@ -2570,24 +2570,16 @@ j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 
 
 
-<p><b>Chapter 32: </b>
+<p><b>Chapter 32: Control which objects can collide with each other</b>
 
-<p>
-
-<p><pre><code class="lang-js">
-</code></pre>
+<p>We will be implement this in a simpler way in the next chapter. 
 
 <p><b>Links:</b>
-<br>- Original:  
+<br>Original:  
 <a href="https://www.youtube.com/watch?v=2IBHZOOrqLs&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=55">video</a>, 
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/32/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/32">source code</a> 
 (46.0 kb)
-
-<br>- Mine:
-<a href="https://xem.github.io/2Dphysics/32/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/32">source code</a> ( kb)
-<p><video controls src="images/2D-physics/32.mp4?v=3" width=500></video>
 
 <br><hr>
 
@@ -2600,12 +2592,256 @@ j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 
 
 
-<p><b>Chapter 33: </b>
+<p><b>Chapter 33: Fixed joints</b>
 
-<p>
+<p>Fixed joints and hinge joints (that we will see in next chapter) are the main reasons that made me follow this tutorial from scratch.
 
-<p><pre><code class="lang-js">
-</code></pre>
+Fixed joints are particularly important because they allow to create compound shapes.
+
+<p>Sadly, the original <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/33.old/Main.html">demo</a>, <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/33.old">source code</a> and <a href="https://www.youtube.com/watch?v=aMgH0_COcXo&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=58">video</a> didn't fulfill their mission: they correctly introduce the iterative approach (to fix the shapes' position and angle many times per frame) and disable collisions between jointed shapes, but the joint they implement is not firm enough: the shapes wobble!
+
+<p>Unable to fix it myself, I had ChatGPT fix it for me and explain to me what was wrong:
+<br><b>The angle correction's force was too weak, and applied using angularVelocity tweaks instead of impulses</b>.
+
+<p>Moreover, the fixed code adds direct angle projection at each iteration for a more precise result.
+
+<p>Below is the fixed (and simplified) code, adapted to our engine.
+
+<p><pre><code class="lang-js">// Shapes
+circle = (/* ... */) => {
+
+  // (...)
+  anchorPoints: [],
+  fixed: [],
+}
+
+rectangle = (/* ... */) => {
+
+  // (...)
+  anchorPoints: [],
+  fixed: [],
+}
+
+// Update the physics engine
+update = () => {
+
+  var push, manifold, shape1, shape2, direction, distance, i, j;
+  
+  // Reset manifolds
+  manifolds = [];
+  
+  // Reset shapes colors, apply gravity
+  for(i of shapes){
+    i.color = "#888";
+    i.forceAccumulator = add(i.forceAccumulator, scale(gravity, i.mass));
+  }
+  
+  // Consider all pairs of shapes
+  for(i = 0; i &lt; shapes.length; i++){
+    // (...)
+  }
+
+  // Joints (must be enforced before integration)
+  handleJoints();
+  
+  // Integration
+  for(i of shapes){
+    integrate(i, deltaTime);
+  }
+  
+  // Mouse interactions
+  handleMouseObjectInteraction();
+}
+
+// Render the scene
+draw = () => {
+
+  // (...)
+
+  // Debug: draw manifolds
+  for(var i of manifolds){
+    drawPoint(i.contactPoint, 5, "#04F");
+    //drawLine(i.contactPoint, add(i.contactPoint, scale(i.normal, 50)), "#04F");
+  }
+  
+  // (...)
+}
+
+// Fixed joint
+fixedJoint = (rigiA, anchorA, rigiB, anchorB, iterations = 20) => {
+  var joint = {
+    type: "fixed",
+    rigiA: rigiA,
+		anchorA: anchorA,
+		rigiB: rigiB,
+		anchorB: anchorB,
+    iterations: iterations,
+    rigiABounce: rigiA.restitution,
+		rigiBBounce: rigiB.restitution,
+		rigiAFriction: rigiA.friction,
+		rigiBFriction: rigiB.friction,
+    initialLength: len(sub(rigiA.anchorPoints[anchorA], rigiB.anchorPoints[anchorB])),
+    relativeAngle: rigiB.angle - rigiA.angle
+	};
+  
+  rigiA.fixed.push(shapes.indexOf(rigiB));
+  rigiB.fixed.push(shapes.indexOf(rigiA));
+  joints.push(joint);
+  return joint;
+}
+
+restoreMaterial = joint => {
+  joint.rigiA.restitution = joint.rigiABounce;
+  joint.rigiA.friction = joint.rigiAFriction;
+  joint.rigiB.restitution = joint.rigiBBounce;
+  joint.rigiB.friction = joint.rigiBFriction;
+}
+
+setMaterialZero = joint => {
+  joint.rigiA.restitution = 0;
+  joint.rigiA.friction = 0;
+  joint.rigiB.restitution = 0;
+  joint.rigiB.friction = 0;
+}
+
+// Joint handler
+handleJoints = () => {
+
+  var joint, forceHalving, anchorAPos, anchorBPos, direction, distance, restDistance, forceMagnitude, force, normal, contact, currentOrientationDiff, fixedOrientationVel, angleError, stiffness, avgAngVel, i, j;
+  
+  for(i = 0; i &lt; joints.length; i++){
+    
+    joint = joints[i];
+    forceHalving = (joint.rigiA.invMass == 0 || joint.rigiB.invMass == 0) ? 1 : 0.5;
+    anchorAPos = joint.rigiA.anchorPoints[joint.anchorA];
+    anchorBPos = joint.rigiB.anchorPoints[joint.anchorB];
+    direction = sub(anchorBPos, anchorAPos);
+    distance = len(direction);
+  
+    // Force joint
+    if(joint.type == "force"){
+      
+      // (...)
+    }
+    
+    // Spring joint
+    else if(joint.type == "spring"){
+    
+     // (...)
+    }
+    
+    // Reverse force joint
+    else if(joint.type == "reverseForce"){
+
+      // (...)
+    }
+    
+    // Fixed joint
+    else if(joint.type == "fixed"){
+    
+      setMaterialZero(joint);
+
+      // Move shapes in order to make the anchor points superposed, proportionally to their inverse masses
+      var delta = sub(anchorBPos, anchorAPos);
+      var totalInvMass = joint.rigiA.invMass + joint.rigiB.invMass;
+      if(totalInvMass > 0){
+          var correctionA = scale(delta, joint.rigiA.invMass / totalInvMass);
+          var correctionB = scale(delta, joint.rigiB.invMass / totalInvMass);
+
+          // Move A and B
+          translateShape(joint.rigiA, correctionA);
+          translateShape(joint.rigiB, scale(correctionB, -1));
+      }
+
+      // Update connection A
+      for(var j = 0; j &lt; joint.iterations; j++){
+        
+        direction = sub(anchorBPos, anchorAPos);
+        distance = len(direction);
+        if(distance &lt; 0.00001) break;
+        normal = copy(normalize(direction));
+        contact = {
+          depth: 0,
+          normal: normal,
+          contactPoint: anchorBPos,
+          rigiA: joint.rigiB,
+          rigiB: joint.rigiA
+        };
+        if(distance > joint.initialLength){
+          contact.depth = distance - joint.initialLength;
+        }
+        else {
+          contact.depth = joint.initialLength - distance;
+          contact.normal = scale(contact.normal, -1);
+        }
+        
+        positionalCorrection(joint.rigiA, joint.rigiB, contact);
+        resolveCollision(joint.rigiA, joint.rigiB, contact);
+      }
+      
+      // Fix orientation strongly
+      currentOrientationDiff = joint.rigiB.angle - joint.rigiA.angle - 0.01;
+      angleError = joint.relativeAngle - currentOrientationDiff;
+      
+      // Apply symmetric angular correction
+      stiffness = 1; // try 1.0 for absolutely rigid
+      joint.rigiA.angle -= angleError * stiffness * 0.5;
+      joint.rigiB.angle += angleError * stiffness * 0.5;
+      
+      // Update connection B
+      for(j = 0; j &lt; joint.iterations; j++){
+        direction = sub(anchorBPos, anchorAPos);
+        distance = len(direction);
+        if(distance &lt; 0.00001) break;
+        normal = copy(normalize(direction));  
+        contact = {
+          depth: 0,
+          normal: normal,
+          contactPoint: anchorBPos,
+          rigiA: joint.rigiA,
+          rigiB: joint.rigiB
+        };
+        
+        if(distance > joint.initialLength){
+          contact.depth = distance - joint.initialLength;
+        }
+        else{
+          contact.depth = joint.initialLength - distance;
+          contact.normal = scale(contact.normal, -1);
+        }
+        
+        positionalCorrection(joint.rigiB, joint.rigiA, contact);
+        resolveCollision(joint.rigiB, joint.rigiA, contact);
+      }	
+
+      // Fix orientation strongly
+      currentOrientationDiff = joint.rigiA.angle - joint.rigiB.angle;
+      angleError = joint.relativeAngle - currentOrientationDiff;
+      
+      stiffness = 1;
+      joint.rigiA.angle += angleError * stiffness * 0.5;
+      joint.rigiB.angle -= angleError * stiffness * 0.5;
+      
+      avgAngVel = (joint.rigiA.angularVelocity + joint.rigiB.angularVelocity) * 0.5;
+      joint.rigiA.angularVelocity = avgAngVel;
+      joint.rigiB.angularVelocity = avgAngVel;
+		
+      restoreMaterial(joint);
+    }
+  }
+}
+
+// Demo
+for(i = 0; i &lt; 40; i++){
+  circle(Vec2(i*20, -i*20-500), 10, 10);
+}
+rectangle(Vec2(380, 450), 600, 20, 0, 0.5, .9);
+r1 = rectangle(Vec2(300, 200), 200, 100, 100);
+a1 = addAnchor(Vec2(75, 0), r1);
+r2 = rectangle(Vec2(600, 200), 300, 25, 100);
+a2 = addAnchor(Vec2(-125, 0), r2);
+c1 = circle(Vec2(300, 320), 60, 100);
+j1 = fixedJoint(r1, a1, r2, a2);</code></pre>
 
 <p><b>Links:</b>
 <br>- Original:  
@@ -2616,7 +2852,7 @@ j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/33/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/33">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/33">source code</a> (31.2 kb)
 <p><video controls src="images/2D-physics/33.mp4?v=3" width=500></video>
 
 <br><hr>
@@ -2630,9 +2866,11 @@ j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 
 
 
-<p><b>Chapter 34: </b>
+<p><b>Chapter 34: Hinge joints</b>
 
-<p>
+<p>Hinge joints are almost identical to fixed joints (they also have iterative solving, collision disabling and strong positional solving), but differ in terms of angles: the shapes can be attached firmly together but withhold all kinds of rotations.
+
+
 
 <p><pre><code class="lang-js">
 </code></pre>
@@ -2640,8 +2878,8 @@ j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=aMgH0_COcXo&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=58">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/34/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/34">source code</a> 
+<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/34/Main.html">demo (fixed)</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/34">source code (fixed)</a> 
 (48.9 kb)
 
 <br>- Mine:
