@@ -1814,16 +1814,16 @@ integrate = (shape, deltaTime) => {
   translateShape(shape, scale(shape.velocity, 1));
 
   // apply angular velocity to angle
-  rotateShape(shape, shape.angularVelocity * 1); 
+  rotateShape(shape, shape.angularVelocity * 1);
 
   // reset force accumulator
-  shape.forceAccumulator = Vec2(0, 0); 
+  shape.forceAccumulator = Vec2(0, 0);
 
   // velocity damping
-  shape.velocity = scale(shape.velocity, .99); 
+  shape.velocity = scale(shape.velocity, .99);
 
   // angular velocity damping
-  shape.angularVelocity *= 0.99; 
+  shape.angularVelocity *= 0.99;
 }
 
 // Demo
@@ -2016,10 +2016,10 @@ resolveCollision = (shape1, shape2, manifold) => {
 
   // Apply friction impulse to linear velocities of both bodies
   shape1.velocity = sub(shape1.velocity, scale(frictionalImpulseVector, shape1.invMass));
-  shape2.velocity = add(shape2.velocity, scale(frictionalImpulseVector, shape2.invMass));    
+  shape2.velocity = add(shape2.velocity, scale(frictionalImpulseVector, shape2.invMass));
 
   // Apply angular (rotational) impulse due to friction
-  shape1.angularVelocity += -pToCentroidCrossTangentA * frictionalImpulse * rigiAInvInertia;    
+  shape1.angularVelocity += -pToCentroidCrossTangentA * frictionalImpulse * rigiAInvInertia;
   shape2.angularVelocity +=  pToCentroidCrossTangentB * frictionalImpulse * rigiBInvInertia;
 }</code></pre>
 
@@ -2243,16 +2243,16 @@ integrate = (shape, deltaTime) => {
   shape.angularVelocity += rotationalAcceleration * 1;
 
   // apply angular velocity to angle
-  rotateShape(shape, shape.angularVelocity * 1); 
+  rotateShape(shape, shape.angularVelocity * 1);
 
   // velocity damping
-  shape.velocity = scale(shape.velocity, .99); 
+  shape.velocity = scale(shape.velocity, .99);
 
   // angular velocity damping
-  shape.angularVelocity *= 0.99; 
+  shape.angularVelocity *= 0.99;
 
   // reset force accumulator
-  shape.forceAccumulator = Vec2(0, 0); 
+  shape.forceAccumulator = Vec2(0, 0);
   
   // reset torque accumulator
   shape.torqueAccumulator = 0;
@@ -2638,7 +2638,18 @@ update = () => {
   
   // Consider all pairs of shapes
   for(i = 0; i &lt; shapes.length; i++){
-    // (...)
+    for(j = i; j &lt; shapes.length; j++){
+      
+      shape1 = shapes[i];
+      shape2 = shapes[j];
+    
+      // Ignore self-collisions, pairs of immobile shapes and collisions in fixed joints
+      if(i != j && !(shape1.invMass == 0 && shape2.invMass == 0) && !shape1.fixed.includes(j)){
+        
+        // (...)
+      
+      }
+    }
   }
 
   // Joints (must be enforced before integration)
@@ -2690,18 +2701,19 @@ fixedJoint = (rigiA, anchorA, rigiB, anchorB, iterations = 20) => {
   return joint;
 }
 
-restoreMaterial = joint => {
-  joint.rigiA.restitution = joint.rigiABounce;
-  joint.rigiA.friction = joint.rigiAFriction;
-  joint.rigiB.restitution = joint.rigiBBounce;
-  joint.rigiB.friction = joint.rigiBFriction;
-}
-
+// Enable/disable friction and restitution in fixed/hinge joints 
 setMaterialZero = joint => {
   joint.rigiA.restitution = 0;
   joint.rigiA.friction = 0;
   joint.rigiB.restitution = 0;
   joint.rigiB.friction = 0;
+}
+
+restoreMaterial = joint => {
+  joint.rigiA.restitution = joint.rigiABounce;
+  joint.rigiA.friction = joint.rigiAFriction;
+  joint.rigiB.restitution = joint.rigiBBounce;
+  joint.rigiB.friction = joint.rigiBFriction;
 }
 
 // Joint handler
@@ -2742,11 +2754,11 @@ handleJoints = () => {
       setMaterialZero(joint);
 
       // Move shapes in order to make the anchor points superposed, proportionally to their inverse masses
-      var delta = sub(anchorBPos, anchorAPos);
-      var totalInvMass = joint.rigiA.invMass + joint.rigiB.invMass;
+      delta = sub(anchorBPos, anchorAPos);
+      totalInvMass = joint.rigiA.invMass + joint.rigiB.invMass;
       if(totalInvMass > 0){
-          var correctionA = scale(delta, joint.rigiA.invMass / totalInvMass);
-          var correctionB = scale(delta, joint.rigiB.invMass / totalInvMass);
+          correctionA = scale(delta, joint.rigiA.invMass / totalInvMass);
+          correctionB = scale(delta, joint.rigiB.invMass / totalInvMass);
 
           // Move A and B
           translateShape(joint.rigiA, correctionA);
@@ -2754,7 +2766,7 @@ handleJoints = () => {
       }
 
       // Update connection A
-      for(var j = 0; j &lt; joint.iterations; j++){
+      for(j = 0; j &lt; joint.iterations; j++){
         
         direction = sub(anchorBPos, anchorAPos);
         distance = len(direction);
@@ -2793,7 +2805,7 @@ handleJoints = () => {
         direction = sub(anchorBPos, anchorAPos);
         distance = len(direction);
         if(distance &lt; 0.00001) break;
-        normal = copy(normalize(direction));  
+        normal = copy(normalize(direction));
         contact = {
           depth: 0,
           normal: normal,
@@ -2872,7 +2884,152 @@ j1 = fixedJoint(r1, a1, r2, a2);</code></pre>
 
 
 
-<p><pre><code class="lang-js">
+<p><pre><code class="lang-js">// Shapes
+circle = (/* ... */) => {
+
+  // (...)
+  anchorPoints: [],
+  fixed: [],
+  hinge: [],
+}
+
+rectangle = (/* ... */) => {
+
+  // (...)
+  anchorPoints: [],
+  fixed: [],
+  hinge: [],
+}
+
+// Hinge joint
+hingeJoint = (rigiA, anchorA, rigiB, anchorB, iterations = 20) => {
+  var joint = {
+    type: "hinge",
+    rigiA: rigiA,
+		anchorA: anchorA,
+		rigiB: rigiB,
+		anchorB: anchorB,
+    iterations: iterations,
+    rigiABounce: rigiA.restitution,
+		rigiBBounce: rigiB.restitution,
+		rigiAFriction: rigiA.friction,
+		rigiBFriction: rigiB.friction,
+    initialLength: len(sub(rigiA.anchorPoints[anchorA], rigiB.anchorPoints[anchorB])),
+	};
+  
+  rigiA.hinged.push(shapes.indexOf(rigiB));
+  rigiB.hinged.push(shapes.indexOf(rigiA));
+  joints.push(joint);
+  return joint;
+}
+
+// Update the physics engine
+update = () => {
+
+  // (...)
+    
+      // Ignore self-collisions, pairs of immobile shapes and collisions in fixed/hinge joints
+      if(
+        i != j 
+        && !(shape1.invMass == 0 && shape2.invMass == 0)
+        && !shape1.fixed.includes(j)
+        && !shape1.hinge.includes(j)
+      ){
+
+        // (...)
+        
+      }
+    }
+  }
+
+  // (...)
+}
+
+// Joint handler
+handleJoints = () => {
+
+  // (...)
+  
+  for(i = 0; i &lt; joints.length; i++){
+    
+    // (...)
+    
+    // Hinge joint
+    else if(joint.type == "hinge"){
+    
+      setMaterialZero(joint);
+
+      // Move shapes in order to make the anchor points superposed, proportionally to their inverse masses
+      var delta = sub(anchorBPos, anchorAPos);
+      var totalInvMass = joint.rigiA.invMass + joint.rigiB.invMass;
+      if(totalInvMass > 0){
+        correctionA = scale(delta, joint.rigiA.invMass / totalInvMass);
+        correctionB = scale(delta, joint.rigiB.invMass / totalInvMass);
+
+        // Move A and B
+        translateShape(joint.rigiA, correctionA);
+        translateShape(joint.rigiB, scale(correctionB, -1));
+      }
+
+      // Update connection A
+      for(var j = 0; j &lt; joint.iterations; j++){
+        
+        direction = sub(anchorBPos, anchorAPos);
+        distance = len(direction);
+        if(distance &lt; 0.00001) break;
+        normal = copy(normalize(direction));
+        contact = {
+          depth: 0,
+          normal: normal,
+          contactPoint: anchorBPos,
+          rigiA: joint.rigiB,
+          rigiB: joint.rigiA
+        };
+        if(distance > joint.initialLength){
+          contact.depth = distance - joint.initialLength;
+        }
+        else {
+          contact.depth = joint.initialLength - distance;
+          contact.normal = scale(contact.normal, -1);
+        }
+        
+        positionalCorrection(joint.rigiA, joint.rigiB, contact);
+        resolveCollision(joint.rigiA, joint.rigiB, contact);
+      }
+      
+      // Update connection B
+      for(j = 0; j &lt; joint.iterations; j++){
+        direction = sub(anchorBPos, anchorAPos);
+        distance = len(direction);
+        if(distance &lt; 0.00001) break;
+        normal = copy(normalize(direction));
+        contact = {
+          depth: 0,
+          normal: normal,
+          contactPoint: anchorBPos,
+          rigiA: joint.rigiA,
+          rigiB: joint.rigiB
+        };
+        
+        if(distance > joint.initialLength){
+          contact.depth = distance - joint.initialLength;
+        }
+        else{
+          contact.depth = joint.initialLength - distance;
+          contact.normal = scale(contact.normal, -1);
+        }
+        
+        positionalCorrection(joint.rigiB, joint.rigiA, contact);
+        resolveCollision(joint.rigiB, joint.rigiA, contact);
+      }
+		
+      restoreMaterial(joint);
+    }
+  }
+}
+
+// Demo
+j1 = hingeJoint(r1, a1, r2, a2);
 </code></pre>
 
 <p><b>Links:</b>
@@ -2884,7 +3041,7 @@ j1 = fixedJoint(r1, a1, r2, a2);</code></pre>
 
 <br>- Mine:
 <a href="https://xem.github.io/2Dphysics/34/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/34">source code</a> ( kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/34">source code</a> (34.3 kb)
 <p><video controls src="images/2D-physics/34.mp4?v=3" width=500></video>
 
 <br><hr>
