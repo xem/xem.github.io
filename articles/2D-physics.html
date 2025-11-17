@@ -1214,20 +1214,19 @@ rectangle = (center, width, height, mass = 1, angle = 0, velocity = Vec2(0, 0), 
 
 <p>Since integration is implemented, and friction and gravity are not yet implemented, the shapes will keep a constant speed after a collision.
 
-<p><pre><code class="lang-js">// Globals
-deltaTime = 1;
+<p>In the original code, acceleration and velocity were proportional to deltaTime. Here with setInterval, it can remain constant.
 
-// Shape integration
-integrate = (shape, deltaTime) => {
+<p><pre><code class="lang-js">// Shape integration
+integrate = (shape) => {
 
   // compute acceleration
   var acceleration = scale(shape.forceAccumulator, shape.invMass);
   
   // apply acceleration to velocity
-  shape.velocity = add(shape.velocity, scale(acceleration, 1));
+  shape.velocity = add(shape.velocity, acceleration);
   
   // apply velocity to position
-  translateShape(shape, scale(shape.velocity, 1));
+  translateShape(shape, shape.velocity);
   
   // reset force accumulator
   shape.forceAccumulator = Vec2(0, 0);
@@ -1252,7 +1251,7 @@ update = () => {
   
   // Integration
   for(i of shapes){
-    integrate(i, deltaTime);
+    integrate(i);
   }
 }</code></pre>
 
@@ -1299,11 +1298,11 @@ video <a href="https://www.youtube.com/watch?v=SHr0Ty-ceBY&list=PLSwCokO0cV86rDR
 <p>The bouncing on the ground is currently implemented by inverting the ball's velocity when it reaches a certain height threshold.
 
 <p><pre><code class="lang-js">// Shape integration
-integrate = (shape, deltaTime) => {
+integrate = (shape) => {
 
   var acceleration = scale(shape.forceAccumulator, shape.invMass); // compute acceleration
-	shape.velocity = add(shape.velocity, scale(acceleration, 1)); // apply acceleration to velocity
-	translateShape(shape, scale(shape.velocity, 1)); // apply velocity to position
+	shape.velocity = add(shape.velocity, acceleration); // apply acceleration to velocity
+	translateShape(shape, shape.velocity); // apply velocity to position
 	shape.forceAccumulator = Vec2(0, 0); // reset force accumulator
   shape.velocity = scale(shape.velocity, .99); // velocity damping
 }
@@ -1320,7 +1319,7 @@ update = () => {
     i.forceAccumulator = add(i.forceAccumulator, gravity);
     
     // Integration
-    integrate(i, deltaTime);
+    integrate(i);
 
     // Bouncing (temp)
     if(i.center.y > 300){
@@ -1483,7 +1482,7 @@ update = () => {
     //i.forceAccumulator = add(i.forceAccumulator, gravity);
     
     // Integration
-    integrate(i, deltaTime);
+    integrate(i);
   }
 }
 
@@ -1672,7 +1671,7 @@ update = () => {
   
   // Integration
   for(i of shapes){
-    integrate(i, deltaTime);
+    integrate(i);
   }
 }</code></pre>
 
@@ -1802,16 +1801,16 @@ rectangle = (
 };
 
 // Shape integration
-integrate = (shape, deltaTime) => {
+integrate = (shape) => {
 
   // compute acceleration
   var acceleration = scale(shape.forceAccumulator, shape.invMass);
   
   // apply acceleration to velocity
-  shape.velocity = add(shape.velocity, scale(acceleration, 1));
+  shape.velocity = add(shape.velocity, acceleration);
 
   // apply velocity to position
-  translateShape(shape, scale(shape.velocity, 1));
+  translateShape(shape, shape.velocity);
 
   // apply angular velocity to angle
   rotateShape(shape, shape.angularVelocity * 1);
@@ -2227,17 +2226,17 @@ addForceAtPoint = (point, shape, force) => {
 }
 
 // Shape integration
-integrate = (shape, deltaTime) => {
+integrate = (shape) => {
 
   // compute acceleration and rotational acceleration
   var acceleration = scale(shape.forceAccumulator, shape.invMass);
   var rotationalAcceleration = shape.torqueAccumulator * shape.invInertia;
   
   // apply acceleration to velocity
-  shape.velocity = add(shape.velocity, scale(acceleration, 1));
+  shape.velocity = add(shape.velocity, acceleration);
 
   // apply velocity to position
-  translateShape(shape, scale(shape.velocity, 1));
+  translateShape(shape, shape.velocity);
   
   // apply rotational acceleration to angular velocity
   shape.angularVelocity += rotationalAcceleration * 1;
@@ -2657,7 +2656,7 @@ update = () => {
   
   // Integration
   for(i of shapes){
-    integrate(i, deltaTime);
+    integrate(i);
   }
   
   // Mouse interactions
@@ -2917,8 +2916,8 @@ hingeJoint = (rigiA, anchorA, rigiB, anchorB, iterations = 20) => {
     initialLength: len(sub(rigiA.anchorPoints[anchorA], rigiB.anchorPoints[anchorB])),
 	};
   
-  rigiA.hinged.push(shapes.indexOf(rigiB));
-  rigiB.hinged.push(shapes.indexOf(rigiA));
+  rigiA.hinge.push(shapes.indexOf(rigiB));
+  rigiB.hinge.push(shapes.indexOf(rigiA));
   joints.push(joint);
   return joint;
 }
@@ -3081,25 +3080,14 @@ j1 = hingeJoint(r1, a1, r2, a2);
 
 <p>An even more advanced collision filtering system, that we also won't use.
 
-<p><pre><code class="lang-js">
-</code></pre>
-
 <p><b>Links:</b>
-<br>- Original:  
+<br>Original:  
 <a href="https://www.youtube.com/watch?v=x9T5xB73onk&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=60">video</a>, 
 <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/36/Main.html">demo</a>, 
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/36">source code</a> 
 (63.1 kb)
 
-<br>- Mine:
-<a href="https://xem.github.io/2Dphysics/36/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/36">source code</a> ( kb)
-<p><video controls src="images/2D-physics/36.mp4?v=3" width=500></video>
-
 <br><hr>
-
-
-TODO: remove ", 1" in integration? (in the videos it's ", deltaTime" )
 
 
 </main>
