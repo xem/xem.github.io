@@ -42,7 +42,7 @@ pre, code, code * { font-size: 13px !important; line-height: 16px !important; le
 <p>In 2021, 2022, 2023, 2024 and 2025 I tried many times to learn <a href="https://xem.github.io/articles/3D-physics.html">3D physics</a> because <a href="images/2D-physics/3D.jpg">a lot of good books actually cover this topic</a>, but I haven't managed to completely implement any of them in JS (so far)... which was quite frustrating. (but stay tuned... I will be back!)
 <p>Finally, in October 2025, after completing a new edition of <a href="https://xem.github.io/articles/js13k25.html">JS13KGames</a>, I randomly typed "2D physics JS" on Google and stumbled upon <a href="https://www.reddit.com/r/gamedev/comments/1afq10l/i_created_a_tutorial_about_how_everybody_can/">this 2024 Reddit post</a> announcing a complete <a href="https://www.youtube.com/watch?v=D3oQ8mUF_84&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr">Youtube playlist</a> dedicated to learning 2D physics in JS, with <a href="https://gitlab.com/Marcel.K/tutorials/-/tree/main/2D%20Physics%20Engine">complete source code on Gitlab</a>... I may have found the holy grail!
 
-<p>In this page, I will follow each chapter of the playlist, show how I implemented my own mini 2D engine based on its source code, and how I enhanced a few things. My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial">a copy of the original Gitlab repo</a> is also present there for reference..
+<p>In this page, I will follow each chapter of the playlist, show how I implemented my own mini 2D engine based on its source code, and how I enhanced a few things. My code will be published in public domain on <a href="https://github.com/xem/2Dphysics/tree/gh-pages">the 2DPhysics Github repo</a>, and <a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K">a copy of the original Gitlab repo</a> is also present there for reference..
 
 <p>I also ended up buying a copy of <a href="https://www.amazon.fr/dp/B0FL1K2ZZ5">the physical book released in August 2025</a>, which is (sadly) just a line-by-line code explanation written by an AI, with a lot of mistakes. I won't mention it here, but I still really encourage the author to pursue his work (and teach us how to do 3D physics in JS next!), because my 2Dphysics engine mostly exists thanks to him! And if he makes a new edition of his book with better page layout, more legible text and some illustrations, I will gladly buy it too! &lt;3
 
@@ -66,11 +66,11 @@ c = a.getContext("2d");
 <p><b>Links:</b>
 <br>- Original: 
 <a href="https://www.youtube.com/watch?v=H3HYsOvDymU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=2">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/1/Main.html">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/1">source code</a> (0.4kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/1/Main.html">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/1">source code</a> (0.4kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/1/">demo</a> (nothing to see yet), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/1">source code</a> (0.1kb)
+<a href="https://xem.github.io/2Dphysics/xem/1/">demo</a> (nothing to see yet), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/1">source code</a> (0.1kb)
 
 <br><hr>
 <p><i>From now on, the code snippets in each chapter will only show what was added or modified in my Javascript code.</i>
@@ -98,11 +98,11 @@ setInterval(() => {
 <p><b>Links:</b>
 <br>- Original:
 <a href="https://www.youtube.com/watch?v=cNx-5xjjRIU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=3">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/2/Main.html">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/2">source code</a> (1.3kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/2/Main.html">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/2">source code</a> (1.3kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/2/">demo</a> (nothing to see yet), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/2">source code</a> (0.2kb)
+<a href="https://xem.github.io/2Dphysics/xem/2/">demo</a> (nothing to see yet), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/2">source code</a> (0.2kb)
 
 <br><hr>
 
@@ -155,11 +155,11 @@ setInterval(() => {
 <br>- Original: 
 video <a href="https://www.youtube.com/watch?v=ggtBDDIuE_4&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=4">1</a>, 
 <a href="https://www.youtube.com/watch?v=kjvlj_opVFs&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=5">2</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/3/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/3">source code</a> (2.8kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/3/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/3">source code</a> (2.8kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/3/">demo</a> (only shows a rectangle), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/3">source code</a> (0.7kb)
+<a href="https://xem.github.io/2Dphysics/xem/3/">demo</a> (only shows a rectangle), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/3">source code</a> (0.7kb)
 
 <br><hr>
 
@@ -194,11 +194,11 @@ onmousemove = e => {
 
 <p><b>Links:</b>
 <br>- Original: <a href="https://www.youtube.com/watch?v=o_eXCu30l5o&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=6">video</a>
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/4/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/4">source code</a> (3.8kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/4/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/4">source code</a> (3.8kb)
 <br>- Mine: 
-<a href="https://xem.github.io/2Dphysics/4/">demo</a> (nothing more to see), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/4">source code</a> (1.0kb)
+<a href="https://xem.github.io/2Dphysics/xem/4/">demo</a> (nothing more to see), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/4">source code</a> (1.0kb)
 
 <br><hr>
 
@@ -249,11 +249,11 @@ draw = () => {
 video <a href="https://www.youtube.com/watch?v=jTayYMaVDVE&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=7">1</a>, 
 <a href="https://www.youtube.com/watch?v=Pi6rQEIzcr4&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=8">2</a>, 
 <a href="https://www.youtube.com/watch?v=ddkVPpEPnOI&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=9">3</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/5/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/5">source code</a> (5.6kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/5/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/5">source code</a> (5.6kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/5/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/5">source code</a> (1.4kb)
+<a href="https://xem.github.io/2Dphysics/xem/5/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/5">source code</a> (1.4kb)
 <p><img src="images/2D-physics/5.png" style="border:2px solid" width=500>
 
 <br><hr>
@@ -271,8 +271,8 @@ video <a href="https://www.youtube.com/watch?v=jTayYMaVDVE&list=PLSwCokO0cV86rDR
 <p><b>Links:</b>
 <br>Original:  
 <a href="https://www.youtube.com/watch?v=XY0ZfSwEjcg&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=10">video</a>
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/6/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/6">source code</a> (7.2 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/6/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/6">source code</a> (7.2 kb)
 
 <br><hr>
 
@@ -288,8 +288,8 @@ video <a href="https://www.youtube.com/watch?v=jTayYMaVDVE&list=PLSwCokO0cV86rDR
 <br>Original:  
 video <a href="https://www.youtube.com/watch?v=Rxn5RGageCU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=11">1</a>, 
 <a href="https://www.youtube.com/watch?v=yRrjzm4hzcA&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=12">2</a>,
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/7/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/7">source code</a> (7.2 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/7/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/7">source code</a> (7.2 kb)
 
 <br><hr>
 
@@ -447,11 +447,11 @@ rectangle(Vec2(250, 100), 60, 100);</code></pre>
 <br>- Original:  
 video <a href="https://www.youtube.com/watch?v=SvNtTRqlBEs&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=13">1</a>, 
 <a href="https://www.youtube.com/watch?v=eYIJa1GfGyw&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=14">2</a>,
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/8/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/8">source code</a> (10.8 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/8/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/8">source code</a> (10.8 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/8/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/8">source code</a> (3.9 kb)
+<a href="https://xem.github.io/2Dphysics/xem/8/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/8">source code</a> (3.9 kb)
 <p><video controls src="images/2D-physics/8.mp4?v=4" width=500></video>
 
 
@@ -507,11 +507,11 @@ c2 = circle(Vec2(80, 100), 60);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=zlM9o-dOnrA&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=15">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/9/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/9">source code</a> (11.8 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/9/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/9">source code</a> (11.8 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/9/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/9">source code</a> (4.3 kb)
+<a href="https://xem.github.io/2Dphysics/xem/9/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/9">source code</a> (4.3 kb)
 <p><video controls src="images/2D-physics/9.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -581,11 +581,11 @@ c1 = circle(Vec2(220, 140), 60);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=by_8B1U2MAA&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=16">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/10/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/10">source code</a> (12.2 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/10/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/10">source code</a> (12.2 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/10/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/10">source code</a> (4.9 kb)
+<a href="https://xem.github.io/2Dphysics/xem/10/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/10">source code</a> (4.9 kb)
 <p><video controls src="images/2D-physics/10.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -643,11 +643,11 @@ update = () => {
 <br>- Original:  
 video <a href="https://www.youtube.com/watch?v=qA1VmMLhqGg&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=17">1</a>, 
 <a href="https://www.youtube.com/watch?v=6CdDE9dFZSI&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=18">2</a>
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/11/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/11">source code</a> (13 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/11/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/11">source code</a> (13 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/11/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/11">source code</a> (4.9 kb)
+<a href="https://xem.github.io/2Dphysics/xem/11/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/11">source code</a> (4.9 kb)
 
 <p><video controls src="images/2D-physics/11.mp4?v=4" width=500></video>
 
@@ -741,11 +741,11 @@ draw = () => {
 <br>- Original:  
 video <a href="https://www.youtube.com/watch?v=1uBZFyWjkwQ&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=19">1</a>, 
 <a href="https://www.youtube.com/watch?v=jxMmpkMTjL8&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=20">2</a>
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/12/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/12">source code</a> (13.6 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/12/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/12">source code</a> (13.6 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/12/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/12">source code</a> (4.7 kb)
+<a href="https://xem.github.io/2Dphysics/xem/12/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/12">source code</a> (4.7 kb)
 
 <p><video controls src="images/2D-physics/12.mp4?v=4" width=500></video>
 
@@ -920,11 +920,11 @@ r3 = rectangle(Vec2(240, 150), 20, 50);</code></pre>
 video <a href="https://www.youtube.com/watch?v=amGqaNciT6E&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=21">1</a>, 
 <a href="https://www.youtube.com/watch?v=SFl6EK0f5C0&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=22">2</a>
 <a href="https://www.youtube.com/watch?v=rZkTprGUJL4&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=23">3</a>
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/13/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/13">source code</a> (16.4 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/13/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/13">source code</a> (16.4 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/13/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/13">source code</a> (8.3 kb)
+<a href="https://xem.github.io/2Dphysics/xem/13/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/13">source code</a> (8.3 kb)
 
 <p><video controls src="images/2D-physics/13.mp4?v=4" width=500></video>
 <br><hr>
@@ -1105,11 +1105,11 @@ c2 = circle(Vec2(180, 130), 50);</code></pre>
 video <a href="https://www.youtube.com/watch?v=Qw-HIlE8I_U&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=24">1</a>, 
 <a href="https://www.youtube.com/watch?v=ehmlzltYfKk&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=25">2</a>
 <a href="https://www.youtube.com/watch?v=rbdxkv-KDUw&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=26">3</a>
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/14/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/14">source code</a> (19.1 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/14/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/14">source code</a> (19.1 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/14/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/14">source code</a> (12.2 kb)
+<a href="https://xem.github.io/2Dphysics/xem/14/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/14">source code</a> (12.2 kb)
 <p><video controls src="images/2D-physics/14.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -1171,10 +1171,10 @@ rectangle = (center, width, height, mass = 1, angle = 0, velocity = Vec2(0, 0), 
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=XacN4xkx1Og&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=27">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/15/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/15">source code</a> (19.4 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/15/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/15">source code</a> (19.4 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/15/">demo</a> (nothing new to see yet), <a href="https://github.com/xem/2Dphysics/tree/gh-pages/15">source code</a> (12.6 kb),
+<a href="https://xem.github.io/2Dphysics/xem/15/">demo</a> (nothing new to see yet), <a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/15">source code</a> (12.6 kb),
 
 <br><hr>
 
@@ -1190,8 +1190,8 @@ rectangle = (center, width, height, mass = 1, angle = 0, velocity = Vec2(0, 0), 
 <p><b>Links:</b>
 <br>Original:  
 <a href="https://www.youtube.com/watch?v=k8PTs2BKkQo&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=28">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/16/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/16">source code</a> (18.9 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/16/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/16">source code</a> (18.9 kb)
 
 <br><hr>
 
@@ -1254,11 +1254,11 @@ update = () => {
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=PoeWHEI-dRE&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=29">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/17/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/17">source code</a> (19.1 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/17/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/17">source code</a> (19.1 kb)
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/17/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/17">source code</a> (13.0 kb)
+<a href="https://xem.github.io/2Dphysics/xem/17/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/17">source code</a> (13.0 kb)
 <p><video controls src="images/2D-physics/17.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -1276,8 +1276,8 @@ update = () => {
 <br>Original:  
 video <a href="https://www.youtube.com/watch?v=SHr0Ty-ceBY&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=30">1</a>, 
 <a href="https://www.youtube.com/watch?v=UZNVv_27cpY&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=31">2</a>
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/18/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/18">source code</a> (21.1 kb)
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/18/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/18">source code</a> (21.1 kb)
 
 <br><hr>
 
@@ -1341,14 +1341,14 @@ c1 = circle(Vec2(100, 100), 20);</code></pre>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=sO2F2bcJ9VQ&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=32">1</a>, 
 <a href="https://www.youtube.com/watch?v=b9QcJvgnXr0&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=33">2</a>
-demo <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/19/Main.html">1</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/19.1/Main.html">2</a>, 
-source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/19">1</a> (20.6 kb), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/19.1">2</a> (20.8 kb)
+demo <a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/19/Main.html">1</a>, 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/19.1/Main.html">2</a>, 
+source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/19">1</a> (20.6 kb), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/19.1">2</a> (20.8 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/19/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/19">source code</a> (12.1 kb)
+<a href="https://xem.github.io/2Dphysics/xem/19/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/19">source code</a> (12.1 kb)
 <p><video controls src="images/2D-physics/19.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -1503,18 +1503,18 @@ video <a href="https://www.youtube.com/watch?v=_Mmul8IiAn4&list=PLSwCokO0cV86rDR
 <a href="https://www.youtube.com/watch?v=iyWp6ubunB0&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=35">2</a>
 <a href="https://www.youtube.com/watch?v=UjWSkwTo3zg&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=36">3</a>
 <a href="https://www.youtube.com/watch?v=Aq4mt4YpRxA&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=37">4</a>
-demo <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/20/Main.html">1</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/20.1/Main.html">2</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/20.2/Main.html">3</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/20.3/Main.html">4</a>, 
-source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/20">1</a> (22.2 kb), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/20.1">2</a> (22.2 kb), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/20.2">3</a> (22.4 kb), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/20.3">4</a> (22.8 kb)
+demo <a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/20/Main.html">1</a>, 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/20.1/Main.html">2</a>, 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/20.2/Main.html">3</a>, 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/20.3/Main.html">4</a>, 
+source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/20">1</a> (22.2 kb), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/20.1">2</a> (22.2 kb), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/20.2">3</a> (22.4 kb), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/20.3">4</a> (22.8 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/20/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/20">source code</a> (14.8 kb)
+<a href="https://xem.github.io/2Dphysics/xem/20/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/20">source code</a> (14.8 kb)
 <p><video controls src="images/2D-physics/20.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -1579,13 +1579,13 @@ r2 = rectangle(Vec2(200, 280), 50, 50, 10, 0, 1, 0, Vec2(0, -1));</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=xGr2qPqK1FM&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=38">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/21/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/21">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/21/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/21">source code</a> 
 (23.6 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/21/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/21">source code</a> (14.9 kb)
+<a href="https://xem.github.io/2Dphysics/xem/21/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/21">source code</a> (14.9 kb)
 <p><video controls src="images/2D-physics/21.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -1614,8 +1614,8 @@ resolveCollision = (shape1, shape2, manifold) => {
 <p><b>Links:</b>
 <br>Original:  
 <a href="https://www.youtube.com/watch?v=xv5kANKBfSA&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=39">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/22/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/22">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/22/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/22">source code</a> 
 (24.9 kb)
 
 <br><hr>
@@ -1681,13 +1681,13 @@ update = () => {
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=mAc800lD2Kw&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=40">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/23/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/23">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/23/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/23">source code</a> 
 (25.9 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/23/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/23">source code</a> (15.5 kb)
+<a href="https://xem.github.io/2Dphysics/xem/23/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/23">source code</a> (15.5 kb)
 <p><video controls src="images/2D-physics/23.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -1839,13 +1839,13 @@ rectangle(Vec2(290, -700), 100, 50, 10, .01, .1);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=pMYLO_sDlUA&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=41">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/24/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/24">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/24/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/24">source code</a> 
 (27.0 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/24/">demo</a> (without rotation),
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/24">source code</a> (16.1 kb)
+<a href="https://xem.github.io/2Dphysics/xem/24/">demo</a> (without rotation),
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/24">source code</a> (16.1 kb)
 <p><video controls src="images/2D-physics/24.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -1944,15 +1944,15 @@ video <a href="https://www.youtube.com/watch?v=oLuKcXHziy4&list=PLSwCokO0cV86rDR
 <a href="https://www.youtube.com/watch?v=YCuQVlGv35k&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=44">3</a>, 
 <a href="https://www.youtube.com/watch?v=_eloKjFXCOg&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=45">4</a>, 
 <a href="https://www.youtube.com/watch?v=19m9v1ephKU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=46">5</a>, 
-demo <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/25/Main.html">1</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/25.1/Main.html">2</a>, 
-source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/25">1</a> (29.6kb)
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/25.1">2</a> 
+demo <a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/25/Main.html">1</a>, 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/25.1/Main.html">2</a>, 
+source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/25">1</a> (29.6kb)
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/25.1">2</a> 
 (29.5 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/25/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/25">source code</a> (18.2 kb)
+<a href="https://xem.github.io/2Dphysics/xem/25/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/25">source code</a> (18.2 kb)
 <p><video controls src="images/2D-physics/25.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -2041,15 +2041,15 @@ resolveCollision = (shape1, shape2, manifold) => {
 video <a href="https://www.youtube.com/watch?v=hsxE__zJcoU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=47">1</a>, 
 <a href="https://www.youtube.com/watch?v=Vbp2xf4vWlQ&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=48">2</a>, 
 <a href="https://www.youtube.com/watch?v=MqLvBnEkPGY&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=49">3</a>, 
-demo <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/26/Main.html">1</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/26.1/Main.html">2</a>, 
-source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/26">1</a> (33.6 kb), 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/26.1">2</a> 
+demo <a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/26/Main.html">1</a>, 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/26.1/Main.html">2</a>, 
+source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/26">1</a> (33.6 kb), 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/26.1">2</a> 
 (36.1 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/26/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/26">source code</a> (20.4 kb)
+<a href="https://xem.github.io/2Dphysics/xem/26/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/26">source code</a> (20.4 kb)
 <p><video controls src="images/2D-physics/26.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -2163,13 +2163,13 @@ addAnchor(Vec2(-30, 15), r1);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=Yrhf7leIE94&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=50">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/27/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/27">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/27/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/27">source code</a> 
 (37.2 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/27/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/27">source code</a> (21.1 kb)
+<a href="https://xem.github.io/2Dphysics/xem/27/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/27">source code</a> (21.1 kb)
 <p><video controls src="images/2D-physics/27.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -2314,13 +2314,13 @@ rectangle(Vec2(350, 350), 400, 20, 0, 0.5, .9); // not tilted
 <br>- Original:  
 video <a href="https://www.youtube.com/watch?v=kQi6NHFb44o&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=51">1</a>, 
 <a href="https://www.youtube.com/watch?v=eJ63sK2Tcxo&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=56">2</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/28/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/28">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/28/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/28">source code</a> 
 (39.6 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/28/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/28">source code</a> (23.3 kb)
+<a href="https://xem.github.io/2Dphysics/xem/28/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/28">source code</a> (23.3 kb)
 <p><video controls src="images/2D-physics/28.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -2412,13 +2412,13 @@ j1 = forceJoint(r1, a1, c1, a2, .1);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=YGmEBYN0Wls&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=52">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/29/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/29">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/29/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/29">source code</a> 
 (41.9 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/29/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/29">source code</a> (24.4 kb)
+<a href="https://xem.github.io/2Dphysics/xem/29/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/29">source code</a> (24.4 kb)
 <p><video controls src="images/2D-physics/29.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -2500,13 +2500,13 @@ j1 = springJoint(r1, a1, c1, a2, .005, 50);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=LKGylEdLfWw&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=53">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/30/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/30">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/30/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/30">source code</a> 
 (43.6 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/30/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/30">source code</a> (25.3 kb)
+<a href="https://xem.github.io/2Dphysics/xem/30/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/30">source code</a> (25.3 kb)
 <p><video controls src="images/2D-physics/30.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -2557,13 +2557,13 @@ j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=C0bRV_8e2aE&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=54">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/31/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/31">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/31/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/31">source code</a> 
 (45.3 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/31/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/31">source code</a> (26.2 kb)
+<a href="https://xem.github.io/2Dphysics/xem/31/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/31">source code</a> (26.2 kb)
 <p><video controls src="images/2D-physics/31.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -2584,8 +2584,8 @@ j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 <p><b>Links:</b>
 <br>Original:  
 <a href="https://www.youtube.com/watch?v=2IBHZOOrqLs&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=55">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/32/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/32">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/32/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/32">source code</a> 
 (46.0 kb)
 
 <br><hr>
@@ -2605,7 +2605,7 @@ j1 = reverseForceJoint(r1, a1, c1, a2, .05, 200);</code></pre>
 
 Fixed joints are particularly important because they allow to create compound shapes.
 
-<p>Sadly, the original <a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/33.old/Main.html">demo</a>, <a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/33.old">source code</a> and <a href="https://www.youtube.com/watch?v=aMgH0_COcXo&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=58">video</a> didn't fulfill their mission: they correctly introduce the iterative approach (to fix the shapes' position and angle many times per frame) and disable collisions between jointed shapes, but the joint they implement is not firm enough: the shapes wobble!
+<p>Sadly, the original <a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/33.old/Main.html">demo</a>, <a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/33.old">source code</a> and <a href="https://www.youtube.com/watch?v=aMgH0_COcXo&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=58">video</a> didn't fulfill their mission: they correctly introduce the iterative approach (to fix the shapes' position and angle many times per frame) and disable collisions between jointed shapes, but the joint they implement is not firm enough: the shapes wobble!
 
 <p>Unable to fix it myself, I had ChatGPT fix it for me and explain to me what was wrong:
 <br><b>The angle correction's force was too weak, and applied using angularVelocity tweaks instead of impulses</b>.
@@ -2863,13 +2863,13 @@ j1 = fixedJoint(r1, a1, r2, a2);</code></pre>
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=pKamrphTMh8&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=57">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/33/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/33">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/33/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/33">source code</a> 
 (53.3 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/33/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/33">source code</a> (30.9 kb)
+<a href="https://xem.github.io/2Dphysics/xem/33/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/33">source code</a> (30.9 kb)
 <p><video controls src="images/2D-physics/33.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -3020,13 +3020,13 @@ j1 = hingeJoint(r1, a1, r2, a2);
 <p><b>Links:</b>
 <br>- Original:  
 <a href="https://www.youtube.com/watch?v=aMgH0_COcXo&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=58">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/34/Main.html">demo (fixed)</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/34">source code (fixed)</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/34/Main.html">demo (fixed)</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/34">source code (fixed)</a> 
 (48.9 kb)
 
 <br>- Mine:
-<a href="https://xem.github.io/2Dphysics/34/">demo</a>,
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/34">source code</a> (33.9 kb)
+<a href="https://xem.github.io/2Dphysics/xem/34/">demo</a>,
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/xem/34">source code</a> (33.9 kb)
 <p><video controls src="images/2D-physics/34.mp4?v=4" width=500></video>
 
 <br><hr>
@@ -3047,8 +3047,8 @@ j1 = hingeJoint(r1, a1, r2, a2);
 <p><b>Links:</b>
 <br>Original:  
 <a href="https://www.youtube.com/watch?v=bTBvJO8wbeU&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=59">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/35/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/35">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/35/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/35">source code</a> 
 (50.1 kb)
 
 <br><hr>
@@ -3069,8 +3069,8 @@ j1 = hingeJoint(r1, a1, r2, a2);
 <p><b>Links:</b>
 <br>Original:  
 <a href="https://www.youtube.com/watch?v=x9T5xB73onk&list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&index=60">video</a>, 
-<a href="https://xem.github.io/2Dphysics/pixelphysics_tutorial/2DPhysicsEngine/36/Main.html">demo</a>, 
-<a href="https://github.com/xem/2Dphysics/tree/gh-pages/pixelphysics_tutorial/2DPhysicsEngine/36">source code</a> 
+<a href="https://xem.github.io/2Dphysics/marcel.K/2DPhysicsEngine/36/Main.html">demo</a>, 
+<a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/36">source code</a> 
 (63.1 kb)
 
 <br><hr>
