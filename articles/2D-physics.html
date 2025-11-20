@@ -3119,6 +3119,7 @@ onmousedown=onmouseup=o=>p=!!o.type[7],</code></pre>
 <br>angle and velocity parameters are removed.
 <br>ES6 shorthand properties are used.
 <br>attributes names are not minified (yet) to keep objects readable.
+<br>temp vars are added to the parameters instead of using var or let.
 <br>Minified size: 834b &rarr; 441b 
 <p><pre><code class="lang-js">// Shapes
 shape=(
@@ -3166,7 +3167,122 @@ shape=(
   H.push(s),  // add shape in shapes list
   s           // return shape
 );</code></pre>
-<p><pre><code class="lang-js"></code></pre>
+
+<p>Functions involving points and shapes are renamed (two letters each).
+<br>vertices.length and normals.length are replaced with 4 (because we only deal with rectangles).
+<br>Temp vars are removed when possible.
+<br>All the comments are rewritten.
+<br>Minified size: 1329b &rarr; 1043b.
+<p><pre><code class="lang-js">// Check if a point is inside a shape
+// params: point (world coordinates), shape
+pi=(point,shape,t=1,i=4)=>{
+
+  // circles: return true if radius is bigger than distance to center
+  if(shape.type=="circle")t=shape.size1>l(s(shape.center,point));
+  
+  // rectangles: return false if dot(sub(point,vertex),normal) > 0 for any edge
+  else for(;i--;)if(d(s(point,shape.vertices[i]),shape.normals[i])>0)t=0;
+  
+  return t
+},
+
+// Add an anchor to a shape
+// params: anchor (local coordinates), shape
+aa=(anchor,shape)=>(
+  
+  // add anchor in the point's anchors list (converted in world coordinates)
+  shape.anchorPoints.push(anchor=A(anchor,shape.center)),
+  
+  // return anchor index
+  shape.anchorPoints.length-1
+),
+
+// Add force on a point
+// params: point (world coordinates), shape, force (2D vector)
+af=(point,shape,force)=>{
+
+  // translation force
+  shape.forceAccumulator=A(shape.forceAccumulator,force),
+  
+  // rotation force
+  shape.torqueAccumulator+=C(s(point,shape.center),force)
+},
+
+// Translate a shape
+// params: shape, offset (2D vector)
+ts=(shape,offset,n)=>{
+  shape.center=A(shape.center,offset);
+  for(n in shape.vertices)
+    shape.vertices[n]=A(shape.vertices[n],offset);
+  for(n in shape.anchorPoints)
+    shape.anchorPoints[n]=A(shape.anchorPoints[n],offset)
+},
+
+// Rotate a shape around its center
+// params: shape, angle (in radians)
+rs=(shape,angle,t)=>{
+
+  // update angle
+  shape.angle+=angle;
+
+  // rectangles
+  if(shape.type=="rectangle"){
+    
+    // rotate rectangle vertices
+    for(t in shape.vertices)
+      shape.vertices[t]=r(shape.vertices[t],shape.center,angle);
+      
+    // compute rectangle normals
+    cn(shape);
+  }
+    
+  // rotate anchor points
+  for(t in shape.anchorPoints)
+    shape.anchorPoints[t]=r(shape.anchorPoints[t],shape.center,angle)
+},
+
+// Shape integration
+si=shape=>{
+
+  // skip fixed objects
+  if(shape.invMass!==0){
+    
+    // add force accumulator to velocity (proportionally to inverse mass)
+    shape.velocity=A(shape.velocity,S(shape.forceAccumulator,shape.invMass)),
+    
+    // add velocity to position
+    ts(shape,shape.velocity),
+    
+    // damp velocity
+    shape.velocity=S(shape.velocity,.99),
+    
+    // reset force accumulator
+    shape.forceAccumulator=V(0,0),
+    
+    // add torque to angular velocity (proportionally to inverse inertia)
+    shape.angularVelocity+=shape.torqueAccumulator*shape.invInertia,
+    
+    // add angular velocity to angle
+    rs(shape,shape.angularVelocity),
+    
+    // damp angular velocity
+    shape.angularVelocity*=.99,
+    
+    // reset torque accumulator
+    shape.torqueAccumulator=0
+  }
+},
+
+// Compute the normals of a polygon
+cn=(shape,t=0)=>{
+  if(shape.type!=="circle"){
+    shape.normals=[];
+    for(;t&lt;4;t++)
+      shape.normals.push(N(n(s(shape.vertices[(t+1)%4],shape.vertices[t]))))
+  }
+},</code></pre>
+
+<p>Functions dedicated to collision detection are minified similarly.
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
