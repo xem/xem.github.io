@@ -3323,7 +3323,7 @@ cp=(t,n,r=null,e=9e9,l=null,o=0)=>{
   for(;o&lt;4;o++){
   
     // if no support point found (no collision), return null
-    if((l=sp(t.normals[o],t.vertices[o],n.vertices))==null)return l;
+    if((l=fs(t.normals[o],t.vertices[o],n.vertices))==null)return l;
     
     // create/replace the manifold r if this axis has the smallest penetration depth
     l.depth&lt;e&&(
@@ -3342,7 +3342,7 @@ cp=(t,n,r=null,e=9e9,l=null,o=0)=>{
 // Find a support point
 // find which vertex from the other rectangle penetrates the deepest in a given axis
 // params: normal, point (from rect1), vertices (from rect2)
-sp=(normal,point,vertices,e=0,l=null,u=null,o=0)=>{
+fs=(normal,point,vertices,e=0,l=null,u=null,o=0)=>{
 
   // for each vertex
   for(;o&lt;4;o++)
@@ -3412,7 +3412,76 @@ crc=(circle,rect,t,c=0)=>{
       };
   return null
 }</code></pre>
-<p><pre><code class="lang-js"></code></pre>
+
+<p>Functions related to collision resolutions:
+<br>All the variables are factorized or put in the parameters list.
+<br>A "scalar cross" helper function is added.
+<br>Minified size: 1177b &rarr; 977b.
+<p><pre><code class="lang-js">// Correct positioning
+// Move shapes away from each other according to a collision manifold and proportionally to their inverse mass
+// params: shape1, shape2, manifold
+positionalCorrection=(shape1,shape2,manifold,v)=>{
+  
+  // compute total correction amount
+  v=S(manifold.normal,manifold.depth/(shape1.invMass+shape2.invMass));
+  
+  // tanslate shapes (if they're not fixed)
+  shape1.invMass>0&&ts(shape1,S(v,-shape1.invMass)),
+  shape2.invMass>0&&ts(shape2,S(v,shape2.invMass))
+},
+
+// "Scalar cross" helper function
+// performs a scalar cross between an angular velocity and penetration vector
+// params: shape, penetration
+sc=(shape,penetration)=>V(-shape.angularVelocity*penetration.y,shape.angularVelocity*penetration.x),
+
+// Resolve collision
+// params: shape1, shape2, manifold
+rc=(shape1,shape2,manifold,a,o,v,y,m,u,M,g,f,h,x,F,P,b,j,p,q)=>{
+
+  // skip if both shapes are fixed
+  shape1.invMass===0&&shape2.invMass===0||(
+  
+    // if the objects are already moving apart from each other, return
+    // else, compute relative velocity (v: linear and a: rotational)
+    (y=d(v=s(A(shape2.velocity,sc(shape2,o=s(manifold.contactPoint,shape2.center))),A(shape1.velocity,sc(shape1,a=s(manifold.contactPoint,shape1.center)))),manifold.normal))>0||(
+    
+      // Normal impulse:
+      
+      // total restitution
+      m=Math.min(shape1.restitution,shape2.restitution),
+      
+      // "lever arm" cross product
+      u=C(a,manifold.normal),
+      M=C(o,manifold.normal),
+      
+      // compute scalar impulse magnitude F
+      F=S(manifold.normal,x=(-(1+m)*y)/((g=shape1.invMass+shape2.invMass)+(u*u*(f=shape1.invInertia)+M*M*(h=shape2.invInertia)))),
+      
+      // apply linear impulses (in opposite directions)
+      shape1.velocity=s(shape1.velocity,S(F,shape1.invMass)),
+      shape2.velocity=A(shape2.velocity,S(F,shape2.invMass)),
+      
+      // apply rotational impulses (alse opposite)
+      shape1.angularVelocity+=-u*x*f,
+      shape2.angularVelocity+=M*x*h,
+      
+      // Frictional impulse:
+      
+      // compute reverse tangent direction
+      P=S(s(v,S(manifold.normal,d(v,manifold.normal))),-1),
+      
+      // compute frictional impulse and don't let it exceed normal impulse
+      (p=(-(1+m)*d(v,P)*Math.min(shape1.friction,shape2.friction))/(g+((b=C(a,P))*b*f+(j=C(o,P))*j*h)))>x&&(p=x),
+      
+      // apply linear and rotational impulses
+      shape1.velocity=s(shape1.velocity,S(q=S(P,p),shape1.invMass)),
+      shape2.velocity=A(shape2.velocity,S(q,shape2.invMass)),
+      shape1.angularVelocity+=-b*p*f,
+      shape2.angularVelocity+=j*p*h
+    )
+  )
+}</code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
