@@ -47,8 +47,10 @@ pre, code, code * { font-size: 13px !important; line-height: 16px !important; le
 <p>I also ended up buying a copy of <a href="https://www.amazon.fr/dp/B0FL1K2ZZ5">the physical book released in August 2025</a>, which is (sadly) just a line-by-line code explanation written by an AI, with a lot of mistakes. I won't mention it here, but I still really encourage the author to pursue his work (and teach us how to do 3D physics in JS next!), because my 2Dphysics engine mostly exists thanks to him! And if he makes a new edition of his book with better page layout, more legible text and some illustrations, I will gladly buy it too! &lt;3
 
 <br><br><hr>
+<br>
+<h1>CODING MY OWN ENGINE</h1>
 
-
+<br><hr><br>
 
 <p><b>Chapter 1: Setting up a Canvas</b>
 <p>Here we'll keep the HTML code to the absolute minimum: <b>doctype</b>, <b>canvas</b> and <b>script</b> tags.
@@ -3073,10 +3075,106 @@ j1 = hingeJoint(r1, a1, r2, a2);
 <a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DPhysicsEngine/36">source code</a> 
 (63.1 kb)
 
+<br><br><hr><br>
+
+<h1>GOLFING MY ENGINE</h1>
+<br>
+<h2>Phase 1: simplification and minification</h2>
+
+<p>Yayyy, I completed my dream 2D physics engine in two weeks and a little less than 34kb! It's now time to golf it, line by line:
+
 <br><hr>
 
+<p>The canvas 2D context is retrieved using a template literal (implied parentheses).<br>2D vector functions and globals are renamed.<br>ES6 shorthand property names are used in V().<br>len2 and copy are removed.<br>repetitions are added in rotate for better zip compression.<br>null is replaced with 0.<br>Minified size: 579b &rarr; 395b.
+<p><pre><code class="lang-js">// Canvas setup
+var c=a.getContext`2d`,
 
-<p>Yay, I completed my dream 2D physics engine! It's now time to golf it.
+// 2D vectors
+V=(x,y)=>({x,y}),             // Vec2 constructor
+n=v=>S(v,1/l(v)),             // normalize
+l=v=>d(v,v)**.5,              // length
+N=v=>V(v.y,-v.x),             // normal
+d=(x,y)=>x.x*y.x+x.y*y.y,     // dot
+A=(x,y)=>V(x.x+y.x,x.y+y.y),  // add
+s=(x,y)=>A(x,S(y,-1)),        // sub
+S=(x,y)=>V(x.x*y,x.y*y),      // scale
+D=(x,y)=>l(s(x,y)),           // dist
+r=(x,y,c)=>(V((x.x-y.x)*Math.cos(c)-(x.y-y.y)*Math.sin(c)+y.x,(x.x-y.x)*Math.sin(c)+(x.y-y.y)*Math.cos(c)+y.y)), // rotate
+C=(x,y)=>x.x*y.y-x.y*y.x,     // cross
+
+// Globals
+m=0,p=0,        // mouse position, pressed
+sr=0,sp=0,sa=0, // selected rigidbody, position, anchor
+H=[],J=[],M=[], // shapes, joints, manifolds
+G=V(0,.1),      // Gravity</code></pre>
+
+<p>Event listeners are golfed using the good old "e.type[7]" trick.
+<br>e.type is either "mouseup" or "mousedown", so e.type[7] is either trueish ("w") or falseish (undefined).
+<br> Minified size: 108b &rarr; 100b.
+<p><pre><code class="lang-js">onmousemove=o=>m=V(o.pageX-a.offsetLeft,o.pageY-a.offsetTop),
+onmousedown=onmouseup=o=>p=!!o.type[7],</code></pre>
+
+<p>Circle and rectangle are replaced with a single shape constructor.
+<br>radius, width and height are replaced with size1 and size2.
+<br>angle and velocity parameters are removed.
+<br>ES6 shorthand properties are used.
+<br>attributes names are not minified (yet) to keep objects readable.
+<br>Minified size: 834b &rarr; 441b 
+<p><pre><code class="lang-js">// Shapes
+shape=(
+  type,
+  center,
+  size1,
+  size2,
+  mass=1,
+  friction=0,
+  restitution=1,
+  color,
+
+  // inertia
+  n=("circle"==type?mass*size1**2/2:mass*(size1**2+size2**2)/12), 
+
+  // shape
+  s={
+    type,
+    center,
+    size1,
+    size2,
+    mass,
+    invMass:0===mass?0:1/mass,
+    friction,
+    restitution,
+    angle:0,
+    velocity:V(0,0),
+    angularVelocity:0,
+    inertia:n,
+    invInertia:0===n?0:1/n,
+    forceAccumulator:V(0,0),
+    torqueAccumulator:0,
+    color,
+    anchorPoints:[],
+    noCollision:[],
+    vertices:"circle"==type?[]:[
+      V(center.x-size1/2,center.y-size2/2),
+      V(center.x+size1/2,center.y-size2/2),
+      V(center.x+size1/2,center.y+size2/2),
+      V(center.x-size1/2,center.y+size2/2)
+    ]
+  }
+)=>(
+  cn(s),      // calc normals
+  H.push(s),  // add shape in shapes list
+  s           // return shape
+);</code></pre>
+<p><pre><code class="lang-js"></code></pre>
+<p><pre><code class="lang-js"></code></pre>
+<p><pre><code class="lang-js"></code></pre>
+<p><pre><code class="lang-js"></code></pre>
+<p><pre><code class="lang-js"></code></pre>
+<p><pre><code class="lang-js"></code></pre>
+<p><pre><code class="lang-js"></code></pre>
+
+
 
 </main>
 
