@@ -3295,20 +3295,20 @@ cn=(shape,t=0)=>{
 
 <p>Functions dedicated to collision detection are minified similarly.
 <br>Number.MAX_VALUE is replaced by 9e9.
-<br>Minified size: 1405b &rarr; 1132b.
+<br>Minified size: 1405b &rarr; 938b.
 <p><pre><code class="lang-js">// Detect rectangle-rectangle collisions using separating-axis theorem (SAT)
 // rectangles are tested against each other's axis and we choose the minimal penetration depth
 // params: rect1, rect2
-rectangleRectangleCollision=(rect1,rect2,e,r)=>{
+rr=(rect1,rect2,e,r)=>{
 
   // test rect2 against rect1's axis
-  e=getContactPoint(rect1,rect2);
+  e=cp(rect1,rect2);
   
   // return null if no collision
   if(e==null)return e;
   
   // test rect1 against rect2's axis
-  r=getContactPoint(rect2,rect1);
+  r=cp(rect2,rect1);
   
   // return null (if no collision) or the manifold with the smallest penetration depth (flip the normal if it's a rect2 axis)
   return r==null?r:(e.depth&lt;r.depth?e:(r.normal=S(r.normal,-1),r))
@@ -3317,13 +3317,13 @@ rectangleRectangleCollision=(rect1,rect2,e,r)=>{
 // Get contact point
 // all normals of rect1 are tested as potential separating axes
 // params: rect1, rect2
-getContactPoint=(t,n,r=null,e=9e9,l=null,o=0)=>{
+cp=(t,n,r=null,e=9e9,l=null,o=0)=>{
   
   // for each axis
   for(;o&lt;4;o++){
   
     // if no support point found (no collision), return null
-    if((l=findSupportPoint(t.normals[o],t.vertices[o],n.vertices))==null)return l;
+    if((l=sp(t.normals[o],t.vertices[o],n.vertices))==null)return l;
     
     // create/replace the manifold r if this axis has the smallest penetration depth
     l.depth&lt;e&&(
@@ -3342,7 +3342,7 @@ getContactPoint=(t,n,r=null,e=9e9,l=null,o=0)=>{
 // Find a support point
 // find which vertex from the other rectangle penetrates the deepest in a given axis
 // params: normal, point (from rect1), vertices (from rect2)
-findSupportPoint=(normal,point,vertices,e=0,l=null,u=null,o=0)=>{
+sp=(normal,point,vertices,e=0,l=null,u=null,o=0)=>{
 
   // for each vertex
   for(;o&lt;4;o++)
@@ -3356,17 +3356,17 @@ findSupportPoint=(normal,point,vertices,e=0,l=null,u=null,o=0)=>{
 
 // Detect collision between a circle and a rectangle
 // params: circle, rect
-circleRectangleCollision=(circle,rect)=>{
+cr=(circle,rect)=>{
 
   // try to detect a collision between the circle and the rectangle's edges
   // if no edge collision is found, test against the rectangle's corners
   // return the resulting contact information (if any)
-  return circleVsRectangleEdges(circle,rect)||circleVsRectangleCorners(circle,rect);
+  return cre(circle,rect)||crc(circle,rect);
 },
 
 // Detect a collision between a circle and a rectangle's edges
 // params: circle, rectangle
-circleVsRectangleEdges=(circle,rect,t,c,i=null,v=null,o=0,z,u)=>{
+cre=(circle,rect,t,c,i=null,v=null,o=0,z,u)=>{
   
   // for each edge
   for(;o&lt;4;o++)
@@ -3402,7 +3402,7 @@ circleVsRectangleEdges=(circle,rect,t,c,i=null,v=null,o=0,z,u)=>{
 
 // Detect a collision between a circle and a rectangle's vertices
 // params: circle, rectangle
-circleVsRectangleCorners=(circle,rect,t,c=0)=>{
+crc=(circle,rect,t,c=0)=>{
   for(;c&lt;4;c++)
     if(t=s(rect.vertices[c],circle.center),l(t)&lt;circle.size1)
       return{
@@ -3411,7 +3411,7 @@ circleVsRectangleCorners=(circle,rect,t,c=0)=>{
         contactPoint:rect.vertices[c]
       };
   return null
-},</code></pre>
+}</code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
