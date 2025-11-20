@@ -3120,7 +3120,7 @@ onmousedown=onmouseup=o=>p=!!o.type[7],</code></pre>
 <br>ES6 shorthand properties are used.
 <br>attributes names are not minified (yet) to keep objects readable.
 <br>temp vars are added to the parameters instead of using var or let.
-<br>Minified size: 834b &rarr; 441b 
+<br>Minified size: 834b &rarr; 452b 
 <p><pre><code class="lang-js">// Shapes
 shape=(
   type,
@@ -3155,6 +3155,7 @@ shape=(
     color,
     anchorPoints:[],
     noCollision:[],
+    normals:[],
     vertices:"circle"==type?[]:[
       V(center.x-size1/2,center.y-size2/2),
       V(center.x+size1/2,center.y-size2/2),
@@ -3171,8 +3172,9 @@ shape=(
 <p>Functions involving points and shapes are renamed (two letters each).
 <br>vertices.length and normals.length are replaced with 4 (because we only deal with rectangles).
 <br>Temp vars are removed when possible.
+<br>Logic is improved
 <br>All the comments are rewritten.
-<br>Minified size: 1329b &rarr; 1043b.
+<br>Minified size: 1329b &rarr; 1028b.
 <p><pre><code class="lang-js">// Check if a point is inside a shape
 // params: point (world coordinates), shape
 pi=(point,shape,t=1,i=4)=>{
@@ -3191,7 +3193,7 @@ pi=(point,shape,t=1,i=4)=>{
 aa=(anchor,shape)=>(
   
   // add anchor in the point's anchors list (converted in world coordinates)
-  shape.anchorPoints.push(anchor=A(anchor,shape.center)),
+  shape.anchorPoints.push(A(anchor,shape.center)),
   
   // return anchor index
   shape.anchorPoints.length-1
@@ -3211,9 +3213,15 @@ af=(point,shape,force)=>{
 // Translate a shape
 // params: shape, offset (2D vector)
 ts=(shape,offset,n)=>{
+
+  // add offset to the shape's center
   shape.center=A(shape.center,offset);
+  
+  // add offset to the shape's vertices (if any)
   for(n in shape.vertices)
     shape.vertices[n]=A(shape.vertices[n],offset);
+    
+  // add offset to the shape's anchor points
   for(n in shape.anchorPoints)
     shape.anchorPoints[n]=A(shape.anchorPoints[n],offset)
 },
@@ -3275,15 +3283,135 @@ si=shape=>{
 
 // Compute the normals of a polygon
 cn=(shape,t=0)=>{
+
+  // rectangle only
   if(shape.type!=="circle"){
-    shape.normals=[];
+    
+    // compute 4 normals
     for(;t&lt;4;t++)
-      shape.normals.push(N(n(s(shape.vertices[(t+1)%4],shape.vertices[t]))))
+      shape.normals[t]=(N(n(s(shape.vertices[(t+1)%4],shape.vertices[t]))))
   }
 },</code></pre>
 
 <p>Functions dedicated to collision detection are minified similarly.
-<p><pre><code class="lang-js"></code></pre>
+<br>Number.MAX_VALUE is replaced by 9e9.
+<br>Minified size: 1405b &rarr; 1132b.
+<p><pre><code class="lang-js">// Detect rectangle-rectangle collisions using separating-axis theorem (SAT)
+// rectangles are tested against each other's axis and we choose the minimal penetration depth
+// params: rect1, rect2
+rectangleRectangleCollision=(rect1,rect2,e,r)=>{
+
+  // test rect2 against rect1's axis
+  e=getContactPoint(rect1,rect2);
+  
+  // return null if no collision
+  if(e==null)return e;
+  
+  // test rect1 against rect2's axis
+  r=getContactPoint(rect2,rect1);
+  
+  // return null (if no collision) or the manifold with the smallest penetration depth (flip the normal if it's a rect2 axis)
+  return r==null?r:(e.depth&lt;r.depth?e:(r.normal=S(r.normal,-1),r))
+},
+
+// Get contact point
+// all normals of rect1 are tested as potential separating axes
+// params: rect1, rect2
+getContactPoint=(t,n,r=null,e=9e9,l=null,o=0)=>{
+  
+  // for each axis
+  for(;o&lt;4;o++){
+  
+    // if no support point found (no collision), return null
+    if((l=findSupportPoint(t.normals[o],t.vertices[o],n.vertices))==null)return l;
+    
+    // create/replace the manifold r if this axis has the smallest penetration depth
+    l.depth&lt;e&&(
+      r={
+        depth:e=l.depth,
+        normal:t.normals[o],
+        contactPoint:l.vertex
+      }
+    )
+  }
+  
+  // return the manifold that has the smallest penetration depth
+  return r
+},
+
+// Find a support point
+// find which vertex from the other rectangle penetrates the deepest in a given axis
+// params: normal, point (from rect1), vertices (from rect2)
+findSupportPoint=(normal,point,vertices,e=0,l=null,u=null,o=0)=>{
+
+  // for each vertex
+  for(;o&lt;4;o++)
+    
+    // if penetration depth is higher than max depth e, save it in u and save the support point in l
+    (u=d(s(vertices[o],point),S(normal,-1)))>e&&(e=u,l={vertex:vertices[o],depth:u});
+    
+  // return the contact point that has the biggest penetration depth
+  return l
+},
+
+// Detect collision between a circle and a rectangle
+// params: circle, rect
+circleRectangleCollision=(circle,rect)=>{
+
+  // try to detect a collision between the circle and the rectangle's edges
+  // if no edge collision is found, test against the rectangle's corners
+  // return the resulting contact information (if any)
+  return circleVsRectangleEdges(circle,rect)||circleVsRectangleCorners(circle,rect);
+},
+
+// Detect a collision between a circle and a rectangle's edges
+// params: circle, rectangle
+circleVsRectangleEdges=(circle,rect,t,c,i=null,v=null,o=0,z,u)=>{
+  
+  // for each edge
+  for(;o&lt;4;o++)
+  
+    // create a vector z from first vertex of edge to the center of the circle
+    z=s(circle.center,rect.vertices[o]),
+    
+    // create a vector t from first vertex to the second 
+    t=s(rect.vertices[(o+1)%4],rect.vertices[o]),
+    
+    // project z on t
+    c=d(z,n(t)),
+    
+    // project z on the edge's normal
+    // if the circle's center is within the edge's bounds and inside the rectangle, save the normal in v and the vertex in i
+    d(z,rect.normals[o])>=0&&c>0&&c&lt;l(t)&&(v=rect.normals[o],i=rect.vertices[o]);
+  
+  // no collision if v or i is null
+  if(null==v||null==i)return null;
+  
+  // compute distance between edge and circle's center
+  u=d(v,s(circle.center,i));
+  
+  // return null (if no collision) or a manifold
+  return u-circle.size1&lt;0
+  ?{
+    depth:-(u-circle.size1),
+    normal:S(v,-1),
+    contactPoint:A(circle.center,S(v,-circle.size1))
+  }
+  :null
+},
+
+// Detect a collision between a circle and a rectangle's vertices
+// params: circle, rectangle
+circleVsRectangleCorners=(circle,rect,t,c=0)=>{
+  for(;c&lt;4;c++)
+    if(t=s(rect.vertices[c],circle.center),l(t)&lt;circle.size1)
+      return{
+        depth:circle.size1-l(t),
+        normal:n(t),
+        contactPoint:rect.vertices[c]
+      };
+  return null
+},</code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
