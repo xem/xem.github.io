@@ -3482,7 +3482,49 @@ rc=(shape1,shape2,manifold,a,o,v,y,m,u,M,g,f,h,x,F,P,b,j,p,q)=>{
     )
   )
 }</code></pre>
-<p><pre><code class="lang-js"></code></pre>
+
+<p>Debug functions and mouse interactions are barely simplified (they will be absent in the final release)
+<br>Minified size: 781b &rarr; 435b
+<p><pre><code class="lang-js">// Debug: Draw a point
+dp=(center,color= "#888")=>(
+  c.beginPath(),
+  c.fillStyle=color,
+  c.arc(center.x,center.y,5,0,7),
+  c.fill(),
+  c.closePath()
+),
+
+// Debug: draw a line
+dl=(start,end,color="#888")=>(
+  c.beginPath(),
+  c.strokeStyle=color,
+  c.moveTo(start.x,start.y),
+  c.lineTo(end.x,end.y),
+  c.stroke(),
+  c.closePath()
+),
+
+// Mouse interactions
+mi=(r,a,e,n,o)=>{
+  if(p)
+    for(r=0;r&lt;H.length;r++)pi(m,H[r])&&0==sr&&(
+      sr=H[r],
+      sp=V(m.x,m.y),
+      e=s(m,H[r].center),
+      sa=aa(e,H[r])
+    );
+  else 0!=sr&&(
+    sr.anchorPoints.pop(),
+    sr=0
+  ),
+  sa=0,
+  sp=0;
+  sr&&sp&&(
+    n=sr.anchorPoints[sa],
+    o=s(m,n),
+    af(n,sr,S(o,.01))
+  )
+}</code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
 <p><pre><code class="lang-js"></code></pre>
