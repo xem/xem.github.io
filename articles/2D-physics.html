@@ -3110,7 +3110,7 @@ G=V(0,.1),      // Gravity</code></pre>
 
 <p>Event listeners are golfed using the good old "e.type[7]" trick.
 <br>e.type is either "mouseup" or "mousedown", so e.type[7] is either trueish ("w") or falseish (undefined).
-<br> Minified size: 108b &rarr; 100b.
+<br> Minified size: 108b &rarr; 101zb.
 <p><pre><code class="lang-js">onmousemove=o=>m=V(o.pageX-a.offsetLeft,o.pageY-a.offsetTop),
 onmousedown=onmouseup=o=>p=!!o.type[7],</code></pre>
 
@@ -3120,7 +3120,8 @@ onmousedown=onmouseup=o=>p=!!o.type[7],</code></pre>
 <br>ES6 shorthand properties are used.
 <br>attributes names are not minified (yet) to keep objects readable.
 <br>temp vars are added to the parameters instead of using var or let.
-<br>Minified size: 834b &rarr; 452b 
+<br>== is replaced with === to improve performances.
+<br>Minified size: 834b &rarr; 450b 
 <p><pre><code class="lang-js">// Shapes
 shape=(
   type,
@@ -3133,7 +3134,7 @@ shape=(
   color,
 
   // inertia
-  n=("circle"==type?mass*size1**2/2:mass*(size1**2+size2**2)/12), 
+  inertia=(type==="circle"?mass*size1**2/2:mass*(size1**2+size2**2)/12), 
 
   // shape
   s={
@@ -3142,21 +3143,21 @@ shape=(
     size1,
     size2,
     mass,
-    invMass:0===mass?0:1/mass,
+    invMass:mass===0?0:1/mass,
     friction,
     restitution,
     angle:0,
     velocity:V(0,0),
     angularVelocity:0,
-    inertia:n,
-    invInertia:0===n?0:1/n,
+    inertia,
+    invInertia:n?0:1/n,
     forceAccumulator:V(0,0),
     torqueAccumulator:0,
     color,
     anchorPoints:[],
     noCollision:[],
     normals:[],
-    vertices:"circle"==type?[]:[
+    vertices:type==="circle"?[]:[
       V(center.x-size1/2,center.y-size2/2),
       V(center.x+size1/2,center.y-size2/2),
       V(center.x+size1/2,center.y+size2/2),
@@ -3174,13 +3175,13 @@ shape=(
 <br>Temp vars are removed when possible.
 <br>Logic is improved
 <br>All the comments are rewritten.
-<br>Minified size: 1329b &rarr; 1028b.
+<br>Minified size: 1329b &rarr; 1030b.
 <p><pre><code class="lang-js">// Check if a point is inside a shape
 // params: point (world coordinates), shape
 pi=(point,shape,t=1,i=4)=>{
 
   // circles: return true if radius is bigger than distance to center
-  if(shape.type=="circle")t=shape.size1>l(s(shape.center,point));
+  if(shape.type==="circle")t=shape.size1>l(s(shape.center,point));
   
   // rectangles: return false if dot(sub(point,vertex),normal) > 0 for any edge
   else for(;i--;)if(d(s(point,shape.vertices[i]),shape.normals[i])>0)t=0;
@@ -3234,7 +3235,7 @@ rs=(shape,angle,t)=>{
   shape.angle+=angle;
 
   // rectangles
-  if(shape.type=="rectangle"){
+  if(shape.type==="rectangle"){
     
     // rotate rectangle vertices
     for(t in shape.vertices)
@@ -3295,7 +3296,7 @@ cn=(shape,t=0)=>{
 
 <p>Functions dedicated to collision detection are minified similarly.
 <br>Number.MAX_VALUE is replaced by 9e9.
-<br>Minified size: 1405b &rarr; 938b.
+<br>Minified size: 1405b &rarr; 943b.
 <p><pre><code class="lang-js">// Detect rectangle-rectangle collisions using separating-axis theorem (SAT)
 // rectangles are tested against each other's axis and we choose the minimal penetration depth
 // params: rect1, rect2
@@ -3305,13 +3306,17 @@ rr=(rect1,rect2,e,r)=>{
   e=cp(rect1,rect2);
   
   // return null if no collision
-  if(e==null)return e;
+  if(e===null)return e;
   
   // test rect1 against rect2's axis
   r=cp(rect2,rect1);
   
   // return null (if no collision) or the manifold with the smallest penetration depth (flip the normal if it's a rect2 axis)
-  return r==null?r:(e.depth&lt;r.depth?e:(r.normal=S(r.normal,-1),r))
+  return r===null?r:(
+    e.depth&lt;r.depth
+    ?e
+    :(r.normal=S(r.normal,-1),r)
+  )
 },
 
 // Get contact point
@@ -3323,7 +3328,7 @@ cp=(t,n,r=null,e=9e9,l=null,o=0)=>{
   for(;o&lt;4;o++){
   
     // if no support point found (no collision), return null
-    if((l=fs(t.normals[o],t.vertices[o],n.vertices))==null)return l;
+    if((l=fs(t.normals[o],t.vertices[o],n.vertices))===null)return l;
     
     // create/replace the manifold r if this axis has the smallest penetration depth
     l.depth&lt;e&&(
@@ -3348,7 +3353,13 @@ fs=(normal,point,vertices,e=0,l=null,u=null,o=0)=>{
   for(;o&lt;4;o++)
     
     // if penetration depth is higher than max depth e, save it in u and save the support point in l
-    (u=d(s(vertices[o],point),S(normal,-1)))>e&&(e=u,l={vertex:vertices[o],depth:u});
+    (u=d(s(vertices[o],point),S(normal,-1)))>e&&(
+      e=u,
+      l={
+        vertex:vertices[o],
+        depth:u
+      }
+    );
     
   // return the contact point that has the biggest penetration depth
   return l
@@ -3385,7 +3396,7 @@ cre=(circle,rect,t,c,i=null,v=null,o=0,z,u)=>{
     d(z,rect.normals[o])>=0&&c>0&&c&lt;l(t)&&(v=rect.normals[o],i=rect.vertices[o]);
   
   // no collision if v or i is null
-  if(null==v||null==i)return null;
+  if(v===null||i===null)return null;
   
   // compute distance between edge and circle's center
   u=d(v,s(circle.center,i));
@@ -3416,11 +3427,11 @@ crc=(circle,rect,t,c=0)=>{
 <p>Functions related to collision resolutions:
 <br>All the variables are factorized or put in the parameters list.
 <br>A "scalar cross" helper function is added.
-<br>Minified size: 1177b &rarr; 977b.
+<br>Minified size: 1177b &rarr; 959b.
 <p><pre><code class="lang-js">// Correct positioning
 // Move shapes away from each other according to a collision manifold and proportionally to their inverse mass
 // params: shape1, shape2, manifold
-positionalCorrection=(shape1,shape2,manifold,v)=>{
+oc=(shape1,shape2,manifold,v)=>{
   
   // compute total correction amount
   v=S(manifold.normal,manifold.depth/(shape1.invMass+shape2.invMass));
@@ -3483,8 +3494,8 @@ rc=(shape1,shape2,manifold,a,o,v,y,m,u,M,g,f,h,x,F,P,b,j,p,q)=>{
   )
 }</code></pre>
 
-<p>Debug functions and mouse interactions are barely simplified (they will be absent in the final release)
-<br>Minified size: 781b &rarr; 435b
+<p>Debug functions and mouse interactions are barely simplified (they will not be present in the final release).
+<br>Minified size: 781b &rarr; 435b.
 <p><pre><code class="lang-js">// Debug: Draw a point
 dp=(center,color= "#888")=>(
   c.beginPath(),
@@ -3525,8 +3536,149 @@ mi=(r,a,e,n,o)=>{
     af(n,sr,S(o,.01))
   )
 }</code></pre>
+
+<p>The update function is a bit simpler.
+<br>Minified size: 919b &rarr; 618b.
+<p><pre><code class="lang-js">// Update the physics engine
+up=(e,r,c,t,o,j=0,i)=>{
+  
+  // reset manifolds list
+  M=[];
+
+  // consider all distinct pairs of shapes
+  for(;j&lt;H.length;j++){
+  
+    // r: shape1 (index j from 0 to H.length)
+    r=H[j];
+    
+    // add (gravity * mass) to shape1
+    r.forceAccumulator=A(r.forceAccumulator,S(G,r.mass));
+    
+    for(i=j;i&lt;H.length;i++){
+    
+      // c: shape2 (index i from j to H.length)
+      c=H[i],
+      
+      // ignore self-collisions, pairs of fixed shapes and collisions in fixed/hinge joints
+      j===i||r.invMass===0&&c.invMass===0||r.noCollision.includes(i)||
+      (
+        
+        // reset manifold
+        e=null,
+        
+        // circle-circle collision
+        r.type==="circle"&&c.type==="circle"
+        ?(
+          
+          // vector between circles centers
+          t=s(c.center,r.center),
+          
+          // if distance between centers is smaller than sum of radii: collision
+          (o=l(t))&lt;r.size1+c.size1&&(
+            
+            // create manifold
+            e={
+              depth:r.size1+c.size1-o,
+              normal:n(t),
+              contactPoint:A(r.center,S(n(t),r.size1))
+            }
+          )
+        )
+        
+        // rectangle-rectangle-rectangle collision
+        :r.type==="rectangle"&&c.type==="rectangle"
+        ?e=rr(r,c)
+        
+        // rectangle-circle collision
+        :r.type==="rectangle"&&c.type==="circle"
+        
+        // inverse r and c and check circle-rectangle collision
+        ?([r,c]=[c,r],e=cr(r,c))
+        
+        // circle-rectangle collision
+        :r.type==="circle"&&c.type==="rectangle"&&(e=cr(r,c)),
+        
+        // if a manifold is present: there's a collision
+        e&&(
+        
+          // correct positioning
+          pc(r,c,e),
+          
+          // resolve collision
+          rc(r,c,e),
+          
+          // add manifold to manifolds list (debug only)
+          M.push(e)
+        )
+      );
+    }
+  }
+
+  // integrate all shapes
+  for(j of H)si(j);
+
+  // handle mouse interactions
+  mi();
+  
+  // handle joints
+  hj();  
+}</code></pre>
+
+<p>The draw function is barely touched (it will not be part of the final release).
+<br>Minified size: 705b &rarr; 655b.
+<p><pre><code class="lang-js">// Render the scene
+dr=(e,r)=>{
+  for(e of(a.width^=0,H))
+    for(r of(
+      c.save(),
+      c.beginPath(),
+      "circle"===e.type
+      ?(
+        c.fillStyle=e.color,
+        c.translate(e.center.x,e.center.y),
+        c.rotate(e.angle),
+        c.arc(0,0,e.size1,0,7),
+        c.lineTo(0,0),
+        c.closePath(),
+        c.fill(),
+        c.stroke()
+      ):"rectangle"===e.type&&(
+        c.fillStyle=e.color,
+        c.moveTo(e.vertices[0].x,e.vertices[0].y),c.lineTo(e.vertices[1].x,e.vertices[1].y),c.lineTo(e.vertices[2].x,e.vertices[2].y),c.lineTo(e.vertices[3].x,e.vertices[3].y),c.closePath(),
+        c.fill(),
+        c.stroke()
+      ),
+      c.restore(),
+    e.anchorPoints))
+      dp(r,"green");
+  for(e of M)
+    dp(e.contactPoint,"#04F");
+  for(e of J)
+    dl(e.rigiA.anchorPoints[e.anchorA],e.rigiB.anchorPoints[e.anchorB],"orange")
+};</code></pre>
+
+<p>
+<br>Minified size:  &rarr; 
 <p><pre><code class="lang-js"></code></pre>
+
+<p>
+<br>Minified size:  &rarr; 
 <p><pre><code class="lang-js"></code></pre>
+
+<p>
+<br>Minified size:  &rarr; 
+<p><pre><code class="lang-js"></code></pre>
+
+<p>
+<br>Minified size:  &rarr; 
+<p><pre><code class="lang-js"></code></pre>
+
+<p>
+<br>Minified size:  &rarr; 
+<p><pre><code class="lang-js"></code></pre>
+
+<p>
+<br>Minified size:  &rarr; 
 <p><pre><code class="lang-js"></code></pre>
 
 
