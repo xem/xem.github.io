@@ -1369,7 +1369,8 @@ source code <a href="https://github.com/xem/2Dphysics/tree/gh-pages/marcel.K/2DP
 <p>- Friction (slidyness) will be used later in tangential collision responses (0: frictionless - 1: maximum friction).
 <p>In this chapter, the default values (friction = 0, restitution = 1) are used, and the masses are ignored.
 <p>Also, the update method now handles all three kinds of collisions, and the gravity is temporarily disabled.
-<p>The red coloring on collisions is akso disabled.
+
+<p>The red coloring on collisions is also disabled.
 
 <p><pre><code class="lang-js">// Shapes
 circle = (center, radius, mass = 1, friction = 0, restitution = 1, angle = 0, velocity = Vec2(0, 0), color = "#888") => {
@@ -1463,7 +1464,7 @@ update = () => {
 
         // Detect circle-rectangle collisions
         else if(shape1.type == "rectangle" && shape2.type == "circle"){
-          [shape1, shape2] = [shape2, shape1];
+          tmp = shape1; shape1 = shape2; shape2 = tmp;
           manifold = circleRectangleCollision(shape1, shape2);
         }
         
@@ -2188,9 +2189,13 @@ addAnchor(Vec2(-30, 15), r1);</code></pre>
 
 <p>Anchor points are used to apply forces on objects. When the anchor is not on the center of a shape, the force provokes a linear and a rotational motion.
 
-<p>A <b>torqueAccumulator</b> (Number) is added to the shapes constructors.
+<p>A <b>torqueAccumulator</b> (Number) is added to the shapes constructors, and corresponds to a rotational acceleration.
 
-<p>Mouse inputs are used to apply forces freely in the demo.
+<p>It's important to note here that impulses and forces are different: impulses are used to instantly modify a velocity, while forces are used to instantly modify an acceleration.
+
+<p>It's possible to replace forces by impulses proportional to deltaT (the time between two frames), but we'll see that later.
+
+<p>Here, mouse inputs are used to apply forces to any shape.
 <p>An <b>isPointInside</b> function is created to check if a shape is clicked.
 <p>The integrate method is completed too.
 
@@ -3077,11 +3082,14 @@ j1 = hingeJoint(r1, a1, r2, a2);
 
 <br><br><hr><br>
 
+<p>Yayyy, I completed my dream 2D physics engine in two weeks and a little less than 34kb! It's now time to golf it!
+
+<br><br><hr><br>
+
 <h1>GOLFING MY ENGINE</h1>
 <br>
-<h2>Phase 1: simplification and minification</h2>
+<h2>Phase 1: line-by-line minification and simplification</h2>
 
-<p>Yayyy, I completed my dream 2D physics engine in two weeks and a little less than 34kb! It's now time to golf it, line by line:
 
 <br><hr>
 
@@ -3126,8 +3134,8 @@ onmousedown=onmouseup=o=>p=!!o.type[7],</code></pre>
 shape=(
   type,
   center,
-  size1,
-  size2,
+  size1, // radius (circle) or width (rectangle)
+  size2, // height (rectangle only)
   mass=1,
   friction=0,
   restitution=1,
@@ -3165,9 +3173,8 @@ shape=(
     ]
   }
 )=>(
-  cn(s),      // calc normals
-  H.push(s),  // add shape in shapes list
-  s           // return shape
+  cn(s),    // compute normals (rectangles only)
+  H.push(s) // add shape in shapes list and return shape
 );</code></pre>
 
 <p>Functions involving points and shapes are renamed (two letters each).
@@ -3473,7 +3480,7 @@ rc=(shape1,shape2,manifold,a,o,v,y,m,u,M,g,f,h,x,F,P,b,j,p,q)=>{
       shape1.velocity=s(shape1.velocity,S(F,shape1.invMass)),
       shape2.velocity=A(shape2.velocity,S(F,shape2.invMass)),
       
-      // apply rotational impulses (alse opposite)
+      // apply rotational impulses (also opposite)
       shape1.angularVelocity+=-u*x*f,
       shape2.angularVelocity+=M*x*h,
       
@@ -3593,7 +3600,7 @@ up=(e,r,c,t,o,j=0,i)=>{
         :r.type==="rectangle"&&c.type==="circle"
         
         // inverse r and c and check circle-rectangle collision
-        ?([r,c]=[c,r],e=cr(r,c))
+        ?(t=r,r=c,c=t,e=cr(r,c))
         
         // circle-rectangle collision
         :r.type==="circle"&&c.type==="rectangle"&&(e=cr(r,c)),
@@ -3657,7 +3664,525 @@ dr=(e,r)=>{
     dl(e.rigiA.anchorPoints[e.anchorA],e.rigiB.anchorPoints[e.anchorB],"orange")
 };</code></pre>
 
-<p>
+<p>Joints and main loop are also quiclky minified for now. They will be optimized later.
+<br>Joints constructors avoid using a temp var for the return, as "J.push()" returns the last item pushed.
+<br>Minified size: 4294b &rarr; 3794b
+<p><pre><code class="lang-js">// Force joint
+// params: rigiA, anchorA, rigiB, anchorB, strength
+forceJoint=(rigiA,anchorA,rigiB,anchorB,strength)=>{
+  return J.push({
+    type:"force",
+    rigiA,
+    anchorA,
+    rigiB,
+    anchorB,
+    strength
+  })
+},
+
+// Spring joint
+// params: rigiA, anchorA, rigiB, anchorB, stiffness, restLength
+springJoint=(rigiA,anchorA,rigiB,anchorB,stiffness,restLength)=>{
+  return J.push({
+    type:"spring",
+    rigiA,
+    anchorA,
+    rigiB,
+    anchorB,
+    stiffness,
+    restLength
+  });
+},
+
+// Reverse force joint
+// params: rigiA, anchorA, rigiB, anchorB, strength, maxEffectDistance
+reverseForceJoint=(rigiA,anchorA,rigiB,anchorB, strength, maxEffectDistance)=>{
+  return J.push({
+    type:"reverseForce",
+    rigiA,
+    anchorA,
+    rigiB,
+    anchorB,
+    strength,
+    maxEffectDistance
+  })
+},
+
+// Fixed joint
+// params: rigiA, anchorA, rigiB, anchorB, iterations
+fixedJoint=(rigiA,anchorA,rigiB,anchorB,iterations=20)=>{
+  return rigiA.noCollision.push(H.indexOf(rigiB)),rigiB.noCollision.push(H.indexOf(rigiA)),J.push(e={
+    type:"fixed",
+    rigiA,
+    anchorA,
+    rigiB,
+    anchorB,
+    iterations,
+    rigiABounce:rigiA.restitution,
+    rigiBBounce:rigiB.restitution,
+    rigiAFriction:rigiA.friction,
+    rigiBFriction:rigiB.friction,
+    initialLength:l(s(rigiA.anchorPoints[anchorA],rigiB.anchorPoints[anchorB])),
+    relativeAngle:rigiB.angle-rigiA.angle
+  })
+},
+
+// Hinge joint
+// params: rigiA, anchorA, rigiB, anchorB, iterations
+hingeJoint=(rigiA,anchorA,rigiB,anchorB,iterations=20)=>{
+  return rigiA.noCollision.push(H.indexOf(rigiB)),rigiB.noCollision.push(H.indexOf(rigiA)),J.push(e={
+    type:"hinge",
+    rigiA,
+    anchorA,
+    rigiB,
+    anchorB,
+    iterations,
+    rigiABounce:rigiA.restitution,
+    rigiBBounce:rigiB.restitution,
+    rigiAFriction:rigiA.friction,
+    rigiBFriction:rigiB.friction,
+    initialLength:l(s(rigiA.anchorPoints[anchorA],rigiB.anchorPoints[anchorB]))
+  })
+},
+
+// Enable/disable friction and restitution in fixed/hinge joints 
+setMaterialZero=i=>{
+  i.rigiA.restitution=i.rigiA.friction=i.rigiB.restitution=i.rigiB.friction=0
+},
+
+restoreMaterial=i=>{
+  i.rigiA.restitution=i.rigiABounce,
+  i.rigiA.friction=i.rigiAFriction,
+  i.rigiB.restitution=i.rigiBBounce,
+  i.rigiB.friction=i.rigiBFriction
+},
+
+// Joint handler
+hj=(i,r,g,t,e,a,o,h,A,B,c,f,p,v,M,m,L,d,y)=>{
+  for(m=0;m&lt;J.length;m++){
+    r=0==(i=J[m]).rigiA.invMass||0==i.rigiB.invMass?1:.5,g=i.rigiA.anchorPoints[i.anchorA],
+    t=i.rigiB.anchorPoints[i.anchorB],
+    e=s(t,g),
+    a=l(e);
+    if("force"==i.type)
+      af(t,i.rigiA,S(e,i.strength/2)),
+      af(g,i.rigiB,S(e,-i.strength/2));
+    else if("spring"==i.type)
+      o=(a-i.restLength)*i.restLength*i.stiffness*r,h=S(n(e),o),
+      0!=i.rigiA.invMass&&af(g,i.rigiA,h),
+      0!=i.rigiB.invMass&&af(t,i.rigiB,S(h,-1));
+    else if("reverseForce"==i.type)
+      o=Math.max(0,i.maxEffectDistance-a),
+      0!=i.rigiA.invMass&&af(t,i.rigiA,S(n(e),-o*i.strength*r)),
+      0!=i.rigiB.invMass&&af(g,i.rigiB,S(n(e),o*i.strength*r));
+    else if("fixed"==i.type){
+      setMaterialZero(i),
+      d=s(t,g),(L=i.rigiA.invMass+i.rigiB.invMass)>0&&(v=S(d,i.rigiA.invMass/L),
+      M=S(d,i.rigiB.invMass/L),
+      ts(i.rigiA,v),
+      ts(i.rigiB,S(M,-1)));
+      for(y=0;y&lt;i.iterations&&(e=s(t,g),!((a=l(e))&lt;1e-5));y++)
+        A={
+          depth:0,
+          normal:n(e),
+          contactPoint:t,
+          rigiA:i.rigiB,
+          rigiB:i.rigiA
+        },
+        a>i.initialLength?A.depth=a-i.initialLength:(
+          A.depth=i.initialLength-a,
+          A.normal=S(A.normal,-1)
+        ),
+        pc(i.rigiA,i.rigiB,A),
+        rc(i.rigiA,i.rigiB,A);
+      B=i.rigiB.angle-i.rigiA.angle-.01,
+      c=i.relativeAngle-B,
+      f=1,
+      i.rigiA.angle-=c*f*.5,
+      i.rigiB.angle+=c*f*.5;
+      for(y=0;y&lt;i.iterations&&(e=s(t,g),!((a=l(e))&lt;1e-5));y++)
+        A={
+          depth:0,
+          normal:n(e),
+          contactPoint:t,
+          rigiA:i.rigiA,
+          rigiB:i.rigiB
+        },
+        a>i.initialLength?A.depth=a-i.initialLength:(
+          A.depth=i.initialLength-a,
+          A.normal=S(A.normal,-1)
+        ),
+        pc(i.rigiB,i.rigiA,A),
+        rc(i.rigiB,i.rigiA,A);
+      B=i.rigiA.angle-i.rigiB.angle,
+      c=i.relativeAngle-B,
+      f=1,
+      i.rigiA.angle+=c*f*.5,
+      i.rigiB.angle-=c*f*.5,
+      p=.5*(i.rigiA.angularVelocity+i.rigiB.angularVelocity),
+      i.rigiA.angularVelocity=p,
+      i.rigiB.angularVelocity=p,
+      restoreMaterial(i)
+    }
+    else if("hinge"==i.type){
+      setMaterialZero(i);
+      d=s(t,g);
+      (L=i.rigiA.invMass+i.rigiB.invMass)>0&&(
+        v=S(d,i.rigiA.invMass/L),
+        M=S(d,i.rigiB.invMass/L),
+        ts(i.rigiA,v),
+        ts(i.rigiB,S(M,-1))
+      );
+      for(y=0;y&lt;i.iterations&&(e=s(t,g),!((a=l(e))&lt;1e-5));y++)
+        A={
+          depth:0,
+          normal:n(e),
+          contactPoint:t,
+          rigiA:i.rigiB,
+          rigiB:i.rigiA
+        },
+        a>i.initialLength?A.depth=a-i.initialLength:(
+          A.depth=i.initialLength-a,
+          A.normal=S(A.normal,-1)
+        ),
+        pc(i.rigiA,i.rigiB,A),
+        rc(i.rigiA,i.rigiB,A);
+      for(y=0;y&lt;i.iterations&&(e=s(t,g),!((a=l(e))&lt;1e-5));y++)
+        A={
+          depth:0,
+          normal:n(e),
+          contactPoint:t,
+          rigiA:i.rigiA,
+          rigiB:i.rigiB
+        },
+        a>i.initialLength?A.depth=a-i.initialLength:(
+          A.depth=i.initialLength-a,
+          A.normal=S(A.normal,-1)),
+          pc(i.rigiB,i.rigiA,A),
+          rc(i.rigiB,i.rigiA,A);
+      restoreMaterial(i)
+    }
+  }
+};
+
+// Main loop
+setInterval(() => {
+  up();
+  dr();
+}, 16);</code></pre>
+
+<p>So far, the full code without demo went from <b>12133b to 9252b</b> (minified) and <b>3537b to 3002b</b> (zipped)
+
+<br><br><hr><br>
+
+<h1>THE PLAYROOM</h1>
+
+<br><hr>
+
+<p>Before continuing, I coded a little demo with 6 different parts showcasing each joint plus a "stress test" with a lot of shapes that collide with each other.
+
+<p>The performance was good (no slowdowns), but some bugs appeared:
+<br>- The stress test never reaches an equilibrium state (the shapes keep mobing and rotating infinitely).
+<br>- The stress test shapes tend to interpenetrate a bit instead of pushing each other away.
+<br>- The fixed joint isn't stiff enough (the circle slowly falls toward the floor).
+<p><video controls src="images/2D-physics/tests.mp4?v=4" width=500></video>
+
+<p>With the help of ChatGPT and other 2D physics libraries, I learned how to fix these problems, at least in theory:
+<br>- The solver can be run many (usually around 10) times per frame to reduce interpenetrations.
+<br>- We can use angular impulses to enforce the fixed joint's relative angle.
+<br>- We can also remove rc (resolveCollision) from the fixed joint code to avoid applying too many impulses to the neighbour shapes.
+
+<p><video controls src="images/2D-physics/test2.mp4?v=4" width=500></video>
+
+<p>This looks better, but the code is hacky and too verbose.
+
+<p>So, let's try putting all these fixes aside and recoding the "update" and "handle joints" methods cleanly, from scratch, based on all that I've seen so far.
+
+<br><br><hr><br>
+
+<h1>OPTIMIZATION</h1>
+
+<br><hr>
+
+<p>Let's focus on the stress test first:
+<br>To make it more stable with minimal extra code, we can:
+<br>- remove pc (positional correction) entirely.
+<br>- solve the collisions many times per frame in up (update).
+<br>- add a Baumgarte-like bias in rc (resolve collision).
+<br>- clamp the friction in rc.
+<p>In the update function, a reference to both shapes is stored in each manifold, for simplicity.
+<p>An ai (apply impulse, linear and angular) method is also added, because it will be necessary at any different places.
+
+<p><pre><code class="lang-js">// Apply normal impulse (linear + angular)
+ai=(sA, sB, impulseScalar, normal, raCrossN, rbCrossN, doLinear=1, Imp) => {
+
+  // linear
+  if(doLinear){
+    Imp = S(normal, impulseScalar);
+    if(sA.invMass !== 0) sA.velocity = s(sA.velocity, S(Imp, sA.invMass));
+    if(sB.invMass !== 0) sB.velocity = A(sB.velocity, S(Imp, sB.invMass));
+  }
+  
+  // angular
+  sA.angularVelocity -= raCrossN * impulseScalar * sA.invInertia;
+  sB.angularVelocity += rbCrossN * impulseScalar * sB.invInertia;
+},
+
+// Resolve collision
+// params: shape1, shape2, manifold
+rc=(manifold,shape1,shape2,a,o,v,u,M,B,x,F,P,b,j,m,p,q)=>{
+
+  shape1 = manifold.A;
+  shape2 = manifold.B;
+
+  // Movement impulses
+  
+  // skip if both shapes are fixed
+  if(shape1.invMass!==0 || shape2.invMass!==0){
+
+    // relative velocity at contact point
+    v = s(
+      A(
+        shape2.velocity,
+        sc(
+          shape2, 
+          o = s(manifold.contactPoint, shape2.center)
+        )
+      ),
+      A(
+        shape1.velocity, 
+        sc(
+          shape1,
+          a = s(manifold.contactPoint, shape1.center)
+        )
+      )
+    );
+
+    // effective mass for normal direction
+    u = C(a,manifold.normal);
+    M = C(o,manifold.normal);
+
+    // compute Baumgarte-like bias from penetration to reduce positional drift
+    B = manifold.depth * .5;
+
+    // normal impulse scalar
+    x = (-(1 + Math.min(shape1.restitution, shape2.restitution)) * d(v, manifold.normal) + B) / (shape1.invMass + shape2.invMass + u*u*shape1.invInertia + M*M*shape2.invInertia);
+
+    // apply impulses
+    ai(shape1, shape2, x, manifold.normal, u, M);
+
+    // friction impulses
+    
+    // compute tangent
+    P = S(s(v, S(manifold.normal, d(v, manifold.normal))), -1);
+    
+    // if zero tangent, skip
+    if(l(P) > 0) {
+ 
+      // effective mass along tangent
+      b = C(a, P = n(P));
+      j = C(o, P);
+
+      // friction coefficient
+      m = Math.min(shape1.friction, shape2.friction);
+      
+      // desired friction impulse
+      p = (-d(v, P)) / (shape1.invMass + shape2.invMass + b*b*shape1.invInertia + j*j*shape2.invInertia);
+      
+      // clamp friction by normal impulse magnitude
+      if(Math.abs(p) > Math.abs(x) * m) p = Math.sign(p) * Math.abs(x) * m;
+      
+      // apply impulses
+      ai(shape1, shape2, p, P, b, j);
+    }
+  }
+},
+
+// Update the physics engine
+up=(i,j,body1,body2,manifold,diff,dist)=>{
+
+  // clear manifolds
+  M = [];
+  
+  // reset acceleration and apply gravity (F = m * g)
+  for(j of H){
+    if(j.invMass !== 0) j.forceAccumulator = S(G, j.mass);
+  }
+
+  // collision detection
+  for(j=0;j&lt;H.length;j++){
+    for(i=j+1;i&lt;H.length;i++){
+      
+      body1 = H[j],
+      body2 = H[i];
+      
+      // skip pairs of static bodies and bodies with fixed/hinge joints
+      if((body1.invMass !== 0 || body2.invMass !== 0) && !body1.noCollision.includes(i)){
+
+        // reset manifold
+        manifold = null;
+
+        // circle-circle
+        if(body1.type=== "circle" && body2.type === "circle"){
+          diff = s(body2.center, body1.center);
+          dist = l(diff);
+          if(dist &lt; body1.size1 + body2.size1){
+            manifold = {
+              depth: body1.size1 + body2.size1 - dist,
+              normal: n(diff),
+              contactPoint: A(body1.center, S(n(diff), body1.size1)),
+              A: body1,
+              B: body2
+            };
+          }
+        }
+        
+        // rect-rect
+        else if(body1.type === "rectangle" && body2.type === "rectangle"){
+          manifold = rr(body1, body2);
+        }
+        
+        // rect-circle (circle as first)
+        else if(body1.type === "rectangle" && body2.type === "circle"){
+          manifold = cr(body2, body1);
+        }
+        
+        // circle-rect
+        else { //if(body1.type === "circle" && body2.type === "rectangle"){
+          manifold = cr(body1, body2);
+        }
+
+        // add manifold to list
+        if(manifold) M.push(manifold);
+      }
+    }
+  }
+
+  // resolve contact impulses and joint impulses multiple times
+  for(i = 20; i--;){
+  
+    // resolve contacts
+    for(j of M){
+      rc(j);
+    }
+    
+    // resolve joints as contact-like constraints
+    hj();
+  }
+
+  // integrate shapes
+  for(j of H) si(j);
+},</code></pre>
+
+<p>It's not perfect, but it's more stable and there are almost no residual interpenetrations.
+<p><video controls src="images/2D-physics/o1.mp4?v=4" width=200></video>
+
+<p>For the joints, we can use a unified constructor function instead of five, and rewrite the hj (handle joints) function like this:
+<br>(The most important point here is to solve the joints with impulses, many times per frame, and after each resolution, apply a slight positional correction to help the anchors stay attached for hinge and fixed joints)
+
+<p><pre><code class="lang-js">// Joints
+// type: force/spring/repulse/hinge/fixed
+// length: restLength (spring), minDistance (repulse) 
+joint=(type,rigiA,anchorA,rigiB,anchorB,strength,length,relativeAngle)=>{
+  
+  // hinge/fixed: disable collisions
+  if(type === "hinge" || type === "fixed"){
+    rigiA.noCollision.push(H.indexOf(rigiB));
+    rigiB.noCollision.push(H.indexOf(rigiA));
+    relativeAngle=rigiB.angle-rigiA.angle;
+  }
+  
+  return J.push({
+    type,
+    rigiA,
+    anchorA,
+    rigiB,
+    anchorB,
+    strength,
+    length,
+    relativeAngle
+  });
+},
+
+// Handle joints
+hj = () => {
+
+  var baumgarte = 0.4,  // rigidity (0.1–0.4)
+  softness  = 0.01,     // stabilization
+  j, sA, B, Apos, Bpos, ra, rb, dpos, dist, normal, raCrossN, rbCrossN, invMassSum, err, angMass, totalInvMass;
+  
+  for(j of J){
+
+    sA = j.rigiA;
+    B = j.rigiB;
+
+    // world anchors
+    Apos = sA.anchorPoints[j.anchorA];
+    Bpos = B.anchorPoints[j.anchorB];
+
+    // relative vectors
+    ra = s(Apos, sA.center);
+    rb = s(Bpos, B.center);
+
+    // separation
+    dpos = s(Bpos, Apos);
+    dist = l(dpos);
+    normal = dist > 0 ? n(dpos) : V(1,0);
+    
+    // effective mass
+    raCrossN = C(ra, normal);
+    rbCrossN = C(rb, normal);
+    invMassSum = sA.invMass + B.invMass + raCrossN * raCrossN * sA.invInertia + rbCrossN * rbCrossN * B.invInertia + softness;
+
+    if(invMassSum !== 0){
+
+      // force joint
+      if(j.type === "force"){
+        ai(sA, B, (-(j.strength * dist) / 10000), normal, raCrossN, rbCrossN);
+      }
+
+      // spring joint
+      else if(j.type === "spring"){
+        ai(sA, B, ((-(j.strength * (dist - j.length)) / 1000) / invMassSum), normal, raCrossN, rbCrossN);
+      }
+
+      // repulsion joint
+      else if(j.type === "repulse"){
+        ai(sA, B, ((j.strength * Math.max(0, j.length - dist)) / 10000), normal, raCrossN, rbCrossN);
+      }
+
+      // hinge / fixed
+      else {
+
+        // linear impulses
+        ai(sA, B, (-(d(s(A(B.velocity, sc(B, rb)), A(sA.velocity, sc(sA, ra))), normal)) + (-(baumgarte * dist))) / invMassSum, normal, raCrossN, rbCrossN)
+
+        // angular correction (fixed only)
+        if(j.type === "fixed"){
+          err = (B.angle - sA.angle) - (j.relativeAngle);
+          angMass = sA.invInertia + B.invInertia;
+          if(angMass > 0){
+            ai(sA, B, (-(B.angularVelocity - sA.angularVelocity) + (-(baumgarte * err)) ) / angMass, 0, 1, 1, 0);
+          }
+        }
+
+        // position correction (anchors superposed)
+        if(dist > 0){
+          totalInvMass = sA.invMass + B.invMass;
+          if(sA.invMass !== 0) ts(sA, S(dpos, (sA.invMass / totalInvMass)));
+          if(B.invMass !== 0) ts(B, S(dpos, -(B.invMass / totalInvMass)));
+        }
+      }
+    }
+  }
+},</code></pre>
+
+<p>With this rewrite (made with a lot of trial and error), all the joints behave correctly: no wobble, no shaking, no exaggerated collisions with the other shapes in the scene!
+
+<p><video controls src="images/2D-physics/o2.mp4?v=4" width=500></video>
+
+<p>In terms of size, we are also very good: <b>7723b minified, 2821b minified</b> !
+<!--
 <br>Minified size:  &rarr; 
 <p><pre><code class="lang-js"></code></pre>
 
@@ -3668,19 +4193,7 @@ dr=(e,r)=>{
 <p>
 <br>Minified size:  &rarr; 
 <p><pre><code class="lang-js"></code></pre>
-
-<p>
-<br>Minified size:  &rarr; 
-<p><pre><code class="lang-js"></code></pre>
-
-<p>
-<br>Minified size:  &rarr; 
-<p><pre><code class="lang-js"></code></pre>
-
-<p>
-<br>Minified size:  &rarr; 
-<p><pre><code class="lang-js"></code></pre>
-
+-->
 
 
 </main>
