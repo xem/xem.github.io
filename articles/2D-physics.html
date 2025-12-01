@@ -3908,8 +3908,8 @@ setInterval(() => {
 <br>To make it more stable with minimal extra code, we can:
 <br>- remove pc (positional correction) entirely.
 <br>- solve the collisions many times per frame in up (update).
-<br>- add a Baumgarte-like bias in rc (resolve collision).
-<br>- clamp the friction in rc.
+<br>- add a Baumgarte-like bias and clamp the friction in rc (resolve collision).
+<br>- pseudo-sleep in si (shape integration): set tiny movement/rotations to zero.
 <p>In the update function, a reference to both shapes is stored in each manifold, for simplicity.
 <p>An ai (apply impulse, linear and angular) method is also added, because it will be necessary at any different places.
 
@@ -3927,6 +3927,45 @@ ai=(sA, sB, impulseScalar, normal, raCrossN, rbCrossN, doLinear=1, Imp) => {
   sA.angularVelocity -= raCrossN * impulseScalar * sA.invInertia;
   sB.angularVelocity += rbCrossN * impulseScalar * sB.invInertia;
 },
+
+// Shape integration
+si=shape=>{
+
+  // skip fixed objects
+  if(shape.invMass!==0){
+    
+    // add force accumulator to velocity (proportionally to inverse mass)
+    shape.velocity=A(shape.velocity,S(shape.forceAccumulator,shape.invMass));
+    
+    // add velocity to position
+    ts(shape,shape.velocity);
+    
+    // damp velocity
+    shape.velocity=S(shape.velocity,.99);
+    
+    // zero tiny velocity
+    if(Math.abs(l(shape.velocity)) &lt; .001) shape.velocity = V(0,0);
+    
+    // reset force accumulator
+    shape.forceAccumulator=V(0,0);
+    
+    // add torque to angular velocity (proportionally to inverse inertia)
+    shape.angularVelocity+=shape.torqueAccumulator*shape.invInertia;
+    
+    // add angular velocity to angle
+    rs(shape,shape.angularVelocity);
+    
+    // damp angular velocity
+    shape.angularVelocity*=.99;
+    
+    // zero tiny rotation
+    if(Math.abs(shape.angularVelocity) &lt; .001 || Math.abs(l(shape.velocity)) &lt; .001) shape.angularVelocity = 0;
+    
+    // reset torque accumulator
+    shape.torqueAccumulator=0;
+  }
+},
+
 
 // Resolve collision
 // params: shape1, shape2, manifold
@@ -4074,11 +4113,13 @@ up=(i,j,body1,body2,manifold,diff,dist)=>{
   for(j of H) si(j);
 },</code></pre>
 
-<p>It's not perfect, but it's more stable and there are almost no residual interpenetrations.
+<p>It's not perfect, but it's more stable than ever and there are almost no residual interpenetrations.
 <p><video controls src="images/2D-physics/o1.mp4?v=4" width=200></video>
 
 <p>For the joints, we can use a unified constructor function instead of five, and rewrite the hj (handle joints) function like this:
-<br>(The most important point here is to solve the joints with impulses, many times per frame, and after each resolution, apply a slight positional correction to help the anchors stay attached for hinge and fixed joints)
+<br>solve the joints with impulses, many times per frame.
+<br>after each resolution, apply a slight positional correction to help the anchors stay attached for hinge and fixed joints.
+<br>get rid of material enabling/disabling code.
 
 <p><pre><code class="lang-js">// Joints
 // type: force/spring/repulse/hinge/fixed
@@ -4181,7 +4222,7 @@ hj = () => {
 
 <p><video controls src="images/2D-physics/o2.mp4?v=4" width=500></video>
 
-<p>In terms of size, we are also very good: <b>7723b minified, 2821b minified</b> !
+<p>In terms of size, we are also very good: <b>7609b minified, 2734b minified</b> !
 <!--
 <br>Minified size:  &rarr; 
 <p><pre><code class="lang-js"></code></pre>
