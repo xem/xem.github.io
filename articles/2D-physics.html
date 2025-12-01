@@ -3198,7 +3198,7 @@ pi=(point,shape,t=1,i=4)=>{
 
 // Add an anchor to a shape
 // params: anchor (local coordinates), shape
-aa=(anchor,shape)=>(
+anchor=(anchor,shape)=>(
   
   // add anchor in the point's anchors list (converted in world coordinates)
   shape.anchorPoints.push(A(anchor,shape.center)),
@@ -3529,7 +3529,7 @@ mi=(r,a,e,n,o)=>{
       sr=H[r],
       sp=V(m.x,m.y),
       e=s(m,H[r].center),
-      sa=aa(e,H[r])
+      sa=anchor(e,H[r])
     );
   else 0!=sr&&(
     sr.anchorPoints.pop(),
@@ -3944,7 +3944,7 @@ si=shape=>{
     shape.velocity=S(shape.velocity,.99);
     
     // zero tiny velocity
-    if(Math.abs(l(shape.velocity)) &lt; .001) shape.velocity = V(0,0);
+    if(Math.abs(l(shape.velocity)) &lt; .0001) shape.velocity = V(0,0);
     
     // reset force accumulator
     shape.forceAccumulator=V(0,0);
@@ -3959,7 +3959,7 @@ si=shape=>{
     shape.angularVelocity*=.99;
     
     // zero tiny rotation
-    if(Math.abs(shape.angularVelocity) &lt; .001 || Math.abs(l(shape.velocity)) &lt; .001) shape.angularVelocity = 0;
+    if(Math.abs(shape.angularVelocity) &lt; .0001 || Math.abs(l(shape.velocity)) &lt; .0001) shape.angularVelocity = 0;
     
     // reset torque accumulator
     shape.torqueAccumulator=0;
@@ -4119,7 +4119,7 @@ up=(i,j,body1,body2,manifold,diff,dist)=>{
 <p>For the joints, we can use a unified constructor function instead of five, and rewrite the hj (handle joints) function like this:
 <br>solve the joints with impulses, many times per frame.
 <br>after each resolution, apply a slight positional correction to help the anchors stay attached for hinge and fixed joints.
-<br>get rid of material enabling/disabling code.
+<br>get rid of material enabling/disabling code and the D (dist) Vec2 function.
 
 <p><pre><code class="lang-js">// Joints
 // type: force/spring/repulse/hinge/fixed
@@ -4216,18 +4216,207 @@ hj = () => {
       }
     }
   }
-},</code></pre>
+},
+
+// Demo
+
+// Grid
+shape("rectangle", V(400, 20), 780, 20, 0, .5, .5);
+shape("rectangle", V(400, 300), 780, 20, 0, .5, .5);
+shape("rectangle", V(400, 580), 780, 20, 0, .5, .5);
+shape("rectangle", V(20, 300), 20, 580, 0, .5, .5);
+shape("rectangle", V(280, 300), 20, 580, 0, .5, .5);
+shape("rectangle", V(540, 300), 20, 580, 0, .5, .5);
+shape("rectangle", V(780, 300), 20, 580, 0, .5, .5);
+
+// Stress test
+for(i=35;i--;){
+  shape("circle", V(65 - i/2 + (i % 8) * 25, 55+ (i / 8) * 40), 10, 15, 1, .5, .5);
+  shape("rectangle", V(50 + i/2 + (i % 8) * 25, 35+ (i / 8) * 40), 20, 15, 1, .5, .5, );
+}
+
+// Force joint
+r1 = shape("rectangle", V(400, 80), 90, 50, 0, .5, .5);
+a1 = anchor(V(20,15), r1);
+c1 = shape("circle", V(450, 250), 30, 30, .5);
+a2 = anchor(V(-20,10), c1);
+j1 = joint("force", r1, a1, c1, a2, .95);
+
+// Spring joint
+r1 = shape("rectangle", V(630, 80), 90, 50, 0, .5, .5);
+a1 = anchor(V(20,15), r1);
+c1 = shape("circle", V(590, 250), 30, 30, 1);
+a2 = anchor(V(0,-10), c1);
+j2 = joint("spring", r1, a1, c1, a2, .2, 80);
+
+// repulse force joint
+for(i=10;i--;){
+  shape("circle", V(180+Math.random() * 30, 520+Math.random() * 20), Math.random()*5+5, 10, 10, .5, .5);
+}
+r1 = shape("rectangle", V(100, 520), 90, 50, 0, .5, .5);
+a1 = anchor(V(0,-25), r1);
+c1 = shape("circle", V(120, 480), 30, 0, 1);
+a2 = anchor(V(-20,0), c1);
+j1 =joint("repulse", r1, a1, c1, a2, .2, 200);
+
+// Fixed joint
+for(i=20;i--;){
+  shape("circle", V(300+Math.random() * (780/3 - 50), 520+Math.random() * 20), Math.random()*5+5, 10,10, .5, .5);
+}
+r1 = shape("rectangle", V(400, 420), 90, 50, 10, .5, .5);
+a1 = anchor(V(0,-15), r1);
+c1 = shape("circle", V(400, 400), 30, 30, 10);
+a2 = anchor(V(0,20), c1);
+j4 = joint("fixed", r1, a1, c1, a2);
+
+// Hinge joint
+r1 = shape("rectangle", V(630, 460), 90, 50, 0, .5, .5);
+a1 = anchor(V(20,15), r1);
+c1 = shape("circle", V(665, 465), 30, 30, 100);
+a2 = anchor(V(-20,10), c1);
+j4 = joint("hinge", r1, a1, c1, a2);</code></pre>
 
 <p>With this rewrite (made with a lot of trial and error), all the joints behave correctly: no wobble, no shaking, no exaggerated collisions with the other shapes in the scene!
 
 <p><video controls src="images/2D-physics/o2.mp4?v=4" width=500></video>
 
 <p>In terms of size, we are also very good: <b>7609b minified, 2734b minified</b> !
-<!--
-<br>Minified size:  &rarr; 
-<p><pre><code class="lang-js"></code></pre>
 
-<p>
+<p>Here's a new demo testing every possible interaction between joints, mobile and immobile shapes, and multi-jointed shapes:
+
+<p><pre><code class="lang-js">// Grid
+shape("rectangle", V(400, 20), 780, 20, 0, .5, .5);
+shape("rectangle", V(280, 300), 500, 20, 0, .5, .5);
+shape("rectangle", V(400, 580), 780, 20, 0, .5, .5);
+shape("rectangle", V(20, 300), 20, 580, 0, .5, .5);
+shape("rectangle", V(280, 300), 20, 580, 0, .5, .5);
+shape("rectangle", V(540, 300), 20, 580, 0, .5, .5);
+shape("rectangle", V(780, 300), 20, 580, 0, .5, .5);
+
+// Hinge
+s1 = shape("rectangle", V(140, 90), 90, 50, 100, .5, .5);
+a1 = anchor(V(20,15), s1);
+s2c = shape("circle", V(135, 90), 30, 30, 0);
+a2 = anchor(V(-20,10), s2c);
+j1 = joint("hinge", s1, a1, s2c, a2);
+
+s1 = shape("rectangle", V(150, 270), 20, 50, 0, .5, .5);
+a1 = anchor(V(0,-20), s1);
+s2 = shape("rectangle", V(150, 240), 160, 20, 100, .5, .5);
+a2 = anchor(V(0,0), s2);
+j1 = joint("hinge", s1, a1, s2, a2);
+
+s1 = shape("circle", V(170, 150), 20, 20, 10, .5, .5);
+a1 = anchor(V(0,-15), s1);
+s2 = shape("circle", V(165, 140), 10, 10, 10, .5, .5);
+a2 = anchor(V(10,0), s2);
+j1 = joint("hinge", s1, a1, s2, a2);
+
+// Multi hinge
+s1b = shape("rectangle", V(410, 70), 200, 30, 0, .5, .5);
+a1a = anchor(V(-60,10), s1b);
+a1b = anchor(V(70,10), s1b);
+s2 = shape("circle", V(390, 90), 30, 30, 10, .5, .5);
+a2a = anchor(V(20,-20),s2);
+a2b = anchor(V(-20,20),s2);
+s3 = shape("rectangle", V(450, 110), 30, 60, 10, .5, .5);
+a3a = anchor(V(10,-20),s3);
+a3b = anchor(V(-10,20),s3);
+j1 = joint("hinge", s1b, a1a, s2, a2a);
+j2 = joint("hinge", s1b, a1b, s3, a3a);
+s6 = shape("circle", V(400, 200), 50, 50, 10, .5, .5);
+s4 = shape("rectangle", V(370, 150), 30, 100, 10, .5, .5);
+a4a = anchor(V(0,-40),s4);
+a4b = anchor(V(0,40),s4);
+s5 = shape("rectangle", V(470, 150), 30, 100, 10, .5, .5);
+a5a = anchor(V(0,-40),s5);
+a5b = anchor(V(0,40),s5);
+j3 = joint("hinge", s2, a2b, s4, a4a);
+j4 = joint("hinge", s3, a3b, s5, a5a);
+a6a = anchor(V(-40,-0),s6);
+a6b = anchor(V(40,0),s6);
+j5 = joint("hinge", s6, a6a, s4, a4b);
+j6 = joint("hinge", s6, a6b, s5, a5b);
+
+// Fixed
+s1 = shape("rectangle", V(140, 90+280), 90, 50, 100, .5, .5);
+a1 = anchor(V(20,15), s1);
+s2d = shape("circle", V(135, 90+280), 30, 30, 0);
+a2 = anchor(V(-20,10), s2d);
+j1 = joint("fixed", s1, a1, s2d, a2);
+
+s1 = shape("rectangle", V(150, 270+280), 20, 50, 0, .5, .5);
+a1 = anchor(V(0,-20), s1);
+s2 = shape("rectangle", V(150, 240+280), 160, 20, 100, .5, .5);
+a2 = anchor(V(0,0), s2);
+j1 = joint("fixed", s1, a1, s2, a2);
+
+s1 = shape("circle", V(170, 150+280), 20, 20, 10, .5, .5);
+a1 = anchor(V(0,-15), s1);
+s2 = shape("circle", V(165, 140+280), 10, 10, 10, .5, .5);
+a2 = anchor(V(10,0), s2);
+j1 = joint("fixed", s1, a1, s2, a2);
+
+// Multi fixed
+s1a = shape("rectangle", V(410, 70+280), 200, 30, 0, .5, .5);
+a1a = anchor(V(-60,10), s1a);
+a1b = anchor(V(70,10), s1a);
+s2 = shape("circle", V(390, 90+280), 30, 30, 10, .5, .5);
+a2a = anchor(V(20,-20),s2);
+a2b = anchor(V(-20,20),s2);
+s3 = shape("rectangle", V(450, 110+280), 30, 60, 10, .5, .5);
+a3a = anchor(V(10,-20),s3);
+a3b = anchor(V(-10,20),s3);
+j1 = joint("fixed", s1a, a1a, s2, a2a);
+j2 = joint("fixed", s1a, a1b, s3, a3a);
+s6 = shape("circle", V(400, 200+280), 50, 50, 10, .5, .5);
+s4 = shape("rectangle", V(370, 150+280), 30, 100, 10, .5, .5);
+a4a = anchor(V(0,-40),s4);
+a4b = anchor(V(0,40),s4);
+s5 = shape("rectangle", V(470, 150+280), 30, 100, 10, .5, .5);
+a5a = anchor(V(0,-40),s5);
+a5b = anchor(V(0,40),s5);
+j3 = joint("fixed", s2, a2b, s4, a4a);
+j4 = joint("fixed", s3, a3b, s5, a5a);
+a6a = anchor(V(-40,-0),s6);
+a6b = anchor(V(40,0),s6);
+j5 = joint("fixed", s6, a6a, s4, a4b);
+j6 = joint("fixed", s6, a6b, s5, a5b);
+
+// Hinge + fixed
+s1p = shape("rectangle", V(650, 70), 100, 30, 0, .5, .5);
+a1 = anchor(V(0,15), s1p);
+s2 = shape("circle", V(650, 90), 30, 30, 10, .5, .5);
+s3 = shape("rectangle", V(650, 110), 50, 50, 10, .5, .5);
+s4 = shape("rectangle", V(590, 180), 100, 50, 10, .5, .5);
+s5 = shape("circle", V(650, 270), 30, 30, 10, .5, .5);
+a2a = anchor(V(20,-20),s2);
+a2b = anchor(V(0,20),s2);
+a3a = anchor(V(20,-20),s3);
+a3b = anchor(V(20,20),s3);
+a4a = anchor(V(40,-20),s4);
+a4b = anchor(V(-40,20),s4);
+a5a = anchor(V(-20,-20),s5);
+j1 = joint("hinge", s1p, a1, s2, a2a);
+j2 = joint("fixed", s2, a2b, s3, a3a);
+j3 = joint("hinge", s3, a3b, s4, a4a);
+j4 = joint("fixed", s4, a4b, s5, a5a);</code></pre>
+
+<p><video controls src="images/2D-physics/o3.mp4?v=4" width=500></video>
+
+<p>Good enough!
+
+<br><br><hr><br>
+
+<h1>GOLFING MY ENGINE</h1>
+<br>
+<h2>Phase 2: final obfuscation and clean API</h2>
+
+
+<br><hr>
+
+<p>Now that the engine works as I expected, I can finish golfing it, by merging all the functions that can be merged and renaming every object attribute that can be renamed.
+<br>Functions merged: rs (rotate shape), 
 <br>Minified size:  &rarr; 
 <p><pre><code class="lang-js"></code></pre>
 
