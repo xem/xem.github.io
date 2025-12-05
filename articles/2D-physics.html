@@ -31,7 +31,7 @@ pre, code, code * { font-size: 13px !important; line-height: 16px !important; le
 <div class=section>
 
 <h2>Golfing a 2D physics engine in JS</h2>
-<br><h3>November 2025</h3>
+<br><h3>November-December 2025</h3>
 <br><hr>
 <p><img src="images/2D-physics/2D.png" style="float:right; margin: 0 20px; width: 200px"><b>Introduction</b>
 <p>I have a long love-hate story with physics in JS.
@@ -4410,20 +4410,66 @@ j4 = joint("fixed", s4, a4b, s5, a5a);</code></pre>
 
 <h1>GOLFING MY ENGINE</h1>
 <br>
-<h2>Phase 2: final obfuscation and clean API</h2>
+<h2>Phase 2: final obfuscation and API</h2>
 
 
 <br><hr>
 
-<p>Now that the engine works as I expected, I can finish golfing it, by merging all the functions that can be merged and renaming every object attribute that can be renamed.
-<br>Functions merged: rs (rotate shape), 
-<br>Minified size:  &rarr; 
-<p><pre><code class="lang-js"></code></pre>
+<p>Now that the engine works as I expected, I can finish golfing it by merging functions, removing useless code, renaming long variables & attributes, and adding / optimizing a ton of tiny things.
+<p>Functions merged in run(): N (Vec2 normal), si (shape integration), rr (rectangle-rectangle collision detection), cp (contact point) fs (find a support point), cr (circle vs rectangle), cre (circle vs rectangle edges), crc (circle vs rectangle corners), rc (resolve collision), dp (draw point), dl (draw line), hj (handle joints), in (integrate)...
+<p>Stuff put in the global scope: G (gravity), O, E, R (stability parameters), H, J, M (shapes, joints, manifolds)...
+<p>Stuff removed: normalscale (in circle-rectangle detection), force joints (just a special case of spring joint), ...
+<p>Stuff renamed / modified:
+<br>- null &rarr; 0
+<br>- a === 1 &rarr; a, a !== 0 &rarr; a, ...
+<br>- the API (shape(), anchor(), joint(), run()).
+<br>- No global leak for the other methods (IIFE).
+<br>- shapes types and joints types are now number constants
+<br>- all attributes in shape, joint, manifold, contact point are now one letter long.
+<br>- Multi-purpose variables in run()
+<br>- Better for-oops everywhere
+<p>Features added: shapes initial angle, velocity, angularVelocity, custom gravity, custom color (or any other data)
+<p>Minified size: 1448 bytes gzipped (1152b without joints) 
+<p><pre><code class="lang-js">//  API
+// -----
 
-<p>
-<br>Minified size:  &rarr; 
-<p><pre><code class="lang-js"></code></pre>
--->
+// - shape(type, center, mass, width, height, {f: friction, r:restitution, a: angle, v: velocity, a: angularVelocity, g: gravity, d: customData)
+// - anchor(shape, position)
+// - joint(type, shape1, anchor1, shape2, anchor2, strength, length)
+// - run(): run simulation
+
+//  Globals
+// ---------
+
+// Constants
+G = [0,.1];     // Gravity
+O = .4;         // Shapes overlap correction
+E = .01;        // Fixed joints elasticity
+R = 20;         // Resolutions per frame
+
+// Arrays
+H = [];    // shapes (circles, rectangles)
+J = [];    // joints (spring, repulsive, hinge, fixed)
+M = [];    // manifolds (collision info)
+
+// Shapes types
+RECTANGLE = 0;
+CIRCLE = 1;
+
+// Joints types
+SPRING = 0;
+REPULSIVE = 1;
+HINGE = 2;
+FIXED = 3;
+
+((n=x=>S(x,1/l(x)),l=x=>d(x,x)**.5,d=(x,y)=>x[0]*y[0]+x[1]*y[1],p=(x,y)=>[x[0]+y[0],x[1]+y[1]],s=(x,y)=>p(x,S(y,-1)),S=(x,y)=>[x[0]*y,x[1]*y],C=(x,y)=>x[0]*y[1]-x[1]*y[0],r=(x,y,l)=>[(x[0]-y[0])*Math.cos(l)-(x[1]-y[1])*Math.sin(l)+y[0],(x[0]-y[0])*Math.sin(l)+(x[1]-y[1])*Math.cos(l)+y[1]],x=(x,y)=>[-x.A*y[1],x.A*y[0]],X=(c,f,n,i=4)=>{if(c.c=p(c.c,f),!c.t)for(;i--;)c.n[i]=r(c.n[i],[0,0],n),c.V[i]=r(p(c.V[i],f),c.c,n);for(i in c.p)c.p[i]=r(p(c.p[i],f),c.c,n)},I=(c,t,l,e,a,n,r=1,o)=>{r&&(o=S(e,l),c.v=s(c.v,S(o,c.M)),t.v=p(t.v,S(o,t.M))),c.A-=a*l*c.I,t.A+=n*l*t.I})=>{shape=(t,c,m=1,w=9,h=9,g,n=t?m*w*w/2:m*(w*w+h*h)/12,s={t,m,w,h,c:[0,0],f:.5,r:.5,a:0,v:[0,0],A:0,g:G,F:[0,0],T:0,p:[],N:[],n:[[0,-1],[1,0],[0,1],[-1,0]],M:m?1/m:0,I:n?1/n:0,V:[[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]],e:H.length,...g})=>(X(s,c,s.a),H.push(s),s),anchor=(t,c)=>(t.p.push(p(c,t.c)),t.p.length-1),joint=(t,A,a,B,b,s,l)=>{if(t>1){A.N.push(B.e);B.N.push(A.e);l=B.a-A.a}J.push({t,A,a,B,b,s,l})},run=(a,f,t,c,e,h,o,r,A,v,w,i,V,b,B,m,g)=>{for(M=[],f=H.length;f--;)for(a=f-1;a>=0;a--)if(c=H[f],e=H[a],c.F=S(c.g,c.m),c.M+e.M&&!c.N.includes(a)){if(h=0,c.t&&e.t)o=s(e.c,c.c),(r=l(o))<c.w+e.w&&(h={d:c.w+e.w-r,n:n(o),c:p(c.c,S(n(o),c.w)),A:c,B:e});else if(c.t||e.t){for(!c.t&&e.t&&([e,c]=[c,e]),i=0,r=4;r--;)A=s(c.c,e.V[r]),v=s(e.V[(r+1)%4],e.V[r]),w=d(A,n(v)),e.n[r]&&d(A,e.n[r])>=0&&w>0&&w<l(v)&&(i=e.V[r],o=e.n[r]);if(!(h=i&&(V=d(o,s(c.c,i)))-c.w<0?{d:-V+c.w,n:S(o,-1),c:p(c.c,S(o,-c.w)),A:c,B:e}:0))for(r=4;r--;)v=s(e.V[r],c.c),l(v)<c.w&&(h={d:c.w-l(v),n:n(v),c:e.V[r],A:c,B:e})}else for(o=9e9,h=-1,t=2;t--;)for(t||([c,e]=[e,c]),r=4;r--;){for(A=0,v=0,i=4;i--;)(w=d(s(e.V[i],c.V[r]),S(c.n[r],-1)))>A&&(A=w,v={v:e.V[i],d:w});v||(h=0),h&&v.d<o&&(h={d:o=v.d,n:c.n[r],c:v.v,A:c,B:e})}h&&M.push(h)}for(a=R;a--;){for(f of M)c=f.A,e=f.B,h=s(p(e.v,x(e,i=s(f.c,e.c))),p(c.v,x(c,V=s(f.c,c.c)))),o=C(V,f.n),r=C(i,f.n),A=f.d*O,v=(-(1+Math.min(c.r,e.r))*d(h,f.n)+A)/(c.M+e.M+o*o*c.I+r*r*e.I),I(c,e,v,f.n,o,r),w=S(s(h,S(f.n,d(h,f.n))),-1),l(w)>0&&(b=C(V,w=n(w)),B=C(i,w),m=Math.min(c.f,e.f),g=-d(h,w)/(c.M+e.M+b*b*c.I+B*B*e.I),Math.abs(g)>Math.abs(v)*m&&(g=Math.sign(g)*Math.abs(v)*m),I(c,e,g,w,b,B));for(t of J)c=t.A,e=t.B,h=c.p[t.a],o=e.p[t.b],v=s(h,c.c),w=s(o,e.c),A=s(o,h),i=(r=l(A))>0?n(A):[1,0],V=C(v,i),b=C(w,i),(B=c.M+e.M+V*V*c.I+b*b*e.I+E)&&(t.t?t.t&lt;2?I(c,e,t.s*Math.max(0,t.l-r)/1e4,i,V,b):(I(c,e,(-d(s(p(e.v,x(e,w)),p(c.v,x(c,v))),i)+-O*r)/B,i,V,b),t.t>2&&(m=e.a-c.a-t.l,(g=c.I+e.I)&&I(c,e,(-(e.A-c.A)+-O*m)/g,0,1,1,0)),r>0&&(B=c.M+e.M,X(c,S(A,c.M/B),0),X(e,S(A,-e.M/B),0))):(I(c,e,-t.s*(r-t.l)/1e3/B,i,V,b),I(c,e,-t.s*(r-t.l)/1e3/B,i,V,b)))}for(f of H)f.M&&(f.v=p(f.v,S(f.F,f.M&lt;0?-f.M:f.M)),f.F=[0,0],f.A+=f.T*f.I,f.a+=f.A,X(f,f.v,f.A),f.v=S(f.v,.99),Math.abs(l(f.v))&lt;1e-4&&(f.v=[0,0]),f.A*=.99,Math.abs(f.A)&lt;1e-4&&(f.A=0),f.T=0)}})()</code></pre>
+
+<p>Here's my updated demo after 2 weeks of golfing (and 6 weeks of work in total):
+
+<p><video controls src="images/2D-physics/o5.mp4?v=4" width=700></video>
+
+
+<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">New codegolf project! 🚀<br>- A 2D physics engine in JS featuring springs and joints.<br>- 1.4kb zipped so far!<br>- Demo: <a href="https://t.co/Ugdy0SunEA">https://t.co/Ugdy0SunEA</a><br>- Source: <a href="https://t.co/uvlOTMyLpo">https://t.co/uvlOTMyLpo</a><br>- Making-of: <a href="https://t.co/CLO4j3GWcb">https://t.co/CLO4j3GWcb</a><br>- Let&#39;s golf? <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a> <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> <a href="https://twitter.com/KilledByAPixel?ref_src=twsrc%5Etfw">@KilledByAPixel</a> <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a> ... <a href="https://t.co/7O6AeC1xqs">pic.twitter.com/7O6AeC1xqs</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1997026296313139408?ref_src=twsrc%5Etfw">December 5, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
 </main>
