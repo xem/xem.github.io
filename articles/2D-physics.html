@@ -4471,6 +4471,60 @@ FIXED = 3;
 
 <p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">New codegolf project! 🚀<br>- A 2D physics engine in JS featuring springs and joints.<br>- 1.4kb zipped so far!<br>- Demo: <a href="https://t.co/Ugdy0SunEA">https://t.co/Ugdy0SunEA</a><br>- Source: <a href="https://t.co/uvlOTMyLpo">https://t.co/uvlOTMyLpo</a><br>- Making-of: <a href="https://t.co/CLO4j3GWcb">https://t.co/CLO4j3GWcb</a><br>- Let&#39;s golf? <a href="https://twitter.com/aemkei?ref_src=twsrc%5Etfw">@aemkei</a> <a href="https://twitter.com/subzey?ref_src=twsrc%5Etfw">@subzey</a> <a href="https://twitter.com/p01?ref_src=twsrc%5Etfw">@p01</a> <a href="https://twitter.com/KilledByAPixel?ref_src=twsrc%5Etfw">@KilledByAPixel</a> <a href="https://twitter.com/Xen_the?ref_src=twsrc%5Etfw">@Xen_the</a> ... <a href="https://t.co/7O6AeC1xqs">pic.twitter.com/7O6AeC1xqs</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/1997026296313139408?ref_src=twsrc%5Etfw">December 5, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
+I then proceeded to do a clean 1.0 release with <a href="//xem.github.io/2Dphysics">a real homepage</a>, and added a self-propelling feature (it's just like gravity but the force vector rotates with the shape)
+
+
+<p><img src="images/2D-physics/1.0.jpeg">
+<p><video src="images/2D-physics/prop.mp4" controls width=400>
+
+
+<br><br><hr><br>
+
+<h1>OH NO, MY STACKS</h1>
+
+<br>
+<h2>The adventure continues... and the stakes are high</h2>
+
+<br><hr>
+
+<p>Just after the release, I realized that stacks and pyramids of rectangles were not stable at all: they move, shake, slide, and always end up collapsing. Nooooo!
+
+<p>The same problem occurs with <a href="https://youtu.be/19m9v1ephKU?list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&t=552">Marcel's code</a>, and he chose to not fix it (just like fixed joints wobbles).
+
+<p>I spent a few days trying different approaches, and failed to find a good fix, too. The best I could do is add custom O (overlap correction) to my shape constructor. Setting O to 1 in stacks adds a little bit of stability... but clearly not enough.
+
+<p><video src="images/2D-physics/s1.mp4" controls width=400>
+
+<p>In fact, the problem is much larger: "small" 2D engines, which are impulse-based, can't really have perfect stack handling. Only hacks and fine-tuning of the parameters can tend to a decent result, but it's never ideal. Heavy engines like <a href="http://box2d.org/">Box2D</a> do support stable stacking, but they are out of my league (> 200 kb). <a href="https://github.com/erincatto/box2d-lite">Box2D-lite</a> (ancestor of Box2D) famously decides to forget them, as you can see in the <a href="https://github.com/erincatto/box2d-lite/blob/master/docs/GDC2006_Catto_Erin_PhysicsTutorial.pdf">attached doc</a>.
+
+<p><img src="images/2D-physics/35.png" width=400>
+
+<p>I found many JS ports of Box2D-lite and confirmed that they don't support stable stacks either.
+
+<p>But after searching online (a lot), I finally got a few hints of what could be improved:
+<br>1) the rect-rect collision detection must allow up to 2 contact points for each pair of shapes (1 for vertex-edge collision, 2 for edge-edge collisions). Otherwise, they will always tend to push/rotate arbitrarily on one side, which makes the stack collide.
+<br>2) A proper "sleep" system would also be nice, to stop the shapes completely when no new forces are applied to them.
+<br>3) "Warm start" is another term that appeared a lot, and consists in taking the previous frame's impulse into account during collision resolution.
+
+<p>The first idea is the most important, and seems inevitable, but I don't have the level to implement it alone (and AIs break everything when they try to help me).
+
+<p>Luckily, while I was searching extensively for small 2D physics engines (preferably in JS), I found two of them that actually do what I want: impulse-based collision resolution (for lightness), and stable stacking through multiple contact point between two rectangles (for stability).
+
+<p>The first one is <a href="https://github.com/joncodeofficial/Cirobb">Cirobb</a> (C++, 48kb commented, it has a WASM version and a <a href="https://joncodeofficial.github.io/Cirobb-wasm/">live demo</a>). As you can see, the stack handling is very convincing.
+
+<p><video src="images/2D-physics/s2.mp4" controls width=500>
+
+<p>The second one is <a href="https://phaser.discourse.group/t/extending-geom-rectangle-to-box2d-lite/12372">this attempt to add Box2D-lite to Phaser's rectangles</a>
+<br>A demo is available <a href="https://codepen.io/cedarcantab/pen/NWMwNmV">on Codepen</a> and the commented code is 57kb, ~20kb minified, ~6kb zipped. 
+<br>As you can see, it's also very nice, but requires Phaser (just for rendering, though) and doesn't support circles (yet).
+<br>The white arrows show that the contact points are computed exactly how I want, so I will focus on this one for now.
+
+<p><video src="images/2D-physics/s3.mp4" controls width=500>
+
+<p>I slowed down the friction demo and with the arrows, we can see that it handles well the "1 or 2 contacts" mechanic between rectangles.
+
+<p><video src="images/2D-physics/s4.mp4" controls width=500>
+
 
 </main>
 
