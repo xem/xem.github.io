@@ -4480,51 +4480,98 @@ I then proceeded to do a clean 1.0 release with <a href="//xem.github.io/2Dphysi
 
 <br><br><hr><br>
 
-<h1>OH NO, MY STACKS</h1>
+<h1>OH NO, MY STACKS!</h1>
 
 <br>
-<h2>The adventure continues... and the stakes are high</h2>
+<h2>The adventure continues...</h2>
+<br>
+<h3>The stakes are high, but the stacks are not.</h3>
 
 <br><hr>
 
-<p>Just after the release, I realized that stacks and pyramids of rectangles were not stable at all: they move, shake, slide, and always end up collapsing. Nooooo!
-
-<p>The same problem occurs with <a href="https://youtu.be/19m9v1ephKU?list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&t=552">Marcel's code</a>, and he chose to not fix it (just like fixed joints wobbles).
-
-<p>I spent a few days trying different approaches, and failed to find a good fix, too. The best I could do is add custom O (overlap correction) to my shape constructor. Setting O to 1 in stacks adds a little bit of stability... but clearly not enough.
+<p>Just after the release, I realized with horror that stacks and pyramids of rectangles were not stable at all: they move, shake, slide, and always end up collapsing, even when I use the highest possile values for O (overlap correction). Nooooooooo!
 
 <p><video src="images/2D-physics/s1.mp4" controls width=400>
 
-<p>In fact, the problem is much larger: "small" 2D engines, which are impulse-based, can't really have perfect stack handling. Only hacks and fine-tuning of the parameters can tend to a decent result, but it's never ideal. Heavy engines like <a href="http://box2d.org/">Box2D</a> do support stable stacking, but they are out of my league (> 200 kb). <a href="https://github.com/erincatto/box2d-lite">Box2D-lite</a> (ancestor of Box2D) famously decides to forget them, as you can see in the <a href="https://github.com/erincatto/box2d-lite/blob/master/docs/GDC2006_Catto_Erin_PhysicsTutorial.pdf">attached doc</a>.
+<p>The same problem occurs with <a href="https://youtu.be/19m9v1ephKU?list=PLSwCokO0cV86rDRBZmx-XbPIMYgzqIMZr&t=552">Marcel's code</a>, and he chose to not fix it.
+<br>Though, Marcel responded to my Youtube comment asking for help, and pointed me to <a href="https://box2d.org/posts/2024/02/solver2d/">this article</a> and <a href="https://github.com/erincatto/solver2d">Github repo</a>, written by the author of Box2D.
+<br>It made me realize that solving collisions is a vast and complex topic, and many concurrent approaches exist, even among the impulse-based ones.
+<br>So I have to study them, or find one that works and reproduce it in my own engine...
+
+<p>I found many JS ports of Box2D-lite (box2d-js, boxb-liteJS, box2d-lite-js...), and confirmed that they don't support stable stacks either.
+
+<p>Of course, heavy engines like <a href="http://box2d.org/">Box2D</a> or Chipmunk do support stable stacking, but they are way out of my league (100 - 300 kb for the JS ports).
+
+<p><a href="https://github.com/erincatto/box2d-lite">Box2D-lite</a> (ancestor of Box2D), impulse-based, famously decides to forget stacking, as you can see in the <a href="https://github.com/erincatto/box2d-lite/blob/master/docs/GDC2006_Catto_Erin_PhysicsTutorial.pdf">attached doc</a>:
 
 <p><img src="images/2D-physics/35.png" width=400>
 
-<p>I found many JS ports of Box2D-lite and confirmed that they don't support stable stacks either.
 
-<p>But after searching online (a lot), I finally got a few hints of what could be improved:
-<br>1) the rect-rect collision detection must allow up to 2 contact points for each pair of shapes (1 for vertex-edge collision, 2 for edge-edge collisions). Otherwise, they will always tend to push/rotate arbitrarily on one side, which makes the stack collide.
-<br>2) A proper "sleep" system would also be nice, to stop the shapes completely when no new forces are applied to them.
-<br>3) "Warm start" is another term that appeared a lot, and consists in taking the previous frame's impulse into account during collision resolution.
+<p>After searching online (for a long time), it seemed clear that 3 techniques needed to be used to improve the engine's stability:
 
-<p>The first idea is the most important, and seems inevitable, but I don't have the level to implement it alone (and AIs break everything when they try to help me).
+<br>- the rect-rect collision detection must allow up to 2 contact points for each pair of shapes (1 contact for vertex-edge collisions, 2 contacts for edge-edge collisions).
+<br>- a "sleep" system (to stop the shapes completely when no new forces are applied to them).
+<br>- a "warm start" system (take the previous frame's impulse into account during collision resolution).
 
-<p>Luckily, while I was searching extensively for small 2D physics engines (preferably in JS), I found two of them that actually do what I want: impulse-based collision resolution (for lightness), and stable stacking through multiple contact point between two rectangles (for stability).
+<p>Unable to develop all that myself (or with the help of an AI), I went online searching for small 2D physics engines (preferably in JS), and I found two of them that actually do what I want: impulse-based collision resolution and stable stacking through multiple contact point between two rectangles. YAY!
 
-<p>The first one is <a href="https://github.com/joncodeofficial/Cirobb">Cirobb</a> (C++, 48kb commented, it has a WASM version and a <a href="https://joncodeofficial.github.io/Cirobb-wasm/">live demo</a>). As you can see, the stack handling is very convincing.
+<p>The first one is <a href="https://github.com/joncodeofficial/Cirobb">Cirobb</a> (C++, 48kb commented, it has a WASM version and a <a href="https://joncodeofficial.github.io/Cirobb-wasm/">live demo</a>).
+<br>As you can see in the demo, the stack handling is very convincing:
 
 <p><video src="images/2D-physics/s2.mp4" controls width=500>
 
-<p>The second one is <a href="https://phaser.discourse.group/t/extending-geom-rectangle-to-box2d-lite/12372">this attempt to add Box2D-lite to Phaser's rectangles</a>
-<br>A demo is available <a href="https://codepen.io/cedarcantab/pen/NWMwNmV">on Codepen</a> and the commented code is 57kb, ~20kb minified, ~6kb zipped. 
-<br>As you can see, it's also very nice, but requires Phaser (just for rendering, though) and doesn't support circles (yet).
-<br>The white arrows show that the contact points are computed exactly how I want, so I will focus on this one for now.
+<p>The second one is <a href="https://codepen.io/cedarcantab/pen/NWMwNmV">this Codepen demo</a> made by some <a href="https://cedarcantab.github.io/about/">50 years old japanese guy</a> who apparently <a href="https://cedarcantab.wordpress.com/2022/12/20/extending-box2d-lite-in-javascript-taking-a-world-step/">wanted to learn JS by porting and improving Box2D-lite</a>. His commented code is 57kb, ~20kb minified, ~6kb zipped. Much random, but quite miraculous for me!
+
+<p>His engine doesn't support circles, restitution and many types of joints (but I can probably add them in his code).
+<br>And it uses PhaserJS for the rendering (but I can probably replace it with my own renderer).
+
+<br>In his demo, the white arrows show that the contact points are computed exactly how I want!
 
 <p><video src="images/2D-physics/s3.mp4" controls width=500>
 
-<p>I slowed down the friction demo and with the arrows, we can see that it handles well the "1 or 2 contacts" mechanic between rectangles.
+<p>I slowed down the friction demo ten-fold, and we can see that it handles perfectly the "1 or 2 contacts" mechanic between rectangles.
 
 <p><video src="images/2D-physics/s4.mp4" controls width=500>
 
+<p>His Wordpress site and Github account don't contain anything relevant today, but Google and The Internet Archive helped me find a list of his old articles about extending Box2D-lite in JS:
+
+<ul>
+<li><a href="https://cedarcantab.wordpress.com/2022/08/21/box2d-lite-walkthrough-in-javascript-collision-detection/">Collision detection</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/08/25/box2d-lite-walkthrough-in-javascript-contact-manifold/">Contact manifold</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/09/08/box2d-lite-walkthrough-in-javascript-revolute-joint/">Revolute joint</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/09/09/box2d-lite-walkthrough-in-javascript-friction/">Friction</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/09/19/box2d-lite-walkthrough-in-javascript-solving-constraints/">Solving constraints</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/09/21/box2d-lite-walkthrough-in-javascript-softening-constraints/">Softening constraints</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/11/22/box2d-lite-walkthrough-in-javascript-warm-starting/">Warm starting</a> (*)
+<li><a href="https://web.archive.org/web/20241006234330/https://cedarcantab.wordpress.com/2022/10/08/extending-box2d-lite-in-javascript-joints/">Joints</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/12/08/extending-box2d-lite-in-javascript-block-solver/">Block solver</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/12/10/extending-box2d-lite-in-javascript-body-vs-shape-part-1/">Body vs shape part 1</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/12/11/extending-box2d-lite-in-javascript-bounding-volume-aabb/">Bounding volume AABB</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/12/12/extending-box2d-lite-in-javascript-defining-the-polygon-shape/">Defining the polygon shape</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/12/15/extending-box2d-lite-in-javascript-polygon-centroid/">Polygon centroid</a>
+<li><a href="https://cedarcantab.wordpress.com/2022/12/20/extending-box2d-lite-in-javascript-taking-a-world-step/">Taking a world step</a>
+<li><a href="https://cedarcantab.wordpress.com/2023/01/10/extending-box2d-lite-in-javascript-sleeping-in-physics-engines/">Sleeping in physics engines</a>
+<li><a href="https://cedarcantab.wordpress.com/2023/01/11/extending-box2d-lite-in-javascript-ray-casting-introduction/">Ray casting introduction</a>
+<li><a href="https://cedarcantab.wordpress.com/2023/02/27/extending-box2d-lite-in-javascript-computing-submerged-area-of-circle/">Submerged area of a circle</a>
+<li><a href="https://cedarcantab.wordpress.com/2023/03/19/extending-box2d-lite-in-javascript-edge-vs-circle-overlap/">Edge vs circle overlap</a>
+<li><a href="https://web.archive.org/web/20250107064009/https://cedarcantab.wordpress.com/2023/04/09/extending-box2d-lite-in-javascript-nonlinear-systems/">Nonlinear systems</a>
+<li><a href="https://cedarcantab.wordpress.com/2024/04/28/extending-box2d-lite-in-javascript-collision-table/">Collision table</a>
+<li><a href="https://cedarcantab.wordpress.com/2023/07/02/extending-box2d-lite-in-javascript-angle-joint/">Angle joint</a>
+<li><a href="https://web.archive.org/web/20240820060403/https://cedarcantab.wordpress.com/2024/08/20/extending-box2d-lite-in-javascript-motor-joint/">Motor joint</a>
+<li><a href="https://web.archive.org/web/20240912081246/https://cedarcantab.wordpress.com/2024/09/12/extending-box2d-lite-in-javascript-islands/">Islands</a>
+</ul>
+
+<p>The <a href="https://cedarcantab.wordpress.com/2022/11/22/box2d-lite-walkthrough-in-javascript-warm-starting/">warm starting</a> page is actually the one embedding the Codepen demo I found earlier, introduced by this paragraph confirming me that he specifically tried to fix box stacking when he made it!
+
+<p><img src="images/2D-physics/s6.png">
+
+<br><br><hr><br>
+
+<h1>Golfing the old wise japanese man's JS code, I guess?</h1>
+
+<br><hr>
+
+<p>TODO
 
 </main>
 
