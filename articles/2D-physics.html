@@ -4567,7 +4567,54 @@ I then proceeded to do a clean 1.0 release with <a href="//xem.github.io/2Dphysi
 
 <br><br><hr><br>
 
-<h1>Golfing the old wise japanese man's JS code, I guess?</h1>
+<h1>Golfing and adapting the old japanese guy's JS code, I guess?</h1>
+
+<p>First, here's a <a href="//github.com/xem/2Dphysics/cedarcantab/index.html">copy of the Codepen</a> (and a <a href="//xem.github.io/2Dphysics/cedarcantab/index.html">live demo</a>) hosted on my Github repo.
+
+<p>My iterations are listed below:
+
+<p><h3>1) Remove useless code, replace Phaser and clean up the code</h3>
+
+<p>I skimmed the whole file and fixed all the indentations, spaces, comments, arguments, etc.
+<br>I removed the Mat33, Vec3, Timestep and Draw classes that were only used by the Phaser renderer.
+<br>I removed the Phaser dependency and introduced a canvas2D with a simple renderer.
+<br>I removed debug code and comments that weren't used anymore.
+<br>I added a Number.clamp() method from <a href="https://stackoverflow.com/questions/11409895/whats-the-most-elegant-way-to-cap-a-number-to-a-segment">SO</a> because the demo required Phsaser.Math.Clamp().
+<br>I removed the Joint classes (it only supported hinge joints and the code was too big).
+<br>I removed the World class (replaced by globals).
+<br>I removed the Body, Manifold, ContactSolver and Edge classes (replaced by object literals).
+<br>I removed the constants names (replaced by 0, 1, 2, 3).
+<br>So, I only left the code that's not dead and used for rect-rect collisions.<br>I'm surprised that the bodies don't need vertices and normals.
+<br>New size: 2,358 lines &rarr; 810 lines, 58kb &rarr; 23kb commented, 20kb &rarr; 8.7kb minified, 6kb &rarr; 2.9kb zipped
+<br>Not bad, for ungolfed code. But keep in mind that it's just boxes (no balls, no anchors, no joints).
+
+<p>- <a href="//github.com/xem/2Dphysics/cedarcantab/1.html">Source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/1.html">live demo</a>.
+
+<p><video src="images/2D-physics/s4.mp4" controls width=500>
+
+<p><h3>2) Add the features I want</h3>
+
+<p>Progressively introducing:
+<br>- My body constructor (with circles)
+<br>- Restitution (bounciness)
+<br>- My impulse function
+<br>- Circle-circle collision detection
+<br>- Circle-rectangle collision detection
+<br>- Anchors
+<br>- Joints
+<br>- My demos
+
+<p>- <a href="//github.com/xem/2Dphysics/cedarcantab/2.html">Source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/2.html">live demo</a>.
+
+
+<p><h3>Golf</h3>
+
+<p>
+
+<p>- <a href="//github.com/xem/2Dphysics/cedarcantab/3.html">Source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/3.html">live demo</a>.
+
+
+
 
 <br><hr>
 
