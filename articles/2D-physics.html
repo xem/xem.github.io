@@ -4607,7 +4607,7 @@ manifold.bodyB.angularVelocity += iB * Vec2.Cross(s.rB, P);</code></pre>
 <br>I removed the constants names for Edges and Faces (replaced by 0, 1, 2, 3).
 <br>All the remaining code is specific to rect-rect collisions.
  
-<p>New size: 2,358 lines &rarr; 810 lines, 58kb &rarr; 23kb commented, 20kb &rarr; 8.7kb minified, 6kb &rarr; 2.9kb zipped
+<p>New size: 2,358 lines &rarr; 810 lines, 58kb &rarr; 23kb commented, 20kb &rarr; 8.7kb minified, 6kb &rarr; 2.9kb zipped (without demo and renderer)
 <br>Not bad, for ungolfed code. But keep in mind that it's just boxes (no balls, no anchors, no joints).
 
 <p>Links: <a href="//github.com/xem/2Dphysics/cedarcantab/1.html">source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/1.html">live demo</a>.
@@ -4618,24 +4618,13 @@ manifold.bodyB.angularVelocity += iB * Vec2.Cross(s.rB, P);</code></pre>
 
 <p><h3>2) Add the features I want</h3>
 
-<p>I progressively introduced in this cleaned up code:
-<br>- My Vec2 helpers
-<br>- My rigid body constructor (with circles, color, etc)
-<br>- Restitution (bounciness)
-<br>- My impulse function
-<br>- My integration code
-<br>- Circle-circle collision detection
-<br>- Circle-rectangle collision detection
-<br>- Anchors
-<br>- Joints
-<br>- My renderer
-<br>- My demos
+<p>I progressively introduced my previous work into this cleaned up code:
 
-<p>The rewrite of the Vec2 class was a bit long but it's a good size optimization:
-<br>The original Vec2 class is 3218b minified, 886b after clean up, and mine is 367b.
+<p><b>Vec2 helpers</b>
+<br>Replacing the Vec2 class was a bit long, but it's a good size optimization:
+<br>The original class cas 3218b minified and 886b after clean up. Mine is 367b.
 <br>I kept "addScaled", "negate" and the three kinds of "cross" for now.
-
-<pre><code class="lang-js">// 2D vector helpers
+<br><pre><code class="lang-js">// 2D vector helpers
 add=(v,w)=>[v[0]+w[0],v[1]+w[1]];
 addScaled=(v,w,s)=>[v[0]+w[0]*s,v[1]+w[1]*s];
 dot=(v,w)=>v[0]*w[0]+v[1]*w[1];
@@ -4647,8 +4636,40 @@ abs=v=>[Math.abs(v[0]),Math.abs(v[1])];
 crossVN=(v,n)=>[n*v[1],-n*v[0]];
 crossNV=(n,v)=>[-n*v[1],n*v[0]];
 crossVV=(v,w)=>v[0]*w[1]-v[1]*w[0];</code></pre>
+<br>New size: 764 lines, 22kb commented, 8.6kb minified, 2.84kb zipped.
 
-<br>New size: 764 lines, 22kb commented, 8.6kb minified, 2.84kb zipped
+<p><b>Rigid body constructor</b>
+<br>Here, I add my body constructor "shape()", including circles and all the options we had earlier, and excluding vertices and normals for boxes.
+<br>I kept the "meter" unit and the "up Y axis" (for now).
+<br>Coding this really feels like a surgical transplant (if I miss a single detail, the demo dies. It took a lot of trial and error to make it work).
+<br>Once it's done, it's super satisfying to see MY shapes stack correctly.
+<br>Another nice thing is to gather good practices on both sides while I'm doing all this.
+<br>Here's the codepen demo including my shape constructor. For some reason, the friction is a bit different than in the original (some boxes rotate at the beginning), and the contact points are not always at the right place in the pyramid. I didn't find why, but the stability is there, so... *shrug*
+<br>New size: 757 lines, 20.6kb commented, 7.7kb minified, 2.71kb zipped.
+
+<p><video src="images/2D-physics/s8.mp4" controls width=500>
+
+<p><b>Restitution (bounciness)</b>
+
+<p><b>My impulse function</b>
+
+<p><b>My integration code</b>
+
+<p><b>Circle-circle collision detection</b>
+
+<p><b>Circle-rectangle collision detection</b>
+
+<p><b>Anchors</b>
+
+<p><b>Joints</b>
+
+<p><b>My renderer</b>
+
+<p><b>My demos</b>
+
+
+
+
 
 <p>Links: <a href="//github.com/xem/2Dphysics/cedarcantab/2.html">source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/2.html">live demo</a>.
 
