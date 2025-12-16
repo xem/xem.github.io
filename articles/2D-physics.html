@@ -4582,10 +4582,10 @@ I then proceeded to do a clean 1.0 release with <a href="//xem.github.io/2Dphysi
 <br>- The 2D vector class has many helpers that I didn't have (addScaled, negate, abs, cross(vec2, number), cross(number, vec2), cross(vec2, vec2)), and its vector rotation methods are not used anywhere.
 <br>- All rotations are actually performed through a Mat22 (2x2 matrix) class, who does the same thing but with a little extra syntaxic sugar (there are helpers for transpose, abs, Mat22 x Vec2, Mat22 x Mat22, Mat22 + Mat22 ...).
 <br>- The 2x2 matrices seem to help the author write a simpler SAT code than me for rect-rect collisions. Indeed, vertices, edges and edges normals are not computed, updated and stored inside each body. All the computations are made from the bodies position, angle, width and height, and I'm fine with that.
-<br>Besides multi-contact collision detection (which is crucial), there's a "pre-step" function that has an optional block of code that "accumulates impulses". If I disable this option, the stacks and pyramid collapse. I think that's what we call "warm starting":
+<br>Besides multi-contact collision detection (which is crucial), there's a "pre-step" function that has an optional block of code that "accumulates impulses". If I disable this option, the stacks and pyramid collapse. This is the so-called "warm starting":
 
 <pre><code class="lang-js">// Apply normal + friction impulse
-// xem's note: This makes stacks stable!
+// This makes stacks stable!
 let P = c.normal.clone().scale(s.normalImpulse).addScaled(tangent, s.tangentImpulse); // vector2
 manifold.bodyA.linearVelocity.addScaled(P, -mA);
 manifold.bodyA.angularVelocity -= iA * Vec2.Cross(s.rA, P);
@@ -4637,7 +4637,8 @@ crossVN=(v,n)=>[n*v[1],-n*v[0]];
 crossNV=(n,v)=>[-n*v[1],n*v[0]];
 crossVV=(v,w)=>v[0]*w[1]-v[1]*w[0];</code></pre>
 <br>New size: 764 lines, 22kb commented, 8.6kb minified, 2.84kb zipped.
-
+<br>
+<br>
 <p><b>Rigid body constructor</b>
 <br>Here, I add my body constructor "shape()", including circles and all the options we had earlier, and excluding vertices and normals for boxes.
 <br>I kept the "meter" unit and the "up Y axis" (for now).
@@ -4648,28 +4649,52 @@ crossVV=(v,w)=>v[0]*w[1]-v[1]*w[0];</code></pre>
 <br>New size: 757 lines, 20.6kb commented, 7.7kb minified, 2.71kb zipped.
 
 <p><video src="images/2D-physics/s8.mp4" controls width=500>
-
+<br>
+<br>
 <p><b>Restitution (bounciness)</b>
+<br>Following Box2D's convention, restitution will be done by adding a coefficient to the Baumgarte bias, equal to the biggest restitution level in the pair of shapes. (Marcel's code used the smallest one).
+<br>ChatGPT helped me write this properly:
+<br><pre><code class="lang-js">// Before (78b):
+s.velocityBias = -biasFactor * inv_dt * Math.min(0, c.separation + allowedPenetration);
 
-<p><b>My impulse function</b>
+// =======
 
-<p><b>My integration code</b>
+// After (329b):
+let vA = add(manifold.bodyA.v, crossNV(manifold.bodyA.A, s.rA));
+let vB = add(manifold.bodyB.v, crossNV(manifold.bodyB.A, s.rB));
+let dv = subtract(vB, vA);
+let vn = dot(dv, c.normal);
+const e = Math.max(manifold.bodyA.r, manifold.bodyB.r);
+const restitutionThreshold = 1.0; // m/s (Box2D ≈ 1)
 
-<p><b>Circle-circle collision detection</b>
+// Baumgarte bias
+s.velocityBias = -biasFactor * inv_dt * Math.min(0, c.separation + allowedPenetration);
 
+if (vn &lt; -restitutionThreshold) {
+  s.velocityBias += -e * vn;
+}</code></pre>
+
+<p><video src="images/2D-physics/s9.mp4" controls width=500>
+<br>
+<br>
 <p><b>Circle-rectangle collision detection</b>
-
+<br>As we said before, our new engine only supports rectangles, but our "shape()" method adds the CIRCLE type.
+<br>It's now time to update the renderer to draw both kinds of shapes, and implement circle-rectangle collision detection, to make circles rest or bounce on the ground.
+<br>
+<br>
+<p><b>Circle-circle collision detection</b>
+<br>
+<br>
 <p><b>Anchors</b>
-
+<br>
+<br>
 <p><b>Joints</b>
-
+<br>
+<br>
 <p><b>My renderer</b>
-
+<br>
+<br>
 <p><b>My demos</b>
-
-
-
-
 
 <p>Links: <a href="//github.com/xem/2Dphysics/cedarcantab/2.html">source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/2.html">live demo</a>.
 
