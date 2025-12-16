@@ -4535,7 +4535,7 @@ I then proceeded to do a clean 1.0 release with <a href="//xem.github.io/2Dphysi
 
 <p>His Wordpress site and Github account don't contain anything relevant today, but Google and The Internet Archive helped me find a list of his old articles about extending Box2D-lite in JS:
 
-<ul>
+<ul class=wordpress>
 <li><a href="https://cedarcantab.wordpress.com/2022/08/21/box2d-lite-walkthrough-in-javascript-collision-detection/">Collision detection</a>
 <li><a href="https://cedarcantab.wordpress.com/2022/08/25/box2d-lite-walkthrough-in-javascript-contact-manifold/">Contact manifold</a>
 <li><a href="https://cedarcantab.wordpress.com/2022/09/08/box2d-lite-walkthrough-in-javascript-revolute-joint/">Revolute joint</a>
@@ -4569,63 +4569,115 @@ I then proceeded to do a clean 1.0 release with <a href="//xem.github.io/2Dphysi
 
 <h1>Golfing and adapting the old japanese guy's JS code, I guess?</h1>
 
+<br><hr>
+
 <p>First, here's a <a href="//github.com/xem/2Dphysics/cedarcantab/index.html">copy of the Codepen</a> (and a <a href="//xem.github.io/2Dphysics/cedarcantab/index.html">live demo</a>) hosted on my Github repo.
 
-<p>My iterations are listed below:
+<p>A few observations (important differences with my code):
+<br>- The code is messy and not well commented, and there's dead code everywhere.
+<br>- The units are in meters and the +y axis is up (boxes are 1x1, gravity is [0, -9.8]), an heritage of Box2D-lite.
+<br>- There are a lot of classes, also inherited from Box2D-lite.
+<br>- Anchors are transparent for the users. Joints are defined between a shape's point to another shape's point, and that's indeed clever and simpler. I'll keep it like that.
+<br>- Surprisingly, there are classes for 3x3 matrices and Vector3D (I quickly realized they were only used by the Phaser renderer).
+<br>- The 2D vector class has many helpers that I didn't have (addScaled, negate, abs, cross(vec2, number), cross(number, vec2), cross(vec2, vec2)), and its vector rotation methods are not used anywhere.
+<br>- All rotations are actually performed through a Mat22 (2x2 matrix) class, who does the same thing but with a little extra syntaxic sugar (there are helpers for transpose, abs, Mat22 x Vec2, Mat22 x Mat22, Mat22 + Mat22 ...).
+<br>- The 2x2 matrices seem to help the author write a simpler SAT code than me for rect-rect collisions. Indeed, vertices, edges and edges normals are not computed, updated and stored inside each body. All the computations are made from the bodies position, angle, width and height, and I'm fine with that.
+<br>Besides multi-contact collision detection (which is crucial), there's a "pre-step" function that has an optional block of code that "accumulates impulses". If I disable this option, the stacks and pyramid collapse. I think that's what we call "warm starting":
+
+<pre><code class="lang-js">// Apply normal + friction impulse
+// xem's note: This makes stacks stable!
+let P = c.normal.clone().scale(s.normalImpulse).addScaled(tangent, s.tangentImpulse); // vector2
+manifold.bodyA.linearVelocity.addScaled(P, -mA);
+manifold.bodyA.angularVelocity -= iA * Vec2.Cross(s.rA, P);
+manifold.bodyB.linearVelocity.addScaled(P, mB);
+manifold.bodyB.angularVelocity += iB * Vec2.Cross(s.rB, P);</code></pre>
+
+<p>Now it's my time to code! My iterations are listed below:
 
 <p><h3>1) Remove useless code, replace Phaser and clean up the code</h3>
 
 <p>I skimmed the whole file and fixed all the indentations, spaces, comments, arguments, etc.
 <br>I removed the Mat33, Vec3, Timestep and Draw classes that were only used by the Phaser renderer.
-<br>I removed the Phaser dependency and introduced a canvas2D with a simple renderer.
+<br>I removed the Phaser dependency and introduced a canvas2D with a simple renderer and a fixed 60fps loop.
 <br>I removed debug code and comments that weren't used anymore.
-<br>I added a Number.clamp() method from <a href="https://stackoverflow.com/questions/11409895/whats-the-most-elegant-way-to-cap-a-number-to-a-segment">SO</a> because the demo required Phsaser.Math.Clamp().
+<br>I added a clamp() method because the code required Phsaser.Math.Clamp().
 <br>I removed the Joint classes (it only supported hinge joints and the code was too big).
 <br>I removed the World class (replaced by globals).
 <br>I removed the Body, Manifold, ContactSolver and Edge classes (replaced by object literals).
-<br>I removed the constants names (replaced by 0, 1, 2, 3).
-<br>So, I only left the code that's not dead and used for rect-rect collisions.<br>I'm surprised that the bodies don't need vertices and normals.
-<br>New size: 2,358 lines &rarr; 810 lines, 58kb &rarr; 23kb commented, 20kb &rarr; 8.7kb minified, 6kb &rarr; 2.9kb zipped
+<br>I removed the constants names for Edges and Faces (replaced by 0, 1, 2, 3).
+<br>All the remaining code is specific to rect-rect collisions.
+ 
+<p>New size: 2,358 lines &rarr; 810 lines, 58kb &rarr; 23kb commented, 20kb &rarr; 8.7kb minified, 6kb &rarr; 2.9kb zipped
 <br>Not bad, for ungolfed code. But keep in mind that it's just boxes (no balls, no anchors, no joints).
 
-<p>- <a href="//github.com/xem/2Dphysics/cedarcantab/1.html">Source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/1.html">live demo</a>.
+<p>Links: <a href="//github.com/xem/2Dphysics/cedarcantab/1.html">source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/1.html">live demo</a>.
 
-<p><video src="images/2D-physics/s4.mp4" controls width=500>
+<p><video src="images/2D-physics/s7.mp4" controls width=500>
+
+<br><hr>
 
 <p><h3>2) Add the features I want</h3>
 
-<p>Progressively introducing:
-<br>- My body constructor (with circles)
+<p>I progressively introduced in this cleaned up code:
+<br>- My Vec2 helpers
+<br>- My rigid body constructor (with circles, color, etc)
 <br>- Restitution (bounciness)
 <br>- My impulse function
+<br>- My integration code
 <br>- Circle-circle collision detection
 <br>- Circle-rectangle collision detection
 <br>- Anchors
 <br>- Joints
+<br>- My renderer
 <br>- My demos
 
-<p>- <a href="//github.com/xem/2Dphysics/cedarcantab/2.html">Source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/2.html">live demo</a>.
+<p>The rewrite of the Vec2 class was a bit long but it's a good size optimization:
+<br>The original Vec2 class is 3218b minified, 886b after clean up, and mine is 367b.
+<br>I kept "addScaled", "negate" and the three kinds of "cross" for now.
 
+<pre><code class="lang-js">// 2D vector helpers
+add=(v,w)=>[v[0]+w[0],v[1]+w[1]];
+addScaled=(v,w,s)=>[v[0]+w[0]*s,v[1]+w[1]*s];
+dot=(v,w)=>v[0]*w[0]+v[1]*w[1];
+length=v=>Math.sqrt(x*x+y*y);
+negate=v=>[-v[0],-v[1]];
+scale=(v,s)=>[v[0]*s,v[1]*s];
+subtract=(v,w)=>[v[0]-w[0],v[1]-w[1]];
+abs=v=>[Math.abs(v[0]),Math.abs(v[1])];
+crossVN=(v,n)=>[n*v[1],-n*v[0]];
+crossNV=(n,v)=>[-n*v[1],n*v[0]];
+crossVV=(v,w)=>v[0]*w[1]-v[1]*w[0];</code></pre>
 
-<p><h3>Golf</h3>
+<br>New size: 764 lines, 22kb commented, 8.6kb minified, 2.84kb zipped
+
+<p>Links: <a href="//github.com/xem/2Dphysics/cedarcantab/2.html">source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/2.html">live demo</a>.
+
+<br><hr>
+
+<p><h3>3) Golf</h3>
 
 <p>
 
-<p>- <a href="//github.com/xem/2Dphysics/cedarcantab/3.html">Source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/3.html">live demo</a>.
+<br>New size:  lines &rarr;  lines,  &rarr;  commented,  &rarr;  minified,  &rarr;  zipped
+
+<p>Links: <a href="//github.com/xem/2Dphysics/cedarcantab/3.html">Source code</a>, <a href="//xem.github.io/2Dphysics/cedarcantab/3.html">live demo</a>.
 
 
 
 
 <br><hr>
 
-<p>TODO
-
 </main>
 
 </div>
 
 <footer></footer>
-
+<style>
+.wordpress li { line-height: 14px }
+@media(min-width:1280px){
+  .wordpress { columns: 3 }
+}
+</style>
 <script src="../ui.js?v=2024-07"></script>
 <script>
 header();
