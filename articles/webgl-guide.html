@@ -940,9 +940,9 @@ gl.vertexAttrib1f(f, 1.0);</code></pre>
 <tr>
 <td>vec4
 <td><pre><code class="lang-js">attribute vec4 v;</code></pre>
-<td><pre><code class="lang-js">var f = gl.getAttribLocation(program, 'f');
-gl.vertexAttrib4f(f, 1.0, 2.0, 3.0, 4.0); // list
-gl.vertexAttrib4fv(f, [1.0, 2.0, 3.0, 4.0]); // or array</code></pre>
+<td><pre><code class="lang-js">var v = gl.getAttribLocation(program, 'v');
+gl.vertexAttrib4f(v, 1.0, 2.0, 3.0, 4.0); // list
+gl.vertexAttrib4fv(v, [1.0, 2.0, 3.0, 4.0]); // or array</code></pre>
 
 </table>
 
