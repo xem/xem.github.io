@@ -22,28 +22,97 @@
 </style>
 
 <h2>Gamedev JS 2026: COGS and WORD GAMES</h2>
-<h3>April 2026</h3>
-
 <br>
-<hr>
-<br>
-<h2>Links</h2>
+<h3>April-May 2026</h3>
+<p><img src="images/gamedevjs26/cover.png" width=800><br><br>
+<h2>TL;DR:</h2>
 <br>
 <b>
 - Play <a href="https://xemstudio.itch.io/cogs">COGS</a> on Itch.
 <br>- Read <a href="https://github.com/xem/gamedevjs26/">the source code</a> on Github.
+<br>- Ranking: coming soon!
 <p>
 - Play <a href="https://xemstudio.itch.io/word-games">WORD GAMES</a> on Itch.
 <br>- Read <a href="https://github.com/xem/gamedevjs26-wordgames/">the source code</a> on Github.
+<br>- Ranking: coming soon!
 </b>
-<br>
-<br>
-<hr>
-<br>
 
-<p><img src="images/gamedevjs26/cover.png" width=800><br><br>
+<br><br><hr><br>
 
-<h2>Making-of</h2>
+<h2>Making-of: WORD GAMES</h2>
+<p><img src="images/gamedevjs26/2.png">
+<p>I have a group of friends who enjoy word games. Two of them even created their own, in french (<a href="https://adrien-gueret.github.io/motigma/#splashscreen">Motigma</a> and <a href="https://avinesse.github.io/the-french-connections.github.io/">french-connections</a>).
+<p>Last year, I created <a href="https://xem.github.io/words/">WORDS</a>, an attempt to propose the most useful way to get french and english dictionnaries (Scrabble dictionnaries, but not only), with a ton of useful options.
+<p>A few years ago, I code-golfed <a href="https://xem.github.io/MiniWordle/">MiniWordle</a> in 214 bytes, but always wished to go further.
+<p>So when GamedevJS 26 was approaching, I picked 5 different word games:
+<p>- <b>Wordle</b> (no need to present it)
+<br>- <b>Spelling Bee</b> (make words from a small set of letters)
+<br>- <b>Boggle</b> (the famous board game, often imitated on websites and app stores)
+<br>- <b>Maxiword</b> (seel in <a href="images/gamedevjs26/1.jpeg">a french word games magazine</a>)
+<br>- <b>Substring</b> (I invented this one)
+<p>...and gave myself the challenge to implement all of them in 24 hours, in two languages, and with new solutions procedurally generated each day, to get myself in shape for the jam.
+<p>I completed that challenge in april 2025, just before working on my real entry. Coming up with elegant and performant algorithms (especially for Boggle solutions) was quite fun actually!
+<p>During the jam, my friends beta-tested my word games, and helped me find a few bugs that are fixed now! A couple hours were also sent during the jam to enhance the visuals (games rules, solutions, background colors, display, mobile rendering...) and add localStorage and score sharing features.
+<p><b>A few interesting stats:</b>
+<p>- EN.html and FR.html (the games) are 27kb and 847 lines long.
+<br>- EN.js (english Scrabble dictionnary, uppercase, accent-less, JSON) is 2.24Mb and contains 196601 words.
+<br>- FR.js (french Scrabble dictionnary, uppercase, accent-less, JSON) is 5.22Mb and contains 416297 words (that's probably why most Scrabble competitions take place in french).
+<p><b>My favourite code snippets:</b>
+<p>- Animated color background fading to white in pure CSS
+<pre class=lang-css><code>@keyframes hue {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+body:before {
+  content: "";
+  /* (...) */
+  background: linear-gradient(#def, #fff);
+  animation: hue 120s infinite;
+}</code></pre>
+<br>- Recursive boggle solution checker ("links" is an array telling which letters are around each dice on the boars, replaced by "?" when it's already used in the current word)
+<pre class=lang-js><code>checkboggle = (word) => {
+  if(word.length &lt; 3) return false;
+  for(var i = 0; i &lt; 16; i++){
+    if(boggletodayletters[i] == word[0]){
+      tmp = boggletodayletters.slice(); // copy grid
+      tmp[i] = "?"; // remove current letter
+      if(subcheckboggle(word.slice(1), i, tmp)){
+        return true
+      }
+    }
+  }
+  return false;
+}
+
+subcheckboggle = (word, index, grid) => {
+  if(word.length == 0) return true;
+  var link = bogglelinks[index];
+  for(var i = 0; i &lt; link.length; i++){
+    if(link[i][1] == word[0] && grid[link[i][0]] != "?"){
+      tmp = grid.slice(); // copy grid
+      tmp[link[i][0]] = "?"; // remove current letter
+      if(subcheckboggle(word.slice(1), link[i][0], tmp)){
+        return true
+      }
+    }
+  }
+  return false;
+}</code></pre>
+<br>
+<p>Anyway: I can now say that I have my own word games that can be played everyday by anyone for free, yayyy!!!
+
+<p>PS: I also released the Boggle grid generator and solver into a standalone app:
+<a href="https://xem.github.io/boggle/">BOGGLE</a> (new grid every 20 seconds).
+
+
+<br><br><hr><br>
+
+<h2>Making-of: COGS</h2>
+<p>
+
+<br><br><hr><br>
+
+<h2>Results</h2>
 <p>
 
 Coming soon!
