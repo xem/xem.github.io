@@ -48,15 +48,17 @@
 <p>- <b>Wordle</b> (no need to present it)
 <br>- <b>Spelling Bee</b> (make words from a small set of letters)
 <br>- <b>Boggle</b> (the famous board game, often imitated on websites and app stores)
-<br>- <b>Maxiword</b> (seel in <a href="images/gamedevjs26/1.jpeg">a french word games magazine</a>)
+<br>- <b>Maxiword</b> (seen in <a href="images/gamedevjs26/1.jpeg">a french word games magazine</a>)
 <br>- <b>Substring</b> (I invented this one)
-<p>...and gave myself the challenge to implement all of them in 24 hours, in two languages, and with new solutions procedurally generated each day, to get myself in shape for the jam.
+<p>...and gave myself the challenge to implement all of them in 24 hours, in two languages, and with new solutions procedurally generated each day, to get myself in shape for the rest of the jam.
 <p>I completed that challenge in april 2025, just before working on my real entry. Coming up with elegant and performant algorithms (especially for Boggle solutions) was quite fun actually!
 <p>During the jam, my friends beta-tested my word games, and helped me find a few bugs that are fixed now! A couple hours were also sent during the jam to enhance the visuals (games rules, solutions, background colors, display, mobile rendering...) and add localStorage and score sharing features.
 <p><b>A few interesting stats:</b>
 <p>- EN.html and FR.html (the games) are 27kb and 847 lines long.
 <br>- EN.js (english Scrabble dictionnary, uppercase, accent-less, JSON) is 2.24Mb and contains 196601 words.
-<br>- FR.js (french Scrabble dictionnary, uppercase, accent-less, JSON) is 5.22Mb and contains 416297 words (that's probably why most Scrabble competitions take place in french).
+<br>- FR.js (french Scrabble dictionnary, uppercase, accent-less, JSON) is 5.22Mb and contains 416297 words !
+<br>(that's probably why most Scrabble competitions take place in french).
+<br>- Nothing is pre-generated! As soon as you pick a language from the main menu, the "grids of the day" are generated and all their solutions are computed in a few tenths of a second while you choose your first game.
 <p><b>My favourite code snippets:</b>
 <p>- Animated color background fading to white in pure CSS
 <pre class=lang-css><code>@keyframes hue {
