@@ -173,6 +173,7 @@ subcheckboggle = (word, index, grid) => {
 <tr><td>3<td>1/3
 <tr><td>4<td>1/4
 <tr><td>5<td>1/5
+<tr><td>n<td>1/n
 </table>
 
 <p>(wow, a HTML table, I haven't written one of these for a while!)
@@ -181,6 +182,9 @@ subcheckboggle = (word, index, grid) => {
 table, th, tr, td {
   border: 1px solid;
 }
+
+th, td { padding: 5px }
+
 div.twitter-tweet-rendered {
   max-width: 400px !important;
 }
@@ -190,34 +194,63 @@ div.twitter-tweet-rendered {
 
 
 <p><b>Day 4</b>
-<p>
+<p>3 more hours of code just to make the (simplified) physics engine from scratch:
+<br>- Grey cogs can fall until they collide with the ground or another cog placed underneath.
+<br>- When a cog collides with a rotating cog, it rotates in the opposite direction
+<br>- When a cog collides with two rotating cogs of opposite direction, that's a "jam" (the machine stops because the cogs block each other).
+<br>- The more I write "cog" and "block" ui this making-of, the more I am afraid to accidentally write "cock" and "blog".
+<br>-SPEAKING OF WHICH! ... While I was implementing the jam detection algorithm, I thought "COG-BLOCKED" was a funny and subversive pun, so I decided to display it on screen when a jam occurs:
+<p><img src="images/gamedevjs26/8.png">
+
+
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 4:<br>- 10 hours<br>- 914 lines of code<br>- Game engine is pretty much ok (grey gears can be placed inside the scene, except in the red zones, fall down, collide with other gears, rotate, make the neighbour gears rotate, and block everything if incompatible gears collide!) <a href="https://t.co/97UcRL2wOk">pic.twitter.com/97UcRL2wOk</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2045070606488461645?ref_src=twsrc%5Etfw">April 17, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 5</b>
-<p>
+<p>Since I love puns, I spent the fifth day working on "success" screens (and navigation buttons, which are actually HTML and not drawn on the canvas), but also on the definitive name for the game.
+<p>I asked my french friends some ideas and feedbacks about names containing the word "COG", and it derailed a little. 
+
+<p><img src="images/gamedevjs26/9.png" width=400>
+
+<p>For the success screens, though, I like the idea of "COG-RATULATIONS!" and I will try to find other messages like this one.
+
+<p>Red and purple zones also work fine now.
+
+
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 5:<br>- 12 hours<br>- 1023 lines of code<br>- Finished game states (win =&gt; next, blocked =&gt; reset, successful test =&gt; return to editor)<br>- Fixed (finished implementing) the red and purple zones <a href="https://t.co/koVDZWMT9p">pic.twitter.com/koVDZWMT9p</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2045515037150753200?ref_src=twsrc%5Etfw">April 18, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 6</b>
-<p>
+<p>A couple of extra hours to polish the editor, game engine and navigation...
+<p>In the background of the video below, you can hear some LoFi music I've been listening to while coding. I've been told if went well with the game...
+
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 6:<br>- 14h<br>- 1156 lines of code<br>- Debugged and improved the editor and the gameplay as much as possible (for now)...<br><br>That leaves me 7 days to implement all the levels! <a href="https://t.co/hSpzaooX2l">pic.twitter.com/hSpzaooX2l</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2045775031406330199?ref_src=twsrc%5Etfw">April 19, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 7</b>
-<p>
+
+<p>With my emulator in one hand and my own level editor in the other, I can finally start creating my game's levels, and *NOT* show them online to avoid spoilers.
+<p>I went with thr (controversial) choice of remaking all 150 levels from the original Geared game, because I lacked the time to create my own levels from scratch or to decide which ones should be remove. Not super creative, I know, but at least it will be a remake as faithful as possible... with many differences though! (a lot of coordinates/size adjustments were necessary to make specific traps or solutions from the original game work in my own engine).
+<p>I'm glad I created the editor first though, because it helps me iterate super quickly!
+
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 6<br>- 17h of work<br>- 1421 lines of code<br>- ~1% vibe-coded (AI helped me for proper collision detection)<br>- Made lots of UI fixes and added the first 30 levels!<br>(it&#39;s fast thanks to the editor).<br><br>-- No more screenshots until release to avoid spoilers! --</p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2046152770659500276?ref_src=twsrc%5Etfw">April 20, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>(Sorry, I messed up the days numbers on X. Please consider that from this point, 6 = 7, 7 = 8, etc.)
 
 <p><b>Day 8</b>
-<p>
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 7:<br>- 21 hours of work<br>- 1746 lines of code<br>- 50 playable levels<br>- after the first playtests, I fixed a few bugs and added an undo button<br><br>(non-spoiler screenshot) <a href="https://t.co/vOmAJ6rfh8">pic.twitter.com/vOmAJ6rfh8</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2046463950930256017?ref_src=twsrc%5Etfw">April 21, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 9</b>
-<p>
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 8:<br>- 28 hours of work<br>- 1973 lines of code<br>- 90 playable levels<br>- added a level selection screen<br>- added a new mechanic<br>- rewrote the undo-redo system that was buggy<br>- rewrote the gears logic to avoid this bug (blue wheels must NOT rotate when not linked to yellow) <a href="https://t.co/1IIueslDhJ">pic.twitter.com/1IIueslDhJ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2046832189979918701?ref_src=twsrc%5Etfw">April 22, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 10</b>
-<p>
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 9:<br>- 33 hours of work<br>- 2245 lines of code<br>- 110 levels<br>- another new mechanic added<br>- lots of debug<br>- improved level editor<br>- added an improvement proposed by a playtester on Slack: keep placing gears of the same size as long as the inventory allows it: <a href="https://t.co/i7DY7NBNnt">pic.twitter.com/i7DY7NBNnt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2047410580781158465?ref_src=twsrc%5Etfw">April 23, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 11</b>
-<p>
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 10:<br>- 38 hours of work<br>- 2689 lines of code (91kb)<br>- 120 levels done (the goal is 150)<br>- mobile support added!<br>- 48 hours left for the final levels, tests, debug, adjustments, music, sound and challenges... tough! <a href="https://t.co/3YxmkvI6kW">pic.twitter.com/3YxmkvI6kW</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2047613166075486346?ref_src=twsrc%5Etfw">April 24, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 12</b>
-<p>
+<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 11 update:<br>jam detection was completely rewrote and works correctly now! 🙌 <a href="https://t.co/lDcuskHLGg">pic.twitter.com/lDcuskHLGg</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2048024264532480481?ref_src=twsrc%5Etfw">April 25, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 13</b>
-<p>
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 12:<br><br>- ⚙️ COGS was released on Itch and Wavedash (with achievements) after 50+ hours of work. <a href="https://t.co/w7uzRFmgMn">https://t.co/w7uzRFmgMn</a><br><br>- ✍️ WORD GAMES: my bonus entry developed in 1 day (French &amp; English).<a href="https://t.co/dWxaBizok7">https://t.co/dWxaBizok7</a><br><br>Thanks to the playtesters! (and screw you Safari) <a href="https://t.co/kSWfIdCqwd">pic.twitter.com/kSWfIdCqwd</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2048273020309970987?ref_src=twsrc%5Etfw">April 26, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
 
