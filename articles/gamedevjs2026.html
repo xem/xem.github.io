@@ -46,17 +46,17 @@
 <p>A few years ago, I code-golfed <a href="https://xem.github.io/MiniWordle/">MiniWordle</a> in 214 bytes, but always wished to go further.
 <p>So when GamedevJS 26 was approaching, I picked 5 different word games:
 <p>- <b>Wordle</b> (no need to present it)
-<br>- <b>Spelling Bee</b> (make words from a small set of letters)
-<br>- <b>Boggle</b> (the famous board game, often imitated on websites and app stores)
+<br>- <b>Spelling Bee</b> (where we need to make words from a small set of letters)
+<br>- <b>Boggle</b> (the famous board game, often imitated on websites and mobile apps)
 <br>- <b>Maxiword</b> (seen in <a href="images/gamedevjs26/1.jpeg">a french word games magazine</a>)
 <br>- <b>Substring</b> (I invented this one)
-<p>...and gave myself the challenge to implement all of them in 24 hours, in two languages, and with new solutions procedurally generated each day, to get myself in shape for the rest of the jam.
+<p>...and gave myself the challenge to implement all of them in 24 hours, in HTML + JS, in french and english, and with new games and solutions procedurally generated each day. That would help put myself in shape for the rest of the jam.
 <p>I completed that challenge in april 2025, just before working on my real entry. Coming up with elegant and performant algorithms (especially for Boggle solutions) was quite fun actually!
-<p>During the jam, my friends beta-tested my word games, and helped me find a few bugs that are fixed now! A couple hours were also sent during the jam to enhance the visuals (games rules, solutions, background colors, display, mobile rendering...) and add localStorage and score sharing features.
+<p>During the jam, my friends beta-tested my word games, and helped me find a few bugs that are fixed now! A couple hours were also spent during the jam to enhance the visuals (games rules, solutions, background colors, display, mobile rendering...) and add localStorage and score sharing features.
 <p><b>A few interesting stats:</b>
 <p>- EN.html and FR.html (the games) are 27kb and 847 lines long.
-<br>- EN.js (english Scrabble dictionnary, uppercase, accent-less, JSON) is 2.24Mb and contains 196601 words.
-<br>- FR.js (french Scrabble dictionnary, uppercase, accent-less, JSON) is 5.22Mb and contains 416297 words !
+<br>- EN.js (english Scrabble dictionnary, uppercase, accent-less, JSON) is 2.24Mb and contains 196,601 words.
+<br>- FR.js (french Scrabble dictionnary, uppercase, accent-less, JSON) is 5.22Mb and contains 416,297 words !
 <br>(that's probably why most Scrabble competitions take place in french).
 <br>- Nothing is pre-generated! As soon as you pick a language from the main menu, the "grids of the day" are generated and all their solutions are computed in a few tenths of a second while you choose your first game.
 <p><b>My favourite code snippets:</b>
@@ -71,7 +71,7 @@ body:before {
   background: linear-gradient(#def, #fff);
   animation: hue 120s infinite;
 }</code></pre>
-<br>- Recursive boggle solution checker ("links" is an array telling which letters are around each dice on the boars, replaced by "?" when it's already used in the current word)
+<br>- Recursive boggle solution checker ("links" is an array telling which letters are around each dice on the board, replaced by "?" when it's already used in the current word)
 <pre class=lang-js><code>checkboggle = (word) => {
   if(word.length &lt; 3) return false;
   for(var i = 0; i &lt; 16; i++){
@@ -103,14 +103,123 @@ subcheckboggle = (word, index, grid) => {
 <br>
 <p>Anyway: I can now say that I have my own word games that can be played everyday by anyone for free, yayyy!!!
 
-<p>PS: I also released the Boggle grid generator and solver into a standalone app:
+<p>PS: I also released the Boggle grid generator and solver into a standalone web app:
 <a href="https://xem.github.io/boggle/">BOGGLE</a> (new grid every 20 seconds).
 
 
 <br><br><hr><br>
 
 <h2>Making-of: COGS</h2>
+<p><img src="images/gamedevjs26/3.png">
+
+<p><b>Day 0</b>
+<p>GamedevJS 2026's theme was announced on April 13 and it was: <b>MACHINES</b>. An amazing theme if you ask me.
+<p>GamedevJS only lasts 13 days. Too short, if you ask me.
+<p>While I was finalizing my "bonus entry" Word Games, I spent the first day (let's call it "day 0" to be coherent with my tweets) brainstorming.
+
+<p>My reasoning is the following:
+<p>- I don't have the time to have an original idea AND implement it properly in 13 days, especially with 2 to 4 free hours per day. That's why in the previous years I made either mini "gimmicky" games (<a href="https://xem.github.io/articles/gamedevjs2022.html">It's too raw</a>, <a href="https://xem.github.io/articles/gamedevjs2024.html">The power of two</a>), vibe-coded games (<a href="https://xem.github.io/articles/gamedevjs2025.html">Hold your noodles... and your meatballs</a>), or remakes of existing games using engines I had made myself during a previous game jam (<a href="https://xem.github.io/articles/gamedevjs2023.html">Chrono Robot</a>).
+<p>- Many beloved games of my childhood (or early adulthood) featured machines, and are either abandonware or lost media in 2026, so why wouldn't I make an entry in hommage to one of these old games? Or even a faithful remake?
+<p>- My two finalists are <a href="https://www.youtube.com/watch?v=pTbSMKGQ_rU">The Incredible Machine</a> (MS-DOS, 1993) and <a href="https://www.youtube.com/watch?v=mXmqJZ1bu68">Geared</a> (iOS, 2009).
+<p>- The former, "TIM" is officially an <a href="https://www.myabandonware.com/game/the-incredible-machine-1mg">abandonware</a>, but would be incredibly tricky to reimplement in 13 days, even though I developed <a href="https://xem.github.io/2Dphysics/">a new 2D physics engine</a> last year that could be partly used to make it. Plus, the author of the original game made <a href="https://store.steampowered.com/app/241240/Contraption_Maker/">Contraption Maker</a> (Steam, 2016), which is a great way to replay these old levels, and new ones, in the modern era.
+<p>- The latter, "Geared" is much more of a lost media: some images and videos can be found, of course, but it's not downloadable nor playable on mobile or tablets since around 2011. The <a href="https://store.steampowered.com/app/341770/Geared/?l=french&curator_clanid=41972533">Steam "remake"</a> (2015) has completely different mechanics and just doesn't convey the experience of the original. Its sequel, <a href="https://www.youtube.com/watch?v=U11iQEPcyNo">Geared 2</a> (iOS, 2010) has a lot of interesting ideas but is also unavailable today.
+<p>- Making a game inspired by Geared "1" seems to be the most viable option in 13 days (even though it will require a lot of work), so let's do that! Actually, let's make something close to a full remake, but with my "xem touch".
+
+<p><b>Day 1</b>
+
+<p>The first day was for prototyping. Before anyhing else, I had to make sure I could draw convincing gears (cogs) of 5 different sizes on a JS canvas.
+<p>After a very long search in the depths of russian pirate Internet, I managed to find an APK of Geared 1.0 (an early and pretty buggy Android port of the game). I wouldn't install that on my phone, of course, but thankfully, a Windows emulator called Bluestacks was able to open it.
+<p>I took some screenshots of the first levels, measured all the cogs I could find, counted their teeth, and wrote a JS function that could draw all of them in different sizes, colors and positions.
+<p>Here's my gorgeous study, made on MS paint, in case someone wants to frame it for posterity:
+<p><img src=images/gamedevjs26/model.png>
+
+<p>I created a 320x490px canvas, put the top-left part of that (wonderful) image in the background, and drew my cogs on top of them.
+
+<p><img src=images/gamedevjs26/4.png width=320>
+
+<p>Then I removed the background and TADAA! (good enough!)
+
+<p>By the way, my trick to draw the cogs teeth is to combine a colored circle, a black border, little black rectangles around it, then smaller colored rectangles inside the black ones (overlapping the circle's border).
+
+<p><img src=images/gamedevjs26/5.png>
+
+<p>I could also have drawn the cogs in the form of a single polygon, but... meh.
+
+<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 1:<br>I rendered these things on a JS canvas in 50 lines of code.<br>Took me 50 minutes (I&#39;m a bit rusty).<br>I&#39;ll try to make an entry in hommage to a very old iPad game that everyone probably forgot. <a href="https://t.co/Cfz8M7OGi2">pic.twitter.com/Cfz8M7OGi2</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2044084204212801775?ref_src=twsrc%5Etfw">April 14, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p><b>Day 2</b>
+<p>So I played Geared on emulator... completing a few dozens levels each day, screenshotting every level, noting every "trick" used to introduce each new mechanic to the player, and recording every solution in video. A very thorough investigation.
+<p>I have to rediscover everything level by level because they're not all unlocked from the beginning. When I reached the "red no drop zone" and the "purple movable no-drop zone" levels, I started to work, not on my game, but on my level editor, featuring a grey cogs inventory, placeable yellow and blue cogs, red and purple no-drop zones, along with four buttons (test, reset, share and exit). Reset clears everything, Share exports the level in JSON, Exit goes back to an empty title screen, and Test is the only one not working yet.
+
+<p>I also made the yellow cog rotating infinitely.
+
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day2:<br>A basic level editor made in 2 hours.<br>To improve later if I have the time.<br>To do next: test button.<br>Total lines of code: 406. <a href="https://t.co/lMBakM4e3a">pic.twitter.com/lMBakM4e3a</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2044340376526266555?ref_src=twsrc%5Etfw">April 15, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p><b>Day 3</b>
+<p>I spent 5 hours organizing all my code and data to finally have an "in-game" screen, visible when we click on the "test" button. In this screen, grey cogs can be placed in the white area, and become red (unplaceable) id they collide with another cog or if their center is on a no-drop zone. Gravity will be added later.
+
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 3:<br><br>Done:<br>- 800 lines of code.<br>- 7 hours of work.<br><br>Working (kind of): <br>- navigation between editor and game<br>- gear placement and collision detection<br>- inventory<br>- reset buttons<br>- data structures<br><br>Todo:<br>- physics / game engine (this week?)<br>- levels (next week?) <a href="https://t.co/jfiNl09q49">pic.twitter.com/jfiNl09q49</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2044685821907804257?ref_src=twsrc%5Etfw">April 16, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p>I also made a rudimentary title screen, with 3 cogs rotating in opposite directions. 
+
+<p><video src="images/gamedevjs26/6.mp4" controls width=320></video>
+
+<p>This made me realize that all the cogs couldn't rotate at the same speed. A cog's rotation speed must me inversely proportional to its size, to have all teeth move at the same speed (and have a chance to stay intertwined). By chance, the radii of the cogs make the speeds ratios "simple" to compute (I mean, simple after <a href="images/gamedevjs26/7.png">ChatGPT told me how</a>):
+
 <p>
+<table rules><tr><th>Size</th><th>Speed</th>
+<tr><td>1<td>1
+<tr><td>2<td>1/2
+<tr><td>3<td>1/3
+<tr><td>4<td>1/4
+<tr><td>5<td>1/5
+</table>
+
+<p>(wow, a HTML table, I haven't written one of these for a while!)
+
+<style>
+table, th, tr, td {
+  border: 1px solid;
+}
+div.twitter-tweet-rendered {
+  max-width: 400px !important;
+}
+</style>
+
+
+
+
+<p><b>Day 4</b>
+<p>
+
+<p><b>Day 5</b>
+<p>
+
+<p><b>Day 6</b>
+<p>
+
+<p><b>Day 7</b>
+<p>
+
+<p><b>Day 8</b>
+<p>
+
+<p><b>Day 9</b>
+<p>
+
+<p><b>Day 10</b>
+<p>
+
+<p><b>Day 11</b>
+<p>
+
+<p><b>Day 12</b>
+<p>
+
+<p><b>Day 13</b>
+<p>
+
+
 
 <br><br><hr><br>
 
