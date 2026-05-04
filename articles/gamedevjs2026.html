@@ -21,19 +21,19 @@
 
 </style>
 
-<h2>Gamedev JS 2026: COGS and WORD GAMES</h2>
+<h2>Gamedev JS 2026: WORD GAMES and COGS</h2>
 <br>
 <h3>April-May 2026</h3>
 <p><img src="images/gamedevjs26/cover.png" width=800><br><br>
 <h2>TL;DR:</h2>
 <br>
 <b>
-- Play <a href="https://xemstudio.itch.io/cogs">COGS</a> on Itch.
-<br>- Read <a href="https://github.com/xem/gamedevjs26/">the source code</a> on Github.
-<br>- Ranking: coming soon!
-<p>
 - Play <a href="https://xemstudio.itch.io/word-games">WORD GAMES</a> on Itch.
 <br>- Read <a href="https://github.com/xem/gamedevjs26-wordgames/">the source code</a> on Github.
+<br>- Ranking: coming soon!
+<p>
+- Play <a href="https://xemstudio.itch.io/cogs">COGS</a> on Itch.
+<br>- Read <a href="https://github.com/xem/gamedevjs26/">the source code</a> on Github.
 <br>- Ranking: coming soon!
 </b>
 
@@ -41,6 +41,7 @@
 
 <h2>Making-of: WORD GAMES</h2>
 <p><img src="images/gamedevjs26/2.png">
+<p>This is a "mini bonus entry" not related to the theme of GamedevJS 2026, I just wanted to make it! :3
 <p>I have a group of friends who enjoy word games. Two of them even created their own, in french (<a href="https://adrien-gueret.github.io/motigma/#splashscreen">Motigma</a> and <a href="https://avinesse.github.io/the-french-connections.github.io/">french-connections</a>).
 <p>Last year, I created <a href="https://xem.github.io/words/">WORDS</a>, an attempt to propose the most useful way to get french and english dictionnaries (Scrabble dictionnaries, but not only), with a ton of useful options.
 <p>A few years ago, I code-golfed <a href="https://xem.github.io/MiniWordle/">MiniWordle</a> in 214 bytes, but always wished to go further.
@@ -240,12 +241,107 @@ div.twitter-tweet-rendered {
 <p>(Sorry, I messed up the days numbers in my X posts! Please consider that from this point, 6 = 7, 7 = 8, etc.)
 
 <p><b>Day 8</b>
+<p>My first playtesters (my fellow Word Games enthusiasts, but also cykelkatalogen and John Edvard on Slack) gave me super interesting feedbacks to improve the user experience:
+<br>- An UNDO button (to avoid resetting the level at every mistake... this took me too many hours to implement properly)
+<br>- Not having to pick the same cog from the inventory (the next one is automatically selected, and attached to the mouse cursor... at least on PC)
+
 <p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 7:<br>- 21 hours of work<br>- 1746 lines of code<br>- 50 playable levels<br>- after the first playtests, I fixed a few bugs and added an undo button<br><br>(non-spoiler screenshot) <a href="https://t.co/vOmAJ6rfh8">pic.twitter.com/vOmAJ6rfh8</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2046463950930256017?ref_src=twsrc%5Etfw">April 21, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 9</b>
+
+<br>When I finally added the level selection screen (it's always a boring thing to implement, but useful for the players), I received a suggestion to get rid of the locked levels to ease progression and discovery of new mechanisms.
+<p>I didn't do that exactly, instead I unlocked all the levels introducing a new mechanic, shown here in blue... (to make it simple, I just marked blue the levels that contained custom text in the background).
+
+<p><img src="images/gamedevjs26/10.png" width=330>
+
+<p>The 5 levels that follow the last one cleared are also available "for free", to let the players the possibility to skip hard levels.
+
+<p>My X post showed an obscure bug - cogs disconnected from the yellow engine, but continuing to force each other's rotation - that I finally managed to fix by adding many more loops of checks in the physics engine.
+
+<p>Here's my "fixed" (but still spaghetti-ish) code detecting jams and handling rotations:
+
+<pre class=lang-js><code>// do n iterations (n = number of cogs)
+for(k in cogs){
+  
+  // for all cogs (so this is O(n²)... whatever)
+  for(i in cogs){
+    
+    // except yellow
+    if(i > 0){
+      
+      // define a global angle
+      var globalneighbourangle = 0;
+      
+      // check neighbours rotations
+      for(j of cogs[i].neighbours){
+        
+        // if neighbour rotation is not 0 and global rotation is 0 or eqal to it
+        if(cogs[j].rotation != 0 && (globalneighbourangle == 0 || globalneighbourangle == cogs[j].rotation)){
+            
+          // set global rotation equal to neighbour rotation
+          globalneighbourangle = cogs[j].rotation;
+        }
+        
+        // if neighbour is already jammed (99) or if its rotation is 0 and different from global rotation and global rotation is not 0
+        if(cogs[j].rotation == 99 || (cogs[j].rotation != 0 && globalneighbourangle != 0 && globalneighbourangle != cogs[j].rotation)){
+          
+          // JAM (set to 99)
+          globalneighbourangle = 99;
+        }     
+      }
+      
+      // If jam touches yellow cog: blocked
+      if(Math.abs(globalneighbourangle) == 99 && cogs[i].neighbours.includes(0)){
+        cogs[0].rotation = 0;
+        blocked = 1;
+      }
+      else {
+        cogs[0].rotation = 1;
+        blocked = 0;
+      }
+      
+      // make cog rotate at the opposite of the neighbours angle
+      if(Math.abs(globalneighbourangle) &lt; 99){
+        cogs[i].rotation = -globalneighbourangle;
+      }
+      else {
+        cogs[i].rotation = 99;
+      }
+    }
+  }
+}
+
+for(i of cogs[0].neighbours){
+  if(cogs[i].rotation == 99){
+    cogs[0].rotation = 0;
+    blocked = 1;
+  }
+}
+</code></pre>
+
+<style>
+pre, pre * { font-size: 10px !important; line-height: 12px !important }
+</style>
+
 <p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 8:<br>- 28 hours of work<br>- 1973 lines of code<br>- 90 playable levels<br>- added a level selection screen<br>- added a new mechanic<br>- rewrote the undo-redo system that was buggy<br>- rewrote the gears logic to avoid this bug (blue wheels must NOT rotate when not linked to yellow) <a href="https://t.co/1IIueslDhJ">pic.twitter.com/1IIueslDhJ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2046832189979918701?ref_src=twsrc%5Etfw">April 22, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 10</b>
+<p>I'm focused on finishing the original game (which is buggy, remember), and implementing every level.
+<p>The thing is, the more I progress, the more I keep discovering new mechanics, which I need to spend a lot of extra hours implementing, debugging, plus of course the need to make my level editor handle them. The last new mechanic appears on level 100!
+<p><img src="images/gamedevjs26/11.png">
+
+<p>And of course, I also have to update my level editor to handle all the new features. Here's how the final editor looks, and all the things it is able to produce.
+
+<p><img src="images/gamedevjs26/12.png" width=330>
+
+<p>All the original Geared levels can be remade using all these little buttons, except the ones that contained a tiny yellow cog. For these levels, and these levels only, I modified them so that they could work with a big yellow cog (allowing both big and small yellow cogs would have been too complicated and I didn't have enough time, so a choice was made to ignore them).
+
+<p>Here's an example of level (#86) which contained a mini yellow cog, and how I modified it: bigger yellow cog at the bottom, blue cog at the center, but the idea and the puzzle solution stay the same!
+
+<p><img src="images/gamedevjs26/13.png">
+
+
+ 
 <p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 9:<br>- 33 hours of work<br>- 2245 lines of code<br>- 110 levels<br>- another new mechanic added<br>- lots of debug<br>- improved level editor<br>- added an improvement proposed by a playtester on Slack: keep placing gears of the same size as long as the inventory allows it: <a href="https://t.co/i7DY7NBNnt">pic.twitter.com/i7DY7NBNnt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2047410580781158465?ref_src=twsrc%5Etfw">April 23, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 11</b>
