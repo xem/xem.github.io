@@ -256,14 +256,63 @@ div.twitter-tweet-rendered {
 
 <p>The 5 levels that follow the last one cleared are also available "for free", to let the players the possibility to skip hard levels.
 
-<p>My X post showed an obscure bug - cogs disconnected from the yellow engine, but continuing to force each other's rotation - that I finally managed to fix by adding many more loops of checks in the physics engine.
+<p>My X post (see below) showed an obscure bug - cogs disconnected from the yellow engine, but continuing to enable each other's rotation - which I finally managed to fix by adding an extra loop of checks in the physics engine.
 
-<p>Here's my "fixed" (but still spaghetti-ish) code detecting jams and handling rotations:
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 8:<br>- 28 hours of work<br>- 1973 lines of code<br>- 90 playable levels<br>- added a level selection screen<br>- added a new mechanic<br>- rewrote the undo-redo system that was buggy<br>- rewrote the gears logic to avoid this bug (blue wheels must NOT rotate when not linked to yellow) <a href="https://t.co/1IIueslDhJ">pic.twitter.com/1IIueslDhJ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2046832189979918701?ref_src=twsrc%5Etfw">April 22, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
-<pre class=lang-js><code>// do n iterations (n = number of cogs)
+<p><b>Day 10</b>
+<p>I'm focused on completing the original game on my emulator (which is all buggy, remember), and screenshotting and implementing every level.
+<p>The thing is, the more I progress, the more I keep discovering new mechanics, which I need to spend a lot of extra hours implementing, debugging... The last new mechanic appears on level 100!
+<p><img src="images/gamedevjs26/11.png">
+
+<p>And of course, I also have to update my level editor to handle all the new features. Here's how the final editor looks, and all the things it is able to produce.
+
+<p><img src="images/gamedevjs26/12.png" width=330>
+
+<p>All the original Geared levels can be remade using all these little buttons, except the ones that contained a tiny yellow cog. For these levels, and these levels only, I modified them so that they could work with a big yellow cog (allowing both big and small yellow cogs would have been too complicated and I didn't have enough time, so I made the choice to ignore them).
+
+<p>Here's an example of level (#86) which contained a mini yellow cog at the center, and how I modified it: bigger yellow cog at the bottom, blue cog at the center. The idea and the puzzle solution stay the same!
+
+<p><img src="images/gamedevjs26/13.png">
+
+
+ 
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 9:<br>- 33 hours of work<br>- 2245 lines of code<br>- 110 levels<br>- another new mechanic added<br>- lots of debug<br>- improved level editor<br>- added an improvement proposed by a playtester on Slack: keep placing gears of the same size as long as the inventory allows it: <a href="https://t.co/i7DY7NBNnt">pic.twitter.com/i7DY7NBNnt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2047410580781158465?ref_src=twsrc%5Etfw">April 23, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p><b>Day 11</b>
+<p>Less than 3 days left, so I spent 5 hours on day 11 and 8 hours on day 12 to put my game in a satisfying state.
+<p>On day 11, I only added 10 levels, and spent the rest of the time "implementing" a mobile mode.
+<p>What I actually did was copy-pasting 482 lines of code from mouse.js (the mouse controls) into a new file (touch.js), and:
+<br>- Do all the "click in inventory" actions on touch start.
+<br>- Do all the "mouse move" actions on touch move.
+<br>- Do all the "click to place cog" actions on touch end.
+<br>... effectively making a drag & drop experience on mobile, very close to the original game (while on PC it's just clicks and mouse moves).
+
+<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 10:<br>- 38 hours of work<br>- 2689 lines of code (91kb)<br>- 120 levels done (the goal is 150)<br>- mobile support added!<br>- 48 hours left for the final levels, tests, debug, adjustments, music, sound and challenges... tough! <a href="https://t.co/3YxmkvI6kW">pic.twitter.com/3YxmkvI6kW</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2047613166075486346?ref_src=twsrc%5Etfw">April 24, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<p><b>Day 12</b>
+<p>Biggest day of the jam with the last 30 levels created (but not tested), but also proper implementation of the cogs rotations and jam detection, all performed by those few lines of code executed at each frame (physics.js):
+
+
+<pre class=lang-js><code>// reset collisions and rotations
+for(i in cogs){
+  cogs[i].neighbours = [];
+  if(cogs[i].color == "grey"){
+    cogs[i].grounded = 0;
+  }
+  if(cogs[i].color == "orange"){
+    cogs[i].grounded = 0;
+  }
+  if(cogs[i].color != "yellow"){
+    cogs[i].rotation = 0;
+  }
+  cogs[i].blocked = 0;
+}
+
+// do n iterations (n = number of cogs)
 for(k in cogs){
   
-  // for all cogs (so this is O(n²)... whatever)
+  // for all cogs (yeah this is O(n²)... but it's ok)
   for(i in cogs){
     
     // except yellow
@@ -320,49 +369,83 @@ for(i of cogs[0].neighbours){
 </code></pre>
 
 <style>
-pre, pre * { font-size: 10px !important; line-height: 12px !important }
+pre, pre * { font-size: 12px !important; line-height: 12px !important }
 </style>
 
-<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 8:<br>- 28 hours of work<br>- 1973 lines of code<br>- 90 playable levels<br>- added a level selection screen<br>- added a new mechanic<br>- rewrote the undo-redo system that was buggy<br>- rewrote the gears logic to avoid this bug (blue wheels must NOT rotate when not linked to yellow) <a href="https://t.co/1IIueslDhJ">pic.twitter.com/1IIueslDhJ</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2046832189979918701?ref_src=twsrc%5Etfw">April 22, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<p>In the rendering code (render.js), I also added the "cog-blocked" shaking animation for all the cogs involved in the jam.
 
-<p><b>Day 10</b>
-<p>I'm focused on finishing the original game (which is buggy, remember), and implementing every level.
-<p>The thing is, the more I progress, the more I keep discovering new mechanics, which I need to spend a lot of extra hours implementing, debugging, plus of course the need to make my level editor handle them. The last new mechanic appears on level 100!
-<p><img src="images/gamedevjs26/11.png">
+<p>That's where my playtesters made me realize that the game was unplayable on Safari Mobile. So instead of polishing the last levels, I decided to spend my last free hours BLINDLY debugging Safari Mobile, as I don't have an iPhone or iPad myself. (I made some edits, then asked my friends "and now??? 🥺"... repeatedly). You know what? Since I stopped my Web Dev job in 2022, I had forgot how much I <b>hate</b> supporting Safari. This jam reminded me that it truly is the new IE6.
 
-<p>And of course, I also have to update my level editor to handle all the new features. Here's how the final editor looks, and all the things it is able to produce.
+<p>The main issue was quite simple to understand, but still quite long to fix properly: on Safari Mobile, the ontouchstart, ontouchmove and ontouchend events must originate from the canvas, they can't be global like in every other browser. Goddammit.
 
-<p><img src="images/gamedevjs26/12.png" width=330>
+<p>There's also the usual mobile optimizations, not specific to Safari: disable tap highlight (in CSS), disable long click (in JS), and make the page unzoomable and pinnable to your main screen (in HTML meta tags).
 
-<p>All the original Geared levels can be remade using all these little buttons, except the ones that contained a tiny yellow cog. For these levels, and these levels only, I modified them so that they could work with a big yellow cog (allowing both big and small yellow cogs would have been too complicated and I didn't have enough time, so a choice was made to ignore them).
+<p>What I didn't do is attempt to make the level editor work on mobile. Instead, when you tap on "editor", this appears:
 
-<p>Here's an example of level (#86) which contained a mini yellow cog, and how I modified it: bigger yellow cog at the bottom, blue cog at the center, but the idea and the puzzle solution stay the same!
+<p><img src="images/gamedevjs26/14.png">
 
-<p><img src="images/gamedevjs26/13.png">
+<p>Final touches:
+<p>- I made the level sharing feature work through an URL instead of just showing a JSON chunk.
 
+<p>- No time to include sound effects or create a music myself, so I just added a nice public domain LoFi music mp3 playing in loop (I've been told it goes super well with the game).
 
- 
-<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 9:<br>- 33 hours of work<br>- 2245 lines of code<br>- 110 levels<br>- another new mechanic added<br>- lots of debug<br>- improved level editor<br>- added an improvement proposed by a playtester on Slack: keep placing gears of the same size as long as the inventory allows it: <a href="https://t.co/i7DY7NBNnt">pic.twitter.com/i7DY7NBNnt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2047410580781158465?ref_src=twsrc%5Etfw">April 23, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<p>- I added basic WaveDash and ETH features on the evening (the Gamedevjs challenges), and included a final "otherlevels.js" pointing directly to my Github repo.
 
-<p><b>Day 11</b>
-<p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 10:<br>- 38 hours of work<br>- 2689 lines of code (91kb)<br>- 120 levels done (the goal is 150)<br>- mobile support added!<br>- 48 hours left for the final levels, tests, debug, adjustments, music, sound and challenges... tough! <a href="https://t.co/3YxmkvI6kW">pic.twitter.com/3YxmkvI6kW</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2047613166075486346?ref_src=twsrc%5Etfw">April 24, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+<pre class=lang-html><code>&lt;audio src=music.mp3 id=music volume="0.2" autoplay loop hidden>&lt;/audio>
+&lt;script src=globals.js>&lt;/script>
+&lt;script src=helpers.js>&lt;/script>
+&lt;script src=render.js>&lt;/script>
+&lt;script src=click.js>&lt;/script>
+&lt;script src=mouse.js>&lt;/script>
+&lt;script src=editor.js>&lt;/script>
+&lt;script src=physics.js>&lt;/script>
+&lt;script src=levels.js>&lt;/script>
+&lt;script src=touch.js>&lt;/script>
+&lt;script src=//xem.github.io/gamedevjs26/otherlevels.js>&lt;/script></code></pre>
 
-<p><b>Day 12</b>
+<p>HEHEHE! 😈 This file will allow me to push hotfixes to my levels after the end of the jam, bypassing the itch.io upload embargo taking place during the votes.
+
+<p>I finally uploaded and submitted my entry late on day 12, because itch.io was very unstable (and I didn't want to lose the chance to upload it on day 13 if itch was down.
+
+<p>...but if I had any fixes to do in the meantime, I could still include them in my otherlevels.js. HEHEHE 😈...)
+
 <p><blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 11 update:<br>jam detection was completely rewrote and works correctly now! 🙌 <a href="https://t.co/lDcuskHLGg">pic.twitter.com/lDcuskHLGg</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2048024264532480481?ref_src=twsrc%5Etfw">April 25, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <p><b>Day 13</b>
+
+<p>On day 13, I announced my two entries to the world, and peacefully worked on adjusting/fixing/completing my levels through otherlevels.js (HEHEHE 😈). 
+
+<p>Having this hotfix channel was super useful: after the release, my playtesters found some levels that were too hard, and other levels that could be completed with less cogs than intended, so I was able to adjust them one way or another.
+ 
 <p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 12:<br><br>- ⚙️ COGS was released on Itch and Wavedash (with achievements) after 50+ hours of work. <a href="https://t.co/w7uzRFmgMn">https://t.co/w7uzRFmgMn</a><br><br>- ✍️ WORD GAMES: my bonus entry developed in 1 day (French &amp; English).<a href="https://t.co/dWxaBizok7">https://t.co/dWxaBizok7</a><br><br>Thanks to the playtesters! (and screw you Safari) <a href="https://t.co/kSWfIdCqwd">pic.twitter.com/kSWfIdCqwd</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2048273020309970987?ref_src=twsrc%5Etfw">April 26, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<br><br>
+<p><b>Features present in the original game that I never attempted to implement because I didn't have the time, but I have no regrets doing so:</b>
+<p>- Being able to move grey cogs that are already placed in the scene (instead, I made them go back to the inventory when they are clicked or tapped).
+<p>- Make the cogs intertwining perfectly (I had actually no time and no idea how to implement that, so I just gave up). Sometime thay will intertwine, sometimes they will overlap, that's just random (except in the title screen, where I adjusted the 3 moving cogs offsets manually).
+<br><br>
+<p><b>My Geared screenshots:</b>
+
+<p>(Click to enlarge)
+
+<p><a href="images/gamedevjs26/all.jpg"><img src="images/gamedevjs26/all.jpg"></a>
+<br><br>
+<p><b>Walkthrough video of my entry:</b>
+
+<p>Coming soon...
 
 <br><br><hr><br>
 
 <h2>Feedbacks</h2>
+
+<p>Coming soon...
 
 <br><br><hr><br>
 
 <h2>Results</h2>
 <p>
 
-Coming soon!
+I said Coming soon!
 
 </div>
 
