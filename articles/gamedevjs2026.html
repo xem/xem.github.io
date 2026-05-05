@@ -125,7 +125,7 @@ subcheckboggle = (word, index, grid) => {
 <p>- My two favourite oldies are probably <a href="https://www.youtube.com/watch?v=pTbSMKGQ_rU">The Incredible Machine</a> (MS-DOS, 1993) and <a href="https://www.youtube.com/watch?v=mXmqJZ1bu68">Geared</a> (iOS, 2009).
 <p>- The former, "TIM" is officially an <a href="https://www.myabandonware.com/game/the-incredible-machine-1mg">abandonware</a>, but would be incredibly tricky to reimplement in 13 days, even though I developed <a href="https://xem.github.io/2Dphysics/">a new 2D physics engine</a> last year that could be partly used to make it. Plus, the author of the original game made <a href="https://store.steampowered.com/app/241240/Contraption_Maker/">Contraption Maker</a> (Steam, 2016), which is a great way to replay these old levels, as well as new ones, in the modern era.
 <p>- The latter, "Geared" is much more of a lost media: some images and videos can be found, of course, but it's not downloadable nor playable on mobile or tablets since around 2011. The <a href="https://store.steampowered.com/app/341770/Geared/?l=french&curator_clanid=41972533">Steam "remake"</a> (2015) has completely different mechanics and just doesn't convey the experience of the original. Its sequel, <a href="https://www.youtube.com/watch?v=U11iQEPcyNo">Geared 2</a> (iOS, 2010) had a lot of interesting ideas but is also unavailable today.
-<p>- Making a game inspired by Geared 1 seems to be the most viable option in 13 days (even though it will require a lot of work), so let's try to do that! Actually, let's make something close to a full remake, but with my "xem touch".
+<p>- Making a game inspired by Geared 1 seems to be the most viable option in 13 days (even though it will require a lot of work), so let's try to do that! Actually, let's make something close to a full remake, but with my "Xem touch".
 
 <p><b>Day 1</b>
 
@@ -226,7 +226,7 @@ div.twitter-tweet-rendered {
 
 <p><b>Day 6</b>
 <p>A couple of extra hours to polish the editor, game engine and navigation...
-<p>In the background of the video below, you can hear some LoFi music I've been listening to while coding. I've been told if went well with the game...
+<p>In the background of the video below, you can hear some LoFi music I've been listening to while coding. I've been told it went well with the game...
 
 <p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 6:<br>- 14h<br>- 1156 lines of code<br>- Debugged and improved the editor and the gameplay as much as possible (for now)...<br><br>That leaves me 7 days to implement all the levels! <a href="https://t.co/hSpzaooX2l">pic.twitter.com/hSpzaooX2l</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2045775031406330199?ref_src=twsrc%5Etfw">April 19, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -275,7 +275,11 @@ div.twitter-tweet-rendered {
 
 <p><img src="images/gamedevjs26/13.png">
 
+<p>However, some levels clearly had a problem (solvable with less cogs than expected and/or containing useless no-drop zones), in that case I allowed myself to redesign them a little. For example, in level #40:
 
+<p><img src="images/gamedevjs26/13b.png">
+
+<p>Thanks Séverine for helping me find this issue!
  
 <p><blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/gamedevjs?src=hash&amp;ref_src=twsrc%5Etfw">#gamedevjs</a> day 9:<br>- 33 hours of work<br>- 2245 lines of code<br>- 110 levels<br>- another new mechanic added<br>- lots of debug<br>- improved level editor<br>- added an improvement proposed by a playtester on Slack: keep placing gears of the same size as long as the inventory allows it: <a href="https://t.co/i7DY7NBNnt">pic.twitter.com/i7DY7NBNnt</a></p>&mdash; xem 🔵‏ (@MaximeEuziere) <a href="https://twitter.com/MaximeEuziere/status/2047410580781158465?ref_src=twsrc%5Etfw">April 23, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -422,13 +426,67 @@ pre, pre * { font-size: 12px !important; line-height: 12px !important }
 <br><br>
 <p><b>Features present in the original game that I never attempted to implement because I didn't have the time, but I have no regrets doing so:</b>
 <p>- Being able to move grey cogs that are already placed in the scene (instead, I made them go back to the inventory when they are clicked or tapped).
-<p>- Make the cogs intertwining perfectly (I had actually no time and no idea how to implement that, so I just gave up). Sometime thay will intertwine, sometimes they will overlap, that's just random (except in the title screen, where I adjusted the 3 moving cogs offsets manually).
+<p>- Make the cogs intertwining perfectly (I had actually no time and no idea how to implement that, so I just gave up without even trying). Sometime they will intertwine, sometimes they will overlap, that's just random (except in the title screen, where I could adjust the 3 moving cogs offsets manually).
 <br><br>
 <p><b>My Geared screenshots:</b>
 
 <p>(Click to enlarge)
 
 <p><a href="images/gamedevjs26/all.jpg"><img src="images/gamedevjs26/all.jpg"></a>
+<br><br>
+<p><b>The Xem touch:</b>
+<p>I talked about the "Xem touch" earlier, how did I include it in my entry? With the little jokes of course!
+<p>- There's "COG-BLOCKED" appearing in case of jam (except after level 94 where jams are actually part of the game)
+<p>- But there's also a list of 40 success messages starting with "COG" that I invented after looking for synonyms of "WIN" "EUREKA" or "CONGRATS". Surprisingly, players loved them, some of them even told me that they kept playing to see what the next cog-pun would be!
+
+<p>The 40 messages are:
+
+<p><details><summary>SPOILERS</summary>
+<br>- COG-RATULATIONS!
+<br>- COG-TASTIC!
+<br>- COG-BELIEVABLE!
+<br>- COG-SMICAL!
+<br>- COG-PLIMENTS!
+<br>- COG-CELLENT!
+<br>- COG-PRESSIVE!
+<br>- COG-STANDING!
+<br>- COG-MAZING!
+<br>- COG-WESOME!
+<br>- COG-BULOUS!
+<br>- COG-STONISHING!
+<br>- COG-STACULAR!
+<br>- COG-TRAORDINARY!
+<br>- COG-BLOWING!
+<br>- COG-DERFUL!
+<br>- COG-REKA!
+<br>- COG-RIFIC!
+<br>- COG-CEPTIONAL!
+<br>- COG-ENDARY!
+<br>- COG-PIC WIN!
+<br>- COG-TORY!
+<br>- COG-FECTION!
+<br>- COG-DROPPING!
+<br>- COG-MARKABLE!
+<br>- COG-NIFICENT!
+<br>- COG-LORIOUS!
+<br>- COG-LOSSAL!
+<br>- COG-RAZY!
+<br>- COG-SMIC!
+<br>- COG-WILDERING!
+<br>- COG-PREME!
+<br>- COG-CREDIBLE!
+<br>- COG-DING OVATION!
+<br>- COG-MINATION!
+<br>- COG-IGANTIC!
+<br>- COG-RAVO!
+<br>- COG-PLENDID!
+<br>- COG-OTCHA!
+<br>- COG-NUMENTAL!
+</details>
+
+<p>But I also include in my "Xem touch" the redesigns and all the little fixes I added in my version (menus, assets, levels, music...).
+<p>Even if it's a remake and hommage to "Geared", now it's a bit mine too!
+
 <br><br>
 <p><b>Walkthrough video of my entry:</b>
 
@@ -472,10 +530,26 @@ pre, pre * { font-size: 12px !important; line-height: 12px !important }
 
 <br>- Machine disco <a href="https://itch.io/jam/gamedevjs-2026/rate/4476147">play</a>
 
+<br>- We are not machines <a href="https://itch.io/jam/gamedevjs-2026/rate/4513540">play</a>
+
+<br>- Platformachine <a href="https://itch.io/jam/gamedevjs-2026/rate/4515341">play</a>
+
+<br>- Bauhaus Builder <a href="https://itch.io/jam/gamedevjs-2026/rate/4484698">play</a>
+
 <br>- im just a silly little insect but luckily my body reacts to the drum machine so I can move <a href="https://itch.io/jam/gamedevjs-2026/rate/4479805">play</a>
 
-<p>to be continued...
+<br><br><hr><br>
 
+<h2>Boomer AI rant</h2>
+
+<p>I remarked that, for the first time this year, many other devs proudly admitted to have let AIs design and code their entry, almost entirely.
+<p>It's not forbidden, of course, but it makes me wonder... where's the fun in entering a game jam if it's just to write a couple prompts watch ChatGPT and Claude do the rest ?
+
+<p>And dare I say that 99% of AI entries kinda look and feel pretty much the same? In the gameplay, but also and before all in the games thumbnails. Ew. I will always rate a game much better if I don't see an AI-looking thumbnail or gameplay when I play it, even if it looks less polished... with a few exceptions though! (I hate when a game only features little colored circles and squares moving over a black background. For me that's level 0 of game design and I give them the minimum possible score in innovation, gameplay and graphics).
+
+<p>I do find AIs super useful though! I even prefer them to Google and StackOverflow to document a JS feature for me or help me debug a function. But I still want to make my games by hand... and enjoy doing so, even if I couldn't make a 3D MMORPG / Battle Royale / Minecraft / whatever in 13 days by myself, at least I can make something that I'm proud of, using my hands and my brain.
+
+<p>Oh and for the frameworks (Unity, Godot, Gdevelop...) used in most entries, I'm totally okay with that... (as long as they remain too big for js13k)
 
 <br><br><hr><br>
 
@@ -486,7 +560,12 @@ pre, pre * { font-size: 12px !important; line-height: 12px !important }
 <br><br><hr><br>
 
 <h2>Results</h2>
-<p>
+
+<p>Coming soon...
+
+<br><br><hr><br>
+
+<h2>Conclusion</h2>
 
 I said Coming soon!
 
