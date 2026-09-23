@@ -7,7 +7,7 @@
 <title>Maxime Euzière</title>
 <base target=_blank>
 </head>
-<body>
+<body class=large>
 
 <style>
 .twitter-tweet { margin: 30px 0 !important; border: 3px solid #ccc; border-radius: 30px; overflow: hidden; transform: scale(.95)}
@@ -24,99 +24,105 @@ ul { padding-left: 15px }
 
 <div class=section>
 
-<h2>JS13k 2026: </h2>
+<h2>JS13k 2026: Unicorny and WORD5</h2>
 <br><h3>August-September 2026</h3>
-
-
-<!--
-<p><img src="images/js13k26/banner.png">
-
 <br>
+<br>
+<img src=images/js13k26/banner.png style="width:100%">
+<br>
+<br>
+<hr>
+<br>
+
 <p><h3>TL;DR</h3>
 <ul>
-<li>Hi! My game is playable <a href="">HERE</a>
-<li>Source code is available <a href="https://github.com/xem/js13k26">HERE</a>
-<li>It was ranked ...
-<li>You can see a playthrough video here (spoilers!):
-<br><br>
+<li>Unicorny is playable <a href="https://js13kgames.com/2026/games/unicorny-and-the-mystery-of-the-amazing-rainbow-crayons">HERE</a>
+<li>Source code is available <a href="https://github.com/xem/js13k26-rainbows">HERE</a>
+<li>It was ranked ...th / 313 (ranking coming soon)
+</ul>
+<br>
+<ul>
+<li>WORD5 is playable <a href="https://js13kgames.com/2026/games/word5">HERE</a>
+<li>Source code is available <a href="https://github.com/xem/js13k26-words">HERE</a>
+<li>It was ranked ...th / 313 (ranking coming soon)
 </ul>
 
-
-
-<br><hr>
-<p>...TODO...
-<br><hr>
-<p><h3>Before the jam</h3>
-
----
-<p><b>Let's prepare for a future word game! (October 2024)</b>
-
-<p>At the end of JS13k 2025, I remembered that Senokay, the author of <a href="https://lifthrasiir.github.io/roadroller/">RoadRoller</a>, had made a 1kb typing game ("epyt") containing 1,903 english words, thanks to the magic of WOFF2's Brotli dictionnary (you can play the game and read the explanations <a href="https://js1024.fun/demos/2022/18/readme">HERE</a>), and it made me wonder if I could use that to make a word game for JS13K. Imagine a 13kb game containing a huge english dictionnary!
-<p>By chance, Senokay released a standalone script that compresses any JS file into a self-extracting WOFF2 file in HTML form. And it's compatible with Firefox! (epyt is not playable on modern versions of Firefox). His script is available <a href="https://gist.github.com/lifthrasiir/1c7f9c5a421ad39c1af19a9c4f060743">HERE</a> and I made a more complete package with all the necessary data and instructions <a href="https://github.com/xem/woff2">HERE</a>.
-
-<p>My next step was to think about which words exactly I would like to put in a 13kb game. Indeed, I quickly realized that the whole english or french dictionnary (300k+ words each) could never fit in an entry, even with the WOFF2 compressor. So I took some time to search relevant lists of words, and settled with three corpus for each language: the "10k most used words", the "official Scrabble words", and the biggest list of words I could find online. Then, I started making little compression tests on my PC. The results were quite promising, so I rolled up my sleeves and made a complete tool that generates lists of words in french and english with tons of interesting options (choose the number of letters, order words by size or alphabetically, normalize the special chars, remove compound words or words with repeated letters, txt or json output, etc): I called it <a href="https://xem.github.io/words">WORDS</a>!
-
-<p><img src="images/js13k26/words.png" width=400>
-
-<p><b>With this tool in hand, I could make much more tests and here's what I found:</b>
-<br>1) Compressing a long list of words (for a project bigger than 1kb) is actually much more efficient with Roadroller than with WOFF2.
-<br>2) The compression is much more efficient if we order the words alphabetially than if we order them by length first.
-<br>3) For some reason, the compression rate is also much better if the list is in JSON instead of TXT (i.e. with the double quotes around the words).
 <br>
-<p><b>So with my JSON and RoadRoller in hand, I could made the tests I wanted and here are my conclusions:</b>
-<br>- We can compress ALL the french and english 5-letter Scrabble words together (17,541 words, 140kb) in 15.3kb (too big for js13k). <a href="files/js13k26/1.html">DEMO</a>.
-<br>- We can compress french + english 5-letter Scrabble words without repeated letters (11,074 words, 88kb) in 10.5kb (ok for js13k!). <a href="files/js13k26/2.html">DEMO</a>.
-<br>- We can compress ALL the english 1- to 5-letter Scrabble words (14,915 words, 112kb) in 12.8kb (ok for js13k!). <a href="files/js13k26/3.html">DEMO</a>.
-<br>- We can compress all the french 1- to 5-letter Scrabble words (11444 words, 87.3kb) in 9.8kb (ok for js13k!). <a href="files/js13k26/4.html">DEMO</a>.
-<br>- We can compress all 3-10 letters english words that are both in top 10k and in the Scrabble (8,229 words, 79kb) in 12.8kb. <a href="files/js13k26/5.html">DEMO</a>.
-<br>- As soon as we try to include 6 (or more) letter words, the size explodes, so they are sadly disqualified for a js13k word game.
-<br>For example, the 16,706 6-letter english Scrabble words alone weigh 150kb and compress in 21kb.
-<br>- The 10k most used english words (95kb) compress in 19.7kb. (or 25kb/4.9kb for the 1-5 letter words only) 
-<br>- The 10k most used french words (without the compound words, 85kb) compress in 16kb. (or 12kb/3kb for the 1-5 letter words only) 
-<br>- RoadRoller is kinda unpredictable: for example, compressing the french 1-5 letter words THEN the english 1-5 letter words without reloading the page in between, makes the english words compress better (about 300 bytes less, which is not negligeable when zipped!)
-<!--<br>- However, this remark is for the Web version of RoadRoller.
-<br>The CLI version can be used in "infinite mode" and produce outputs increasingly smaller.
-<br>The command line looks like this: <mark style="background:#def;padding:4px;font:12px bold courrier,monospace">node cli.mjs -t text -a write -M 1024 -D -S 9999 -OO raw.js -o raw.min.js</mark>.
-<br>For example, the 1-5 letters english Scrabble words compress in ... kb after letting the CLI run for 24 hours. <a href="files/js13k26/5.html">DEMO</a>.
----
+<hr>
+<br>
 
-<p>Anyway, you can remark that in each test involving 1 to 5 letter words, amazingly, <b>each word gets compressed in under one byte</b> in average. RoadRoller and Zip are truly magical!
+<p><h3>Before the jam</h3>
+<br>
+<img src=images/js13k26/before.png style="width:100%">
 
-<p>But that's not all! I tried to save some bytes by not repeating the prefixes of consecutive words. I even <a href="https://xem.github.io/MiniPrefixRemover/">created a tool for that</a>. When I first tried it on an array of 5-letter words, the output after compression was BIGGER than if I hadn't used it. So I thiught it was not useful compared to RoadRoller and Zip alone.
-<p>However, I tried to use it on words of different lengths, then I separated the consecutive words with a character that represents the different of lengths between the words, and finally I concatenated everything into a string. In that case, it does actually saved a lot of space! For example, the 3-10 letter english words present in the top 10k and in the Scrabble dictionnary (8,229 words, 79kb) now take 11.8kb. And if I put every word present in the two dictionnaries (8,332 words, 2 to 15 letters long, 82kb), it now fits into 11.2kb! <a href="files/js13k26/6.html">DEMO</a> 
+<p><b>Since JS13k25, I kept pretty busy!</b>
+<ul>
+<li>I improved my online JS13k packer <b>js13k-pack</b> (<a href="https://github.com/xem/js13k-pack">Github</a> - <a href="https://xem.github.io/js13k-pack/">Website</a>)
+<li>I created a repo dedicated to state-of-the-art <b>WOFF2</b> compression - all credit goes to Senokay (<a href="https://github.com/xem/woff2">Github</a>)
+<li>I created a repo for my collection of 18k+ internet <b>memes</b> gathered since 2011 (<a href="https://github.com/xem/memes/#readme">Github</a>)
+<li>I open-sourced my micro <b>Gamepad API wrapper</b> for JS games (<a href="https://github.com/xem/miniGamepad">Github</a> - <a href="https://xem.github.io/miniGamepad/">Demo</a>)
+<li>I started coding a <b>2D physics engine</b> only based on the collision of black pixels on a canvas... (<a href="https://github.com/xem/pixelphysics/tree/gh-pages">Github</a> - <a href="https://xem.github.io/pixelphysics/">Demo</a>)
+<li>I open-sourced the list of smallest words useable in <b>Scribblenauts DS</b>, that I used in a low-char speedrun a few years ago (<a href="https://github.com/xem/SuperScribblenauts-golf">Github</a> - <a href="https://www.youtube.com/playlist?list=PLVShKZ0g60HI">Videos</a>)
+<li> I updated my <b>mini Unicode slideshows</b> to account for Unicode 17.0... (<a href="https://github.com/xem/miniUnicode">Github</a>)
+<li>... and created <b>UnicodeSlideshow</b>, the same thing but non-golfed, with fonts, and aimed at video production (<a href="https://github.com/xem/UnicodeSlideshow">Github</a> - <a href="https://xem.github.io/UnicodeSlideshow/unicode.html">Demo</a> - <a href="https://www.youtube.com/watch?v=W0XNL5NAhl0">Video</a>)
+<li>I created <b>js13k-zip</b>, a JS13k tool that simply creates an optimal zip file from a textarea (<a href="https://github.com/xem/js13k-zip">Github</a> - <a href="https://xem.github.io/js13k-zip/">Website</a>)
+<li>I vibecoded <b>esrever</b>, a little toy in French that lets you record sounds, reverse and share them on mobile (<a href="https://github.com/xem/esrever">Github</a> - <a href="https://xem.github.io/esrever/">Website</a>)
+<li>I read a new AI book about 2D physics, and used it to write a blog post and a new <b>micro 2D JS physcs engine</b> under 2kb! (<a href="https://github.com/xem/2Dphysics">Github</a> - <a href="https://xem.github.io/articles/2D-physics.html">Article</a> - <a href="https://xem.github.io/2Dphysics/index.html">Website</a>)
+<li>I vibe-coded <b>VP9toMP4</b> to make videos compressed by Google Photos useable on all video editors (<a href="https://github.com/xem/VP9toMP4">Github</a>)
+<li>I vibe-coded <b>H265compressor</b> to (re)compress all the videos in a folder in H.265 (<a href="https://github.com/xem/H265compressor">Github</a>)
+<li>I vibe-coded a script to <b>download your liked Instagram stories</b>, generate thumbnails and view them offline (<a href="https://github.com/xem/InstaDownload">Github</a>)
+<li>I added a "scale" option in my <b>Mini SVG Creator</b> tool because tiny SVGs tend to be blurry on Firefox with CSS3D (<a href="https://github.com/xem/miniSVGcreator">Github</a> - <a href="https://xem.github.io/miniSVGcreator/">Website</a>)
+<li>I created a repo to host the best and most compatible <b>emoji fonts</b>... while they're allowed in JS13K (<a href="https://github.com/xem/ttf">Github</a>)
+<li>I added 200+ AI sounds and CSS to my <b>Mini Sound Editor</b> (<a href="https://github.com/xem/MiniSoundEditor">Github</a> - <a href="https://xem.github.io/MiniSoundEditor/">Website</a>)
+<li>I published <b>Cogs</b>, a 12-day, 120-level puzzle-game inspired by Geared for GamedevJS 2026 (<a href="https://github.com/xem/gamedevjs26">Github</a> - <a href="https://github.com/xem/gamedevjs26">play</a>)
+<li>And my <b>WebGL library</b> W received great fixes from contributors ! (<a href="https://github.com/xem/W">Github</a> - <a href="https://xem.github.io/W">Website</a>)
+</ul>
 
-<p>The compressed words look like this: <mark style="background:#def;padding:4px;font:12px bold courrier,monospace">abandoned2ilities5ty2le2original4tion3ut3ve...</mark>
-<br>Which correspond to this after a little decompression: <mark style="background:#def;padding:4px;font:12px bold courrier,monospace">abandoned, abilities, ability, able, aboriginal, abortion, about, above...</mark>
-<p>And I added a tool for that <a href="https://xem.github.io/MiniPrefixRemover/any.html">here</a>:
+<p><b>I've been quite passionate, but my biggest special interest by far this year has been... <strong style="font-size:1.2em">WORDS</strong> !</b>
 
-<p>So, after all this progress, I think I will probably make a 13kb word game in the future. And maybe add a french version, in a sparate entry. Even if the dictionnary uses 95%+ of the entry, the remaining space should be enough to implement my little word games. After all, I already code-golfed <a href="https://xem.github.io/MiniWordle/">a Mini Wordle in 214 bytes</a> and <a href="https://xem.github.io/spellingbee/index.html">a french spelling bee clone</a> in ~2kb.
+<br>
+<img src=images/js13k26/before2.png style="width:100%">
 
-<p>To be continued...</p>
+<p>More precisely, I wanted to gather good french and english dictionaries, see how small I could compress them, and eventually use it in JS games... which led to the creation of the following projects:
+<ul>
+<li> <b>Words</b> is a webpage displaying 3 different french and english dictionaries in many formats and with a lot of options (<a href="https://github.com/xem/words">Github</a> - <a href="https://xem.github.io/words/">Website</a>)
+<li> <b>MiniPrefixRemover</b> is a first attempt at compressing an array of words by removing repeated prefixes (<a href="https://github.com/xem/MiniPrefixRemover">Github</a> - <a href="https://xem.github.io/MiniPrefixRemover/">Website</a>)
+<li> <b>Boggle</b> is a Boggle grid generator and solver based on the "words" Scrabble dictionaries (<a href="https://github.com/xem/boggle">Github</a> - <a href="https://xem.github.io/boggle/">Website</a>)
+<li> <b>Word Games</b> is my bonus GamedevJS 2026 entry, coded in 24 hours! (<a href="https://github.com/xem/gamedevjs26-wordgames">Github</a> - <a href="https://xem.github.io/gamedevjs26-wordgames/">Website</a>)
+</ul>
+
+<p>And then, I spent the last 6 months brainstorming almost daily with ChatGPT (until it asked me to pay), then Claude (until it asked me to pay), then Gemini (who never asked me to pay), in one unique goal: find a way to compress a list of words as strongly as possible, in the wild hope to create the first js13kGames entry embedding a full english dictionary!
+
+<p>First, with "words", "MiniPrefixRemover" and "RoadRoller" in hand, I identified the best candidate for my (maybe future) "js13k dictionary":
+<p>Let's take all English Scrabble words, up to 5 letters long. That's 14,915 words, weighing 109kb in JSON format or 80kb in a comma-separated list.
+<p>Zipping the list leads to a 24kb zip file... or 14kb if we add a strong pass of RoadRoller. Super impressive, but still too big.
+<p>Now, let's try again with MiniPrefixRemover, then RoadRoller, then zip: we're now under 13kb (12,741b)! That's nice, but not enough to include a word game, or a collection of word games similar to my GamedevJS entry...
+<p>So the question is: how low can we go? And that's the topic of my long discussion with AI agents.
+<p>How long, you ask? Well, just to give you an idea, I copy-pasted all my exchanges in a Word document in font-size 12pt, and it exceeded 1500 pages.
+<p>Here's another way to see it: a video showing my 6-month conversation (in french) with 3 AIs:
+<p><iframe width="860" height="615" src="https://www.youtube.com/embed/iwtmv12_f7k?si=H-dVfPKUNhQZkTwA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<p>How I discussed with these AIs:
+
+<p>Every time I had a (more or less crazy) idea to compress my words, I explained that idea to the AI and asked it to code a little "HTML lab": a webpage that loads the dictionary, applies all the transformations I could think of, roadroll and zip the result, and verify if the encoded data is 1) decodable without ambiguity, and 2) smaller that our current record.
+
+<p>I'm pretty sure we covered virtually every possible approach for compressing this dictionary, from woff2 to to arithmetic encoding, with detours towards things called trie, RLE, SSE, ZSDT, DAWG, BWT, bigrams, trigrams, lexical pruning, column delta, and many others that I forgot.
+
+<p>The main thing that I retained from all these approaches is that they introduced entropy in my data, making it actually less RoadRoller-friendly and less Zip-friendly.
+
+<p>Since RoadRoller and Zip love low-entropy (repeated and/or easily predictable) data, the solution was to transform my dictionary juuuuust a little: nudging things here and there, introducing a few special characters to help eliminate plenty of redundant information, but never, never making the data less predictable by trying to be "clever". When I understood that, my seemingly "dumb" suggestions finally managed to reduce my zip's size!
+
+<p>Starting from MiniPrefixRemover, the 5 best compressor improvements that we made during this long brainstorming were saved in my <a href="https://github.com/xem/wordcompression">Wordcompression Github repo</a>.
+
+<p>It's important to note that the AIs were able to suggest well-known compression algorithms, but the "recipes" used in the end were 100% dictated by me. The AIs were just there to formalize my ideas, implement the HTML labs for me, and explain to me why some things worked and some other things didn't work.
+
+<p>And how about the dictionary size? Well, on july 27, I ended up reducing it under 11kb (11,266 bytes), thanks to the compressor called "omit2.html".
+
+<p>How does my best compressor reduce 14,915 words under 11kb?
 
 
-<br><br>
-
-<p><b>Let's prepare a 2D physics engine! (November 2024)</b>
-
-<p>To be continued...</p>
-
-
-<br><br><br><br>
-
-
-<p><h3>During the jam</h3>
-<p>...TODO...
-
-<br><br><br><br>
-
-
-<p><h3>Conclusion</h3>
-<p>...TODO...
-
-<br><br><br><br>
-
--->
-<p>Coming soon!
+<br>
+<p>WIP - Coming soon!
 
 <p><b>Xem</b>
 </main>

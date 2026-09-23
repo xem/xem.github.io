@@ -10,6 +10,7 @@ menus = {
   
   articles: {
     intro: "Intro",
+    js13k26: "JS13kGames 2026",
     gamedevjs2026: "GamedevJS 2026",
     js13k25: "JS13kGames 2025",
     gamedevjs2025: "GamedevJS 2025",
