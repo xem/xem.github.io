@@ -21,7 +21,7 @@ menus = {
     js13k22: "JS13kGames 2022", // todo: anya, grant
     gamedevjs2022: "GamedevJS 2022", // todo: github blog, grant?
     js13k21: "JS13kGames 2021", // todo: anya, grant
-    nes: "Golfing a NES emulator (WIP)",
+    nes: "Golfing a NES emulator",
     js13k20: "JS13kGames 2020",
     "2kplusjam2020": "2KPlus Jam 2020",
     obfuscatweet: "Obfusc-a-tweet reloaded",
