@@ -282,7 +282,7 @@ header = function(){
   `
     <div class=logo>
     <h2>XEM</h2>
-    <h3>game designer <span>&nbsp;&nbsp;&amp;&nbsp;&nbsp;</span> JS hacker</h3>
+    <h3>game designer &nbsp; &amp; &nbsp; JS hacker</h3>
     </div>
     <menu>
     <a href="${section == "home" ? "" : "../"}index.html" class="home${section == "home" ? " active" : ""}" target=_self>🏠</a>
