@@ -312,51 +312,47 @@ b0.onclick = () => {
 <p>It's already august 13th and the theme is... <b>Unicorns and rainbows</b> ?!
 <p>The <a href="https://js13kgames.com/2026/blog/competition-has-started">announcement post</a> directly cites a conversation End3r had with me as the inspiration for this year's theme!
 
-<p><img src="images/js13k26/1.png" width=400>
+<p><img src="images/js13k26/1.png" width=600>
 
 <p>What an honor! (and sorry for all the devs bothered by this theme, hehe 😈)
 
 <p>To celebrate this fun fact, I coded a little text / piano animation and posted it on X.
 
-<p><video controls src="images/js13k26/1.mp4" width=500></video>
-<p><img src="images/js13k26/2.png" width=500>
+<p><video controls src="images/js13k26/1.mp4" width=600></video>
+<p><img src="images/js13k26/2.png" width=600>
 
 <p>In the meantime, I brainstormed with my friends and my love, Sev, on that theme.
 
-<p>The very first idea that came to my mind was a kart game with unicorns on a rainbow road...
-<br>but that didnt seem original enough.
-<br>(Note from later: at least 15 other entries revolved around this idea, and most of them were much better than what I could have done myself, so no regrets!)
+<p>The very first idea that came to my mind was a <b>kart game</b> with unicorns on a rainbow road... but that didnt seem original enough.
+<br>(Note from later: at least 15 other entries revolved around this idea, and did it very vell, so no regrets!)
 
-<p>Our second idea was a game where the player has to revive a word that has lost all its colors.
+<p>Our second idea was a game where the player has to <b>revive a word that has lost all its colors</b>.
 <br>Kinda like what happens in the indie game <a href="https://en.wikipedia.org/wiki/Gris">GRIS</a>.
-<br>That idea was also going to be present in many entries this year, but I still decided to go for it, because there were more possibilities to create a truly unique experience.
-<br>Another thing that I knew is that I wanted to include a mechanic that I (surprisingly) haven't ever used in a JS13k entry: 2D scrolling.
+<br>That idea was also going to be in many entries this year, but I still decided to go for it, as it allowed to create a truly unique experience.
+<p>There's also one mechanic that I knew I wanted to include this year (for some reason, I never put it in a JS13k entry): <b>2D scrolling</b>.
 
-<p>The more I thought about this, the more I wanted to make a little cute game where the player has to draw things on screen using pens, or crayons, or markers.
-<br>Hm... Crayons would be cool, I think!
+<p>After thinking about it, I decided that I wanted to make a little cute game where the player has to <b>draw things on screen using crayons</b>.
 
-<p>My references on this domain are the games <a href="https://en.wikipedia.org/wiki/Crayon_Physics_Deluxe">Crayon Physics</a>, <a href="https://en.wikipedia.org/wiki/Max_%26_the_Magic_Marker">Max and the Magic Marker</a> and <a href="https://en.wikipedia.org/wiki/Drawn_to_Life">Drawn to Life</a> (but many others exist)
+<p>My references on this domain are the games <a href="https://en.wikipedia.org/wiki/Crayon_Physics_Deluxe">Crayon Physics Deluxe</a>, <a href="https://en.wikipedia.org/wiki/Max_%26_the_Magic_Marker">Max and the Magic Marker</a> and <a href="https://en.wikipedia.org/wiki/Drawn_to_Life">Drawn to Life</a> (but many others exist)
 
 <p>The game could take place on an unicorn's island, where 7 magic crayons have disappeared, and finding them could allow us to draw characters or objects that help us continue the adventure.
 
-<p>Here are the notes I took on my little notepad (no drawings or storyboard this time, just text...).
-<br>The final game isn't very far from it!
-<br>However, on day 1, my idea was way too ambitious...
-<br>In my head, the "drawing" phases were linked with platformer/puzzle sections.
+<p>Here are the notes I took on my little notepad (no drawings or storyboard this time, just text...). The final game isn't very far from it!
+<p><img src="images/js13k26/3.jpg" width=600>
+<br>However, on day 1, my idea was way too ambitious... In my head, the "drawing" phases were interleaved with platformer/puzzle sections.
 <br>In the final game, the drawings simply happen at the end of little cutscenes, making it a sort of interactive story (something I hadn't tried before either).
 
-<p><img src="images/js13k26/3.jpg" width=600>
 
 <p>And here's a concept art by Sev.
-<p><img src="images/js13k26/4.jpg" width=500>
+<p><img src="images/js13k26/4.jpg" width=600>
 
-<p>There's an idea I missed though: I didn't notice the resemblance between "Unicorn" and another passion of mine, "Unicode".
-<br>Very fun things could have been done using Unicode characters.
-<br>Fortunately, a couple of excellent entries implemented that idea during the jam, so all is not lost.
+<p>About the theme: there's an idea I missed: I didn't notice the resemblance between "Unicorn" and another passion of mine, "Unicode".
+<br>Very fun things could have been done using Unicode characters. Fortunately, some great entries implemented that idea, so all is not lost.
 
-<p><b>Days 3-9: title screen and intro</b>
+<p><b>Days 3 - 9: title screen and intro</b>
 
-<p>More and more certain that my game will contain lots of animations, and that I won't have the full month free for coding, I started with the title screen (a magic island made of CSS3D and emoji), and the real game's introduction sequence (where the magic crayons disappear from the island). The crayons are made in SVG. For simplicity, the unicorn will be made from emojis and SVG instead of letting the player draw it.
+<p>More and more certain that my game will contain lots of animations, and that I won't have the full month free for coding, I started with the title screen (a magic island made of CSS3D and emoji), and the game's introduction sequence (where the magic crayons disappear from the island).
+<br>The unicorn will finally be made from emojis and SVG instead of letting the player draw it.
 
 <p>Title screen progression:
 
@@ -375,27 +371,104 @@ b0.onclick = () => {
 <p><img src="images/js13k26/6.png" width=600>
 <br>
 <br>
+
+<p>Here's the code that generates the custom SVG crayons:
+<pre class=lang-js><code>crayon = (color = "#ffffff") => {
+  return '&lt;svg width="198" height="198" xmlns="http://www.w3.org/2000/svg">&lt;path d="M30 10L10 40L10 140A12 2 0 0 0 50 140L50 40Z" fill="' + color + '" stroke="#000000"/>&lt;path d="M10 40A12 2 0 0 0 50 40L38 22L22 22Z" fill="#f2952c" stroke="#000000"/>&lt;ellipse cx="25" cy="56" rx="2" ry="5" fill="#000000" stroke="#000000"/>&lt;ellipse cx="33" cy="56" rx="2" ry="5" fill="#000000" stroke="#000000"/>&lt;path d="M20 65Q30 72 37 65Q40 65 39 68Q29 75 21 69Q17 67 20 65" fill="#000000" stroke="#000000"/>&lt;/svg>';
+};</code></pre>
+
+<p>Demo:
+
+<p><div id=crayondemo style="width:130px;height:180px;display:inline-block;background:#fff;padding:10px 0 0 30px"></div>
+
+<br><input type=range mon=0 max=360 step=1 id=crayonrange> Hue
+
+<script>
+crayon = (color = "#ffffff") => {
+  return '<svg width="198" height="198" xmlns="http://www.w3.org/2000/svg">' +
+    '<path d="M30 10L10 40L10 140A12 2 0 0 0 50 140L50 40Z" fill="' + color + '" stroke="#000000"/>' +
+    '<path d="M10 40A12 2 0 0 0 50 40L38 22L22 22Z" fill="#f2952c" stroke="#000000"/><ellipse cx="25" cy="56" rx="2" ry="5" fill="#000000" stroke="#000000"/><ellipse cx="33" cy="56" rx="2" ry="5" fill="#000000" stroke="#000000"/><path d="M20 65Q30 72 37 65Q40 65 39 68Q29 75 21 69Q17 67 20 65" fill="#000000" stroke="#000000"/>' +
+    
+    //"M5 15Q15 22 22 15Q25 15 24 18Q14 25 6 19Q2 17 5 15"
+    '</svg>';
+};
+
+const hslToHex = (h,s,l) => {
+    h /= 360;
+    s /= 100;
+    l /= 100;
+    let r, g, b;
+    if (s === 0) {
+        r = g = b = l;
+    } else {
+        const hue2rgb = function (p, q, t) {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        };
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+    }
+    const toHex = function (x) {
+        const hex = Math.round(x * 255).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+    };
+    return '#' + toHex(r) + toHex(g) + toHex(b);
+};
+
+function hueToRgb(p, q, t) {
+  if (t < 0) t += 1;
+  if (t > 1) t -= 1;
+  if (t < 1/6) return p + (q - p) * 6 * t;
+  if (t < 1/2) return q;
+  if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+  return p;
+}
+
+crayonrange.onchange = crayonrange.oninput = () => {
+  hue = crayonrange.value;
+  crayondemo.innerHTML = crayon(hslToHex(hue, 50, 50));
+}
+
+crayondemo.innerHTML = crayon();
+
+</script>
+<br><br>
 <p>The intro is much darker than I had anticipated on days 1 and 2.
 <br>When I made it, I thought it would create an interesting contrast with the whimsical theme and title screen.
 <br>Some testers remarked the irony of the fire appearing under the rain, that was intentional.
 
-<p>Fun fact: We're only a few seconds in-game and my entry has already used 4 different rendering techniques (Emoji, CSS3D, SVG and 2D canvas).
-<br>CSS3D is used on the title screen, and stops being used when the fire starts (CSS is super useful for all the animations happening there).
-<br>From the dead tree, up to the end of the game, everything is rendered on a 2D canvas (on 4 canvases, actually: one for the background, one for the rain, one for the drawing board and one for the actual drawings), plus CSS gradients for the sky and god rays, and HTML buttons when necessary.
+<p>Fun fact: We're only a few seconds in-game and my entry has already used <b>4 different rendering techniques</b> (Emoji, CSS3D, SVG and 2D canvas).
+<br>CSS3D is used on the title screen and in the intro and stops being used after the fire starts.
+<br>From the dead tree apparition, up to the end of the game, everything is rendered on a 2D canvas (on 4 canvases actually: one for the scene, one for the rain, one for the drawing board and one for the actual drawings).
+<br>Besides these canvases, CSS gradients are used for the sky and the god rays, and HTML buttons and text are added when necessary.
 
-<br>After the title screen, my code was 12kb commented, and 2.6kb zipped.
-<br>After the intro, my code was 19.5kb, and 3.3kb zipped, including rain and thunder sound.
+<p>After making the title screen, my code was 12kb commented, and 2.6kb zipped.
+<br>After making the intro, my code was 19.5kb, and 3.3kb zipped, including rain and thunder sound.
 
-<p>When we arrive to the first drawing board (after the dead tree and sad unicorn face), the commented code is 23kb, and 4kb zipped.
-<p>The emoji webfont used in the final version is different from the games I made between 2017 and 2025: this year I found that Twemoji was too pixellized AND out-of-date.
-<br>On the other hand, Google's Noto Color Emoji supported vectorial emoji on all browsers and Unicode 17.0.
+<br>When we arrive to the first drawing board (after the dead tree and sad unicorn face), the commented code is 23kb, and 4kb zipped.
+
+<p>The <b>emoji webfont</b> used in the final version is different from the games I made between 2017 and 2025:
+<br>this year I found that Twemoji was too pixellized (Bitmap graphics) and out-of-date (Unicode 15).
+<br>On the other hand, Google's Noto Color Emoji supported vectorial (infinitely scalable) graphics on all browsers, and Unicode 17.0.
 <br>Switching to this font (and <a href="https://github.com/xem/ttf/">hosting it for easy reuse</a>) has been a great help for improving my entry's graphics.
-<p>Alas, this year has also been the scene for <i>The Great Emoji Font Drama</i>...
-<br>To summarize, in the Alkor and End3r started enforcing the js13k rule that says "webfont polyfills can be loaded with the authorization of the player", mid-jam.
-<p>All the devs who had started using Twemoji or Noto Color Emoji for free, as they did the years before, were suddenly seen as some kind of cheaters, and were asked to add a screen asking for the player's consent.
-<br>My entry, who loaded the Noto Color Emoji *AND* Comic Sans MS (which I both consider "webfont polyfills", as they're not natively present on every OS) was the most frowned upon, and I had to free a few hundred bytes, ask consent for the emoji font, remove the comic sans MS font entirely, all that that while being on holidays 1,400km from my home.
-<p><img src="images/js13k26/7.png" width=500>
-<br>That was really not fun. I wasn't trying to cheat anyone, just making the best possible experience for everyone.
+<p>Alas, this year has also been the scene for <b><i>The Great Emoji Font Drama</i></b>...
+<p>To summarize it, Alkor and End3r enforced a strict interpretation of the JS13k rule "webfont polyfills can be loaded with the authorization of the player", mid-jam.
+<p>All the devs who had started using emoji fonts, or regular fonts, for free, as they did the years before, were suddenly seen as some kind of cheaters, and were asked to add a screen asking for the player's consent. This provoked a long debate on Slack.
+
+<p>My entry, who loaded the Noto Color Emoji *AND* Comic Sans MS (which I both consider legitimate "webfont polyfills", as they're not natively present on every OS) was the most frowned upon. Sadly, I had to free a few hundred bytes to ask consent for the emoji font, and remove the comic sans MS font entirely, all that that while being on holidays 1,400km from my home.
+
+<p>So that's the reason why my game starts with this screen:
+
+<p><img src="images/js13k26/8.png" width=600>
+
+<p>That episode was really not fun, especially considering that I was only trying to make the best experience for everyone.
 <br>I hope the process for allowing emoji polyfills will be clearer and more dev-friendly before the 2027 edition.
 <br>IMO, the emoji font(s) should be served by js13kgames.com and useable for free in any entry.
 <br>Disclosing the use of such fonts could be simplified by checking a dedicated checkbox in the submission form, which would automatically write an "external font used" mention in the entry's page.
