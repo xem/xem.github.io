@@ -79,7 +79,7 @@ ul { padding-left: 15px }
 </ul>
 <br><hr><br>
 <p><h3>A devouring passion for words</h3>
-<p>I've been quite passionate this year, but my biggest special interest by far been <b>WORDS</b> !!!
+<p>I've been quite passionate this year, but my biggest special interest by far has been <b>WORDS</b> !!!
 
 <br>
 <br>
@@ -135,7 +135,7 @@ which led to the creation of the following projects:
 
 <p>I'm pretty sure we covered virtually <b>every possible compression approach</b> currently known on Earth, from arithmetic encoding to woff2 brotli embedding, with long detours towards tries, RLE, SSE, ZSDT, DAWG, BWT, bigrams, trigrams, lexical pruning, column delta, and many others...
 
-<p>The main thing that I learned from the vast majority of these approaches is that <b>they introduced entropy</b> in my data, making it actually less RoadRoller-friendly and less Zip-friendly. As a result, my zip's size grew instead of shrining. That's sad... But also very logical.
+<p>The main thing that I learned from the vast majority of these approaches is that <b>they introduced entropy</b> in my data, making it actually less RoadRoller-friendly and less Zip-friendly. As a result, my zip's size grew instead of shrinking. That's sad... But also very logical.
 
 <p>Since <b>RoadRoller and Zip LOVE low-entropy data</b> (data that is often repeated and/or easily predictable), the only viable solution was to transform my dictionary, but juuuuust a little:
 
@@ -349,7 +349,7 @@ b0.onclick = () => {
 <p>About the theme: there's an idea I missed: I didn't notice the resemblance between "Unicorn" and another passion of mine, "Unicode".
 <br>Very fun things could have been done using Unicode characters. Fortunately, some great entries implemented that idea, so all is not lost.
 
-<p><b>Days 3 - 9: title screen and intro</b>
+<p><b>Days 3-9: Title screen and intro</b>
 
 <p>More and more certain that my game will contain lots of animations, and that I won't have the full month free for coding, I started with the title screen (a magic island made of CSS3D and emoji), and the game's introduction sequence (where the magic crayons disappear from the island).
 <br>The unicorn will finally be made from emojis and SVG instead of letting the player draw it.
@@ -433,7 +433,7 @@ function hueToRgb(p, q, t) {
 
 crayonrange.onchange = crayonrange.oninput = () => {
   hue = crayonrange.value;
-  crayondemo.innerHTML = crayon(hslToHex(hue, 50, 50));
+  crayondemo.innerHTML = crayon(hslToHex(hue, 90, 50));
 }
 
 crayondemo.innerHTML = crayon();
@@ -472,10 +472,99 @@ crayondemo.innerHTML = crayon();
 <br>I hope the process for allowing emoji polyfills will be clearer and more dev-friendly before the 2027 edition.
 <br>IMO, the emoji font(s) should be served by js13kgames.com and useable for free in any entry.
 <br>Disclosing the use of such fonts could be simplified by checking a dedicated checkbox in the submission form, which would automatically write an "external font used" mention in the entry's page.
+<br><br>
+<p><b>Days 10-20: Cutscenes and drawings</b>
 
-<p><b>Days 10-20</b>
+<p>On day 10 (already 😱), it was clear in my head that the game would be made of 7 chapters, each chapter being comprised of a cutscene (where we discover a crayon), a drawing from the player, and a cutscene showing the effects of the drawing on the island.
+<br>Due to the lack of time and space available, the platform/puzzle phases are entirely abandoned.
+<br>The seventh chapter is a bit particular because at that point, we have recovered all the crayons and we can draw the final rainbow, leading to the end screen, showing a global view of the island that came back to life thanks to the drawings.
+<br>To release on time, the 21 "sequences" (3 per chapter) had to be finished in 10 days, without exploding the byte budget.
+<br>To avoid restarting the game from the beginning all the time during the development, I organised my code carefully and put 21 debug buttons at the bottom of the page, allowing me to jump to any part of the story instantly.
+<br>Each chapter took me about 1 day (in a very drafty version), and the last 3 days were used for polishing everything. Here's how it went:
 
-<p>...
+<p><a href="images/js13k26/9.png"><img src="images/js13k26/9.png" width=900></a>
+<!--br>And here are some crispy details for each chapter...-->
+<br>
+<br>
+<p><b>Chapter 1</b>:
+<p>As we saw earlier, the intro has rain on a dedicated canvas, a dead tree emoji, and Unicorny has custom emotions drawn in SVG.
+<br>The yellow crayon appears and asks us to draw "something yellow that chases the clouds"...
+<br>(wink wink! it's asking for the Sun - probably the most drawn thing in the world, so I thought it would be cool for a first drawing).
+<br>The drawing code itself is not very complex: when the mouse moves while the left mouse button is pressed, I save all the mouse positions in an array of arrays of arrays (an array of lists of coordinates), and when the mouse is released or exits the drawing board, a new list is created.
+<br>The drawing is then rendered by drawing each list as a separate path.
+<br>After the drawing section, the crayon draws the sun in the sky, everything becomes clearer and the god rays reappear.
+<p>The drawing board is drawn on a canvas, and the yellow crayon path is drawn on a transparent canvas, on top of the other.
+<br>This allows to "copy" the Sun with a transparent background and "paste" it in the sky during the chapter's conclusion.
+<br>(If everything was drawn on the same canvas, the pasted Sun would have had a dark background).
+<br>I asked ChatGPT to "vibe-fix" the "crayony effect" because my prototype version looked too much like a line made by a thick yellow marker.
+<br>Some other "quality of life" improvements added during the polishing phase include the default mouse cursor being hidden when we use the crayon, a progressive apparition of the "ok" button (to make sure the player has "drawn enough Sun" before clicking it, and text / visual hints directly rendered on the drawing board (in case the players forget what they're supposed to draw, or have no idea how to draw it).
+<br>The visual hints are all hand made, in SVG, using thick, dashed, grey lines.
+<p><img src="images/js13k26/10.png" width=900>
+
+<br>The erratic crayon animation while it draws the Sun in the sky is made with a bunch of <b>Math.random()</b> applied to its position at each frame:
+<br><pre class=lang-js><code>if(frame > 50 && frame &lt; 100){
+  ctx.drawImage(yellowCrayon, 300 + Math.random() * 15, -200 + Math.random() * 15);
+}</code></pre>
+<p>Actually, all the animations (crayons moving and drawing, characters moving, items appearing, world scrolling...) happening after the CSS3D intro are made using <b>if()</b>'s and <b>drawImage()</b>'s tailored according to the current <b>frame</b> variable:
+<p><video controls src="images/js13k26/2.mp4" width=500></video>
+
+<p>However, the sky clearing up when the Sun appears are animated with CSS (*), and the dialogs (made in HTML) are handled with <b>setTimeout</b>'s.
+<p><span style="font-size: 12px">(*) a little coding trick was necessary for the sky transitions: since CSS can't transition between two linear-gradients, I had to superpose a "good weather sky" and a "bad weather sky", and made the bad one's opacity reduce progressively at the right time)</span>
+
+<p>One last optimization was added during the polishing phase for the drawing board: since the "crayon segment" function is more complex than a simple <b>ctx.lineTo()</b>, as the drawing grew bigger, the browser slowed down progressively because it tried to redraw everything at each frame on the transparent canvas. I couldn't stop resetting the canvas at each frame because it contained the colored crayon that follows the mouse, so the solution I found was to print all the finished lines on the board canvas (whish is never refreshed), and only draw the current line on the transparent canvas. When we press "OK", all the old lines are copied on the transparent canvas and the drawing is copied for future use.
+
+
+<p>Size check at the end of chapter 1: 27.5kb commented, 6kb zipped.
+
+<p><b>Chapter 2:</b>
+<p>Here, the scene scrolls a little and we meet Froggy, who has a green crayon and asks for a patch of grass.
+<br>The frog's head is an emoji, but the frog body, not available as an emoji, was drawn in MiniSVGCreator.
+<br>It was first improvised, and at the end, I took inspiration on a "cute frog drawing" found on Google (redrawn in my style, not copied).
+
+<p><img src="images/js13k26/11.png" width=600>
+
+<p>When the grass drawing is done, the green crayon draws one patch of grass in front of the frog, then the ground turns green, and finally, 100 other patches are placed in random positions inside a 1400px x 250px area.
+<br>Since the ground is "rounded", it was a bit weird to have the grass scroll horizontally when the Unicorns starts walking again.
+<br>So I added them a sinusoidal vertical offset, to create a subtle but satisfying effect (the patches go 40px higher towards the center of the screen). 
+<pre class=lang-js><code>for(i of patches){
+  d = Math.abs(i.x - 260) / 260;
+  f.translate(
+    i.x,
+    i.y - Math.cos(d) * 40
+  );
+  f.drawImage(imgpatch, 0, 0);
+}</code></pre>
+
+<p><video controls src="images/js13k26/3.mp4" width=500></video>
+
+<p>Size check at the end of chapter 2: 35.3kb commented, 7kb zipped.
+
+<p><b>Chapter 3:</b>
+
+<p>Size check at the end of chapter 3: 45kb commented, 8kb zipped.
+<br>Looks like I consistently add about about 1kb to my game every day. That's nice so far.
+
+<p><b>Chapter 4:</b>
+
+<p>Size check at the end of chapter 4: 48kb commented, 8.3kb zipped.
+
+<p><b>Chapter 5:</b>
+
+<p>Size check at the end of chapter 5: 57kb commented, 9.1kb zipped.
+
+<p><b>Chapter 6:</b>
+
+<p>Size check at the end of chapter 6: 61kb commented, 9.4kb zipped.
+
+<p><b>Chapter 7:</b>
+
+<p>Size check at the end of chapter 7: 67kb commented, 10kb zipped.
+<br>Nice! My code being more and more gzip-friendly as the game progresses, the last 3 (big) chapters fit in only 2kb... at least in their unpolished form.
+
+<p><b>Polishing</b>
+
+<p>Size check after polishing: 70kb commented, 10.8kb zipped.
+<br>2.2kb remaining for the music, sounds, and maybe the "prologue" animation I made on day one.
 
 <br>
 <br>
@@ -499,7 +588,7 @@ menu();
 .inline, .inline * { display: inline; padding: 2px !important; }
 details, summary { cursor: pointer }
 details { background: #f8f8f8; padding: 10px; border-radius: 5px }
-
+img, video { max-width: 95% }
 </style>
 </body>
 </html>
