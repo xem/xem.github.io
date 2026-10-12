@@ -446,7 +446,7 @@ crayondemo.innerHTML = crayon();
 
 <p>Fun fact: We're only a few seconds in-game and my entry has already used <b>4 different rendering techniques</b> (Emoji, CSS3D, SVG and 2D canvas).
 <br>CSS3D is used on the title screen and in the intro and stops being used after the fire starts.
-<br>From the dead tree apparition, up to the end of the game, everything is rendered on a 2D canvas (on 4 canvases actually: one for the scene, one for the rain, one for the drawing board and one for the actual drawings).
+<br>From the dead tree apparition, up to the end of the game, everything is rendered on a 2D canvas (on 4 canvases actually: one for the scene, one for the rain (100 slanted lines drawn randomly at each frame), one for the drawing board and one for the actual drawings).
 <br>Besides these canvases, CSS gradients are used for the sky and the god rays, and HTML buttons and text are added when necessary.
 
 <p>After making the title screen, my code was 12kb commented, and 2.6kb zipped.
@@ -486,12 +486,12 @@ crayondemo.innerHTML = crayon();
 <!--br>And here are some crispy details for each chapter...-->
 <br>
 <br>
-<p><b>Chapter 1</b>:
-<p>As we saw earlier, the intro has rain on a dedicated canvas, a dead tree emoji, and Unicorny has custom emotions drawn in SVG.
+<p><b>Chapter 1: yellow</b>
+<p>As we saw earlier, the intro of this chapter contains rain on a dedicated canvas, a dead tree emoji, and Unicorny has custom emotions drawn in SVG.
 <br>The yellow crayon appears and asks us to draw "something yellow that chases the clouds"...
-<br>(wink wink! it's asking for the Sun - probably the most drawn thing in the world, so I thought it would be cool for a first drawing).
-<br>The drawing code itself is not very complex: when the mouse moves while the left mouse button is pressed, I save all the mouse positions in an array of arrays of arrays (an array of lists of coordinates), and when the mouse is released or exits the drawing board, a new list is created.
-<br>The drawing is then rendered by drawing each list as a separate path.
+<br>(Wink wink! it's asking for the Sun, probably the most popular kids drawing, so I thought it would be cool for a first drawing).
+<br>The drawing code itself is not very complex: when the mouse moves while the left mouse button is pressed, I save all the mouse positions in an array of arrays of arrays (an array of lists of coordinates, each list representing a line drawn with the mouse), and when the mouse is released or exits the drawing board, we stop recording the coordinates and a new list is created for the next line.
+<br>The drawing is then rendered by drawing each list as a separate path on the canvas.
 <br>After the drawing section, the crayon draws the sun in the sky, everything becomes clearer and the god rays reappear.
 <p>The drawing board is drawn on a canvas, and the yellow crayon path is drawn on a transparent canvas, on top of the other.
 <br>This allows to "copy" the Sun with a transparent background and "paste" it in the sky during the chapter's conclusion.
@@ -508,24 +508,23 @@ crayondemo.innerHTML = crayon();
 <p>Actually, all the animations (crayons moving and drawing, characters moving, items appearing, world scrolling...) happening after the CSS3D intro are made using <b>if()</b>'s and <b>drawImage()</b>'s tailored according to the current <b>frame</b> variable:
 <p><video controls src="images/js13k26/2.mp4" width=500></video>
 
-<p>However, the sky clearing up when the Sun appears are animated with CSS (*), and the dialogs (made in HTML) are handled with <b>setTimeout</b>'s.
-<p><span style="font-size: 12px">(*) a little coding trick was necessary for the sky transitions: since CSS can't transition between two linear-gradients, I had to superpose a "good weather sky" and a "bad weather sky", and made the bad one's opacity reduce progressively at the right time)</span>
+<p>However, the sky that clears up when the Sun appears is animated with CSS (*), and the dialogs (made in HTML) are handled with <b>setTimeout()</b>'s.
+<p><span style="font-size: 12px">(*) a little coding trick was necessary for the sky transitions: since CSS can't transition between two linear-gradients, I had to superpose a "good weather sky" and a "bad weather sky", and made the bad one's opacity reduce progressively to 0 at the right time)</span>
 
-<p>One last optimization was added during the polishing phase for the drawing board: since the "crayon segment" function is more complex than a simple <b>ctx.lineTo()</b>, as the drawing grew bigger, the browser slowed down progressively because it tried to redraw everything at each frame on the transparent canvas. I couldn't stop resetting the canvas at each frame because it contained the colored crayon that follows the mouse, so the solution I found was to print all the finished lines on the board canvas (whish is never refreshed), and only draw the current line on the transparent canvas. When we press "OK", all the old lines are copied on the transparent canvas and the drawing is copied for future use.
+<p>One last optimization was added during the polishing phase for the drawing board: since the "crayon segment" function is more complex than a simple <b>ctx.moveTo()</b> / <b>ctx.lineTo()</b>, as the drawing grew bigger, the browser slowed down progressively because it tried to redraw everything at each frame on the transparent canvas. I couldn't stop resetting the canvas at each frame because it contained the colored crayon that follows the mouse, so the solution I found was to print all the finished lines on the board canvas (whish is never refreshed), and only draw the current segment on the transparent canvas. When we press "OK", all the old lines are copied on the transparent canvas and the drawing is copied for future use.
 
 
 <p>Size check at the end of chapter 1: 27.5kb commented, 6kb zipped.
 
-<p><b>Chapter 2:</b>
+<p><b>Chapter 2: green</b>
 <p>Here, the scene scrolls a little and we meet Froggy, who has a green crayon and asks for a patch of grass.
 <br>The frog's head is an emoji, but the frog body, not available as an emoji, was drawn in MiniSVGCreator.
-<br>It was first improvised, and at the end, I took inspiration on a "cute frog drawing" found on Google (redrawn in my style, not copied).
+<br>It was first improvised, and at the end, I took inspiration on a "cute frog drawing" found on Google (which I've redrawn in my style).
 
 <p><img src="images/js13k26/11.png" width=600>
 
-<p>When the grass drawing is done, the green crayon draws one patch of grass in front of the frog, then the ground turns green, and finally, 100 other patches are placed in random positions inside a 1400px x 250px area.
-<br>Since the ground is "rounded", it was a bit weird to have the grass scroll horizontally when the Unicorns starts walking again.
-<br>So I added them a sinusoidal vertical offset, to create a subtle but satisfying effect (the patches go 40px higher towards the center of the screen). 
+<p>When the grass drawing is done, the green crayon draws one patch of grass in front of the frog, then the ground turns green, and finally, 100 other patches are placed in random positions inside a 1400px x 250px area surrounding the frog.
+<br>Since the ground is "rounded", it was a bit weird to have the grass scroll horizontally when the Unicorns starts walking again, so I added a sinusoidal offset to create a subtle 3D effect (the grass patches follow a small curve and are 40px higher in the center of the screen than on the sides). 
 <pre class=lang-js><code>for(i of patches){
   d = Math.abs(i.x - 260) / 260;
   f.translate(
@@ -539,36 +538,341 @@ crayondemo.innerHTML = crayon();
 
 <p>Size check at the end of chapter 2: 35.3kb commented, 7kb zipped.
 
-<p><b>Chapter 3:</b>
+<p><b>Chapter 3: blue</b>
+
+<p>New scene: Unicorny arrives in front of a little (SVG) rocky mountain and a (emoji) fish (called Blubbly) inside a (SVG) bowl.
+<br>The Sun and grass drawn earlier are still visible (I like the idea that the previous drawn assets "follow us" during the story).
+<br>The fish asks us to draw a waterfall with his blue crayon.
+<br>After drawing it, the waterfall flows and creates a stream (drawn in SVG and rendered with an animation from top to bottom).
+<br><pre class=lang-js><code>// animated waterfall svg crop
+if(frame > 150){
+  ctx.drawImage(
+    svgwaterfall,
+    0, 0, 100, Math.min(frame - 150, 100),  // crop source
+    0, 0, 100, Math.min(frame - 150, 100)   // crop destination
+  );
+}</code></pre>
+
+<p><video controls src="images/js13k26/4.mp4" width=500></video>
+
+<br>Blubbly thanks us and jumps into the stream to call his friend.
 
 <p>Size check at the end of chapter 3: 45kb commented, 8kb zipped.
-<br>Looks like I consistently add about about 1kb to my game every day. That's nice so far.
+<br>So far I seem to consistently add about about 1kb to my game every day. That's nice!
 
-<p><b>Chapter 4:</b>
+<p><b>Chapter 4: orange</b>
+<p>Same scene, Beavy the beaver arrives and makes a little joke where he says that the orange color reminds him freshly cut wood.
+<br>(That's actually a hint for the player to draw a boat!)
+<br>In the drawing board, I added an (emoji) unicorn head for scale, to ensure that the boat is drawn at the right position and size.
+<br>A top-view cutscene where the boat floats downstream ensues. The stream is drawn in svg, and surrounded by grass patches generated randomly in the top-right and bottom-left corners of the screen.
 
 <p>Size check at the end of chapter 4: 48kb commented, 8.3kb zipped.
 
-<p><b>Chapter 5:</b>
+<p><b>Chapter 5: red</b>
+
+<p>New scene! We find a big tree, a giraffe and a red crayon.
+<br>I really enjoy the idea of the giraffe head being out-of-frame, it creates a comedic effect like Big Al in <i>Police Squad!</i> or Ms. Bellum in <i>Powerpuff Girls</i>.
+
+<p><img src="images/js13k26/12.png" width=500>
+
+<p>Also, This is the chapter where I searched (and found) the vectorial Google Noto Emoji font, because the bitmap version recommended by Google was creating super blurry graphics at this size.
+<br>If I hadn't found this great webfont, I would have had to draw the giraffe and tree in SVG, losing precious bytes (and hours of development), so, YAY!
+
+<p><img src="images/js13k26/13.png" width=500>
+
+<p>After we draw an apple on the tree, the giraffe lowers its head to eat it, revealing a little chick on its head.
+<br>In case you didnt guess it, the giraffe head was made using... a second, rotated giraffe!
+
+<p><img src="images/js13k26/14.png" width=400>
+
+<p>This reminds me that, during the development of the title screen, I've had an invasion of giragffes on my island (I accidentally put the giraffe in the same loop that drew the 30 flower emojis). 
+
+<p><img src="images/js13k26/15.png" width=400>
 
 <p>Size check at the end of chapter 5: 57kb commented, 9.1kb zipped.
 
-<p><b>Chapter 6:</b>
+<p><video controls src="images/js13k26/5.mp4" width=500></video>
 
+<p><b>Chapter 6: indigo</b>
+
+<p>The chick (called Mini Wa, which sounds like "Mini Oie" - mini goose in french), appears with the indigo crayon and asks us to draw flowers.
+<br>When that's done, the camera pans down and a little group of flowers is drawn on the ground, on top of the grass patches.
+<br>I didn't generate the positions of the flowers randomly, because there was a risk of having them superposed or hidden by the animals, tree, etc.
+<br>So I decided to write their coordinates manually.
+<br>Finally, Mini Wa jumps on the ground to go find his mom, and the screen fades to black.
 <p>Size check at the end of chapter 6: 61kb commented, 9.4kb zipped.
 
-<p><b>Chapter 7:</b>
+<p><b>Chapter 7: purple</b>
+
+<p>The last scene is very simple (I was a bit late): a flat ground, random patches of grass, a bunch of flowers (actually, the same flowers positions that I used in the previous scene, just mirrored horizontally), Mini Wa and Mama Wa (emoji), and a purple crayon (svg).
+<p>Mini Wa makes little hops to go to his mom. This movement was made using a combination of <b>Math.abs()</b> and <b>Math.cos()</b>:
+<p><pre class=lang-js><code>if(frame &lt; 230){
+  f.translate(220 + frame * 1.5 ,290 - Math.abs(Math.cos(frame/10)*15)); // move chick
+  f.scale(-1,1); // turn chick to the right
+  f.fillText("🐤", 0, 0); // draw chick
+}</code></pre>
+<br>Math.cos() creates a sinusoidal shape that is 50% positive and 50% negative.
+<br>Math.abs(Math.cos) makes all the negative values of Math.cos become positive.
+<br>Here's a schema, courtesy of my <a href="https://xem.github.io/miniPlot/">MiniPlot tool</a>:
+
+<p><img src="images/js13k26/17.png" width=800>
+
+<p>The drawing board in this chapter is the most complex of all, as it allows to pick any of the 7 colors and reset the board if necessary.
+<br>I adapted my "list of lists of coordinates" to include a "color" parameter for each crayon segment.
+<br>At the beginning, the mouse cursor is visible and the 7 crayons are at the bottom.
+<br>Then, when we pick a crayon, it disappears from the bottom and replaces the mouse cursor.
+<br>All subsequent crayons replace the previous one, which goes back in the inventory.
+<br>All is not perfect though: as you can see below, I forgot to give the "blue" segments a light blue color, similar to the crayon's hue. 🤷
+
+<p><img src="images/js13k26/16.png" width=600>
+
+<p>After the drawing, the screen fades to black before switching to the end screen.
 
 <p>Size check at the end of chapter 7: 67kb commented, 10kb zipped.
-<br>Nice! My code being more and more gzip-friendly as the game progresses, the last 3 (big) chapters fit in only 2kb... at least in their unpolished form.
+<br>Nice! My code being more and more gzip-friendly as the game progresses, the last 3 (big) chapters fit in only 2kb... so far.
 
-<p><b>Polishing</b>
+<p><b>Ending and polishing</b>
+<p>All the interactive parts of the game are now finished, in a more or less drafty way.
+<p>I spent the last 3 days fixing animations timings, adjusting assets positions and adding previously drawn assets (grass, sun, flowers, etc.) in each scene.
+<br>The rest of the time was spent creating the "end screen": a big scene containing all the animals, crayons and drawings encountered during the game, and revealed with a long dezoom (thanks to <b>ctx.scale()</b>).
+
+<p>The unicorn body was made in SVG and based on a design created by Gemini.
+
+<p><img src="images/js13k26/18.png" width=700>
+
+<p>The dezoom was super smooth, except for the emoji, drawn with <b>ctx.fillText()</b>, and "snapping" to integer pixel values.
+<br>So I added an extra raster step before rendering the end scene, where I convert the emoji unicorn head in bitmap, before drawing it on screen using <b>ctx.drawImage()</b>.
+<br>I didn't have time/space to do the same thing with all the other emoji, so you can still see them "snapping to the grid" in the final game:
+
+<p><video controls src="images/js13k26/5.mp4" width=500></video>
+
+<p>I added credits/accolades at the end of the game because I had enough space for them, and wanted to send a shout-out to all the people who have contributed to the game and to JS13k.
+
+<p>The whole game was also gathered in a single, 2338-line, HTML file.
 
 <p>Size check after polishing: 70kb commented, 10.8kb zipped.
-<br>2.2kb remaining for the music, sounds, and maybe the "prologue" animation I made on day one.
+<br>2.2kb remaining for the music, sounds, and why not throw in the "prologue" animation I made on day one too!
 
-<br>
-<br>
-<p><b>WIP - Coming soon!</b>
+<p><b>Days 21-26: Audio and final touches</b>
+
+<p>I'm still incapable of writing my own music, so I asked ChatGPT to generate 20 different "child game" melodies using my piano synth, picked my favourites and rearranged / cut them manually until I had a theme long enough to be played on loop without being annoying during the 5 minute-ish adventure.
+<br>Here again, I considered it a fair use of AI, as I asked for help but did the final assembly and adjustments myself.
+<p>For the sound effects, I now have the chance to have a big collection to pick from.
+<br>I chose 8 sound effects, that I saw fit for different parts of the game:
+
+<script>
+// Sound player
+  py = (f,r,A,m,b,i,s) => {
+    A=new AudioContext()
+    m=A.createBuffer(1,96e3,48e3)
+    b=m.getChannelData(0)
+    for(i=96e3;i--;)b[r?20000-i:i]=f(i)
+    s=A.createBufferSource()
+    s.buffer=m
+    s.connect(A.destination)
+    s.start()
+  }
+
+  t=(i,n)=>(n-i)/n;
+
+  // Thunder sound
+  thu = (i,q,n) => {
+    n=25000;
+    if (i > n) return null;
+    return Math.sin(i/200 - Math.sin(i/331)*Math.sin(i/61) + Math.sin(Math.sin(i/59)/39) * 33)*t(i,n)*2;
+  }
+  
+  // bubble sound
+  bub = i => {
+    let n = 7000;
+    if (i > n) return null;
+    let q = t(i, n);
+    return Math.sin(i / (60 - (i / 180))) * (q ** 1.5);
+  }
+  
+  // bowl sound
+  tung = i => Math.sin(i / 30) * Math.sin(i * 0.07) * Math.exp(-i/6000)
+  
+  // splash
+  splash = i => (Math.random() * 2 - 1) * Math.sin(i/50) * Math.exp(-i/10000) / 7;
+  
+  // taktak beavy sound
+  taktak = i => {
+
+    const n = 40000;
+    if (i > n) return null;
+
+    const x = i % 3100;
+
+    const hit =
+        Math.exp(-x*x/2300);
+
+    return (
+        Math.sin(
+            i / 48000 * Math.PI * 2 * 1800
+        ) +
+        Math.sin(
+            i / 48000 * Math.PI * 2 * 2700
+        ) * .3
+    ) * hit * t(i,n) * .5;
+  }
+  
+  // boat sound
+  buu = i => {
+    let n = 40000;
+    if (i > n) return null;
+    let q = t(i, n);
+    let env = Math.sin(i / 12700); // fade in/out
+    let horn = Math.sin(i / 110) + 0.5 * Math.sin(i / 55);
+    return horn * env * 0.8;
+  }
+  
+  // grow sound
+  puit = i => {
+    let n = 24000;
+    if (i > n) return null;
+    let q = t(i, n);
+    let f = 40 - (i / 800);
+    return Math.sin(i / f) * Math.sin(i / 600) * q;
+  }
+
+  // draw sound
+  zuzu = i => {
+    var n=8e4;
+    if (i > n) return null;
+    var q = t(i,n);
+    return Math.sin(i*0.001*Math.sin(0.0009*i+Math.sin(i/200)))*q/20;
+  }
+</script>
+
+<p><button onclick=py(thu)>thunder (from js13k25)</button>
+<button onclick=py(bub)>fish bubbles</button>
+<button onclick=py(tung)>fish hitting the fishbowl</button> 
+<button onclick=py(splash)>splash (from js13k24)</button>
+<button onclick=py(taktak)>beaver talking</button>
+<button onclick=py(buu)>boat honking</button>
+<button onclick=py(puit)>grass/flowers growing</button>
+<button onclick=py(zuzu)>drawing</button>
+
+<p>I also created a favicon in SVG (like every year) using unicorn and rainbow emoji. As I don't know how to load a webfont in a favicon, these are drawn using the default font of the OS or device you're on.
+
+<p><img src="images/js13k26/19.png" width=100>
+
+<p><b>Golfing?</b>
+
+<p>After finishing all these things and adding the "webfont consent screen" (sigh), I was 20 bytes over 13kb.
+
+<br>But I didn't make any effort to compress my code so far: it still had long variable/function names, verbose SVGs, etc.
+<br>Since I only had 20b to lose, I managed to do it by simply rewriting all my game's colors (written in #rrggbb or rgb()) into shorthand #rgb.
+<br>All the other lengthy stuff is still present in the final game, not mangled, just minified, RoadRolled and zipped.
+
+<p><b>Interesting stats</b>
+
+<p>Here are the important numbers for this entry:
+<p>- Commented: 2933 lines, 92,024 bytes.
+<br>- Minified: 66,040 bytes.
+<br>- RoadRolled: 17,730 bytes.
+<br>- Zipped: 13,303 bytes.
+
+<p>Graphics are made in 5 different ways (HTML, CSS3D, Emoji, Canvas2D, SVG)
+
+<p>The code contains 212 <b>if()</b>'s, 156 <b>setTimeout()</b>'s, 53 CSS rules, 680 strings, 72 functions and 20 svg images.
+
+<p>Code detail:
+
+<p><img src="images/js13k26/20.png" width=900>
+
+<p>SVG atlas:
+
+<div style="background: #fff; padding: 15px;" id=svgs>
+
+</div>
+
+<script>
+crayon = (color = "#ffffff") => {
+    return '<svg width="58" height="198" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M30 10L10 40L10 140A12 2 0 0 0 50 140L50 40Z" fill="' + color + '" stroke="#000000"/>' +
+      '<path d="M10 40A12 2 0 0 0 50 40L38 22L22 22Z" fill="#f2952c" stroke="#000000"/><ellipse cx="25" cy="56" rx="2" ry="5" fill="#000000" stroke="#000000"/><ellipse cx="33" cy="56" rx="2" ry="5" fill="#000000" stroke="#000000"/><path d="M20 65Q30 72 37 65Q40 65 39 68Q29 75 21 69Q17 67 20 65" fill="#000000" stroke="#000000"/>' +
+      
+      //"M5 15Q15 22 22 15Q25 15 24 18Q14 25 6 19Q2 17 5 15"
+      '</svg>';
+  };
+
+  mouth = '<svg width="59" height="99" xmlns="http://www.w3.org/2000/svg"><circle cx="35" cy="30" r="12" fill="#ffffff" stroke="#ffffff"/><path d="M53 37Q44 20 27 29Q21 34 28 36Q40 26 49 39Z" fill="#888888" stroke="#888888"/></svg>';
+  moutho = '<svg width="59" height="99" xmlns="http://www.w3.org/2000/svg"><circle cx="35" cy="30" r="12" fill="#ffffff" stroke="#ffffff"/><circle cx="39" cy="30" r="7" fill="#888888" stroke="#888888"/></svg>';
+  frown = '<svg width="59" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M6 20M5 19Q15 13 19 4Q25 1 24 8Q19 18 7 22Q3 22 5 19" fill="#888888" stroke="#888888"/></svg>';
+  frogbody = '<svg width="99" height="99"  xmlns="http://www.w3.org/2000/svg"><path d="M50 41L35 49L35 53Q22 50 32 64L29 60Q17 61 22 64Q16 68 25 67Q18 73 32 68L42 68Q51 71 59 68L68 68Q83 72 76 67Q85 68 79 64Q86 61 70 61L69 63Q78 50 67 54L66 48Z" fill="#658700" stroke="#000000"/><path d="M35 49Q34 62 35 66Q27 73 35 71Q38 77 40 70Q49 75 42 67Q39 66 40 50L61 50Q63 63 60 66Q52 75 61 70Q64 77 66 70Q75 76 67 65Q67 48 66 48L50 41Z" fill="#85A700" stroke="#000000"/></svg>';
+  circledash = '<svg width="99" height="99" viewBox="0 0 99 99" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/></svg>';
+  patchdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M22 70L74 70Q72 45 89 32Q72 29 57 54Q56 22 64 12Q45 11 38 52Q35 21 17 21Q28 45 22 70" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/></svg>';
+  mountain = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M0 72Q14 67 18 57Q26 6 45 6Q72 7 76 62Q79 71 98 71L98 98L0 98Z" fill="#34590d" stroke="none"/></svg>';
+  mountainbed = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M9 98M9 98Q8 92 13 90Q12 81 17 82Q16 75 22 76Q24 70 29 72Q32 67 36 68Q45 65 46 68Q52 65 57 69Q63 68 70 72Q75 73 74 76Q79 75 82 80Q88 80 89 84Q94 84 94 87Q98 87 98 89L98 98" fill="#999999" stroke="none"/><ellipse cx="85" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="68" cy="84" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="51" cy="88" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="32" cy="83" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="21" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="31" cy="89" rx="6" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="92" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="60" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="73" cy="91" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="80" cy="93" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="67" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="81" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/></svg>';
+  mountain2 = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M2 98Q17 82 33 19L59 19Q57 80 97 81L97 98Z" fill="#2255AADD" stroke="none"/></svg>';
+  waterfalldash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M36 7Q19 13 28 70Q30 90 13 87M41 14Q27 29 40 69Q45 88 33 89M46 10Q57 42 48 72Q45 87 55 89M51 6Q69 18 62 72Q59 85 69 89M68 71Q68 81 82 75M21 66Q21 80 12 74" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
+  endmountain = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M11 38Q17 0 39 32Z" fill="#34590d" stroke="none"/><path d="M18 23L24 21Q31 35 45 40Q57 44 62 53Q68 63 81 64Q94 66 98 74L90 82Q88 72 72 71Q61 68 53 56Q49 48 34 45Q18 39 18 23" fill="#4477CC" stroke="none"/></svg>'
+  boatdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M8 37L92 37Q89 58 75 65L24 65Q9 55 8 37" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
+  appledash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M50 33Q67 24 76 41Q81 62 66 68Q54 70 53 68Q51 71 38 72Q22 71 24 49Q26 27 49 33Q45 21 58 14" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
+  flowerdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M45 34Q63 19 60 41Q79 54 56 56Q41 79 39 53Q12 55 33 42Q26 17 45 34M46 40Q55 40 50 47Q47 51 42 47Q41 40 45 40" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="3 6" stroke-linecap="round"/></svg>';
+  rdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M1 89A39 40 0 1 1 98 90L70 90A16 17 0 1 0 25 89Z" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="3 6" stroke-linecap="round"/></svg>';
+  bowl = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M21 27L73 27Q81 28 77 34Q83 80 47 84Q12 81 20 34Q16 29 21 27" fill="#ccc" stroke="#000000"/><path d="M23 39L74 39Q76 78 47 80Q18 77 23 39" fill="#2255AADD" stroke="none"/></svg>'
+  river = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M0 16Q10 15 12 22Q16 30 25 28Q34 27 39 34Q47 42 56 40Q66 38 73 45Q79 52 89 53Q98 54 99 57L99 79Q92 74 83 73Q69 71 64 65Q54 59 42 61Q29 61 24 50Q18 42 5 45Q0 45 0 43Z" fill="#4477CC" stroke="none"/></svg>'
+  ubody = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M31 18L17 23Q24 31 24 42Q15 34 11 40Q3 51 4 53L0 57Q9 58 7 52Q9 52 10 49Q13 44 16 43Q23 50 26 51Q15 58 29 57Q38 59 42 57L46 57Q43 50 39 54Q41 52 43 53Q50 54 51 53Q54 52 57 53Q46 62 56 61Q58 56 60 56Q76 57 81 43Q82 26 65 26Q37 31 31 18Z" fill="#DFDFDF" stroke="#888888"/><path d="M65 33Q55 44 69 50Q54 52 56 54M43 46Q45 50 42 53Q42 52 36 54Q31 55 26 54M26 51L35 47L33 48Q31 45 32 42M29 50Q26 49 25 46" fill="#DFDFDF" stroke="#888888"/><path d="M76 29Q90 22 97 37Q98 51 91 57Q86 60 75 59Q76 56 84 55Q76 53 72 59Q71 62 77 61Q74 66 67 60Q64 52 74 50Q71 46 74 43Q76 50 83 46Q90 38 80 32Z" fill="#E84F90" stroke="none"/></svg>';
+  
+  svgs.innerHTML += crayon("yellow");
+  svgs.innerHTML += crayon("green");
+  svgs.innerHTML += crayon("#4fa7e5");
+  svgs.innerHTML += crayon("orange");
+  svgs.innerHTML += crayon("red");
+  svgs.innerHTML += crayon("purple");
+  svgs.innerHTML += crayon("indigo");
+  svgs.innerHTML += mouth;
+  svgs.innerHTML += moutho;
+  svgs.innerHTML += frown;
+  svgs.innerHTML += "<br>";
+  
+  svgs.innerHTML += circledash;
+  svgs.innerHTML += patchdash;
+  svgs.innerHTML += waterfalldash;
+  svgs.innerHTML += appledash;
+  svgs.innerHTML += boatdash;
+  svgs.innerHTML += flowerdash;
+  svgs.innerHTML += rdash;
+  
+  svgs.innerHTML += "<br>";
+  
+  svgs.innerHTML += frogbody;
+  svgs.innerHTML += mountain;
+  svgs.innerHTML += endmountain;
+  svgs.innerHTML += mountainbed;
+  svgs.innerHTML += mountain2;
+  svgs.innerHTML += bowl;
+  svgs.innerHTML += river;
+  svgs.innerHTML += ubody;
+  
+</script>
+
+
+<br><br><hr><br>
+
+<p><h3>Bonus entry: WORD5 !</h3>
+
+<br><br><hr><br>
+
+<p><h3>Feedbacks</h3>
+
+<br><br><hr><br>
+
+<p><h3>My favourite entries</h3>
+
+<br><br><hr><br>
+
+<p><h3>Conclusion</h3>
+
+TODO:
+- AI rant
+- Slack screenshots
+- Private jokes
+- album
+
 
 <p><b>Xem</b>
 </main>
