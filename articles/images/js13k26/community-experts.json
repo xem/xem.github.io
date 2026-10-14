@@ -1,0 +1,1952 @@
+[
+  {
+    "user_id": 75,
+    "name": "xem",
+    "games_rated": 296,
+    "median_attempts": 1945,
+    "median_matches": 1221,
+    "hit_ratio": 0.6277634961439589,
+    "points": 1517,
+    "adjusted_points": 952.3172236503856
+  },
+  {
+    "user_id": 290,
+    "name": "Anthony Cosgrave",
+    "games_rated": 293,
+    "median_attempts": 1735,
+    "median_matches": 877,
+    "hit_ratio": 0.5054755043227666,
+    "points": 1170,
+    "adjusted_points": 591.4063400576368
+  },
+  {
+    "user_id": 122,
+    "name": "Jasper Renow-Clarke",
+    "games_rated": 299,
+    "median_attempts": 1772,
+    "median_matches": 841,
+    "hit_ratio": 0.47460496613995484,
+    "points": 1140,
+    "adjusted_points": 541.0496613995485
+  },
+  {
+    "user_id": 1868,
+    "name": "tobytime1",
+    "games_rated": 165,
+    "median_attempts": 1123,
+    "median_matches": 506,
+    "hit_ratio": 0.4505788067675868,
+    "points": 671,
+    "adjusted_points": 302.33837934105077
+  },
+  {
+    "user_id": 111,
+    "name": "Michael M.",
+    "games_rated": 294,
+    "median_attempts": 1756,
+    "median_matches": 545,
+    "hit_ratio": 0.3103644646924829,
+    "points": 839,
+    "adjusted_points": 260.39578587699316
+  },
+  {
+    "user_id": 1747,
+    "name": "TimAlt",
+    "games_rated": 91,
+    "median_attempts": 541,
+    "median_matches": 306,
+    "hit_ratio": 0.5656192236598891,
+    "points": 397,
+    "adjusted_points": 224.550831792976
+  },
+  {
+    "user_id": 493,
+    "name": "Chris Subagio",
+    "games_rated": 129,
+    "median_attempts": 767,
+    "median_matches": 342,
+    "hit_ratio": 0.44589308996088656,
+    "points": 471,
+    "adjusted_points": 210.01564537157756
+  },
+  {
+    "user_id": 176,
+    "name": "Noncho Savov",
+    "games_rated": 101,
+    "median_attempts": 613,
+    "median_matches": 299,
+    "hit_ratio": 0.48776508972267535,
+    "points": 400,
+    "adjusted_points": 195.10603588907014
+  },
+  {
+    "user_id": 1896,
+    "name": "Brian Nicolucci",
+    "games_rated": 80,
+    "median_attempts": 476,
+    "median_matches": 259,
+    "hit_ratio": 0.5441176470588235,
+    "points": 339,
+    "adjusted_points": 184.45588235294116
+  },
+  {
+    "user_id": 1800,
+    "name": "John Cotterell",
+    "games_rated": 72,
+    "median_attempts": 436,
+    "median_matches": 238,
+    "hit_ratio": 0.5458715596330275,
+    "points": 310,
+    "adjusted_points": 169.2201834862385
+  },
+  {
+    "user_id": 1531,
+    "name": "Justinas Gibas",
+    "games_rated": 105,
+    "median_attempts": 623,
+    "median_matches": 276,
+    "hit_ratio": 0.44301765650080255,
+    "points": 381,
+    "adjusted_points": 168.78972712680576
+  },
+  {
+    "user_id": 30,
+    "name": "Rémi Vansteelandt",
+    "games_rated": 73,
+    "median_attempts": 435,
+    "median_matches": 235,
+    "hit_ratio": 0.5402298850574713,
+    "points": 308,
+    "adjusted_points": 166.39080459770116
+  },
+  {
+    "user_id": 31,
+    "name": "Andrew Higson-Smith",
+    "games_rated": 83,
+    "median_attempts": 538,
+    "median_matches": 237,
+    "hit_ratio": 0.44052044609665425,
+    "points": 320,
+    "adjusted_points": 140.96654275092936
+  },
+  {
+    "user_id": 102,
+    "name": "João Lopes",
+    "games_rated": 51,
+    "median_attempts": 306,
+    "median_matches": 175,
+    "hit_ratio": 0.5718954248366013,
+    "points": 226,
+    "adjusted_points": 129.2483660130719
+  },
+  {
+    "user_id": 96,
+    "name": "Sebastian Dorn",
+    "games_rated": 41,
+    "median_attempts": 241,
+    "median_matches": 157,
+    "hit_ratio": 0.6514522821576764,
+    "points": 198,
+    "adjusted_points": 128.9875518672199
+  },
+  {
+    "user_id": 166,
+    "name": "Cliff Earl",
+    "games_rated": 294,
+    "median_attempts": 1744,
+    "median_matches": 329,
+    "hit_ratio": 0.18864678899082568,
+    "points": 623,
+    "adjusted_points": 117.5269495412844
+  },
+  {
+    "user_id": 836,
+    "name": "Almar Suarez",
+    "games_rated": 145,
+    "median_attempts": 858,
+    "median_matches": 250,
+    "hit_ratio": 0.2913752913752914,
+    "points": 395,
+    "adjusted_points": 115.0932400932401
+  },
+  {
+    "user_id": 130,
+    "name": "Jerome Lecomte",
+    "games_rated": 54,
+    "median_attempts": 329,
+    "median_matches": 163,
+    "hit_ratio": 0.49544072948328266,
+    "points": 217,
+    "adjusted_points": 107.51063829787233
+  },
+  {
+    "user_id": 1687,
+    "name": "Alex",
+    "games_rated": 54,
+    "median_attempts": 322,
+    "median_matches": 158,
+    "hit_ratio": 0.4906832298136646,
+    "points": 212,
+    "adjusted_points": 104.02484472049689
+  },
+  {
+    "user_id": 33,
+    "name": "MakeshiftMitten",
+    "games_rated": 98,
+    "median_attempts": 582,
+    "median_matches": 196,
+    "hit_ratio": 0.33676975945017185,
+    "points": 294,
+    "adjusted_points": 99.01030927835052
+  },
+  {
+    "user_id": 51,
+    "name": "Grzegorz Tańczyk",
+    "games_rated": 63,
+    "median_attempts": 375,
+    "median_matches": 161,
+    "hit_ratio": 0.42933333333333334,
+    "points": 224,
+    "adjusted_points": 96.17066666666668
+  },
+  {
+    "user_id": 129,
+    "name": "Ryan Tyler",
+    "games_rated": 80,
+    "median_attempts": 480,
+    "median_matches": 178,
+    "hit_ratio": 0.37083333333333335,
+    "points": 258,
+    "adjusted_points": 95.675
+  },
+  {
+    "user_id": 168,
+    "name": "Igor Estêvão",
+    "games_rated": 34,
+    "median_attempts": 202,
+    "median_matches": 120,
+    "hit_ratio": 0.594059405940594,
+    "points": 154,
+    "adjusted_points": 91.48514851485147
+  },
+  {
+    "user_id": 131,
+    "name": "David Brad",
+    "games_rated": 61,
+    "median_attempts": 363,
+    "median_matches": 152,
+    "hit_ratio": 0.418732782369146,
+    "points": 213,
+    "adjusted_points": 89.1900826446281
+  },
+  {
+    "user_id": 89,
+    "name": "Brégeau",
+    "games_rated": 61,
+    "median_attempts": 362,
+    "median_matches": 147,
+    "hit_ratio": 0.40607734806629836,
+    "points": 208,
+    "adjusted_points": 84.46408839779006
+  },
+  {
+    "user_id": 1,
+    "name": "Michał Chojnacki",
+    "games_rated": 19,
+    "median_attempts": 133,
+    "median_matches": 95,
+    "hit_ratio": 0.7142857142857143,
+    "points": 114,
+    "adjusted_points": 81.42857142857143
+  },
+  {
+    "user_id": 974,
+    "name": "Alexey Kalmakov",
+    "games_rated": 34,
+    "median_attempts": 204,
+    "median_matches": 106,
+    "hit_ratio": 0.5196078431372549,
+    "points": 140,
+    "adjusted_points": 72.74509803921569
+  },
+  {
+    "user_id": 1883,
+    "name": "redya-dev",
+    "games_rated": 31,
+    "median_attempts": 183,
+    "median_matches": 98,
+    "hit_ratio": 0.5355191256830601,
+    "points": 129,
+    "adjusted_points": 69.08196721311477
+  },
+  {
+    "user_id": 1557,
+    "name": "dalps",
+    "games_rated": 58,
+    "median_attempts": 351,
+    "median_matches": 129,
+    "hit_ratio": 0.36752136752136755,
+    "points": 187,
+    "adjusted_points": 68.72649572649573
+  },
+  {
+    "user_id": 155,
+    "name": "Alexander Petrov",
+    "games_rated": 50,
+    "median_attempts": 295,
+    "median_matches": 119,
+    "hit_ratio": 0.4033898305084746,
+    "points": 169,
+    "adjusted_points": 68.1728813559322
+  },
+  {
+    "user_id": 1921,
+    "name": "TomesBones",
+    "games_rated": 43,
+    "median_attempts": 257,
+    "median_matches": 110,
+    "hit_ratio": 0.4280155642023346,
+    "points": 153,
+    "adjusted_points": 65.4863813229572
+  },
+  {
+    "user_id": 87,
+    "name": "Christoph Schansky",
+    "games_rated": 41,
+    "median_attempts": 250,
+    "median_matches": 108,
+    "hit_ratio": 0.432,
+    "points": 149,
+    "adjusted_points": 64.368
+  },
+  {
+    "user_id": 1689,
+    "name": "Sidharth Hulyalkar",
+    "games_rated": 28,
+    "median_attempts": 168,
+    "median_matches": 88,
+    "hit_ratio": 0.5238095238095238,
+    "points": 116,
+    "adjusted_points": 60.761904761904766
+  },
+  {
+    "user_id": 881,
+    "name": "Nicklas Löf",
+    "games_rated": 22,
+    "median_attempts": 131,
+    "median_matches": 75,
+    "hit_ratio": 0.5725190839694656,
+    "points": 97,
+    "adjusted_points": 55.534351145038165
+  },
+  {
+    "user_id": 97,
+    "name": "Almut Kieffer-Jones",
+    "games_rated": 32,
+    "median_attempts": 191,
+    "median_matches": 88,
+    "hit_ratio": 0.4607329842931937,
+    "points": 120,
+    "adjusted_points": 55.287958115183244
+  },
+  {
+    "user_id": 20,
+    "name": "Fernando Serrano",
+    "games_rated": 20,
+    "median_attempts": 130,
+    "median_matches": 75,
+    "hit_ratio": 0.5769230769230769,
+    "points": 95,
+    "adjusted_points": 54.8076923076923
+  },
+  {
+    "user_id": 1955,
+    "name": "Dion van Beelen",
+    "games_rated": 21,
+    "median_attempts": 136,
+    "median_matches": 76,
+    "hit_ratio": 0.5588235294117647,
+    "points": 97,
+    "adjusted_points": 54.20588235294118
+  },
+  {
+    "user_id": 1430,
+    "name": "Andy Sommerville",
+    "games_rated": 21,
+    "median_attempts": 124,
+    "median_matches": 72,
+    "hit_ratio": 0.5806451612903226,
+    "points": 93,
+    "adjusted_points": 54.00000000000001
+  },
+  {
+    "user_id": 1869,
+    "name": "LazyLuigi",
+    "games_rated": 37,
+    "median_attempts": 239,
+    "median_matches": 96,
+    "hit_ratio": 0.401673640167364,
+    "points": 133,
+    "adjusted_points": 53.42259414225941
+  },
+  {
+    "user_id": 1847,
+    "name": "Christian D'Albano",
+    "games_rated": 35,
+    "median_attempts": 217,
+    "median_matches": 91,
+    "hit_ratio": 0.41935483870967744,
+    "points": 126,
+    "adjusted_points": 52.83870967741936
+  },
+  {
+    "user_id": 1438,
+    "name": "kruffin",
+    "games_rated": 24,
+    "median_attempts": 141,
+    "median_matches": 74,
+    "hit_ratio": 0.524822695035461,
+    "points": 98,
+    "adjusted_points": 51.43262411347518
+  },
+  {
+    "user_id": 1216,
+    "name": "Sami Heikkinen",
+    "games_rated": 36,
+    "median_attempts": 213,
+    "median_matches": 86,
+    "hit_ratio": 0.40375586854460094,
+    "points": 122,
+    "adjusted_points": 49.25821596244131
+  },
+  {
+    "user_id": 1596,
+    "name": "fdoganis",
+    "games_rated": 19,
+    "median_attempts": 115,
+    "median_matches": 66,
+    "hit_ratio": 0.5739130434782609,
+    "points": 85,
+    "adjusted_points": 48.78260869565217
+  },
+  {
+    "user_id": 1328,
+    "name": "Magnus Lindh",
+    "games_rated": 20,
+    "median_attempts": 117,
+    "median_matches": 66,
+    "hit_ratio": 0.5641025641025641,
+    "points": 86,
+    "adjusted_points": 48.51282051282051
+  },
+  {
+    "user_id": 25,
+    "name": "Christer Kaitila",
+    "games_rated": 21,
+    "median_attempts": 134,
+    "median_matches": 70,
+    "hit_ratio": 0.5223880597014925,
+    "points": 91,
+    "adjusted_points": 47.537313432835816
+  },
+  {
+    "user_id": 1686,
+    "name": "sukus",
+    "games_rated": 27,
+    "median_attempts": 163,
+    "median_matches": 75,
+    "hit_ratio": 0.4601226993865031,
+    "points": 102,
+    "adjusted_points": 46.93251533742331
+  },
+  {
+    "user_id": 1780,
+    "name": "Rubikou",
+    "games_rated": 45,
+    "median_attempts": 285,
+    "median_matches": 94,
+    "hit_ratio": 0.3298245614035088,
+    "points": 139,
+    "adjusted_points": 45.84561403508772
+  },
+  {
+    "user_id": 2047,
+    "name": "sebavan",
+    "games_rated": 19,
+    "median_attempts": 116,
+    "median_matches": 64,
+    "hit_ratio": 0.5517241379310345,
+    "points": 83,
+    "adjusted_points": 45.793103448275865
+  },
+  {
+    "user_id": 1680,
+    "name": "Benjamin",
+    "games_rated": 24,
+    "median_attempts": 143,
+    "median_matches": 69,
+    "hit_ratio": 0.4825174825174825,
+    "points": 93,
+    "adjusted_points": 44.87412587412587
+  },
+  {
+    "user_id": 1764,
+    "name": "芙利肯尼（Kenny Fully）",
+    "games_rated": 46,
+    "median_attempts": 276,
+    "median_matches": 89,
+    "hit_ratio": 0.322463768115942,
+    "points": 135,
+    "adjusted_points": 43.53260869565217
+  },
+  {
+    "user_id": 955,
+    "name": "Raimon Ràfols",
+    "games_rated": 15,
+    "median_attempts": 89,
+    "median_matches": 55,
+    "hit_ratio": 0.6179775280898876,
+    "points": 70,
+    "adjusted_points": 43.258426966292134
+  },
+  {
+    "user_id": 1541,
+    "name": "Zach",
+    "games_rated": 33,
+    "median_attempts": 201,
+    "median_matches": 78,
+    "hit_ratio": 0.3880597014925373,
+    "points": 111,
+    "adjusted_points": 43.07462686567164
+  },
+  {
+    "user_id": 1539,
+    "name": "Randall Lee Spence",
+    "games_rated": 19,
+    "median_attempts": 114,
+    "median_matches": 60,
+    "hit_ratio": 0.5263157894736842,
+    "points": 79,
+    "adjusted_points": 41.57894736842105
+  },
+  {
+    "user_id": 1810,
+    "name": "peter2c",
+    "games_rated": 20,
+    "median_attempts": 120,
+    "median_matches": 61,
+    "hit_ratio": 0.5083333333333333,
+    "points": 81,
+    "adjusted_points": 41.175
+  },
+  {
+    "user_id": 1837,
+    "name": "Naeliah",
+    "games_rated": 37,
+    "median_attempts": 231,
+    "median_matches": 78,
+    "hit_ratio": 0.33766233766233766,
+    "points": 115,
+    "adjusted_points": 38.83116883116883
+  },
+  {
+    "user_id": 1770,
+    "name": "HiroshiITO-personal",
+    "games_rated": 29,
+    "median_attempts": 177,
+    "median_matches": 69,
+    "hit_ratio": 0.3898305084745763,
+    "points": 98,
+    "adjusted_points": 38.20338983050848
+  },
+  {
+    "user_id": 121,
+    "name": "Brian Hambley",
+    "games_rated": 19,
+    "median_attempts": 114,
+    "median_matches": 57,
+    "hit_ratio": 0.5,
+    "points": 76,
+    "adjusted_points": 38.0
+  },
+  {
+    "user_id": 1215,
+    "name": "Tero Jäntti",
+    "games_rated": 19,
+    "median_attempts": 112,
+    "median_matches": 56,
+    "hit_ratio": 0.5,
+    "points": 75,
+    "adjusted_points": 37.5
+  },
+  {
+    "user_id": 1864,
+    "name": "Alex Wolfe",
+    "games_rated": 17,
+    "median_attempts": 102,
+    "median_matches": 53,
+    "hit_ratio": 0.5196078431372549,
+    "points": 70,
+    "adjusted_points": 36.372549019607845
+  },
+  {
+    "user_id": 1756,
+    "name": "EricOP",
+    "games_rated": 28,
+    "median_attempts": 172,
+    "median_matches": 66,
+    "hit_ratio": 0.38372093023255816,
+    "points": 94,
+    "adjusted_points": 36.06976744186046
+  },
+  {
+    "user_id": 1547,
+    "name": "LawftyGoals",
+    "games_rated": 28,
+    "median_attempts": 165,
+    "median_matches": 64,
+    "hit_ratio": 0.3878787878787879,
+    "points": 92,
+    "adjusted_points": 35.68484848484849
+  },
+  {
+    "user_id": 604,
+    "name": "Eric Rowell",
+    "games_rated": 22,
+    "median_attempts": 129,
+    "median_matches": 57,
+    "hit_ratio": 0.4418604651162791,
+    "points": 79,
+    "adjusted_points": 34.906976744186046
+  },
+  {
+    "user_id": 13,
+    "name": "Jupiter Hadley",
+    "games_rated": 30,
+    "median_attempts": 179,
+    "median_matches": 65,
+    "hit_ratio": 0.36312849162011174,
+    "points": 95,
+    "adjusted_points": 34.497206703910614
+  },
+  {
+    "user_id": 1469,
+    "name": "Raptor Dev",
+    "games_rated": 18,
+    "median_attempts": 108,
+    "median_matches": 52,
+    "hit_ratio": 0.48148148148148145,
+    "points": 70,
+    "adjusted_points": 33.7037037037037
+  },
+  {
+    "user_id": 1759,
+    "name": "Konstantin Steinmiller",
+    "games_rated": 39,
+    "median_attempts": 254,
+    "median_matches": 75,
+    "hit_ratio": 0.2952755905511811,
+    "points": 114,
+    "adjusted_points": 33.661417322834644
+  },
+  {
+    "user_id": 256,
+    "name": "Karthikeyan Jayakumar",
+    "games_rated": 10,
+    "median_attempts": 65,
+    "median_matches": 42,
+    "hit_ratio": 0.6461538461538462,
+    "points": 52,
+    "adjusted_points": 33.6
+  },
+  {
+    "user_id": 113,
+    "name": "Ryan Malm",
+    "games_rated": 24,
+    "median_attempts": 141,
+    "median_matches": 57,
+    "hit_ratio": 0.40425531914893614,
+    "points": 81,
+    "adjusted_points": 32.744680851063826
+  },
+  {
+    "user_id": 1906,
+    "name": "Chris Smoak",
+    "games_rated": 14,
+    "median_attempts": 85,
+    "median_matches": 46,
+    "hit_ratio": 0.5411764705882353,
+    "points": 60,
+    "adjusted_points": 32.470588235294116
+  },
+  {
+    "user_id": 1750,
+    "name": "flyableheart",
+    "games_rated": 20,
+    "median_attempts": 120,
+    "median_matches": 53,
+    "hit_ratio": 0.44166666666666665,
+    "points": 73,
+    "adjusted_points": 32.24166666666667
+  },
+  {
+    "user_id": 104,
+    "name": "Gleb Volkov",
+    "games_rated": 10,
+    "median_attempts": 62,
+    "median_matches": 39,
+    "hit_ratio": 0.6290322580645161,
+    "points": 49,
+    "adjusted_points": 30.822580645161292
+  },
+  {
+    "user_id": 1836,
+    "name": "Radrael",
+    "games_rated": 32,
+    "median_attempts": 205,
+    "median_matches": 65,
+    "hit_ratio": 0.3170731707317073,
+    "points": 97,
+    "adjusted_points": 30.75609756097561
+  },
+  {
+    "user_id": 960,
+    "name": "Marvin",
+    "games_rated": 37,
+    "median_attempts": 234,
+    "median_matches": 68,
+    "hit_ratio": 0.2905982905982906,
+    "points": 105,
+    "adjusted_points": 30.512820512820515
+  },
+  {
+    "user_id": 886,
+    "name": "Josep del Rio",
+    "games_rated": 13,
+    "median_attempts": 86,
+    "median_matches": 45,
+    "hit_ratio": 0.5232558139534884,
+    "points": 58,
+    "adjusted_points": 30.348837209302328
+  },
+  {
+    "user_id": 816,
+    "name": "burntcustard",
+    "games_rated": 19,
+    "median_attempts": 116,
+    "median_matches": 50,
+    "hit_ratio": 0.43103448275862066,
+    "points": 69,
+    "adjusted_points": 29.741379310344826
+  },
+  {
+    "user_id": 1746,
+    "name": "Mark",
+    "games_rated": 11,
+    "median_attempts": 67,
+    "median_matches": 39,
+    "hit_ratio": 0.582089552238806,
+    "points": 50,
+    "adjusted_points": 29.1044776119403
+  },
+  {
+    "user_id": 1655,
+    "name": "IsleOfDann",
+    "games_rated": 19,
+    "median_attempts": 120,
+    "median_matches": 50,
+    "hit_ratio": 0.4166666666666667,
+    "points": 69,
+    "adjusted_points": 28.75
+  },
+  {
+    "user_id": 1863,
+    "name": "Daniel LaCosse",
+    "games_rated": 25,
+    "median_attempts": 150,
+    "median_matches": 54,
+    "hit_ratio": 0.36,
+    "points": 79,
+    "adjusted_points": 28.439999999999998
+  },
+  {
+    "user_id": 143,
+    "name": "Dan Prince",
+    "games_rated": 21,
+    "median_attempts": 125,
+    "median_matches": 50,
+    "hit_ratio": 0.4,
+    "points": 71,
+    "adjusted_points": 28.400000000000002
+  },
+  {
+    "user_id": 1678,
+    "name": "Migue",
+    "games_rated": 11,
+    "median_attempts": 68,
+    "median_matches": 38,
+    "hit_ratio": 0.5588235294117647,
+    "points": 49,
+    "adjusted_points": 27.38235294117647
+  },
+  {
+    "user_id": 1964,
+    "name": "Alex Fernández",
+    "games_rated": 19,
+    "median_attempts": 113,
+    "median_matches": 46,
+    "hit_ratio": 0.40707964601769914,
+    "points": 65,
+    "adjusted_points": 26.460176991150444
+  },
+  {
+    "user_id": 1676,
+    "name": "Dinindu Peiris",
+    "games_rated": 13,
+    "median_attempts": 77,
+    "median_matches": 39,
+    "hit_ratio": 0.5064935064935064,
+    "points": 52,
+    "adjusted_points": 26.337662337662334
+  },
+  {
+    "user_id": 1851,
+    "name": "kavalierkaban",
+    "games_rated": 11,
+    "median_attempts": 65,
+    "median_matches": 36,
+    "hit_ratio": 0.5538461538461539,
+    "points": 47,
+    "adjusted_points": 26.03076923076923
+  },
+  {
+    "user_id": 1683,
+    "name": "Rob Blanckaert",
+    "games_rated": 10,
+    "median_attempts": 60,
+    "median_matches": 34,
+    "hit_ratio": 0.5666666666666667,
+    "points": 44,
+    "adjusted_points": 24.933333333333334
+  },
+  {
+    "user_id": 112,
+    "name": "Frank Force",
+    "games_rated": 22,
+    "median_attempts": 144,
+    "median_matches": 49,
+    "hit_ratio": 0.3402777777777778,
+    "points": 71,
+    "adjusted_points": 24.15972222222222
+  },
+  {
+    "user_id": 1905,
+    "name": "eidosk",
+    "games_rated": 10,
+    "median_attempts": 60,
+    "median_matches": 33,
+    "hit_ratio": 0.55,
+    "points": 43,
+    "adjusted_points": 23.650000000000002
+  },
+  {
+    "user_id": 1932,
+    "name": "Iris Kroonstuiver",
+    "games_rated": 21,
+    "median_attempts": 133,
+    "median_matches": 46,
+    "hit_ratio": 0.3458646616541353,
+    "points": 67,
+    "adjusted_points": 23.172932330827066
+  },
+  {
+    "user_id": 179,
+    "name": "Tiago Correia",
+    "games_rated": 14,
+    "median_attempts": 84,
+    "median_matches": 37,
+    "hit_ratio": 0.44047619047619047,
+    "points": 51,
+    "adjusted_points": 22.464285714285715
+  },
+  {
+    "user_id": 205,
+    "name": "Shauna Lynch",
+    "games_rated": 19,
+    "median_attempts": 115,
+    "median_matches": 42,
+    "hit_ratio": 0.3652173913043478,
+    "points": 61,
+    "adjusted_points": 22.278260869565216
+  },
+  {
+    "user_id": 236,
+    "name": "Eoin McGrath",
+    "games_rated": 13,
+    "median_attempts": 88,
+    "median_matches": 38,
+    "hit_ratio": 0.4318181818181818,
+    "points": 51,
+    "adjusted_points": 22.022727272727273
+  },
+  {
+    "user_id": 868,
+    "name": "Johan Åhlgren",
+    "games_rated": 6,
+    "median_attempts": 36,
+    "median_matches": 25,
+    "hit_ratio": 0.6944444444444444,
+    "points": 31,
+    "adjusted_points": 21.52777777777778
+  },
+  {
+    "user_id": 110,
+    "name": "Ariel Wexler",
+    "games_rated": 11,
+    "median_attempts": 69,
+    "median_matches": 33,
+    "hit_ratio": 0.4782608695652174,
+    "points": 44,
+    "adjusted_points": 21.043478260869566
+  },
+  {
+    "user_id": 1882,
+    "name": "Harry",
+    "games_rated": 22,
+    "median_attempts": 130,
+    "median_matches": 42,
+    "hit_ratio": 0.3230769230769231,
+    "points": 64,
+    "adjusted_points": 20.676923076923078
+  },
+  {
+    "user_id": 61,
+    "name": "Victor Debone",
+    "games_rated": 22,
+    "median_attempts": 131,
+    "median_matches": 42,
+    "hit_ratio": 0.32061068702290074,
+    "points": 64,
+    "adjusted_points": 20.519083969465647
+  },
+  {
+    "user_id": 206,
+    "name": "Håkan Einarsson",
+    "games_rated": 11,
+    "median_attempts": 71,
+    "median_matches": 33,
+    "hit_ratio": 0.4647887323943662,
+    "points": 44,
+    "adjusted_points": 20.450704225352112
+  },
+  {
+    "user_id": 1460,
+    "name": "Hogia",
+    "games_rated": 10,
+    "median_attempts": 67,
+    "median_matches": 32,
+    "hit_ratio": 0.47761194029850745,
+    "points": 42,
+    "adjusted_points": 20.059701492537314
+  },
+  {
+    "user_id": 1542,
+    "name": "John Stimac",
+    "games_rated": 18,
+    "median_attempts": 107,
+    "median_matches": 38,
+    "hit_ratio": 0.35514018691588783,
+    "points": 56,
+    "adjusted_points": 19.88785046728972
+  },
+  {
+    "user_id": 27,
+    "name": "Josh Marinacci",
+    "games_rated": 20,
+    "median_attempts": 121,
+    "median_matches": 40,
+    "hit_ratio": 0.3305785123966942,
+    "points": 60,
+    "adjusted_points": 19.834710743801654
+  },
+  {
+    "user_id": 1586,
+    "name": "sodium ",
+    "games_rated": 18,
+    "median_attempts": 108,
+    "median_matches": 38,
+    "hit_ratio": 0.35185185185185186,
+    "points": 56,
+    "adjusted_points": 19.703703703703702
+  },
+  {
+    "user_id": 1492,
+    "name": "Emanuele Feronato",
+    "games_rated": 21,
+    "median_attempts": 125,
+    "median_matches": 39,
+    "hit_ratio": 0.312,
+    "points": 60,
+    "adjusted_points": 18.72
+  },
+  {
+    "user_id": 803,
+    "name": "Daivan Trinh",
+    "games_rated": 12,
+    "median_attempts": 72,
+    "median_matches": 30,
+    "hit_ratio": 0.4166666666666667,
+    "points": 42,
+    "adjusted_points": 17.5
+  },
+  {
+    "user_id": 1549,
+    "name": "Ben Allfree",
+    "games_rated": 19,
+    "median_attempts": 116,
+    "median_matches": 36,
+    "hit_ratio": 0.3103448275862069,
+    "points": 55,
+    "adjusted_points": 17.06896551724138
+  },
+  {
+    "user_id": 73,
+    "name": "Martin Tale",
+    "games_rated": 12,
+    "median_attempts": 74,
+    "median_matches": 30,
+    "hit_ratio": 0.40540540540540543,
+    "points": 42,
+    "adjusted_points": 17.027027027027028
+  },
+  {
+    "user_id": 1353,
+    "name": "Aleksey Litvinov",
+    "games_rated": 21,
+    "median_attempts": 134,
+    "median_matches": 38,
+    "hit_ratio": 0.2835820895522388,
+    "points": 59,
+    "adjusted_points": 16.73134328358209
+  },
+  {
+    "user_id": 116,
+    "name": "Curtis Robinson",
+    "games_rated": 11,
+    "median_attempts": 67,
+    "median_matches": 28,
+    "hit_ratio": 0.417910447761194,
+    "points": 39,
+    "adjusted_points": 16.298507462686565
+  },
+  {
+    "user_id": 134,
+    "name": "Michel Sabchuk",
+    "games_rated": 14,
+    "median_attempts": 87,
+    "median_matches": 31,
+    "hit_ratio": 0.3563218390804598,
+    "points": 45,
+    "adjusted_points": 16.03448275862069
+  },
+  {
+    "user_id": 656,
+    "name": "Francesco Bedussi",
+    "games_rated": 23,
+    "median_attempts": 139,
+    "median_matches": 37,
+    "hit_ratio": 0.26618705035971224,
+    "points": 60,
+    "adjusted_points": 15.971223021582734
+  },
+  {
+    "user_id": 1076,
+    "name": "Nick Branstein",
+    "games_rated": 6,
+    "median_attempts": 36,
+    "median_matches": 21,
+    "hit_ratio": 0.5833333333333334,
+    "points": 27,
+    "adjusted_points": 15.750000000000002
+  },
+  {
+    "user_id": 1786,
+    "name": "nicolasbonnici",
+    "games_rated": 9,
+    "median_attempts": 54,
+    "median_matches": 25,
+    "hit_ratio": 0.46296296296296297,
+    "points": 34,
+    "adjusted_points": 15.74074074074074
+  },
+  {
+    "user_id": 1797,
+    "name": "Arjun Vinod",
+    "games_rated": 12,
+    "median_attempts": 78,
+    "median_matches": 28,
+    "hit_ratio": 0.358974358974359,
+    "points": 40,
+    "adjusted_points": 14.35897435897436
+  },
+  {
+    "user_id": 1593,
+    "name": "msellers77",
+    "games_rated": 6,
+    "median_attempts": 37,
+    "median_matches": 20,
+    "hit_ratio": 0.5405405405405406,
+    "points": 26,
+    "adjusted_points": 14.054054054054054
+  },
+  {
+    "user_id": 371,
+    "name": "Daniel Cohen",
+    "games_rated": 7,
+    "median_attempts": 42,
+    "median_matches": 21,
+    "hit_ratio": 0.5,
+    "points": 28,
+    "adjusted_points": 14.0
+  },
+  {
+    "user_id": 1721,
+    "name": "mfxww",
+    "games_rated": 11,
+    "median_attempts": 65,
+    "median_matches": 24,
+    "hit_ratio": 0.36923076923076925,
+    "points": 35,
+    "adjusted_points": 12.923076923076923
+  },
+  {
+    "user_id": 48,
+    "name": "Michelle Duke",
+    "games_rated": 19,
+    "median_attempts": 122,
+    "median_matches": 31,
+    "hit_ratio": 0.2540983606557377,
+    "points": 50,
+    "adjusted_points": 12.704918032786885
+  },
+  {
+    "user_id": 1710,
+    "name": "Zurgah",
+    "games_rated": 20,
+    "median_attempts": 119,
+    "median_matches": 30,
+    "hit_ratio": 0.25210084033613445,
+    "points": 50,
+    "adjusted_points": 12.605042016806722
+  },
+  {
+    "user_id": 1821,
+    "name": "Joe Mantione",
+    "games_rated": 7,
+    "median_attempts": 43,
+    "median_matches": 20,
+    "hit_ratio": 0.46511627906976744,
+    "points": 27,
+    "adjusted_points": 12.55813953488372
+  },
+  {
+    "user_id": 208,
+    "name": "m-nakasato",
+    "games_rated": 15,
+    "median_attempts": 96,
+    "median_matches": 28,
+    "hit_ratio": 0.2916666666666667,
+    "points": 43,
+    "adjusted_points": 12.541666666666668
+  },
+  {
+    "user_id": 1466,
+    "name": "Albert Arvidsson",
+    "games_rated": 11,
+    "median_attempts": 73,
+    "median_matches": 25,
+    "hit_ratio": 0.3424657534246575,
+    "points": 36,
+    "adjusted_points": 12.32876712328767
+  },
+  {
+    "user_id": 1012,
+    "name": "Daniel Bucci",
+    "games_rated": 11,
+    "median_attempts": 64,
+    "median_matches": 23,
+    "hit_ratio": 0.359375,
+    "points": 34,
+    "adjusted_points": 12.21875
+  },
+  {
+    "user_id": 199,
+    "name": "Benjamin Brown",
+    "games_rated": 10,
+    "median_attempts": 67,
+    "median_matches": 24,
+    "hit_ratio": 0.3582089552238806,
+    "points": 34,
+    "adjusted_points": 12.17910447761194
+  },
+  {
+    "user_id": 86,
+    "name": "Luke Cann",
+    "games_rated": 2,
+    "median_attempts": 12,
+    "median_matches": 11,
+    "hit_ratio": 0.9166666666666666,
+    "points": 13,
+    "adjusted_points": 11.916666666666666
+  },
+  {
+    "user_id": 278,
+    "name": "Kushagra Gour",
+    "games_rated": 11,
+    "median_attempts": 67,
+    "median_matches": 23,
+    "hit_ratio": 0.34328358208955223,
+    "points": 34,
+    "adjusted_points": 11.671641791044776
+  },
+  {
+    "user_id": 1755,
+    "name": "Amibi-1",
+    "games_rated": 40,
+    "median_attempts": 236,
+    "median_matches": 36,
+    "hit_ratio": 0.15254237288135594,
+    "points": 76,
+    "adjusted_points": 11.593220338983052
+  },
+  {
+    "user_id": 1383,
+    "name": "Jedidiah Weller",
+    "games_rated": 22,
+    "median_attempts": 144,
+    "median_matches": 31,
+    "hit_ratio": 0.2152777777777778,
+    "points": 53,
+    "adjusted_points": 11.409722222222223
+  },
+  {
+    "user_id": 1852,
+    "name": " Konstandinos (Kostas) Makaronas",
+    "games_rated": 20,
+    "median_attempts": 118,
+    "median_matches": 28,
+    "hit_ratio": 0.23728813559322035,
+    "points": 48,
+    "adjusted_points": 11.389830508474576
+  },
+  {
+    "user_id": 159,
+    "name": "Ben Fox",
+    "games_rated": 5,
+    "median_attempts": 29,
+    "median_matches": 15,
+    "hit_ratio": 0.5172413793103449,
+    "points": 20,
+    "adjusted_points": 10.344827586206897
+  },
+  {
+    "user_id": 1731,
+    "name": "Eliza Fury",
+    "games_rated": 25,
+    "median_attempts": 169,
+    "median_matches": 31,
+    "hit_ratio": 0.1834319526627219,
+    "points": 56,
+    "adjusted_points": 10.272189349112425
+  },
+  {
+    "user_id": 126,
+    "name": "Gabor Héja",
+    "games_rated": 9,
+    "median_attempts": 53,
+    "median_matches": 19,
+    "hit_ratio": 0.3584905660377358,
+    "points": 28,
+    "adjusted_points": 10.037735849056602
+  },
+  {
+    "user_id": 920,
+    "name": "José Valecillos",
+    "games_rated": 5,
+    "median_attempts": 31,
+    "median_matches": 15,
+    "hit_ratio": 0.4838709677419355,
+    "points": 20,
+    "adjusted_points": 9.67741935483871
+  },
+  {
+    "user_id": 1685,
+    "name": "sevenfoldstories",
+    "games_rated": 6,
+    "median_attempts": 35,
+    "median_matches": 15,
+    "hit_ratio": 0.42857142857142855,
+    "points": 21,
+    "adjusted_points": 9.0
+  },
+  {
+    "user_id": 1349,
+    "name": "Diana Martins",
+    "games_rated": 12,
+    "median_attempts": 79,
+    "median_matches": 21,
+    "hit_ratio": 0.26582278481012656,
+    "points": 33,
+    "adjusted_points": 8.772151898734176
+  },
+  {
+    "user_id": 1845,
+    "name": "siderilla",
+    "games_rated": 7,
+    "median_attempts": 43,
+    "median_matches": 16,
+    "hit_ratio": 0.37209302325581395,
+    "points": 23,
+    "adjusted_points": 8.55813953488372
+  },
+  {
+    "user_id": 1014,
+    "name": "Luke Nickerson",
+    "games_rated": 3,
+    "median_attempts": 18,
+    "median_matches": 11,
+    "hit_ratio": 0.6111111111111112,
+    "points": 14,
+    "adjusted_points": 8.555555555555557
+  },
+  {
+    "user_id": 1520,
+    "name": "Ben Gillbanks",
+    "games_rated": 11,
+    "median_attempts": 64,
+    "median_matches": 18,
+    "hit_ratio": 0.28125,
+    "points": 29,
+    "adjusted_points": 8.15625
+  },
+  {
+    "user_id": 1532,
+    "name": "LuoPeiran",
+    "games_rated": 7,
+    "median_attempts": 41,
+    "median_matches": 15,
+    "hit_ratio": 0.36585365853658536,
+    "points": 22,
+    "adjusted_points": 8.048780487804878
+  },
+  {
+    "user_id": 37,
+    "name": "Lee Reilly",
+    "games_rated": 3,
+    "median_attempts": 18,
+    "median_matches": 10,
+    "hit_ratio": 0.5555555555555556,
+    "points": 13,
+    "adjusted_points": 7.222222222222222
+  },
+  {
+    "user_id": 1806,
+    "name": "tee",
+    "games_rated": 3,
+    "median_attempts": 18,
+    "median_matches": 10,
+    "hit_ratio": 0.5555555555555556,
+    "points": 13,
+    "adjusted_points": 7.222222222222222
+  },
+  {
+    "user_id": 1345,
+    "name": "Marcin Walczak",
+    "games_rated": 8,
+    "median_attempts": 48,
+    "median_matches": 15,
+    "hit_ratio": 0.3125,
+    "points": 23,
+    "adjusted_points": 7.1875
+  },
+  {
+    "user_id": 180,
+    "name": "Feenposhleen",
+    "games_rated": 4,
+    "median_attempts": 23,
+    "median_matches": 11,
+    "hit_ratio": 0.4782608695652174,
+    "points": 15,
+    "adjusted_points": 7.173913043478261
+  },
+  {
+    "user_id": 1787,
+    "name": "RogersMath",
+    "games_rated": 7,
+    "median_attempts": 43,
+    "median_matches": 14,
+    "hit_ratio": 0.32558139534883723,
+    "points": 21,
+    "adjusted_points": 6.837209302325582
+  },
+  {
+    "user_id": 1471,
+    "name": "Zark Attack",
+    "games_rated": 5,
+    "median_attempts": 30,
+    "median_matches": 12,
+    "hit_ratio": 0.4,
+    "points": 17,
+    "adjusted_points": 6.800000000000001
+  },
+  {
+    "user_id": 690,
+    "name": "Romuald Kowalczyk",
+    "games_rated": 4,
+    "median_attempts": 25,
+    "median_matches": 11,
+    "hit_ratio": 0.44,
+    "points": 15,
+    "adjusted_points": 6.6
+  },
+  {
+    "user_id": 1439,
+    "name": "sdeseille",
+    "games_rated": 8,
+    "median_attempts": 48,
+    "median_matches": 14,
+    "hit_ratio": 0.2916666666666667,
+    "points": 22,
+    "adjusted_points": 6.416666666666667
+  },
+  {
+    "user_id": 207,
+    "name": "Aurélio A. Heckert",
+    "games_rated": 4,
+    "median_attempts": 26,
+    "median_matches": 11,
+    "hit_ratio": 0.4230769230769231,
+    "points": 15,
+    "adjusted_points": 6.346153846153846
+  },
+  {
+    "user_id": 1890,
+    "name": "MillzTyler",
+    "games_rated": 8,
+    "median_attempts": 49,
+    "median_matches": 14,
+    "hit_ratio": 0.2857142857142857,
+    "points": 22,
+    "adjusted_points": 6.285714285714286
+  },
+  {
+    "user_id": 1834,
+    "name": "Abdallah Alwarawreh",
+    "games_rated": 5,
+    "median_attempts": 33,
+    "median_matches": 12,
+    "hit_ratio": 0.36363636363636365,
+    "points": 17,
+    "adjusted_points": 6.181818181818182
+  },
+  {
+    "user_id": 1877,
+    "name": "CloCrown",
+    "games_rated": 7,
+    "median_attempts": 43,
+    "median_matches": 13,
+    "hit_ratio": 0.3023255813953488,
+    "points": 20,
+    "adjusted_points": 6.046511627906977
+  },
+  {
+    "user_id": 138,
+    "name": "Adrien Guéret",
+    "games_rated": 5,
+    "median_attempts": 30,
+    "median_matches": 11,
+    "hit_ratio": 0.36666666666666664,
+    "points": 16,
+    "adjusted_points": 5.866666666666666
+  },
+  {
+    "user_id": 187,
+    "name": "Corentin Pillet",
+    "games_rated": 13,
+    "median_attempts": 82,
+    "median_matches": 16,
+    "hit_ratio": 0.1951219512195122,
+    "points": 29,
+    "adjusted_points": 5.658536585365854
+  },
+  {
+    "user_id": 1690,
+    "name": "Damien Gurzynski",
+    "games_rated": 7,
+    "median_attempts": 42,
+    "median_matches": 12,
+    "hit_ratio": 0.2857142857142857,
+    "points": 19,
+    "adjusted_points": 5.428571428571428
+  },
+  {
+    "user_id": 1695,
+    "name": "Lenin Miscreola",
+    "games_rated": 4,
+    "median_attempts": 24,
+    "median_matches": 9,
+    "hit_ratio": 0.375,
+    "points": 13,
+    "adjusted_points": 4.875
+  },
+  {
+    "user_id": 21,
+    "name": "Diego Marcos",
+    "games_rated": 17,
+    "median_attempts": 109,
+    "median_matches": 16,
+    "hit_ratio": 0.14678899082568808,
+    "points": 33,
+    "adjusted_points": 4.844036697247707
+  },
+  {
+    "user_id": 1491,
+    "name": "Slava",
+    "games_rated": 4,
+    "median_attempts": 25,
+    "median_matches": 9,
+    "hit_ratio": 0.36,
+    "points": 13,
+    "adjusted_points": 4.68
+  },
+  {
+    "user_id": 1735,
+    "name": "BeluBruh123",
+    "games_rated": 2,
+    "median_attempts": 12,
+    "median_matches": 6,
+    "hit_ratio": 0.5,
+    "points": 8,
+    "adjusted_points": 4.0
+  },
+  {
+    "user_id": 80,
+    "name": "Emre Guneyler",
+    "games_rated": 5,
+    "median_attempts": 32,
+    "median_matches": 9,
+    "hit_ratio": 0.28125,
+    "points": 14,
+    "adjusted_points": 3.9375
+  },
+  {
+    "user_id": 150,
+    "name": "Claudio Guarisco",
+    "games_rated": 3,
+    "median_attempts": 18,
+    "median_matches": 7,
+    "hit_ratio": 0.3888888888888889,
+    "points": 10,
+    "adjusted_points": 3.888888888888889
+  },
+  {
+    "user_id": 1767,
+    "name": "AdjWang",
+    "games_rated": 2,
+    "median_attempts": 13,
+    "median_matches": 6,
+    "hit_ratio": 0.46153846153846156,
+    "points": 8,
+    "adjusted_points": 3.6923076923076925
+  },
+  {
+    "user_id": 1803,
+    "name": "Jorge de los Santos",
+    "games_rated": 4,
+    "median_attempts": 27,
+    "median_matches": 8,
+    "hit_ratio": 0.2962962962962963,
+    "points": 12,
+    "adjusted_points": 3.5555555555555554
+  },
+  {
+    "user_id": 427,
+    "name": "Ronica Singh",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 4,
+    "hit_ratio": 0.6666666666666666,
+    "points": 5,
+    "adjusted_points": 3.333333333333333
+  },
+  {
+    "user_id": 738,
+    "name": "Sayem Shafayet",
+    "games_rated": 3,
+    "median_attempts": 18,
+    "median_matches": 6,
+    "hit_ratio": 0.3333333333333333,
+    "points": 9,
+    "adjusted_points": 3.0
+  },
+  {
+    "user_id": 1604,
+    "name": "my-kiwi",
+    "games_rated": 2,
+    "median_attempts": 12,
+    "median_matches": 5,
+    "hit_ratio": 0.4166666666666667,
+    "points": 7,
+    "adjusted_points": 2.916666666666667
+  },
+  {
+    "user_id": 1794,
+    "name": "jbdev-chainsaw",
+    "games_rated": 2,
+    "median_attempts": 12,
+    "median_matches": 5,
+    "hit_ratio": 0.4166666666666667,
+    "points": 7,
+    "adjusted_points": 2.916666666666667
+  },
+  {
+    "user_id": 1901,
+    "name": "diegoD0002",
+    "games_rated": 2,
+    "median_attempts": 12,
+    "median_matches": 5,
+    "hit_ratio": 0.4166666666666667,
+    "points": 7,
+    "adjusted_points": 2.916666666666667
+  },
+  {
+    "user_id": 1771,
+    "name": "ll-bs",
+    "games_rated": 7,
+    "median_attempts": 43,
+    "median_matches": 8,
+    "hit_ratio": 0.18604651162790697,
+    "points": 15,
+    "adjusted_points": 2.7906976744186047
+  },
+  {
+    "user_id": 1387,
+    "name": "Fábio Santos",
+    "games_rated": 4,
+    "median_attempts": 24,
+    "median_matches": 6,
+    "hit_ratio": 0.25,
+    "points": 10,
+    "adjusted_points": 2.5
+  },
+  {
+    "user_id": 1675,
+    "name": "Kapıkulu",
+    "games_rated": 2,
+    "median_attempts": 14,
+    "median_matches": 5,
+    "hit_ratio": 0.35714285714285715,
+    "points": 7,
+    "adjusted_points": 2.5
+  },
+  {
+    "user_id": 1743,
+    "name": "QuRuiKondouKen",
+    "games_rated": 4,
+    "median_attempts": 28,
+    "median_matches": 6,
+    "hit_ratio": 0.21428571428571427,
+    "points": 10,
+    "adjusted_points": 2.142857142857143
+  },
+  {
+    "user_id": 108,
+    "name": "Arthur Brongniart",
+    "games_rated": 2,
+    "median_attempts": 12,
+    "median_matches": 4,
+    "hit_ratio": 0.3333333333333333,
+    "points": 6,
+    "adjusted_points": 2.0
+  },
+  {
+    "user_id": 133,
+    "name": "Kang Jung Min",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 3,
+    "hit_ratio": 0.5,
+    "points": 4,
+    "adjusted_points": 2.0
+  },
+  {
+    "user_id": 1766,
+    "name": "illiazvinskyi-jpg",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 3,
+    "hit_ratio": 0.5,
+    "points": 4,
+    "adjusted_points": 2.0
+  },
+  {
+    "user_id": 1887,
+    "name": "DaichiFukuhara",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 3,
+    "hit_ratio": 0.5,
+    "points": 4,
+    "adjusted_points": 2.0
+  },
+  {
+    "user_id": 1897,
+    "name": "Fabián Arancibia Caprile",
+    "games_rated": 4,
+    "median_attempts": 23,
+    "median_matches": 5,
+    "hit_ratio": 0.21739130434782608,
+    "points": 9,
+    "adjusted_points": 1.9565217391304348
+  },
+  {
+    "user_id": 1937,
+    "name": "T0uillette",
+    "games_rated": 4,
+    "median_attempts": 24,
+    "median_matches": 5,
+    "hit_ratio": 0.20833333333333334,
+    "points": 9,
+    "adjusted_points": 1.875
+  },
+  {
+    "user_id": 1758,
+    "name": "neutrinocoder",
+    "games_rated": 1,
+    "median_attempts": 7,
+    "median_matches": 3,
+    "hit_ratio": 0.42857142857142855,
+    "points": 4,
+    "adjusted_points": 1.7142857142857142
+  },
+  {
+    "user_id": 1900,
+    "name": "osman095",
+    "games_rated": 1,
+    "median_attempts": 7,
+    "median_matches": 3,
+    "hit_ratio": 0.42857142857142855,
+    "points": 4,
+    "adjusted_points": 1.7142857142857142
+  },
+  {
+    "user_id": 1592,
+    "name": "Joseph Chai",
+    "games_rated": 6,
+    "median_attempts": 35,
+    "median_matches": 4,
+    "hit_ratio": 0.11428571428571428,
+    "points": 10,
+    "adjusted_points": 1.1428571428571428
+  },
+  {
+    "user_id": 63,
+    "name": "Michał Budzyński",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 2,
+    "hit_ratio": 0.3333333333333333,
+    "points": 3,
+    "adjusted_points": 1.0
+  },
+  {
+    "user_id": 1324,
+    "name": "Antti Haavikko",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 2,
+    "hit_ratio": 0.3333333333333333,
+    "points": 3,
+    "adjusted_points": 1.0
+  },
+  {
+    "user_id": 1700,
+    "name": "sandgraal",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 2,
+    "hit_ratio": 0.3333333333333333,
+    "points": 3,
+    "adjusted_points": 1.0
+  },
+  {
+    "user_id": 1725,
+    "name": "D_Agustin",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 2,
+    "hit_ratio": 0.3333333333333333,
+    "points": 3,
+    "adjusted_points": 1.0
+  },
+  {
+    "user_id": 1841,
+    "name": "wakkin",
+    "games_rated": 1,
+    "median_attempts": 7,
+    "median_matches": 2,
+    "hit_ratio": 0.2857142857142857,
+    "points": 3,
+    "adjusted_points": 0.8571428571428571
+  },
+  {
+    "user_id": 1959,
+    "name": "lkalyadin",
+    "games_rated": 8,
+    "median_attempts": 46,
+    "median_matches": 3,
+    "hit_ratio": 0.06521739130434782,
+    "points": 11,
+    "adjusted_points": 0.717391304347826
+  },
+  {
+    "user_id": 1785,
+    "name": "Fran Martos",
+    "games_rated": 2,
+    "median_attempts": 13,
+    "median_matches": 2,
+    "hit_ratio": 0.15384615384615385,
+    "points": 4,
+    "adjusted_points": 0.6153846153846154
+  },
+  {
+    "user_id": 1715,
+    "name": "Edgar San Martin, Jr.",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 1,
+    "hit_ratio": 0.16666666666666666,
+    "points": 2,
+    "adjusted_points": 0.3333333333333333
+  },
+  {
+    "user_id": 1861,
+    "name": "LG",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 1,
+    "hit_ratio": 0.16666666666666666,
+    "points": 2,
+    "adjusted_points": 0.3333333333333333
+  },
+  {
+    "user_id": 1728,
+    "name": "HyeonMin Kim",
+    "games_rated": 2,
+    "median_attempts": 11,
+    "median_matches": 1,
+    "hit_ratio": 0.09090909090909091,
+    "points": 3,
+    "adjusted_points": 0.2727272727272727
+  },
+  {
+    "user_id": 1826,
+    "name": "gns3526",
+    "games_rated": 2,
+    "median_attempts": 12,
+    "median_matches": 1,
+    "hit_ratio": 0.08333333333333333,
+    "points": 3,
+    "adjusted_points": 0.25
+  },
+  {
+    "user_id": 1352,
+    "name": "ch!k0",
+    "games_rated": 2,
+    "median_attempts": 14,
+    "median_matches": 1,
+    "hit_ratio": 0.07142857142857142,
+    "points": 3,
+    "adjusted_points": 0.21428571428571427
+  },
+  {
+    "user_id": 160,
+    "name": "Santiago Zapata",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 0,
+    "hit_ratio": 0.0,
+    "points": 1,
+    "adjusted_points": 0.0
+  },
+  {
+    "user_id": 992,
+    "name": "Thomas Brown",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 0,
+    "hit_ratio": 0.0,
+    "points": 1,
+    "adjusted_points": 0.0
+  },
+  {
+    "user_id": 1716,
+    "name": "fcbpymy6yb-stack",
+    "games_rated": 1,
+    "median_attempts": 7,
+    "median_matches": 0,
+    "hit_ratio": 0.0,
+    "points": 1,
+    "adjusted_points": 0.0
+  },
+  {
+    "user_id": 1726,
+    "name": "Goal Ogunsina",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 0,
+    "hit_ratio": 0.0,
+    "points": 1,
+    "adjusted_points": 0.0
+  },
+  {
+    "user_id": 1778,
+    "name": "herobank110",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 0,
+    "hit_ratio": 0.0,
+    "points": 1,
+    "adjusted_points": 0.0
+  },
+  {
+    "user_id": 1825,
+    "name": "jjyo040102-cmyk",
+    "games_rated": 1,
+    "median_attempts": 7,
+    "median_matches": 0,
+    "hit_ratio": 0.0,
+    "points": 1,
+    "adjusted_points": 0.0
+  },
+  {
+    "user_id": 1857,
+    "name": "sonjebeen",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 0,
+    "hit_ratio": 0.0,
+    "points": 1,
+    "adjusted_points": 0.0
+  },
+  {
+    "user_id": 1893,
+    "name": "이인송",
+    "games_rated": 1,
+    "median_attempts": 6,
+    "median_matches": 0,
+    "hit_ratio": 0.0,
+    "points": 1,
+    "adjusted_points": 0.0
+  }
+]

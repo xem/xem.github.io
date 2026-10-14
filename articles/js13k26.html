@@ -444,10 +444,24 @@ crayondemo.innerHTML = crayon();
 <br>When I made it, I thought it would create an interesting contrast with the whimsical theme and title screen.
 <br>Some testers remarked the irony of the fire appearing under the rain, that was intentional.
 
-<p>Fun fact: We're only a few seconds in-game and my entry has already used <b>4 different rendering techniques</b> (Emoji, CSS3D, SVG and 2D canvas).
+<p>Fun fact: We're only a few seconds in-game and my entry has already used <b>5 different rendering techniques</b> (HTML, emoji, CSS3D, SVG and 2D canvas).
 <br>CSS3D is used on the title screen and in the intro and stops being used after the fire starts.
 <br>From the dead tree apparition, up to the end of the game, everything is rendered on a 2D canvas (on 4 canvases actually: one for the scene, one for the rain (100 slanted lines drawn randomly at each frame), one for the drawing board and one for the actual drawings).
 <br>Besides these canvases, CSS gradients are used for the sky and the god rays, and HTML buttons and text are added when necessary.
+
+<p>The sun and sunbeams are made with a CSS radial-gradient put on top of a conic-gradient, wiggling slowly:
+<p><pre class=lang-css><code>#sun {
+  animation: wiggle 10s ease-in-out infinite;
+  background: 
+    radial-gradient(circle, #fff 0%, #fffb 5%, #fff0 25%),
+    conic-gradient(
+      #fff0 178deg, #fff7 180deg, #fff0 183deg, #fff0 198deg, #fff0 205deg, #fff7 208deg,
+      #fff0 212deg, #fff0 225deg, #fff0 233deg, #fff7 237deg, #fff0 241deg, #fff0 250deg,
+      #fff0 261deg, #fff7 265deg, #fff0 270deg, #fff0 277deg, #fff7 281deg, #fff0 286deg,
+      #fff0 294deg, #fff7 297deg, #fff0 301deg, #fff0 307deg
+    );
+}</code></pre>
+
 
 <p>After making the title screen, my code was 12kb commented, and 2.6kb zipped.
 <br>After making the intro, my code was 19.5kb, and 3.3kb zipped, including rain and thunder sound.
@@ -511,7 +525,7 @@ crayondemo.innerHTML = crayon();
 <p>However, the sky that clears up when the Sun appears is animated with CSS (*), and the dialogs (made in HTML) are handled with <b>setTimeout()</b>'s.
 <p><span style="font-size: 12px">(*) a little coding trick was necessary for the sky transitions: since CSS can't transition between two linear-gradients, I had to superpose a "good weather sky" and a "bad weather sky", and made the bad one's opacity reduce progressively to 0 at the right time)</span>
 
-<p>One last optimization was added during the polishing phase for the drawing board: since the "crayon segment" function is more complex than a simple <b>ctx.moveTo()</b> / <b>ctx.lineTo()</b>, as the drawing grew bigger, the browser slowed down progressively because it tried to redraw everything at each frame on the transparent canvas. I couldn't stop resetting the canvas at each frame because it contained the colored crayon that follows the mouse, so the solution I found was to print all the finished lines on the board canvas (whish is never refreshed), and only draw the current segment on the transparent canvas. When we press "OK", all the old lines are copied on the transparent canvas and the drawing is copied for future use.
+<p>One last optimization was added during the polishing phase for the drawing board: since the "crayon segment" function is more complex than a simple <b>ctx.moveTo()</b> / <b>ctx.lineTo()</b>, as the drawing grew bigger, the browser slowed down progressively because it tried to redraw everything at each frame on the transparent canvas. I couldn't stop resetting the canvas at each frame because it contained the colored crayon that follows the mouse, so the solution I found was to print all the finished lines on the board canvas (which is never refreshed), and only draw the current segment on the transparent canvas. When we press "OK", all the old lines are copied on the transparent canvas and the drawing is copied for future use.
 
 
 <p>Size check at the end of chapter 1: 27.5kb commented, 6kb zipped.
@@ -524,7 +538,7 @@ crayondemo.innerHTML = crayon();
 <p><img src="images/js13k26/11.png" width=600>
 
 <p>When the grass drawing is done, the green crayon draws one patch of grass in front of the frog, then the ground turns green, and finally, 100 other patches are placed in random positions inside a 1400px x 250px area surrounding the frog.
-<br>Since the ground is "rounded", it was a bit weird to have the grass scroll horizontally when the Unicorns starts walking again, so I added a sinusoidal offset to create a subtle 3D effect (the grass patches follow a small curve and are 40px higher in the center of the screen than on the sides). 
+<br>Since the ground is "rounded", it was a bit weird to have the grass scroll horizontally when the Unicorn starts walking again, so I added a sinusoidal offset to create a subtle 3D effect (the grass patches follow a small curve and are 40px higher in the center of the screen than on the sides). 
 <pre class=lang-js><code>for(i of patches){
   d = Math.abs(i.x - 260) / 260;
   f.translate(
@@ -558,7 +572,7 @@ if(frame > 150){
 <br>Blubbly thanks us and jumps into the stream to call his friend.
 
 <p>Size check at the end of chapter 3: 45kb commented, 8kb zipped.
-<br>So far I seem to consistently add about about 1kb to my game every day. That's nice!
+<br>So far I seem to consistently add about 1kb to my game every day. That's nice!
 
 <p><b>Chapter 4: orange</b>
 <p>Same scene, Beavy the beaver arrives and makes a little joke where he says that the orange color reminds him freshly cut wood.
@@ -585,7 +599,7 @@ if(frame > 150){
 
 <p><img src="images/js13k26/14.png" width=400>
 
-<p>This reminds me that, during the development of the title screen, I've had an invasion of giragffes on my island (I accidentally put the giraffe in the same loop that drew the 30 flower emojis). 
+<p>This reminds me that, during the development of the title screen, I've had an invasion of giraffes on my island (I accidentally put the giraffe in the same loop that drew the 30 flower emojis). 
 
 <p><img src="images/js13k26/15.png" width=400>
 
@@ -649,6 +663,12 @@ if(frame > 150){
 <p>I added credits/accolades at the end of the game because I had enough space for them, and wanted to send a shout-out to all the people who have contributed to the game and to JS13k.
 
 <p>The whole game was also gathered in a single, 2338-line, HTML file.
+
+<p>Obviously, when I created this big HTML file, I forgot to give it a UTF-8 BOM, so I saw this when I opened it:
+
+<p><video controls src="images/js13k26/7.mp4" width=500></video>
+
+<p>(Similarly to the the first bug I had on day 3: without <i>BOM</i> or <i>charset meta tag</i>, the <i>UTF-8</i> emoji were wrongly interpreted in an old charset called <i>Windows-1252</i>, creating these weird characters also known as <i>Mojibake</i>.) 
 
 <p>Size check after polishing: 70kb commented, 10.8kb zipped.
 <br>2.2kb remaining for the music, sounds, and why not throw in the "prologue" animation I made on day one too!
@@ -758,7 +778,7 @@ if(frame > 150){
 
 <p>I also created a favicon in SVG (like every year) using unicorn and rainbow emoji. As I don't know how to load a webfont in a favicon, these are drawn using the default font of the OS or device you're on.
 
-<p><img src="images/js13k26/19.png" width=100>
+<p><img src="images/js13k26/19.png" width=200>
 
 <p><b>Golfing?</b>
 
@@ -767,6 +787,12 @@ if(frame > 150){
 <br>But I didn't make any effort to compress my code so far: it still had long variable/function names, verbose SVGs, etc.
 <br>Since I only had 20b to lose, I managed to do it by simply rewriting all my game's colors (written in #rrggbb or rgb()) into shorthand #rgb.
 <br>All the other lengthy stuff is still present in the final game, not mangled, just minified, RoadRolled and zipped.
+
+<p>For the release, the cover art was done by my love, Sev:
+
+<p><img src="images/js13k26/21.jpeg" width=1000>
+
+<p>Simpler (on the right) was better.
 
 <p><b>Interesting stats</b>
 
@@ -831,7 +857,7 @@ crayon = (color = "#ffffff") => {
   svgs.innerHTML += crayon("purple");
   svgs.innerHTML += crayon("indigo");
   
-  svgs.innerHTML += "<br><b>Unicorny's emotions</b><br><div style='padding: 15px; background: #def; border-radius:5px; margin: 5px; width: 600px;'>"+ mouth+ moutho+ frown;
+  svgs.innerHTML += "<br><b>Unicorny's emotions</b><br><div style='padding: 15px; background: #def; border-radius:5px; margin: 5px; width: 90%; max-width: 600px;'>"+ mouth+ moutho+ frown;
   
   
   svgs.innerHTML += "</div><br><b>Hints</b><br>";
@@ -867,25 +893,341 @@ crayon = (color = "#ffffff") => {
 
 <p><h3>Bonus entry: WORD5 !</h3>
 
+<p>The WORD5 entry was coded in secret (without posting my progress on X or Slack) during days 27 to 29 of the jam
+
+<p>As we saw earlier, I had <b>2.1 kb available</b> to implement my word games on top of the 10.9 kb dictionary.
+
+<p>I also had a vague idea of what these games would look like after making a <a href="https://xemstudio.itch.io/word-games">5 word games compilation</a> for GamedevJS 2026.
+
+<p><b>Still, I wanted to code all the games from scratch, just for JS13k, for many reasons</b>
+<br>- I wanted to make them as small as possible.
+<br>- I wanted to make them as optimized (fast) as possible.
+<br>- I wanted to present them as beautifully as possible.
+<br>- I wanted to adapt them to my 2-to-5-letter dictionary.
+
+<p>So I decided to make a single, narrow (mobile-first), HTML page with 5 sections that can easily be opened and closed (using <b>details/summary</b> HTML tags), each section presenting the rules of a game in english and showing the playing area (text inputs, "ok" buttons, ...).
+
+<p><img src="images/js13k26/w1.png" width=800>
+
+<p><b>Here are the adaptations made for the "5 letter max" dictionary</b> 
+<br>- Wordle already works with 5-letter words, so all is good. I just made sure that the "word of the day" didn't have repeated letters.
+<!--br><pre class=lang-js><code>// get all 5-letter words with different letters (6175)
+C = W.filter(w => w.length == 5 && new Set(w).size == 5);</code></pre-->
+<br>- Word Mix has simpler rules compared to "Spelling bee". Here, no letter is mandatory, and each letter can be used only once per word.
+<br>- Boggle has the same rules as the original, except it's limited to 5-letter words.
+<br>- Super Word shows 3 letters. It allows words containing this substring anywhere (not just in the middle).
+<br>- Maxi Word is limited to 5 letters per line and column. When no answer exists for a line or column, the field is disabled.
+
+
+
+<p>I found it really fun to create this interface as complete and uncluttered as possible.
+
+<p><b>How I created the daily challenges</b>
+<br>The "word of the day" (for Wordle) and the "puzzles of the day" (for the other games) are picked pseudo-randomly when the page loads.
+<br>The seed for this pseudo-random selection is simply the day counter, displayed at the top of the page (day 0 being August 13, 2026).
+<p>For Wordle, Word Mix and Super Word, the game is initialized with a word picked from the dictionary:
+<br>- For Wordle and Word Mix: we pick a 5-letter word without repeating letters (so all letters are different).
+<br>- For Word Mix: the word is shuffled to give us the 5-letter list of the day (so there's at least one 5-letter solution each day).
+<br>- For Super Word: we pick a real 3-letter word in the dictionary, and use it as the substring of the day.
+
+<p>Here's how 3-letter words and 5-letter words with no repeating letters are picked from the dictionary:
+<p><pre class=lang-js><code>// get all 5-letter words with different letters (6175)
+C = W.filter(w => w.length == 5 && new Set(w).size == 5);
+
+// get all 3-letter words (1085)
+D = W.filter(w => w.length == 3);</pre></code>
+
+<p>For Boggle and Word Mix, letters are picked individually.
+<br>Though, all the letters of the alphabet must not have equal chances to be picked. Instead, I pick letters from the string "esaoriltnudpcmyhgbkfwvzxjq" (which is no less than the dictionary remap that appeared during the step 3 of our word compression challenge, which puts the most used letters first), giving each letter a probability to be picked proportional to how soon it appears in the string.
+<p>Thanks to this approach (and many other little tweaks), you can be sure to often have frequent letters like e, s, a, in Boggle and Maxiword grids, and rarely obscure letters like x, j or q. (also, I'm happy to have found this specific use for that 26-char remap string!)
+
+
+<p>Anyway, so far so good, but for this "ultimate" entry, I didn't want to stop there.
+<p><b>I also wanted to compute all the solutions for the games 2 to 5 on page load, and show the "goal to reach" in each section</b>.
+
+<br>With a 14,915 words dictionary, finding the longest subword, the list of subwords, and the list of superwords from a given string was pretty straightforward (quite "easy" to code and optimize).
+
+<br>Finding all the Boggle solutions was not as easy, though: I did write my own Boggle solver for GamedevJS 2026, but it was verbose and executed slowly.
+<br>So for this algorithm (and this algorithm only), I asked ChatGPT to help me optimize it, which it one-shotted masterfully.
+<br>The final code was super cryptic though, but it was short and worked perfectly, so I kept it.
+<br>Thanks to this optimization, the Boggle solutions were suddenly generated in a blink of an eye, like for all the other games.
+
+<p><pre class=lang-js><code>// helper function: check if a word w is a solution in a 4x4 boggle grid g
+v = (g, w, p = -1, m = 0) => 
+  !w[0] || [...g].some((c, i) => 
+    c == w[0] && ~m & 1 &lt;&lt; i && 
+    (p &lt; 0 || (i % 4 - p % 4) ** 2 + ((i >> 2) - (p >> 2)) ** 2 &lt; 3) && 
+    v(g, w.slice(1), i, m | 1 &lt;&lt; i)
+  );</code></pre>
+  
+<p>Here's a video showing how fast the solution finder is, after backporting it to my Boggle game (which has a full english dictionary!)
+
+<p><video controls src="images/js13k26/8.mp4" width=500></video>
+
+<p>And that's how now, each day, you can open the game WORD5 and instanltly see 5 new games and all their hints and solutions.
+
+<p>Another improvement that took quite a lot of bytes was making the Maxiword fields behave nicely:
+<br>After typing a word and pressing Enter or Tab key, the word is checked.
+<br>If the word is valid, its length is added to the score and the focus is put on the next (non-disabled) field.
+<br>Else, if the word is invalid, the field is emptied and the focus remains on the same field (if we pressed enter) or the next one (if we pressed Tab).
+
+<p><b>Bonus buttons</b>
+<br>When I finished implementing, golfing and polishing my 5 mini word games, I saw that I still had a few hundred spare bytes. 
+<br>I decided to use them for 3 extra features:
+<br>- A button that shows all your scores (and allows to share them with the outside world)
+<br>- A button that shows all the games' solutions (which are computed on page load), with the solutions already found highlighted in bold.
+<br>- A button that shows the full dictionary (the list of 14,915 words. Not really useful, but I found it impressive hehehe)
+
+<p><img src="images/js13k26/w2.png" width=800>
+
+<p><b>Mobile optimization</b>
+<br>I experimented a lot with HTML meta tags and CSS hacks to find the absolute smallest setup that makes my game look and feel nice on mobile phones. Here's the one I ended up with:
+
+<p><pre class=lang-html><code>&lt;!-- HTML: force 600px wide viewport on mobile -->
+&lt;meta name=viewport content=width=600>
+
+&lt;style>
+/* CSS: Disable blue highlight color on webkit mobile browsers (#ffff = transparent) */
+*{-webkit-tap-highlight-color:#ffff}
+&lt;/style></code></pre>
+
+<p>That's it. All the rest (other meta tags, touch event listeners, ...) can be omitted.
+
+<p><b>Final compression</b>
+<br>After golfing my code as much as possible, renaming all my variables and functions names to 1 character, and applying a strong pass of RoadRoller and 10,000 zip iterations, everything could finally fit in exactly 13,312 bytes.
+<br>This entry was definitely my hardest and longest JS13k compression challenge...
+<br>And my minified code has a rather unusual shape!
+
+<p><img src="images/js13k26/w3.png" width=1100>
+
+<p>(And while writing these lines, I realize that I forgot to remove a "console.log" from my code. Damn!)
+
 <br><br><hr><br>
 
 <p><h3>Feedbacks</h3>
+
+<p>The feedbacks were globally very good: Unicorny is cute, WORD5 is ipressive.
+<br>The most frequent remarks were about the fixed size canvas (for Unicorny) and the theme not respected (for WORD5).
+<br>Fair enough: that's two things I deliberately overlooked, even though I wish it cost me less points in the final scores.
+
+<p><b>Unicorny</b>
+<ul>"This is so cute and heartwarming. Enjoyed this a lot! I would’ve loved to see this in full screen size, or at least centered on the screen." - <b>Kyler</b>
+<li>"This game made me smile. It really involves the player. It’s very cute. It makes you feel creative and whimsical. I wish the text tweens were faster, or maybe they could speed up if you hold down the mouse. I wish the music was polyphonic, with a bit more harmony and depth, but it fit the simple childlike gameplay. I wish the game stretched to fill any sized screen. Overall, I loved this game and enjoyed the simple cute and happy creative experience. Fantastic work." - <b>Christer Kaitila</b>
+<li>"A heartwarming tribute to the jam with a glorious ending. Wonderful work &lt;3" - <b>dalps </b>
+<li>"Very very cute! Your prowess with word compression really shines through here. Small thing that would have been nice; I kept accidentally highlighting the game. user-select: none; would I think have made that go away." - <b>Daniel LaCosse</b>
+<li>"Nicely done, I enjoyed this quite a bit! It’s nice to have a game where you can just do a bit of drawing and relax in-between arcade style games." - <b>Randall Lee Spence</b>
+<li>"A very innovative, chill and cute game, I really love that the player creations become parts of the world. :)" - <b>Adrien Guéret</b>
+<li>"I didn’t know what to expect but this is some of the cutest work I’ve seen, which is a lot to say in a contest about rainbows and unicorns. I absolutely loved the mechanic of drawing in the pieces to finish the story. Totally unique, story was charming, and it’s certainly innovative without being stressful or difficult at all. I’m going to replay it with my kid, they’re going to love it!" - <b>MakeshiftMitten</b>
+<li>"This is a clever entry. Everything fits great together and is well polished. I played another entry that has the player draw game elements but takes a very different approach to yours. It’s great to see creative ideas :)" - <b>Anthony Cosgrave</b>
+<li>"Short but fun and very cute. Impressive use and manipulation of emoji to convey story and emotion. Why is the game size fixed, and not centered?" - <b>João Lopes</b>
+<li>"YES! Another art game. 💪 I love that there was no judging in this experience. It’s, “here are some expressive tools, have fun drawing!” along with, “here’s a nice little narrative to prompt you with things to draw.” I was thoroughly satisfied when I saw my final reveal, with the bifröst to space, and the beautiful ripe jalapeño tree. Great work!" - <b>Chris Subagio</b>
+<li>"It is a really cool and unique idea, with great execution! I laughed out loud when the giraffe went for the apple. The crayon brush effect is a nice touch, I will have to check out how you did that. And thank you too for your great games over the years 😊️" - <b>Gabor Héja</b>
+<li>"This is uniquely made and great job , the story starts with “the crayons disappeared and I was like noooo XD , also I was forced to play the whole story with the ugliest grass I drew in my life, I enjoyed it :)" - <b>tee</b>
+<li>"Cool game, the kids love it. Getting to draw stuff you can interact with is brilliant. Love the concept and the graphics, the narrative is the true star of the show" - <b>Jasper Renow-Clarke</b>
+<li>"who is cutting the onions, I am not crying! super cute game!" - <b>Karthikeyan Jayakumar</b>
+<li>"I thought your concept was really interesting. The fact that you can draw your own story elements makes it truly unique. Every playthrough is different. It’s a really great idea, it sets it apart from other games. I found it really interesting and very refreshing. The only minor criticism might be that the introduction is a little too long, and you have to wait a while before you can start playing, which can be a bit frustrating at times, especially when you have so many games to test. But honestly, it’s really just a minor detail." - <b>Rubikou</b>
+<li>"so cute ! i like games with creative ideas and this is one of them. i just wish if there was more gameplay mechanics other than drawing. but overall its a nice cute game." - <b>Amibi-1</b>
+<li>"This is cute, and a bit sad! It’s so unfortunate that the game in the fix size 720 x 405px, it’s a bit small for modern screens. I need to check the postmortem to understand why you made this limitation. It would be nice to try on an iPad; it was hard to draw with a mouse. My daughter and I liked it." - <b>Alexey Kalmakov</b>
+<li>"This is very creative! A full interactive story ! Very fun and highly replayable! Good job!" - <b>芙利肯尼（Kenny Fully)</b>
+<li>"Cute little story you have going here I like it! Good use of emojis here imo." - <b>Nick Branstein</b>
+<li>"Very cute, great interactive story, kids would love this one! Very well made" - <b>Ryan Tyler</b>
+<li>"Very cute lil story and great use of emoji’s!!" - <b>Brian Nicolucci</b>
+<li>"Lovely use of user generated content to bring a story driven game to life and get around the size limits in a creative way. I would have liked more user generated gfx or a different style for the built-in characters that matched the user drawings more closely." - <b>John Cotterell</b>
+<li>"i played this before the voting started, honestly i was waiting to write about this. i loved this so much! i love how i can draw a little smiley sun > &lt; that was my fav part! i like the innovation i can totally see myself playin this game again again :))" - <b>sodium</b>
+<li>"The island burnt in a rain? Apart from that a nice and enjoyable story/game." - <b>Michael M.</b>
+</ul>
+
+<p><b>WORD5</b>
+<ul>
+<li>"Very impressive! The game seems quite off theme, but it’s quite impressive that you were able to fit so many games!" - <b>Kyler</b>
+<li>"This is a very techinically impressive off-theme entry! Nothing super innovative, but all well made and it’s impressive to fit 5 games in 2.3kB. I will say that as a red-green color-blind person, the orange and green look almost exactly the same to me!" - <b>Daniel Bucci</b>
+<li>"Great idea and nice golf code work." - <b>Andrew Higson-Smith</b>
+<li>"Impressive technical challenge to not only compress all those words into the game, but then make 5 word games using them. I did notice a lot of obvious words missing, so I’m curious what the word list was based on (e.g. mum and mama are not present, but other obscure words like “ut” are). Nice work on the daily games too. Not really related to the theme though :P edit: Ah, i misunderstood the word mix game, i couldn’t repeat letters! My bad :)" - <b>João Lopes</b>
+<li>"Fair play for finding the time to submit 2 games, I just about got 1 submitted. Technically very impressive." - <b>Anthony Cosgrave</b>
+<li>"Cool collection of word games, but nothing to see with competition theme." - <b>Emanuele Feronato</b>
+<li>"This is nice and cool, but I don’t think this has anything to do with the theme of the gamejam. Sorry." - <b>芙利肯尼（Kenny Fully)</b>
+<li>"Lacking in both unicorns and rainbows. But nice puzzle clones." - <b>LawftyGoals</b>
+<li>"in the beginning i thought i should use unicorn-rainbow words. maybe u shouldve went with that? overall a nice game but i think wordle wasnt working." - <b>Amibi-1</b>
+<li>"It was neat that you packed it all in there! It mostly functioned, and dictionary was simple but worked. I could not get wordle to function. I put in a word, all showed black, when I out in a second word nothing happened. I didn’t like the auto zoom in every time a text box got focus." - <b>EricOP</b>
+<li>"Seriously impressive amount of stuff in such a small size, great job! It would be a nice extra if we co</b>uld play the words of the previous days, but I am not complaining at all :)" - <b>Gabor Héja</b>
+<li>"Fun little distraction, but nothing to do with rainbows or unicorns" - <b>Jasper Renow-Clarke</b>
+<li>"This is an absolute masterpiece of compression! Cramming a 15k-word dictionary and 5 different games into less than 13kb is pure wizardry. 🧙‍♂️ As a non-native speaker, playing these word games is also a fantastic and fun way for me to learn English! It’s the perfect homage to NYT games." - <b>Marvin</b>
+<li>"If it was at least pink to fit the theme… :D Good tech - but I’m still waiting for your mini 3d engine! :)" - <b>Almar Suarez</b>
+<li>"You once again dazzle and impress with your ability to compress a ridiculous amount of content into the tiniest of spaces. I’m not a huge word game fan but kudos regardless. Cheers!" - <b>Ryan Malm</b>
+<li>"It is a very impressive feat of compression!" - <b>Daniel Cohen</b>
+<li>"14,915 English words… in 13 kB. thats… incredible!" - <b>Christoph Schansky</b>
+<li>"It’s an impressive mini-game,but where’s unicorns?" - <b>tobytime1</b>
+<li>"You should lobby for a “technically impressive” voting category, otherwise your traditional extra “it does not fit the theme, but I wanted to show you anyway how much stuff I can fit into 13kb” game will never reach the rank your efforts deserve." - <b>Michael M.</b>
+</ul>
+
+
 
 <br><br><hr><br>
 
 <p><h3>My favourite entries</h3>
 
+<p>I took time to test all the entries (except WebXR and Unfinished ones). Even with 30 seconds to 2 minutes per game, it was LOOONG!
+<br>I'm not sure if I'll be able to do that every year, as the number of entries (and proportion of AI entries) keeps growing.
+<br>Though, I have to admit that the overall quality is also higher than past years: my favourite games list has reached 50 items!
+<br>And according to this year's stats, I was <a href="https://js13kgames.com/2026/voters.json">among the biggest voders/commenters</a>, and <a href="images/js13k26/community-experts.json">made the most representative votes</a>. YAY!
+
+<p><b>Here's my TOP 50:</b>
+
+<ul>
+<li><a href="https://js13kgames.com/2026/games/the-rainbow-is-right-there">The rainbow is right here </a>
+<li><a href="https://js13kgames.com/2026/games/prism-paddock">Prism Paddock </a>
+<li><a href="https://js13kgames.com/2026/games/wonderfulness-is-mandatory">Wonderfulness is mandatory </a>
+<li><a href="https://js13kgames.com/2026/games/rainbow-surfer">Rainbow surfer </a>
+<li><a href="https://js13kgames.com/2026/games/arres-climb">Arre's climb </a>
+<li><a href="https://js13kgames.com/2026/games/unicorns-rainbows-n-backflips">Unicorns Rainbows n' backflips </a>
+<li><a href="https://js13kgames.com/2026/games/rainbow-comet-and-the-last-unicorn">Rainbow comet and the last unicorn </a>
+<li><a href="https://js13kgames.com/2026/games/7-huenicorns">7 huenicorns </a>
+<li><a href="https://js13kgames.com/2026/games/run-for-your-life">Run for your life </a>
+<li><a href="https://js13kgames.com/2026/games/arres-climb">Arre's climb </a>
+<li><a href="https://js13kgames.com/2026/games/unicorns-rainbows-n-backflips">Unicorns Rainbows n' backflips </a>
+<li><a href="https://js13kgames.com/2026/games/rainbow-comet-and-the-last-unicorn">Rainbow comet and the last unicorn </a>
+<li><a href="https://js13kgames.com/2026/games/7-huenicorns">7 huenicorns </a>
+<li><a href="https://js13kgames.com/2026/games/run-for-your-life">Run for your life </a>
+<li><a href="https://js13kgames.com/2026/games/unicorn-snap">Unicorn snap </a>
+<li><a href="https://js13kgames.com/2026/games/clawnicorn">Clawicorn </a>
+<li><a href="https://js13kgames.com/2026/games/spectral-horn">Spectral horn </a>
+<li><a href="https://js13kgames.com/2026/games/sunshine-golf-classic">Sunshine golf classic </a>
+<li><a href="https://js13kgames.com/2026/games/steal-the-rainbow">Steal the rainbow </a>
+<li><a href="https://js13kgames.com/2026/games/cornelius-uni">Cornelius & uni </a>
+<li><a href="https://js13kgames.com/2026/games/errands-of-iris">Errands of iris </a>
+<li><a href="https://js13kgames.com/2026/games/poop-n-scoop">Poop n'scoop </a>
+<li><a href="https://js13kgames.com/2026/games/prism">Prism </a>
+<li><a href="https://js13kgames.com/2026/games/rainbow-reins">Rainbow reins </a>
+<li><a href="https://js13kgames.com/2026/games/prismhoof">Prismhoof</a>
+<li><a href="https://js13kgames.com/2026/games/unicorn-tycoon">nicorn tycoon </a>
+<li><a href="https://js13kgames.com/2026/games/unicorn-rescue">Unicorn rescue </a>
+<li><a href="https://js13kgames.com/2026/games/general-thick-bickies-victory-parade">General thick bickies victory parade </a>
+<li><a href="https://js13kgames.com/2026/games/jetout">Jetout </a>
+<li><a href="https://js13kgames.com/2026/games/newtons-unicorn">Newton's unicorn </a>
+<li><a href="https://js13kgames.com/2026/games/unirico">Unirico </a>
+<li><a href="https://js13kgames.com/2026/games/suupaa-yunikoon">Supaa yunikoon </a>
+<li><a href="https://js13kgames.com/2026/games/the-sunshine-policy">The sunshine policy </a>
+<li><a href="https://js13kgames.com/2026/games/glitter-gunfire">Glitter gunfire </a>
+<li><a href="https://js13kgames.com/2026/games/unicorn-slide">Unicorn slide </a>
+<li><a href="https://js13kgames.com/2026/games/panzercorn">Panzercorn </a>
+<li><a href="https://js13kgames.com/2026/games/prism-tiles">Prism tiles </a>
+<li><a href="https://js13kgames.com/2026/games/swinicorn">Swinicorn </a>
+<li><a href="https://js13kgames.com/2026/games/rainweaver">Rainweaver </a>
+<li><a href="https://js13kgames.com/2026/games/huecorn">Huecorn </a>
+<li><a href="https://js13kgames.com/2026/games/the-unicorn-and-the-foul-pattern">The unicorn and the foul pattern </a>
+<li><a href="https://js13kgames.com/2026/games/glyphicorn">Glyphicorn </a>
+<li><a href="https://js13kgames.com/2026/games/sp13ktra">Sp13ktra </a>
+<li><a href="https://js13kgames.com/2026/games/rino-finding-love">Rino finding love </a>
+<li><a href="https://js13kgames.com/2026/games/starlights-rainbow-race">Starlight's rainbow race </a>
+<li><a href="https://js13kgames.com/2026/games/mobius-trip">Mobius trib </a>
+<li><a href="https://js13kgames.com/2026/games/unifrost">Unifrost </a>
+<li><a href="https://js13kgames.com/2026/games/slingshot-siege">Slingshot siege </a>
+<li><a href="https://js13kgames.com/2026/games/the-covenant">The covenant </a>
+<li><a href="https://js13kgames.com/2026/games/sunwake-rush">Sunwake rush </a>
+<li><a href="https://js13kgames.com/2026/games/hue-nicorn">Hue nicorn </a>
+<li><a href="https://js13kgames.com/2026/games/rainbow-rescue">Rainbow rescue</a> (Inspired by one of my tweets, and uses my piano synth and sound fx!)
+<li><a href="https://js13kgames.com/2026/games/rainbow-rockets">Rainbow rockets</a> (I found the physics engine super impressive until I realized it was ... mine!)
+<li><a href="https://js13kgames.com/2026/games/queenies-playland">Queenie's playland</a> (Uses my WebGL libraries!)
+<li><a href="https://js13kgames.com/2026/games/lumyora">Lumyora</a> (I'm flabbergasted by the handwritten WASM code!)
+<li><a href="https://js13kgames.com/2026/games/rainbow-in-the-dark">Rainbow in the dark</a> (Yay, another entry where you draw tour own assets !)
+</ul>
+<br>
+
+<p><b>In bonus, here are some nice answers to some of my feedbacks</b> (among the 44 answers I received):
+<ul>
+
+<li><b>Suupaa yunikoon</b>
+<br>Me: "I didn’t know we could make so magnificent 3D graphics on the web, let alone in 13kb. The gameplay is also very cool. And challenging."
+<br>Almar Suarez: "Thank you xem!!! Coming from you it means a lot to me - many of your entries and experiments have been a source of inspiration during these years. I’m glad you like it :)"
+
+<li><b>Queenie's playland</b>
+<br>Me: "Loved the art style, 3D, physics, and sound"
+<br>Brian NicolucciAuthor: "Thanks Xem, that means a ton coming from my fave js13k’er!!"
+
+
+<li><b>Rainbow rockets</b>
+<br>Me: "Impressive physics implementation! Edit: OH I didn’t see you used my mini physics library :D Amazing that you managed to turn it into a rocket launching simulator! I’m super interested in improvements and extensions, let’s get in touch"
+<br>Luke NickersonAuthor: "Thank you. Your physics library was great! There were a few mysterious bits, and I have ideas for some extensions - if you’re ever looking to add to the code or docs."
+
+
+<li><b>Rainweaver</b>
+<br>Me: "I know 3D and compression techniques, but still can’t believe these kind of graphics and all that content (engine, music…) can fit in 13kb, congrats"
+<br>Bo-lee: "Thank you so much! That really means a lot, especially coming from someone familiar with 3D and compression. A lot of the challenge was deciding what could be generated procedurally and what had to be simplified or cut. I’m really glad the final result still felt rich despite the 13KB limit!"
+
+
+<li><b>Slingshot siege</b>
+<br>Me: "Lovely graphics and music. Reminds me the slingshot mini game in mario 64 ds that I spent countless hours on"
+<br>Dalps: "Thank you! Yup, that SMB mini game was the main source of inspiration :D"
+
+
+<li><b>Arre's climb</b> (advertized as an isometric game)
+<br>Me: "Definitely not isometric ;) did you mean voxel? I love the 2D+3D graphics, level design and ambiance."
+<br>Håkan Einarsson: "You are not wrong :) That’s what you get for letting ai write the summary. Thanks for pointing it out."
+
 <br><br><hr><br>
 
 <p><h3>Conclusion</h3>
 
-TODO:
-- AI rant
-- Slack screenshots
-- Private jokes
-- album
+<p><b>AI rant</b>
+<p>To start this conclusion, I'd like to address the unicorn in the room: AI.
+<br>The last feedback answer above 👆 is a good representation of the problem that's invading this competition:
+<br>AI in general is not the problem. It's not the use of AI to write helper functions, solve bugs or optimize code, either.
+<br>For me, the problem with AI is that people are starting to use it from A to Z: game design, art, code, compression, submission, and even writing (wrong) game descriptions.
+<br>Guess what? It doesn't stop there. People proudly admit that they let their AI agents test other people's games.
+<br>And that's a red line for me: there's finally NO POINT in letting AIs create games that end up being tested by another AI.
+<br>Zero net added value here. I may sound old-school, but video games are meant to be thought, carried and crafted by a human.
+<br>And games need to be experiences by other humans. AIs don't need to plau games, or be entertained.
+<br>Development and testing can be AI-assisted, of course, and I'm the first to do it. But it should never be 100% delegated to an AI.
+<br>Another leeway of authorizing unlimited use of AI in JS13k: some people use it to flood the jam with AI-generated games.
+<br>These games aren't even bad, they are playable, quite nice to look at, but they're... generic.
+<br>And during this time, games made by humans, using their soul and their hands, become invisible in this flood.
+<br>And that's what I regret. Next years, I wish JS13k will limit, or ask devs to disclose the amount of AI involved in the games descriptions.
+
+<p><b>Results</b>
+<p>I'm happy about the score of Unicorny (ranked 23rd).
+<br>I'm a bit disappointed by the score of WORD5 (ranked 297th). Didn't expect it to get in the top 100, but the bottom 20 is a bit harsh.
+<br>I don't mind, though! I made this game as a challenge for myself, and the thing that counts is that people appreciated the effort.
+<br>The Wavedash results will be published later.
+<br>Don't forget that I'm also super proud of having inspired this year's theme (and probably <a href="https://js13kgames.com/2019/blog/competition-has-started">some others before</a>, more or less directly) !
+
+<p><b>Private jokes</b>
+<p>Did you find that Unicorny's characters names and dialogs seemed weird sometimes?
+<br>That's normal. Most of them are private jokes between Sev and me. HEHEHE! 
+<p>Here's one. In french. I won't elaborate more. Those who know, know. 😈
+<p><video controls src="images/js13k26/9.mp4" width=400></video>
+
+<p><b>The sound of JS13k26</b>
+<p>Like every year, Joao gathered the OST of many entries, and it can be listened <a href="https://js13k.bandcamp.com/album/return-of-yesterdays-game-boy-iv">HERE</a>.
+<br>I tried integrating the album player below but it's less easy to use:
+<p><iframe style="border: 0; width: 350px; height: 470px;" src="https://bandcamp.com/EmbeddedPlayer/album=1837050848/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/" seamless><a href="https://js13k.bandcamp.com/album/return-of-yesterdays-game-boy-iv">Return Of Yesterday&#39;s Game Boy IV de lopis</a></iframe>
+
+<p><b>Roadroller was only the beginning!</b>
+<p>After many years of accepting Senokai's Roadroller as the state-of-the-art for JS13k entries compression, another dev (Burntcustard) decided to fork it and add another layer of character prediction and higher memory limits.
+<br>His fork can be found <a href="https://github.com/burntcustard/roadroller/tree/feature/hierarchical-mixers-zopfli-optimizations">HERE</a> and his PR <a href="https://github.com/burntcustard/roadroller/pull/1">HERE</a>.
+<br>Burntcustard claims compression improvements of many hundred bytes, compared to the current version of Roadroller!
+<br>He even tried it on my game WORDS (without any fine-tuning), and made it 358 bytes smaller (about 3%).
+<br>You may find this anecdotical, but for me it's EXTRAORDINARY!
+<br>I contributed to his adventure, not technically (yet), but I could point him towards the SSE keyword (Secondary Symbol Estimation) that he ended up studying and integrating in his experiments. 
+<br>I hope he manages to release it as a Web version soon, as for now, the command line looks like that:
+<br><details><summary>Command-line (strong)</summary>
+<pre><code>node -e 'let f=require("fs"),h=f.readFileSync("min.html","utf8"),m=h.match(/&lt;script>([\s\S]*?)&lt;\/script>/);f.writeFileSync("/tmp/words.js",m[1]);f.writeFileSync("/tmp/words-wrapper.html",h.replace(m[1],"__ROADROLLER__"))' && NPM_CONFIG_ALLOW_GIT=all npx "github:burntcustard/roadroller#feature/hierarchical-mixers-zopfli-optimizations" --sse --zopfli -M1000 --optimize-wrapper /tmp/words-wrapper.html /tmp/words.js -o /tmp/words-packed.js && node -e 'let f=require("fs");f.writeFileSync("rr-sse-zopfli.html",f.readFileSync("/tmp/words-wrapper.html","utf8").replace("__ROADROLLER__",f.readFileSync("/tmp/words-packed.js","utf8")))' && rm -f rr-sse-zopfli.zip && zip -q -9 -j rr-sse-zopfli.zip rr-sse-zopfli.html && advzip --recompress --shrink-insane --iter 1000 rr-sse-zopfli.zip && wc -c rr-sse-zopfli.zip</code></pre>
+</details>
+
+<br><details><summary>Command-line (infinite search)</summary>
+<pre><code>node -e 'const fs=require("fs"),{spawn,spawnSync}=require("child_process"),pkg="github:burntcustard/roadroller#feature/hierarchical-mixers-zopfli-optimizations",env={...process.env,NPM_CONFIG_ALLOW_GIT:"all"},h=fs.readFileSync("min.html","utf8"),m=h.match(/&lt;script>([\s\S]*?)&lt;\/script>/);fs.writeFileSync("/tmp/words.js",m[1]);fs.writeFileSync("/tmp/words-wrapper.html",h.replace(m[1],"__ROADROLLER__"));let out="",stopping=false,p=spawn("npx",[pkg,"--sse","--zopfli","-M1000","-OO","--optimize-wrapper","/tmp/words-wrapper.html","/tmp/words.js","-o","/tmp/words-search.js"],{env,stdio:["inherit","pipe","pipe"],detached:true});for(let s of[p.stdout,p.stderr])s.on("data",d=>{process.stdout.write(d);out+=d});process.on("SIGINT",()=>{if(stopping)return;stopping=true;console.log("\nStopping search and keeping best result...");try{process.kill(-p.pid,"SIGINT")}catch{}});p.on("close",()=>{let a=[...out.matchAll(/use `([^`]+)` to replicate:/g)],params=a.at(-1)?.[1];if(!params){console.error("Could not find Roadroller replicate parameters");process.exit(1)}console.log("\nUsing parameters:",params);let r=spawnSync("npx",[pkg,"-M1000",...params.trim().split(/\s+/),"/tmp/words.js","-o","/tmp/words-packed.js"],{env,stdio:"inherit"});if(r.status)process.exit(r.status);fs.writeFileSync("rr-sse-zopfli-OO.html",fs.readFileSync("/tmp/words-wrapper.html","utf8").replace("__ROADROLLER__",fs.readFileSync("/tmp/words-packed.js","utf8")));try{fs.unlinkSync("rr-sse-zopfli-OO.zip")}catch{}spawnSync("zip",["-q","-9","-j","rr-sse-zopfli-OO.zip","rr-sse-zopfli-OO.html"],{stdio:"inherit"});spawnSync("advzip",["--recompress","--shrink-insane","--iter","1000","rr-sse-zopfli-OO.zip"],{stdio:"inherit"});console.log("\nFinal ZIP size:",fs.statSync("rr-sse-zopfli-OO.zip").size,"bytes")})'</code></pre>
+</details>
 
 
+<p><b>Unicorn invasion!</b>
+<p>It's certainly the result of a frequency bias, but since august 13th, we're seeing unicorns EVERYWHERE!
+<br>Here are a few examples:
+<p><img src="images/js13k26/22.png" width=800>
+
+<p><b>Slack screenshots</b>
+<p>To conclude, here are some nice Slack moments that I saved this year (before they disappear forever).
+<p><img src="images/js13k26/23.png" width=400>
+
+<p>See you!
 <p><b>Xem</b>
 </main>
 
